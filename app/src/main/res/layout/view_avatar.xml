@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/dev_sup_root"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.sup.dev.android.views.widgets.ViewCircleImage
+        android:id="@+id/dev_sup_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@color/blue_700"/>
+
+
+    <com.sup.dev.android.views.widgets.ViewChip
+        android:id="@+id/dev_sup_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text"
+        android:layout_gravity="right|bottom"/>
+
+    <com.sup.dev.android.views.widgets.ViewDraw
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dev_sup_avatar_touch"/>
+
+</FrameLayout>

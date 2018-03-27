@@ -1,0 +1,69 @@
+<resources>
+
+    <!-- THEME -->
+
+    <style name="DevSupTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="textColorError">@color/red_700</item>
+        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="colorAccent">@color/light_blue_a_700</item>
+        <item name="colorPrimaryDark">@color/grey_900</item>
+        <item name="colorPrimary">@color/grey_850</item>
+        <item name="android:alertDialogTheme">@style/DevSupDialog</item>
+    </style>
+
+    <style name="DevSupDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/grey_800</item>
+    </style>
+
+    <!-- Styles -->
+
+    <style name="Touchable">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="TouchableForeground">
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="TouchableIcon">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextChip" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:background">@drawable/shape_chip_accent</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="TextChipSmall" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:background">@drawable/shape_chip_accent</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:id">@+id/toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?colorPrimary</item>
+    </style>
+
+    <style name="Widget.GifView" parent="@android:style/Widget"/>
+
+</resources>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ViewCircleImage">
+        <attr name="ViewCircleImage_circleBackgroundColor" format="color"/>
+        <attr name="ViewCircleImage_disableCircle" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="ViewPagerIndicator_color" format="color"/>
+        <attr name="ViewPagerIndicator_colorSelected" format="color"/>
+        <attr name="ViewPagerIndicator_offset" format="dimension"/>
+        <attr name="ViewPagerIndicator_pager" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewPagerIndicatorTitles">
+        <attr name="ViewPagerIndicator_color"/>
+        <attr name="ViewPagerIndicator_colorSelected"/>
+        <attr name="ViewPagerIndicatorTitles_offset_left" format="dimension"/>
+        <attr name="ViewPagerIndicatorTitles_titleLayout" format="reference"/>
+        <attr name="ViewPagerIndicatorTitles_titleId" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewIcon">
+        <attr name="android:src"/>
+        <attr name="android:enabled"/>
+        <attr name="ViewIcon_srcSelect" format="reference"/>
+        <attr name="ViewIcon_filter" format="color"/>
+        <attr name="ViewIcon_filterSelect" format="color"/>
+        <attr name="ViewIcon_accentColor" format="color"/>
+        <attr name="ViewIcon_focusColor" format="color"/>
+        <attr name="ViewIcon_padding" format="dimension"/>
+        <attr name="ViewIcon_background" format="color"/>
+        <attr name="ViewIcon_useActiveBackground" format="boolean"/>
+        <attr name="ViewIcon_circleColor" format="color"/>
+        <attr name="ViewIcon_circleSize" format="dimension"/>
+        <attr name="ViewIcon_transparent_on_disabled" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewCropImage">
+        <attr name="cropGuidelines">
+            <enum name="off" value="0"/>
+            <enum name="onTouch" value="1"/>
+            <enum name="on" value="2"/>
+        </attr>
+        <attr name="cropScaleType">
+            <enum name="fitCenter" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="centerCrop" value="2"/>
+            <enum name="centerInside" value="3"/>
+        </attr>
+        <attr name="cropShape">
+            <enum name="rectangle" value="0"/>
+            <enum name="oval" value="1"/>
+        </attr>
+        <attr name="cropAutoZoomEnabled" format="boolean"/>
+        <attr name="cropMaxZoom" format="integer"/>
+        <attr name="cropMultiTouchEnabled" format="boolean"/>
+        <attr name="cropFixAspectRatio" format="boolean"/>
+        <attr name="cropAspectRatioX" format="integer"/>
+        <attr name="cropAspectRatioY" format="integer"/>
+        <attr name="cropInitialCropWindowPaddingRatio" format="float"/>
+        <attr name="cropBorderLineThickness" format="dimension"/>
+        <attr name="cropBorderLineColor" format="color"/>
+        <attr name="cropBorderCornerThickness" format="dimension"/>
+        <attr name="cropBorderCornerOffset" format="dimension"/>
+        <attr name="cropBorderCornerLength" format="dimension"/>
+        <attr name="cropBorderCornerColor" format="color"/>
+        <attr name="cropGuidelinesThickness" format="dimension"/>
+        <attr name="cropGuidelinesColor" format="color"/>
+        <attr name="cropBackgroundColor" format="color"/>
+        <attr name="cropSnapRadius" format="dimension"/>
+        <attr name="cropTouchRadius" format="dimension"/>
+        <attr name="cropSaveBitmapToInstanceState" format="boolean"/>
+        <attr name="cropShowCropOverlay" format="boolean"/>
+        <attr name="cropShowProgressBar" format="boolean"/>
+        <attr name="cropMinCropWindowWidth" format="dimension"/>
+        <attr name="cropMinCropWindowHeight" format="dimension"/>
+        <attr name="cropMinCropResultWidthPX" format="float"/>
+        <attr name="cropMinCropResultHeightPX" format="float"/>
+        <attr name="cropMaxCropResultWidthPX" format="float"/>
+        <attr name="cropMaxCropResultHeightPX" format="float"/>
+        <attr name="cropFlipHorizontally" format="boolean"/>
+        <attr name="cropFlipVertically" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewGif">
+        <attr name="android:src"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewChip">
+        <attr name="android:text"/>
+        <attr name="android:background"/>
+        <attr name="ViewChip_selectionMode" format="boolean"/>
+        <attr name="ViewChip_unselectBackground" format="color"/>
+        <attr name="ViewChip_canSelect" format="boolean"/>
+        <attr name="ViewChip_canUnselect" format="boolean"/>
+        <attr name="ViewChip_selected" format="boolean"/>
+        <attr name="ViewChip_textSize" format="dimension"/>
+        <attr name="ViewChip_size" format="dimension"/>
+        <attr name="ViewChip_icon" format="reference"/>
+        <attr name="ViewChip_iconUseBackground" format="boolean"/>
+        <attr name="ViewChip_iconPadding" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewAvatar">
+        <attr name="android:src"/>
+        <attr name="ViewAvatar_chipText" format="string"/>
+        <attr name="ViewAvatar_chipBackground" format="color"/>
+        <attr name="ViewAvatar_chipSize" format="dimension"/>
+        <attr name="ViewAvatar_chipIcon" format="reference"/>
+        <attr name="ViewAvatar_chipIconUseBackground" format="boolean"/>
+        <attr name="ViewAvatar_chipIconPadding" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewAvatarTitle">
+        <attr name="android:src"/>
+        <attr name="ViewAvatarTitle_title" format="string"/>
+        <attr name="ViewAvatarTitle_subtitle" format="string"/>
+        <attr name="ViewAvatarTitle_chipBackground" format="color"/>
+        <attr name="ViewAvatarTitle_chipSize" format="dimension"/>
+        <attr name="ViewAvatarTitle_chipText" format="string"/>
+        <attr name="ViewAvatarTitle_chipIcon" format="reference"/>
+        <attr name="ViewAvatarTitle_chipIconUseBackground" format="boolean"/>
+        <attr name="ViewAvatarTitle_chipIconPadding"  format="dimension"/>
+    </declare-styleable>
+
+
+    <!--           -->
+    <!--  Layouts  -->
+    <!--           -->
+
+    <declare-styleable name="Settings">
+        <attr name="android:focusable"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutMaxSizes">
+        <attr name="LayoutMaxSizes_maxHeight" format="dimension"/>
+        <attr name="LayoutMaxSizes_maxWidth" format="dimension"/>
+        <attr name="LayoutMaxSizes_reserveHeight" format="dimension"/>
+        <attr name="LayoutMaxSizes_reserveWidth" format="dimension"/>
+        <attr name="LayoutMaxSizes_maxHeightParentPercent" format="float"/>
+        <attr name="LayoutMaxSizes_maxWidthParentPercent" format="float"/>
+        <attr name="LayoutMaxSizes_alwaysMaxW" format="boolean"/>
+        <attr name="LayoutMaxSizes_alwaysMaxH" format="boolean"/>
+        <attr name="LayoutMaxSizes_reversMaxValuesOnScreenRotation" format="boolean"/>
+        <attr name="LayoutMaxSizes_useScreenWidthAsParent" format="boolean"/>
+        <attr name="LayoutMaxSizes_useScreenHeightAsParent" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutExpandable">
+        <attr name="LayoutExpandable_duration" format="integer"/>
+        <attr name="LayoutExpandable_clickToToggle" format="boolean"/>
+        <attr name="LayoutExpandable_expanded" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutFlow">
+        <attr name="LayoutFlow_horizontal" format="dimension"/>
+        <attr name="LayoutFlow_vertical" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutFlow_LayoutParams">
+        <attr name="LayoutFlow_LayoutParams_breakLine" format="boolean"/>
+        <attr name="LayoutFlow_LayoutParams_horizontalSpacing" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutMirrorSize">
+        <attr name="LayoutMirrorSize_mirrorView" format="reference"/>
+        <attr name="LayoutMirrorSize_mirrorView_2" format="reference"/>
+        <attr name="LayoutMirrorSize_wPercent" format="integer"/>
+        <attr name="LayoutMirrorSize_hPercent" format="integer"/>
+        <attr name="LayoutMirrorSize_mode" format="enum">
+            <enum name="bigger_wh" value="1"/>
+            <enum name="smaller_wh" value="2"/>
+            <enum name="whom_bigger_w" value="3"/>
+            <enum name="whom_smaller_w" value="4"/>
+            <enum name="whom_bigger_h" value="5"/>
+            <enum name="whom_smaller_h" value="6"/>
+            <enum name="use_1_if_no_zero" value="7"/>
+            <enum name="use_2_if_no_zero" value="8"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutAspectRatio">
+        <attr name="LayoutAspectRatio_w" format="float"/>
+        <attr name="LayoutAspectRatio_h" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="LayoutZoom">
+        <attr name="LayoutZoom_maxZoom" format="float"/>
+        <attr name="LayoutZoom_minZoom" format="float"/>
+        <attr name="LayoutZoom_overMoveX" format="dimension"/>
+        <attr name="LayoutZoom_overMoveY" format="dimension"/>
+        <attr name="LayoutZoom_doubleTouchRadius" format="dimension"/>
+        <attr name="LayoutZoom_animateTimeMs" format="integer"/>
+    </declare-styleable>
+
+    <!--            -->
+    <!--  Settings  -->
+    <!--            -->
+
+    <declare-styleable name="SettingsAction">
+        <attr name="SettingsAction_lineVisible" format="boolean"/>
+        <attr name="SettingsAction_title" format="string"/>
+        <attr name="SettingsAction_subtitle" format="string"/>
+        <attr name="SettingsAction_icon" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="SettingsActionArrow">
+        <attr name="SettingsActionArrow_lineVisible" format="boolean"/>
+        <attr name="SettingsActionArrow_title" format="string"/>
+        <attr name="SettingsActionArrow_subtitle" format="string"/>
+        <attr name="SettingsActionArrow_icon" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingsActionCheckBox">
+        <attr name="SettingsActionCheckBox_lineVisible" format="boolean"/>
+        <attr name="SettingsActionCheckBox_title" format="string"/>
+        <attr name="SettingsActionCheckBox_subtitle" format="string"/>
+        <attr name="SettingsActionCheckBox_icon" format="reference"/>
+        <attr name="SettingsActionCheckBox_checked" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingsActionSwitcher">
+        <attr name="SettingsActionSwitcher_lineVisible" format="boolean"/>
+        <attr name="SettingsActionSwitcher_title" format="string"/>
+        <attr name="SettingsActionSwitcher_subtitle" format="string"/>
+        <attr name="SettingsActionSwitcher_icon" format="reference"/>
+        <attr name="SettingsActionSwitcher_checked" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingsField">
+        <attr name="android:inputType"/>
+        <attr name="SettingsField_lineVisible" format="boolean"/>
+        <attr name="SettingsField_icon" format="reference"/>
+        <attr name="SettingsField_hint" format="string"/>
+        <attr name="SettingsField_text" format="string"/>
+        <attr name="SettingsField_maxLength" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingsSeek">
+        <attr name="SettingsSeek_lineVisible" format="boolean"/>
+        <attr name="SettingsSeek_icon" format="reference"/>
+        <attr name="SettingsSeek_title" format="string"/>
+        <attr name="SettingsSeek_subtitle" format="string"/>
+        <attr name="SettingsSeek_maxProgress" format="integer"/>
+        <attr name="SettingsSeek_progress" format="integer"/>
+        <attr name="SettingsSeek_dpad_step" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingsTitle">
+        <attr name="SettingsTitle_lineVisible" format="boolean"/>
+        <attr name="SettingsTitle_title" format="string"/>
+    </declare-styleable>
+
+</resources>

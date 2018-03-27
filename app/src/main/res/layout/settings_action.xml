@@ -1,0 +1,54 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/touch"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dev_sup_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_clear_white_24dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dev_sup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repat callers"
+                style="@style/Base.TextAppearance.AppCompat.Subhead"/>
+
+            <TextView
+                android:id="@+id/dev_sup_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ring when receiving a second call from the same number within 3 minutes"
+                style="@style/Base.TextAppearance.AppCompat.Caption"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/dev_sup_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</FrameLayout>
