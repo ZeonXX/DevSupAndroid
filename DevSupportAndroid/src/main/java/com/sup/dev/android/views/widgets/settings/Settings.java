@@ -47,7 +47,7 @@ public abstract class Settings extends FrameLayout {
         addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         line = new View(context);
-        addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 2);
+        addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 1);
         line.setBackgroundColor(utilsResources.getColor(R.color.grey_600));
         ((MarginLayoutParams) line.getLayoutParams()).setMargins(utilsView.dpToPx(8), 0, utilsView.dpToPx(8), 0);
         ((LayoutParams) line.getLayoutParams()).gravity = Gravity.BOTTOM;

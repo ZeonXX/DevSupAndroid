@@ -1,11 +1,27 @@
 package com.sup.dev.android.libs.mvp.navigator;
 
+import android.content.Context;
+
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
+import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
+import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 
 import java.util.ArrayList;
 
 public class MvpNavigatorImpl implements MvpNavigator {
+
+    //
+    //  Methods
+    //
+
+    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
+        SupAndroid.di.mvpActivity(activity -> {
+            DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
+            dialog.show();
+            onShow.callback(dialog);
+        });
+    }
 
     //
     //  Presenters

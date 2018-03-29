@@ -53,11 +53,7 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     //
 
     public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
-        SupAndroid.di.mvpActivity(activity -> {
-            DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
-            dialog.show();
-            onShow.callback(dialog);
-        });
+        navigator.showProgressDialog(onShow);
     }
 
     //

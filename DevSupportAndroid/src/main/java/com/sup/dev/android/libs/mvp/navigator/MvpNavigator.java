@@ -2,6 +2,8 @@ package com.sup.dev.android.libs.mvp.navigator;
 
 
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
+import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
+import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 
 public interface MvpNavigator {
 
@@ -22,4 +24,6 @@ public interface MvpNavigator {
     boolean back();
 
     boolean onBackPressed();
+
+    void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow);
 }

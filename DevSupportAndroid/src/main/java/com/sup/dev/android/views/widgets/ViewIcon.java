@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
@@ -146,6 +147,12 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
     //  Setters
     //
 
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        super.setOnClickListener(l);
+        setClickable(l != null);
+    }
 
     public void setTransparentOnDisabled(boolean transparentOnDisabled) {
         this.transparentOnDisabled = transparentOnDisabled;

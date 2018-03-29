@@ -17,7 +17,7 @@ public abstract class Card {
 
     private final UtilsView utilsView = SupAndroid.di.utilsView();
 
-    private RecyclerCardAdapter adapter;
+    public RecyclerCardAdapter adapter;
 
     public Object tag;
 
