@@ -126,7 +126,7 @@ public class ViewChip extends FrameLayout {
         if (isChipSelected() && !canUnselect) return;
         if (!isChipSelected() && !canSelect) return;
 
-        setChipSelected(!isChipSelected());
+        setChipSelectedAnimated(!isChipSelected());
 
         if (onActiveChange != null) onActiveChange.callback(isChipSelected());
     }
@@ -219,9 +219,18 @@ public class ViewChip extends FrameLayout {
         vTextView.setPadding(size / 3, 0, size / 3, 0);
     }
 
-    public void setChipSelected(boolean b) {
+    public void setChipSelected(boolean b){
+        setChipSelected(b, false);
+    }
+
+    public void setChipSelectedAnimated(boolean b){
+        setChipSelected(b, true);
+    }
+
+    private void setChipSelected(boolean b, boolean animated) {
         isChipSelected = b;
-        animationBackground.to(isChipSelected ? background : unselectedBackground);
+        if (animated) animationBackground.to(isChipSelected ? background : unselectedBackground);
+        else animationBackground.set(isChipSelected ? background : unselectedBackground);
         animationFocus.setClickAnimationEnabled(!b);
         invalidate();
     }
@@ -250,12 +259,22 @@ public class ViewChip extends FrameLayout {
 
     public void setChipBackground(@ColorInt int background) {
         this.background = background;
-        setChipSelected(isChipSelected());
+        setChipSelected(isChipSelected(), false);
+    }
+
+    public void setChipBackgroundAnimated(@ColorInt int background) {
+        this.background = background;
+        setChipSelected(isChipSelected(), true);
     }
 
     public void setUnselectedBackground(@ColorInt int unselectedBackground) {
         this.unselectedBackground = unselectedBackground;
-        setChipSelected(isChipSelected());
+        setChipSelected(isChipSelected(), false);
+    }
+
+    public void setUnselectedBackgroundAnimated(@ColorInt int unselectedBackground) {
+        this.unselectedBackground = unselectedBackground;
+        setChipSelected(isChipSelected(), true);
     }
 
     public void setUseIconBackground(boolean useIconBackground) {
@@ -297,14 +316,11 @@ public class ViewChip extends FrameLayout {
         for (int i = 0; i < texts.length; i++) {
             int n = i;
             views[i] = instanceSelection(viewContext, texts[i], b -> {
-                for (ViewChip v : views)
-                    if (v != views[n]) {
-                        v.setChipSelected(false);
-                    }
+                for (ViewChip v : views) if (v != views[n]) v.setChipSelectedAnimated(false);
                 onSelected.callback(tags[n]);
             });
             views[i].setCanUnselect(false);
-            views[i].setChipSelected(i == 0);
+            views[i].setChipSelected(i == 0, false);
         }
         return views;
     }

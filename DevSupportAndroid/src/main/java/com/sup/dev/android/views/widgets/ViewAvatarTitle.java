@@ -76,11 +76,11 @@ public class ViewAvatarTitle extends FrameLayout {
         animationFocus = new AnimationFocus(this, focusColor);
 
         vAvatar.setImage(src);
-        vAvatar.setChipSize(utilsView.pxToDp(chipSize));
-        vAvatar.setChipIconPadding(utilsView.pxToDp(iconPadding));
-        vAvatar.setChipIcon(srcIcon);
-        vAvatar.setChipText(chipText);
-        vAvatar.setChipBackground(chipBackground);
+        vAvatar.getChip().setSize(utilsView.pxToDp(chipSize));
+        vAvatar.getChip().setIconPadding(utilsView.pxToDp(iconPadding));
+        vAvatar.getChip().setIcon(srcIcon);
+        vAvatar.getChip().setText(chipText);
+        vAvatar.getChip().setChipBackground(chipBackground);
         setTitle(mText);
         setSubtitle(mSubtitle);
 

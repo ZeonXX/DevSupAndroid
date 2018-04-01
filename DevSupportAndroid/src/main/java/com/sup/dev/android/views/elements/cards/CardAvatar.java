@@ -48,11 +48,11 @@ public class CardAvatar extends Card {
         vAvatar.setClickable(false);
         vAvatar.getViewAvatar().setOnClickListener(v -> onClickAvatar.callback());
         vAvatar.getViewAvatar().setImage(image);
-        vAvatar.getViewAvatar().setChipText(chipText);
-        vAvatar.getViewAvatar().setChipIcon(chipIcon);
-        vAvatar.getViewAvatar().setChipIconPadding(chipIconPaddingDp);
-        vAvatar.getViewAvatar().setChipBackground(chipBackground);
-        vAvatar.getViewAvatar().setUseIconBackground(chipUseIconBackground);
+        vAvatar.getViewAvatar().getChip().setText(chipText);
+        vAvatar.getViewAvatar().getChip().setIcon(chipIcon);
+        vAvatar.getViewAvatar().getChip().setIconPadding(chipIconPaddingDp);
+        vAvatar.getViewAvatar().getChip().setChipBackground(chipBackground);
+        vAvatar.getViewAvatar().getChip().setUseIconBackground(chipUseIconBackground);
 
         onBind(vAvatar);
     }

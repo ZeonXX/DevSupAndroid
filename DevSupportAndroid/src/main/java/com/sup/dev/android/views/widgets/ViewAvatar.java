@@ -70,12 +70,12 @@ public class ViewAvatar extends FrameLayout {
         animationFocus = new AnimationFocus(vTouch, focusColor);
 
         setImage(src);
-        setChipSize(utilsView.pxToDp(chipSize));
-        setChipIconPadding(utilsView.pxToDp(iconPadding));
-        setChipIcon(srcIcon);
-        setChipText(text);
-        setUseIconBackground(iconUseBackground);
-        if (chipBackground != 0x01FF0000) setChipBackground(chipBackground);
+        vChip.setSize(utilsView.pxToDp(chipSize));
+        vChip.setIconPadding(utilsView.pxToDp(iconPadding));
+        vChip.setIcon(srcIcon);
+        vChip.setText(text);
+        vChip.setUseIconBackground(iconUseBackground);
+        if (chipBackground != 0x01FF0000) vChip.setChipBackground(chipBackground);
 
         vTouch.setOnDraw(canvas -> {
             paint.setColor(animationFocus.update());
@@ -137,32 +137,6 @@ public class ViewAvatar extends FrameLayout {
 
     public void setImage(Bitmap bitmap) {
         vImage.setImageBitmap(bitmap);
-    }
-
-    public void setChipIconPadding(int dp) {
-        vChip.setIconPadding(dp);
-    }
-
-    public void setChipIcon(@DrawableRes int icon) {
-        vChip.setIcon(icon);
-        updateChipVisible();
-    }
-
-    public void setChipBackground(@ColorInt int background) {
-        vChip.setChipBackground(background);
-    }
-
-    public void setChipSize(@ColorInt int dp) {
-        vChip.setSize(dp);
-    }
-
-    public void setChipText(String text) {
-        vChip.setText(text);
-        updateChipVisible();
-    }
-
-    public void setUseIconBackground(boolean b) {
-        vChip.setUseIconBackground(b);
     }
 
     //
