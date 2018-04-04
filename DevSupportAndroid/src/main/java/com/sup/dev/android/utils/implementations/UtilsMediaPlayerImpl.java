@@ -18,13 +18,17 @@ public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPre
     private boolean playing;
 
     public void setMedia(@NonNull String mediaUri) {
+        setMedia(Uri.parse(mediaUri));
+    }
+
+    public void setMedia(@NonNull Uri mediaUri) {
         try {
 
             stop();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(streamType);
             mediaPlayer.setLooping(looping);
-            mediaPlayer.setDataSource(SupAndroid.di.appContext(), Uri.parse(mediaUri));
+            mediaPlayer.setDataSource(SupAndroid.di.appContext(), mediaUri);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setVolume(1, 1);
 
@@ -38,6 +42,10 @@ public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPre
     //
 
     public void play(@NonNull String mediaUri) {
+        play(Uri.parse(mediaUri));
+    }
+
+    public void play(@NonNull Uri mediaUri) {
         setMedia(mediaUri);
         playing = true;
         mediaPlayer.prepareAsync();

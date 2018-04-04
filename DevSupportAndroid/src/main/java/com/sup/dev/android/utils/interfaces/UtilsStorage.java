@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.MainThread;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.libs.json.Json;
 
 public interface UtilsStorage {
 
@@ -26,6 +27,8 @@ public interface UtilsStorage {
 
     byte[] getBytes(String key);
 
+    Json getJson(String key);
+
     //
     //  Put
     //
@@ -41,6 +44,8 @@ public interface UtilsStorage {
     void put(String key, String v);
 
     void put(String key, byte[] v);
+
+    void put(String key, Json v);
 
     //
     //  Remove

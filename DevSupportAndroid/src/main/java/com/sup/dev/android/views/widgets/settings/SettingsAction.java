@@ -3,7 +3,6 @@ package com.sup.dev.android.views.widgets.settings;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,9 +47,10 @@ public class SettingsAction extends Settings {
         setIcon(icon);
     }
 
-    protected void setSubView(View view) {
+    public void setSubView(View view) {
         vSubViewContainer.removeAllViews();
-        vSubViewContainer.addView(view);
+        if (view != null)
+            vSubViewContainer.addView(view);
     }
 
     //
@@ -63,7 +63,7 @@ public class SettingsAction extends Settings {
 
     public void setTitle(String title) {
         vTitle.setText(title);
-        vTitle.setVisibility(title != null && !title.isEmpty()? View.VISIBLE : GONE);
+        vTitle.setVisibility(title != null && !title.isEmpty() ? View.VISIBLE : GONE);
     }
 
     public void setSubtitle(@StringRes int subtitleRes) {
@@ -72,7 +72,7 @@ public class SettingsAction extends Settings {
 
     public void setSubtitle(String subtitle) {
         vSubtitle.setText(subtitle);
-        vSubtitle.setVisibility(subtitle != null && !subtitle.isEmpty()? View.VISIBLE : GONE);
+        vSubtitle.setVisibility(subtitle != null && !subtitle.isEmpty() ? View.VISIBLE : GONE);
     }
 
     public void setIcon(@DrawableRes int icon) {

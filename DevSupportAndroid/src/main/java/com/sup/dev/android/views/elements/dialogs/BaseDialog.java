@@ -104,6 +104,9 @@ public class BaseDialog {
         return this;
     }
 
+    protected <V extends View> V findViewById(int id) {
+        return view.findViewById(id);
+    }
 
     public void hide() {
         isDismissCalled = true;

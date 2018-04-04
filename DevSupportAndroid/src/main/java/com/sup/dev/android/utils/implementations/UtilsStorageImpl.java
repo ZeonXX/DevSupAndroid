@@ -1,6 +1,5 @@
 package com.sup.dev.android.utils.implementations;
 
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -61,6 +60,12 @@ public class UtilsStorageImpl implements UtilsStorage {
         return s.getBytes();
     }
 
+    public Json getJson(String key) {
+        String s = getString(key, null);
+        if (s == null) return null;
+        return new Json(s);
+    }
+
     //
     //  Put
     //
@@ -87,6 +92,10 @@ public class UtilsStorageImpl implements UtilsStorage {
 
     public void put(String key, byte[] value) {
         preferences.edit().putString(key, new String(value)).apply();
+    }
+
+    public void put(String key, Json v) {
+        put(key, v.toString());
     }
 
     //

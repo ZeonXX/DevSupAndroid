@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.views.watchers.TextWatcherChanged;
+import com.sup.dev.java.classes.providers.ProviderArg;
 
 public class SettingsField extends Settings {
 
@@ -25,22 +27,24 @@ public class SettingsField extends Settings {
     private final EditText vField;
     private final TextInputLayout vInputLayout;
 
+    private boolean isError;
+    private ProviderArg<String, Boolean> checker;
+
     public SettingsField(@NonNull Context context) {
         this(context, null);
     }
 
     public SettingsField(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context,attrs,  R.layout.settings_field);
+        super(context, attrs, R.layout.settings_field);
 
         vIcon = findViewById(R.id.dev_sup_icon);
-        vInputLayout =  findViewById(R.id.dev_sup_input_layout);
-        vField =  findViewById(R.id.dev_sup_field);
+        vInputLayout = findViewById(R.id.dev_sup_input_layout);
+        vField = findViewById(R.id.dev_sup_field);
 
 
         vField.setId(View.NO_ID); //   Чтоб система не востонавливала состояние
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0);
-        boolean lineVisible = a.getBoolean(R.styleable.SettingsField_SettingsField_lineVisible, true);
         String hint = a.getString(R.styleable.SettingsField_SettingsField_hint);
         String text = a.getString(R.styleable.SettingsField_SettingsField_text);
         int inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.getInputType());
@@ -48,7 +52,9 @@ public class SettingsField extends Settings {
         int maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0);
         a.recycle();
 
-        setLineVisible(lineVisible);
+        vField.addTextChangedListener(new TextWatcherChanged(s -> checkError()));
+
+        setLineVisible(false);
         setIcon(icon);
         setText(text);
         setHint(hint);
@@ -79,9 +85,24 @@ public class SettingsField extends Settings {
         super.onRestoreInstanceState(state);
     }
 
+    private void checkError() {
+        if (checker == null) setError(false);
+        if (checker != null) setError(!checker.provide(getText()));
+    }
+
     //
     //  Setters
     //
+
+    public void setError(boolean b) {
+        isError = b;
+        vField.setError(b ? "" : null);
+    }
+
+    public void setErrorChecker(ProviderArg<String, Boolean> checker) {
+        this.checker = checker;
+        checkError();
+    }
 
     public void setIcon(@DrawableRes int icon) {
         if (icon == 0) vIcon.setImageBitmap(null);
@@ -119,6 +140,12 @@ public class SettingsField extends Settings {
     //
     //  Getters
     //
+
+
+    public boolean isError() {
+        checkError();
+        return isError;
+    }
 
     public String getText() {
         return vField.getText().toString();
