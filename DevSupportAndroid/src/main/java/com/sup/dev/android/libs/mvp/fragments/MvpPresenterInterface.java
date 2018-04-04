@@ -18,4 +18,6 @@ public interface MvpPresenterInterface {
 
     void onDetachView();
 
+    void onAttachView();
+
 }

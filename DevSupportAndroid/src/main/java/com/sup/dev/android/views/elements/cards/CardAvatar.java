@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.view.View;
+import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.views.widgets.ViewAvatarTitle;

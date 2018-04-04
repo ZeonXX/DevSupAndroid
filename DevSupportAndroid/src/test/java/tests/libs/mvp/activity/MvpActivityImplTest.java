@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import tests._sup_android.TestAndroid;
 import tests._sup_android.TestApplication;
 import tests._sup_android.stubs.mvp.MvpPresenterStub;
-import com.sup.dev.android.libs.mvp.activity_navigation.DrawerMenuItem;
+
 import com.sup.dev.android.libs.mvp.activity_navigation.MvpActivityNavigationImpl;
 
 import org.junit.Before;

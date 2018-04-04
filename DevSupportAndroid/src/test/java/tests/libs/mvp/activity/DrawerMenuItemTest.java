@@ -9,7 +9,6 @@ import com.sup.dev.android.androiddevsup.R;
 import tests._sup_android.TestAndroid;
 import tests._sup_android.TestApplication;
 import tests._sup_android.stubs.support.CallbackStub;
-import com.sup.dev.android.libs.mvp.activity_navigation.DrawerMenuItem;
 
 import org.junit.Before;
 import org.junit.Test;

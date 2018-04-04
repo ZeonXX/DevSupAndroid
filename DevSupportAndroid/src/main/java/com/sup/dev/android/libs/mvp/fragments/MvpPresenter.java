@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.mvp.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -67,12 +68,20 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
         for (int i = 0; i < actions.size(); i++)
             if (executeAction(actions.get(i)))
                 i--;
+
+        onAttachView();
     }
 
 
     @Override
+    @CallSuper
     public void onDetachView() {
         this.view = null;
+    }
+
+    @Override
+    public void onAttachView(){
+
     }
 
     @Override
