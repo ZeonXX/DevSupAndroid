@@ -40,6 +40,11 @@ public class DialogProgressTransparent extends BaseDialog {
         return frameLayout;
     }
 
+    @Override
+    public DialogProgressTransparent show() {
+        return (DialogProgressTransparent)super.show();
+    }
+
     //
     //  Setters
     //

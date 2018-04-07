@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.support.annotation.MainThread;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 import com.sup.dev.java.libs.json.Json;
+
+import java.io.File;
 
 public interface UtilsStorage {
 
@@ -76,8 +79,8 @@ public interface UtilsStorage {
     //  Files
     //
 
-    void saveImage(Activity activity, Bitmap bitmap, int messageRes, Callback onPermissionPermissionRestriction);
+    void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction);
 
-    void saveFile(Activity activity, byte[] bytes, String ex, int messageRes, Callback onPermissionPermissionRestriction);
+    void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction);
 
 }

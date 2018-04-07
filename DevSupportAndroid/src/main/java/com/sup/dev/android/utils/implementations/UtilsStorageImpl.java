@@ -9,6 +9,7 @@ import android.support.annotation.MainThread;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsStorage;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 import com.sup.dev.java.libs.json.Json;
 import com.sup.dev.java.libs.json.JsonArray;
 
@@ -170,7 +171,7 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Files
     //
 
-    public void saveImage(Activity activity, Bitmap bitmap, int messageRes, Callback onPermissionPermissionRestriction) {
+    public void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
@@ -178,14 +179,14 @@ public class UtilsStorageImpl implements UtilsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
-                SupAndroid.di.utilsThreads().main(() -> SupAndroid.di.utilsToast().show(SupAndroid.di.utilsResources().getString(messageRes) + f.getAbsolutePath()));
+                SupAndroid.di.utilsThreads().main(() -> onComplete.callback(f));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }, onPermissionPermissionRestriction);
     }
 
-    public void saveFile(Activity activity, byte[] bytes, String ex, int messageRes, Callback onPermissionPermissionRestriction) {
+    public void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex);
@@ -193,7 +194,7 @@ public class UtilsStorageImpl implements UtilsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);
                 out.close();
-                SupAndroid.di.utilsThreads().main(() -> SupAndroid.di.utilsToast().show(SupAndroid.di.utilsResources().getString(messageRes) + f.getAbsolutePath()));
+                SupAndroid.di.utilsThreads().main(() -> onComplete.callback(f));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
