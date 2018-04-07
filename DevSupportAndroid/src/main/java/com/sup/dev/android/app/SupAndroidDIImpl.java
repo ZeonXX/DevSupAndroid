@@ -50,7 +50,6 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
 
     private final ArrayList<CallbackSource<MvpActivity>> mvpActivityCallbacks = new ArrayList<>();
     private final Context appContext;
-    private final String appName;
 
     private MvpActivity mvpActivity;
 
@@ -70,9 +69,8 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     private UtilsCash utilsCash;
     private UtilsMetadata utilsMetadata;
 
-    public SupAndroidDIImpl(Context appContext, String appName) {
+    public SupAndroidDIImpl(Context appContext) {
         this.appContext = appContext;
-        this.appName = appName;
     }
 
     public void setMvpActivity(MvpActivity mvpActivity) {
@@ -154,7 +152,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     }
 
     public UtilsNotifications utilsNotifications() {
-        if(utilsNotifications == null) utilsNotifications = new UtilsNotificationsImpl(appName);
+        if(utilsNotifications == null) utilsNotifications = new UtilsNotificationsImpl("dev_support_android_notifications");
         return utilsNotifications;
     }
 
@@ -169,7 +167,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     }
 
     public UtilsStorage utilsStorage() {
-        if(utilsStorage == null) utilsStorage = new UtilsStorageImpl(appName, "Support_App_Preferences");
+        if(utilsStorage == null) utilsStorage = new UtilsStorageImpl("file", "Support_App_Preferences");
         return utilsStorage;
     }
 

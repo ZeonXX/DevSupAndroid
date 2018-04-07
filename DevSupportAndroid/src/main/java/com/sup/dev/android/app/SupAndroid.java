@@ -15,7 +15,7 @@ public class SupAndroid{
 
     public static void initEditMode(View view){
         if(!view.isInEditMode())return;
-        SupAndroid.di = new SupAndroidDIImpl(view.getContext(), "debug");
+        SupAndroid.di = new SupAndroidDIImpl(view.getContext());
         SupJava.init(di);
         editMode = true;
     }
