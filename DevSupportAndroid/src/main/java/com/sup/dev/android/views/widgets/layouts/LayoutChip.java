@@ -34,20 +34,20 @@ public class LayoutChip extends FrameLayout {
     public void setBackgroundDrawable(Drawable background) {
         super.setBackgroundDrawable(null);
 
-        if(paint == null) {
+        if (paint == null) {
             paint = new Paint();
             paint.setAntiAlias(true);
             paint.setColor(0x00000000);
         }
 
-        if(background != null && background instanceof ColorDrawable)
+        if (background != null && background instanceof ColorDrawable)
             paint.setColor(((ColorDrawable) background).getColor());
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawPath(path, paint);
+        if (paint != null) canvas.drawPath(path, paint);
     }
 
     @Override

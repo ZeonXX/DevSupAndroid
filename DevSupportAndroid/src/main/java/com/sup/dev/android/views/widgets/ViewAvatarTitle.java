@@ -20,9 +20,10 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
+import com.sup.dev.android.views.widgets.layouts.LayoutChip;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
-public class ViewAvatarTitle extends FrameLayout {
+public class ViewAvatarTitle extends LayoutChip {
 
     private final UtilsView utilsView;
     private final UtilsResources utilsResources;
