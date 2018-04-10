@@ -15,9 +15,10 @@ public class MvpNavigatorImpl implements MvpNavigator {
     //  Methods
     //
 
-    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
+    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow) {
         SupAndroid.di.mvpActivity(activity -> {
             DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
+            dialog.setCancelable(false);
             dialog.show();
             onShow.callback(dialog);
         });
@@ -131,7 +132,7 @@ public class MvpNavigatorImpl implements MvpNavigator {
     }
 
     public MvpPresenterInterface getCurrent() {
-        if(presenters.isEmpty())return null;
+        if (presenters.isEmpty()) return null;
         return presenters.get(presenters.size() - 1);
     }
 
