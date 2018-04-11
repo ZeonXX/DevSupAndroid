@@ -25,7 +25,7 @@ public class DialogInputText extends BaseDialog {
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
-    private ArrayList<Pair<String, ProviderArg<String, Boolean>>> checkers;
+    private ArrayList<Pair<String, ProviderArg<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
     private int min;
 
