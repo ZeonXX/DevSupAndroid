@@ -233,6 +233,11 @@ public class BaseDialog {
     //  Getters
     //
 
+
+    public Context getContext() {
+        return viewContext;
+    }
+
     public boolean isShoved() {
         return !isDismissCalled && dialog != null && dialog.isShowing();
     }

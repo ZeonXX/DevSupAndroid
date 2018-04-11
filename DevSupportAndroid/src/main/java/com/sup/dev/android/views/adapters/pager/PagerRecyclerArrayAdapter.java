@@ -85,6 +85,10 @@ public class PagerRecyclerArrayAdapter<K, V extends View> extends PagerRecyclerA
         return items.size();
     }
 
+    public ArrayList<K> getItems() {
+        return items;
+    }
+
     //
     //  Notify
     //

@@ -14,7 +14,10 @@ import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.items.Pair;
 import com.sup.dev.java.classes.providers.ProviderArg;
+
+import java.util.ArrayList;
 
 public class DialogInputText extends BaseDialog {
 
@@ -22,8 +25,7 @@ public class DialogInputText extends BaseDialog {
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
-    private ProviderArg<String, Boolean> checker;
-    private String errorText;
+    private ArrayList<Pair<String, ProviderArg<String, Boolean>>> checkers;
     private int max;
     private int min;
 
@@ -37,17 +39,28 @@ public class DialogInputText extends BaseDialog {
         vFieldLayout.setHint(null);
         vField.setHint(null);
 
-        vField.addTextChangedListener(new TextWatcherChanged(text -> {
-            if (checker == null || checker.provide(text)) {
-                vFieldLayout.setError(null);
-                vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
-            } else {
-                vEnter.setEnabled(false);
-                vFieldLayout.setError(errorText);
-            }
-        }));
+        vField.addTextChangedListener(new TextWatcherChanged(text -> onTextChanged(text)));
 
         setLinesCount(1);
+    }
+
+    private void onTextChanged(String text){
+
+        String error = null;
+
+        for (Pair<String, ProviderArg<String, Boolean>> pair : checkers)
+            if (!pair.right.provide(text)) {
+                error = pair.left;
+                break;
+            }
+
+        if (error != null) {
+            vFieldLayout.setError(error);
+            vEnter.setEnabled(false);
+        }else{
+            vFieldLayout.setError(null);
+            vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
+        }
     }
 
     public DialogInputText setHint(@StringRes int s) {
@@ -73,7 +86,7 @@ public class DialogInputText extends BaseDialog {
     public DialogInputText setLinesCount(int linesCount) {
         if (linesCount == 1) {
             vField.setSingleLine(true);
-            vField.setGravity(Gravity.CENTER|Gravity.LEFT);
+            vField.setGravity(Gravity.CENTER | Gravity.LEFT);
             vField.setLines(linesCount);
         } else {
             setMultiLine();
@@ -82,7 +95,7 @@ public class DialogInputText extends BaseDialog {
         return this;
     }
 
-    public DialogInputText setMultiLine(){
+    public DialogInputText setMultiLine() {
         vField.setSingleLine(false);
         vField.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         vField.setGravity(Gravity.TOP);
@@ -95,13 +108,13 @@ public class DialogInputText extends BaseDialog {
         return this;
     }
 
-    public DialogInputText setChecker(@StringRes int errorText, ProviderArg<String, Boolean> checker) {
-        return setChecker(utilsResources.getString(errorText), checker);
+    public DialogInputText addChecker(@StringRes int errorText, ProviderArg<String, Boolean> checker) {
+        return addChecker(utilsResources.getString(errorText), checker);
     }
 
-    public DialogInputText setChecker(String errorText, ProviderArg<String, Boolean> checker) {
-        this.checker = checker;
-        this.errorText = errorText;
+    public DialogInputText addChecker(String errorText, ProviderArg<String, Boolean> checker) {
+        checkers.add(new Pair<>(errorText, checker));
+        onTextChanged(vField.getText().toString());
         return this;
     }
 
