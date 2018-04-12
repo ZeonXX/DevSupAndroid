@@ -2,6 +2,10 @@
 
     <!-- THEME -->
 
+    <attr name="iconsFilter" format="color"/>
+    <attr name="iconsFilterInverse" format="color"/>
+    <attr name="contentBackground" format="color"/>
+
     <style name="DevSupTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="textColorError">@color/red_700</item>
         <item name="android:windowBackground">@color/grey_900</item>
@@ -39,10 +43,20 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
         <item name="android:windowBackground">@android:color/black</item>
+        <item name="ViewIcon_filter">#01FF0000</item>
+    </style>
+
+    <style name="Icon.Filtered">
+        <item name="ViewIcon_filter">?iconsFilter</item>
+    </style>
+
+    <style name="Icon.FilteredInverse">
+        <item name="ViewIcon_filter">?iconsFilterInverse</item>
     </style>
 
     <style name="Toolbar">
         <item name="android:id">@id/toolbar</item>
+        <item name="titleTextColor">@color/textLight_87</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?colorPrimary</item>

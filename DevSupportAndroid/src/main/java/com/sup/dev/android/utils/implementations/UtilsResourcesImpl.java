@@ -61,11 +61,22 @@ public class UtilsResourcesImpl implements UtilsResources {
         return value.data;
     }
 
+    public int getPrimaryColor(Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+        return value.data;
+    }
+
+    public int getPrimaryDarkColor(Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimaryDark, value, true);
+        return value.data;
+    }
+
     public int getAccentAlphaColor(Context context) {
         return ToolsColor.setAlpha(106, getAccentColor(context));
     }
 
-    @Override
     public int getBackgroundColor(Context context) {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.windowBackground, value, true);

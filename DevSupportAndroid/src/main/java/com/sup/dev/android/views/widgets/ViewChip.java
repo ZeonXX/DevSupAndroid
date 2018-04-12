@@ -48,7 +48,7 @@ public class ViewChip extends FrameLayout {
     private boolean canSelect = true;
     private boolean useIconBackground = false;
     private int background;
-    private int unselectedBackground = 0x20FFFFFF;
+    private int unselectedBackground;
 
     private boolean isChipSelected = true;
 
@@ -65,6 +65,7 @@ public class ViewChip extends FrameLayout {
         utilsView = SupAndroid.di.utilsView();
         utilsResources = SupAndroid.di.utilsResources();
         int focusColor = utilsResources.getColor(R.color.focus);
+        unselectedBackground =focusColor;
 
         setWillNotDraw(false);
         background = utilsResources.getAccentColor(context);

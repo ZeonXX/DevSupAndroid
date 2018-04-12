@@ -24,6 +24,10 @@ public interface UtilsResources {
 
     int getAccentColor(Context context);
 
+    int getPrimaryColor(Context context);
+
+    int getPrimaryDarkColor(Context context);
+
     int getBackgroundColor(Context context);
 
     int getAccentAlphaColor(Context context);

@@ -1,7 +1,6 @@
 package com.sup.dev.android.libs.mvp.activity;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        applyTheme();
 
         setContentView(getLayout());
 
@@ -31,6 +31,9 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
         }
     }
 
+    protected void applyTheme(){
+
+    }
 
     @Override
     protected void onStart() {

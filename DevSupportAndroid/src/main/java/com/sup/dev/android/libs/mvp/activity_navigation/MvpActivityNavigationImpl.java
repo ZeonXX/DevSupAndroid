@@ -25,7 +25,6 @@ public class MvpActivityNavigationImpl extends MvpActivityImpl implements Drawer
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         drawerLayout = findViewById(R.id.mvp_drawer);
         drawerContainer = findViewById(R.id.mvp_drawer_container);
         drawerLayout.setDrawerListener(this);
