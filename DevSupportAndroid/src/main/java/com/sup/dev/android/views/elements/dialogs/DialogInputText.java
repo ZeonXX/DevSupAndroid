@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class DialogInputText extends BaseDialog {
 
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
+    private final UtilsView utilsView = SupAndroid.di.utilsView();
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
@@ -44,7 +46,15 @@ public class DialogInputText extends BaseDialog {
         setLinesCount(1);
     }
 
-    private void onTextChanged(String text){
+    @Override
+    public DialogInputText show() {
+        super.show();
+        vField.setSelection(vField.getText().length());
+        utilsView.showKeyboard(vField);
+        return this;
+    }
+
+    private void onTextChanged(String text) {
 
         String error = null;
 
@@ -57,7 +67,7 @@ public class DialogInputText extends BaseDialog {
         if (error != null) {
             vFieldLayout.setError(error);
             vEnter.setEnabled(false);
-        }else{
+        } else {
             vFieldLayout.setError(null);
             vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
         }
