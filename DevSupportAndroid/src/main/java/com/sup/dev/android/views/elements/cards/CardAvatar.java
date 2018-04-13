@@ -47,7 +47,7 @@ public class CardAvatar extends Card {
         vAvatar.setTitle(title);
         vAvatar.setSubtitle(subtitle);
         vAvatar.setClickable(false);
-        vAvatar.getViewAvatar().setOnClickListener(v -> onClickAvatar.callback());
+        vAvatar.getViewAvatar().setOnClickListener(v -> {if(onClickAvatar != null)onClickAvatar.callback();});
         vAvatar.getViewAvatar().setImage(image);
         vAvatar.getViewAvatar().getChip().setText(chipText);
         vAvatar.getViewAvatar().getChip().setIcon(chipIcon);
