@@ -17,5 +17,7 @@ public interface UtilsNotifications {
 
     void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound);
 
+    void hide();
+
 
 }
