@@ -39,7 +39,12 @@ public class DialogProgressTransparent extends BaseDialog {
         return frameLayout;
     }
 
-    @Override
+    public DialogProgressTransparent showNow() {
+        view.setVisibility(View.VISIBLE);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        return (DialogProgressTransparent) super.show();
+    }
+
     public DialogProgressTransparent show() {
         SupAndroid.di.utilsThreads().main(1000, () -> {
             SupAndroid.di.utilsView().fromAlpha(view, 600);

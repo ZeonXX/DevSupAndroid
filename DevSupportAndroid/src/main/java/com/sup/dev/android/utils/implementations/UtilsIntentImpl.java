@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcelable;
@@ -72,6 +73,22 @@ public class UtilsIntentImpl implements UtilsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
+    public void startApp(String packageName, Callback onActivityNotFound) {
+        startApp(packageName, null, onActivityNotFound);
+    }
+
+    public void startApp(String packageName, CallbackSource<Intent> onIntentCreated, Callback onActivityNotFound) {
+        PackageManager manager = SupAndroid.di.appContext().getPackageManager();
+        Intent intent = manager.getLaunchIntentForPackage(packageName);
+        if (intent == null) {
+            if (onActivityNotFound != null) onActivityNotFound.callback();
+            return;
+        }
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        if(onIntentCreated != null)onIntentCreated.callback(intent);
+        startIntent(intent, onActivityNotFound);
+    }
+
     public void startPlayMarket(String packageName, Callback onActivityNotFound) {
         startIntent(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName + "&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
@@ -83,8 +100,8 @@ public class UtilsIntentImpl implements UtilsIntent {
     }
 
     public void startPhone(String phone, Callback onActivityNotFound) {
-            startIntent(new Intent(android.content.Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
+        startIntent(new Intent(android.content.Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
     public void shareFile(Activity activity, String patch, Callback onActivityNotFound) {

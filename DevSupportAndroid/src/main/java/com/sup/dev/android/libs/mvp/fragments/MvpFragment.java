@@ -98,14 +98,14 @@ public abstract class MvpFragment<K extends MvpPresenterInterface> extends Fragm
     }
 
     private void attach() {
-        if (!attached) {
+        if (!attached && presenter != null) {
             attached = true;
             presenter.onAttachView(this);
         }
     }
 
     private void detach() {
-        if (attached) {
+        if (attached && presenter != null) {
             attached = false;
             presenter.onDetachView();
         }

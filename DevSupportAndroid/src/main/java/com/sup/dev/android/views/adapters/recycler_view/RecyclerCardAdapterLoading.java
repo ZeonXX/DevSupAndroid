@@ -20,6 +20,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private final CardLoading cardLoading;
     private final Class<K> cardClass;
 
+    private int addPositionOffset = 0;
     private int startLoadOffset = 0;
     private boolean lock;
     private boolean inProgress;
@@ -98,7 +99,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
             remove(cardLoading);
         }
 
-        for (V aResult : result) add(mapper.provide(aResult));
+        for (V aResult : result) add(size() - addPositionOffset, mapper.provide(aResult));
 
         if (!isEmpty || result.length != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty.callback();
@@ -123,6 +124,11 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     //  Setters
     //
 
+
+    public RecyclerCardAdapterLoading<K, V> setAddPositionOffset(int addPositionOffset) {
+        this.addPositionOffset = addPositionOffset;
+        return this;
+    }
 
     public RecyclerCardAdapterLoading<K, V> setOnLoadedNotEmpty(Callback onLoadedNotEmpty) {
         this.onLoadedNotEmpty = onLoadedNotEmpty;

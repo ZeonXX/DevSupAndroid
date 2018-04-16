@@ -28,6 +28,10 @@ public interface UtilsIntent {
 
     void startWeb(String link, Callback onActivityNotFound);
 
+    void startApp(String packageName, Callback onActivityNotFound);
+
+    void startApp(String packageName, CallbackSource<Intent> onIntentCreated, Callback onActivityNotFound);
+
     void startPlayMarket(String packageName, Callback onActivityNotFound);
 
     void startMail(String link, Callback onActivityNotFound);
