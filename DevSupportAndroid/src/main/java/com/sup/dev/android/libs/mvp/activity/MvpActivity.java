@@ -1,14 +1,11 @@
 package com.sup.dev.android.libs.mvp.activity;
 
-import android.app.Fragment;
+import com.sup.dev.android.libs.mvp.fragments.MvpFragmentInterface;
 
 public interface MvpActivity {
 
     void onFragmentBackPressed();
 
-    void addFragment(Fragment fragment, String key, boolean animate);
-
-    void backFragment();
-
+    void setFragment(MvpFragmentInterface view);
 
 }

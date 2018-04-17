@@ -31,7 +31,7 @@ public class UtilsAndroidImpl implements UtilsAndroid {
     //
 
     public String getLanguageCode() {
-        return Locale.getDefault().getLanguage();
+        return Locale.getDefault().getLanguage().toLowerCase();
     }
 
     public boolean isEchoCancelerAvailable() {

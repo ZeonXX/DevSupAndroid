@@ -3,11 +3,9 @@ package com.sup.dev.android.libs.mvp.fragments.actions;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 
-
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 
 import java.util.List;
-
 
 public abstract class MvpAction<K> {
 

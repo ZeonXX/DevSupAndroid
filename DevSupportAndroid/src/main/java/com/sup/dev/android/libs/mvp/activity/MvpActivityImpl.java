@@ -1,22 +1,27 @@
 package com.sup.dev.android.libs.mvp.activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.mvp.fragments.MvpFragmentInterface;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.utils.interfaces.UtilsIntent;
+import com.sup.dev.android.utils.interfaces.UtilsView;
 
-public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
+public class MvpActivityImpl extends Activity implements MvpActivity {
 
     public static boolean started;
 
-    private UtilsIntent utilsIntent = SupAndroid.di.utilsIntent();
-    protected MvpNavigator navigator = SupAndroid.di.navigator();
+    private final UtilsView utilsView = SupAndroid.di.utilsView();
+    private final UtilsIntent utilsIntent = SupAndroid.di.utilsIntent();
+    protected final MvpNavigator navigator = SupAndroid.di.navigator();
+
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -24,14 +29,16 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
         applyTheme();
 
         setContentView(getLayout());
+        container = findViewById(R.id.fragment);
 
         if (!started) {
             started = true;
             onFirstStart();
         }
+
     }
 
-    protected void applyTheme(){
+    protected void applyTheme() {
 
     }
 
@@ -39,6 +46,7 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
     protected void onStart() {
         super.onStart();
         SupAndroid.di.setMvpActivity(this);
+        if(container.getChildCount() == 0) navigator.updateFragment();
     }
 
     @Override
@@ -47,11 +55,11 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
         SupAndroid.di.setMvpActivity(null);
     }
 
-    protected int getLayout(){
+    protected int getLayout() {
         return R.layout.mvp_activity;
     }
 
-    protected void onFirstStart(){
+    protected void onFirstStart() {
 
     }
 
@@ -78,7 +86,7 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
         }
     }
 
-    protected boolean onLastBackPressed(){
+    protected boolean onLastBackPressed() {
         return false;
     }
 
@@ -87,23 +95,25 @@ public class MvpActivityImpl extends AppCompatActivity implements MvpActivity{
     //  Fragments
     //
 
-    @Override
-    public void addFragment(Fragment fragment, String key, boolean animate) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.addToBackStack(key + "");
-        if (animate)
-            transaction.setCustomAnimations(R.animator.enter, R.animator.exet, R.animator.enter, R.animator.exet);
-        transaction.replace(R.id.fragment, fragment);
-        transaction.commit();
-    }
 
     @Override
-    public void backFragment() {
-        getFragmentManager().popBackStack();
+    public void setFragment(MvpFragmentInterface fragment) {
+
+        if(fragment == null){
+            finish();
+            return;
+        }
+
+        View old = container.getChildCount() == 0 ? null : container.getChildAt(0);
+        container.addView((View) fragment, 0);
+
+        if (old != null) {
+            ((View) fragment).setVisibility(View.INVISIBLE);
+            utilsView.fromAlpha((View) fragment);
+            utilsView.toAlpha(old, () -> container.removeView(old));
+        }
+
     }
-
-
-
 
 
 }

@@ -1,23 +1,16 @@
 package com.sup.dev.android.libs.mvp.fragments;
 
-import android.app.Fragment;
+import android.content.Context;
 
 public interface MvpPresenterInterface {
 
-    int getKey();
 
-    void setKey(int key);
+    MvpFragmentInterface instanceView(Context context);
+
+    void clearView();
 
     void onDestroy();
 
-    Fragment instanceFragment();
-
     boolean onBackPressed();
-
-    void onAttachView(MvpFragmentInterface view);
-
-    void onDetachView();
-
-    void onAttachView();
 
 }

@@ -35,6 +35,10 @@ public interface SupAndroidDI extends SupJavaDI {
 
     void mvpActivity(CallbackSource<MvpActivity> onActivity);
 
+    MvpActivity mvpActivityNow();
+
+    boolean mvpActivityIsSubscribed(CallbackSource<MvpActivity> onActivity);
+
     //
     //  Libs
     //

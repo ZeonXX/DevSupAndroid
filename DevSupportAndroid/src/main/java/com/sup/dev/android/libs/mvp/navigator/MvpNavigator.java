@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.mvp.navigator;
 
-
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
@@ -8,8 +7,6 @@ import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 public interface MvpNavigator {
 
     boolean hasBackStack();
-
-    MvpPresenterInterface getPresenter(int key);
 
     MvpPresenterInterface getCurrent();
 
@@ -21,9 +18,12 @@ public interface MvpNavigator {
 
     void remove(MvpPresenterInterface presenter);
 
+    void updateFragment();
+
     boolean back();
 
     boolean onBackPressed();
 
     void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow);
+
 }

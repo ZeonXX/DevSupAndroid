@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.mvp.activity_navigation;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +9,8 @@ import android.view.ViewGroup;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivityImpl;
+import com.sup.dev.android.libs.mvp.fragments.MvpFragmentInterface;
 import com.sup.dev.android.utils.interfaces.UtilsView;
-
 
 public class MvpActivityNavigationImpl extends MvpActivityImpl implements DrawerLayout.DrawerListener, MvpActivityNavigation {
 
@@ -52,13 +51,13 @@ public class MvpActivityNavigationImpl extends MvpActivityImpl implements Drawer
     //  Fragments
     //
 
+
     @Override
-    public void addFragment(Fragment fragment, String key, boolean animate) {
-        super.addFragment(fragment, key, animate);
+    public void setFragment(MvpFragmentInterface fragment) {
+        super.setFragment(fragment);
         utilsView.hideKeyboard(this);
         hideDrawer();
     }
-
 
     //
     //  Navigation Drawer

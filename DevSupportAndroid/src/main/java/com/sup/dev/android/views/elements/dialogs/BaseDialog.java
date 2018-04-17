@@ -5,6 +5,8 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatDialog;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -128,7 +130,7 @@ public class BaseDialog {
 
     protected BaseDialog setTitle(String title) {
         vTitle.setText(title);
-        vTitle.setVisibility(title != null?View.VISIBLE:View.GONE);
+        vTitle.setVisibility(title != null ? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -136,15 +138,17 @@ public class BaseDialog {
         return setText(utilsResources.getString(text));
     }
 
-    protected BaseDialog setText(String text) {
+    protected BaseDialog setText(CharSequence text) {
         vText.setText(text);
-        vText.setVisibility(text != null?View.VISIBLE:View.GONE);
+        vText.setVisibility(text != null ? View.VISIBLE : View.GONE);
+        if (text instanceof Spannable) vText.setMovementMethod(LinkMovementMethod.getInstance());
+        else vText.setMovementMethod(null);
         return this;
     }
 
     protected BaseDialog setAutoHideOnCancel(boolean autoHideOnCancel) {
         this.autoHideOnCancel = autoHideOnCancel;
-        if(!autoHideOnCancel)setCancelable(false);
+        if (!autoHideOnCancel) setCancelable(false);
         return this;
     }
 
@@ -209,7 +213,7 @@ public class BaseDialog {
         vEnter.setOnClickListener(v -> {
             if (autoHideOnEnter) hide();
             else setEnabled(false);
-            if(onEnter != null)onEnter.callback(this);
+            if (onEnter != null) onEnter.callback(this);
         });
         return this;
     }

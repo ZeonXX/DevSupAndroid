@@ -3,6 +3,7 @@ package com.sup.dev.android.views.elements.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
@@ -18,8 +19,9 @@ public class DialogAlertCheck extends BaseDialog{
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final String key;
-
     private final CheckBox vCheck;
+
+    private boolean lockUntilAccept;
 
     public static boolean check(String key) {
         return SupAndroid.di.utilsStorage().getBoolean(key, false);
@@ -36,6 +38,7 @@ public class DialogAlertCheck extends BaseDialog{
         vCheck = view.findViewById(R.id.check_box);
 
         vCheck.setText(null);
+        vCheck.setOnCheckedChangeListener((compoundButton, b) -> updateLock());
 
     }
 
@@ -48,9 +51,21 @@ public class DialogAlertCheck extends BaseDialog{
         return this;
     }
 
+    private void updateLock(){
+        if(lockUntilAccept)
+            vEnter.setEnabled(vCheck.isChecked());
+    }
+
     //
     //  Setters
     //
+
+
+    public DialogAlertCheck setLockUntilAccept(boolean lockUntilAccept) {
+        this.lockUntilAccept = lockUntilAccept;
+        updateLock();
+        return this;
+    }
 
     public DialogAlertCheck setTitle(@StringRes int title) {
         return (DialogAlertCheck)super.setTitle(title);
@@ -64,7 +79,7 @@ public class DialogAlertCheck extends BaseDialog{
         return (DialogAlertCheck)super.setText(text);
     }
 
-    public DialogAlertCheck setText(String text) {
+    public DialogAlertCheck setText(CharSequence text) {
         return (DialogAlertCheck)super.setText(text);
     }
 

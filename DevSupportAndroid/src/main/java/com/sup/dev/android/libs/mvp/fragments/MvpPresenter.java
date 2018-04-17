@@ -1,11 +1,12 @@
 package com.sup.dev.android.libs.mvp.fragments;
 
-import android.app.Fragment;
+
 import android.content.Context;
-import android.support.annotation.CallSuper;
+import android.os.Parcelable;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import android.util.SparseArray;
+import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.actions.ActionAdd;
@@ -18,69 +19,63 @@ import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-
-public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresenterInterface {
+public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresenterInterface{
 
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     protected final MvpNavigator navigator = SupAndroid.di.navigator();
 
     private final ArrayList<MvpAction<K>> actions = new ArrayList<>();
-    private final Class<? extends K> fragmentClass;
-    private int key;
+    private final Class<? extends K> viewClass;
 
-    private WeakReference<K> view;
+    protected SparseArray<Parcelable> state;
+    private K view;
 
-    public MvpPresenter(Class<? extends K> fragmentClass) {
-        this.fragmentClass = fragmentClass;
+    public MvpPresenter(Class<? extends K> viewClass) {
+        this.viewClass = viewClass;
     }
 
     @Override
-    public Fragment instanceFragment() {
-        K k;
+    public MvpFragmentInterface instanceView(Context context) {
+
+        if(view != null)view.onDestroy();
+
         try {
-            k = fragmentClass.getConstructor().newInstance();
+            view = viewClass.getConstructor(Context.class, this.getClass()).newInstance(context, this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        k.setPresenter(this);
-        return (Fragment) k;
-    }
 
-    //
-    //  Methods
-    //
-
-    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
-        navigator.showProgressDialog(onShow);
-    }
-
-    //
-    //  Events
-    //
-
-    @MainThread
-    public final void onAttachView(MvpFragmentInterface view) {
-        this.view = new WeakReference<>((K) view);
+        if(state != null){
+            view.load(state);
+            state = null;
+        }
 
         for (int i = 0; i < actions.size(); i++)
             if (executeAction(actions.get(i)))
                 i--;
 
         onAttachView();
-    }
 
-
-    @Override
-    @CallSuper
-    public void onDetachView() {
-        this.view = null;
+        return view;
     }
 
     @Override
-    public void onAttachView(){
+    public void clearView() {
+        if(view != null) {
+            state = new SparseArray<>();
+            ((View)view).saveHierarchyState(state);
+            view.onDestroy();
+        }
+        view = null;
+    }
+
+    //
+    //  Events
+    //
+
+    protected void onAttachView(){
 
     }
 
@@ -95,30 +90,19 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     }
 
     //
-    //  Setters
-    //
-
-    @Override
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    //
     //  Getters
     //
 
     public boolean isViewAttached() {
-        return view != null && view.get() != null;
+        return view != null;
     }
 
-    @Override
-    public int getKey() {
-        return key;
-    }
+    //
+    //  Support Methods
+    //
 
-    @VisibleForTesting
-    public K getMvpFragment() {
-        return view == null ? null : view.get();
+    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
+        navigator.showProgressDialog(onShow);
     }
 
     //
@@ -127,7 +111,7 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
 
     public boolean executeAction(MvpAction<K> action) {
         if (!isViewAttached()) return false;
-        boolean needRemove = action.execute(view.get());
+        boolean needRemove = action.execute(view);
         if (needRemove) actions.remove(action);
         return needRemove;
     }
@@ -186,5 +170,6 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     public void actionSkip(CallbackSource<K> executor) {
         action(new ActionSkip<>(executor));
     }
+
 
 }

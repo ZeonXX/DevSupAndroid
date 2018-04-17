@@ -45,7 +45,7 @@ public class DialogAlert extends BaseDialog{
         return (DialogAlert)super.setText(text);
     }
 
-    public DialogAlert setText(String text) {
+    public DialogAlert setText(CharSequence text) {
         return (DialogAlert)super.setText(text);
     }
 

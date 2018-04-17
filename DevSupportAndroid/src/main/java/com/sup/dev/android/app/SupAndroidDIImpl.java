@@ -100,6 +100,15 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
             SupAndroid.di.utilsThreads().main(() -> onActivity.callback(mvpActivity));
     }
 
+    public MvpActivity mvpActivityNow() {
+        return mvpActivity;
+    }
+
+    @Override
+    public boolean mvpActivityIsSubscribed(CallbackSource<MvpActivity> onActivity) {
+        return mvpActivityCallbacks.contains(onActivity);
+    }
+
     //
     //  Mvp
     //
