@@ -46,6 +46,8 @@ public interface UtilsIntent {
 
     void shareFile(Activity activity, Uri uri, String type, Callback onActivityNotFound);
 
+    void shareText(String title, String text, Callback onActivityNotFound);
+
     //
     //  Intents result
     //

@@ -85,7 +85,7 @@ public class UtilsIntentImpl implements UtilsIntent {
             return;
         }
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        if(onIntentCreated != null)onIntentCreated.callback(intent);
+        if (onIntentCreated != null) onIntentCreated.callback(intent);
         startIntent(intent, onActivityNotFound);
     }
 
@@ -127,6 +127,14 @@ public class UtilsIntentImpl implements UtilsIntent {
             Debug.log(ex);
             if (onActivityNotFound != null) onActivityNotFound.callback();
         }
+    }
+
+    public void shareText( String title, String text, Callback onActivityNotFound) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here")
+                .putExtra(android.content.Intent.EXTRA_TEXT, text);
+        startIntent(Intent.createChooser(sharingIntent, null), onActivityNotFound);
     }
 
     //

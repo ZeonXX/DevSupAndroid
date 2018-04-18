@@ -21,7 +21,8 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     private final UtilsIntent utilsIntent = SupAndroid.di.utilsIntent();
     protected final MvpNavigator navigator = SupAndroid.di.navigator();
 
-    private ViewGroup container;
+    private ViewGroup vContainer;
+    private View vTouchLock;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -29,7 +30,10 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
         applyTheme();
 
         setContentView(getLayout());
-        container = findViewById(R.id.fragment);
+        vContainer = findViewById(R.id.mvp_activity_fragment);
+        vTouchLock = findViewById(R.id.mvp_activity_touch_lock);
+
+        vTouchLock.setVisibility(View.INVISIBLE);
 
         if (!started) {
             started = true;
@@ -46,7 +50,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     protected void onStart() {
         super.onStart();
         SupAndroid.di.setMvpActivity(this);
-        if(container.getChildCount() == 0) navigator.updateFragment();
+        if (vContainer.getChildCount() == 0) navigator.updateFragment();
     }
 
     @Override
@@ -99,18 +103,22 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     @Override
     public void setFragment(MvpFragmentInterface fragment) {
 
-        if(fragment == null){
+        if (fragment == null) {
             finish();
             return;
         }
 
-        View old = container.getChildCount() == 0 ? null : container.getChildAt(0);
-        container.addView((View) fragment, 0);
+        View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
+        vContainer.addView((View) fragment, 0);
 
         if (old != null) {
             ((View) fragment).setVisibility(View.INVISIBLE);
+            vTouchLock.setVisibility(View.VISIBLE);
             utilsView.fromAlpha((View) fragment);
-            utilsView.toAlpha(old, () -> container.removeView(old));
+            utilsView.toAlpha(old, () -> {
+                vContainer.removeView(old);
+                vTouchLock.setVisibility(View.INVISIBLE);
+            });
         }
 
     }
