@@ -1,6 +1,9 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 
+import android.support.annotation.StringRes;
+
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.elements.cards.Card;
 import com.sup.dev.android.views.elements.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -15,6 +18,7 @@ import java.util.List;
 public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardAdapter {
 
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
+    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final CallbackPair<CallbackSource<V[]>, ArrayList<K>> loader;
     private final ProviderArg<V, K> mapper;
     private final CardLoading cardLoading;
@@ -160,7 +164,11 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
-    public RecyclerCardAdapterLoading<K, V> setRetryMessaage(String message, String button) {
+    public RecyclerCardAdapterLoading<K, V> setRetryMessage(@StringRes int message, @StringRes int button) {
+        return setRetryMessage(utilsResources.getString(message), utilsResources.getString(button));
+    }
+
+    public RecyclerCardAdapterLoading<K, V> setRetryMessage(String message, String button) {
         retryEnabled = true;
         cardLoading.setRetryMessage(message);
         cardLoading.setRetryButton(button, card -> load());
@@ -169,6 +177,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(String message) {
         return setEmptyMessage(message, null, null);
+    }
+
+    public RecyclerCardAdapterLoading<K, V> setEmptyMessage(@StringRes int message, @StringRes int button, Callback onAction) {
+        return setEmptyMessage(utilsResources.getString(message), utilsResources.getString(button), onAction);
     }
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(String message, String button, Callback onAction) {
