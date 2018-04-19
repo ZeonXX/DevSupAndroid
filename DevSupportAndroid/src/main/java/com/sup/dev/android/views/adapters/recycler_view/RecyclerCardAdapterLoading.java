@@ -20,7 +20,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final CallbackPair<CallbackSource<V[]>, ArrayList<K>> loader;
-    private final ProviderArg<V, K> mapper;
+    private ProviderArg<V, K> mapper;
     private final CardLoading cardLoading;
     private final Class<K> cardClass;
 
@@ -41,6 +41,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         this.cardClass = cardClass;
         this.mapper = mapper;
         cardLoading = new CardLoading();
+    }
+
+    protected void setMapper(ProviderArg<V, K> mapper) {
+        this.mapper = mapper;
     }
 
     @Override
