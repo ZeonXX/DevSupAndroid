@@ -175,6 +175,11 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
+
+    public RecyclerCardAdapterLoading<K, V> setEmptyMessage(@StringRes int message) {
+        return setEmptyMessage(utilsResources.getString(message));
+    }
+
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(String message) {
         return setEmptyMessage(message, null, null);
     }
