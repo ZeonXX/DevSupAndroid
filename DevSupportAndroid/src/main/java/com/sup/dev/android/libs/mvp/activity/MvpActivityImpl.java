@@ -12,6 +12,8 @@ import com.sup.dev.android.libs.mvp.fragments.MvpFragmentInterface;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.java.classes.Subscription;
+import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 public class MvpActivityImpl extends Activity implements MvpActivity {
 
@@ -19,6 +21,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
 
     private final UtilsView utilsView = SupAndroid.di.utilsView();
     private final UtilsIntent utilsIntent = SupAndroid.di.utilsIntent();
+    private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     protected final MvpNavigator navigator = SupAndroid.di.navigator();
 
     private ViewGroup vContainer;
@@ -33,7 +36,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
         vContainer = findViewById(R.id.mvp_activity_fragment);
         vTouchLock = findViewById(R.id.mvp_activity_touch_lock);
 
-        vTouchLock.setVisibility(View.INVISIBLE);
+        vTouchLock.setVisibility(View.GONE);
 
         if (!started) {
             started = true;
@@ -99,6 +102,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     //  Fragments
     //
 
+    private  Subscription subscriptionTouchLock;
 
     @Override
     public void setFragment(MvpFragmentInterface fragment) {
@@ -115,12 +119,11 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
             ((View) fragment).setVisibility(View.INVISIBLE);
             vTouchLock.setVisibility(View.VISIBLE);
             utilsView.fromAlpha((View) fragment);
-            utilsView.toAlpha(old, () -> {
-                vContainer.removeView(old);
-                vTouchLock.setVisibility(View.INVISIBLE);
-            });
+            utilsView.toAlpha(old, () -> vContainer.removeView(old));
         }
 
+        if(subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
+        subscriptionTouchLock = utilsThreads.main(UtilsView.ANIMATION_TIME, () -> vTouchLock.setVisibility(View.GONE));
     }
 
 

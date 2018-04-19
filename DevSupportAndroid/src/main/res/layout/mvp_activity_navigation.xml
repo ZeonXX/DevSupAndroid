@@ -11,6 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <FrameLayout
+        android:id="@+id/mvp_activity_touch_lock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:clickable="true"/>
+
     <com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes
         android:id="@+id/mvp_drawer_container"
         android:layout_width="match_parent"
@@ -19,11 +26,6 @@
         android:background="?colorPrimary"
         app:LayoutMaxSizes_maxWidth="340dp"/>
 
-    <FrameLayout
-        android:id="@+id/mvp_activity_touch_lock"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"/>
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -73,10 +73,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         if (cards.isEmpty()) {
             if (onLoadingAndEmpty != null) onLoadingAndEmpty.callback();
-            else if (!contains(cardLoading)) add(cardLoading);
+            else if (!contains(cardLoading)) add(size() - addPositionOffset, cardLoading);
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty.callback();
-            else if (!contains(cardLoading)) add(cardLoading);
+            else if (!contains(cardLoading)) add(size() - addPositionOffset, cardLoading);
         }
 
         loader.callback(this::onLoaded, cards);
