@@ -8,9 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Parcelable;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -104,6 +109,30 @@ public class UtilsIntentImpl implements UtilsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
+    public void shareImage(Bitmap bitmap, String text, Callback onActivityNotFound) {
+        Intent shareIntent;
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + "img.png";
+
+        OutputStream out;
+        File file = new File(path);
+        try {
+            out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            Debug.log(e);
+        }
+        path = file.getPath();
+        Uri bmpUri = Uri.parse("file://" + path);
+        shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        shareIntent.setType("image/*");
+        startIntent(Intent.createChooser(shareIntent, null).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null);
+    }
+
     public void shareFile(Activity activity, String patch, Callback onActivityNotFound) {
         shareFile(activity, Uri.parse("file://" + patch), onActivityNotFound);
     }
@@ -129,7 +158,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         }
     }
 
-    public void shareText( String title, String text, Callback onActivityNotFound) {
+    public void shareText(String title, String text, Callback onActivityNotFound) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND)
                 .setType("text/plain")
                 .putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here")

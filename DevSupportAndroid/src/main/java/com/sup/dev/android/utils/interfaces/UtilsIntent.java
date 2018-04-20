@@ -38,6 +38,8 @@ public interface UtilsIntent {
 
     void startPhone(String phone, Callback onActivityNotFound);
 
+    void shareImage(Bitmap bitmap, String text, Callback onActivityNotFound);
+
     void shareFile(Activity activity, String patch, Callback onActivityNotFound);
 
     void shareFile(Activity activity, String patch, String type, Callback onActivityNotFound);
