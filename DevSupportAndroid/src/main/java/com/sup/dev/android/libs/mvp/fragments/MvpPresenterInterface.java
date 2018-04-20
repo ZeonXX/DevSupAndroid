@@ -13,4 +13,5 @@ public interface MvpPresenterInterface {
 
     boolean onBackPressed();
 
+    boolean isBackStackAllowed();
 }

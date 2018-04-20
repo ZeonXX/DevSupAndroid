@@ -4,29 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="8dp">
+    android:paddingTop="4dp">
 
     <TextView
         android:id="@+id/title"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
         android:text="Title"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1">
 
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:text="Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time."/>
 
@@ -36,6 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="end">
 
         <Button

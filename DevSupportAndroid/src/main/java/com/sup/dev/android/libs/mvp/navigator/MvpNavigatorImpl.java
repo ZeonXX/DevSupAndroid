@@ -30,7 +30,10 @@ public class MvpNavigatorImpl implements MvpNavigator, CallbackSource<MvpActivit
 
     @Override
     public void to(MvpPresenterInterface presenter) {
-        if(!presenters.isEmpty())getCurrent().clearView();
+        if(!presenters.isEmpty()) {
+            if(!getCurrent().isBackStackAllowed()) removePresenter(presenter);
+            else getCurrent().clearView();
+        }
         presenters.add(presenter);
         updateFragment();
     }

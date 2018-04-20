@@ -30,6 +30,7 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     private final Class<? extends K> viewClass;
 
     protected SparseArray<Parcelable> state;
+    protected boolean backStackAllowed = true;
     private K view;
 
     public MvpPresenter(Class<? extends K> viewClass) {
@@ -95,6 +96,11 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
 
     public boolean isViewAttached() {
         return view != null;
+    }
+
+    @Override
+    public boolean isBackStackAllowed() {
+        return backStackAllowed;
     }
 
     //
