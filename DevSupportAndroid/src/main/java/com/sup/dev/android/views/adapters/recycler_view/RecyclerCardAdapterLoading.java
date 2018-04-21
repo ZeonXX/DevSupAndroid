@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.app.SupAndroid;
@@ -126,6 +127,12 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
     public void unlock() {
         lock = false;
+    }
+
+    @Override
+    public void removeIndex(int position) {
+        super.removeIndex(position);
+        if(isEmpty()) onEmpty.callback();
     }
 
     //

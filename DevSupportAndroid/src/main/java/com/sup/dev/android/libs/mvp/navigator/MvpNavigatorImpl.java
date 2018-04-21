@@ -7,6 +7,7 @@ import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
 import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class MvpNavigatorImpl implements MvpNavigator, CallbackSource<MvpActivit
     @Override
     public void to(MvpPresenterInterface presenter) {
         if(!presenters.isEmpty()) {
-            if(!getCurrent().isBackStackAllowed()) removePresenter(presenter);
+            if(!getCurrent().isBackStackAllowed()) removePresenter(getCurrent());
             else getCurrent().clearView();
         }
         presenters.add(presenter);

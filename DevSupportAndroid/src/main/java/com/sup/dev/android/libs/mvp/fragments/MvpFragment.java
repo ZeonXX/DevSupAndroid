@@ -44,16 +44,11 @@ public class MvpFragment<K extends MvpPresenterInterface> extends FrameLayout im
 
     public void load(SparseArray<Parcelable> parcelable){
         dispatchRestoreInstanceState(parcelable);
-        onRecreate();
     }
 
     //
     //  LifeCircle
     //
-
-    protected void onRecreate(){
-
-    }
 
     public void onDestroy() {
 

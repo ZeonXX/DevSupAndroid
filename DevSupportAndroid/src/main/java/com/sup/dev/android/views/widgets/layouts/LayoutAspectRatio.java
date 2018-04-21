@@ -46,8 +46,6 @@ public class LayoutAspectRatio extends FrameLayout {
             return;
         }
 
-        Debug.log(widthMeasureSpec, heightMeasureSpec);
-
         if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT)
             getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT)
