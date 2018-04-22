@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.mvp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
+
+import java.util.Locale;
 
 public class MvpActivityImpl extends Activity implements MvpActivity {
 
@@ -30,6 +33,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
         applyTheme();
 
         setContentView(getLayout());
