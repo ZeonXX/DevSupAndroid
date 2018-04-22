@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,6 +119,11 @@ public class UtilsAndroidImpl implements UtilsAndroid {
                 return true;
 
         return false;
+    }
+
+    @Override
+    public File getSystemRootDir() {
+        return Environment.getExternalStorageDirectory();
     }
 
     //

@@ -3,6 +3,8 @@ package com.sup.dev.android.utils.interfaces;
 import android.content.Context;
 import android.content.Intent;
 
+import java.io.File;
+
 public interface UtilsAndroid {
 
     String getLanguageCode();
@@ -32,6 +34,8 @@ public interface UtilsAndroid {
     boolean hasBroadcastReceiver(String process, Intent intent, Context context);
 
     boolean checkServiceStarted(String appId, String serviceName);
+
+    File getSystemRootDir();
 
     //
     //  Screen

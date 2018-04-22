@@ -227,11 +227,18 @@ public class UtilsBitmapImpl implements UtilsBitmap {
     }
 
     public Bitmap getFromURL(final String src) throws IOException {
+        Debug.log("b1");
         URL url = ToolsText.makeUrl(src);
+        Debug.log("b2");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setReadTimeout(4000);
+        Debug.log("b3");
         connection.setDoInput(true);
+        Debug.log("b4");
         connection.connect();
+        Debug.log("b5");
         InputStream input = connection.getInputStream();
+        Debug.log("b6");
         return BitmapFactory.decodeStream(input);
     }
 

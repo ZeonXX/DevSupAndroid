@@ -34,7 +34,7 @@ public class UtilsFilesImpl implements UtilsFiles {
 
         File file = new File(patch);
         File parent = file.getParentFile();
-        if (parent != null)
+        if (parent != null && !parent.exists())
             parent.mkdirs();
 
         FileOutputStream out = null;
