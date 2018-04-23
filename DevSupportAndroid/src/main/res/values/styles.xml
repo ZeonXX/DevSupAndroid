@@ -7,11 +7,6 @@
     <attr name="contentBackground" format="color"/>
 
     <style name="DevSupTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="textColorError">@color/red_700</item>
-        <item name="android:windowBackground">@color/grey_900</item>
-        <item name="colorAccent">@color/light_blue_a_700</item>
-        <item name="colorPrimaryDark">@color/grey_900</item>
-        <item name="colorPrimary">@color/grey_850</item>
         <item name="android:alertDialogTheme">@style/DevSupDialog</item>
     </style>
 
