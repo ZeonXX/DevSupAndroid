@@ -6,8 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.classes.callbacks.simple.Callback2;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 import java.util.ArrayList;
 
@@ -62,6 +62,10 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     }
 
     public ViewPopupMenu<K> addItem(K key, @StringRes int mask) {
+        return addItem(key, utilsResources.getString(mask));
+    }
+
+    public ViewPopupMenu<K> addItemK(K key, @StringRes int mask) {
         return addItem(key, utilsResources.getString(mask));
     }
 
