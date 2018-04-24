@@ -18,7 +18,7 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
-import com.sup.dev.java.classes.providers.ProviderArg;
+import com.sup.dev.java.classes.providers.Provider1;
 
 public class SettingsField extends Settings {
 
@@ -28,7 +28,7 @@ public class SettingsField extends Settings {
     private final TextInputLayout vInputLayout;
 
     private boolean isError;
-    private ProviderArg<String, Boolean> checker;
+    private Provider1<String, Boolean> checker;
 
     public SettingsField(@NonNull Context context) {
         this(context, null);
@@ -99,7 +99,7 @@ public class SettingsField extends Settings {
         vField.setError(b ? "" : null);
     }
 
-    public void setErrorChecker(ProviderArg<String, Boolean> checker) {
+    public void setErrorChecker(Provider1<String, Boolean> checker) {
         this.checker = checker;
         checkError();
     }

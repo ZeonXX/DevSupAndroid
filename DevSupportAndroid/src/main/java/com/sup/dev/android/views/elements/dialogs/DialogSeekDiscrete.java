@@ -10,7 +10,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.classes.providers.ProviderArg;
+import com.sup.dev.java.classes.providers.Provider1;
 
 public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarChangeListener {
 
@@ -21,7 +21,7 @@ public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarC
     private final TextView vCurrent;
     private final TextView vMax;
 
-    private ProviderArg<Integer, String> currentTextMask;
+    private Provider1<Integer, String> currentTextMask;
 
     public DialogSeekDiscrete(Context viewContext) {
         super(viewContext, R.layout.dialog_seek_discrete);
@@ -41,7 +41,7 @@ public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarC
         vSeekBar.setOnSeekBarChangeListener(this);
     }
 
-    public DialogSeekDiscrete setCurrentTextMask(ProviderArg<Integer, String> currentTextMask) {
+    public DialogSeekDiscrete setCurrentTextMask(Provider1<Integer, String> currentTextMask) {
         this.currentTextMask = currentTextMask;
         return this;
     }

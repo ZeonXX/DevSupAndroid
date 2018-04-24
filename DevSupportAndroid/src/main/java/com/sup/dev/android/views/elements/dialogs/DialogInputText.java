@@ -15,7 +15,7 @@ import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.items.Item2;
-import com.sup.dev.java.classes.providers.ProviderArg;
+import com.sup.dev.java.classes.providers.Provider1;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class DialogInputText extends BaseDialog {
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
-    private ArrayList<Item2<String, ProviderArg<String, Boolean>>> checkers = new ArrayList<>();
+    private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
     private int min;
 
@@ -57,7 +57,7 @@ public class DialogInputText extends BaseDialog {
 
         String error = null;
 
-        for (Item2<String, ProviderArg<String, Boolean>> pair : checkers)
+        for (Item2<String, Provider1<String, Boolean>> pair : checkers)
             if (!pair.right.provide(text)) {
                 error = pair.left;
                 break;
@@ -117,11 +117,11 @@ public class DialogInputText extends BaseDialog {
         return this;
     }
 
-    public DialogInputText addChecker(@StringRes int errorText, ProviderArg<String, Boolean> checker) {
+    public DialogInputText addChecker(@StringRes int errorText, Provider1<String, Boolean> checker) {
         return addChecker(utilsResources.getString(errorText), checker);
     }
 
-    public DialogInputText addChecker(String errorText, ProviderArg<String, Boolean> checker) {
+    public DialogInputText addChecker(String errorText, Provider1<String, Boolean> checker) {
         checkers.add(new Item2<>(errorText, checker));
         onTextChanged(vField.getText().toString());
         return this;

@@ -9,7 +9,7 @@ import com.sup.dev.android.views.elements.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.classes.providers.ProviderArg;
+import com.sup.dev.java.classes.providers.Provider1;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final Callback2<Callback1<V[]>, ArrayList<K>> loader;
-    private ProviderArg<V, K> mapper;
+    private Provider1<V, K> mapper;
     private final CardLoading cardLoading;
     private final Class<K> cardClass;
 
@@ -36,14 +36,14 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
-    public RecyclerCardAdapterLoading(Class<K> cardClass, Callback2<Callback1<V[]>, ArrayList<K>> loader, ProviderArg<V, K> mapper) {
+    public RecyclerCardAdapterLoading(Class<K> cardClass, Callback2<Callback1<V[]>, ArrayList<K>> loader, Provider1<V, K> mapper) {
         this.loader = loader;
         this.cardClass = cardClass;
         this.mapper = mapper;
         cardLoading = new CardLoading();
     }
 
-    protected void setMapper(ProviderArg<V, K> mapper) {
+    protected void setMapper(Provider1<V, K> mapper) {
         this.mapper = mapper;
     }
 
