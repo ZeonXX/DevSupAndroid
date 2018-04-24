@@ -6,7 +6,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.classes.animation.AnimationSpring;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 public class AnimationViewHideVertical {
@@ -16,8 +16,8 @@ public class AnimationViewHideVertical {
     private final AnimationSpring spring;
     private final View view;
 
-    private CallbackSource<Boolean> onVisibleChange;
-    private CallbackSource<Boolean> onVisibleStartChange;
+    private Callback1<Boolean> onVisibleChange;
+    private Callback1<Boolean> onVisibleStartChange;
     private long animationTime = UtilsView.ANIMATION_TIME;
     private long autoHideMs = 0;
 
@@ -106,11 +106,11 @@ public class AnimationViewHideVertical {
     //  Setters
     //
 
-    public void setOnVisibleStartChange(CallbackSource<Boolean> onVisibleStartChange) {
+    public void setOnVisibleStartChange(Callback1<Boolean> onVisibleStartChange) {
         this.onVisibleStartChange = onVisibleStartChange;
     }
 
-    public void setOnVisibleChange(CallbackSource<Boolean> onVisibleChange) {
+    public void setOnVisibleChange(Callback1<Boolean> onVisibleChange) {
         this.onVisibleChange = onVisibleChange;
     }
 

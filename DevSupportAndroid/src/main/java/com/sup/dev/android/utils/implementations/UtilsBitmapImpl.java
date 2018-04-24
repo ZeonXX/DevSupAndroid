@@ -18,7 +18,7 @@ import android.support.annotation.DrawableRes;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsMath;
@@ -189,7 +189,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
     }
 
-    public void getFromGallery(CallbackSource<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
+    public void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.mvpActivity(
                 mvpActivity -> SupAndroid.di.utilsIntent().getGalleryImage(uri -> getFromUri((Activity) mvpActivity, uri, bitmap -> {
                     if (bitmap == null)
@@ -242,7 +242,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return BitmapFactory.decodeStream(input);
     }
 
-    public void getFromURL(final String src, final CallbackSource<Bitmap> bitmapListener) {
+    public void getFromURL(final String src, final Callback1<Bitmap> bitmapListener) {
         SupAndroid.di.utilsThreads().thread(() -> {
             Bitmap bitmap = null;
             try {
@@ -255,7 +255,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         });
     }
 
-    public void getFromUri(Activity activity, final Uri uri, final CallbackSource<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
+    public void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestReadPermission(activity, () -> {
             try {
                 callbackResult.callback(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri));

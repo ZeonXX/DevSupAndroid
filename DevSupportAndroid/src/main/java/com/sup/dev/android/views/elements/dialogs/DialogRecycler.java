@@ -6,8 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogRecycler extends BaseDialog{
 
@@ -50,7 +49,7 @@ public class DialogRecycler extends BaseDialog{
         return (DialogRecycler)super.setCancelable(cancelable);
     }
 
-    public DialogRecycler setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogRecycler setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogRecycler)super.setOnCancel(onCancel);
     }
 
@@ -58,11 +57,11 @@ public class DialogRecycler extends BaseDialog{
         return (DialogRecycler)super.setOnCancel(s);
     }
 
-    public DialogRecycler setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogRecycler setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogRecycler)super.setOnCancel(s, onCancel);
     }
 
-    public DialogRecycler setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogRecycler setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogRecycler)super.setOnCancel(s, onCancel);
     }
 
@@ -78,11 +77,11 @@ public class DialogRecycler extends BaseDialog{
         return (DialogRecycler)super.setOnEnter(s);
     }
 
-    public DialogRecycler setOnEnter(@StringRes int s, CallbackSource<BaseDialog> onEnter) {
+    public DialogRecycler setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
         return (DialogRecycler)super.setOnEnter(s, onEnter);
     }
 
-    public DialogRecycler setOnEnter(String s, CallbackSource<BaseDialog> onEnter) {
+    public DialogRecycler setOnEnter(String s, Callback1<BaseDialog> onEnter) {
         return (DialogRecycler)super.setOnEnter(s, onEnter);
     }
 

@@ -6,12 +6,12 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.util.ArrayList;
 
-public class MvpNavigatorImpl implements MvpNavigator, CallbackSource<MvpActivity> {
+public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
 
     private ArrayList<MvpPresenterInterface> presenters = new ArrayList<>();
 
@@ -111,9 +111,23 @@ public class MvpNavigatorImpl implements MvpNavigator, CallbackSource<MvpActivit
     //  Support Methods
     //
 
-    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow) {
+    public void showProgressDialog(Callback1<DialogProgressTransparent> onShow) {
         SupAndroid.di.mvpActivity(activity -> {
             DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
+            dialog.setCancelable(false);
+            dialog.show();
+            onShow.callback(dialog);
+        });
+    }
+
+    public void showProgressDialog(int title, Callback1<DialogProgressWithTitle> onShow) {
+        showProgressDialog(SupAndroid.di.utilsResources().getString(title), onShow);
+    }
+
+    public void showProgressDialog(String title, Callback1<DialogProgressWithTitle> onShow) {
+        SupAndroid.di.mvpActivity(activity -> {
+            DialogProgressWithTitle dialog = new DialogProgressWithTitle((Context) activity);
+            dialog.setTitle(title);
             dialog.setCancelable(false);
             dialog.show();
             onShow.callback(dialog);

@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     private final android.support.v7.widget.PopupMenu popupMenu;
     private final ArrayList<K> keys = new ArrayList<>();
 
-    private CallbackPair<ViewPopupMenu, K> onSelected;
+    private Callback2<ViewPopupMenu, K> onSelected;
 
     public ViewPopupMenu(View anchorView) {
         popupMenu = new android.support.v7.widget.PopupMenu(anchorView.getContext(), anchorView);
@@ -27,7 +27,7 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     //  Methods
     //
 
-    public ViewPopupMenu<K> setOnSelected(CallbackPair<ViewPopupMenu, K> onSelected){
+    public ViewPopupMenu<K> setOnSelected(Callback2<ViewPopupMenu, K> onSelected){
         this.onSelected = onSelected;
         return this;
     }

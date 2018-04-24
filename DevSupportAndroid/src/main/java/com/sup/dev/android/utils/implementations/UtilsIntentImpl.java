@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -23,27 +22,27 @@ import java.util.ArrayList;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.classes.items.Pair;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.tools.ToolsText;
 import com.sup.dev.java.libs.debug.Debug;
 
 public class UtilsIntentImpl implements UtilsIntent {
 
     private static int codeCounter = 0;
-    private final ArrayList<Pair<Integer, CallbackPair<Integer, Intent>>> progressIntents = new ArrayList<>();
+    private final ArrayList<Item2<Integer, Callback2<Integer, Intent>>> progressIntents = new ArrayList<>();
 
-    public void startIntentForResult(Intent intent, CallbackPair<Integer, Intent> onResult) {
+    public void startIntentForResult(Intent intent, Callback2<Integer, Intent> onResult) {
         if (codeCounter == 65000)
             codeCounter = 0;
         int code = codeCounter++;
-        progressIntents.add(new Pair<>(code, onResult));
+        progressIntents.add(new Item2<>(code, onResult));
         SupAndroid.di.mvpActivity(mvpActivity -> ((Activity) mvpActivity).startActivityForResult(intent, code));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
-        for (Pair<Integer, CallbackPair<Integer, Intent>> pair : progressIntents)
+        for (Item2<Integer, Callback2<Integer, Intent>> pair : progressIntents)
             if (requestCode == pair.left) {
                 progressIntents.remove(pair);
                 pair.right.callback(resultCode, resultIntent);
@@ -82,7 +81,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         startApp(packageName, null, onActivityNotFound);
     }
 
-    public void startApp(String packageName, CallbackSource<Intent> onIntentCreated, Callback onActivityNotFound) {
+    public void startApp(String packageName, Callback1<Intent> onIntentCreated, Callback onActivityNotFound) {
         PackageManager manager = SupAndroid.di.appContext().getPackageManager();
         Intent intent = manager.getLaunchIntentForPackage(packageName);
         if (intent == null) {
@@ -170,7 +169,7 @@ public class UtilsIntentImpl implements UtilsIntent {
     //  Intents result
     //
 
-    public void getGalleryImage(CallbackSource<Uri> onResult, Callback onError) {
+    public void getGalleryImage(Callback1<Uri> onResult, Callback onError) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         try {

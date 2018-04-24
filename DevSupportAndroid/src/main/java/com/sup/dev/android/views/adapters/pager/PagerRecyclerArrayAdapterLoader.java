@@ -4,9 +4,8 @@ import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.providers.ProviderArg;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
@@ -16,7 +15,7 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
 
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
 
-    private final CallbackPair<CallbackSource<X[]>, ArrayList<K>> loader;
+    private final Callback2<Callback1<X[]>, ArrayList<K>> loader;
     private final ProviderArg<X, K> mapper;
 
     private int startLoadOffset = 0;
@@ -28,11 +27,11 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
-    public PagerRecyclerArrayAdapterLoader(int layoutRes, CallbackPair<CallbackSource<X[]>, ArrayList<K>> loader, ProviderArg<X, K> mapper) {
+    public PagerRecyclerArrayAdapterLoader(int layoutRes, Callback2<Callback1<X[]>, ArrayList<K>> loader, ProviderArg<X, K> mapper) {
         this(layoutRes, null, loader, mapper);
     }
 
-    public PagerRecyclerArrayAdapterLoader(int layoutRes,  CallbackPair<V, K>  binder, CallbackPair<CallbackSource<X[]>, ArrayList<K>> loader, ProviderArg<X, K> mapper) {
+    public PagerRecyclerArrayAdapterLoader(int layoutRes, Callback2<V, K> binder, Callback2<Callback1<X[]>, ArrayList<K>> loader, ProviderArg<X, K> mapper) {
         super(layoutRes, binder);
         this.loader = loader;
         this.mapper = mapper;

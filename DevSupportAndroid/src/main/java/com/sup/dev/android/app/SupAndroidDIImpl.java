@@ -40,7 +40,7 @@ import com.sup.dev.android.utils.interfaces.UtilsText;
 import com.sup.dev.android.utils.interfaces.UtilsToast;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.app.SupJavaDIImpl;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.utils.implementations.UtilsThreadsImpl;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 
 public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
 
-    private final ArrayList<CallbackSource<MvpActivity>> mvpActivityCallbacks = new ArrayList<>();
+    private final ArrayList<Callback1<MvpActivity>> mvpActivityCallbacks = new ArrayList<>();
     private final Context appContext;
 
     private MvpActivity mvpActivity;
@@ -93,7 +93,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
         return null;
     }
 
-    public void mvpActivity(CallbackSource<MvpActivity> onActivity) {
+    public void mvpActivity(Callback1<MvpActivity> onActivity) {
         if (mvpActivity == null)
             mvpActivityCallbacks.add(onActivity);
         else
@@ -105,7 +105,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     }
 
     @Override
-    public boolean mvpActivityIsSubscribed(CallbackSource<MvpActivity> onActivity) {
+    public boolean mvpActivityIsSubscribed(Callback1<MvpActivity> onActivity) {
         return mvpActivityCallbacks.contains(onActivity);
     }
 

@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogProgressTransparent extends BaseDialog {
 
@@ -65,7 +65,7 @@ public class DialogProgressTransparent extends BaseDialog {
         return (DialogProgressTransparent) super.setCancelable(cancelable);
     }
 
-    public DialogProgressTransparent setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogProgressTransparent setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogProgressTransparent) super.setOnCancel(onCancel);
     }
 

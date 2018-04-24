@@ -10,9 +10,8 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogRadioButtons<K> extends BaseDialog {
 
@@ -90,7 +89,7 @@ public class DialogRadioButtons<K> extends BaseDialog {
         return (DialogRadioButtons<K>) super.setOnCancel(s);
     }
 
-    public DialogRadioButtons<K> setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogRadioButtons<K> setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogRadioButtons<K>) super.setOnCancel(onCancel);
     }
 
@@ -98,27 +97,27 @@ public class DialogRadioButtons<K> extends BaseDialog {
         return (DialogRadioButtons<K>) super.setOnCancel(s);
     }
 
-    public DialogRadioButtons<K> setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogRadioButtons<K> setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogRadioButtons<K>) super.setOnCancel(s, onCancel);
     }
 
-    public DialogRadioButtons<K> setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogRadioButtons<K> setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogRadioButtons<K>) super.setOnCancel(s, onCancel);
     }
 
     public DialogRadioButtons<K> setOnEnter(@StringRes int s) {
-        return setOnEnter(s, (CallbackPair<DialogRadioButtons<K>, K>) null);
+        return setOnEnter(s, (Callback2<DialogRadioButtons<K>, K>) null);
     }
 
     public DialogRadioButtons<K> setOnEnter(String s) {
-        return setOnEnter(s, (CallbackPair<DialogRadioButtons<K>, K>) null);
+        return setOnEnter(s, (Callback2<DialogRadioButtons<K>, K>) null);
     }
 
-    public DialogRadioButtons<K> setOnEnter(@StringRes int s, CallbackPair<DialogRadioButtons<K> , K> onEnter) {
+    public DialogRadioButtons<K> setOnEnter(@StringRes int s, Callback2<DialogRadioButtons<K> , K> onEnter) {
         return setOnEnter(utilsResources.getString(s), onEnter);
     }
 
-    public DialogRadioButtons<K> setOnEnter(String s, CallbackPair<DialogRadioButtons<K> , K> onEnter) {
+    public DialogRadioButtons<K> setOnEnter(String s, Callback2<DialogRadioButtons<K> , K> onEnter) {
         super.setOnEnter(s, d -> {
             if (onEnter != null) onEnter.callback(this, selectedKey);
         });

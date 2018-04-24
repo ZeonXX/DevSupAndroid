@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public interface UtilsFiles {
     //  Bitmap
     //
 
-    void saveImageInCameraFolder(Activity activity, Bitmap bitmap, CallbackSource<String> onResult, Callback onPermissionPermissionRestriction);
+    void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction);
 
 
     //

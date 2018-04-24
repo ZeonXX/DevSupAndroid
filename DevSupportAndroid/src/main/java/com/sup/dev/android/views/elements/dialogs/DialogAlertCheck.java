@@ -3,15 +3,12 @@ package com.sup.dev.android.views.elements.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsStorage;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogAlertCheck extends BaseDialog{
 
@@ -99,7 +96,7 @@ public class DialogAlertCheck extends BaseDialog{
         return (DialogAlertCheck)super.setOnCancel(s);
     }
 
-    public DialogAlertCheck setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogAlertCheck setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogAlertCheck)super.setOnCancel(onCancel);
     }
 
@@ -107,11 +104,11 @@ public class DialogAlertCheck extends BaseDialog{
         return (DialogAlertCheck)super.setOnCancel(s);
     }
 
-    public DialogAlertCheck setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogAlertCheck setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogAlertCheck)super.setOnCancel(s, onCancel);
     }
 
-    public DialogAlertCheck setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogAlertCheck setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogAlertCheck)super.setOnCancel(s, onCancel);
     }
 
@@ -123,11 +120,11 @@ public class DialogAlertCheck extends BaseDialog{
         return (DialogAlertCheck)super.setOnEnter(s);
     }
 
-    public DialogAlertCheck setOnEnter(@StringRes int s, CallbackSource<BaseDialog> onEnter) {
+    public DialogAlertCheck setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
         return (DialogAlertCheck)super.setOnEnter(s, onEnter);
     }
 
-    public DialogAlertCheck setOnEnter(String s, CallbackSource<BaseDialog> onEnter) {
+    public DialogAlertCheck setOnEnter(String s, Callback1<BaseDialog> onEnter) {
         super.setOnEnter(s, d->{
             utilsStorage.put(key, vCheck.isChecked());
             if (onEnter != null) onEnter.callback(this);

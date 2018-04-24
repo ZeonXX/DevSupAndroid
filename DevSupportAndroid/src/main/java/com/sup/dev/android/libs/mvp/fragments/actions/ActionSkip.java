@@ -2,7 +2,7 @@ package com.sup.dev.android.libs.mvp.fragments.actions;
 
 import android.support.annotation.NonNull;
 
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ActionSkip<K> extends MvpAction<K> {
 
-    public ActionSkip(@NonNull CallbackSource<K> commandExecutor) {
+    public ActionSkip(@NonNull Callback1<K> commandExecutor) {
         super(commandExecutor);
     }
 

@@ -4,13 +4,9 @@ package com.sup.dev.android.views.elements.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.view.View;
-import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogAlert extends BaseDialog{
 
@@ -65,11 +61,11 @@ public class DialogAlert extends BaseDialog{
         return (DialogAlert)super.setOnEnter(s);
     }
 
-    public DialogAlert setOnEnter(@StringRes int s, CallbackSource<BaseDialog> onEnter) {
+    public DialogAlert setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
         return (DialogAlert)super.setOnEnter(s, onEnter);
     }
 
-    public DialogAlert setOnEnter(String s, CallbackSource<BaseDialog> onEnter){
+    public DialogAlert setOnEnter(String s, Callback1<BaseDialog> onEnter){
         return (DialogAlert)super.setOnEnter(s, onEnter);
     }
 
@@ -81,7 +77,7 @@ public class DialogAlert extends BaseDialog{
         return (DialogAlert)super.setOnCancel(s);
     }
 
-    public DialogAlert setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogAlert setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogAlert)super.setOnCancel(onCancel);
     }
 
@@ -89,11 +85,11 @@ public class DialogAlert extends BaseDialog{
         return (DialogAlert)super.setOnCancel(s);
     }
 
-    public DialogAlert setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogAlert setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogAlert)super.setOnCancel(s, onCancel);
     }
 
-    public DialogAlert setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogAlert setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogAlert)super.setOnCancel(s, onCancel);
     }
 

@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class ViewDraw extends View {
 
-    private CallbackSource<Canvas> onDraw;
+    private Callback1<Canvas> onDraw;
 
     public ViewDraw(Context context) {
         this(context, null);
@@ -21,7 +21,7 @@ public class ViewDraw extends View {
         setWillNotDraw(false);
     }
 
-    public void setOnDraw(CallbackSource<Canvas> onDraw) {
+    public void setOnDraw(Callback1<Canvas> onDraw) {
         this.onDraw = onDraw;
         invalidate();
     }

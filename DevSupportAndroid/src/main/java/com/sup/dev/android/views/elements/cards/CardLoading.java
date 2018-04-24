@@ -8,8 +8,7 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class CardLoading extends Card {
 
@@ -23,10 +22,10 @@ public class CardLoading extends Card {
 
     private String actionMessage;
     private String actionButton;
-    private CallbackSource<CardLoading> onAction;
+    private Callback1<CardLoading> onAction;
     private String retryMessage;
     private String retryButton;
-    private CallbackSource<CardLoading> onRetry;
+    private Callback1<CardLoading> onRetry;
     private State state = State.LOADING;
 
     @Override
@@ -116,11 +115,11 @@ public class CardLoading extends Card {
         return this;
     }
 
-    public CardLoading setActionButton(@StringRes int text, CallbackSource<CardLoading> onAction) {
+    public CardLoading setActionButton(@StringRes int text, Callback1<CardLoading> onAction) {
         return setActionButton(utilsResources.getString(text), onAction);
     }
 
-    public CardLoading setActionButton(String text, CallbackSource<CardLoading> onAction) {
+    public CardLoading setActionButton(String text, Callback1<CardLoading> onAction) {
         actionButton = text;
         this.onAction = onAction;
         update();
@@ -137,11 +136,11 @@ public class CardLoading extends Card {
         return this;
     }
 
-    public CardLoading setRetryButton(@StringRes int text, CallbackSource<CardLoading> onRetry) {
+    public CardLoading setRetryButton(@StringRes int text, Callback1<CardLoading> onRetry) {
         return setRetryButton(utilsResources.getString(text), onRetry);
     }
 
-    public CardLoading setRetryButton(String text, CallbackSource<CardLoading> onRetry) {
+    public CardLoading setRetryButton(String text, Callback1<CardLoading> onRetry) {
         retryButton = text;
         this.onRetry = onRetry;
         update();

@@ -16,8 +16,8 @@ import com.sup.dev.android.libs.mvp.fragments.actions.ActionSkip;
 import com.sup.dev.android.libs.mvp.fragments.actions.MvpAction;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 import java.util.ArrayList;
@@ -105,14 +105,6 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     }
 
     //
-    //  Support Methods
-    //
-
-    public void showProgressDialog(CallbackSource<DialogProgressTransparent> onShow){
-        navigator.showProgressDialog(onShow);
-    }
-
-    //
     //  Actions
     //
 
@@ -148,35 +140,34 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     }
 
     //  Добавляет действие в конец списка
-    public void actionAdd(CallbackSource<K> executor) {
+    public void actionAdd(Callback1<K> executor) {
         action(new ActionAdd<>(executor));
     }
 
     //  Добавляет действие с тегом в конец списка
-    public void actionAdd(String tag, CallbackSource<K> executor) {
+    public void actionAdd(String tag, Callback1<K> executor) {
         action(new ActionAdd<>(tag, executor));
     }
 
     //  Удаляет все действия из списка и добавляет себя
-    public void actionSingle(CallbackSource<K> executor) {
+    public void actionSingle(Callback1<K> executor) {
         action(new ActionSingle<>(executor));
     }
 
     //  Удаляет все действия с такимже тегом и добавляет действие в список
-    public void actionSingle(String tag, CallbackSource<K> executor) {
+    public void actionSingle(String tag, Callback1<K> executor) {
         clearTag(tag);
         action(new ActionAdd<>(tag, executor));
     }
 
     //  Дабавляет действие в конец списка и удаляется после исполнения
-    public void actionSingleExecute(CallbackSource<K> executor) {
+    public void actionSingleExecute(Callback1<K> executor) {
         action(new ActionSingleExecute<>(executor));
     }
 
     //  Не добавляет в список. Выполняется только один раз и если view подключено к презентору, если нет, то пропускается
-    public void actionSkip(CallbackSource<K> executor) {
+    public void actionSkip(Callback1<K> executor) {
         action(new ActionSkip<>(executor));
     }
-
 
 }

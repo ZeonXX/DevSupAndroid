@@ -7,14 +7,11 @@ import android.os.Environment;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsFiles;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -146,7 +143,7 @@ public class UtilsFilesImpl implements UtilsFiles {
     //  Bitmap
     //
 
-    public void saveImageInCameraFolder(Activity activity, Bitmap bitmap, CallbackSource<String> onResult, Callback onPermissionPermissionRestriction) {
+    public void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             File file = createJpgFileInCameraFolder();
             writeBitmap(bitmap, file);

@@ -3,8 +3,7 @@ package com.sup.dev.android.views.adapters.pager;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerArrayAdapter;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,13 @@ import java.util.List;
 public class PagerRecyclerArrayAdapter<K, V extends View> extends PagerRecyclerAdapter<V> {
 
     protected final ArrayList<K> items = new ArrayList<>();
-    private final CallbackPair<V, K> binder;
+    private final Callback2<V, K> binder;
 
     public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes) {
         this(layoutRes, null);
     }
 
-    public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes, CallbackPair<V, K> binder) {
+    public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes, Callback2<V, K> binder) {
         super(layoutRes);
         this.binder = binder;
     }

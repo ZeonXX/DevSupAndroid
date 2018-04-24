@@ -16,7 +16,7 @@ import com.sup.dev.android.views.elements.cards.Card;
 import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.android.views.widgets.settings.SettingsAction;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.io.File;
 
@@ -33,8 +33,8 @@ public class DialogChooseFile extends BaseDialog {
     private boolean showFiles = true;
     private boolean canGoInFolder = true;
     private String[] fileTypes;
-    private CallbackSource<File> onFileSelected;
-    private CallbackSource<File> onFolderSelected;
+    private Callback1<File> onFileSelected;
+    private Callback1<File> onFolderSelected;
 
     public DialogChooseFile(Context viewContext) {
         super(viewContext, R.layout.dialog_choose_file);
@@ -99,13 +99,13 @@ public class DialogChooseFile extends BaseDialog {
         return this;
     }
 
-    public DialogChooseFile setOnFileSelected(CallbackSource<File> onFileSelected) {
+    public DialogChooseFile setOnFileSelected(Callback1<File> onFileSelected) {
         this.onFileSelected = onFileSelected;
         resetCards(currentFolder);
         return this;
     }
 
-    public DialogChooseFile setOnFolderSelected(CallbackSource<File> onFolderSelected) {
+    public DialogChooseFile setOnFolderSelected(Callback1<File> onFolderSelected) {
         this.onFolderSelected = onFolderSelected;
         resetCards(currentFolder);
         return this;

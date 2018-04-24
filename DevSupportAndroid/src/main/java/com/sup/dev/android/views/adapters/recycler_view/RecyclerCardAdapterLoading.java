@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.app.SupAndroid;
@@ -8,8 +7,8 @@ import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.elements.cards.Card;
 import com.sup.dev.android.views.elements.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.providers.ProviderArg;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
@@ -20,7 +19,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
-    private final CallbackPair<CallbackSource<V[]>, ArrayList<K>> loader;
+    private final Callback2<Callback1<V[]>, ArrayList<K>> loader;
     private ProviderArg<V, K> mapper;
     private final CardLoading cardLoading;
     private final Class<K> cardClass;
@@ -37,7 +36,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
-    public RecyclerCardAdapterLoading(Class<K> cardClass, CallbackPair<CallbackSource<V[]>, ArrayList<K>> loader, ProviderArg<V, K> mapper) {
+    public RecyclerCardAdapterLoading(Class<K> cardClass, Callback2<Callback1<V[]>, ArrayList<K>> loader, ProviderArg<V, K> mapper) {
         this.loader = loader;
         this.cardClass = cardClass;
         this.mapper = mapper;

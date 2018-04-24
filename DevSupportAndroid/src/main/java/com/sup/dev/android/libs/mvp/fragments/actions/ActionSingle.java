@@ -2,7 +2,7 @@ package com.sup.dev.android.libs.mvp.fragments.actions;
 
 import android.support.annotation.NonNull;
 
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ActionSingle<K> extends MvpAction<K> {
 
-    public ActionSingle(@NonNull CallbackSource<K> commandExecutor) {
+    public ActionSingle(@NonNull Callback1<K> commandExecutor) {
         super(commandExecutor);
     }
 

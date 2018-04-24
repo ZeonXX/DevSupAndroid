@@ -9,12 +9,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public interface UtilsIntent {
 
-    void startIntentForResult(Intent intent, CallbackPair<Integer, Intent> onResult);
+    void startIntentForResult(Intent intent, Callback2<Integer, Intent> onResult);
 
     void onActivityResult(int requestCode, int resultCode, Intent resultIntent);
 
@@ -30,7 +30,7 @@ public interface UtilsIntent {
 
     void startApp(String packageName, Callback onActivityNotFound);
 
-    void startApp(String packageName, CallbackSource<Intent> onIntentCreated, Callback onActivityNotFound);
+    void startApp(String packageName, Callback1<Intent> onIntentCreated, Callback onActivityNotFound);
 
     void startPlayMarket(String packageName, Callback onActivityNotFound);
 
@@ -54,7 +54,7 @@ public interface UtilsIntent {
     //  Intents result
     //
 
-    void getGalleryImage(CallbackSource<Uri> onResult, Callback onError);
+    void getGalleryImage(Callback1<Uri> onResult, Callback onError);
 
     //
     //  Services / Activities

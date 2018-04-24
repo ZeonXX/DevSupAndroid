@@ -4,8 +4,7 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogProgressWithTitle extends BaseDialog{
 
@@ -33,7 +32,7 @@ public class DialogProgressWithTitle extends BaseDialog{
         return (DialogProgressWithTitle)super.setCancelable(cancelable);
     }
 
-    public DialogProgressWithTitle setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogProgressWithTitle setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogProgressWithTitle)super.setOnCancel(onCancel);
     }
 

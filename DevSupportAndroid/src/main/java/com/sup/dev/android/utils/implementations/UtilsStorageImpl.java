@@ -9,7 +9,7 @@ import android.support.annotation.MainThread;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsStorage;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.json.Json;
 import com.sup.dev.java.libs.json.JsonArray;
 
@@ -171,7 +171,7 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Files
     //
 
-    public void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
@@ -186,7 +186,7 @@ public class UtilsStorageImpl implements UtilsStorage {
         }, onPermissionPermissionRestriction);
     }
 
-    public void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, CallbackSource<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex);

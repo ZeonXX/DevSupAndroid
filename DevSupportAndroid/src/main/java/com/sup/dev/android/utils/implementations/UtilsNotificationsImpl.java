@@ -14,7 +14,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsNotifications;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -26,7 +26,7 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
         this(channelName, null);
     }
 
-    public UtilsNotificationsImpl(String channelName, CallbackSource<NotificationChannel> onSetUp) {
+    public UtilsNotificationsImpl(String channelName, Callback1<NotificationChannel> onSetUp) {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager = (NotificationManager) SupAndroid.di.appContext().getSystemService(Context.NOTIFICATION_SERVICE);

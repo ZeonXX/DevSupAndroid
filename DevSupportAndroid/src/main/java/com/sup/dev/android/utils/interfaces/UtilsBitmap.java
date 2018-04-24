@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.io.IOException;
 
@@ -46,7 +46,7 @@ public interface UtilsBitmap {
 
     Bitmap decode(byte[] bytes, BitmapFactory.Options opts);
 
-    void getFromGallery(CallbackSource<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction);
+    void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction);
 
     Bitmap getFromDrawable(Drawable drawable);
 
@@ -54,9 +54,9 @@ public interface UtilsBitmap {
 
     Bitmap getFromURL(final String src) throws IOException;
 
-    void getFromURL(final String src, final CallbackSource<Bitmap> bitmapListener);
+    void getFromURL(final String src, final Callback1<Bitmap> bitmapListener);
 
-    void getFromUri(Activity activity, final Uri uri, final CallbackSource<Bitmap> callbackResult, Callback onPermissionPermissionRestriction);
+    void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction);
 
     //
     //  To

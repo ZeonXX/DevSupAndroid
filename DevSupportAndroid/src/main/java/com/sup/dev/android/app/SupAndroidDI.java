@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
-import com.sup.dev.android.libs.mvp.activity_navigation.MvpActivityNavigation;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsBitmap;
@@ -23,7 +22,7 @@ import com.sup.dev.android.utils.interfaces.UtilsText;
 import com.sup.dev.android.utils.interfaces.UtilsToast;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.app.SupJavaDI;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public interface SupAndroidDI extends SupJavaDI {
 
@@ -33,11 +32,11 @@ public interface SupAndroidDI extends SupJavaDI {
 
     String appName();
 
-    void mvpActivity(CallbackSource<MvpActivity> onActivity);
+    void mvpActivity(Callback1<MvpActivity> onActivity);
 
     MvpActivity mvpActivityNow();
 
-    boolean mvpActivityIsSubscribed(CallbackSource<MvpActivity> onActivity);
+    boolean mvpActivityIsSubscribed(Callback1<MvpActivity> onActivity);
 
     //
     //  Libs

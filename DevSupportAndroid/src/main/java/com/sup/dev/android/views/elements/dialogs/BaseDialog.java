@@ -18,9 +18,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class BaseDialog {
 
@@ -34,7 +32,7 @@ public class BaseDialog {
     protected final Button vCancel;
     protected final Button vEnter;
 
-    private CallbackSource<BaseDialog> onCancel;
+    private Callback1<BaseDialog> onCancel;
     private boolean cancelable = true;
     private boolean enabled = true;
     private boolean autoHideOnCancel = true;
@@ -166,7 +164,7 @@ public class BaseDialog {
         return setOnCancel(s, null);
     }
 
-    protected BaseDialog setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    protected BaseDialog setOnCancel(Callback1<BaseDialog> onCancel) {
         return setOnCancel(null, onCancel);
     }
 
@@ -174,12 +172,12 @@ public class BaseDialog {
         return setOnCancel(utilsResources.getString(s), null);
     }
 
-    protected BaseDialog setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    protected BaseDialog setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return setOnCancel(utilsResources.getString(s), onCancel);
     }
 
 
-    protected BaseDialog setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    protected BaseDialog setOnCancel(String s, Callback1<BaseDialog> onCancel) {
 
         this.onCancel = onCancel;
 
@@ -203,11 +201,11 @@ public class BaseDialog {
         return setOnEnter(s, null);
     }
 
-    protected BaseDialog setOnEnter(@StringRes int s, CallbackSource<BaseDialog> onEnter) {
+    protected BaseDialog setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
         return setOnEnter(utilsResources.getString(s), onEnter);
     }
 
-    protected BaseDialog setOnEnter(String s, CallbackSource<BaseDialog> onEnter) {
+    protected BaseDialog setOnEnter(String s, Callback1<BaseDialog> onEnter) {
         vEnter.setText(s);
         vEnter.setVisibility(View.VISIBLE);
         vEnter.setOnClickListener(v -> {

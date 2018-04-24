@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -24,9 +23,8 @@ import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class ViewChip extends FrameLayout {
 
@@ -52,7 +50,7 @@ public class ViewChip extends FrameLayout {
 
     private boolean isChipSelected = true;
 
-    public CallbackSource<Boolean> onActiveChange;
+    public Callback1<Boolean> onActiveChange;
 
     public ViewChip(@NonNull Context context) {
         this(context, null);
@@ -249,7 +247,7 @@ public class ViewChip extends FrameLayout {
         this.canUnselect = canUnselect;
     }
 
-    public void setOnActiveChange(CallbackSource<Boolean> onActiveChange) {
+    public void setOnActiveChange(Callback1<Boolean> onActiveChange) {
         this.onActiveChange = onActiveChange;
     }
 
@@ -304,11 +302,11 @@ public class ViewChip extends FrameLayout {
     //  Static instance
     //
 
-    public static ViewChip[] instanceSelectionRadio(Context viewContext, String[] texts, CallbackSource<String> onSelected) {
+    public static ViewChip[] instanceSelectionRadio(Context viewContext, String[] texts, Callback1<String> onSelected) {
         return instanceSelectionRadio(viewContext, texts, texts, onSelected);
     }
 
-    public static <K> ViewChip[] instanceSelectionRadio(Context viewContext, String[] texts, K[] tags, CallbackSource<K> onSelected) {
+    public static <K> ViewChip[] instanceSelectionRadio(Context viewContext, String[] texts, K[] tags, Callback1<K> onSelected) {
 
         if (texts.length != tags.length)
             throw new IllegalArgumentException("Texts and Tags lengths must be equals");
@@ -326,11 +324,11 @@ public class ViewChip extends FrameLayout {
         return views;
     }
 
-    public static <K> ViewChip instanceSelection(Context viewContext, String text, K tag, CallbackPair<Boolean, K> onSelectionChanged) {
+    public static <K> ViewChip instanceSelection(Context viewContext, String text, K tag, Callback2<Boolean, K> onSelectionChanged) {
         return instanceSelection(viewContext, text, b -> onSelectionChanged.callback(b, tag));
     }
 
-    public static ViewChip instanceSelection(Context viewContext, String text, CallbackSource<Boolean> onSelectionChanged) {
+    public static ViewChip instanceSelection(Context viewContext, String text, Callback1<Boolean> onSelectionChanged) {
         ViewChip v = new ViewChip(viewContext);
         v.setSelectionMode(true);
         v.setText(text);

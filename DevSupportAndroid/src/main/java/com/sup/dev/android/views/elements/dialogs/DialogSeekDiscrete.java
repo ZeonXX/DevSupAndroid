@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.providers.ProviderArg;
 
 public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarChangeListener {
@@ -115,7 +115,7 @@ public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarC
         return (DialogSeekDiscrete) super.setOnCancel(s);
     }
 
-    public DialogSeekDiscrete setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogSeekDiscrete setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogSeekDiscrete) super.setOnCancel(onCancel);
     }
 
@@ -123,27 +123,27 @@ public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarC
         return (DialogSeekDiscrete) super.setOnCancel(s);
     }
 
-    public DialogSeekDiscrete setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogSeekDiscrete setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogSeekDiscrete) super.setOnCancel(s, onCancel);
     }
 
-    public DialogSeekDiscrete setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogSeekDiscrete setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogSeekDiscrete) super.setOnCancel(s, onCancel);
     }
 
     public DialogSeekDiscrete setOnEnter(@StringRes int s) {
-        return setOnEnter(s, (CallbackPair<DialogSeekDiscrete, Integer>) null);
+        return setOnEnter(s, (Callback2<DialogSeekDiscrete, Integer>) null);
     }
 
     public DialogSeekDiscrete setOnEnter(String s) {
-        return setOnEnter(s, (CallbackPair<DialogSeekDiscrete, Integer>) null);
+        return setOnEnter(s, (Callback2<DialogSeekDiscrete, Integer>) null);
     }
 
-    public DialogSeekDiscrete setOnEnter(@StringRes int s, CallbackPair<DialogSeekDiscrete, Integer> onEnter) {
+    public DialogSeekDiscrete setOnEnter(@StringRes int s, Callback2<DialogSeekDiscrete, Integer> onEnter) {
         return setOnEnter(utilsResources.getString(s), onEnter);
     }
 
-    public DialogSeekDiscrete setOnEnter(String s, CallbackPair<DialogSeekDiscrete, Integer> onEnter) {
+    public DialogSeekDiscrete setOnEnter(String s, Callback2<DialogSeekDiscrete, Integer> onEnter) {
         super.setOnEnter(s, d -> {
             if (onEnter != null) onEnter.callback(this, vSeekBar.getProgress());
         });

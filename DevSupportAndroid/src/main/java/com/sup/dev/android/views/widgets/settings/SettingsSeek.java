@@ -16,8 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeListener {
 
@@ -26,7 +25,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
     private final TextView vSubtitle;
     private final SeekBar vSeekBar;
 
-    private CallbackSource<Integer> onProgressChanged;
+    private Callback1<Integer> onProgressChanged;
 
     public SettingsSeek(@NonNull Context context) {
         this(context, null);
@@ -130,7 +129,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         vSubtitle.setEnabled(enabled);
     }
 
-    public void setOnProgressChanged(CallbackSource<Integer> onProgressChanged) {
+    public void setOnProgressChanged(Callback1<Integer> onProgressChanged) {
         this.onProgressChanged = onProgressChanged;
     }
 

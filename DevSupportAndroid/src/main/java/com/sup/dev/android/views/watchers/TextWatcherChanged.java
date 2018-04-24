@@ -1,12 +1,12 @@
 package com.sup.dev.android.views.watchers;
 
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class TextWatcherChanged extends BaseTextWatcher{
 
-    private final CallbackSource<String> callback;
+    private final Callback1<String> callback;
 
-    public TextWatcherChanged(CallbackSource<String> callback) {
+    public TextWatcherChanged(Callback1<String> callback) {
         this.callback = callback;
     }
 

@@ -3,7 +3,6 @@ package com.sup.dev.android.views.elements.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -13,9 +12,9 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
-import com.sup.dev.java.classes.callbacks.simple.CallbackPair;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.classes.items.Pair;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.classes.providers.ProviderArg;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class DialogInputText extends BaseDialog {
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
-    private ArrayList<Pair<String, ProviderArg<String, Boolean>>> checkers = new ArrayList<>();
+    private ArrayList<Item2<String, ProviderArg<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
     private int min;
 
@@ -58,7 +57,7 @@ public class DialogInputText extends BaseDialog {
 
         String error = null;
 
-        for (Pair<String, ProviderArg<String, Boolean>> pair : checkers)
+        for (Item2<String, ProviderArg<String, Boolean>> pair : checkers)
             if (!pair.right.provide(text)) {
                 error = pair.left;
                 break;
@@ -123,7 +122,7 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText addChecker(String errorText, ProviderArg<String, Boolean> checker) {
-        checkers.add(new Pair<>(errorText, checker));
+        checkers.add(new Item2<>(errorText, checker));
         onTextChanged(vField.getText().toString());
         return this;
     }
@@ -163,7 +162,7 @@ public class DialogInputText extends BaseDialog {
         return (DialogInputText) super.setOnCancel(s);
     }
 
-    public DialogInputText setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogInputText setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogInputText) super.setOnCancel(onCancel);
     }
 
@@ -171,11 +170,11 @@ public class DialogInputText extends BaseDialog {
         return (DialogInputText) super.setOnCancel(s);
     }
 
-    public DialogInputText setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogInputText setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogInputText) super.setOnCancel(s, onCancel);
     }
 
-    public DialogInputText setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogInputText setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogInputText) super.setOnCancel(s, onCancel);
     }
 
@@ -184,14 +183,14 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText setOnEnter(String s) {
-        return setOnEnter(s, (CallbackPair<DialogInputText, String>) null);
+        return setOnEnter(s, (Callback2<DialogInputText, String>) null);
     }
 
-    public DialogInputText setOnEnter(@StringRes int s, CallbackPair<DialogInputText, String> onEnter) {
+    public DialogInputText setOnEnter(@StringRes int s, Callback2<DialogInputText, String> onEnter) {
         return setOnEnter(utilsResources.getString(s), onEnter);
     }
 
-    public DialogInputText setOnEnter(String s, CallbackPair<DialogInputText, String> onEnter) {
+    public DialogInputText setOnEnter(String s, Callback2<DialogInputText, String> onEnter) {
         super.setOnEnter(s, d -> {
             if (onEnter != null) onEnter.callback(this, vField.getText().toString());
         });

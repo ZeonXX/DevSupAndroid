@@ -8,9 +8,7 @@ import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.elements.cards.CardDivider;
 import com.sup.dev.android.views.elements.cards.CardMenu;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogMenu<K> extends DialogRecycler {
 
@@ -18,7 +16,7 @@ public class DialogMenu<K> extends DialogRecycler {
     private final RecyclerCardAdapter adapter;
 
     private int prefCount = 0;
-    private CallbackSource<K> onSelected;
+    private Callback1<K> onSelected;
 
     public DialogMenu(Context viewContext) {
         super(viewContext);
@@ -78,7 +76,7 @@ public class DialogMenu<K> extends DialogRecycler {
         return this;
     }
 
-    public DialogMenu<K> setOnSelected(CallbackSource<K> onSelected) {
+    public DialogMenu<K> setOnSelected(Callback1<K> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
@@ -113,7 +111,7 @@ public class DialogMenu<K> extends DialogRecycler {
         return (DialogMenu<K>)super.setOnCancel(s);
     }
 
-    public DialogMenu<K> setOnCancel(CallbackSource<BaseDialog> onCancel) {
+    public DialogMenu<K> setOnCancel(Callback1<BaseDialog> onCancel) {
         return (DialogMenu<K>)super.setOnCancel(onCancel);
     }
 
@@ -121,11 +119,11 @@ public class DialogMenu<K> extends DialogRecycler {
         return (DialogMenu<K>)super.setOnCancel(s);
     }
 
-    public DialogMenu<K> setOnCancel(@StringRes int s, CallbackSource<BaseDialog> onCancel) {
+    public DialogMenu<K> setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
         return (DialogMenu<K>)super.setOnCancel(s, onCancel);
     }
 
-    public DialogMenu<K> setOnCancel(String s, CallbackSource<BaseDialog> onCancel) {
+    public DialogMenu<K> setOnCancel(String s, Callback1<BaseDialog> onCancel) {
         return (DialogMenu<K>)super.setOnCancel(s, onCancel);
     }
 
@@ -143,11 +141,11 @@ public class DialogMenu<K> extends DialogRecycler {
         return (DialogMenu<K>)super.setOnEnter(s);
     }
 
-    public DialogMenu<K> setOnEnter(@StringRes int s, CallbackSource<BaseDialog> onEnter) {
+    public DialogMenu<K> setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
         return (DialogMenu<K>)super.setOnEnter(s, onEnter);
     }
 
-    public DialogMenu<K> setOnEnter(String s, CallbackSource<BaseDialog> onEnter) {
+    public DialogMenu<K> setOnEnter(String s, Callback1<BaseDialog> onEnter) {
         return (DialogMenu<K>)super.setOnEnter(s, onEnter);
     }
 

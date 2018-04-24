@@ -6,26 +6,26 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerArrayAdapter;
-import com.sup.dev.java.classes.callbacks.simple.CallbackSource;
-import com.sup.dev.java.classes.items.Pair;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.items.Item2;
 
-public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Pair<K, String>> {
+public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Item2<K, String>> {
 
-    private final CallbackSource<K> onSelected;
-    private CallbackSource<K> onLongClick;
+    private final Callback1<K> onSelected;
+    private Callback1<K> onLongClick;
 
-    public RecyclerMenuAdapter(CallbackSource<K> onSelected) {
+    public RecyclerMenuAdapter(Callback1<K> onSelected) {
         this(R.layout.row_text, onSelected);
     }
 
-    protected RecyclerMenuAdapter(@LayoutRes int layout, CallbackSource<K> onSelected) {
+    protected RecyclerMenuAdapter(@LayoutRes int layout, Callback1<K> onSelected) {
         super(layout);
         this.onSelected = onSelected;
     }
 
 
     @Override
-    protected void bind(View view, Pair<K, String> item) {
+    protected void bind(View view, Item2<K, String> item) {
         ((TextView) view.findViewById(R.id.text)).setText(item.right);
 
         view.findViewById(R.id.touch).setOnClickListener(v -> onSelected.callback(item.left));
@@ -49,15 +49,15 @@ public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Pair<K, String>
 
 
     public void addKey(K key, String mask) {
-        add(new Pair<>(key, mask));
+        add(new Item2<>(key, mask));
     }
 
     public void replaceKey(int index, K key) {
-        replace(index, new Pair<>(key, key.toString()));
+        replace(index, new Item2<>(key, key.toString()));
     }
 
     public void replaceKey(int index, K key, String mask) {
-        replace(index, new Pair<>(key, mask));
+        replace(index, new Item2<>(key, mask));
     }
 
     public void removeKey(K key) {
@@ -73,7 +73,7 @@ public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Pair<K, String>
         return -1;
     }
 
-    public void setOnLongClick(CallbackSource<K> onLongClick) {
+    public void setOnLongClick(Callback1<K> onLongClick) {
         this.onLongClick = onLongClick;
     }
 }
