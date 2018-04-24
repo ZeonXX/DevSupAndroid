@@ -1,12 +1,13 @@
 package com.sup.dev.android.views.widgets.popup;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.classes.callbacks.simple.Callback2;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     //  Methods
     //
 
-    public ViewPopupMenu<K> setOnSelected(Callback2<ViewPopupMenu, K> onSelected){
+    public ViewPopupMenu<K> setOnSelected(Callback2<ViewPopupMenu, K> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
@@ -47,8 +48,17 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
         return addItem((K) string, string);
     }
 
+    public ViewPopupMenu<K> addItem(@StringRes int mask, @DrawableRes int icon) {
+        String string = utilsResources.getString(mask);
+        return addItem((K) string, string, icon);
+    }
+
     public ViewPopupMenu<K> addItem(String mask) {
         return addItem((K) mask, mask);
+    }
+
+    public ViewPopupMenu<K> addItem(String mask, @DrawableRes int icon) {
+        return addItem((K) mask, mask, icon);
     }
 
     public ViewPopupMenu<K> addItem(K key, @StringRes int mask) {
@@ -56,8 +66,17 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     }
 
     public ViewPopupMenu<K> addItem(K key, String mask) {
+        return addItem(key, mask, 0);
+    }
+
+    public ViewPopupMenu<K> addItem(K key, @StringRes int mask, @DrawableRes int icon) {
+        return addItem(key, utilsResources.getString(mask), icon);
+    }
+
+    public ViewPopupMenu<K> addItem(K key, String mask, @DrawableRes int icon) {
         keys.add(key);
-        popupMenu.getMenu().add(0, keys.size() - 1, 0, mask);
+        MenuItem item = popupMenu.getMenu().add(0, keys.size() - 1, 0, mask);
+        if (icon != 0) item.setIcon(icon);
         return this;
     }
 
