@@ -34,6 +34,7 @@ public class SettingsActionCheckBox extends SettingsAction {
         vCheckBox = utilsView.inflate(context, R.layout.w_check_box);
         vCheckBox.setFocusable(false);
         vCheckBox.setOnCheckedChangeListener((v, b) -> {
+            setEnabledSubSettings(b);
             if (!salient) onClick();
         });
 
@@ -43,7 +44,7 @@ public class SettingsActionCheckBox extends SettingsAction {
         String subtitle = a.getString(R.styleable.SettingsActionCheckBox_SettingsActionCheckBox_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsActionCheckBox_SettingsActionCheckBox_icon, 0);
         boolean checked = a.getBoolean(R.styleable.SettingsActionCheckBox_SettingsActionCheckBox_checked, false);
-        int iconBackground = a.getResourceId(R.styleable.SettingsActionCheckBox_SettingsActionCheckBox_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsActionCheckBox_SettingsActionCheckBox_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);
@@ -101,6 +102,7 @@ public class SettingsActionCheckBox extends SettingsAction {
     }
 
     public void setChecked(boolean checked) {
+        salient = true;
         vCheckBox.setChecked(checked);
     }
 

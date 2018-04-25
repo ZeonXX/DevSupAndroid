@@ -6,13 +6,6 @@
     <attr name="iconsFilterInverse" format="color"/>
     <attr name="contentBackground" format="color"/>
 
-    <style name="DevSupTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:alertDialogTheme">@style/DevSupDialog</item>
-    </style>
-
-    <style name="DevSupDialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:windowBackground">@color/grey_800</item>
-    </style>
 
     <!-- Styles -->
 

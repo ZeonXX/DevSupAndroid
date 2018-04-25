@@ -25,6 +25,7 @@ import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewChip extends FrameLayout {
 
@@ -63,7 +64,7 @@ public class ViewChip extends FrameLayout {
         utilsView = SupAndroid.di.utilsView();
         utilsResources = SupAndroid.di.utilsResources();
         int focusColor = utilsResources.getColor(R.color.focus);
-        unselectedBackground =focusColor;
+        unselectedBackground = focusColor;
 
         setWillNotDraw(false);
         background = utilsResources.getAccentColor(context);
@@ -160,6 +161,7 @@ public class ViewChip extends FrameLayout {
         ((FrameLayout.LayoutParams) vTextView.getLayoutParams()).setMargins(hasIcon ? vIcon.getLayoutParams().width / 3 * 2 : 0, 0, 0, 0);
         vIcon.setVisibility(hasIcon ? VISIBLE : GONE);
         vTextView.setVisibility(vTextView.getText().length() == 0 ? GONE : VISIBLE);
+        setVisibility(vIcon.getVisibility() == VISIBLE || vTextView.getVisibility() == VISIBLE ? VISIBLE : GONE);
         requestLayout();
     }
 
@@ -218,11 +220,11 @@ public class ViewChip extends FrameLayout {
         vTextView.setPadding(size / 3, 0, size / 3, 0);
     }
 
-    public void setChipSelected(boolean b){
+    public void setChipSelected(boolean b) {
         setChipSelected(b, false);
     }
 
-    public void setChipSelectedAnimated(boolean b){
+    public void setChipSelectedAnimated(boolean b) {
         setChipSelected(b, true);
     }
 

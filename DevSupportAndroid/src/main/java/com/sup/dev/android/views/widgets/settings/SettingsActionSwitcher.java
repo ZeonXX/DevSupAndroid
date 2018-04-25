@@ -29,6 +29,7 @@ public class SettingsActionSwitcher extends SettingsAction {
         vSwitcher = new Switch(context);
         vSwitcher.setFocusable(false);
         vSwitcher.setOnCheckedChangeListener((v, b) -> {
+            setEnabledSubSettings(b);
             if (!salient) onClick();
         });
 
@@ -38,7 +39,7 @@ public class SettingsActionSwitcher extends SettingsAction {
         String subtitle = a.getString(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_icon, 0);
         boolean checked = a.getBoolean(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_checked, false);
-        int iconBackground = a.getResourceId(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);
@@ -96,6 +97,7 @@ public class SettingsActionSwitcher extends SettingsAction {
 
 
     public void setChecked(boolean checked) {
+        salient = true;
         vSwitcher.setChecked(checked);
     }
 

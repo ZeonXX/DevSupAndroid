@@ -2,26 +2,33 @@ package com.sup.dev.android.views.widgets.popup;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.widget.PopupMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-
 import java.util.ArrayList;
 
-public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnMenuItemClickListener {
+public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
 
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
-    private final android.support.v7.widget.PopupMenu popupMenu;
+    private final PopupMenu popupMenu;
     private final ArrayList<K> keys = new ArrayList<>();
+    private final View anchorView;
 
     private Callback2<ViewPopupMenu, K> onSelected;
 
     public ViewPopupMenu(View anchorView) {
-        popupMenu = new android.support.v7.widget.PopupMenu(anchorView.getContext(), anchorView);
+        this.anchorView = anchorView;
+        popupMenu = new PopupMenu(anchorView.getContext(), anchorView);
         popupMenu.setOnMenuItemClickListener(this);
+
+
     }
 
     //
@@ -34,7 +41,9 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
     }
 
     public ViewPopupMenu<K> show() {
-        popupMenu.show();
+        MenuPopupHelper menuHelper = new MenuPopupHelper(anchorView.getContext(), (MenuBuilder) popupMenu.getMenu(), anchorView);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
         return this;
     }
 
@@ -79,8 +88,10 @@ public class ViewPopupMenu<K> implements android.support.v7.widget.PopupMenu.OnM
 
     public ViewPopupMenu<K> addItem(K key, String mask, @DrawableRes int icon) {
         keys.add(key);
-        MenuItem item = popupMenu.getMenu().add(0, keys.size() - 1, 0, mask);
-        if (icon != 0) item.setIcon(icon);
+        MenuItem item = popupMenu.getMenu().add(Menu.NONE, keys.size() - 1, 0, mask);
+        if (icon != 0) {
+            item.setIcon(utilsResources.getDrawable(icon));
+        }
         return this;
     }
 

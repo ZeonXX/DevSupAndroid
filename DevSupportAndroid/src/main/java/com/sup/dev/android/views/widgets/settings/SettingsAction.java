@@ -40,7 +40,7 @@ public class SettingsAction extends Settings {
         String title = a.getString(R.styleable.SettingsAction_SettingsAction_title);
         String subtitle = a.getString(R.styleable.SettingsAction_SettingsAction_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon, 0);
-        int iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsAction_SettingsAction_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);

@@ -23,6 +23,12 @@ public class DialogChooseTime extends BaseDialog {
         vTimePicker.setIs24HourView(true);
     }
 
+    public DialogChooseTime setTime(int h, int m){
+        vTimePicker.setCurrentHour(h);
+        vTimePicker.setCurrentMinute(m);
+        return this;
+    }
+
     public DialogChooseTime setAutoHideOnCancel(boolean autoHideOnCancel) {
         return (DialogChooseTime) super.setAutoHideOnCancel(autoHideOnCancel);
     }

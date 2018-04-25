@@ -79,6 +79,7 @@ public abstract class Settings extends FrameLayout {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         view.setEnabled(enabled);
+        setEnabledSubSettings(enabled);
         if (subSettings != null)
             for (Settings settings : subSettings)
                 settings.setEnabled(subSettingsEnabled && isEnabled());
