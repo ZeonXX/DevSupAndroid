@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class DialogAlert extends BaseDialog{
 

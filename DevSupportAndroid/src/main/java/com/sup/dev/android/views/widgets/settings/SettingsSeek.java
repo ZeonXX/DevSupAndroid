@@ -16,11 +16,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeListener {
 
-    private final ImageView vIcon;
+    private final ViewIcon vIcon;
     private final TextView vTitle;
     private final TextView vSubtitle;
     private final SeekBar vSeekBar;
@@ -49,6 +50,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         int maxProgress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_maxProgress, 100);
         int progress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_progress, 70);
         int dpadStep = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_dpad_step, 1);
+        int iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0x01FF0000);
         a.recycle();
 
         vSeekBar.setOnSeekBarChangeListener(this);
@@ -61,6 +63,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         setProgress(progress);
         setDpadListener(this);
         setDpadStep(dpadStep);
+        setIconBackground(iconBackground);
     }
 
     //
@@ -111,6 +114,10 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         if (icon == 0) vIcon.setImageBitmap(null);
         else vIcon.setImageResource(icon);
         vIcon.setVisibility(icon == 0 ? View.GONE : View.VISIBLE);
+    }
+
+    public void setIconBackground(int color) {
+        vIcon.setIconBackgroundColor(color);
     }
 
     public void setMaxProgress(int max) {

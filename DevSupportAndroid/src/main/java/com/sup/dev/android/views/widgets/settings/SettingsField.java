@@ -18,11 +18,12 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
+import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.providers.Provider1;
 
 public class SettingsField extends Settings {
 
-    private final ImageView vIcon;
+    private final ViewIcon vIcon;
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final EditText vField;
     private final TextInputLayout vInputLayout;
@@ -50,6 +51,8 @@ public class SettingsField extends Settings {
         int inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.getInputType());
         int icon = a.getResourceId(R.styleable.SettingsField_SettingsField_icon, 0);
         int maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0);
+        int iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0x01FF0000);
+        setIconBackground(iconBackground);
         a.recycle();
 
         vField.addTextChangedListener(new TextWatcherChanged(s -> checkError()));
@@ -108,6 +111,10 @@ public class SettingsField extends Settings {
         if (icon == 0) vIcon.setImageBitmap(null);
         else vIcon.setImageResource(icon);
         vIcon.setVisibility(icon == 0 ? View.GONE : View.VISIBLE);
+    }
+
+    public void setIconBackground(int color) {
+        vIcon.setIconBackgroundColor(color);
     }
 
     public void setText(String text) {

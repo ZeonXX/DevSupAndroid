@@ -204,6 +204,7 @@
         <attr name="SettingsAction_title" format="string"/>
         <attr name="SettingsAction_subtitle" format="string"/>
         <attr name="SettingsAction_icon" format="reference"/>
+        <attr name="SettingsAction_icon_background" format="color"/>
     </declare-styleable>
 
 
@@ -212,6 +213,7 @@
         <attr name="SettingsActionArrow_title" format="string"/>
         <attr name="SettingsActionArrow_subtitle" format="string"/>
         <attr name="SettingsActionArrow_icon" format="reference"/>
+        <attr name="SettingsActionArrow_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsActionCheckBox">
@@ -220,6 +222,7 @@
         <attr name="SettingsActionCheckBox_subtitle" format="string"/>
         <attr name="SettingsActionCheckBox_icon" format="reference"/>
         <attr name="SettingsActionCheckBox_checked" format="boolean"/>
+        <attr name="SettingsActionCheckBox_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsActionSwitcher">
@@ -228,25 +231,28 @@
         <attr name="SettingsActionSwitcher_subtitle" format="string"/>
         <attr name="SettingsActionSwitcher_icon" format="reference"/>
         <attr name="SettingsActionSwitcher_checked" format="boolean"/>
+        <attr name="SettingsActionSwitcher_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsField">
         <attr name="android:inputType"/>
         <attr name="SettingsField_lineVisible" format="boolean"/>
-        <attr name="SettingsField_icon" format="reference"/>
         <attr name="SettingsField_hint" format="string"/>
         <attr name="SettingsField_text" format="string"/>
         <attr name="SettingsField_maxLength" format="integer"/>
+        <attr name="SettingsField_icon" format="reference"/>
+        <attr name="SettingsField_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsSeek">
         <attr name="SettingsSeek_lineVisible" format="boolean"/>
-        <attr name="SettingsSeek_icon" format="reference"/>
         <attr name="SettingsSeek_title" format="string"/>
         <attr name="SettingsSeek_subtitle" format="string"/>
         <attr name="SettingsSeek_maxProgress" format="integer"/>
         <attr name="SettingsSeek_progress" format="integer"/>
         <attr name="SettingsSeek_dpad_step" format="integer"/>
+        <attr name="SettingsSeek_icon" format="reference"/>
+        <attr name="SettingsSeek_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsTitle">

@@ -14,10 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.views.widgets.ViewIcon;
 
 public class SettingsAction extends Settings {
 
-    private final ImageView vIcon;
+    private final ViewIcon vIcon;
     private final TextView vTitle;
     private final TextView vSubtitle;
     private final ViewGroup vSubViewContainer;
@@ -39,12 +40,14 @@ public class SettingsAction extends Settings {
         String title = a.getString(R.styleable.SettingsAction_SettingsAction_title);
         String subtitle = a.getString(R.styleable.SettingsAction_SettingsAction_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon, 0);
+        int iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);
         setTitle(title);
         setSubtitle(subtitle);
         setIcon(icon);
+        setIconBackground(iconBackground);
     }
 
     public void setSubView(View view) {
@@ -79,6 +82,10 @@ public class SettingsAction extends Settings {
         if (icon == 0) vIcon.setImageBitmap(null);
         else vIcon.setImageResource(icon);
         vIcon.setVisibility(icon == 0 ? View.GONE : View.VISIBLE);
+    }
+
+    public void setIconBackground(int color) {
+        vIcon.setIconBackgroundColor(color);
     }
 
     @Override

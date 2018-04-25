@@ -33,6 +33,8 @@ public class SettingsActionArrow extends SettingsAction {
         String title = a.getString(R.styleable.SettingsActionArrow_SettingsActionArrow_title);
         String subtitle = a.getString(R.styleable.SettingsActionArrow_SettingsActionArrow_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsActionArrow_SettingsActionArrow_icon, 0);
+        int iconBackground = a.getResourceId(R.styleable.SettingsActionArrow_SettingsActionArrow_icon_background, 0x01FF0000);
+        setIconBackground(iconBackground);
         a.recycle();
 
         setLineVisible(lineVisible);
