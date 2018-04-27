@@ -19,6 +19,7 @@ import com.sup.dev.android.androiddevsup.BuildConfig;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.File;
 import java.util.List;
