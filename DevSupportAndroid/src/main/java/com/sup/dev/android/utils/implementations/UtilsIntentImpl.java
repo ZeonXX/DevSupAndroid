@@ -43,9 +43,9 @@ public class UtilsIntentImpl implements UtilsIntent {
 
     public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
         for (Item2<Integer, Callback2<Integer, Intent>> pair : progressIntents)
-            if (requestCode == pair.left) {
+            if (requestCode == pair.a1) {
                 progressIntents.remove(pair);
-                pair.right.callback(resultCode, resultIntent);
+                pair.a2.callback(resultCode, resultIntent);
                 return;
             }
 

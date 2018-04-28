@@ -26,21 +26,21 @@ public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Item2<K, String
 
     @Override
     protected void bind(View view, Item2<K, String> item) {
-        ((TextView) view.findViewById(R.id.text)).setText(item.right);
+        ((TextView) view.findViewById(R.id.text)).setText(item.a2);
 
-        view.findViewById(R.id.touch).setOnClickListener(v -> onSelected.callback(item.left));
+        view.findViewById(R.id.touch).setOnClickListener(v -> onSelected.callback(item.a1));
 
         view.findViewById(R.id.touch).setOnLongClickListener(v -> {
 
             if (onLongClick != null)
-                onLongClick.callback(item.left);
+                onLongClick.callback(item.a1);
 
             return onLongClick != null;
         });
     }
 
     public K getKey(int index){
-        return get(index).left;
+        return get(index).a1;
     }
 
     public void addKey(K key) {
@@ -62,13 +62,13 @@ public class RecyclerMenuAdapter<K> extends RecyclerArrayAdapter<Item2<K, String
 
     public void removeKey(K key) {
         for (int i = 0; i < getItemCount(); i++)
-            if (get(i).left == key)
+            if (get(i).a1 == key)
                 remove(get(i--));
     }
 
     public int indexOfKey(K key) {
         for (int i = 0; i < getItemCount(); i++)
-            if (get(i).left == key)
+            if (get(i).a1 == key)
                 return i;
         return -1;
     }

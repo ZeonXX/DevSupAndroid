@@ -58,8 +58,8 @@ public class DialogInputText extends BaseDialog {
         String error = null;
 
         for (Item2<String, Provider1<String, Boolean>> pair : checkers)
-            if (!pair.right.provide(text)) {
-                error = pair.left;
+            if (!pair.a2.provide(text)) {
+                error = pair.a1;
                 break;
             }
 

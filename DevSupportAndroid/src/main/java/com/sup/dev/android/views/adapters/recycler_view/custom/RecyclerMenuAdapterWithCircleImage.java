@@ -22,7 +22,7 @@ public class RecyclerMenuAdapterWithCircleImage<K> extends RecyclerMenuAdapter<K
     protected void bind(View view, Item2<K, String> item) {
         super.bind(view, item);
 
-        onLoadImage.callback(view.findViewById(R.id.image), item.left);
+        onLoadImage.callback(view.findViewById(R.id.image), item.a1);
     }
 
 }
