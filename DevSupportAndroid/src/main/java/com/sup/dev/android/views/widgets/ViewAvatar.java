@@ -83,7 +83,7 @@ public class ViewAvatar extends FrameLayout {
         });
     }
 
-    private void updateChipVisible() {
+    public void updateChipVisible() {
 
         if (!vChip.hasIcon() && vChip.getText().isEmpty())
             vChip.setVisibility(GONE);
@@ -109,6 +109,16 @@ public class ViewAvatar extends FrameLayout {
     //
     //  Setters
     //
+
+    public void setChipText(String t){
+        vChip.setText(t);
+        updateChipVisible();
+    }
+
+    public void setChipIcon(@DrawableRes int icon){
+        vChip.setIcon(icon);
+        updateChipVisible();
+    }
 
 
     @Override
