@@ -40,9 +40,9 @@ public interface UtilsIntent {
 
     void shareImage(Bitmap bitmap, String text, Callback onActivityNotFound);
 
-    void shareFile(Activity activity, String patch, Callback onActivityNotFound);
+    void shareFile(Activity activity, String patch, String providerKey, Callback onActivityNotFound);
 
-    void shareFile(Activity activity, String patch, String type, Callback onActivityNotFound);
+    void shareFile(Activity activity, String patch, String providerKey, String type, Callback onActivityNotFound);
 
     void shareFile(Activity activity, Uri uri, Callback onActivityNotFound);
 

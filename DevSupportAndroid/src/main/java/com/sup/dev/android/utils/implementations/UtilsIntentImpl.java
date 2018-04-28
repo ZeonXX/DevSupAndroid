@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Parcelable;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -132,14 +133,15 @@ public class UtilsIntentImpl implements UtilsIntent {
         startIntent(Intent.createChooser(shareIntent, null).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null);
     }
 
-    public void shareFile(Activity activity, String patch, Callback onActivityNotFound) {
-        shareFile(activity, Uri.parse("file://" + patch), onActivityNotFound);
+    public void shareFile(Activity activity, String patch, String providerKey, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(activity,  providerKey, new File(patch));
+        shareFile(activity, fileUti, onActivityNotFound);
     }
 
-    public void shareFile(Activity activity, String patch, String type, Callback onActivityNotFound) {
-        shareFile(activity, Uri.parse("file://" + patch), type, onActivityNotFound);
+    public void shareFile(Activity activity, String patch, String providerKey, String type, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(activity, providerKey, new File(patch));
+        shareFile(activity, fileUti, type, onActivityNotFound);
     }
-
     public void shareFile(Activity activity, Uri uri, Callback onActivityNotFound) {
         shareFile(activity, uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound);
     }
