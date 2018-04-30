@@ -4,6 +4,7 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.providers.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +12,14 @@ import java.util.List;
 public class PagerRecyclerArrayAdapter<K, V extends View> extends PagerRecyclerAdapter<V> {
 
     protected final ArrayList<K> items = new ArrayList<>();
-    private final Callback2<V, K> binder;
+    private Callback2<V, K> binder;
 
-    public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes) {
-        this(layoutRes, null);
+    public PagerRecyclerArrayAdapter() {
+        this(0);
     }
 
-    public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes, Callback2<V, K> binder) {
+    public PagerRecyclerArrayAdapter(@LayoutRes int layoutRes) {
         super(layoutRes);
-        this.binder = binder;
     }
 
     public final void bind(V view, int position) {
@@ -28,6 +28,16 @@ public class PagerRecyclerArrayAdapter<K, V extends View> extends PagerRecyclerA
 
     public void bind(V view, K item){
         if(binder != null)binder.callback(view,item);
+    }
+
+    public PagerRecyclerArrayAdapter<K,V> setBinder(Callback2<V, K> binder) {
+        this.binder = binder;
+        return this;
+    }
+
+    @Override
+    public PagerRecyclerArrayAdapter<K,V> setProviderView(Provider<V> providerView) {
+        return (PagerRecyclerArrayAdapter<K,V>)super.setProviderView(providerView);
     }
 
     //

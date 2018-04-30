@@ -3,8 +3,10 @@ package com.sup.dev.android.views.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -18,6 +20,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewAvatar extends FrameLayout {
 
@@ -27,9 +30,11 @@ public class ViewAvatar extends FrameLayout {
     private final Paint paint;
     private final AnimationFocus animationFocus;
 
-    private final ImageView vImage;
+    private final ViewCircleImage vImage;
     private final ViewChip vChip;
     private final ViewDraw vTouch;
+
+    private int roundBackgroundColor;
 
     public ViewAvatar(Context context) {
         this(context, null);
@@ -65,6 +70,7 @@ public class ViewAvatar extends FrameLayout {
         boolean iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false);
         float iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0);
         float chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, utilsView.dpToPx(24));
+        int roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000);
         a.recycle();
 
         animationFocus = new AnimationFocus(vTouch, focusColor);
@@ -79,8 +85,10 @@ public class ViewAvatar extends FrameLayout {
 
         vTouch.setOnDraw(canvas -> {
             paint.setColor(animationFocus.update());
-            canvas.drawCircle(vTouch.getWidth()/2, vTouch.getHeight()/2, vTouch.getHeight()/2, paint);
+            canvas.drawCircle(vTouch.getWidth() / 2, vTouch.getHeight() / 2, vTouch.getHeight() / 2, paint);
         });
+
+        setRoundBackgroundColor(roundBackgroundColor);
     }
 
     public void updateChipVisible() {
@@ -89,6 +97,13 @@ public class ViewAvatar extends FrameLayout {
             vChip.setVisibility(GONE);
         else
             vChip.setVisibility(VISIBLE);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        paint.setColor(roundBackgroundColor);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, Math.min(getWidth(), getHeight()) / 2, paint);
+        super.onDraw(canvas);
     }
 
     @Override
@@ -110,12 +125,23 @@ public class ViewAvatar extends FrameLayout {
     //  Setters
     //
 
-    public void setChipText(String t){
+
+    public void setRoundBackgroundColorResource(@ColorRes int roundBackgroundColorRes) {
+        setRoundBackgroundColor(utilsResources.getColor(roundBackgroundColorRes));
+    }
+
+    public void setRoundBackgroundColor(int roundBackgroundColor) {
+        this.roundBackgroundColor = roundBackgroundColor;
+        setWillNotDraw(roundBackgroundColor == 0x00000000);
+        invalidate();
+    }
+
+    public void setChipText(String t) {
         vChip.setText(t);
         updateChipVisible();
     }
 
-    public void setChipIcon(@DrawableRes int icon){
+    public void setChipIcon(@DrawableRes int icon) {
         vChip.setIcon(icon);
         updateChipVisible();
     }
@@ -124,7 +150,7 @@ public class ViewAvatar extends FrameLayout {
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
         vTouch.setOnClickListener(l);
-        vTouch.setClickable( l != null);
+        vTouch.setClickable(l != null);
     }
 
     @Override

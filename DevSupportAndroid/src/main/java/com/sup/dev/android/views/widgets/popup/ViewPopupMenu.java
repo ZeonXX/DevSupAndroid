@@ -21,6 +21,7 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     private final ArrayList<K> keys = new ArrayList<>();
     private final View anchorView;
 
+    private boolean hasIcon;
     private Callback2<ViewPopupMenu, K> onSelected;
 
     public ViewPopupMenu(View anchorView) {
@@ -41,9 +42,13 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     }
 
     public ViewPopupMenu<K> show() {
-        MenuPopupHelper menuHelper = new MenuPopupHelper(anchorView.getContext(), (MenuBuilder) popupMenu.getMenu(), anchorView);
-        menuHelper.setForceShowIcon(true);
-        menuHelper.show();
+        if(hasIcon) {
+            MenuPopupHelper menuHelper = new MenuPopupHelper(anchorView.getContext(), (MenuBuilder) popupMenu.getMenu(), anchorView);
+            menuHelper.setForceShowIcon(true);
+            menuHelper.show();
+        }else{
+            popupMenu.show();
+        }
         return this;
     }
 
@@ -90,6 +95,7 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
         keys.add(key);
         MenuItem item = popupMenu.getMenu().add(Menu.NONE, keys.size() - 1, 0, mask);
         if (icon != 0) {
+            hasIcon = true;
             item.setIcon(utilsResources.getDrawable(icon));
         }
         return this;

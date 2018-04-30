@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.java.classes.providers.Provider;
 
 public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter {
 
@@ -18,8 +19,15 @@ public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter 
     private final List<Holder<V>> cache = new ArrayList<>();
     private final int layoutRes;
 
+    private Provider<V> providerView;
+
     public PagerRecyclerAdapter(@LayoutRes int layoutRes) {
         this.layoutRes = layoutRes;
+    }
+
+    public PagerRecyclerAdapter<V> setProviderView(Provider<V> providerView) {
+        this.providerView = providerView;
+        return this;
     }
 
     //
@@ -56,7 +64,8 @@ public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter 
 
     //  Можно переопределить и передавать собственный View, не используя layoutRes
     protected V instanceView(ViewGroup parent) {
-        return (V) utilsView.inflate(parent,layoutRes);
+        if (layoutRes == 0) return providerView.provide();
+        return (V) utilsView.inflate(parent, layoutRes);
     }
 
     public abstract void bind(V view, int position);
@@ -83,11 +92,11 @@ public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter 
         return list;
     }
 
-    public V getViewIfVisible(int position){
+    public V getViewIfVisible(int position) {
 
         for (Holder<V> h : cache)
-           if(h.position == position)
-               return h.view;
+            if (h.position == position)
+                return h.view;
 
         return null;
     }

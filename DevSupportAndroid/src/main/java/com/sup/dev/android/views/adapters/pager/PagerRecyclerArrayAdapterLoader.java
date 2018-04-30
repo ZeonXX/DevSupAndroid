@@ -28,13 +28,14 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     private Callback onLoadedNotEmpty;
 
     public PagerRecyclerArrayAdapterLoader(int layoutRes, Callback2<Callback1<X[]>, ArrayList<K>> loader, Provider1<X, K> mapper) {
-        this(layoutRes, null, loader, mapper);
-    }
-
-    public PagerRecyclerArrayAdapterLoader(int layoutRes, Callback2<V, K> binder, Callback2<Callback1<X[]>, ArrayList<K>> loader, Provider1<X, K> mapper) {
-        super(layoutRes, binder);
+        super(layoutRes);
         this.loader = loader;
         this.mapper = mapper;
+    }
+
+    @Override
+    public PagerRecyclerArrayAdapterLoader<K, X, V> setBinder(Callback2<V, K> binder) {
+        return ( PagerRecyclerArrayAdapterLoader<K, X, V>)super.setBinder(binder);
     }
 
     @Override

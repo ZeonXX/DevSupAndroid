@@ -111,6 +111,7 @@
         <attr name="ViewAvatar_chipIcon" format="reference"/>
         <attr name="ViewAvatar_chipIconUseBackground" format="boolean"/>
         <attr name="ViewAvatar_chipIconPadding" format="dimension"/>
+        <attr name="ViewAvatar_avatarBackground" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ViewAvatarTitle">
