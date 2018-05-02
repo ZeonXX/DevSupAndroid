@@ -126,7 +126,7 @@ public class ViewAvatar extends FrameLayout {
     //
 
 
-    public void setRoundBackgroundColorResource(@ColorRes int roundBackgroundColorRes) {
+    public void setCircleBackgroundColorResource(@ColorRes int roundBackgroundColorRes) {
         setRoundBackgroundColor(utilsResources.getColor(roundBackgroundColorRes));
     }
 
@@ -183,7 +183,7 @@ public class ViewAvatar extends FrameLayout {
         return vChip.getText();
     }
 
-    public ImageView getImageView() {
+    public ViewCircleImage getImageView() {
         return vImage;
     }
 

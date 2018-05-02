@@ -67,11 +67,11 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
         notification(icon, title, body, new Intent(SupAndroid.di.appContext(), activityClass), false);
     }
 
-
     public void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(SupAndroid.di.appContext(), getDefChanelId());
         builder.setSmallIcon(icon);
+        builder.setLargeIcon(SupAndroid.di.utilsResources().getBitmap(icon));
         if (title != null) builder.setContentTitle(title);
         if (sound) builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         builder.setContentText(body);
