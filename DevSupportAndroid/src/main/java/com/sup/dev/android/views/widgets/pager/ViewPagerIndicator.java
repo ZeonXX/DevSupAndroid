@@ -1,12 +1,12 @@
 package com.sup.dev.android.views.widgets.pager;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.CallSuper;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -15,15 +15,14 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
-import com.sup.dev.java.libs.debug.Debug;
 
-public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.OnPageChangeListener {
+public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.OnPageChangeListener, ViewPager.OnAdapterChangeListener {
 
     private final UtilsView utilsView;
     private final UtilsResources utilsResources;
     protected final Paint paint;
 
-    private final int pagerId;
+    protected final int pagerId;
     protected int color;
     protected int colorSelected;
     protected float offset;
@@ -41,15 +40,17 @@ public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.
         utilsView = SupAndroid.di.utilsView();
         utilsResources = SupAndroid.di.utilsResources();
 
+        offset = utilsView.dpToPx(16);
+
         color = utilsResources.getAccentAlphaColor(context);
         colorSelected = utilsResources.getAccentColor(context);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator, 0, 0);
-        color = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_color, color);
-        colorSelected = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_colorSelected, colorSelected);
-        offset = a.getDimension(R.styleable.ViewPagerIndicator_ViewPagerIndicator_offset, utilsView.dpToPx(16));
-        pagerId = a.getResourceId(R.styleable.ViewPagerIndicator_ViewPagerIndicator_pager, 0);
-        a.recycle();
+       TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator, 0, 0);
+       color = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_color, color);
+       colorSelected = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_colorSelected, colorSelected);
+       offset = a.getDimension(R.styleable.ViewPagerIndicator_ViewPagerIndicator_offset, offset);
+       pagerId = a.getResourceId(R.styleable.ViewPagerIndicator_ViewPagerIndicator_pager, 0);
+       a.recycle();
 
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -62,16 +63,18 @@ public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if(pager == null && pagerId != 0) setPager(utilsView.findViewOnParents(this, pagerId));
-        super.onDraw(canvas);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @MainThread
-   public void setPager(ViewPager pager) {
-       this.pager = pager;
-       onChanged();
-   }
+    public void setPager(ViewPager pager) {
+        this.pager = pager;
+        pager.addOnPageChangeListener(this);
+        pager.addOnAdapterChangeListener(this);
+        onChanged();
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -95,4 +98,8 @@ public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.
 
     protected abstract void onChanged();
 
+    @Override
+    public void onAdapterChanged(@NonNull ViewPager viewPager, @Nullable PagerAdapter oldAdapter, @Nullable PagerAdapter newAdapter) {
+
+    }
 }

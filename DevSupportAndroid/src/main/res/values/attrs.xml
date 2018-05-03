@@ -17,8 +17,6 @@
         <attr name="ViewPagerIndicator_color"/>
         <attr name="ViewPagerIndicator_colorSelected"/>
         <attr name="ViewPagerIndicatorTitles_offset_left" format="dimension"/>
-        <attr name="ViewPagerIndicatorTitles_titleLayout" format="reference"/>
-        <attr name="ViewPagerIndicatorTitles_titleId" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="ViewIcon">

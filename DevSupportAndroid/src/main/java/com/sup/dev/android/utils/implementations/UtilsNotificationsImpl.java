@@ -1,50 +1,52 @@
 package com.sup.dev.android.utils.implementations;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsNotifications;
-import com.sup.dev.java.classes.callbacks.simple.Callback1;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class UtilsNotificationsImpl implements UtilsNotifications {
 
     public static final String CHANEL_ID_PREFIX = "notifications_id_";
+    public static final String CHANEL_ID_DEF = "_def";
+    public static final String CHANEL_ID_HIGH = "_high";
+    public static final String CHANEL_ID_SALIENT = "_salient";
+
+    private final NotificationManager notificationManager;
 
     public UtilsNotificationsImpl(String channelName) {
-        this(channelName, null);
-    }
+        notificationManager = (NotificationManager) SupAndroid.di.appContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-    public UtilsNotificationsImpl(String channelName, Callback1<NotificationChannel> onSetUp) {
+        if (notificationManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel defChannel = new NotificationChannel(getDefChanelId(), channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel highChannel = new NotificationChannel(getHighChanelId(), channelName, NotificationManager.IMPORTANCE_HIGH);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager = (NotificationManager) SupAndroid.di.appContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(getDefChanelId(), channelName, importance);
+            NotificationChannel salientChannel = new NotificationChannel(getSalientChanelId(), channelName, NotificationManager.IMPORTANCE_MIN);
+            salientChannel.setVibrationPattern(new long[]{0});
+            salientChannel.enableVibration(true);
+            salientChannel.setSound(null, null);
 
-            if (onSetUp == null) {
-                mChannel.enableLights(true);
-                mChannel.setLightColor(Color.RED);
-                mChannel.enableVibration(true);
-                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            } else {
-                onSetUp.callback(mChannel);
-            }
-
-            mNotificationManager.createNotificationChannel(mChannel);
+            notificationManager.createNotificationChannel(defChannel);
+            notificationManager.createNotificationChannel(highChannel);
+            notificationManager.createNotificationChannel(salientChannel);
         }
 
+    }
+
+    @Override
+    public NotificationManager getNotificationManager() {
+        return notificationManager;
     }
 
     //
@@ -59,6 +61,10 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
         notification(icon, null, body, activityClass);
     }
 
+    public void notification(@DrawableRes int icon, String body, Class<? extends Activity> activityClass, boolean hedsup) {
+        notification(icon, null, body, activityClass);
+    }
+
     public void notification(@DrawableRes int icon, String title, String body, Class<? extends Activity> activityClass) {
         notification(icon, title, body, activityClass, false);
     }
@@ -68,35 +74,42 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
     }
 
     public void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound) {
+        notification(icon, title, body, intent, sound, false);
+    }
+
+    public void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound, boolean hedsup) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(SupAndroid.di.appContext(), getDefChanelId());
         builder.setSmallIcon(icon);
-        builder.setLargeIcon(SupAndroid.di.utilsResources().getBitmap(icon));
+        builder.setAutoCancel(true);
+        builder.setWhen(System.currentTimeMillis());
         if (title != null) builder.setContentTitle(title);
         if (sound) builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         builder.setContentText(body);
-        builder.setAutoCancel(true);
+        if (hedsup && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) builder.setPriority(Notification.PRIORITY_HIGH);
+
 
         PendingIntent pendingIntent = PendingIntent.getActivity(SupAndroid.di.appContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 
-        NotificationManager mNotifyMgr = (NotificationManager) SupAndroid.di.appContext().getSystemService(NOTIFICATION_SERVICE);
-        if (mNotifyMgr != null) mNotifyMgr.notify(1, builder.build());
+        if (notificationManager != null) notificationManager.notify(1, builder.build());
 
-    }
-
-    public void hide() {
-        NotificationManager mNotificationManager = (NotificationManager) SupAndroid.di.appContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(1);
     }
 
     //
     //  Getters
     //
 
-    private String getDefChanelId() {
-        return CHANEL_ID_PREFIX + SupAndroid.di.appContext().getApplicationInfo().packageName;
+    public String getDefChanelId() {
+        return CHANEL_ID_PREFIX + SupAndroid.di.appContext().getApplicationInfo().packageName + CHANEL_ID_DEF;
     }
 
+    public String getHighChanelId() {
+        return CHANEL_ID_PREFIX + SupAndroid.di.appContext().getApplicationInfo().packageName + CHANEL_ID_HIGH;
+    }
 
+    public String getSalientChanelId() {
+        return CHANEL_ID_PREFIX + SupAndroid.di.appContext().getApplicationInfo().packageName + CHANEL_ID_SALIENT;
+    }
 }
+
