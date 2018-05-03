@@ -87,6 +87,11 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
 
     }
 
+    public void hide() {
+        NotificationManager mNotificationManager = (NotificationManager) SupAndroid.di.appContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(1);
+    }
+
     //
     //  Getters
     //
