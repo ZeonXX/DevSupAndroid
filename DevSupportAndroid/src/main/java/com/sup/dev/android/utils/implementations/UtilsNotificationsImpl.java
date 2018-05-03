@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
@@ -61,10 +60,6 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
         notification(icon, null, body, activityClass);
     }
 
-    public void notification(@DrawableRes int icon, String body, Class<? extends Activity> activityClass, boolean hedsup) {
-        notification(icon, null, body, activityClass);
-    }
-
     public void notification(@DrawableRes int icon, String title, String body, Class<? extends Activity> activityClass) {
         notification(icon, title, body, activityClass, false);
     }
@@ -74,19 +69,15 @@ public class UtilsNotificationsImpl implements UtilsNotifications {
     }
 
     public void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound) {
-        notification(icon, title, body, intent, sound, false);
-    }
 
-    public void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound, boolean hedsup) {
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(SupAndroid.di.appContext(), getDefChanelId());
-        builder.setSmallIcon(icon);
-        builder.setAutoCancel(true);
-        builder.setWhen(System.currentTimeMillis());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(SupAndroid.di.appContext(), getDefChanelId())
+                .setSmallIcon(icon)
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
+                .setContentText(body);
         if (title != null) builder.setContentTitle(title);
         if (sound) builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        builder.setContentText(body);
-        if (hedsup && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) builder.setPriority(Notification.PRIORITY_HIGH);
 
 
         PendingIntent pendingIntent = PendingIntent.getActivity(SupAndroid.di.appContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

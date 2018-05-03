@@ -14,15 +14,11 @@ public interface UtilsNotifications {
 
     void notification(@DrawableRes int icon, String body, Class<? extends Activity> activityClass);
 
-    void notification(@DrawableRes int icon, String body, Class<? extends Activity> activityClass, boolean hedsup);
-
     void notification(@DrawableRes int icon, String title, String body, Class<? extends Activity> activityClass);
 
     void notification(@DrawableRes int icon, String title, String body, Class<? extends Activity> activityClass, boolean sound);
 
     void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound);
-
-    void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound, boolean hedsup);
 
     //
     //  Getters
