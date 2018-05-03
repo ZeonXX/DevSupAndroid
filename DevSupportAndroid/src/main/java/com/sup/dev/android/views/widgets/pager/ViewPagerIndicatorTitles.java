@@ -13,14 +13,16 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
 
     private final UtilsView utilsView;
+    private final UtilsResources utilsResources;
 
-    private int offsetLeft = 0;
+    private int offsetLeft;
 
     private String[] titles;
     private TextView[] views;
@@ -32,6 +34,7 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
 
         SupAndroid.initEditMode(this);
         utilsView = SupAndroid.di.utilsView();
+        utilsResources = SupAndroid.di.utilsResources();
 
        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicatorTitles, 0, 0);
        offsetLeft = (int) a.getDimension(R.styleable.ViewPagerIndicatorTitles_ViewPagerIndicatorTitles_offset_left, offsetLeft);
@@ -40,6 +43,12 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
 
     public void setTitles(String... titles) {
         this.titles = titles;
+    }
+
+    public void setTitles(int... titles) {
+        this.titles = new String[titles.length];
+        for(int i=0;i<titles.length;i++)
+            this.titles[i] = utilsResources.getString(titles[i]);
     }
 
     @Override

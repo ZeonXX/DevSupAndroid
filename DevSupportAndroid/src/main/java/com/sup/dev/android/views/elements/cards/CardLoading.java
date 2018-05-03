@@ -56,7 +56,7 @@ public class CardLoading extends Card {
         if (state == State.RETRY) {
             vLoading.setVisibility(View.INVISIBLE);
             vText.setVisibility(View.VISIBLE);
-            vAction.setVisibility(View.VISIBLE);
+            vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.INVISIBLE : View.VISIBLE);
             vText.setText(retryMessage);
             vAction.setText(retryButton);
             vAction.setOnClickListener(v -> {
@@ -67,7 +67,7 @@ public class CardLoading extends Card {
         if (state == State.ACTION) {
             vLoading.setVisibility(View.INVISIBLE);
             vText.setVisibility(View.VISIBLE);
-            vAction.setVisibility(View.VISIBLE);
+            vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.INVISIBLE : View.VISIBLE);
             vText.setText(actionMessage);
             vAction.setText(actionButton);
             vAction.setOnClickListener(v -> {
