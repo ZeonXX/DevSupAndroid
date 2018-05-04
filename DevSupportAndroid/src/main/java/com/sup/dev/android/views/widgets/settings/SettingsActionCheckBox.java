@@ -104,6 +104,7 @@ public class SettingsActionCheckBox extends SettingsAction {
     public void setChecked(boolean checked) {
         salient = true;
         vCheckBox.setChecked(checked);
+        salient = false;
     }
 
     @Override

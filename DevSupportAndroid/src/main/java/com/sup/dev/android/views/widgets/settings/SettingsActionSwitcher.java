@@ -99,6 +99,7 @@ public class SettingsActionSwitcher extends SettingsAction {
     public void setChecked(boolean checked) {
         salient = true;
         vSwitcher.setChecked(checked);
+        salient = false;
     }
 
     @Override

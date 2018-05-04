@@ -12,6 +12,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -80,7 +81,7 @@ public class ViewChip extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewChip, 0, 0);
         String text = a.getString(R.styleable.ViewChip_android_text);
-        background = a.getColor(R.styleable.ViewChip_android_background, background);
+        background = a.getColor(R.styleable.ViewChip_ViewChip_background, background);
         selectionMode = a.getBoolean(R.styleable.ViewChip_ViewChip_selectionMode, selectionMode);
         canSelect = a.getBoolean(R.styleable.ViewChip_ViewChip_canSelect, canSelect);
         canUnselect = a.getBoolean(R.styleable.ViewChip_ViewChip_canUnselect, canUnselect);
@@ -235,6 +236,11 @@ public class ViewChip extends FrameLayout {
         else animationBackground.set(isChipSelected ? background : unselectedBackground);
         animationFocus.setClickAnimationEnabled(!b);
         invalidate();
+    }
+
+    public void setText(@StringRes int text) {
+        vTextView.setText(text);
+        update();
     }
 
     public void setText(String text) {

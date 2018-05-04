@@ -38,15 +38,15 @@ public interface UtilsIntent {
 
     void startPhone(String phone, Callback onActivityNotFound);
 
-    void shareImage(Bitmap bitmap, String text, Callback onActivityNotFound);
+    void shareImage(Bitmap bitmap, String text,  String providerKey,Callback onActivityNotFound);
 
-    void shareFile(Activity activity, String patch, String providerKey, Callback onActivityNotFound);
+    void shareFile(String patch, String providerKey, Callback onActivityNotFound);
 
-    void shareFile(Activity activity, String patch, String providerKey, String type, Callback onActivityNotFound);
+    void shareFile(String patch, String providerKey, String type, Callback onActivityNotFound);
 
-    void shareFile(Activity activity, Uri uri, Callback onActivityNotFound);
+    void shareFile(Uri uri, Callback onActivityNotFound);
 
-    void shareFile(Activity activity, Uri uri, String type, Callback onActivityNotFound);
+    void shareFile(Uri uri, String type, Callback onActivityNotFound);
 
     void shareText(String title, String text, Callback onActivityNotFound);
 

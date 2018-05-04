@@ -109,8 +109,7 @@ public class UtilsIntentImpl implements UtilsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void shareImage(Bitmap bitmap, String text, Callback onActivityNotFound) {
-        Intent shareIntent;
+    public void shareImage(Bitmap bitmap, String text,  String providerKey,Callback onActivityNotFound) {
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + "img.png";
 
         OutputStream out;
@@ -124,40 +123,36 @@ public class UtilsIntentImpl implements UtilsIntent {
             Debug.log(e);
         }
         path = file.getPath();
-        Uri bmpUri = Uri.parse("file://" + path);
-        shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-        shareIntent.setType("image/*");
-        startIntent(Intent.createChooser(shareIntent, null).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null);
+        shareFile(path, providerKey, onActivityNotFound);
     }
 
-    public void shareFile(Activity activity, String patch, String providerKey, Callback onActivityNotFound) {
-        Uri fileUti = FileProvider.getUriForFile(activity,  providerKey, new File(patch));
-        shareFile(activity, fileUti, onActivityNotFound);
+    public void shareFile(String patch, String providerKey, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
+        shareFile(fileUti, onActivityNotFound);
     }
 
-    public void shareFile(Activity activity, String patch, String providerKey, String type, Callback onActivityNotFound) {
-        Uri fileUti = FileProvider.getUriForFile(activity, providerKey, new File(patch));
-        shareFile(activity, fileUti, type, onActivityNotFound);
+    public void shareFile(String patch, String providerKey, String type, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
+        shareFile(fileUti, type, onActivityNotFound);
     }
 
-    public void shareFile(Activity activity, Uri uri, Callback onActivityNotFound) {
-        shareFile(activity, uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound);
+    public void shareFile(Uri uri, Callback onActivityNotFound) {
+        shareFile(uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound);
     }
 
-    public void shareFile(Activity activity, Uri uri, String type, Callback onActivityNotFound) {
-        try {
-            activity.startActivity(Intent.createChooser(new Intent()
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .setAction(Intent.ACTION_SEND)
-                    .putExtra(Intent.EXTRA_STREAM, uri)
-                    .setType(type), null));
-        } catch (ActivityNotFoundException ex) {
-            Debug.log(ex);
-            if (onActivityNotFound != null) onActivityNotFound.callback();
-        }
+    public void shareFile(Uri uri, String type, Callback onActivityNotFound) {
+        SupAndroid.di.mvpActivity(activity -> {
+            try {
+                ((Activity)activity).startActivity(Intent.createChooser(new Intent()
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .setAction(Intent.ACTION_SEND)
+                        .putExtra(Intent.EXTRA_STREAM, uri)
+                        .setType(type), null));
+            } catch (ActivityNotFoundException ex) {
+                Debug.log(ex);
+                if (onActivityNotFound != null) onActivityNotFound.callback();
+            }
+        });
     }
 
     public void shareText(String title, String text, Callback onActivityNotFound) {
