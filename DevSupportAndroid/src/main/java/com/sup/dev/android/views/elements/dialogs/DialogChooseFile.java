@@ -131,14 +131,17 @@ public class DialogChooseFile extends BaseDialog {
         if (showFiles && onFileSelected != null) for (File f : files) if (!f.isDirectory() && checkType(f)) adapter.add(new CardFile(f));
     }
 
+
     private boolean checkType(File f) {
         if (fileTypes == null) return true;
         for (String type : fileTypes) {
-            String[] split = f.getName().split(".");
-            if (type.toLowerCase().equals(split[split.length - 1].toLowerCase())) return true;
+            String name = f.getName().toLowerCase();
+            String t = type+".";
+            if (name.length() > -t.length() && name.substring(name.length() - t.length()).equals(t)) return true;
         }
         return false;
     }
+
 
     //
     //  Card

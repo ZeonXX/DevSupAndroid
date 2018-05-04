@@ -142,6 +142,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         Uri fileUti = FileProvider.getUriForFile(activity, providerKey, new File(patch));
         shareFile(activity, fileUti, type, onActivityNotFound);
     }
+
     public void shareFile(Activity activity, Uri uri, Callback onActivityNotFound) {
         shareFile(activity, uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound);
     }
