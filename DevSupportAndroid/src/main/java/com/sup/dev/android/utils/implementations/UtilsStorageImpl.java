@@ -187,9 +187,15 @@ public class UtilsStorageImpl implements UtilsStorage {
     }
 
     public void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+        saveFile(activity, new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
+                bytes, onComplete, onPermissionPermissionRestriction);
+    }
+
+    @Override
+    public void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
-            final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex);
+            final File f = new File(patch);
+            f.mkdirs();
             try {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);
@@ -200,6 +206,4 @@ public class UtilsStorageImpl implements UtilsStorage {
             }
         }, onPermissionPermissionRestriction);
     }
-
-
 }

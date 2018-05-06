@@ -218,7 +218,7 @@ public class ViewChip extends FrameLayout {
         vIcon.getLayoutParams().width = size;
         vIcon.getLayoutParams().height = size;
         vTextView.getLayoutParams().height = size;
-        vTextView.setTextSize(size/7);
+        vTextView.setTextSize(dp/2.5f);
         vTextView.setPadding(size / 3, 0, size / 3, 0);
     }
 

@@ -83,4 +83,5 @@ public interface UtilsStorage {
 
     void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction);
 
+    void saveFile(Activity activity, String patch, byte[] bytes,  Callback1<File> onComplete, Callback onPermissionPermissionRestriction);
 }

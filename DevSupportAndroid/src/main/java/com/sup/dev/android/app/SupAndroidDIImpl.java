@@ -1,6 +1,5 @@
 package com.sup.dev.android.app;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;

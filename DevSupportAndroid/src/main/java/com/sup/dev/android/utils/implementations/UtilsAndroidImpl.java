@@ -3,6 +3,8 @@ package com.sup.dev.android.utils.implementations;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.UiModeManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -84,6 +86,13 @@ public class UtilsAndroidImpl implements UtilsAndroid {
     @Override
     public boolean isMiui() {
         return Miui.isMiui();
+    }
+
+    @Override
+    public void toClipboard(String text) {
+        ClipboardManager clipboard = (ClipboardManager) SupAndroid.di.appContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("", text);
+        clipboard.setPrimaryClip(clip);
     }
 
     //

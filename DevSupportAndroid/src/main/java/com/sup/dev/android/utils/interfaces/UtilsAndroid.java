@@ -25,6 +25,8 @@ public interface UtilsAndroid {
 
     boolean isMiui();
 
+    void toClipboard(String text);
+
     //
     //  Package / Process
     //
