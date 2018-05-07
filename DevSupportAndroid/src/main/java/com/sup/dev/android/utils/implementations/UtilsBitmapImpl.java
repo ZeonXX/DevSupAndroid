@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -200,25 +201,29 @@ public class UtilsBitmapImpl implements UtilsBitmap {
     }
 
     public Bitmap getFromDrawable(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
 
-        if (drawable instanceof BitmapDrawable) return ((BitmapDrawable) drawable).getBitmap();
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
 
-        int w = drawable.getIntrinsicWidth();
-        int h = drawable.getIntrinsicHeight();
-        w = w < 1 ? 1 : 0;
-        w = w < 1 ? 1 : 0;
+        try {
+            Bitmap bitmap;
 
-        Bitmap bitmap;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inMutable = true;
-        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            if (drawable instanceof ColorDrawable) bitmap = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
+            else bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(bitmap);
 
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } catch (Exception e) {
+            Debug.log(e);
+            return null;
+        }
 
     }
 

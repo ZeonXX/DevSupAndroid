@@ -43,6 +43,7 @@ import android.view.ViewOutlineProvider;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.java.classes.animation.AnimationSpring;
 import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewCircleImage extends android.support.v7.widget.AppCompatImageView {
@@ -59,6 +60,7 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
     private final Matrix mShaderMatrix = new Matrix();
     private final Paint mBitmapPaint = new Paint();
     private final Paint mCircleBackgroundPaint = new Paint();
+    private final AnimationSpring animationFlash;
 
     private int mCircleBackgroundColor = 0x00000000;
     private Bitmap mBitmap;
@@ -78,11 +80,13 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
     public ViewCircleImage(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0);
+        SupAndroid.initEditMode(this);
+        mCircleBackgroundColor = context.getResources().getColor(R.color.focus);
+        animationFlash = new AnimationSpring(255, AnimationSpring.SpeedType.TIME_MS, 400);
 
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0);
         disableCircle = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_disableCircle, disableCircle);
         mCircleBackgroundColor = a.getColor(R.styleable.ViewCircleImage_ViewCircleImage_circleBackgroundColor, mCircleBackgroundColor);
-
         a.recycle();
 
         super.setScaleType(SCALE_TYPE);
@@ -117,18 +121,36 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
         }
     }
 
+    public void makeFlash() {
+        animationFlash.set(0);
+        animationFlash.to(255);
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        if (disableCircle || mBitmap == null) {
+        if (disableCircle) {
             super.onDraw(canvas);
             return;
         }
 
+        mCircleBackgroundPaint.setColor(mCircleBackgroundColor);
 
-        if (mCircleBackgroundColor != 0x00000000) {
-            canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint);
+        if (mBitmap == null) {
+            int p = Math.min(getWidth(), getHeight()) / 2;
+            canvas.drawCircle(p, p, p, mCircleBackgroundPaint);
+            return;
         }
+
+        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint);
+
+        mBitmapPaint.setAlpha((int) animationFlash.getValue());
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint);
+
+        if (animationFlash.isNeedUpdate()) {
+            animationFlash.update();
+            invalidate();
+        }
     }
 
     @Override
@@ -159,7 +181,6 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
         }
 
         mCircleBackgroundColor = circleBackgroundColor;
-        mCircleBackgroundPaint.setColor(circleBackgroundColor);
         invalidate();
     }
 
