@@ -98,6 +98,7 @@ public class BaseDialog {
         dialog.setContentView(layoutMaxSizes);
         dialog.show();
 
+        //  Без этой строки диалог умирает при повороте экрана
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
