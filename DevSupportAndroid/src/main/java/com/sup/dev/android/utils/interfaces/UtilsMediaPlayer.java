@@ -1,5 +1,6 @@
 package com.sup.dev.android.utils.interfaces;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 public interface UtilsMediaPlayer {
@@ -11,6 +12,8 @@ public interface UtilsMediaPlayer {
     //
 
     void play(@NonNull String mediaUri);
+
+    void play(@NonNull Uri mediaUri);
 
     void pause();
 
@@ -31,6 +34,8 @@ public interface UtilsMediaPlayer {
     //
 
     boolean isPlaying();
+
+    boolean isPaused();
 
 
 }

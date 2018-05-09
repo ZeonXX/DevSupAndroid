@@ -13,6 +13,7 @@ import com.sup.dev.android.utils.implementations.UtilsBitmapImpl;
 import com.sup.dev.android.utils.implementations.UtilsCashImpl;
 import com.sup.dev.android.utils.implementations.UtilsCursorImpl;
 import com.sup.dev.android.utils.implementations.UtilsFilesImpl;
+import com.sup.dev.android.utils.implementations.UtilsImageLoaderImpl;
 import com.sup.dev.android.utils.implementations.UtilsIntentImpl;
 import com.sup.dev.android.utils.implementations.UtilsMediaPlayerImpl;
 import com.sup.dev.android.utils.implementations.UtilsMetadataImpl;
@@ -28,6 +29,7 @@ import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.android.utils.interfaces.UtilsCash;
 import com.sup.dev.android.utils.interfaces.UtilsCursor;
 import com.sup.dev.android.utils.interfaces.UtilsFiles;
+import com.sup.dev.android.utils.interfaces.UtilsImageLoader;
 import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.android.utils.interfaces.UtilsMediaPlayer;
 import com.sup.dev.android.utils.interfaces.UtilsMetadata;
@@ -67,6 +69,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     private UtilsView utilsView;
     private UtilsCash utilsCash;
     private UtilsMetadata utilsMetadata;
+    private UtilsImageLoader utilsImageLoader;
 
     public SupAndroidDIImpl(Context appContext) {
         this.appContext = appContext;
@@ -206,6 +209,11 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
 
     public UtilsMetadata utilsMetadata(String patch) {
         return new UtilsMetadataImpl(patch);
+    }
+
+    public UtilsImageLoader utilsImageLoader() {
+        if(utilsImageLoader == null) utilsImageLoader = new UtilsImageLoaderImpl();
+        return utilsImageLoader;
     }
 
 

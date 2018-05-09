@@ -191,11 +191,11 @@ public class UtilsStorageImpl implements UtilsStorage {
                 bytes, onComplete, onPermissionPermissionRestriction);
     }
 
-    @Override
     public void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
             final File f = new File(patch);
-            f.mkdirs();
+            f.delete();
+            if(f.getParentFile() != null)f.getParentFile().mkdirs();
             try {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);

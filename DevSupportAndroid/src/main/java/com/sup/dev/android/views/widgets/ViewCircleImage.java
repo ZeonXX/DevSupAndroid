@@ -43,10 +43,11 @@ import android.view.ViewOutlineProvider;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.views.widgets._support.ViewImageFlash;
 import com.sup.dev.java.classes.animation.AnimationSpring;
 import com.sup.dev.java.libs.debug.Debug;
 
-public class ViewCircleImage extends android.support.v7.widget.AppCompatImageView {
+public class ViewCircleImage extends android.support.v7.widget.AppCompatImageView implements ViewImageFlash {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -121,6 +122,7 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
         }
     }
 
+    @Override
     public void makeFlash() {
         animationFlash.set(0);
         animationFlash.to(255);

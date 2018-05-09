@@ -31,8 +31,14 @@ import com.sup.dev.java.libs.debug.Debug;
 
 public class UtilsIntentImpl implements UtilsIntent {
 
+    private static final String SHARE_FOLDER = "sup_share_cash";
+
     private static int codeCounter = 0;
     private final ArrayList<Item2<Integer, Callback2<Integer, Intent>>> progressIntents = new ArrayList<>();
+
+    public UtilsIntentImpl(){
+        new File(getCashRoot()).delete();
+    }
 
     public void startIntentForResult(Intent intent, Callback2<Integer, Intent> onResult) {
         if (codeCounter == 65000)
@@ -109,11 +115,16 @@ public class UtilsIntentImpl implements UtilsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void shareImage(Bitmap bitmap, String text,  String providerKey,Callback onActivityNotFound) {
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + "img.png";
+    public void shareImage(Bitmap bitmap, String text, String providerKey, Callback onActivityNotFound) {
+        new File(getCashRoot()).mkdirs();
+
+        String patch = getCashRoot() + System.currentTimeMillis() + ".png";
+
+        Debug.log(new File(getCashRoot()).exists());
+        Debug.log(patch);
 
         OutputStream out;
-        File file = new File(path);
+        File file = new File(patch);
         try {
             out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -122,8 +133,10 @@ public class UtilsIntentImpl implements UtilsIntent {
         } catch (Exception e) {
             Debug.log(e);
         }
-        path = file.getPath();
-        shareFile(path, providerKey, onActivityNotFound);
+        patch = file.getPath();
+
+        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
+        shareFile(fileUti, "image/*", text, onActivityNotFound);
     }
 
     public void shareFile(String patch, String providerKey, Callback onActivityNotFound) {
@@ -141,13 +154,19 @@ public class UtilsIntentImpl implements UtilsIntent {
     }
 
     public void shareFile(Uri uri, String type, Callback onActivityNotFound) {
+        shareFile(uri, type, null, onActivityNotFound);
+    }
+
+    public void shareFile(Uri uri, String type, String text, Callback onActivityNotFound) {
         SupAndroid.di.mvpActivity(activity -> {
             try {
-                ((Activity)activity).startActivity(Intent.createChooser(new Intent()
+                Intent i = new Intent()
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .setAction(Intent.ACTION_SEND)
                         .putExtra(Intent.EXTRA_STREAM, uri)
-                        .setType(type), null));
+                        .setType(type);
+                if(text == null)i.putExtra(Intent.EXTRA_TEXT, text);
+                ((Activity)activity).startActivity(Intent.createChooser(i, null));
             } catch (ActivityNotFoundException ex) {
                 Debug.log(ex);
                 if (onActivityNotFound != null) onActivityNotFound.callback();
@@ -227,6 +246,14 @@ public class UtilsIntentImpl implements UtilsIntent {
         } catch (PendingIntent.CanceledException ex) {
             Debug.log(ex);
         }
+    }
+
+    //
+    //  Support
+    //
+
+    private String getCashRoot(){
+        return SupAndroid.di.appContext().getExternalCacheDir().getAbsolutePath() + SHARE_FOLDER;
     }
 
 

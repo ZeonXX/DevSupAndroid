@@ -12,10 +12,12 @@ import com.sup.dev.java.libs.debug.Debug;
 
 public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPreparedListener {
 
+    private enum State{NONE,PLAY,PAUSE}
+
     private int streamType;
     private boolean looping;
     private MediaPlayer mediaPlayer;
-    private boolean playing;
+    private State state = State.NONE;
 
     public void setMedia(@NonNull String mediaUri) {
         setMedia(Uri.parse(mediaUri));
@@ -47,21 +49,25 @@ public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPre
 
     public void play(@NonNull Uri mediaUri) {
         setMedia(mediaUri);
-        playing = true;
+        state = State.PLAY;
         mediaPlayer.prepareAsync();
     }
 
     public void pause() {
+        if(mediaPlayer == null) return;
+        state = State.PAUSE;
         mediaPlayer.pause();
     }
 
     public void resume() {
+        if (mediaPlayer == null) return;
+        state = State.PLAY;
         mediaPlayer.start();
     }
 
     public void stop() {
         if (mediaPlayer == null) return;
-        playing = false;
+        state = State.NONE;
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
@@ -95,10 +101,10 @@ public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPre
     //
 
     public boolean isPlaying() {
-        return playing;
+        return state == State.PLAY;
     }
 
-
-
-
+    public boolean isPaused() {
+        return state == State.PAUSE;
+    }
 }

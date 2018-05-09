@@ -11,6 +11,7 @@ import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.android.utils.interfaces.UtilsCash;
 import com.sup.dev.android.utils.interfaces.UtilsCursor;
 import com.sup.dev.android.utils.interfaces.UtilsFiles;
+import com.sup.dev.android.utils.interfaces.UtilsImageLoader;
 import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.android.utils.interfaces.UtilsMediaPlayer;
 import com.sup.dev.android.utils.interfaces.UtilsMetadata;
@@ -79,5 +80,7 @@ public interface SupAndroidDI extends SupJavaDI {
     UtilsMetadata utilsMetadata();
 
     UtilsMetadata utilsMetadata(String patch);
+
+    UtilsImageLoader utilsImageLoader();
 
 }
