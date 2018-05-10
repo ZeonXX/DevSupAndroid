@@ -118,10 +118,7 @@ public class UtilsIntentImpl implements UtilsIntent {
     public void shareImage(Bitmap bitmap, String text, String providerKey, Callback onActivityNotFound) {
         new File(getCashRoot()).mkdirs();
 
-        String patch = getCashRoot() + System.currentTimeMillis() + ".png";
-
-        Debug.log(new File(getCashRoot()).exists());
-        Debug.log(patch);
+        String patch =  getCashRoot() + System.currentTimeMillis() + ".png";
 
         OutputStream out;
         File file = new File(patch);
@@ -133,10 +130,22 @@ public class UtilsIntentImpl implements UtilsIntent {
         } catch (Exception e) {
             Debug.log(e);
         }
-        patch = file.getPath();
 
-        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
-        shareFile(fileUti, "image/*", text, onActivityNotFound);
+        SupAndroid.di.mvpActivity(activity -> {
+            try {
+                ((Activity)activity).startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile((Activity)activity, providerKey, file))
+                        .putExtra(Intent.EXTRA_TEXT, text)
+                        .setType("image/*"), null));
+            } catch (ActivityNotFoundException ex) {
+                Debug.log(ex);
+                if (onActivityNotFound != null) onActivityNotFound.callback();
+            }
+        });
+
+
     }
 
     public void shareFile(String patch, String providerKey, Callback onActivityNotFound) {

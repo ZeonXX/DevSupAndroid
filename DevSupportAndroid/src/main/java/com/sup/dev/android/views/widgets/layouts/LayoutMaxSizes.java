@@ -11,6 +11,7 @@ import com.sup.dev.android.utils.interfaces.UtilsAndroid;
 import com.sup.dev.android.utils.interfaces.UtilsView;
 
 import static android.view.View.MeasureSpec.EXACTLY;
+import static android.view.View.MeasureSpec.UNSPECIFIED;
 
 public class LayoutMaxSizes extends FrameLayout {
 
@@ -104,6 +105,13 @@ public class LayoutMaxSizes extends FrameLayout {
         }
 
         super.onMeasure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
+
+        if (wm == UNSPECIFIED && hm == UNSPECIFIED) {
+            measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), EXACTLY), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), EXACTLY));
+            return;
+        }
+        if (wm == UNSPECIFIED) measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), EXACTLY), MeasureSpec.makeMeasureSpec(h, hm));
+        if (hm == UNSPECIFIED) measure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), EXACTLY));
     }
 
     //
