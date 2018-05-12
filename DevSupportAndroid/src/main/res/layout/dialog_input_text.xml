@@ -14,6 +14,7 @@
         style="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Please input text"/>
 
     <android.support.design.widget.TextInputLayout

@@ -5,6 +5,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,11 +26,13 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     private Callback2<ViewPopupMenu, K> onSelected;
 
     public ViewPopupMenu(View anchorView) {
+        this(anchorView, Gravity.LEFT);
+    }
+
+    public ViewPopupMenu(View anchorView, int gravity) {
         this.anchorView = anchorView;
-        popupMenu = new PopupMenu(anchorView.getContext(), anchorView);
+        popupMenu = new PopupMenu(anchorView.getContext(), anchorView, gravity);
         popupMenu.setOnMenuItemClickListener(this);
-
-
     }
 
     //

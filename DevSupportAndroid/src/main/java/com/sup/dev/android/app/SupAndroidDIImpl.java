@@ -9,6 +9,7 @@ import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigatorImpl;
 import com.sup.dev.android.utils.implementations.UtilsAndroidImpl;
+import com.sup.dev.android.utils.implementations.UtilsAnimatorImpl;
 import com.sup.dev.android.utils.implementations.UtilsBitmapImpl;
 import com.sup.dev.android.utils.implementations.UtilsCashImpl;
 import com.sup.dev.android.utils.implementations.UtilsCursorImpl;
@@ -25,6 +26,7 @@ import com.sup.dev.android.utils.implementations.UtilsTextImpl;
 import com.sup.dev.android.utils.implementations.UtilsToastImpl;
 import com.sup.dev.android.utils.implementations.UtilsViewImpl;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
+import com.sup.dev.android.utils.interfaces.UtilsAnimator;
 import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.android.utils.interfaces.UtilsCash;
 import com.sup.dev.android.utils.interfaces.UtilsCursor;
@@ -70,6 +72,7 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     private UtilsCash utilsCash;
     private UtilsMetadata utilsMetadata;
     private UtilsImageLoader utilsImageLoader;
+    private UtilsAnimator utilsAnimator;
 
     public SupAndroidDIImpl(Context appContext) {
         this.appContext = appContext;
@@ -214,6 +217,12 @@ public class SupAndroidDIImpl extends SupJavaDIImpl implements SupAndroidDI {
     public UtilsImageLoader utilsImageLoader() {
         if(utilsImageLoader == null) utilsImageLoader = new UtilsImageLoaderImpl();
         return utilsImageLoader;
+    }
+
+    @Override
+    public UtilsAnimator utilsAnimator() {
+        if(utilsAnimator == null) utilsAnimator = new UtilsAnimatorImpl();
+        return utilsAnimator;
     }
 
 

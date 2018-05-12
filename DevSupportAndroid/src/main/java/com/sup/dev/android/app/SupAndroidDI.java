@@ -7,6 +7,7 @@ import android.database.Cursor;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.utils.interfaces.UtilsAndroid;
+import com.sup.dev.android.utils.interfaces.UtilsAnimator;
 import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.android.utils.interfaces.UtilsCash;
 import com.sup.dev.android.utils.interfaces.UtilsCursor;
@@ -82,5 +83,7 @@ public interface SupAndroidDI extends SupJavaDI {
     UtilsMetadata utilsMetadata(String patch);
 
     UtilsImageLoader utilsImageLoader();
+
+    UtilsAnimator utilsAnimator();
 
 }
