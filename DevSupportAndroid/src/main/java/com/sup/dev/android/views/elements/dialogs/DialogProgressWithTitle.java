@@ -36,4 +36,7 @@ public class DialogProgressWithTitle extends BaseDialog{
         return (DialogProgressWithTitle)super.setOnCancel(onCancel);
     }
 
+    public DialogProgressWithTitle show() {
+        return (DialogProgressWithTitle)super.show();
+    }
 }

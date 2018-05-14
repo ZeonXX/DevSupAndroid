@@ -58,6 +58,11 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
         }
     }
 
+    @Override
+    public void replace(long imageId, byte[] bytes) {
+
+    }
+
     public void unsubscribe(ImageView vImage) {
 
         if (vImage == null) return;

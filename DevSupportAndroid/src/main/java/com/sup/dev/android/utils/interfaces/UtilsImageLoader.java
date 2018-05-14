@@ -13,6 +13,8 @@ public interface UtilsImageLoader {
 
     void clearCash(String url);
 
+    void replace(long imageId, byte[] bytes);
+
     void load(long imageId);
 
     void load(long imageId, Callback1<byte[]> onLoaded);
