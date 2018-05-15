@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.google_notifications;
 
 final class GoogleNotifications_Info{
 
+
 }
 
 /**

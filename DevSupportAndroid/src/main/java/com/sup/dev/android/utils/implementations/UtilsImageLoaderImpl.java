@@ -46,21 +46,28 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     //  Public
     //
 
-    public void clearCash(long key) {
+    public void clearCash(long imageId) {
         synchronized (bitmapCash) {
-            bitmapCash.remove(key);
+            bitmapCash.remove(asKey(imageId));
         }
     }
 
-    public void clearCash(String key) {
+    public void clearCash(String url) {
         synchronized (bitmapCash) {
-            bitmapCash.remove(key);
+            bitmapCash.remove(url);
         }
     }
 
-    @Override
     public void replace(long imageId, byte[] bytes) {
+        synchronized (bitmapCash) {
+            bitmapCash.replace(asKey(imageId), bytes);
+        }
+    }
 
+    public void replace(String url, byte[] bytes) {
+        synchronized (bitmapCash) {
+            bitmapCash.replace(asKey(url), bytes);
+        }
     }
 
     public void unsubscribe(ImageView vImage) {
@@ -172,6 +179,18 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     }
 
     //
+    //  Support
+    //
+
+    private String asKey(long imageId){
+        return "imgId_" + imageId;
+    }
+
+    private String asKey(String url){
+        return "url_" + url;
+    }
+
+    //
     //  Loaders
     //
 
@@ -201,7 +220,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
         private long imageId;
 
         private LoaderCustom(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
-            super(vImage, "imgId_" + imageId, onLoaded);
+            super(vImage, asKey(imageId), onLoaded);
             this.imageId = imageId;
         }
 
@@ -215,7 +234,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
         private final String url;
 
         private LoaderUrl(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
-            super(vImage, "url_" + url, onLoaded);
+            super(vImage, asKey(url), onLoaded);
             this.url = url;
         }
 

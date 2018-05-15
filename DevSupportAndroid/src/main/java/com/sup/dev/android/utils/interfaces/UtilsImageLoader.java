@@ -15,6 +15,8 @@ public interface UtilsImageLoader {
 
     void replace(long imageId, byte[] bytes);
 
+    void replace(String url, byte[] bytes);
+
     void load(long imageId);
 
     void load(long imageId, Callback1<byte[]> onLoaded);
