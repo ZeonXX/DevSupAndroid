@@ -19,13 +19,16 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
     private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
-    private final Callback2<Callback1<V[]>, ArrayList<K>> loader;
+    private Callback2<Callback1<V[]>, ArrayList<K>> bottomLoader;
+    private Callback2<Callback1<V[]>, ArrayList<K>> topLoader;
     private Provider1<V, K> mapper;
     private final CardLoading cardLoading;
     private final Class<K> cardClass;
 
-    private int addPositionOffset = 0;
-    private int startLoadOffset = 0;
+    private int addBottomPositionOffset = 0;
+    private int addTopPositionOffset = 0;
+    private int startBottomLoadOffset = 0;
+    private int startTopLoadOffset = 0;
     private boolean lock;
     private boolean inProgress;
     private boolean retryEnabled;
@@ -36,15 +39,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
-    public RecyclerCardAdapterLoading(Class<K> cardClass, Callback2<Callback1<V[]>, ArrayList<K>> loader, Provider1<V, K> mapper) {
-        this.loader = loader;
+    public RecyclerCardAdapterLoading(Class<K> cardClass, Provider1<V, K> mapper) {
         this.cardClass = cardClass;
         this.mapper = mapper;
         cardLoading = new CardLoading();
-    }
-
-    protected void setMapper(Provider1<V, K> mapper) {
-        this.mapper = mapper;
     }
 
     @Override
@@ -53,36 +51,49 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         if (lock || inProgress) return;
 
-        if (position >= getItemCount() - 1 - startLoadOffset) {
+        if (position >= getItemCount() - 1 - startBottomLoadOffset) {
             inProgress = true;
-            utilsThreads.main(true, this::loadNow);
+            utilsThreads.main(true, () -> loadNow(true));
+        } else if (topLoader != null && position <= startTopLoadOffset) {
+            inProgress = true;
+            utilsThreads.main(true, () -> loadNow(false));
         }
     }
 
-    public void load() {
-        if (inProgress) return;
-        inProgress = true;
-        loadNow();
+    public void loadTop() {
+        loadNow(false);
     }
 
-    private void loadNow() {
+    public void loadBottom() {
+        loadNow(true);
+    }
+
+    public void load(boolean bottom) {
+        if (inProgress) return;
+        inProgress = true;
+        loadNow(bottom);
+    }
+
+    private void loadNow(boolean bottom) {
         lock = false;
+        cardLoading.setOnRetry(source -> load(bottom));
         cardLoading.setState(CardLoading.State.LOADING);
 
         ArrayList<K> cards = getByClass(cardClass);
 
         if (cards.isEmpty()) {
             if (onLoadingAndEmpty != null) onLoadingAndEmpty.callback();
-            else if (!contains(cardLoading)) add(size() - addPositionOffset, cardLoading);
+            else if (!contains(cardLoading)) add(bottom ? size() - addBottomPositionOffset : addTopPositionOffset, cardLoading);
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty.callback();
-            if (!contains(cardLoading)) add(size() - addPositionOffset, cardLoading);
+            if (!contains(cardLoading)) add(bottom ? size() - addBottomPositionOffset : addTopPositionOffset, cardLoading);
         }
 
-        loader.callback(this::onLoaded, cards);
+        if(bottom) bottomLoader.callback(result -> onLoaded(result, bottom), cards);
+        else topLoader.callback(result -> onLoaded(result, bottom), cards);
     }
 
-    private void onLoaded(V[] result) {
+    private void onLoaded(V[] result, boolean bottom) {
 
         inProgress = false;
         boolean isEmpty = !containsClass(cardClass);
@@ -107,16 +118,24 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
             remove(cardLoading);
         }
 
-        for (V aResult : result) add(size() - addPositionOffset, mapper.provide(aResult));
+        for (V aResult : result) add(bottom ? size() - addBottomPositionOffset : addTopPositionOffset, mapper.provide(aResult));
 
         if (!isEmpty || result.length != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty.callback();
 
     }
 
-    public void reload() {
+    public void reloadTop() {
+        reload(false);
+    }
+
+    public void reloadBottom() {
+        reload(true);
+    }
+
+    public void reload(boolean bottom) {
         removeClass(cardClass);
-        load();
+        load(bottom);
     }
 
 
@@ -131,16 +150,20 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     @Override
     public void removeIndex(int position) {
         super.removeIndex(position);
-        if(isEmpty()) onEmpty.callback();
+        if (onEmpty != null && isEmpty())onEmpty.callback();
     }
 
     //
     //  Setters
     //
 
+    public RecyclerCardAdapterLoading<K, V> setAddBottomPositionOffset(int i) {
+        this.addBottomPositionOffset = i;
+        return this;
+    }
 
-    public RecyclerCardAdapterLoading<K, V> setAddPositionOffset(int addPositionOffset) {
-        this.addPositionOffset = addPositionOffset;
+    public RecyclerCardAdapterLoading<K, V> setAddTopPositionOffset(int i) {
+        this.addTopPositionOffset = i;
         return this;
     }
 
@@ -181,7 +204,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     public RecyclerCardAdapterLoading<K, V> setRetryMessage(String message, String button) {
         retryEnabled = true;
         cardLoading.setRetryMessage(message);
-        cardLoading.setRetryButton(button, card -> load());
+        cardLoading.setRetryButton(button, null);
         return this;
     }
 
@@ -205,10 +228,31 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
-    public RecyclerCardAdapterLoading<K, V> setStartLoadOffset(int startLoadOffset) {
-        this.startLoadOffset = startLoadOffset;
+    public RecyclerCardAdapterLoading<K, V> setTopLoader(Callback2<Callback1<V[]>, ArrayList<K>> topLoader) {
+        this.topLoader = topLoader;
         return this;
     }
+
+    public RecyclerCardAdapterLoading<K, V> setBottomLoader(Callback2<Callback1<V[]>, ArrayList<K>> bottomLoader) {
+        this.bottomLoader = bottomLoader;
+        return this;
+    }
+
+    public RecyclerCardAdapterLoading<K, V> setStartBottomLoadOffset(int i) {
+        this.startBottomLoadOffset = i;
+        return this;
+    }
+
+    public RecyclerCardAdapterLoading<K, V> setTopBottomLoadOffset(int i) {
+        this.startTopLoadOffset = i;
+        return this;
+    }
+
+    public RecyclerCardAdapterLoading<K, V>  setMapper(Provider1<V, K> mapper) {
+        this.mapper = mapper;
+        return this;
+    }
+
 
     @Override
     public RecyclerCardAdapterLoading<K, V> setNotifyCount(int notifyCount) {
@@ -228,4 +272,3 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     }
 
 }
-

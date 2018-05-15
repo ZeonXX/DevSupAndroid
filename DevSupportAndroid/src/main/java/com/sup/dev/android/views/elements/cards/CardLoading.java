@@ -147,6 +147,12 @@ public class CardLoading extends Card {
         return this;
     }
 
+    public CardLoading setOnRetry(Callback1<CardLoading> onRetry){
+        this.onRetry = onRetry;
+        update();
+        return this;
+    }
+
     //
     //  Getters
     //
