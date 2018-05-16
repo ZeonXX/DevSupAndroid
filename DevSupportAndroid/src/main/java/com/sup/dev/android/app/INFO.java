@@ -1,4 +1,4 @@
-package com.sup.dev.android.app.DEVELOP;
+package com.sup.dev.android.app;
 
 public interface INFO {
 

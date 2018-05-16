@@ -183,7 +183,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         });
     }
 
-    public void shareText(String title, String text, Callback onActivityNotFound) {
+    public void shareText(String text, Callback onActivityNotFound) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND)
                 .setType("text/plain")
                 .putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here")
