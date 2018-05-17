@@ -17,7 +17,7 @@ import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.geometry.Line;
 import com.sup.dev.java.classes.geometry.Point;
-import com.sup.dev.java.classes.items.Range;
+import com.sup.dev.java.classes.items.RangeF;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 public class LayoutZoom extends FrameLayout {
@@ -25,7 +25,7 @@ public class LayoutZoom extends FrameLayout {
     private final UtilsThreads utilsThreads;
     private final UtilsView utilsView;
 
-    private final Range range = new Range(1, 4);
+    private final RangeF range = new RangeF(1, 4);
 
     private Callback onZoom;
     private int animateTimeMs = 300;
@@ -206,11 +206,11 @@ public class LayoutZoom extends FrameLayout {
 
         if (getWidth() > vBound.getWidth() * zoom) translateX = 0;
         else
-           translateX = new Range((getWidth() - vBound.getWidth() * zoom) / 2).toRange(translateX);
+           translateX = new RangeF((getWidth() - vBound.getWidth() * zoom) / 2).toRange(translateX);
 
         if (getHeight() > vBound.getHeight() * zoom) translateY = 0;
         else
-            translateY = new Range((getHeight() - vBound.getHeight() * zoom) / 2).toRange(translateY);
+            translateY = new RangeF((getHeight() - vBound.getHeight() * zoom) / 2).toRange(translateY);
 
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
