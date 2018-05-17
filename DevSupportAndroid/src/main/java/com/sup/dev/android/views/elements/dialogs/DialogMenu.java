@@ -9,6 +9,7 @@ import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.elements.cards.CardDivider;
 import com.sup.dev.android.views.elements.cards.CardMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class DialogMenu<K> extends DialogRecycler {
 
@@ -16,7 +17,7 @@ public class DialogMenu<K> extends DialogRecycler {
     private final RecyclerCardAdapter adapter;
 
     private int prefCount = 0;
-    private Callback1<K> onSelected;
+    private Callback2<K, DialogMenu> onSelected;
 
     public DialogMenu(Context viewContext) {
         super(viewContext);
@@ -72,11 +73,11 @@ public class DialogMenu<K> extends DialogRecycler {
     public DialogMenu<K> onSelected(K key) {
         if (isAutoHideOnEnter()) hide();
         else setEnabled(false);
-        if (onSelected != null) onSelected.callback(key);
+        if (onSelected != null) onSelected.callback(key, this);
         return this;
     }
 
-    public DialogMenu<K> setOnSelected(Callback1<K> onSelected) {
+    public DialogMenu<K> setOnSelected(Callback2<K, DialogMenu> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
