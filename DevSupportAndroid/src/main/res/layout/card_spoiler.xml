@@ -15,10 +15,10 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="16dp"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/title"
@@ -29,10 +29,10 @@
 
             <TextView
                 android:id="@+id/text"
+                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                style="@style/TextAppearance.AppCompat.Caption"
                 android:text="Some description text"/>
 
         </LinearLayout>
@@ -40,11 +40,11 @@
         <TextView
             android:id="@+id/right_text"
             style="@style/Base.TextAppearance.AppCompat.Caption"
-            android:text="10"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:text="10"/>
 
         <ImageView
             android:id="@+id/icon"
