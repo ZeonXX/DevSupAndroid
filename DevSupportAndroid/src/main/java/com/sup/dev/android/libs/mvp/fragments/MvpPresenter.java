@@ -82,6 +82,16 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
     }
 
     @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
     public void onDestroy() {
 
     }

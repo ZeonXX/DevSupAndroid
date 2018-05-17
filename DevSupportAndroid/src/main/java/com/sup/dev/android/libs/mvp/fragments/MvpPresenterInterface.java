@@ -9,6 +9,10 @@ public interface MvpPresenterInterface {
 
     void clearView();
 
+    void onResume();
+
+    void onPause();
+
     void onDestroy();
 
     boolean onBackPressed();

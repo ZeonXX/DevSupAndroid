@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -147,13 +148,6 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
     //  Setters
     //
 
-
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        super.setOnClickListener(l);
-        setClickable(l != null);
-    }
-
     public void setTransparentOnDisabled(boolean transparentOnDisabled) {
         this.transparentOnDisabled = transparentOnDisabled;
         updateIcon();
@@ -199,6 +193,11 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
 
     public void setPadding(float padding) {
         this.padding = padding;
+        invalidate();
+    }
+
+    public void setFilter(int filter) {
+        this.filter = filter;
         invalidate();
     }
 

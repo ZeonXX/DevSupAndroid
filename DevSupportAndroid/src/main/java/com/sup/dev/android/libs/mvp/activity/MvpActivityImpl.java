@@ -64,6 +64,7 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
     protected void onStop() {
         super.onStop();
         SupAndroid.di.setMvpActivity(null);
+        navigator.onActivityStop();
     }
 
     protected int getLayout() {

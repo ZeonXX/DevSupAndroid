@@ -11,6 +11,7 @@ import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,10 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     public void to(MvpPresenterInterface presenter) {
         if(!presenters.isEmpty()) {
             if(!getCurrent().isBackStackAllowed()) removePresenter(getCurrent());
-            else getCurrent().clearView();
+            else {
+                getCurrent().clearView();
+                getCurrent().onPause();
+            }
         }
         presenters.add(presenter);
         updateFragment();
@@ -84,6 +88,12 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
 
     public void callback(MvpActivity activity) {
         activity.setFragment(getCurrent().instanceView((Context) activity));
+        getCurrent().onResume();
+    }
+
+    public void onActivityStop() {
+        getCurrent().clearView();
+        getCurrent().onPause();
     }
 
     public boolean onBackPressed() {

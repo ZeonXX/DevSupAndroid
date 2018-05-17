@@ -39,4 +39,5 @@ public interface MvpNavigator {
 
     void removeOnBackListener(Callback2<MvpPresenterInterface, MvpPresenterInterface> onBack);
 
+    void onActivityStop();
 }
