@@ -92,8 +92,11 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     }
 
     public void onActivityStop() {
-        getCurrent().clearView();
         getCurrent().onPause();
+    }
+
+    public void onActivityDestroy() {
+        getCurrent().clearView();
     }
 
     public boolean onBackPressed() {

@@ -67,6 +67,12 @@ public class MvpActivityImpl extends Activity implements MvpActivity {
         navigator.onActivityStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        navigator.onActivityDestroy();
+    }
+
     protected int getLayout() {
         return R.layout.mvp_activity;
     }
