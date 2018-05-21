@@ -127,7 +127,7 @@ public class DialogInputText extends BaseDialog {
         return this;
     }
 
-    public DialogInputText qeeInputType(int inputType) {
+    public DialogInputText qetInputType(int inputType) {
         vField.setInputType(vField.getInputType() | inputType);
         return this;
     }
@@ -137,6 +137,10 @@ public class DialogInputText extends BaseDialog {
     //  Setters
     //
 
+    public DialogInputText setInputType(int type){
+        vField.setInputType(type);
+        return this;
+    }
 
     public DialogInputText setTitle(@StringRes int title) {
         return (DialogInputText) super.setTitle(title);

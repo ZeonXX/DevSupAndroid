@@ -19,6 +19,10 @@ public class CardSpoiler extends Card {
     private int titleColor = 0x01FF0000;
     private int rightTextColor = 0x01FF0000;
     private int textColor = 0x01FF0000;
+    private boolean originalSeted = false;
+    private int titleColorOriginal;
+    private int rightTextColorOriginal;
+    private int textColorOriginal;
     private int iconColor = 0x01FF0000;
 
     boolean expanded;
@@ -37,6 +41,13 @@ public class CardSpoiler extends Card {
         TextView vRightText = view.findViewById(R.id.right_text);
         View vTouch = view.findViewById(R.id.touch);
 
+        if (!originalSeted) {
+            originalSeted = true;
+            titleColorOriginal = vTitle.getCurrentTextColor();
+            textColorOriginal = vText.getCurrentTextColor();
+            rightTextColorOriginal = vRightText.getCurrentTextColor();
+        }
+
         vText.setText(text == null ? null : Html.fromHtml(text));
         vRightText.setText(rightText == null ? null : Html.fromHtml(rightText));
         vTitle.setText(title == null ? null : Html.fromHtml(title));
@@ -49,9 +60,9 @@ public class CardSpoiler extends Card {
         vRightText.setEnabled(enabled);
         vTitle.setEnabled(enabled);
 
-        if (textColor != 0x01FF0000) vText.setTextColor(textColor);
-        if (rightTextColor != 0x01FF0000) vRightText.setTextColor(rightTextColor);
-        if (titleColor != 0x01FF0000) vTitle.setTextColor(titleColor);
+        vText.setTextColor(textColor != 0x01FF0000 ? textColor : textColorOriginal);
+        vRightText.setTextColor(rightTextColor != 0x01FF0000 ? rightTextColor : rightTextColorOriginal);
+        vTitle.setTextColor(titleColor != 0x01FF0000 ? titleColor : titleColorOriginal);
 
         vIcon.setImageResource(expanded ? R.drawable.ic_keyboard_arrow_up_white_24dp : R.drawable.ic_keyboard_arrow_down_white_24dp);
         vIcon.setAlpha(enabled ? 255 : 106);
@@ -132,5 +143,14 @@ public class CardSpoiler extends Card {
         this.rightTextColor = rightTextColor;
         update();
         return this;
+    }
+
+    //
+    //  Getters
+    //
+
+
+    public ArrayList<Card> getCards() {
+        return cards;
     }
 }
