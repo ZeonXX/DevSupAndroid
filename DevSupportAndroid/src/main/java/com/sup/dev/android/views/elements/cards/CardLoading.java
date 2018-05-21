@@ -27,6 +27,7 @@ public class CardLoading extends Card {
     private String retryButton;
     private Callback1<CardLoading> onRetry;
     private State state = State.LOADING;
+    private boolean horizontal;
 
     @Override
     public int getLayout() {
@@ -37,9 +38,10 @@ public class CardLoading extends Card {
     public void bindView(View view) {
         View vDivider = view.findViewById(R.id.divider);
         View vLoading = view.findViewById(R.id.loading);
+        View vLoadingHorizontal = view.findViewById(R.id.loading_horizontal);
+        View vContainer = view.findViewById(R.id.container);
         Button vAction = view.findViewById(R.id.action);
         TextView vText = view.findViewById(R.id.text);
-
 
         vDivider.setVisibility(dividerVisible ? View.VISIBLE : View.GONE);
         if (background != 0x01FF0000) view.setBackgroundColor(background);
@@ -47,16 +49,20 @@ public class CardLoading extends Card {
         vText.setEnabled(isEnabled());
 
         if (state == State.LOADING) {
-            vLoading.setVisibility(View.VISIBLE);
-            vText.setVisibility(View.INVISIBLE);
-            vAction.setVisibility(View.INVISIBLE);
+            vContainer.setVisibility(View.GONE);
+            vLoading.setVisibility(horizontal?View.GONE:View.VISIBLE);
+            vLoadingHorizontal.setVisibility(horizontal?View.VISIBLE:View.GONE);
+            vText.setVisibility(View.GONE);
+            vAction.setVisibility(View.GONE);
             vText.setText("");
             vAction.setText("");
         }
         if (state == State.RETRY) {
-            vLoading.setVisibility(View.INVISIBLE);
+            vContainer.setVisibility(View.VISIBLE);
+            vLoading.setVisibility(View.GONE);
+            vLoadingHorizontal.setVisibility(View.GONE);
             vText.setVisibility(View.VISIBLE);
-            vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.INVISIBLE : View.VISIBLE);
+            vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(retryMessage);
             vAction.setText(retryButton);
             vAction.setOnClickListener(v -> {
@@ -65,9 +71,11 @@ public class CardLoading extends Card {
             });
         }
         if (state == State.ACTION) {
-            vLoading.setVisibility(View.INVISIBLE);
+            vContainer.setVisibility(View.VISIBLE);
+            vLoading.setVisibility(View.GONE);
+            vLoadingHorizontal.setVisibility(View.GONE);
             vText.setVisibility(View.VISIBLE);
-            vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.INVISIBLE : View.VISIBLE);
+            vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(actionMessage);
             vAction.setText(actionButton);
             vAction.setOnClickListener(v -> {
@@ -149,6 +157,12 @@ public class CardLoading extends Card {
 
     public CardLoading setOnRetry(Callback1<CardLoading> onRetry){
         this.onRetry = onRetry;
+        update();
+        return this;
+    }
+
+    public CardLoading setHorizontal(boolean horizontal) {
+        this.horizontal = horizontal;
         update();
         return this;
     }

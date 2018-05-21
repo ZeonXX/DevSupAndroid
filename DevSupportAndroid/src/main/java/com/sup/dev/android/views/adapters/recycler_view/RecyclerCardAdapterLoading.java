@@ -1,5 +1,4 @@
 package com.sup.dev.android.views.adapters.recycler_view;
-
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.app.SupAndroid;
@@ -7,10 +6,9 @@ import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.android.views.elements.cards.Card;
 import com.sup.dev.android.views.elements.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.utils.interfaces.UtilsThreads;
 
 import java.util.ArrayList;
@@ -270,6 +268,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
+    public RecyclerCardAdapterLoading<K, V> setHorizontalProgress(boolean horizontalProgress) {
+        cardLoading.setHorizontal(horizontalProgress);
+        return this;
+    }
 
     @Override
     public RecyclerCardAdapterLoading<K, V> setNotifyCount(int notifyCount) {
