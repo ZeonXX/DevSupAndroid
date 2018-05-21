@@ -1,16 +1,22 @@
 package com.sup.dev.android.views.elements.cards;
 
 import android.graphics.PorterDuff;
+import android.support.annotation.StringRes;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 
 import java.util.ArrayList;
 
 public class CardSpoiler extends Card {
+
+    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final ArrayList<Card> cards = new ArrayList<>();
     private String title;
@@ -77,7 +83,12 @@ public class CardSpoiler extends Card {
 
     public CardSpoiler add(Card card) {
         cards.add(card);
+        setExpanded(expanded);
         return this;
+    }
+
+    public CardSpoiler setTitle(@StringRes int title) {
+        return setTitle(utilsResources.getString(title));
     }
 
     public CardSpoiler setTitle(String title) {
@@ -86,19 +97,27 @@ public class CardSpoiler extends Card {
         return this;
     }
 
+    @Override
+    public void setAdapter(RecyclerCardAdapter adapter) {
+        super.setAdapter(adapter);
+        setExpanded(expanded);
+    }
+
     public CardSpoiler setExpanded(boolean expanded) {
         this.expanded = expanded;
         update();
 
-        if (expanded) {
+        if(adapter != null) {
+            if (expanded) {
 
-            int myIndex = adapter.indexOf(this);
-            for (Card c : cards)
-                if (myIndex != -1)
-                    if (!adapter.contains(c)) adapter.add(++myIndex, c);
+                int myIndex = adapter.indexOf(this);
+                for (Card c : cards)
+                    if (myIndex != -1)
+                        if (!adapter.contains(c)) adapter.add(++myIndex, c);
 
-        } else
-            for (Card c : cards) adapter.remove(c);
+            } else
+                for (Card c : cards) adapter.remove(c);
+        }
 
         return this;
     }
