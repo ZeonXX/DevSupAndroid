@@ -268,8 +268,8 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
-    public RecyclerCardAdapterLoading<K, V> setHorizontalProgress(boolean horizontalProgress) {
-        cardLoading.setHorizontal(horizontalProgress);
+    public RecyclerCardAdapterLoading<K, V> setCardLoadingType(CardLoading.Type type) {
+        cardLoading.setType(type);
         return this;
     }
 

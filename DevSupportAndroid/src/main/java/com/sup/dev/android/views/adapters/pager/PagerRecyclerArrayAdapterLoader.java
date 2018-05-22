@@ -35,7 +35,7 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
 
     @Override
     public PagerRecyclerArrayAdapterLoader<K, X, V> setBinder(Callback2<V, K> binder) {
-        return ( PagerRecyclerArrayAdapterLoader<K, X, V>)super.setBinder(binder);
+        return (PagerRecyclerArrayAdapterLoader<K, X, V>) super.setBinder(binder);
     }
 
     @Override
@@ -141,6 +141,11 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     public PagerRecyclerArrayAdapterLoader<K, X, V> setStartLoadOffset(int startLoadOffset) {
         this.startLoadOffset = startLoadOffset;
         return this;
+    }
+
+    @Override
+    public PagerRecyclerArrayAdapterLoader<K, X, V> setNotifyCount(int notifyCount) {
+        return (PagerRecyclerArrayAdapterLoader<K, X, V>) super.setNotifyCount(notifyCount);
     }
 
     //

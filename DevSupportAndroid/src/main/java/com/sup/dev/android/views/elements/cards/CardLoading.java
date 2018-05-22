@@ -18,6 +18,8 @@ public class CardLoading extends Card {
 
     public enum State {LOADING, ACTION, RETRY}
 
+    public enum Type {CIRCLE, HORIZONTAL, NONE}
+
     private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private String actionMessage;
@@ -27,7 +29,7 @@ public class CardLoading extends Card {
     private String retryButton;
     private Callback1<CardLoading> onRetry;
     private State state = State.LOADING;
-    private boolean horizontal;
+    private Type type = Type.CIRCLE;
 
     @Override
     public int getLayout() {
@@ -50,8 +52,8 @@ public class CardLoading extends Card {
 
         if (state == State.LOADING) {
             vContainer.setVisibility(View.GONE);
-            vLoading.setVisibility(horizontal?View.GONE:View.VISIBLE);
-            vLoadingHorizontal.setVisibility(horizontal?View.VISIBLE:View.GONE);
+            vLoading.setVisibility(type == Type.CIRCLE ? View.GONE : View.VISIBLE);
+            vLoadingHorizontal.setVisibility(type == Type.HORIZONTAL ? View.VISIBLE : View.GONE);
             vText.setVisibility(View.GONE);
             vAction.setVisibility(View.GONE);
             vText.setText("");
@@ -155,14 +157,14 @@ public class CardLoading extends Card {
         return this;
     }
 
-    public CardLoading setOnRetry(Callback1<CardLoading> onRetry){
+    public CardLoading setOnRetry(Callback1<CardLoading> onRetry) {
         this.onRetry = onRetry;
         update();
         return this;
     }
 
-    public CardLoading setHorizontal(boolean horizontal) {
-        this.horizontal = horizontal;
+    public CardLoading setType(Type type) {
+        this.type = type;
         update();
         return this;
     }
