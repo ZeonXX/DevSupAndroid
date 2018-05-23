@@ -11,6 +11,8 @@ import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.classes.providers.Provider1;
 
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ public class Navigator {
     //  Presenters
     //
 
-    public static void removePresenter(MvpPresenter presenter){
+    public static void removePresenter(MvpPresenter presenter) {
         presenter.clearView();
         presenter.onDestroy();
         presenters.remove(presenter);
@@ -34,8 +36,8 @@ public class Navigator {
     //
 
     public static void to(MvpPresenter presenter) {
-        if(!presenters.isEmpty()) {
-            if(!getCurrent().isBackStackAllowed()) removePresenter(getCurrent());
+        if (!presenters.isEmpty()) {
+            if (!getCurrent().isBackStackAllowed()) removePresenter(getCurrent());
             else {
                 getCurrent().clearView();
                 getCurrent().onPause();
@@ -46,13 +48,49 @@ public class Navigator {
     }
 
     public static void replace(MvpPresenter presenter) {
-        if(!presenters.isEmpty())removePresenter(getCurrent());
+        if (!presenters.isEmpty()) removePresenter(getCurrent());
         to(presenter);
     }
 
     public static void set(MvpPresenter presenter) {
         while (presenters.size() != 0) removePresenter(presenters.get(0));
         to(presenter);
+    }
+
+    public static void reorder(MvpPresenter presenter) {
+        presenters.remove(presenter);
+        to(presenter);
+    }
+
+    public static void reorderOrCreate(Class<? extends MvpPresenter> presenterClass, Provider<MvpPresenter> provider) {
+        for (int i = presenters.size() - 1; i > -1; i--)
+            if (presenters.get(i).getClass() == presenterClass) {
+                reorder(presenters.get(i));
+                return;
+            }
+
+        to(provider.provide());
+    }
+
+    public static void removeAllEqualsAndTo(MvpPresenter presenter){
+
+        for (int i = 0; i < presenters.size(); i++)
+            if (presenters.get(i).equalsPresenter(presenter))
+                remove(presenters.get(i--));
+
+        to(presenter);
+    }
+
+    public static void removeAll(Class<? extends MvpPresenter> presenterClass) {
+
+        MvpPresenter current = getCurrent();
+        boolean needUpdate = current != null && current.getClass() == presenterClass;
+
+        for (int i = 0; i < presenters.size(); i++)
+            if (presenters.get(i).getClass() == presenterClass)
+                remove(presenters.get(i--));
+
+        if (needUpdate) updateFragment();
     }
 
     public static boolean back() {
@@ -78,10 +116,10 @@ public class Navigator {
 
     public static void updateFragment() {
         MvpActivity activity = SupAndroid.mvpActivityNow();
-        if(activity == null){
-            if(!SupAndroid.mvpActivityIsSubscribed(callback1))
+        if (activity == null) {
+            if (!SupAndroid.mvpActivityIsSubscribed(callback1))
                 SupAndroid.mvpActivity(callback1);
-        }else{
+        } else {
             callback(activity);
         }
     }

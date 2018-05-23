@@ -100,6 +100,10 @@ public class MvpPresenter<K extends MvpFragment>{
         return backStackAllowed;
     }
 
+    public boolean equalsPresenter(MvpPresenter presenter){
+        return presenter != null && presenter.getClass() == getClass();
+    }
+
     //
     //  Actions
     //
