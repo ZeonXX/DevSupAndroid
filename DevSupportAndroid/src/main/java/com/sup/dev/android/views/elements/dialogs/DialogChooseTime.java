@@ -5,14 +5,11 @@ import android.support.annotation.StringRes;
 import android.widget.TimePicker;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 
 public class DialogChooseTime extends BaseDialog {
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final TimePicker vTimePicker;
 
@@ -46,7 +43,7 @@ public class DialogChooseTime extends BaseDialog {
     }
 
     public DialogChooseTime setOnEnter(@StringRes int s, Callback3<DialogChooseTime, Integer, Integer> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogChooseTime setOnEnter(String s, Callback3<DialogChooseTime, Integer, Integer> onEnter) {

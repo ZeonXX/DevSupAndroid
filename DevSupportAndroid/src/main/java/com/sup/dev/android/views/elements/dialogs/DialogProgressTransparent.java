@@ -8,7 +8,9 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public class DialogProgressTransparent extends BaseDialog {
 
@@ -46,8 +48,8 @@ public class DialogProgressTransparent extends BaseDialog {
     }
 
     public DialogProgressTransparent show() {
-        SupAndroid.di.utilsThreads().main(1000, () -> {
-            SupAndroid.di.utilsView().fromAlpha(view, 600);
+        ToolsThreads.main(1000, () -> {
+            ToolsView.fromAlpha(view, 600);
             dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         });
         return (DialogProgressTransparent) super.show();

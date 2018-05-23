@@ -2,31 +2,24 @@ package com.sup.dev.android.views.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.android.views.widgets.layouts.LayoutChip;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 public class ViewAvatarTitle extends LayoutChip {
-
-    private final UtilsView utilsView;
-    private final UtilsResources utilsResources;
 
     private final AnimationFocus animationFocus;
     private final Paint paint;
@@ -46,16 +39,14 @@ public class ViewAvatarTitle extends LayoutChip {
         setWillNotDraw(false);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsResources = SupAndroid.di.utilsResources();
 
-        int focusColor = utilsResources.getColor(R.color.focus);
+        int focusColor = ToolsResources.getColor(R.color.focus);
 
         path = new Path();
         paint = new Paint();
         paint.setAntiAlias(true);
 
-        View view = utilsView.inflate(context, R.layout.view_avatar_title);
+        View view = ToolsView.inflate(context, R.layout.view_avatar_title);
 
         vAvatar = view.findViewById(R.id.dev_sup_avatar);
         vTitle = view.findViewById(R.id.dev_sup_title);
@@ -71,14 +62,14 @@ public class ViewAvatarTitle extends LayoutChip {
         String mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title);
         String mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle);
         float iconPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0);
-        float chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, utilsView.dpToPx(24));
+        float chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(24));
         a.recycle();
 
         animationFocus = new AnimationFocus(this, focusColor);
 
         vAvatar.setImage(src);
-        vAvatar.getChip().setSize(utilsView.pxToDp(chipSize));
-        vAvatar.getChip().setIconPadding(utilsView.pxToDp(iconPadding));
+        vAvatar.getChip().setSize(ToolsView.pxToDp(chipSize));
+        vAvatar.getChip().setIconPadding(ToolsView.pxToDp(iconPadding));
         vAvatar.getChip().setIcon(srcIcon);
         vAvatar.getChip().setText(chipText);
         vAvatar.getChip().setChipBackground(chipBackground);

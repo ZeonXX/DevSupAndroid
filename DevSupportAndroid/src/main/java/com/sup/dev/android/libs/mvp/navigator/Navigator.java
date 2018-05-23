@@ -5,25 +5,25 @@ import android.content.Context;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
-import com.sup.dev.android.libs.mvp.fragments.MvpPresenterInterface;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
 import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
-public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
+public class Navigator {
 
-    private ArrayList<MvpPresenterInterface> presenters = new ArrayList<>();
+    private static ArrayList<MvpPresenter> presenters = new ArrayList<>();
+    private static Callback1<MvpActivity> callback1 = mvpActivity -> callback(mvpActivity);
 
     //
     //  Presenters
     //
 
-    public void removePresenter(MvpPresenterInterface presenter){
+    public static void removePresenter(MvpPresenter presenter){
         presenter.clearView();
         presenter.onDestroy();
         presenters.remove(presenter);
@@ -33,7 +33,7 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     //  Navigation
     //
 
-    public void to(MvpPresenterInterface presenter) {
+    public static void to(MvpPresenter presenter) {
         if(!presenters.isEmpty()) {
             if(!getCurrent().isBackStackAllowed()) removePresenter(getCurrent());
             else {
@@ -45,20 +45,20 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
         updateFragment();
     }
 
-    public void replace(MvpPresenterInterface presenter) {
+    public static void replace(MvpPresenter presenter) {
         if(!presenters.isEmpty())removePresenter(getCurrent());
         to(presenter);
     }
 
-    public void set(MvpPresenterInterface presenter) {
+    public static void set(MvpPresenter presenter) {
         while (presenters.size() != 0) removePresenter(presenters.get(0));
         to(presenter);
     }
 
-    public boolean back() {
+    public static boolean back() {
         if (!hasBackStack()) return false;
 
-        MvpPresenterInterface current = getCurrent();
+        MvpPresenter current = getCurrent();
         removePresenter(current);
         updateFragment();
 
@@ -67,7 +67,7 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
         return true;
     }
 
-    public void remove(MvpPresenterInterface presenter) {
+    public static void remove(MvpPresenter presenter) {
         if (getCurrent() == presenter) back();
         else removePresenter(presenter);
     }
@@ -76,30 +76,30 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     //  Activity
     //
 
-    public void updateFragment() {
-        MvpActivity activity = SupAndroid.di.mvpActivityNow();
+    public static void updateFragment() {
+        MvpActivity activity = SupAndroid.mvpActivityNow();
         if(activity == null){
-            if(!SupAndroid.di.mvpActivityIsSubscribed(this))
-                SupAndroid.di.mvpActivity(this);
+            if(!SupAndroid.mvpActivityIsSubscribed(callback1))
+                SupAndroid.mvpActivity(callback1);
         }else{
             callback(activity);
         }
     }
 
-    public void callback(MvpActivity activity) {
+    public static void callback(MvpActivity activity) {
         activity.setFragment(getCurrent().instanceView((Context) activity));
         getCurrent().onResume();
     }
 
-    public void onActivityStop() {
+    public static void onActivityStop() {
         getCurrent().onPause();
     }
 
-    public void onActivityDestroy() {
+    public static void onActivityDestroy() {
         getCurrent().clearView();
     }
 
-    public boolean onBackPressed() {
+    public static boolean onBackPressed() {
         return (!presenters.isEmpty() && getCurrent().onBackPressed()) || back();
     }
 
@@ -107,11 +107,11 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     //  Getters
     //
 
-    public boolean hasBackStack() {
+    public static boolean hasBackStack() {
         return presenters.size() > 1;
     }
 
-    public MvpPresenterInterface getCurrent() {
+    public static MvpPresenter getCurrent() {
         if (presenters.isEmpty()) return null;
         return presenters.get(presenters.size() - 1);
     }
@@ -120,8 +120,8 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     //  Support Methods
     //
 
-    public void showProgressDialog(Callback1<DialogProgressTransparent> onShow) {
-        SupAndroid.di.mvpActivity(activity -> {
+    public static void showProgressDialog(Callback1<DialogProgressTransparent> onShow) {
+        SupAndroid.mvpActivity(activity -> {
             DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
             dialog.setCancelable(false);
             dialog.show();
@@ -129,12 +129,12 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
         });
     }
 
-    public void showProgressDialog(int title, Callback1<DialogProgressWithTitle> onShow) {
-        showProgressDialog(SupAndroid.di.utilsResources().getString(title), onShow);
+    public static void showProgressDialog(int title, Callback1<DialogProgressWithTitle> onShow) {
+        showProgressDialog(ToolsResources.getString(title), onShow);
     }
 
-    public void showProgressDialog(String title, Callback1<DialogProgressWithTitle> onShow) {
-        SupAndroid.di.mvpActivity(activity -> {
+    public static void showProgressDialog(String title, Callback1<DialogProgressWithTitle> onShow) {
+        SupAndroid.mvpActivity(activity -> {
             DialogProgressWithTitle dialog = new DialogProgressWithTitle((Context) activity);
             dialog.setTitle(title);
             dialog.setCancelable(false);
@@ -147,14 +147,14 @@ public class MvpNavigatorImpl implements MvpNavigator, Callback1<MvpActivity> {
     //  Listeners
     //
 
-    private final CallbacksList2<MvpPresenterInterface, MvpPresenterInterface> onBack = new CallbacksList2<>();
+    private static final CallbacksList2<MvpPresenter, MvpPresenter> onBack = new CallbacksList2<>();
 
-    public void addOnBackListener(Callback2<MvpPresenterInterface, MvpPresenterInterface> onBack) {
-        this.onBack.add(onBack);
+    public static void addOnBackListener(Callback2<MvpPresenter, MvpPresenter> onBack) {
+        Navigator.onBack.add(onBack);
     }
 
-    public void removeOnBackListener(Callback2<MvpPresenterInterface, MvpPresenterInterface> onBack) {
-        this.onBack.remove(onBack);
+    public static void removeOnBackListener(Callback2<MvpPresenter, MvpPresenter> onBack) {
+        Navigator.onBack.remove(onBack);
     }
 
 }

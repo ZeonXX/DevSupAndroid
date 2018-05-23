@@ -13,19 +13,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewAvatar extends FrameLayout {
-
-    private final UtilsView utilsView;
-    private final UtilsResources utilsResources;
 
     private final Paint paint;
     private final AnimationFocus animationFocus;
@@ -44,14 +39,12 @@ public class ViewAvatar extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsResources = SupAndroid.di.utilsResources();
-        int focusColor = utilsResources.getColor(R.color.focus);
+        int focusColor = ToolsResources.getColor(R.color.focus);
 
         paint = new Paint();
         paint.setAntiAlias(true);
 
-        View view = utilsView.inflate(context, R.layout.view_avatar);
+        View view = ToolsView.inflate(context, R.layout.view_avatar);
         vImage = view.findViewById(R.id.dev_sup_image);
         vChip = view.findViewById(R.id.dev_sup_chip);
         vTouch = view.findViewById(R.id.dev_sup_avatar_touch);
@@ -69,15 +62,15 @@ public class ViewAvatar extends FrameLayout {
         int srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0);
         boolean iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false);
         float iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0);
-        float chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, utilsView.dpToPx(24));
+        float chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(24));
         int roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000);
         a.recycle();
 
         animationFocus = new AnimationFocus(vTouch, focusColor);
 
         setImage(src);
-        vChip.setSize(utilsView.pxToDp(chipSize));
-        vChip.setIconPadding(utilsView.pxToDp(iconPadding));
+        vChip.setSize(ToolsView.pxToDp(chipSize));
+        vChip.setIconPadding(ToolsView.pxToDp(iconPadding));
         vChip.setIcon(srcIcon);
         vChip.setText(text);
         vChip.setUseIconBackground(iconUseBackground);
@@ -109,8 +102,8 @@ public class ViewAvatar extends FrameLayout {
     @Override
     public void setLayoutParams(ViewGroup.LayoutParams params) {
         if (params.width == LayoutParams.WRAP_CONTENT && params.height == LayoutParams.WRAP_CONTENT) {
-            params.width = utilsView.dpToPx(52);
-            params.height = utilsView.dpToPx(52);
+            params.width = ToolsView.dpToPx(52);
+            params.height = ToolsView.dpToPx(52);
         }
 
         if (params.width > 0 && params.height == LayoutParams.WRAP_CONTENT)
@@ -127,7 +120,7 @@ public class ViewAvatar extends FrameLayout {
 
 
     public void setCircleBackgroundColorResource(@ColorRes int roundBackgroundColorRes) {
-        setRoundBackgroundColor(utilsResources.getColor(roundBackgroundColorRes));
+        setRoundBackgroundColor(ToolsResources.getColor(roundBackgroundColorRes));
     }
 
     public void setRoundBackgroundColor(int roundBackgroundColor) {

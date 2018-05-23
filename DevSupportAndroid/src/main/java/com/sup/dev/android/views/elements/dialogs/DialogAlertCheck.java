@@ -6,14 +6,11 @@ import android.widget.CheckBox;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsStorage;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsStorage;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogAlertCheck extends BaseDialog{
-
-    private final UtilsStorage utilsStorage = SupAndroid.di.utilsStorage();
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final String key;
     private final CheckBox vCheck;
@@ -21,11 +18,11 @@ public class DialogAlertCheck extends BaseDialog{
     private boolean lockUntilAccept;
 
     public static boolean check(String key) {
-        return SupAndroid.di.utilsStorage().getBoolean(key, false);
+        return ToolsStorage.getBoolean(key, false);
     }
 
     public static void clear(String key) {
-        SupAndroid.di.utilsStorage().remove(key);
+        ToolsStorage.remove(key);
     }
 
     public DialogAlertCheck(Context viewContext, String key) {
@@ -40,7 +37,7 @@ public class DialogAlertCheck extends BaseDialog{
     }
 
     public DialogAlertCheck setCheckText(@StringRes int text) {
-        return setCheckText(utilsResources.getString(text));
+        return setCheckText(ToolsResources.getString(text));
     }
 
     public DialogAlertCheck setCheckText(String text) {
@@ -126,7 +123,7 @@ public class DialogAlertCheck extends BaseDialog{
 
     public DialogAlertCheck setOnEnter(String s, Callback1<BaseDialog> onEnter) {
         super.setOnEnter(s, d->{
-            utilsStorage.put(key, vCheck.isChecked());
+            ToolsStorage.put(key, vCheck.isChecked());
             if (onEnter != null) onEnter.callback(this);
         });
         return this;

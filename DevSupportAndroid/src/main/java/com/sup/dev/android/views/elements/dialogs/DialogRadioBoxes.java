@@ -8,15 +8,12 @@ import android.widget.LinearLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogRadioBoxes<K> extends BaseDialog{
-
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final LinearLayout vOptionsContainer;
 
@@ -28,7 +25,7 @@ public class DialogRadioBoxes<K> extends BaseDialog{
     }
 
     public DialogRadioBoxes<K> addItem(@StringRes int text) {
-        return addItem(utilsResources.getString(text));
+        return addItem(ToolsResources.getString(text));
     }
 
     public DialogRadioBoxes<K> addItem(String text) {
@@ -36,7 +33,7 @@ public class DialogRadioBoxes<K> extends BaseDialog{
     }
 
     public DialogRadioBoxes<K> addItem(K key, @StringRes int text) {
-        return addItem(key, utilsResources.getString(text));
+        return addItem(key, ToolsResources.getString(text));
     }
 
     public DialogRadioBoxes<K> addItem(K key, String text) {
@@ -49,7 +46,7 @@ public class DialogRadioBoxes<K> extends BaseDialog{
         checkBox.setTag(key);
         vOptionsContainer.addView(checkBox);
         if (vOptionsContainer.getChildCount() > 1)
-            ((ViewGroup.MarginLayoutParams) checkBox.getLayoutParams()).topMargin = utilsView.dpToPx(16);
+            ((ViewGroup.MarginLayoutParams) checkBox.getLayoutParams()).topMargin = ToolsView.dpToPx(16);
         return this;
     }
 
@@ -120,7 +117,7 @@ public class DialogRadioBoxes<K> extends BaseDialog{
     }
 
     public DialogRadioBoxes<K> setOnEnter(@StringRes int s, Callback2<DialogRadioBoxes<K>, K> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogRadioBoxes<K> setOnEnter(String s, Callback2<DialogRadioBoxes<K>, K> onEnter) {

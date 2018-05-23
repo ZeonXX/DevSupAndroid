@@ -7,16 +7,13 @@ import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsAndroid;
+import com.sup.dev.android.tools.ToolsView;
 
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.UNSPECIFIED;
 
 public class LayoutMaxSizes extends FrameLayout {
-
-    private final UtilsAndroid utilsAndroid;
-    private final UtilsView utilsView;
 
     private int maxWidth;
     private int maxHeight;
@@ -39,8 +36,6 @@ public class LayoutMaxSizes extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsAndroid = SupAndroid.di.utilsAndroid();
-        utilsView = SupAndroid.di.utilsView();
 
         setWillNotDraw(false);
 
@@ -68,11 +63,11 @@ public class LayoutMaxSizes extends FrameLayout {
             return;
         }
 
-        boolean reverse = reversMaxValuesOnScreenRotation && utilsAndroid.isScreenLandscape();
+        boolean reverse = reversMaxValuesOnScreenRotation && ToolsAndroid.isScreenLandscape();
         boolean uScreenW = reverse ? useScreenHeightAsParent : useScreenWidthAsParent;
         boolean uScreenH = reverse ? useScreenWidthAsParent : useScreenHeightAsParent;
-        int w = uScreenW ? utilsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
-        int h = uScreenH ? utilsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
+        int w = uScreenW ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
+        int h = uScreenH ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
         int wm = MeasureSpec.getMode(widthMeasureSpec);
         int hm = MeasureSpec.getMode(heightMeasureSpec);
         int maxW = reverse ? maxHeight : maxWidth;
@@ -119,12 +114,12 @@ public class LayoutMaxSizes extends FrameLayout {
     //
 
     public void setMaxWidth(int maxWidthDp) {
-        this.maxWidth = utilsView.dpToPx(maxWidthDp);
+        this.maxWidth = ToolsView.dpToPx(maxWidthDp);
         requestLayout();
     }
 
     public void setMaxHeight(int maxHeightDp) {
-        this.maxHeight = utilsView.dpToPx(maxHeightDp);
+        this.maxHeight = ToolsView.dpToPx(maxHeightDp);
         requestLayout();
     }
 

@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -7,27 +7,27 @@ import android.os.Environment;
 import android.support.annotation.MainThread;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsStorage;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.json.Json;
 import com.sup.dev.java.libs.json.JsonArray;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class UtilsStorageImpl implements UtilsStorage {
+public class ToolsStorage {
 
-    private final String externalFileNamePrefix;
-    protected final SharedPreferences preferences;
+    private static String externalFileNamePrefix;
+    protected static SharedPreferences preferences;
 
-    public UtilsStorageImpl(String externalFileNamePrefix, String storageKey) {
-        this.externalFileNamePrefix = externalFileNamePrefix;
-        preferences = SupAndroid.di.appContext().getSharedPreferences(storageKey, Activity.MODE_PRIVATE);
+    public static void init(String externalFileNamePrefix, String storageKey) {
+        ToolsStorage.externalFileNamePrefix = externalFileNamePrefix;
+        preferences = SupAndroid.appContext.getSharedPreferences(storageKey, Activity.MODE_PRIVATE);
     }
 
-    public boolean contains(String key) {
+    public static boolean contains(String key) {
         return preferences.contains(key);
     }
 
@@ -35,33 +35,38 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Get
     //
 
-    public boolean getBoolean(String key, boolean def) {
+    public static boolean getBoolean(String key, boolean def) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         return preferences.getBoolean(key, def);
     }
 
-    public int getInt(String key, int def) {
+    public static int getInt(String key, int def) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         return preferences.getInt(key, def);
     }
 
-    public long getLong(String key, long def) {
+    public static long getLong(String key, long def) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         return preferences.getLong(key, def);
     }
 
-    public float getFloat(String key, float def) {
+    public static float getFloat(String key, float def) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         return preferences.getFloat(key, def);
     }
 
-    public String getString(String key, String string) {
+    public static String getString(String key, String string) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         return preferences.getString(key, string);
     }
 
-    public byte[] getBytes(String key) {
+    public static byte[] getBytes(String key) {
         String s = preferences.getString(key, null);
         if (s == null) return null;
         return s.getBytes();
     }
 
-    public Json getJson(String key) {
+    public static Json getJson(String key) {
         String s = getString(key, null);
         if (s == null) return null;
         return new Json(s);
@@ -71,31 +76,37 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Put
     //
 
-    public void put(String key, boolean v) {
+    public static void put(String key, boolean v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putBoolean(key, v).apply();
     }
 
-    public void put(String key, int v) {
+    public static void put(String key, int v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putInt(key, v).apply();
     }
 
-    public void put(String key, long v) {
+    public static void put(String key, long v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putLong(key, v).apply();
     }
 
-    public void put(String key, float v) {
+    public static void put(String key, float v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putFloat(key, v).apply();
     }
 
-    public void put(String key, String v) {
+    public static void put(String key, String v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putString(key, v).apply();
     }
 
-    public void put(String key, byte[] value) {
+    public static void put(String key, byte[] value) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().putString(key, new String(value)).apply();
     }
 
-    public void put(String key, Json v) {
+    public static void put(String key, Json v) {
         put(key, v.toString());
     }
 
@@ -103,7 +114,8 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Remove
     //
 
-    public void remove(String key) {
+    public static void remove(String key) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         preferences.edit().remove(key).apply();
     }
 
@@ -112,7 +124,7 @@ public class UtilsStorageImpl implements UtilsStorage {
     //
 
     @MainThread
-    public String[] getStringArray(String key, String[] def) {
+    public static String[] getStringArray(String key, String[] def) {
         String string = preferences.getString(key, null);
         if (string == null || string.isEmpty())
             return def;
@@ -121,7 +133,8 @@ public class UtilsStorageImpl implements UtilsStorage {
     }
 
     @MainThread
-    public void put(String key, String[] v) {
+    public static void put(String key, String[] v) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         JsonArray json = new JsonArray();
         json.put(v);
         preferences.edit().putString(key, json.toString()).apply();
@@ -129,7 +142,7 @@ public class UtilsStorageImpl implements UtilsStorage {
 
 
     @MainThread
-    public void addToStringArray(String key, String v) {
+    public static void addToStringArray(String key, String v) {
 
         String[] stringArray = getStringArray(key, new String[0]);
         String[] copy = new String[stringArray.length + 1];
@@ -140,7 +153,7 @@ public class UtilsStorageImpl implements UtilsStorage {
     }
 
     @MainThread
-    public void removeFromStringArray(String key, String v) {
+    public static void removeFromStringArray(String key, String v) {
 
         String[] stringArray = getStringArray(key, new String[0]);
         ArrayList<String> copy = new ArrayList<>();
@@ -154,7 +167,7 @@ public class UtilsStorageImpl implements UtilsStorage {
     }
 
     @MainThread
-    public void removeFromStringArray(String key, int index) {
+    public static void removeFromStringArray(String key, int index) {
 
         String[] stringArray = getStringArray(key, new String[0]);
         ArrayList<String> copy = new ArrayList<>();
@@ -171,28 +184,31 @@ public class UtilsStorageImpl implements UtilsStorage {
     //  Files
     //
 
-    public void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
+    public static void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        ToolsPermission.requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
             try {
                 FileOutputStream out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
-                SupAndroid.di.utilsThreads().main(() -> onComplete.callback(f));
+                ToolsThreads.main(() -> onComplete.callback(f));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }, onPermissionPermissionRestriction);
     }
 
-    public void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public static void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
         saveFile(activity, new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
                 bytes, onComplete, onPermissionPermissionRestriction);
     }
 
-    public void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
+    public static void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        ToolsPermission.requestWritePermission(activity, () -> {
             final File f = new File(patch);
             f.delete();
             if(f.getParentFile() != null)f.getParentFile().mkdirs();
@@ -200,7 +216,7 @@ public class UtilsStorageImpl implements UtilsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);
                 out.close();
-                SupAndroid.di.utilsThreads().main(() -> onComplete.callback(f));
+                ToolsThreads.main(() -> onComplete.callback(f));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

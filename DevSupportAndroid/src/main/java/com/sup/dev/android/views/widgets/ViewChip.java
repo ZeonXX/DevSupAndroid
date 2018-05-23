@@ -20,18 +20,14 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewChip extends FrameLayout {
-
-    private final UtilsView utilsView;
-    private final UtilsResources utilsResources;
 
     private final AnimationFocus animationFocus;
     private final AnimationSpringColor animationBackground;
@@ -62,20 +58,18 @@ public class ViewChip extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsResources = SupAndroid.di.utilsResources();
-        int focusColor = utilsResources.getColor(R.color.focus);
+        int focusColor = ToolsResources.getColor(R.color.focus);
         unselectedBackground = focusColor;
 
         setWillNotDraw(false);
-        background = utilsResources.getAccentColor(context);
+        background = ToolsResources.getAccentColor(context);
 
         path = new Path();
         paint = new Paint();
         paint.setAntiAlias(true);
-        utilsView.inflate(context, R.layout.view_chip);
+        ToolsView.inflate(context, R.layout.view_chip);
 
-        view = utilsView.inflate(context, R.layout.view_chip);
+        view = ToolsView.inflate(context, R.layout.view_chip);
         vTextView = view.findViewById(R.id.dev_sup_text);
         vIcon = view.findViewById(R.id.dev_sup_icon);
 
@@ -90,7 +84,7 @@ public class ViewChip extends FrameLayout {
         useIconBackground = a.getBoolean(R.styleable.ViewChip_ViewChip_iconUseBackground, useIconBackground);
         int icon = a.getResourceId(R.styleable.ViewChip_ViewChip_icon, 0);
         float iconPadding = a.getDimension(R.styleable.ViewChip_ViewChip_iconPadding, 0);
-        float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, utilsView.dpToPx(36));
+        float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, ToolsView.dpToPx(36));
         a.recycle();
 
         animationFocus = new AnimationFocus(this, focusColor);
@@ -99,8 +93,8 @@ public class ViewChip extends FrameLayout {
         vTextView.setText(text);
         addView(view);
 
-        setSize(utilsView.pxToDp(size));
-        setIconPadding(utilsView.pxToDp(iconPadding));
+        setSize(ToolsView.pxToDp(size));
+        setIconPadding(ToolsView.pxToDp(iconPadding));
         setIcon(icon);
         setSelectionMode(selectionMode);
     }
@@ -190,7 +184,7 @@ public class ViewChip extends FrameLayout {
     }
 
     public void setIconPadding(int dp) {
-        int px = utilsView.dpToPx(dp);
+        int px = ToolsView.dpToPx(dp);
         vIcon.setDisableCircle(px > 0);
         vIcon.setPadding(px, px, px, px);
         recreateChip();
@@ -214,7 +208,7 @@ public class ViewChip extends FrameLayout {
 
 
     public void setSize(int dp) {
-        int size = utilsView.dpToPx(dp);
+        int size = ToolsView.dpToPx(dp);
         vIcon.getLayoutParams().width = size;
         vIcon.getLayoutParams().height = size;
         vTextView.getLayoutParams().height = size;

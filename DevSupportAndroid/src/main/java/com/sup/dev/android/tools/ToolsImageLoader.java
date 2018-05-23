@@ -1,19 +1,15 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsBitmap;
-import com.sup.dev.android.utils.interfaces.UtilsImageLoader;
-import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.android.views.widgets._support.ViewImageFlash;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.collections.CashBytes;
 import com.sup.dev.java.classes.providers.Provider1;
 import com.sup.dev.java.libs.debug.Debug;
-import com.sup.dev.java.utils.interfaces.UtilsNetwork;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.java.tools.ToolsNetwork;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,24 +17,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class UtilsImageLoaderImpl implements UtilsImageLoader {
+public class ToolsImageLoader {
 
-    private final UtilsBitmap utilsBitmap = SupAndroid.di.utilsBitmap();
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
-    private final UtilsNetwork utilsNetwork = SupAndroid.di.utilsNetwork();
-    private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
+    private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * 5);
+    private static final ArrayList<Loader> turn = new ArrayList<>();
+    private static Provider1<Long, byte[]> loaderCustom;
+    private static ThreadPoolExecutor threadPool;
 
-    private final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * 5);
-    private final ArrayList<Loader> turn = new ArrayList<>();
-    private final Provider1<Long, byte[]> loaderCustom;
-    private final ThreadPoolExecutor threadPool;
-
-    public UtilsImageLoaderImpl() {
-        this(null);
-    }
-
-    public UtilsImageLoaderImpl(Provider1<Long, byte[]> loaderCustom) {
-        this.loaderCustom = loaderCustom;
+    public static void init(Provider1<Long, byte[]> loaderCustom){
+        ToolsImageLoader.loaderCustom = loaderCustom;
         threadPool = new ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
@@ -46,31 +33,31 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     //  Public
     //
 
-    public void clearCash(long imageId) {
+    public static void clearCash(long imageId) {
         synchronized (bitmapCash) {
             bitmapCash.remove(asKey(imageId));
         }
     }
 
-    public void clearCash(String url) {
+    public static void clearCash(String url) {
         synchronized (bitmapCash) {
             bitmapCash.remove(url);
         }
     }
 
-    public void replace(long imageId, byte[] bytes) {
+    public static void replace(long imageId, byte[] bytes) {
         synchronized (bitmapCash) {
             bitmapCash.replace(asKey(imageId), bytes);
         }
     }
 
-    public void replace(String url, byte[] bytes) {
+    public static void replace(String url, byte[] bytes) {
         synchronized (bitmapCash) {
             bitmapCash.replace(asKey(url), bytes);
         }
     }
 
-    public void unsubscribe(ImageView vImage) {
+    public static void unsubscribe(ImageView vImage) {
 
         if (vImage == null) return;
 
@@ -80,39 +67,41 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
 
     }
 
-    public void load(long imageId) {
+    public static void load(long imageId) {
         load(imageId, null, null);
     }
 
-    public void load(long imageId, Callback1<byte[]> onLoaded) {
+    public static void load(long imageId, Callback1<byte[]> onLoaded) {
         load(imageId, null, onLoaded);
     }
 
-    public void load(long imageId, ImageView vImage) {
+    public static void load(long imageId, ImageView vImage) {
         load(imageId, vImage, null);
     }
 
-    public void load(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
+    public static void load(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
         load(new LoaderCustom(imageId, vImage, onLoaded));
     }
 
-    public void load(String url) {
+    public static void load(String url) {
         load(url, null, null);
     }
 
-    public void load(String url, Callback1<byte[]> onLoaded) {
+    public static void load(String url, Callback1<byte[]> onLoaded) {
         load(url, null, onLoaded);
     }
 
-    public void load(String url, ImageView vImage) {
+    public static void load(String url, ImageView vImage) {
         load(url, vImage, null);
     }
 
-    public void load(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
+    public static void load(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
         load(new LoaderUrl(url, vImage, onLoaded));
     }
 
-    public void load(Loader loader) {
+    public static void load(Loader loader) {
+
+        if(threadPool == null) throw new RuntimeException("You must call ToolsImageLoader.init");
 
         if (checkCash(loader)) return;
 
@@ -135,14 +124,14 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     //  Methods
     //
 
-    private void loadNow(Loader loader) {
+    private static void loadNow(Loader loader) {
 
         byte[] bytes = loader.load();
         synchronized (bitmapCash) {
             bitmapCash.add(loader.key, bytes);
         }
 
-        utilsThreads.main(() -> {
+        ToolsThreads.main(() -> {
 
             for (int i = 0; i < turn.size(); i++) {
                 if (turn.get(i).isKey(loader.key)) {
@@ -156,14 +145,14 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
 
     }
 
-    private void putImage(Loader loader, byte[] bytes, boolean animate) {
+    private static void putImage(Loader loader, byte[] bytes, boolean animate) {
         if (!loader.isKey(loader.vImage.getTag())) return;
-        loader.vImage.setImageBitmap(utilsBitmap.decode(bytes));
-        utilsView.fromAlpha(loader.vImage);
+        loader.vImage.setImageBitmap(ToolsBitmap.decode(bytes));
+        ToolsView.fromAlpha(loader.vImage);
         if (animate && loader.vImage instanceof ViewImageFlash) ((ViewImageFlash) loader.vImage).makeFlash();
     }
 
-    private boolean checkCash(Loader loader) {
+    private static boolean checkCash(Loader loader) {
 
         byte[] bytes;
         synchronized (bitmapCash) {
@@ -182,11 +171,11 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     //  Support
     //
 
-    private String asKey(long imageId){
+    private static String asKey(long imageId){
         return "imgId_" + imageId;
     }
 
-    private String asKey(String url){
+    private static String asKey(String url){
         return "url_" + url;
     }
 
@@ -194,7 +183,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
     //  Loaders
     //
 
-    private abstract class Loader {
+    private static abstract class Loader {
 
         private final ImageView vImage;
         private final Object key;
@@ -215,7 +204,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
         abstract byte[] load();
     }
 
-    private class LoaderCustom extends Loader {
+    private static class LoaderCustom extends Loader {
 
         private long imageId;
 
@@ -229,7 +218,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
         }
     }
 
-    private class LoaderUrl extends Loader {
+    private static class LoaderUrl extends Loader {
 
         private final String url;
 
@@ -240,7 +229,7 @@ public class UtilsImageLoaderImpl implements UtilsImageLoader {
 
         byte[] load() {
             try {
-                return utilsNetwork.getBytesFromURL(url);
+                return ToolsNetwork.getBytesFromURL(url);
             } catch (IOException e) {
                 Debug.log(e);
                 return null;

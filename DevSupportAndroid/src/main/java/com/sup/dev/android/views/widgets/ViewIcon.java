@@ -2,24 +2,17 @@ package com.sup.dev.android.views.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.animations.AnimationFocus;
-import com.sup.dev.android.utils.interfaces.UtilsBitmap;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
@@ -50,10 +43,9 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
-        accentColor = utilsResources.getAccentColor(context);
-        int focusColor = utilsResources.getColor(R.color.focus);
+        accentColor = ToolsResources.getAccentColor(context);
+        int focusColor = ToolsResources.getColor(R.color.focus);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewIcon, 0, 0);
         src = a.getResourceId(R.styleable.ViewIcon_android_src, src);

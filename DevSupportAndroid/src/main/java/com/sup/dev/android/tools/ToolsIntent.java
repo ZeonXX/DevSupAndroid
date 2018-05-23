@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
 
@@ -21,7 +20,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsIntent;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -29,26 +27,22 @@ import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.tools.ToolsText;
 import com.sup.dev.java.libs.debug.Debug;
 
-public class UtilsIntentImpl implements UtilsIntent {
+public class ToolsIntent {
 
     private static final String SHARE_FOLDER = "sup_share_cash";
 
     private static int codeCounter = 0;
-    private final ArrayList<Item2<Integer, Callback2<Integer, Intent>>> progressIntents = new ArrayList<>();
+    private static final ArrayList<Item2<Integer, Callback2<Integer, Intent>>> progressIntents = new ArrayList<>();
 
-    public UtilsIntentImpl(){
-        new File(getCashRoot()).delete();
-    }
-
-    public void startIntentForResult(Intent intent, Callback2<Integer, Intent> onResult) {
+    public static void startIntentForResult(Intent intent, Callback2<Integer, Intent> onResult) {
         if (codeCounter == 65000)
             codeCounter = 0;
         int code = codeCounter++;
         progressIntents.add(new Item2<>(code, onResult));
-        SupAndroid.di.mvpActivity(mvpActivity -> ((Activity) mvpActivity).startActivityForResult(intent, code));
+        SupAndroid.mvpActivity(mvpActivity -> mvpActivity.startActivityForResult(intent, code));
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
+    public static void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
         for (Item2<Integer, Callback2<Integer, Intent>> pair : progressIntents)
             if (requestCode == pair.a1) {
                 progressIntents.remove(pair);
@@ -58,19 +52,19 @@ public class UtilsIntentImpl implements UtilsIntent {
 
     }
 
-    public void openApp(int stringID) {
+    public static void openApp(int stringID) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(SupAndroid.di.utilsResources().getString(stringID)));
-        SupAndroid.di.appContext().startActivity(intent);
+        intent.setData(Uri.parse(ToolsResources.getString(stringID)));
+        SupAndroid.appContext.startActivity(intent);
     }
 
     //
     //  Intents
     //
 
-    public void startIntent(Intent intent, Callback onActivityNotFound) {
+    public static void startIntent(Intent intent, Callback onActivityNotFound) {
         try {
-            SupAndroid.di.appContext().startActivity(intent);
+            SupAndroid.appContext.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Debug.log(ex);
             if (onActivityNotFound != null)
@@ -79,17 +73,17 @@ public class UtilsIntentImpl implements UtilsIntent {
     }
 
 
-    public void startWeb(String link, Callback onActivityNotFound) {
+    public static void startWeb(String link, Callback onActivityNotFound) {
         startIntent(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void startApp(String packageName, Callback onActivityNotFound) {
+    public static void startApp(String packageName, Callback onActivityNotFound) {
         startApp(packageName, null, onActivityNotFound);
     }
 
-    public void startApp(String packageName, Callback1<Intent> onIntentCreated, Callback onActivityNotFound) {
-        PackageManager manager = SupAndroid.di.appContext().getPackageManager();
+    public static void startApp(String packageName, Callback1<Intent> onIntentCreated, Callback onActivityNotFound) {
+        PackageManager manager = SupAndroid.appContext.getPackageManager();
         Intent intent = manager.getLaunchIntentForPackage(packageName);
         if (intent == null) {
             if (onActivityNotFound != null) onActivityNotFound.callback();
@@ -100,25 +94,31 @@ public class UtilsIntentImpl implements UtilsIntent {
         startIntent(intent, onActivityNotFound);
     }
 
-    public void startPlayMarket(String packageName, Callback onActivityNotFound) {
+    public static void startPlayMarket(String packageName, Callback onActivityNotFound) {
         startIntent(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName + "&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void startMail(String link, Callback onActivityNotFound) {
+    public static void startMail(String link, Callback onActivityNotFound) {
         startIntent(new Intent(android.content.Intent.ACTION_SENDTO, Uri.parse("mailto:" + link))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void startPhone(String phone, Callback onActivityNotFound) {
+    public static void startPhone(String phone, Callback onActivityNotFound) {
         startIntent(new Intent(android.content.Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
-    public void shareImage(Bitmap bitmap, String text, String providerKey, Callback onActivityNotFound) {
+    public static void shareImage(Bitmap bitmap, String text, String providerKey, Callback onActivityNotFound) {
+
+        File[] files = new File(getCashRoot()).listFiles();
+        for(File f : files)
+            if(f.getName().contains("x_share_i"))
+                f.delete();
+
         new File(getCashRoot()).mkdirs();
 
-        String patch =  getCashRoot() + System.currentTimeMillis() + ".png";
+        String patch =  getCashRoot() + System.currentTimeMillis() + "_x_share_i.png";
 
         OutputStream out;
         File file = new File(patch);
@@ -131,7 +131,7 @@ public class UtilsIntentImpl implements UtilsIntent {
             Debug.log(e);
         }
 
-        SupAndroid.di.mvpActivity(activity -> {
+        SupAndroid.mvpActivity(activity -> {
             try {
                 ((Activity)activity).startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -148,26 +148,26 @@ public class UtilsIntentImpl implements UtilsIntent {
 
     }
 
-    public void shareFile(String patch, String providerKey, Callback onActivityNotFound) {
-        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
+    public static void shareFile(String patch, String providerKey, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(SupAndroid.appContext, providerKey, new File(patch));
         shareFile(fileUti, onActivityNotFound);
     }
 
-    public void shareFile(String patch, String providerKey, String type, Callback onActivityNotFound) {
-        Uri fileUti = FileProvider.getUriForFile(SupAndroid.di.appContext(), providerKey, new File(patch));
+    public static void shareFile(String patch, String providerKey, String type, Callback onActivityNotFound) {
+        Uri fileUti = FileProvider.getUriForFile(SupAndroid.appContext, providerKey, new File(patch));
         shareFile(fileUti, type, onActivityNotFound);
     }
 
-    public void shareFile(Uri uri, Callback onActivityNotFound) {
+    public static void shareFile(Uri uri, Callback onActivityNotFound) {
         shareFile(uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound);
     }
 
-    public void shareFile(Uri uri, String type, Callback onActivityNotFound) {
+    public static void shareFile(Uri uri, String type, Callback onActivityNotFound) {
         shareFile(uri, type, null, onActivityNotFound);
     }
 
-    public void shareFile(Uri uri, String type, String text, Callback onActivityNotFound) {
-        SupAndroid.di.mvpActivity(activity -> {
+    public static void shareFile(Uri uri, String type, String text, Callback onActivityNotFound) {
+        SupAndroid.mvpActivity(activity -> {
             try {
                 Intent i = new Intent()
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -175,7 +175,7 @@ public class UtilsIntentImpl implements UtilsIntent {
                         .putExtra(Intent.EXTRA_STREAM, uri)
                         .setType(type);
                 if(text == null)i.putExtra(Intent.EXTRA_TEXT, text);
-                ((Activity)activity).startActivity(Intent.createChooser(i, null));
+                activity.startActivity(Intent.createChooser(i, null));
             } catch (ActivityNotFoundException ex) {
                 Debug.log(ex);
                 if (onActivityNotFound != null) onActivityNotFound.callback();
@@ -183,7 +183,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         });
     }
 
-    public void shareText(String text, Callback onActivityNotFound) {
+    public static void shareText(String text, Callback onActivityNotFound) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND)
                 .setType("text/plain")
                 .putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here")
@@ -195,7 +195,7 @@ public class UtilsIntentImpl implements UtilsIntent {
     //  Intents result
     //
 
-    public void getGalleryImage(Callback1<Uri> onResult, Callback onError) {
+    public static void getGalleryImage(Callback1<Uri> onResult, Callback onError) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         try {
@@ -214,19 +214,19 @@ public class UtilsIntentImpl implements UtilsIntent {
     //  Services / Activities
     //
 
-    public void startService(Class<? extends Service> serviceClass, Object... extras) {
-        android.content.Intent intent = new android.content.Intent(SupAndroid.di.appContext(), serviceClass);
+    public static void startService(Class<? extends Service> serviceClass, Object... extras) {
+        android.content.Intent intent = new android.content.Intent(SupAndroid.appContext, serviceClass);
 
         addExtras(intent, extras);
 
-        SupAndroid.di.appContext().startService(intent);
+        SupAndroid.appContext.startService(intent);
     }
 
-    public void startActivity(Context viewContext, Class<? extends Activity> activityClass, Object... extras) {
+    public static void startActivity(Context viewContext, Class<? extends Activity> activityClass, Object... extras) {
         startActivity(viewContext, activityClass, null, extras);
     }
 
-    public void startActivity(Context viewContext, Class<? extends Activity> activityClass, Integer flags, Object... extras) {
+    public static void startActivity(Context viewContext, Class<? extends Activity> activityClass, Integer flags, Object... extras) {
         android.content.Intent intent = new android.content.Intent(viewContext, activityClass);
 
         addExtras(intent, extras);
@@ -237,7 +237,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         viewContext.startActivity(intent);
     }
 
-    public void addExtras(android.content.Intent intent, Object... extras) {
+    public static void addExtras(android.content.Intent intent, Object... extras) {
         for (int i = 0; i < extras.length; i += 2) {
             Object extra = extras[i + 1];
             if (extra instanceof Parcelable)
@@ -249,7 +249,7 @@ public class UtilsIntentImpl implements UtilsIntent {
         }
     }
 
-    public void sendSalient(PendingIntent intent) {
+    public static void sendSalient(PendingIntent intent) {
         try {
             intent.send();
         } catch (PendingIntent.CanceledException ex) {
@@ -261,8 +261,8 @@ public class UtilsIntentImpl implements UtilsIntent {
     //  Support
     //
 
-    private String getCashRoot(){
-        return SupAndroid.di.appContext().getExternalCacheDir().getAbsolutePath() + SHARE_FOLDER;
+    private static String getCashRoot(){
+        return SupAndroid.appContext.getExternalCacheDir().getAbsolutePath() + SHARE_FOLDER;
     }
 
 

@@ -8,12 +8,9 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsBitmap;
+import com.sup.dev.android.tools.ToolsBitmap;
 
 public class SettingsActionArrow extends SettingsAction {
-
-    private final UtilsBitmap utilsBitmap = SupAndroid.di.utilsBitmap();
 
     private final ImageView vArrow;
 
@@ -54,7 +51,7 @@ public class SettingsActionArrow extends SettingsAction {
         if (enabled)
             vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp);
         else
-            vArrow.setImageBitmap(utilsBitmap.filter(R.drawable.ic_keyboard_arrow_right_white_24dp, 0xAFFFFFFF, true));
+            vArrow.setImageBitmap(ToolsBitmap.filter(R.drawable.ic_keyboard_arrow_right_white_24dp, 0xAFFFFFFF, true));
     }
 
 }

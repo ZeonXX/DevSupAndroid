@@ -8,15 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 
 import java.util.ArrayList;
 
 public class CardSpoiler extends Card {
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final ArrayList<Card> cards = new ArrayList<>();
     private String title;
@@ -88,7 +85,7 @@ public class CardSpoiler extends Card {
     }
 
     public CardSpoiler setTitle(@StringRes int title) {
-        return setTitle(utilsResources.getString(title));
+        return setTitle(ToolsResources.getString(title));
     }
 
     public CardSpoiler setTitle(String title) {

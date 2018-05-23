@@ -15,15 +15,13 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsAndroid;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class BaseDialog {
-
-    private final UtilsAndroid utilsAndroid = SupAndroid.di.utilsAndroid();
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     protected final Context viewContext;
     protected final View view;
@@ -42,7 +40,7 @@ public class BaseDialog {
     protected AppCompatDialog dialog;
 
     public BaseDialog(Context viewContext, @LayoutRes int res) {
-        this(viewContext, SupAndroid.di.utilsView().inflate(viewContext, res));
+        this(viewContext, ToolsView.inflate(viewContext, res));
     }
 
     public BaseDialog(Context viewContext, View view) {
@@ -86,7 +84,7 @@ public class BaseDialog {
         LayoutMaxSizes layoutMaxSizes = new LayoutMaxSizes(viewContext) {
             @Override
             protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                setMaxWidthParentPercent(utilsAndroid.isScreenPortrait() ? 90 : 70);
+                setMaxWidthParentPercent(ToolsAndroid.isScreenPortrait() ? 90 : 70);
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
         };
@@ -124,7 +122,7 @@ public class BaseDialog {
     //
 
     protected BaseDialog setTitle(@StringRes int title) {
-        return setTitle(utilsResources.getString(title));
+        return setTitle(ToolsResources.getString(title));
     }
 
     protected BaseDialog setTitle(String title) {
@@ -134,7 +132,7 @@ public class BaseDialog {
     }
 
     protected BaseDialog setText(@StringRes int text) {
-        return setText(utilsResources.getString(text));
+        return setText(ToolsResources.getString(text));
     }
 
     protected BaseDialog setText(CharSequence text) {
@@ -170,11 +168,11 @@ public class BaseDialog {
     }
 
     protected BaseDialog setOnCancel(@StringRes int s) {
-        return setOnCancel(utilsResources.getString(s), null);
+        return setOnCancel(ToolsResources.getString(s), null);
     }
 
     protected BaseDialog setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
-        return setOnCancel(utilsResources.getString(s), onCancel);
+        return setOnCancel(ToolsResources.getString(s), onCancel);
     }
 
 
@@ -195,7 +193,7 @@ public class BaseDialog {
     }
 
     protected BaseDialog setOnEnter(@StringRes int s) {
-        return setOnEnter(utilsResources.getString(s), null);
+        return setOnEnter(ToolsResources.getString(s), null);
     }
 
     protected BaseDialog setOnEnter(String s) {
@@ -203,7 +201,7 @@ public class BaseDialog {
     }
 
     protected BaseDialog setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     protected BaseDialog setOnEnter(String s, Callback1<BaseDialog> onEnter) {

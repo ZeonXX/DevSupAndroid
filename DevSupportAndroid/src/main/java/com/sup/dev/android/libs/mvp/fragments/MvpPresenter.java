@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.mvp.fragments;
 
-
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.annotation.MainThread;
@@ -14,19 +13,12 @@ import com.sup.dev.android.libs.mvp.fragments.actions.ActionSingle;
 import com.sup.dev.android.libs.mvp.fragments.actions.ActionSingleExecute;
 import com.sup.dev.android.libs.mvp.fragments.actions.ActionSkip;
 import com.sup.dev.android.libs.mvp.fragments.actions.MvpAction;
-import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
-import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
-import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.libs.debug.Debug;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
-public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresenterInterface{
-
-    private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
-    protected final MvpNavigator navigator = SupAndroid.di.navigator();
+public class MvpPresenter<K extends MvpFragment>{
 
     private final ArrayList<MvpAction<K>> actions = new ArrayList<>();
     private final Class<? extends K> viewClass;
@@ -39,8 +31,7 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
         this.viewClass = viewClass;
     }
 
-    @Override
-    public MvpFragmentInterface instanceView(Context context) {
+    public MvpFragment instanceView(Context context) {
 
         if(view != null)view.onDestroy();
 
@@ -64,11 +55,10 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
         return view;
     }
 
-    @Override
     public void clearView() {
         if(view != null) {
             state = new SparseArray<>();
-            ((View)view).saveHierarchyState(state);
+            view.saveHierarchyState(state);
             view.onDestroy();
         }
         view = null;
@@ -82,22 +72,18 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
 
     }
 
-    @Override
     public void onResume() {
 
     }
 
-    @Override
     public void onPause() {
 
     }
 
-    @Override
     public void onDestroy() {
 
     }
 
-    @Override
     public boolean onBackPressed() {
         return false;
     }
@@ -110,7 +96,6 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
         return view != null;
     }
 
-    @Override
     public boolean isBackStackAllowed() {
         return backStackAllowed;
     }
@@ -144,7 +129,7 @@ public class MvpPresenter<K extends MvpFragmentInterface> implements MvpPresente
 
     @MainThread
     public void action(@NonNull MvpAction<K> action) {
-        utilsThreads.main(() -> {
+        ToolsThreads.main(() -> {
             action.add(actions);
             executeAction(action);
         });

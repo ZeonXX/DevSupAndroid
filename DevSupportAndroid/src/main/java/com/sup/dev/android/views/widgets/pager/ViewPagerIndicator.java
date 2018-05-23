@@ -13,13 +13,11 @@ import android.view.ViewGroup;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 
 public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.OnPageChangeListener, ViewPager.OnAdapterChangeListener {
 
-    private final UtilsView utilsView;
-    private final UtilsResources utilsResources;
     protected final Paint paint;
 
     protected final int pagerId;
@@ -37,13 +35,10 @@ public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsResources = SupAndroid.di.utilsResources();
 
-        offset = utilsView.dpToPx(16);
-
-        color = utilsResources.getAccentAlphaColor(context);
-        colorSelected = utilsResources.getAccentColor(context);
+        offset = ToolsView.dpToPx(16);
+        color = ToolsResources.getAccentAlphaColor(context);
+        colorSelected = ToolsResources.getAccentColor(context);
 
        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator, 0, 0);
        color = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_color, color);
@@ -64,7 +59,7 @@ public abstract class ViewPagerIndicator extends ViewGroup implements ViewPager.
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(pager == null && pagerId != 0) setPager(utilsView.findViewOnParents(this, pagerId));
+        if(pager == null && pagerId != 0) setPager(ToolsView.findViewOnParents(this, pagerId));
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

@@ -2,21 +2,18 @@ package com.sup.dev.android.views.widgets.settings;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 
 public class SettingsTitle extends Settings {
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final TextView vTitle;
 
     public SettingsTitle(@NonNull Context context) {
@@ -43,7 +40,7 @@ public class SettingsTitle extends Settings {
     //
 
     public void setTitle(@StringRes int title) {
-        setTitle(utilsResources.getString(title));
+        setTitle(ToolsResources.getString(title));
     }
 
     public void setTitle(String title) {

@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class CardLoading extends Card {
@@ -19,8 +19,6 @@ public class CardLoading extends Card {
     public enum State {LOADING, ACTION, RETRY}
 
     public enum Type {CIRCLE, HORIZONTAL, NONE}
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private String actionMessage;
     private String actionButton;
@@ -116,7 +114,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setActionMessage(@StringRes int text) {
-        return setActionMessage(utilsResources.getString(text));
+        return setActionMessage(ToolsResources.getString(text));
     }
 
     public CardLoading setActionMessage(String text) {
@@ -126,7 +124,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setActionButton(@StringRes int text, Callback1<CardLoading> onAction) {
-        return setActionButton(utilsResources.getString(text), onAction);
+        return setActionButton(ToolsResources.getString(text), onAction);
     }
 
     public CardLoading setActionButton(String text, Callback1<CardLoading> onAction) {
@@ -137,7 +135,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setRetryMessage(@StringRes int text) {
-        return setRetryMessage(utilsResources.getString(text));
+        return setRetryMessage(ToolsResources.getString(text));
     }
 
     public CardLoading setRetryMessage(String text) {
@@ -147,7 +145,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setRetryButton(@StringRes int text, Callback1<CardLoading> onRetry) {
-        return setRetryButton(utilsResources.getString(text), onRetry);
+        return setRetryButton(ToolsResources.getString(text), onRetry);
     }
 
     public CardLoading setRetryButton(String text, Callback1<CardLoading> onRetry) {

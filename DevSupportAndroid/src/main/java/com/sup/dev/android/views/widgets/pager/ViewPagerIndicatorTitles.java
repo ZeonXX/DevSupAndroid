@@ -13,14 +13,11 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
-
-    private final UtilsView utilsView;
-    private final UtilsResources utilsResources;
 
     private int offsetLeft;
 
@@ -33,8 +30,6 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsResources = SupAndroid.di.utilsResources();
 
        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicatorTitles, 0, 0);
        offsetLeft = (int) a.getDimension(R.styleable.ViewPagerIndicatorTitles_ViewPagerIndicatorTitles_offset_left, offsetLeft);
@@ -48,7 +43,7 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
     public void setTitles(int... titles) {
         this.titles = new String[titles.length];
         for(int i=0;i<titles.length;i++)
-            this.titles[i] = utilsResources.getString(titles[i]);
+            this.titles[i] = ToolsResources.getString(titles[i]);
     }
 
     @Override
@@ -69,7 +64,7 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
         views = new TextView[pager.getAdapter().getCount()];
         for (int i = 0; i < views.length; i++) {
             int index = i;
-            views[i] = utilsView.inflate(getContext(), R.layout.w_indicator_title);
+            views[i] = ToolsView.inflate(getContext(), R.layout.w_indicator_title);
             views[i].setText(titles.length <= i ? null : titles[i]);
             views[i].setOnClickListener(v -> pager.setCurrentItem(index));
             addView(views[i]);
@@ -89,13 +84,13 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
     @Override
     @MainThread
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(pager == null && pagerId != 0) setPager(utilsView.findViewOnParents(this, pagerId));
+        if(pager == null && pagerId != 0) setPager(ToolsView.findViewOnParents(this, pagerId));
 
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             measureChild(v, widthMeasureSpec, heightMeasureSpec);
         }
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(utilsView.dpToPx(48),  MeasureSpec.EXACTLY));
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48),  MeasureSpec.EXACTLY));
     }
 
     @Override

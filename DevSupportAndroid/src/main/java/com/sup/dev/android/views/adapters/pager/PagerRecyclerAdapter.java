@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider;
 
 public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter {
 
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
     private final List<Holder<V>> cache = new ArrayList<>();
     private final int layoutRes;
 
@@ -65,7 +64,7 @@ public abstract class PagerRecyclerAdapter<V extends View> extends PagerAdapter 
     //  Можно переопределить и передавать собственный View, не используя layoutRes
     protected V instanceView(ViewGroup parent) {
         if (layoutRes == 0) return providerView.provide();
-        return (V) utilsView.inflate(parent, layoutRes);
+        return (V) ToolsView.inflate(parent, layoutRes);
     }
 
     public abstract void bind(V view, int position);

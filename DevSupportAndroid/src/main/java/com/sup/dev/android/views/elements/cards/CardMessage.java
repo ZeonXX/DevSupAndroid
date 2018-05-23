@@ -6,8 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 public class CardMessage extends Card {
@@ -16,7 +15,6 @@ public class CardMessage extends Card {
     private boolean enabled = true;
     private int background = 0x01FF0000;
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private String text;
     private boolean customColor;
     private int textColor;
@@ -76,7 +74,7 @@ public class CardMessage extends Card {
     }
 
     public CardMessage setText(@StringRes int text) {
-        return setText(utilsResources.getString(text));
+        return setText(ToolsResources.getString(text));
     }
 
     public CardMessage setText(String text) {
@@ -86,7 +84,7 @@ public class CardMessage extends Card {
     }
 
     public CardMessage setAction(@StringRes int text, Callback onActionClicked) {
-        return setAction(utilsResources.getString(text), onActionClicked);
+        return setAction(ToolsResources.getString(text), onActionClicked);
     }
 
     public CardMessage setAction(String actionText, Callback onActionClicked) {

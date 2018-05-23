@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.utils;
 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
@@ -6,22 +6,21 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsMetadata;
+import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.java.libs.debug.Debug;
 
-public class UtilsMetadataImpl implements UtilsMetadata {
+public class UtilsMetadata{
 
     private final MediaMetadataRetriever retriever;
 
-    public UtilsMetadataImpl() {
+    public UtilsMetadata() {
         retriever = null;
     }
 
-    public UtilsMetadataImpl(String path) {
+    public UtilsMetadata(String path) {
         retriever = wrap(path);
     }
 
-    @Override
     public void parse(String path) {
 
         MediaMetadataRetriever retriever = wrap(path);
@@ -67,53 +66,44 @@ public class UtilsMetadataImpl implements UtilsMetadata {
         return retriever;
     }
 
-    @Override
     public Bitmap getPreview(String path) {
         MediaMetadataRetriever retriever = wrap(path);
 
         byte[] embeddedPicture = retriever.getEmbeddedPicture();
-        if (embeddedPicture != null) return SupAndroid.di.utilsBitmap().decode(embeddedPicture);
+        if (embeddedPicture != null) return ToolsBitmap.decode(embeddedPicture);
 
         return retriever.getFrameAtTime();
     }
 
-    @Override
     public int getVideoWidth(String path) {
         return Integer.parseInt(wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
     }
 
-    @Override
     public int getVideoHeight(String path) {
         return Integer.parseInt(wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
     }
 
-    @Override
     public int getDurationMs(String path) {
         return Integer.parseInt(wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
     }
 
-    @Override
     public int getTrackCount(String path) {
         return Integer.parseInt(wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER));
     }
 
-    @Override
     public String getMimeType(String path) {
         return wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
     }
 
-    @Override
     public boolean hasAudio(String path) {
         return wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO).toLowerCase().equals("yes");
     }
 
-    @Override
     public boolean hasVideo(String path) {
         return wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO).toLowerCase().equals("yes");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
     public int getVideoRotation(String path) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             return Integer.parseInt(wrap(path).extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));
@@ -124,52 +114,42 @@ public class UtilsMetadataImpl implements UtilsMetadata {
     //  Inited
     //
 
-    @Override
     public Bitmap getPreview() {
         byte[] embeddedPicture = retriever.getEmbeddedPicture();
-        if (embeddedPicture != null) return SupAndroid.di.utilsBitmap().decode(embeddedPicture);
+        if (embeddedPicture != null) return ToolsBitmap.decode(embeddedPicture);
 
         return retriever.getFrameAtTime();
     }
 
-    @Override
     public int getVideoWidth() {
         return Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
     }
 
-
-    @Override
     public int getVideoHeight() {
         return Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
     }
 
-    @Override
     public int getDurationMs() {
         return Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
     }
 
-    @Override
     public int getTrackCount() {
         return Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER));
     }
 
-    @Override
     public String getMimeType() {
         return retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
     }
 
-    @Override
     public boolean hasAudio() {
         return retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO).toLowerCase().equals("yes");
     }
 
-    @Override
     public boolean hasVideo() {
         return retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO).toLowerCase().equals("yes");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
     public int getVideoRotation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             return Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));

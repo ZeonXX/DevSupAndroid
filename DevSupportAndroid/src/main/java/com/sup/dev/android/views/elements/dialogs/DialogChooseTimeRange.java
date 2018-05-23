@@ -5,15 +5,12 @@ import android.support.annotation.StringRes;
 import android.widget.Button;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback5;
 import com.sup.dev.java.tools.ToolsDate;
 
 public class DialogChooseTimeRange extends BaseDialog {
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final Button vStart;
     private final Button vEnd;
@@ -76,7 +73,7 @@ public class DialogChooseTimeRange extends BaseDialog {
     }
 
     public DialogChooseTimeRange setOnEnter(@StringRes int s, Callback5<DialogChooseTimeRange, Integer, Integer, Integer, Integer> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogChooseTimeRange setOnEnter(String s, Callback5<DialogChooseTimeRange, Integer, Integer, Integer, Integer> onEnter) {

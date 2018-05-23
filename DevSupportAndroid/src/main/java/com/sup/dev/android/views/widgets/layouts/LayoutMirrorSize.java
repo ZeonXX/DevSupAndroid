@@ -10,8 +10,8 @@ import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public class LayoutMirrorSize extends FrameLayout {
 
@@ -23,9 +23,6 @@ public class LayoutMirrorSize extends FrameLayout {
     public static final int MODE_WHOM_SMALLER_H = 6;
     public static final int MODE_USE_1_IF_NO_ZERO = 7;
     public static final int MODE_USE_2_IF_NO_ZERO = 8;
-
-    private final UtilsView utilsView;
-    private final UtilsThreads utilsThreads;
 
     private int multiViewMode = MODE_USE_1_IF_NO_ZERO;
     private int mirrorViewId = 0;
@@ -43,8 +40,6 @@ public class LayoutMirrorSize extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsThreads = SupAndroid.di.utilsThreads();
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutMirrorSize, 0, 0);
         mirrorViewId = a.getResourceId(R.styleable.LayoutMirrorSize_LayoutMirrorSize_mirrorView, mirrorViewId);
@@ -60,7 +55,7 @@ public class LayoutMirrorSize extends FrameLayout {
         this.mirrorView = mirrorView;
         if (mirrorView == null) return;
         mirrorView.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
-            utilsThreads.main(true, () -> requestLayout());
+            ToolsThreads.main(true, () -> requestLayout());
         });
         requestLayout();
     }
@@ -69,7 +64,7 @@ public class LayoutMirrorSize extends FrameLayout {
         this.mirrorView_2 = mirrorView_2;
         if (mirrorView_2 == null) return;
         mirrorView_2.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
-            utilsThreads.main(true, () -> requestLayout());
+            ToolsThreads.main(true, () -> requestLayout());
         });
         requestLayout();
     }
@@ -99,9 +94,9 @@ public class LayoutMirrorSize extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         if (mirrorView == null && mirrorViewId != 0)
-            setMirrorView(utilsView.findViewOnParents(this, mirrorViewId));
+            setMirrorView(ToolsView.findViewOnParents(this, mirrorViewId));
         if (mirrorView_2 == null && mirrorViewId_2 != 0)
-            setMirrorView_2(utilsView.findViewOnParents(this, mirrorViewId_2));
+            setMirrorView_2(ToolsView.findViewOnParents(this, mirrorViewId_2));
 
         if (!mirrorViewAvailable() && !mirrorView_2_Available()) {
             super.onMeasure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY));

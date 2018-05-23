@@ -7,16 +7,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogRadioButtons<K> extends BaseDialog {
-
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final LinearLayout vOptionsContainer;
 
@@ -28,7 +24,7 @@ public class DialogRadioButtons<K> extends BaseDialog {
     }
 
     public DialogRadioButtons<K> addItem(@StringRes int text) {
-        return addItem(utilsResources.getString(text));
+        return addItem(ToolsResources.getString(text));
     }
 
     public DialogRadioButtons<K> addItem(String text) {
@@ -36,7 +32,7 @@ public class DialogRadioButtons<K> extends BaseDialog {
     }
 
     public DialogRadioButtons<K> addItem(K key, @StringRes int text) {
-        return addItem(key, utilsResources.getString(text));
+        return addItem(key, ToolsResources.getString(text));
     }
 
     public DialogRadioButtons<K> addItem(K key, String text) {
@@ -49,7 +45,7 @@ public class DialogRadioButtons<K> extends BaseDialog {
         radioButton.setTag(key);
         vOptionsContainer.addView(radioButton);
         if (vOptionsContainer.getChildCount() > 1)
-            ((ViewGroup.MarginLayoutParams) radioButton.getLayoutParams()).topMargin = utilsView.dpToPx(16);
+            ((ViewGroup.MarginLayoutParams) radioButton.getLayoutParams()).topMargin = ToolsView.dpToPx(16);
         return this;
     }
 
@@ -114,7 +110,7 @@ public class DialogRadioButtons<K> extends BaseDialog {
     }
 
     public DialogRadioButtons<K> setOnEnter(@StringRes int s, Callback2<DialogRadioButtons<K> , K> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogRadioButtons<K> setOnEnter(String s, Callback2<DialogRadioButtons<K> , K> onEnter) {

@@ -12,18 +12,15 @@ import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.geometry.Line;
 import com.sup.dev.java.classes.geometry.Point;
 import com.sup.dev.java.classes.items.RangeF;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public class LayoutZoom extends FrameLayout {
-
-    private final UtilsThreads utilsThreads;
-    private final UtilsView utilsView;
 
     private final RangeF range = new RangeF(1, 4);
 
@@ -46,9 +43,7 @@ public class LayoutZoom extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        utilsView = SupAndroid.di.utilsView();
-        utilsThreads = SupAndroid.di.utilsThreads();
-        doubleTouchRadius = utilsView.dpToPx(16);
+        doubleTouchRadius = ToolsView.dpToPx(16);
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutZoom, 0, 0);
         range.min = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.min);
@@ -184,7 +179,7 @@ public class LayoutZoom extends FrameLayout {
         int fameCount = animateTimeMs * 60 / 1000;
         float step = (targetZoom - zoom) / fameCount;
 
-        subscriptionAnimateZoom = utilsThreads.timerMain(animateTimeMs/fameCount, animateTimeMs+100,
+        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs/fameCount, animateTimeMs+100,
                 subscription -> zoom(step, midX, midY));
 
     }
@@ -261,7 +256,7 @@ public class LayoutZoom extends FrameLayout {
 
             state = bundle.getParcelable("superState");
 
-            utilsThreads.main(true, () -> {
+            ToolsThreads.main(true, () -> {
                 if (w == 0 || h == 0) return;
                 translateX *= getWidth() > w ? getWidth() / w : w / getWidth();
                 translateY *= getHeight() > h ? getHeight() / h : h / getHeight();
@@ -300,7 +295,7 @@ public class LayoutZoom extends FrameLayout {
     }
 
     public void setDoubleTouchRadius(float doubleTouchRadiusDp) {
-        this.doubleTouchRadius = utilsView.dpToPx(doubleTouchRadiusDp);
+        this.doubleTouchRadius = ToolsView.dpToPx(doubleTouchRadiusDp);
     }
 
     public void setBoundsView(View vBoundsView) {

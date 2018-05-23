@@ -3,8 +3,7 @@ package com.sup.dev.android.views.elements.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.elements.cards.CardDivider;
 import com.sup.dev.android.views.elements.cards.CardMenu;
@@ -13,7 +12,6 @@ import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class DialogMenu<K> extends DialogRecycler {
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final RecyclerCardAdapter adapter;
 
     private int prefCount = 0;
@@ -44,7 +42,7 @@ public class DialogMenu<K> extends DialogRecycler {
     }
 
     public DialogMenu<K> add(K key, @StringRes int text) {
-        adapter.add(instanceCard(key, utilsResources.getString(text)));
+        adapter.add(instanceCard(key, ToolsResources.getString(text)));
         return this;
     }
 

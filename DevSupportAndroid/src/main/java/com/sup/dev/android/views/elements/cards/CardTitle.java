@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.android.tools.ToolsResources;
 
 public class CardTitle extends Card {
 
@@ -16,7 +14,6 @@ public class CardTitle extends Card {
     private int background = 0x01FF0000;
     private boolean enabled = true;
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private String title;
     private boolean customColor;
     private int textColor;
@@ -62,7 +59,7 @@ public class CardTitle extends Card {
     }
 
     public CardTitle setText(@StringRes  int title) {
-        return setText(utilsResources.getString(title));
+        return setText(ToolsResources.getString(title));
     }
 
     public CardTitle setText(String title) {

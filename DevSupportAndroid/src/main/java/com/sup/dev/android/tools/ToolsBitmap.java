@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -17,13 +17,13 @@ import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsBitmap;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsMath;
 import com.sup.dev.java.tools.ToolsText;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,25 +31,25 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UtilsBitmapImpl implements UtilsBitmap {
+public class ToolsBitmap{
 
     //
     //  Filters
     //
 
-    public Bitmap filter(@DrawableRes int resId, int color) {
+    public static Bitmap filter(@DrawableRes int resId, int color) {
         return filter(getFromResources(resId), color);
     }
 
-    public Bitmap filter(@DrawableRes int resId, int color, boolean reduceAlpha) {
+    public static Bitmap filter(@DrawableRes int resId, int color, boolean reduceAlpha) {
         return filter(getFromResources(resId), color, reduceAlpha);
     }
 
-    public Bitmap filter(Bitmap bitmap, int color) {
+    public static Bitmap filter(Bitmap bitmap, int color) {
         return filter(bitmap, color, false);
     }
 
-    public Bitmap filter(Bitmap bitmap, int color, boolean reduceAlpha) {
+    public static Bitmap filter(Bitmap bitmap, int color, boolean reduceAlpha) {
 
         if (bitmap == null) return null;
 
@@ -75,7 +75,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return output;
     }
 
-    public Bitmap filterBlackAndWhite(Bitmap bitmap) {
+    public static Bitmap filterBlackAndWhite(Bitmap bitmap) {
 
         if (bitmap == null) return null;
 
@@ -91,7 +91,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return bitmap;
     }
 
-    public Bitmap filterCircle(Bitmap bitmap) {
+    public static Bitmap filterCircle(Bitmap bitmap) {
 
         if (bitmap == null) return null;
 
@@ -113,7 +113,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return output;
     }
 
-    public Bitmap filterShadow(Bitmap bitmap, boolean l, boolean t, boolean r, boolean b) {
+    public static Bitmap filterShadow(Bitmap bitmap, boolean l, boolean t, boolean r, boolean b) {
 
         if (bitmap == null) return null;
 
@@ -149,15 +149,15 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return output;
     }
 
-    public Bitmap filterHalo(Bitmap bitmap) {
+    public static Bitmap filterHalo(Bitmap bitmap) {
         return filterShadow(bitmap, true, true, true, true);
     }
 
-    public Bitmap filterAlphaIncrement(@DrawableRes int resId, int alphaIncrement) {
+    public static Bitmap filterAlphaIncrement(@DrawableRes int resId, int alphaIncrement) {
         return filterAlphaIncrement(getFromResources(resId), alphaIncrement);
     }
 
-    public Bitmap filterAlphaIncrement(Bitmap bitmap, int alphaIncrement) {
+    public static Bitmap filterAlphaIncrement(Bitmap bitmap, int alphaIncrement) {
 
         if (bitmap == null) return null;
 
@@ -180,19 +180,19 @@ public class UtilsBitmapImpl implements UtilsBitmap {
     //  Get
     //
 
-    public Bitmap decode(byte[] bytes) {
+    public static Bitmap decode(byte[] bytes) {
         if (bytes == null) return null;
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    public Bitmap decode(byte[] bytes, BitmapFactory.Options opts) {
+    public static Bitmap decode(byte[] bytes, BitmapFactory.Options opts) {
         if (bytes == null) return null;
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
     }
 
-    public void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
-        SupAndroid.di.mvpActivity(
-                mvpActivity -> SupAndroid.di.utilsIntent().getGalleryImage(uri -> getFromUri((Activity) mvpActivity, uri, bitmap -> {
+    public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
+        SupAndroid.mvpActivity(
+                mvpActivity -> ToolsIntent.getGalleryImage(uri -> getFromUri((Activity) mvpActivity, uri, bitmap -> {
                     if (bitmap == null)
                         onError.callback();
                     else
@@ -200,7 +200,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
                 }, onPermissionPermissionRestriction), onError));
     }
 
-    public Bitmap getFromDrawable(Drawable drawable) {
+    public static Bitmap getFromDrawable(Drawable drawable) {
         if (drawable == null) {
             return null;
         }
@@ -227,11 +227,11 @@ public class UtilsBitmapImpl implements UtilsBitmap {
 
     }
 
-    public Bitmap getFromResources(@DrawableRes int res) {
-        return SupAndroid.di.utilsResources().getBitmap(res);
+    public static Bitmap getFromResources(@DrawableRes int res) {
+        return ToolsResources.getBitmap(res);
     }
 
-    public Bitmap getFromURL(final String src) throws IOException {
+    public static Bitmap getFromURL(final String src) throws IOException {
         URL url = ToolsText.makeUrl(src);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setReadTimeout(4000);
@@ -241,8 +241,8 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return BitmapFactory.decodeStream(input);
     }
 
-    public void getFromURL(final String src, final Callback1<Bitmap> bitmapListener) {
-        SupAndroid.di.utilsThreads().thread(() -> {
+    public static void getFromURL(final String src, final Callback1<Bitmap> bitmapListener) {
+        ToolsThreads.thread(() -> {
             Bitmap bitmap = null;
             try {
                 bitmap = getFromURL(src);
@@ -250,12 +250,12 @@ public class UtilsBitmapImpl implements UtilsBitmap {
                 Debug.log(ex);
             }
             final Bitmap fBitmap = bitmap;
-            SupAndroid.di.utilsThreads().main(() -> bitmapListener.callback(fBitmap));
+            ToolsThreads.main(() -> bitmapListener.callback(fBitmap));
         });
     }
 
-    public void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
-        SupAndroid.di.utilsPermission().requestReadPermission(activity, () -> {
+    public static void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
+        ToolsPermission.requestReadPermission(activity, () -> {
             try {
                 callbackResult.callback(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri));
             } catch (IOException ex) {
@@ -269,7 +269,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
     //  To
     //
 
-    public byte[] toBytes(Bitmap bitmap, int maxBytesSize) {
+    public static byte[] toBytes(Bitmap bitmap, int maxBytesSize) {
         boolean containsAlpha = false;
         for (int x = 0; x < bitmap.getWidth(); x++)
             for (int y = 0; y < bitmap.getHeight(); y++)
@@ -294,20 +294,20 @@ public class UtilsBitmapImpl implements UtilsBitmap {
         return bytes;
     }
 
-    public byte[] toJPGBytes(Bitmap bitmap, int q) {
+    public static byte[] toJPGBytes(Bitmap bitmap, int q) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, q, stream);
         return stream.toByteArray();
     }
 
-    public byte[] toPNGBytes(Bitmap bitmap) {
+    public static byte[] toPNGBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
         return stream.toByteArray();
     }
 
-    public byte[] drawableToBytes(@DrawableRes int resId) {
-        Drawable d = SupAndroid.di.appContext().getResources().getDrawable(resId);
+    public static byte[] drawableToBytes(@DrawableRes int resId) {
+        Drawable d = SupAndroid.appContext.getResources().getDrawable(resId);
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -318,7 +318,7 @@ public class UtilsBitmapImpl implements UtilsBitmap {
     //  Sizes
     //
 
-    public Bitmap keepMaxSides(Bitmap bitmap, int maxSideSize) {
+    public static Bitmap keepMaxSides(Bitmap bitmap, int maxSideSize) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
         if (w <= maxSideSize && h <= maxSideSize)

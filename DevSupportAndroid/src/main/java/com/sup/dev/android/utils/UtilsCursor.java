@@ -1,14 +1,12 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.utils;
 
 import android.database.Cursor;
 
-import com.sup.dev.android.utils.interfaces.UtilsCursor;
-
-public class UtilsCursorImpl implements UtilsCursor {
+public class UtilsCursor{
 
     private final Cursor cursor;
 
-    public UtilsCursorImpl(Cursor cursor){
+    public UtilsCursor(Cursor cursor){
         this.cursor = cursor;
     }
 

@@ -2,18 +2,15 @@ package com.sup.dev.android.views.adapters.pager;
 
 import android.view.View;
 
-import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
 public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends PagerRecyclerArrayAdapter<K, V> {
-
-    private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
 
     private final Callback2<Callback1<X[]>, ArrayList<K>> loader;
     private final Provider1<X, K> mapper;
@@ -47,7 +44,7 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
 
         if (position >= size() - 1 - startLoadOffset) {
             inProgress = true;
-            utilsThreads.main(true, this::loadNow);
+            ToolsThreads.main(true, this::loadNow);
         }
     }
 

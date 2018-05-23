@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 
 
 public abstract class RecyclerArrayAdapter<K> extends RecyclerView.Adapter<RecyclerArrayAdapter.Holder> {
 
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
     private final List<K> items = new ArrayList<>();
     private final List<Holder<K>> holders = new ArrayList<>();
 
@@ -51,7 +50,7 @@ public abstract class RecyclerArrayAdapter<K> extends RecyclerView.Adapter<Recyc
 
     @Override
     public Holder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View view = itemLayout > 0 ? utilsView.inflate(parent, itemLayout) : instanceView(parent.getContext());
+        View view = itemLayout > 0 ? ToolsView.inflate(parent, itemLayout) : instanceView(parent.getContext());
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         Holder<K> holder = new Holder<>(view);
         holders.add(holder);

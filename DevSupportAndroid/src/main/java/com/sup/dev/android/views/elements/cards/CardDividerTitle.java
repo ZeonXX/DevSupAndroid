@@ -5,16 +5,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.android.tools.ToolsResources;
 
 public class CardDividerTitle extends Card {
 
     private int background = 0x01FF0000;
     private boolean enabled = true;
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private String text;
 
     @Override
@@ -49,7 +46,7 @@ public class CardDividerTitle extends Card {
     }
     
     public CardDividerTitle setText(@StringRes int text) {
-       return setText(utilsResources.getString(text));
+       return setText(ToolsResources.getString(text));
     }
 
     public CardDividerTitle setText(String text) {

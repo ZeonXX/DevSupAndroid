@@ -7,17 +7,12 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 
 public class SettingsActionCheckBox extends SettingsAction {
-
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
 
     private final CheckBox vCheckBox;
 
@@ -31,7 +26,7 @@ public class SettingsActionCheckBox extends SettingsAction {
     public SettingsActionCheckBox(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        vCheckBox = utilsView.inflate(context, R.layout.w_check_box);
+        vCheckBox = ToolsView.inflate(context, R.layout.w_check_box);
         vCheckBox.setFocusable(false);
         vCheckBox.setOnCheckedChangeListener((v, b) -> {
             setEnabledSubSettings(b);

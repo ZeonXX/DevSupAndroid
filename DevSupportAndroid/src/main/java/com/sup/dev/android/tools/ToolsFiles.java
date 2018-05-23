@@ -1,11 +1,10 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsFiles;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
@@ -21,13 +20,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class UtilsFilesImpl implements UtilsFiles {
+public class ToolsFiles{
 
     //
     //  Files
     //
 
-    public File writeFile(String patch, byte[] bytes) throws IOException {
+    public static File writeFile(String patch, byte[] bytes) throws IOException {
 
         File file = new File(patch);
         File parent = file.getParentFile();
@@ -50,7 +49,7 @@ public class UtilsFilesImpl implements UtilsFiles {
         return file;
     }
 
-    public byte[] readAsZip(String filePath) throws IOException {
+    public static byte[] readAsZip(String filePath) throws IOException {
         ByteArrayOutputStream bytesOutputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(bytesOutputStream);
 
@@ -62,7 +61,7 @@ public class UtilsFilesImpl implements UtilsFiles {
         return bytesOutputStream.toByteArray();
     }
 
-    private void addFileToZip(String path, String srcFile, ZipOutputStream zip, boolean flag) throws IOException {
+    private static void addFileToZip(String path, String srcFile, ZipOutputStream zip, boolean flag) throws IOException {
         File folder = new File(srcFile);
 
         if (flag) {
@@ -82,7 +81,7 @@ public class UtilsFilesImpl implements UtilsFiles {
         }
     }
 
-    private void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
+    private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
         File folder = new File(srcFolder);
 
         if (folder.list().length == 0) {
@@ -98,7 +97,7 @@ public class UtilsFilesImpl implements UtilsFiles {
         }
     }
 
-    public void unpackZip(String path, File zipFile) throws IOException {
+    public static void unpackZip(String path, File zipFile) throws IOException {
         InputStream is = null;
         ZipInputStream zis = null;
         try {
@@ -143,15 +142,15 @@ public class UtilsFilesImpl implements UtilsFiles {
     //  Bitmap
     //
 
-    public void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
-        SupAndroid.di.utilsPermission().requestWritePermission(activity, () -> {
+    public static void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
+        ToolsPermission.requestWritePermission(activity, () -> {
             File file = createJpgFileInCameraFolder();
             writeBitmap(bitmap, file);
             onResult.callback(file.getAbsolutePath());
         }, onPermissionPermissionRestriction);
     }
 
-    private File createJpgFileInCameraFolder() {
+    private static File createJpgFileInCameraFolder() {
 
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         storageDir.mkdir();
@@ -161,7 +160,7 @@ public class UtilsFilesImpl implements UtilsFiles {
         return new File(storageDir, fileName);
     }
 
-    private void writeBitmap(Bitmap bitmap, File file) {
+    private static void writeBitmap(Bitmap bitmap, File file) {
 
         FileOutputStream out = null;
         try {
@@ -184,14 +183,14 @@ public class UtilsFilesImpl implements UtilsFiles {
     //  Getters
     //
 
-    public File getDiskCacheDir() {
+    public static File getDiskCacheDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
-            File externalCacheDir = SupAndroid.di.appContext().getExternalCacheDir();
+            File externalCacheDir = SupAndroid.appContext.getExternalCacheDir();
             if (externalCacheDir != null)
-                return new File(SupAndroid.di.appContext().getExternalCacheDir().getPath());
+                return new File(SupAndroid.appContext.getExternalCacheDir().getPath());
         }
 
-        return new File(SupAndroid.di.appContext().getCacheDir().getPath());
+        return new File(SupAndroid.appContext.getCacheDir().getPath());
     }
 
 

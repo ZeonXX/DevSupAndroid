@@ -1,10 +1,9 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.content.Context;
 import android.util.Pair;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsCash;
 import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.File;
@@ -14,31 +13,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class UtilsCashImpl implements UtilsCash {
+public class ToolsCash{
 
     private static final String SPLITTER = "_";
 
-    private final long cashSize;
-    private final long overClearSize;
-    private final int orderClearMaxCount;
+    private static long cashSize;
+    private static long overClearSize;
+    private static int orderClearMaxCount;
 
-    public UtilsCashImpl(long cashSize) {
-        this(cashSize, cashSize / 2);
+    public static void init(long cashSize) {
+        init(cashSize, cashSize / 2);
     }
 
-    public UtilsCashImpl(long cashSize, long overClearSize) {
-        this(cashSize, overClearSize, 1000);
+    public static void init(long cashSize, long overClearSize) {
+        init(cashSize, overClearSize, 1000);
     }
 
-    public UtilsCashImpl(long cashSize, long overClearSize, int orderClearMaxCount) {
-        this.cashSize = cashSize;
-        this.overClearSize = overClearSize;
-        this.orderClearMaxCount = orderClearMaxCount;
+    public static void init(long cashSize, long overClearSize, int orderClearMaxCount) {
+        if(cashSize != 0) throw new RuntimeException("Already init");
+        ToolsCash.cashSize = cashSize;
+        ToolsCash.overClearSize = overClearSize;
+        ToolsCash.orderClearMaxCount = orderClearMaxCount;
     }
 
     public void cacheData(byte[] data, String name) {
+        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
 
-        File cacheDir = SupAndroid.di.appContext().getCacheDir();
+        File cacheDir = SupAndroid.appContext.getCacheDir();
         long size = getDirSize(cacheDir);
         long newSize = data.length + size;
 
@@ -64,6 +65,7 @@ public class UtilsCashImpl implements UtilsCash {
     }
 
     public byte[] getData(Context context, String name) {
+        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
 
         File cacheDir = context.getCacheDir();
         File file = new File(cacheDir, name);
@@ -89,6 +91,7 @@ public class UtilsCashImpl implements UtilsCash {
     }
 
     private void cleanDir(File dir, long bytes) {
+        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
 
         long bytesDeleted = 0;
         File[] files = dir.listFiles();
@@ -125,6 +128,7 @@ public class UtilsCashImpl implements UtilsCash {
     }
 
     private long getDirSize(File dir) {
+        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
 
         long size = 0;
         File[] files = dir.listFiles();
@@ -137,6 +141,7 @@ public class UtilsCashImpl implements UtilsCash {
     }
 
     private long getDate(String name) {
+        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
         return Long.parseLong(name.substring(0, name.indexOf(SPLITTER)));
     }
 

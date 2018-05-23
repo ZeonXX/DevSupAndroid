@@ -2,23 +2,20 @@ package com.sup.dev.android.views.animations;
 
 import android.view.View;
 
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.classes.animation.AnimationSpring;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.utils.interfaces.UtilsThreads;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public class AnimationViewHideVertical {
-
-    private final UtilsThreads utilsThreads = SupAndroid.di.utilsThreads();
 
     private final AnimationSpring spring;
     private final View view;
 
     private Callback1<Boolean> onVisibleChange;
     private Callback1<Boolean> onVisibleStartChange;
-    private long animationTime = UtilsView.ANIMATION_TIME;
+    private long animationTime = ToolsView.ANIMATION_TIME;
     private long autoHideMs = 0;
 
     private boolean shoved = true;
@@ -84,7 +81,7 @@ public class AnimationViewHideVertical {
 
         spring.to(b ? 0 : view.getHeight());
 
-        subscriptionAnimation = utilsThreads.timerMain(17, subscription -> {
+        subscriptionAnimation = ToolsThreads.timerMain(17, subscription -> {
            spring.update();
             view.setY(spring.getValue());
             if (!spring.isNeedUpdate()) {
@@ -98,7 +95,7 @@ public class AnimationViewHideVertical {
 
         if (subscriptionAutoHide != null) subscriptionAutoHide.unsubscribe();
 
-        if (autoHideMs > 0) subscriptionAutoHide = utilsThreads.main(autoHideMs, () -> hide());
+        if (autoHideMs > 0) subscriptionAutoHide = ToolsThreads.main(autoHideMs, () -> hide());
 
     }
 

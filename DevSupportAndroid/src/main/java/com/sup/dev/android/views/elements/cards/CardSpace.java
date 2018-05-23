@@ -3,13 +3,11 @@ package com.sup.dev.android.views.elements.cards;
 import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsView;
 
 public class CardSpace extends Card {
 
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
-    private int spacePx = utilsView.dpToPx(2);
+    private int spacePx = ToolsView.dpToPx(2);
 
     public CardSpace(){
 
@@ -35,7 +33,7 @@ public class CardSpace extends Card {
     //
 
     public CardSpace setSpace(int dp) {
-        this.spacePx = utilsView.dpToPx(dp);
+        this.spacePx = ToolsView.dpToPx(dp);
         return this;
     }
 }

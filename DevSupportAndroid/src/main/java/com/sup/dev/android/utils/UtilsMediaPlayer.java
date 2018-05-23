@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.utils;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -7,10 +7,9 @@ import android.support.annotation.NonNull;
 import java.io.IOException;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsMediaPlayer;
 import com.sup.dev.java.libs.debug.Debug;
 
-public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPreparedListener {
+public class UtilsMediaPlayer implements MediaPlayer.OnPreparedListener {
 
     private enum State{NONE,PLAY,PAUSE}
 
@@ -30,7 +29,7 @@ public class UtilsMediaPlayerImpl implements UtilsMediaPlayer, MediaPlayer.OnPre
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(streamType);
             mediaPlayer.setLooping(looping);
-            mediaPlayer.setDataSource(SupAndroid.di.appContext(), mediaUri);
+            mediaPlayer.setDataSource(SupAndroid.appContext, mediaUri);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setVolume(1, 1);
 

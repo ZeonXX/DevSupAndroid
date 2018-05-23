@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 public class CardMenu extends Card {
@@ -15,8 +14,6 @@ public class CardMenu extends Card {
     private boolean dividerVisible = false;
     private boolean enabled = true;
     private int background = 0x01FF0000;
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     public Object tag;
     private String text;
@@ -75,7 +72,7 @@ public class CardMenu extends Card {
     }
 
     public CardMenu setText(@StringRes int text) {
-        return setText(utilsResources.getString(text));
+        return setText(ToolsResources.getString(text));
     }
 
     public CardMenu setText(String text) {

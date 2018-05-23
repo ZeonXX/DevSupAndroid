@@ -57,7 +57,7 @@ public class ViewGif extends View {
 
     public void resetGif(Uri gifUri) {
         try {
-            movie = Movie.decodeStream(SupAndroid.di.appContext().getContentResolver().openInputStream(gifUri));
+            movie = Movie.decodeStream(SupAndroid.appContext.getContentResolver().openInputStream(gifUri));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

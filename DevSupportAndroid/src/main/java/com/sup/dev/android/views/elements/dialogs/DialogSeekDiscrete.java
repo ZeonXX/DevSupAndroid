@@ -6,15 +6,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.providers.Provider1;
 
 public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarChangeListener {
-
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
     private final SeekBar vSeekBar;
     private final TextView vMin;
@@ -140,7 +137,7 @@ public class DialogSeekDiscrete extends BaseDialog implements SeekBar.OnSeekBarC
     }
 
     public DialogSeekDiscrete setOnEnter(@StringRes int s, Callback2<DialogSeekDiscrete, Integer> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogSeekDiscrete setOnEnter(String s, Callback2<DialogSeekDiscrete, Integer> onEnter) {

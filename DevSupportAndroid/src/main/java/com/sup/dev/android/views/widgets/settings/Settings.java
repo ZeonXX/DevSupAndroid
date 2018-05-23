@@ -13,13 +13,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 
 import java.util.ArrayList;
 
@@ -36,20 +34,18 @@ public abstract class Settings extends FrameLayout {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        UtilsView utilsView = SupAndroid.di.utilsView();
-        UtilsResources utilsResources = SupAndroid.di.utilsResources();
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0);
         setFocusable(a.getBoolean(R.styleable.Settings_android_focusable, true));
         a.recycle();
 
-        view = utilsView.inflate(this, layoutRes);
+        view = ToolsView.inflate(this, layoutRes);
         addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         line = new View(context);
         addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-        line.setBackgroundColor(utilsResources.getColor(R.color.grey_600));
-        ((MarginLayoutParams) line.getLayoutParams()).setMargins(utilsView.dpToPx(8), 0, utilsView.dpToPx(8), 0);
+        line.setBackgroundColor(ToolsResources.getColor(R.color.grey_600));
+        ((MarginLayoutParams) line.getLayoutParams()).setMargins(ToolsView.dpToPx(8), 0, ToolsView.dpToPx(8), 0);
         ((LayoutParams) line.getLayoutParams()).gravity = Gravity.BOTTOM;
     }
 

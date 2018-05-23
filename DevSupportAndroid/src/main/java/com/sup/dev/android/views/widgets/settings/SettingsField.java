@@ -12,11 +12,10 @@ import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.providers.Provider1;
@@ -24,7 +23,6 @@ import com.sup.dev.java.classes.providers.Provider1;
 public class SettingsField extends Settings {
 
     private final ViewIcon vIcon;
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final EditText vField;
     private final TextInputLayout vInputLayout;
 
@@ -123,7 +121,7 @@ public class SettingsField extends Settings {
     }
 
     public void setHint(@StringRes int hintRes) {
-        setHint(utilsResources.getString(hintRes));
+        setHint(ToolsResources.getString(hintRes));
     }
 
     public void setHint(String hint) {

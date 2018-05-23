@@ -1,4 +1,4 @@
-package com.sup.dev.android.utils.implementations;
+package com.sup.dev.android.tools;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -6,9 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.AnyThread;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -19,17 +17,18 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
-import com.sup.dev.android.utils.interfaces.UtilsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class UtilsViewImpl implements UtilsView {
+public class ToolsView{
 
-    public int[] viewPointAsScreenPoint(View view, int x, int y) {
+    public static final int ANIMATION_TIME = 300;
+
+    public static int[] viewPointAsScreenPoint(View view, int x, int y) {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         location[0] = location[0] + x;
@@ -37,7 +36,7 @@ public class UtilsViewImpl implements UtilsView {
         return location;
     }
 
-    public boolean checkHit(View view, float x, float y) {
+    public static boolean checkHit(View view, float x, float y) {
 
         int[] location = new int[2];
         view.getLocationOnScreen(location);
@@ -50,22 +49,22 @@ public class UtilsViewImpl implements UtilsView {
         return x >= l && y >= t && x <= r && y <= b;
     }
 
-    public <K extends View> K inflate(Context viewContext, @LayoutRes int res) {
+    public static <K extends View> K inflate(Context viewContext, @LayoutRes int res) {
         return (K) LayoutInflater.from(viewContext).inflate(res, null, false);
     }
 
-    public View inflate(@NonNull ViewGroup parent, @LayoutRes int res) {
+    public static View inflate(@NonNull ViewGroup parent, @LayoutRes int res) {
         return LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
     }
 
-    public ViewGroup getRootParent(View v) {
+    public static ViewGroup getRootParent(View v) {
         if (v.getParent() == null || !(v.getParent() instanceof View))
             return v instanceof ViewGroup ? (ViewGroup) v : null;
         else
             return getRootParent((View) v.getParent());
     }
 
-    public <K extends View> K findViewOnParents(View v, int viewId) {
+    public static <K extends View> K findViewOnParents(View v, int viewId) {
 
         K fView = v.findViewById(viewId);
         if (fView != null) return fView;
@@ -76,7 +75,7 @@ public class UtilsViewImpl implements UtilsView {
             return findViewOnParents((View) v.getParent(), viewId);
     }
 
-    public void makeTransparentAppBar(Activity activity) {
+    public static void makeTransparentAppBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             AndroidBug5497Workaround.assistActivity(activity);
@@ -84,16 +83,15 @@ public class UtilsViewImpl implements UtilsView {
 
     }
 
-    @Override
-    public int pxToDp(float px) {
+    public static int pxToDp(float px) {
         return (int) (px*(px/TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().getDisplayMetrics())));
     }
 
-    public int dpToPx(float dp) {
+    public static int dpToPx(float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
-    public int spToPx(float sp) {
+    public static int spToPx(float sp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().getDisplayMetrics());
     }
 
@@ -101,8 +99,7 @@ public class UtilsViewImpl implements UtilsView {
     //  Keyboard
     //
 
-    @MainThread
-    public void hideKeyboard(Activity activity) {
+    public static void hideKeyboard(Activity activity) {
         View currentFocus = activity.getCurrentFocus();
         if (currentFocus != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -110,17 +107,15 @@ public class UtilsViewImpl implements UtilsView {
         }
     }
 
-    @MainThread
-    public void hideKeyboard(View view) {
+    public static void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    @AnyThread
-    public void showKeyboard(final View view) {
-        SupAndroid.di.utilsThreads().thread(() -> {
-            SupAndroid.di.utilsThreads().sleep(350);
-            SupAndroid.di.utilsThreads().main(() -> {
+    public static void showKeyboard(final View view) {
+        ToolsThreads.thread(() -> {
+            ToolsThreads.sleep(350);
+            ToolsThreads.main(() -> {
                 view.requestFocus();
                 InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
@@ -133,11 +128,11 @@ public class UtilsViewImpl implements UtilsView {
     //  Animation
     //
 
-    public void setTextAnimate(TextView v, String text) {
+    public static void setTextAnimate(TextView v, String text) {
         setTextAnimate(v, text, null);
     }
 
-    public void setTextAnimate(TextView v, String text, Callback onAlpha) {
+    public static void setTextAnimate(TextView v, String text, Callback onAlpha) {
 
         if (v.getText().equals(text)) {
             fromAlpha(v);
@@ -152,22 +147,22 @@ public class UtilsViewImpl implements UtilsView {
     }
 
 
-    public void crossfade(View in, View out) {
+    public static void crossfade(View in, View out) {
         fromAlpha(in);
         toAlpha(out);
     }
 
-    public void clearAnimation(View v) {
+    public static void clearAnimation(View v) {
         v.animate().setListener(null);
         if (v.getAnimation() != null)
             v.getAnimation().cancel();
     }
 
-    public void alpha(View v, boolean toAlpha) {
+    public static void alpha(View v, boolean toAlpha) {
         alpha(v, toAlpha, null);
     }
 
-    public void alpha(View v, boolean toAlpha, Callback onAlpha) {
+    public static void alpha(View v, boolean toAlpha, Callback onAlpha) {
         if (toAlpha)
             toAlpha(v, onAlpha);
         else
@@ -178,19 +173,19 @@ public class UtilsViewImpl implements UtilsView {
     //  From Alpha
     //
 
-    public void fromAlpha(View v) {
+    public static void fromAlpha(View v) {
         fromAlpha(v, ANIMATION_TIME);
     }
 
-    public void fromAlpha(View v, int time) {
+    public static void fromAlpha(View v, int time) {
         fromAlpha(v, time, null);
     }
 
-    public void fromAlpha(View v, Callback onFinish) {
+    public static void fromAlpha(View v, Callback onFinish) {
         fromAlpha(v, ANIMATION_TIME, onFinish);
     }
 
-    public void fromAlpha(View v, int time, Callback onFinish) {
+    public static void fromAlpha(View v, int time, Callback onFinish) {
 
         clearAnimation(v);
 
@@ -217,19 +212,19 @@ public class UtilsViewImpl implements UtilsView {
     //  To Alpha
     //
 
-    public void toAlpha(View v) {
+    public static void toAlpha(View v) {
         toAlpha(v, ANIMATION_TIME);
     }
 
-    public void toAlpha(View v, int time) {
+    public static void toAlpha(View v, int time) {
         toAlpha(v, time, null);
     }
 
-    public void toAlpha(View v, Callback onFinish) {
+    public static void toAlpha(View v, Callback onFinish) {
         toAlpha(v, ANIMATION_TIME, onFinish);
     }
 
-    public void toAlpha(View v, int time, Callback onFinish) {
+    public static void toAlpha(View v, int time, Callback onFinish) {
 
         clearAnimation(v);
 
@@ -253,7 +248,7 @@ public class UtilsViewImpl implements UtilsView {
     //  Target alpha
     //
 
-    public void targetAlpha(View v, float alpha) {
+    public static void targetAlpha(View v, float alpha) {
 
         clearAnimation(v);
 

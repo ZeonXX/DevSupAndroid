@@ -10,14 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import java.util.ArrayList;
 
 public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
     private final PopupMenu popupMenu;
     private final ArrayList<K> keys = new ArrayList<>();
     private final View anchorView;
@@ -61,12 +59,12 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     }
 
     public ViewPopupMenu<K> addItem(@StringRes int mask) {
-        String string = utilsResources.getString(mask);
+        String string = ToolsResources.getString(mask);
         return addItem((K) string, string);
     }
 
     public ViewPopupMenu<K> addItem(@StringRes int mask, @DrawableRes int icon) {
-        String string = utilsResources.getString(mask);
+        String string = ToolsResources.getString(mask);
         return addItem((K) string, string, icon);
     }
 
@@ -79,11 +77,11 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     }
 
     public ViewPopupMenu<K> addItem(K key, @StringRes int mask) {
-        return addItem(key, utilsResources.getString(mask));
+        return addItem(key, ToolsResources.getString(mask));
     }
 
     public ViewPopupMenu<K> addItemK(K key, @StringRes int mask) {
-        return addItem(key, utilsResources.getString(mask));
+        return addItem(key, ToolsResources.getString(mask));
     }
 
     public ViewPopupMenu<K> addItem(K key, String mask) {
@@ -91,7 +89,7 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
     }
 
     public ViewPopupMenu<K> addItem(K key, @StringRes int mask, @DrawableRes int icon) {
-        return addItem(key, utilsResources.getString(mask), icon);
+        return addItem(key, ToolsResources.getString(mask), icon);
     }
 
     public ViewPopupMenu<K> addItem(K key, String mask, @DrawableRes int icon) {
@@ -99,7 +97,7 @@ public class ViewPopupMenu<K> implements PopupMenu.OnMenuItemClickListener {
         MenuItem item = popupMenu.getMenu().add(Menu.NONE, keys.size() - 1, 0, mask);
         if (icon != 0) {
             hasIcon = true;
-            item.setIcon(utilsResources.getDrawable(icon));
+            item.setIcon(ToolsResources.getDrawable(icon));
         }
         return this;
     }

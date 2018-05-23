@@ -9,8 +9,8 @@ import android.widget.EditText;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsResources;
-import com.sup.dev.android.utils.interfaces.UtilsView;
+import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 public class DialogInputText extends BaseDialog {
 
-    private final UtilsResources utilsResources = SupAndroid.di.utilsResources();
-    private final UtilsView utilsView = SupAndroid.di.utilsView();
     private final EditText vField;
     private final TextInputLayout vFieldLayout;
 
@@ -31,7 +29,7 @@ public class DialogInputText extends BaseDialog {
     private int min;
 
     public DialogInputText(Context viewContext) {
-        super(viewContext, SupAndroid.di.utilsView().inflate(viewContext, R.layout.dialog_input_text));
+        super(viewContext, ToolsView.inflate(viewContext, R.layout.dialog_input_text));
 
         vField = view.findViewById(R.id.field);
         vFieldLayout = view.findViewById(R.id.field_layout);
@@ -49,7 +47,7 @@ public class DialogInputText extends BaseDialog {
     public DialogInputText show() {
         super.show();
         vField.setSelection(vField.getText().length());
-        utilsView.showKeyboard(vField);
+        ToolsView.showKeyboard(vField);
         return this;
     }
 
@@ -73,7 +71,7 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText setHint(@StringRes int s) {
-        return setHint(utilsResources.getString(s));
+        return setHint(ToolsResources.getString(s));
     }
 
     public DialogInputText setHint(String s) {
@@ -118,7 +116,7 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText addChecker(@StringRes int errorText, Provider1<String, Boolean> checker) {
-        return addChecker(utilsResources.getString(errorText), checker);
+        return addChecker(ToolsResources.getString(errorText), checker);
     }
 
     public DialogInputText addChecker(String errorText, Provider1<String, Boolean> checker) {
@@ -183,7 +181,7 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText setOnEnter(@StringRes int s) {
-        return setOnEnter(utilsResources.getString(s));
+        return setOnEnter(ToolsResources.getString(s));
     }
 
     public DialogInputText setOnEnter(String s) {
@@ -191,7 +189,7 @@ public class DialogInputText extends BaseDialog {
     }
 
     public DialogInputText setOnEnter(@StringRes int s, Callback2<DialogInputText, String> onEnter) {
-        return setOnEnter(utilsResources.getString(s), onEnter);
+        return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
     public DialogInputText setOnEnter(String s, Callback2<DialogInputText, String> onEnter) {

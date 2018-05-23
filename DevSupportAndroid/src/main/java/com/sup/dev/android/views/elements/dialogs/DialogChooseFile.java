@@ -10,7 +10,8 @@ import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.utils.interfaces.UtilsPermission;
+import com.sup.dev.android.tools.ToolsPermission;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.elements.cards.Card;
 import com.sup.dev.android.views.widgets.ViewIcon;
@@ -21,8 +22,6 @@ import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import java.io.File;
 
 public class DialogChooseFile extends BaseDialog {
-
-    private final UtilsPermission utilsPermission = SupAndroid.di.utilsPermission();
 
     private final RecyclerCardAdapter adapter;
     private final RecyclerView vRecycler;
@@ -55,7 +54,7 @@ public class DialogChooseFile extends BaseDialog {
     //
 
     public DialogChooseFile showWithRequestPermission(Activity activity, Callback onPermissionRestriction) {
-        utilsPermission.requestReadPermission(activity,
+        ToolsPermission.requestReadPermission(activity,
                 () -> super.show(), onPermissionRestriction);
         return this;
     }
@@ -191,7 +190,7 @@ public class DialogChooseFile extends BaseDialog {
 
         private ViewIcon getViewIcon() {
             if (viewIcon == null) {
-                viewIcon = SupAndroid.di.utilsView().inflate(viewContext, R.layout.w_icon);
+                viewIcon = ToolsView.inflate(viewContext, R.layout.w_icon);
                 viewIcon.setImageResource(R.drawable.ic_done_white_24dp);
                 viewIcon.setOnClickListener(v -> {
                     if (onFolderSelected != null) {
