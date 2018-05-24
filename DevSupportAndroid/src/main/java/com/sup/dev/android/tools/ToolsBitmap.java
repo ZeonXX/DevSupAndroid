@@ -15,10 +15,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.mvp.navigator.Navigator;
+import com.sup.dev.android.libs.mvp.presets.crop.PCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsMath;
@@ -32,6 +36,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ToolsBitmap{
+
+    private static String errorCantLoadImage =  ToolsResources.getString("error_cant_load_image");
+    private static String errorPermissionFiles =  ToolsResources.getString("error_permission_files");
 
     //
     //  Filters
@@ -264,6 +271,19 @@ public class ToolsBitmap{
             }
         }, onPermissionPermissionRestriction);
     }
+
+    public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
+        if(errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
+        getFromGallery(bitmap -> Navigator.to(new PCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
+                () -> ToolsToast.show(errorCantLoadImage),
+                ()->ToolsToast.show(errorPermissionFiles));
+    }
+
+    public static void getFromGalleryCroppedAndScaled(int w, int h, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
+        getFromGalleryCropped(w, h, autoBackOnCrop, (pCrop, bitmap) -> onComplete.callback(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)));
+    }
+
+
 
     //
     //  To

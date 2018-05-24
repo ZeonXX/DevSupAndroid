@@ -17,6 +17,14 @@ import com.sup.dev.java.tools.ToolsColor;
 
 public class ToolsResources{
 
+    public static int getStringId(String name) {
+        return SupAndroid.appContext.getResources().getIdentifier(name, "string", SupAndroid.appContext.getPackageName());
+    }
+
+    public static String getString(String name) {
+        return getString(getStringId(name));
+    }
+
     public static String getString(@StringRes int r) {
         if (r < 0)
             return null;
