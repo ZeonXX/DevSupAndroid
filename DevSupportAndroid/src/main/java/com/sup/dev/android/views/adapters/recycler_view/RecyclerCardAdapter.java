@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.sup.dev.android.views.elements.cards.Card;
+import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.collections.HashList;
 import com.sup.dev.java.tools.ToolsClass;
 

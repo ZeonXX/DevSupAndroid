@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
-import com.sup.dev.android.views.elements.dialogs.DialogAlert;
+import com.sup.dev.android.views.dialogs.DialogAlert;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;

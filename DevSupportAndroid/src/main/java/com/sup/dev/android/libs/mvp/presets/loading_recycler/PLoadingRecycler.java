@@ -3,7 +3,7 @@ package com.sup.dev.android.libs.mvp.presets.loading_recycler;
 import com.sup.dev.android.libs.mvp.presets.loading.PLoading;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapterLoading;
-import com.sup.dev.android.views.elements.cards.Card;
+import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.libs.api_simple.client.Request;
 import com.sup.dev.java.tools.ToolsThreads;
 

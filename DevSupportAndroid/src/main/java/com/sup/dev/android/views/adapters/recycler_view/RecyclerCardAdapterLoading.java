@@ -1,10 +1,9 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 import android.support.annotation.StringRes;
 
-import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.elements.cards.Card;
-import com.sup.dev.android.views.elements.cards.CardLoading;
+import com.sup.dev.android.views.cards.Card;
+import com.sup.dev.android.views.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;

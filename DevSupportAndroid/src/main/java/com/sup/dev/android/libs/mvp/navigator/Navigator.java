@@ -6,13 +6,12 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
-import com.sup.dev.android.views.elements.dialogs.DialogProgressWithTitle;
+import com.sup.dev.android.views.dialogs.DialogProgressTransparent;
+import com.sup.dev.android.views.dialogs.DialogProgressWithTitle;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider;
-import com.sup.dev.java.classes.providers.Provider1;
 
 import java.util.ArrayList;
 

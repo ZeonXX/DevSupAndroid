@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 import com.sup.dev.android.libs.mvp.navigator.Navigator;
-import com.sup.dev.android.views.elements.dialogs.BaseDialog;
-import com.sup.dev.android.views.elements.dialogs.DialogProgressTransparent;
+import com.sup.dev.android.views.dialogs.BaseDialog;
+import com.sup.dev.android.views.dialogs.DialogProgressTransparent;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class PCrop extends MvpPresenter<FCrop> {
