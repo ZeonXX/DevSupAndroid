@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
+import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class Card {
 

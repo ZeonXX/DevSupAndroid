@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.ViewIcon;
@@ -15,7 +14,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class PopupMenu<K> extends Popup {
 
-    private Callback2<PopupMenu, K> onSelected;
+    private Callback2< K,PopupMenu> onSelected;
     private ViewGroup vContainer;
     private TextView vTitle;
 
@@ -37,11 +36,12 @@ public class PopupMenu<K> extends Popup {
 
     @Override
     protected void onPreShow() {
+        super.onPreShow();
         finishItemBuilding();
     }
 
     private void onClick(Item item) {
-        if (onSelected != null) onSelected.callback(this, item.key);
+        if (onSelected != null) onSelected.callback(item.key, this);
         hide();
     }
 
@@ -56,33 +56,33 @@ public class PopupMenu<K> extends Popup {
         return this;
     }
 
-    public PopupMenu<K> setOnSelected(Callback2<PopupMenu, K> onSelected) {
+    public PopupMenu<K> setOnSelected(Callback2< K, PopupMenu> onSelected) {
         finishItemBuilding();
 
         this.onSelected = onSelected;
         return this;
     }
 
-    public PopupMenu<K> addItem(@StringRes int text) {
-        return addItem(ToolsResources.getString(text));
+    public PopupMenu<K> add(@StringRes int text) {
+        return add(ToolsResources.getString(text));
     }
 
-    public PopupMenu<K> addItem(String text) {
-        return addItem((K) text, text);
+    public PopupMenu<K> add(String text) {
+        return add((K) text, text);
     }
 
-    public PopupMenu<K> addItem(K key, @StringRes int text) {
-        return addItem(key, ToolsResources.getString(text));
+    public PopupMenu<K> add(K key, @StringRes int text) {
+        return add(key, ToolsResources.getString(text));
     }
 
-    public PopupMenu<K> addItem(K key, String text) {
+    public PopupMenu<K> add(K key, String text) {
         Item item = new Item(key);
         item.text = text;
-        addItem(item);
+        add(item);
         return this;
     }
 
-    private PopupMenu<K> addItem(Item item) {
+    private PopupMenu<K> add(Item item) {
 
         finishItemBuilding();
 
@@ -122,7 +122,7 @@ public class PopupMenu<K> extends Popup {
         if (buildItem != null) {
             Item i = buildItem;
             buildItem = null;
-            addItem(i);
+            add(i);
         }
     }
 

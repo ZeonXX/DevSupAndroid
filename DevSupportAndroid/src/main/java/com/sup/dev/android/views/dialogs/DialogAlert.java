@@ -2,6 +2,7 @@ package com.sup.dev.android.views.dialogs;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
@@ -14,6 +15,7 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsStorage;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class DialogAlert extends BaseDialog {
@@ -70,6 +72,10 @@ public class DialogAlert extends BaseDialog {
         vCheck.setText(text);
         vCheck.setVisibility(text == null || key == null ? View.GONE : View.VISIBLE);
         return this;
+    }
+
+    public DialogAlert setTitleViewBackgroundR(@ColorRes int res) {
+        return setTitleViewBackground(ToolsResources.getColor(res));
     }
 
     public DialogAlert setTitleViewBackground(int color) {

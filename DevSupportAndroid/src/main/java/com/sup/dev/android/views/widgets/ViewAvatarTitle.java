@@ -58,7 +58,7 @@ public class ViewAvatarTitle extends LayoutChip {
         int src = a.getResourceId(R.styleable.ViewAvatarTitle_android_src, R.color.blue_700);
         int srcIcon = a.getResourceId(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIcon, 0);
         String chipText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipText);
-        int chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, 0);
+        int chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, ToolsResources.getAccentColor(context));
         String mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title);
         String mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle);
         float iconPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0);

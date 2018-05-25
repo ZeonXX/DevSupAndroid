@@ -62,7 +62,7 @@ public class ViewAvatar extends FrameLayout {
         int srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0);
         boolean iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false);
         float iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0);
-        float chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(24));
+        float chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18));
         int roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000);
         a.recycle();
 

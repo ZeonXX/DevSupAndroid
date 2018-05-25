@@ -1,12 +1,16 @@
 package com.sup.dev.android.app;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
+import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.views.dialogs.DialogAlert;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
@@ -25,6 +29,10 @@ public class SupAndroid{
 
     public static void init(Context appContext) {
         SupAndroid.appContext = appContext;
+        ToolsThreads.setOnMain((onNextTime, runnable) -> {
+            if (!onNextTime && ToolsAndroid.isMainThread()) runnable.run();
+            else new Handler(Looper.getMainLooper()).post(runnable);
+        });
 
         Debug.printer = s -> Log.e("Debug", s);
         Debug.exceptionPrinter = th -> Log.e("Debug", "", th);

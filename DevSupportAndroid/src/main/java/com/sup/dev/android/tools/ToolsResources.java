@@ -15,7 +15,7 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.tools.ToolsColor;
 
-public class ToolsResources{
+public class ToolsResources {
 
     public static int getStringId(String name) {
         return SupAndroid.appContext.getResources().getIdentifier(name, "string", SupAndroid.appContext.getPackageName());
@@ -26,38 +26,32 @@ public class ToolsResources{
     }
 
     public static String getString(@StringRes int r) {
-        if (r < 0)
-            return null;
-        else
-            return SupAndroid.appContext.getResources().getString(r);
+        return r < 0 ? null : SupAndroid.appContext.getResources().getString(r);
     }
 
     public static String getPlural(@PluralsRes int r, int value) {
-        if (r < 0)
-            return null;
-        else
-            return SupAndroid.appContext.getResources().getQuantityString(r, value);
+        return r < 0 ? null : SupAndroid.appContext.getResources().getQuantityString(r, value);
     }
 
     public static String[] getStringArray(@ArrayRes int r) {
-        if (r < 0)
-            return null;
-        else
-            return SupAndroid.appContext.getResources().getStringArray(r);
+        return r < 0 ? null : SupAndroid.appContext.getResources().getStringArray(r);
     }
 
     public static Drawable getDrawable(@DrawableRes int r) {
-        if (r < 0)
-            return null;
-        else
-            return SupAndroid.appContext.getResources().getDrawable(r);
+        return r < 0 ? null : SupAndroid.appContext.getResources().getDrawable(r);
     }
 
+    public static int getColorId(String name) {
+        return SupAndroid.appContext.getResources().getIdentifier(name, "color", SupAndroid.appContext.getPackageName());
+    }
+
+    public static int getColor(String name) {
+        return getColor(getColorId(name));
+    }
+
+
     public static int getColor(@ColorRes int r) {
-        if (r < 0)
-            return 0;
-        else
-            return SupAndroid.appContext.getResources().getColor(r);
+        return r < 0 ? 0 : SupAndroid.appContext.getResources().getColor(r);
     }
 
     public static int getAccentColor(Context context) {

@@ -34,11 +34,8 @@ public abstract class PLoadingRecycler<K extends FLoadingRecycler, C extends Car
                     .setNotifyCount(5);
 
             actionAdd(v -> v.setAdapter(adapter));
+            reload();
         });
-
-
-
-        reload();
     }
 
 

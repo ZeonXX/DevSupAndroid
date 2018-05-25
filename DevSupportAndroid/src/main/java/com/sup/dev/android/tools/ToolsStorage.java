@@ -19,11 +19,13 @@ import java.util.ArrayList;
 
 public class ToolsStorage {
 
-    private static String externalFileNamePrefix;
-    protected static SharedPreferences preferences;
+    public static String externalFileNamePrefix = "f";
+    public static SharedPreferences preferences;
 
-    public static void init(String externalFileNamePrefix, String storageKey) {
-        ToolsStorage.externalFileNamePrefix = externalFileNamePrefix;
+    public static void init() {
+        init("android_app_pref");
+    }
+    public static void init(String storageKey) {
         preferences = SupAndroid.appContext.getSharedPreferences(storageKey, Activity.MODE_PRIVATE);
     }
 
@@ -36,27 +38,27 @@ public class ToolsStorage {
     //
 
     public static boolean getBoolean(String key, boolean def) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         return preferences.getBoolean(key, def);
     }
 
     public static int getInt(String key, int def) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         return preferences.getInt(key, def);
     }
 
     public static long getLong(String key, long def) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         return preferences.getLong(key, def);
     }
 
     public static float getFloat(String key, float def) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         return preferences.getFloat(key, def);
     }
 
     public static String getString(String key, String string) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         return preferences.getString(key, string);
     }
 
@@ -77,32 +79,32 @@ public class ToolsStorage {
     //
 
     public static void put(String key, boolean v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putBoolean(key, v).apply();
     }
 
     public static void put(String key, int v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putInt(key, v).apply();
     }
 
     public static void put(String key, long v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putLong(key, v).apply();
     }
 
     public static void put(String key, float v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putFloat(key, v).apply();
     }
 
     public static void put(String key, String v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putString(key, v).apply();
     }
 
     public static void put(String key, byte[] value) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().putString(key, new String(value)).apply();
     }
 
@@ -115,7 +117,7 @@ public class ToolsStorage {
     //
 
     public static void remove(String key) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         preferences.edit().remove(key).apply();
     }
 
@@ -134,7 +136,7 @@ public class ToolsStorage {
 
     @MainThread
     public static void put(String key, String[] v) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         JsonArray json = new JsonArray();
         json.put(v);
         preferences.edit().putString(key, json.toString()).apply();
@@ -185,7 +187,7 @@ public class ToolsStorage {
     //
 
     public static void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         ToolsPermission.requestWritePermission(activity, () -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
@@ -201,13 +203,13 @@ public class ToolsStorage {
     }
 
     public static void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         saveFile(activity, new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
                 bytes, onComplete, onPermissionPermissionRestriction);
     }
 
     public static void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) throw new RuntimeException("You must call ToolsStorage.init");
+        if(preferences == null) init();
         ToolsPermission.requestWritePermission(activity, () -> {
             final File f = new File(patch);
             f.delete();

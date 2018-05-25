@@ -7,6 +7,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
@@ -24,7 +25,7 @@ public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
     protected final TextView vMessage;
     protected final TextView vAction;
     protected final View vProgress;
-    protected final View vEmptyImage;
+    protected final ImageView vEmptyImage;
 
     protected String textErrorNetwork;
     protected String textRetry;
@@ -92,6 +93,10 @@ public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
 
     public int getTextEmptyR() {
         return 0;
+    }
+
+    public void setBackgroundImage(@DrawableRes int res){
+        vEmptyImage.setImageResource(res);
     }
 
 

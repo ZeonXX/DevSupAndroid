@@ -1,13 +1,18 @@
 package com.sup.dev.android.views.popups;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.tools.ToolsAndroid;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class Popup extends PopupWindow {
 
@@ -24,9 +29,11 @@ public class Popup extends PopupWindow {
     public Popup(View anchor, View view) {
         super(view.getContext());
         this.anchor = anchor;
+        setBackgroundDrawable(new ColorDrawable(ToolsResources.getPrimaryColor(view.getContext())));
         setContentView(view);
         setOutsideTouchable(true);
         setFocusable(true);
+
         init();
     }
 
@@ -67,8 +74,11 @@ public class Popup extends PopupWindow {
     }
 
 
+    @CallSuper
     protected void onPreShow(){
-
+        getContentView().measure(ToolsAndroid.getScreenW(), ToolsAndroid.getScreenH());
+        setWidth(getContentView().getMeasuredWidth());
+        setHeight(getContentView().getMeasuredHeight());
     }
 
 }

@@ -21,11 +21,10 @@ public class ToolsImageLoader {
 
     private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * 5);
     private static final ArrayList<Loader> turn = new ArrayList<>();
-    private static Provider1<Long, byte[]> loaderCustom;
     private static ThreadPoolExecutor threadPool;
+    public static Provider1<Long, byte[]> loaderCustom;
 
-    public static void init(Provider1<Long, byte[]> loaderCustom){
-        ToolsImageLoader.loaderCustom = loaderCustom;
+    private static void init(){
         threadPool = new ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
@@ -101,7 +100,7 @@ public class ToolsImageLoader {
 
     public static void load(Loader loader) {
 
-        if(threadPool == null) throw new RuntimeException("You must call ToolsImageLoader.init");
+        if(threadPool == null) init();
 
         if (checkCash(loader)) return;
 
