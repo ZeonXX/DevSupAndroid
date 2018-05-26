@@ -112,13 +112,14 @@ public class ToolsIntent {
     public static void shareImage(Bitmap bitmap, String text, String providerKey, Callback onActivityNotFound) {
 
         File[] files = new File(getCashRoot()).listFiles();
-        for(File f : files)
-            if(f.getName().contains("x_share_i"))
-                f.delete();
+        if (files != null)
+            for (File f : files)
+                if (f.getName().contains("x_share_i"))
+                    f.delete();
 
         new File(getCashRoot()).mkdirs();
 
-        String patch =  getCashRoot() + System.currentTimeMillis() + "_x_share_i.png";
+        String patch = getCashRoot() + System.currentTimeMillis() + "_x_share_i.png";
 
         OutputStream out;
         File file = new File(patch);
@@ -133,10 +134,10 @@ public class ToolsIntent {
 
         SupAndroid.mvpActivity(activity -> {
             try {
-                ((Activity)activity).startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
+                ((Activity) activity).startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile((Activity)activity, providerKey, file))
+                        .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile((Activity) activity, providerKey, file))
                         .putExtra(Intent.EXTRA_TEXT, text)
                         .setType("image/*"), null));
             } catch (ActivityNotFoundException ex) {
@@ -174,7 +175,7 @@ public class ToolsIntent {
                         .setAction(Intent.ACTION_SEND)
                         .putExtra(Intent.EXTRA_STREAM, uri)
                         .setType(type);
-                if(text == null)i.putExtra(Intent.EXTRA_TEXT, text);
+                if (text == null) i.putExtra(Intent.EXTRA_TEXT, text);
                 activity.startActivity(Intent.createChooser(i, null));
             } catch (ActivityNotFoundException ex) {
                 Debug.log(ex);
@@ -261,7 +262,7 @@ public class ToolsIntent {
     //  Support
     //
 
-    private static String getCashRoot(){
+    private static String getCashRoot() {
         return SupAndroid.appContext.getExternalCacheDir().getAbsolutePath() + SHARE_FOLDER;
     }
 
