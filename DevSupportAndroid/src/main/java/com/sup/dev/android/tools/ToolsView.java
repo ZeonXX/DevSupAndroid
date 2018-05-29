@@ -80,7 +80,6 @@ public class ToolsView{
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             AndroidBug5497Workaround.assistActivity(activity);
         }
-
     }
 
     public static int pxToDp(float px) {
