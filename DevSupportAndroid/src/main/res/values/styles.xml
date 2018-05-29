@@ -34,6 +34,10 @@
         <item name="ViewIcon_filter">#01FF0000</item>
     </style>
 
+    <style name="Icon.18">
+        <item name="android:padding">9dp</item>
+    </style>
+
     <style name="Icon.Filtered">
         <item name="ViewIcon_filter">?iconsFilter</item>
     </style>
