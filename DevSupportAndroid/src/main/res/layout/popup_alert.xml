@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:LayoutMaxSizes_alwaysMaxW="true"
-    app:LayoutMaxSizes_maxWidth="256dp">
+    app:cardCornerRadius="6dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:LayoutMaxSizes_alwaysMaxW="true"
+        app:LayoutMaxSizes_maxWidth="256dp">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="116dp"
-            android:layout_marginTop="16dp"
-            android:text="Title"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="116dp"/>
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
+                android:id="@+id/title"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="116dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time."/>
+                android:layout_marginRight="116dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Title"/>
 
-        </ScrollView>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1">
 
-    </LinearLayout>
-</com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes>
+                <TextView
+                    android:id="@+id/text"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time."/>
+
+            </ScrollView>
+
+        </LinearLayout>
+    </com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes>
+
+</android.support.v7.widget.CardView>

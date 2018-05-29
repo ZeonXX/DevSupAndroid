@@ -1,18 +1,16 @@
 package com.sup.dev.android.views.popups;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.libs.debug.Debug;
 import com.sup.dev.android.tools.ToolsAndroid;
-import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class Popup extends PopupWindow {
 
@@ -29,7 +27,7 @@ public class Popup extends PopupWindow {
     public Popup(View anchor, View view) {
         super(view.getContext());
         this.anchor = anchor;
-        setBackgroundDrawable(new ColorDrawable(ToolsResources.getPrimaryColor(view.getContext())));
+        setBackgroundDrawable(null);
         setContentView(view);
         setOutsideTouchable(true);
         setFocusable(true);
@@ -37,7 +35,7 @@ public class Popup extends PopupWindow {
         init();
     }
 
-    protected void init(){
+    protected void init() {
 
     }
 
@@ -46,39 +44,97 @@ public class Popup extends PopupWindow {
     }
 
     public void showAtLocation(View parent, int gravity) {
-        super.showAtLocation(parent, gravity, 0, 0);
+        showAtLocation(parent, gravity, 0, 0);
+    }
+
+    public void showAtLocation(View parent, int xoff, int yoff) {
+        showAtLocation(parent, Gravity.TOP | Gravity.LEFT, xoff, yoff);
     }
 
     public void showAsDropDownOverlay(View anchor) {
         showAsDropDown(anchor, 0, -anchor.getHeight());
     }
 
-    public void show(){
+    public void show() {
         showAsDropDown(anchor);
     }
 
     @Override
     public void showAsDropDown(View anchor, int xoff, int yoff, int gravity) {
+        calculateSize();
         onPreShow();
         super.showAsDropDown(anchor, xoff, yoff, gravity);
     }
 
     @Override
-    public void showAtLocation(View parent, int gravity, int x, int y) {
+    public void showAtLocation(View anchor, int gravity, int x, int y) {
+        calculateSize();
         onPreShow();
-        super.showAtLocation(parent, gravity, x, y);
+        super.showAtLocation(anchor, gravity, x, y);
     }
 
-    public void hide(){
+    public void hide() {
         dismiss();
     }
 
-
-    @CallSuper
-    protected void onPreShow(){
-        getContentView().measure(ToolsAndroid.getScreenW(), ToolsAndroid.getScreenH());
+    private void calculateSize() {
         setWidth(getContentView().getMeasuredWidth());
         setHeight(getContentView().getMeasuredHeight());
     }
 
+    @CallSuper
+    protected void onPreShow() {
+
+    }
+
+    //
+    //  Show on OnClick
+    //
+
+    private int clickScreenX;
+    private int clickScreenY;
+
+    private void setOnTouch(View v) {
+        v.setOnTouchListener((v1, event) -> {
+            clickScreenX = (int) event.getX();
+            clickScreenY = (int) (event.getY());
+            return false;
+        });
+    }
+
+    public Popup showWhenClick(View v) {
+        setOnTouch(v);
+        v.setOnClickListener(v1 -> showWhenClickNow(v));
+        return this;
+    }
+
+    public Popup showWhenLongClick(View v) {
+        setOnTouch(v);
+        v.setOnLongClickListener(v1 -> {
+            showWhenClickNow(v);
+            return true;
+        });
+        return this;
+    }
+
+    private void showWhenClickNow(View v) {
+
+        int screenH = ToolsAndroid.getScreenH();
+
+        getContentView().measure(ToolsAndroid.getScreenW(), screenH);
+        setWidth(getContentView().getMeasuredWidth());
+        setHeight(getContentView().getMeasuredHeight());
+
+        clickScreenX -= getWidth();
+
+        clickScreenY -= v.getHeight();
+
+        int[] p = new int[2];
+        v.getLocationOnScreen(p);
+        if (getHeight() + (v.getHeight() + clickScreenY) + p[1] > screenH)
+            clickScreenY += v.getHeight();
+
+        onPreShow();
+        super.showAsDropDown(v, clickScreenX, clickScreenY);
+    }
 }
