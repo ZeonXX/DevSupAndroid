@@ -15,10 +15,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.mvp.navigator.Navigator;
+import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.libs.mvp.presets.crop.PCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -274,7 +273,7 @@ public class ToolsBitmap{
 
     public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
         if(errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
-        getFromGallery(bitmap -> Navigator.to(new PCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
+        getFromGallery(bitmap -> MvpNavigator.to(new PCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
                 () -> ToolsToast.show(errorCantLoadImage),
                 ()->ToolsToast.show(errorPermissionFiles));
     }

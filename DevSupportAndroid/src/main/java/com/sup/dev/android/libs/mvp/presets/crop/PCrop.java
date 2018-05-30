@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
-import com.sup.dev.android.libs.mvp.navigator.Navigator;
+import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.views.dialogs.BaseDialog;
 import com.sup.dev.android.views.dialogs.DialogProgressTransparent;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
@@ -56,7 +56,7 @@ public class PCrop extends MvpPresenter<FCrop> {
     }
 
     public void back() {
-        Navigator.back();
+        MvpNavigator.back();
     }
 
     //
@@ -65,7 +65,7 @@ public class PCrop extends MvpPresenter<FCrop> {
 
     public void onFinishClicked(Bitmap bitmap) {
         if (onCrop != null) {
-            if (autoBackOnCrop) Navigator.back();
+            if (autoBackOnCrop) MvpNavigator.back();
             else setLock(false);
 
             onCrop.callback(this, bitmap);

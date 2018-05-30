@@ -2,20 +2,21 @@ package com.sup.dev.android.views.dialogs;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
+import android.view.View;
 
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.CardDivider;
 import com.sup.dev.android.views.cards.CardMenu;
+import com.sup.dev.android.views.popups.PopupMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
-public class DialogMenu<K> extends DialogRecycler {
+public class DialogMenu extends DialogRecycler {
 
     private final RecyclerCardAdapter adapter;
 
     private int prefCount = 0;
-    private Callback2<K, DialogMenu> onSelected;
 
     public DialogMenu(Context viewContext) {
         super(viewContext);
@@ -23,131 +24,180 @@ public class DialogMenu<K> extends DialogRecycler {
         setAdapter(adapter);
     }
 
-    public DialogMenu<K> addPreferred(K v) {
-        return addPreferred(v, v.toString());
+    @Override
+    protected void onPreShow() {
+        super.onPreShow();
+        finishItemBuilding();
     }
 
+    private void add(Item item) {
 
-    public DialogMenu<K> addPreferred(K key, String text) {
-        if (prefCount == 0)
-            adapter.add(0, new CardDivider());
-        adapter.add(prefCount, instanceCard(key, text));
-        prefCount++;
+        item.card = new CardMenu();
+        item.card.setText(item.text);
+        item.card.setOnClick(() -> {
+            if (isAutoHideOnEnter()) hide();
+            else setEnabled(false);
+            if (item.onClick != null) item.onClick.callback(this);
+        });
+
+        if (item.preferred) {
+            if (prefCount == 0) adapter.add(0, new CardDivider());
+            adapter.add(prefCount, item.card);
+            prefCount++;
+        } else {
+            adapter.add(item.card);
+        }
+
+    }
+
+    //
+    //  Item
+    //
+
+    private Item buildItem;
+    private boolean skipThisItem = false;
+    private boolean skipGroup = false;
+
+    private void finishItemBuilding() {
+        if (buildItem != null) {
+            Item i = buildItem;
+            buildItem = null;
+            if (!skipThisItem && !skipGroup) add(i);
+        }
+    }
+
+    public DialogMenu add(@StringRes int text) {
+        return add(ToolsResources.getString(text), null);
+    }
+
+    public DialogMenu add(String text) {
+        return add(text, null);
+    }
+
+    public DialogMenu add(@StringRes int text, Callback1<DialogMenu> onClick) {
+        return add(ToolsResources.getString(text), onClick);
+    }
+
+    public DialogMenu add(String text, Callback1<DialogMenu> onClick) {
+        finishItemBuilding();
+        buildItem = new Item();
+        buildItem.text = text;
+        buildItem.onClick = onClick;
         return this;
     }
 
-
-    public DialogMenu<K> add(K v) {
-        return add(v, v.toString());
+    public DialogMenu text(@StringRes int text) {
+        return text(ToolsResources.getString(text));
     }
 
-    public DialogMenu<K> add(K key, @StringRes int text) {
-        adapter.add(instanceCard(key, ToolsResources.getString(text)));
+    public DialogMenu text(String text) {
+        buildItem.text = text;
         return this;
     }
 
-    public DialogMenu<K> add(K key, String text) {
-        adapter.add(instanceCard(key, text));
+    public DialogMenu prefered(boolean b) {
+        buildItem.preferred = b;
         return this;
     }
 
-    public DialogMenu setPreferred(K key) {
-        for (CardMenu card : adapter.getByClass(CardMenu.class))
-            if (card.tag.equals(key)) {
-                adapter.remove(card);
-                addPreferred(key, card.getText());
-            }
+    public DialogMenu condition(boolean b) {
+        skipThisItem = !b;
         return this;
     }
 
-    private CardMenu instanceCard(K key, String text) {
-        CardMenu cardMenu = new CardMenu();
-        cardMenu.tag = key;
-        cardMenu.setText(text);
-        cardMenu.setOnClick(() -> onSelected(key));
-        return cardMenu;
-    }
-
-    public DialogMenu<K> onSelected(K key) {
-        if (isAutoHideOnEnter()) hide();
-        else setEnabled(false);
-        if (onSelected != null) onSelected.callback(key, this);
+    public DialogMenu groupCondition(boolean b) {
+        skipGroup = !b;
         return this;
     }
 
-    public DialogMenu<K> setOnSelected(Callback2<K, DialogMenu> onSelected) {
-        this.onSelected = onSelected;
+    public DialogMenu reverseGroupCondition() {
+        skipGroup = !skipGroup;
         return this;
     }
 
+    public DialogMenu clearGroupCondition() {
+        skipGroup = false;
+        return this;
+    }
 
     //
     //  Setters
     //
 
-
-    public DialogMenu<K> setTitle(@StringRes int title) {
-        return (DialogMenu<K>)super.setTitle(title);
+    public DialogMenu setTitle(@StringRes int title) {
+        return (DialogMenu) super.setTitle(title);
     }
 
-    public DialogMenu<K> setTitle(String title) {
-        return (DialogMenu<K>)super.setTitle(title);
+    public DialogMenu setTitle(String title) {
+        return (DialogMenu) super.setTitle(title);
     }
 
-    public DialogMenu<K> setAutoHideOnCancel(boolean autoHideOnCancel) {
-        return (DialogMenu<K>)super.setAutoHideOnCancel(autoHideOnCancel);
+    public DialogMenu setAutoHideOnCancel(boolean autoHideOnCancel) {
+        return (DialogMenu) super.setAutoHideOnCancel(autoHideOnCancel);
     }
 
-    public DialogMenu<K> setAutoHideOnEnter(boolean autoHideOnEnter) {
-        return (DialogMenu<K>)super.setAutoHideOnEnter(autoHideOnEnter);
+    public DialogMenu setAutoHideOnEnter(boolean autoHideOnEnter) {
+        return (DialogMenu) super.setAutoHideOnEnter(autoHideOnEnter);
     }
 
-    public DialogMenu<K> setCancelable(boolean cancelable) {
-        return (DialogMenu<K>)super.setCancelable(cancelable);
+    public DialogMenu setCancelable(boolean cancelable) {
+        return (DialogMenu) super.setCancelable(cancelable);
     }
 
-    public DialogMenu<K> setOnCancel(String s) {
-        return (DialogMenu<K>)super.setOnCancel(s);
+    public DialogMenu setOnCancel(String s) {
+        return (DialogMenu) super.setOnCancel(s);
     }
 
-    public DialogMenu<K> setOnCancel(Callback1<BaseDialog> onCancel) {
-        return (DialogMenu<K>)super.setOnCancel(onCancel);
+    public DialogMenu setOnCancel(Callback1<BaseDialog> onCancel) {
+        return (DialogMenu) super.setOnCancel(onCancel);
     }
 
-    public DialogMenu<K> setOnCancel(@StringRes int s) {
-        return (DialogMenu<K>)super.setOnCancel(s);
+    public DialogMenu setOnCancel(@StringRes int s) {
+        return (DialogMenu) super.setOnCancel(s);
     }
 
-    public DialogMenu<K> setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
-        return (DialogMenu<K>)super.setOnCancel(s, onCancel);
+    public DialogMenu setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
+        return (DialogMenu) super.setOnCancel(s, onCancel);
     }
 
-    public DialogMenu<K> setOnCancel(String s, Callback1<BaseDialog> onCancel) {
-        return (DialogMenu<K>)super.setOnCancel(s, onCancel);
+    public DialogMenu setOnCancel(String s, Callback1<BaseDialog> onCancel) {
+        return (DialogMenu) super.setOnCancel(s, onCancel);
     }
 
-    public DialogMenu<K> setEnabled(boolean enabled) {
+    public DialogMenu setEnabled(boolean enabled) {
         for (CardMenu card : adapter.getByClass(CardMenu.class))
             card.setEnabled(enabled);
-        return (DialogMenu<K>) super.setEnabled(enabled);
+        return (DialogMenu) super.setEnabled(enabled);
     }
 
-    public DialogMenu<K> setOnEnter(@StringRes int s) {
-        return (DialogMenu<K>)super.setOnEnter(s);
+    public DialogMenu setOnEnter(@StringRes int s) {
+        return (DialogMenu) super.setOnEnter(s);
     }
 
-    public DialogMenu<K> setOnEnter(String s) {
-        return (DialogMenu<K>)super.setOnEnter(s);
+    public DialogMenu setOnEnter(String s) {
+        return (DialogMenu) super.setOnEnter(s);
     }
 
-    public DialogMenu<K> setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
-        return (DialogMenu<K>)super.setOnEnter(s, onEnter);
+    public DialogMenu setOnEnter(@StringRes int s, Callback1<BaseDialog> onEnter) {
+        return (DialogMenu) super.setOnEnter(s, onEnter);
     }
 
-    public DialogMenu<K> setOnEnter(String s, Callback1<BaseDialog> onEnter) {
-        return (DialogMenu<K>)super.setOnEnter(s, onEnter);
+    public DialogMenu setOnEnter(String s, Callback1<BaseDialog> onEnter) {
+        return (DialogMenu) super.setOnEnter(s, onEnter);
     }
 
+    //
+    //  Item
+    //
+
+    private class Item {
+
+        private CardMenu card;
+        private Callback1<DialogMenu> onClick;
+        private String text;
+        private boolean preferred;
+
+    }
 
 
 }

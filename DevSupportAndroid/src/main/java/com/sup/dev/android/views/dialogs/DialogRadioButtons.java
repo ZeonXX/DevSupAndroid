@@ -12,48 +12,130 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
-public class DialogRadioButtons<K> extends BaseDialog {
+public class DialogRadioButtons extends BaseDialog {
 
     private final LinearLayout vOptionsContainer;
-
-    private K selectedKey;
+    private boolean multiSelection = true;
 
     public DialogRadioButtons(Context viewContext) {
         super(viewContext, R.layout.dialog_container);
         vOptionsContainer = view.findViewById(R.id.content_container);
     }
 
-    public DialogRadioButtons<K> addItem(@StringRes int text) {
-        return addItem(ToolsResources.getString(text));
+    public DialogRadioButtons setMultiSelection(boolean multiSelection) {
+        this.multiSelection = multiSelection;
+
+        if (!multiSelection) {
+            boolean skip = false;
+            for (int i = 0; i < vOptionsContainer.getChildCount(); i++) {
+                RadioButton v = (RadioButton) vOptionsContainer.getChildAt(i);
+                if (v.isChecked()) {
+                    if (!skip) skip = true;
+                    else v.setChecked(false);
+                }
+            }
+        }
+
+        return this;
+    }
+    
+    @Override
+    protected void onPreShow() {
+        super.onPreShow();
+        finishItemBuilding();
     }
 
-    public DialogRadioButtons<K> addItem(String text) {
-        return addItem((K) text, text);
-    }
-
-    public DialogRadioButtons<K> addItem(K key, @StringRes int text) {
-        return addItem(key, ToolsResources.getString(text));
-    }
-
-    public DialogRadioButtons<K> addItem(K key, String text) {
-        RadioButton radioButton = new RadioButton(viewContext);
-        radioButton.setText(text);
-        radioButton.setChecked(selectedKey == key);
-        radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) setSelectedKey(key);
+    private void add(Item item) {
+        item.radioButton = new RadioButton(viewContext);
+        item.radioButton.setTag(item);
+        item.radioButton.setText(item.text);
+        item.radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked && !multiSelection)
+                for (int i = 0; i < vOptionsContainer.getChildCount(); i++)
+                    if (vOptionsContainer.getChildAt(i) != item.radioButton)
+                        ((RadioButton) vOptionsContainer.getChildAt(i)).setChecked(false);
         });
-        radioButton.setTag(key);
-        vOptionsContainer.addView(radioButton);
+        item.radioButton.setChecked(item.selected);
+        vOptionsContainer.addView(item.radioButton);
         if (vOptionsContainer.getChildCount() > 1)
-            ((ViewGroup.MarginLayoutParams) radioButton.getLayoutParams()).topMargin = ToolsView.dpToPx(16);
+            ((ViewGroup.MarginLayoutParams) item.radioButton.getLayoutParams()).topMargin = ToolsView.dpToPx(16);
+
+    }
+
+
+    //
+    //  Item
+    //
+
+    private Item buildItem;
+    private boolean skipThisItem = false;
+    private boolean skipGroup = false;
+
+    private void finishItemBuilding() {
+        if (buildItem != null) {
+            Item i = buildItem;
+            buildItem = null;
+            if (!skipThisItem && !skipGroup) add(i);
+        }
+    }
+
+    public DialogRadioButtons add(@StringRes int text) {
+        return add(ToolsResources.getString(text));
+    }
+
+    public DialogRadioButtons add(String text) {
+        finishItemBuilding();
+        buildItem = new Item();
+        buildItem.text = text;
         return this;
     }
 
-    public DialogRadioButtons<K> setSelectedKey(K selectedKey) {
-        this.selectedKey = selectedKey;
-        if (vOptionsContainer != null)
-            for (int i = 0; i < vOptionsContainer.getChildCount(); i++)
-                ((RadioButton) vOptionsContainer.getChildAt(i)).setChecked(selectedKey == vOptionsContainer.getChildAt(i).getTag());
+    public DialogRadioButtons onChange(Callback2<DialogRadioButtons, Boolean> onChange) {
+        buildItem.onChange = onChange;
+        return this;
+    }
+
+    public DialogRadioButtons onSelected(Callback1<DialogRadioButtons> onSelected) {
+        buildItem.onSelected = onSelected;
+        return this;
+    }
+
+    public DialogRadioButtons onNotSelected(Callback1<DialogRadioButtons> onNotSelected) {
+        buildItem.onNotSelected = onNotSelected;
+        return this;
+    }
+
+    public DialogRadioButtons text(@StringRes int text) {
+        return text(ToolsResources.getString(text));
+    }
+
+    public DialogRadioButtons text(String text) {
+        buildItem.text = text;
+        return this;
+    }
+
+    public DialogRadioButtons selected(boolean b) {
+        buildItem.selected = b;
+        return this;
+    }
+
+    public DialogRadioButtons condition(boolean b) {
+        skipThisItem = !b;
+        return this;
+    }
+
+    public DialogRadioButtons groupCondition(boolean b) {
+        skipGroup = !b;
+        return this;
+    }
+
+    public DialogRadioButtons reverseGroupCondition() {
+        skipGroup = !skipGroup;
+        return this;
+    }
+
+    public DialogRadioButtons clearGroupCondition() {
+        skipGroup = false;
         return this;
     }
 
@@ -61,69 +143,83 @@ public class DialogRadioButtons<K> extends BaseDialog {
     //  Setters
     //
 
-    public DialogRadioButtons<K> setTitle(@StringRes int title) {
-        return (DialogRadioButtons<K>) super.setTitle(title);
+    public DialogRadioButtons setTitle(@StringRes int title) {
+        return (DialogRadioButtons) super.setTitle(title);
     }
 
-    public DialogRadioButtons<K> setTitle(String title) {
-        return (DialogRadioButtons<K>) super.setTitle(title);
+    public DialogRadioButtons setTitle(String title) {
+        return (DialogRadioButtons) super.setTitle(title);
     }
 
-    public DialogRadioButtons<K> setAutoHideOnCancel(boolean autoHideOnCancel) {
-        return (DialogRadioButtons<K>) super.setAutoHideOnCancel(autoHideOnCancel);
+    public DialogRadioButtons setAutoHideOnCancel(boolean autoHideOnCancel) {
+        return (DialogRadioButtons) super.setAutoHideOnCancel(autoHideOnCancel);
     }
 
-    public DialogRadioButtons<K> setAutoHideOnEnter(boolean autoHideOnEnter) {
-        return (DialogRadioButtons<K>) super.setAutoHideOnEnter(autoHideOnEnter);
+    public DialogRadioButtons setAutoHideOnEnter(boolean autoHideOnEnter) {
+        return (DialogRadioButtons) super.setAutoHideOnEnter(autoHideOnEnter);
     }
 
-    public DialogRadioButtons<K> setCancelable(boolean cancelable) {
-        return (DialogRadioButtons<K>) super.setCancelable(cancelable);
+    public DialogRadioButtons setCancelable(boolean cancelable) {
+        return (DialogRadioButtons) super.setCancelable(cancelable);
     }
 
-    public DialogRadioButtons<K> setOnCancel(String s) {
-        return (DialogRadioButtons<K>) super.setOnCancel(s);
+    public DialogRadioButtons setOnCancel(String s) {
+        return (DialogRadioButtons) super.setOnCancel(s);
     }
 
-    public DialogRadioButtons<K> setOnCancel(Callback1<BaseDialog> onCancel) {
-        return (DialogRadioButtons<K>) super.setOnCancel(onCancel);
+    public DialogRadioButtons setOnCancel(Callback1<BaseDialog> onCancel) {
+        return (DialogRadioButtons) super.setOnCancel(onCancel);
     }
 
-    public DialogRadioButtons<K> setOnCancel(@StringRes int s) {
-        return (DialogRadioButtons<K>) super.setOnCancel(s);
+    public DialogRadioButtons setOnCancel(@StringRes int s) {
+        return (DialogRadioButtons) super.setOnCancel(s);
     }
 
-    public DialogRadioButtons<K> setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
-        return (DialogRadioButtons<K>) super.setOnCancel(s, onCancel);
+    public DialogRadioButtons setOnCancel(@StringRes int s, Callback1<BaseDialog> onCancel) {
+        return (DialogRadioButtons) super.setOnCancel(s, onCancel);
     }
 
-    public DialogRadioButtons<K> setOnCancel(String s, Callback1<BaseDialog> onCancel) {
-        return (DialogRadioButtons<K>) super.setOnCancel(s, onCancel);
+    public DialogRadioButtons setOnCancel(String s, Callback1<BaseDialog> onCancel) {
+        return (DialogRadioButtons) super.setOnCancel(s, onCancel);
     }
 
-    public DialogRadioButtons<K> setOnEnter(@StringRes int s) {
-        return setOnEnter(s, (Callback2<DialogRadioButtons<K>, K>) null);
+    public DialogRadioButtons setOnEnter(@StringRes int s) {
+        return setOnEnter(ToolsResources.getString(s));
     }
 
-    public DialogRadioButtons<K> setOnEnter(String s) {
-        return setOnEnter(s, (Callback2<DialogRadioButtons<K>, K>) null);
-    }
-
-    public DialogRadioButtons<K> setOnEnter(@StringRes int s, Callback2<DialogRadioButtons<K> , K> onEnter) {
-        return setOnEnter(ToolsResources.getString(s), onEnter);
-    }
-
-    public DialogRadioButtons<K> setOnEnter(String s, Callback2<DialogRadioButtons<K> , K> onEnter) {
-        super.setOnEnter(s, d -> {
-            if (onEnter != null) onEnter.callback(this, selectedKey);
+    public DialogRadioButtons setOnEnter(String s) {
+        return (DialogRadioButtons) super.setOnEnter(s, baseDialog -> {
+            if (isAutoHideOnEnter()) hide();
+            else setEnabled(false);
+            for (int i = 0; i < vOptionsContainer.getChildCount(); i++) {
+                RadioButton v = (RadioButton) vOptionsContainer.getChildAt(i);
+                Item item = (Item) v.getTag();
+                if (item.onChange != null) item.onChange.callback(this, v.isChecked());
+                if (v.isChecked() && item.onSelected != null) item.onSelected.callback(this);
+                if (!v.isChecked() && item.onNotSelected != null) item.onNotSelected.callback(this);
+            }
         });
-        return this;
     }
 
-    public DialogRadioButtons<K> setEnabled(boolean enabled) {
+    public DialogRadioButtons setEnabled(boolean enabled) {
         for (int i = 0; i < vOptionsContainer.getChildCount(); i++)
             vOptionsContainer.getChildAt(i).setEnabled(enabled);
-        return (DialogRadioButtons<K>) super.setEnabled(enabled);
+        return (DialogRadioButtons) super.setEnabled(enabled);
+    }
+
+    //
+    //  Item
+    //
+
+    private class Item {
+
+        private RadioButton radioButton;
+        private Callback2<DialogRadioButtons, Boolean> onChange;
+        private Callback1<DialogRadioButtons> onSelected;
+        private Callback1<DialogRadioButtons> onNotSelected;
+        private String text;
+        private boolean selected;
+
     }
 
 

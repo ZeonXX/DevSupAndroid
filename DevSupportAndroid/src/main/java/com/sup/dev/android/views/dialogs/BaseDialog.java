@@ -20,7 +20,7 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.layouts.LayoutMaxSizes;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
-public class BaseDialog {
+public class BaseDialog{
 
     protected final Context viewContext;
     protected final View view;
@@ -252,5 +252,9 @@ public class BaseDialog {
 
     public boolean isAutoHideOnEnter() {
         return autoHideOnEnter;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }

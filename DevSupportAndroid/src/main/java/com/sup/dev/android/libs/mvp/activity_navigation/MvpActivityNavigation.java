@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpFragment;
-import com.sup.dev.android.libs.mvp.navigator.Navigator;
+import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.tools.ToolsView;
 
 public class MvpActivityNavigation extends MvpActivity implements DrawerLayout.DrawerListener{
@@ -39,7 +39,7 @@ public class MvpActivityNavigation extends MvpActivity implements DrawerLayout.D
 
     @Override
     public void onFragmentBackPressed() {
-        if(Navigator.hasBackStack())
+        if(MvpNavigator.hasBackStack())
             super.onFragmentBackPressed();
         else
             showDrawer();

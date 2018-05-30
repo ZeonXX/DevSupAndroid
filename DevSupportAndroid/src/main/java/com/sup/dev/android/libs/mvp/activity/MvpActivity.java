@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.MvpFragment;
-import com.sup.dev.android.libs.mvp.navigator.Navigator;
+import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.tools.ToolsIntent;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
@@ -49,20 +49,20 @@ public class MvpActivity extends Activity {
     protected void onStart() {
         super.onStart();
         SupAndroid.setMvpActivity(this);
-        if (vContainer.getChildCount() == 0) Navigator.updateFragment();
+        if (vContainer.getChildCount() == 0) MvpNavigator.updateFragment();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         SupAndroid.setMvpActivity(null);
-        Navigator.onActivityStop();
+        MvpNavigator.onActivityStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Navigator.onActivityDestroy();
+        MvpNavigator.onActivityDestroy();
     }
 
     protected int getLayout() {
@@ -89,7 +89,7 @@ public class MvpActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!Navigator.onBackPressed() && !onLastBackPressed()) {
+        if (!MvpNavigator.onBackPressed() && !onLastBackPressed()) {
             started = false;
             finish();
         }

@@ -15,7 +15,6 @@ public class CardMenu extends Card {
     private boolean enabled = true;
     private int background = 0x01FF0000;
 
-    public Object tag;
     private String text;
     private boolean customColor;
     private int textColor;

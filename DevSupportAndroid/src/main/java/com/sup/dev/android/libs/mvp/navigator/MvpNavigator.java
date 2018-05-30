@@ -15,7 +15,7 @@ import com.sup.dev.java.classes.providers.Provider;
 
 import java.util.ArrayList;
 
-public class Navigator {
+public class MvpNavigator {
 
     private static ArrayList<MvpPresenter> presenters = new ArrayList<>();
     private static Callback1<MvpActivity> callback1 = mvpActivity -> callback(mvpActivity);
@@ -187,11 +187,11 @@ public class Navigator {
     private static final CallbacksList2<MvpPresenter, MvpPresenter> onBack = new CallbacksList2<>();
 
     public static void addOnBackListener(Callback2<MvpPresenter, MvpPresenter> onBack) {
-        Navigator.onBack.add(onBack);
+        MvpNavigator.onBack.add(onBack);
     }
 
     public static void removeOnBackListener(Callback2<MvpPresenter, MvpPresenter> onBack) {
-        Navigator.onBack.remove(onBack);
+        MvpNavigator.onBack.remove(onBack);
     }
 
 }

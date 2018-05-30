@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -24,8 +25,9 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewChip extends FrameLayout {
 
@@ -160,10 +162,33 @@ public class ViewChip extends FrameLayout {
         requestLayout();
     }
 
+    private void updateColors(boolean animated) {
+        int bcColor = isChipSelected ? background : unselectedBackground;
+        if (!isEnabled()) bcColor = ToolsColor.setAlpha(ToolsColor.alpha(bcColor) - 80, bcColor);
+        animationBackground.change(animated, bcColor);
+        animationFocus.setClickAnimationEnabled(!isChipSelected);
+        invalidate();
+    }
+
     //
     //  Setters
     //
 
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        vTextView.setEnabled(enabled);
+        vIcon.setEnabled(enabled);
+        updateColors(false);
+    }
+
+    public void setEnabledAnimated(boolean enabled) {
+        super.setEnabled(enabled);
+        vTextView.setEnabled(enabled);
+        vIcon.setEnabled(enabled);
+        updateColors(true);
+    }
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
@@ -212,24 +237,18 @@ public class ViewChip extends FrameLayout {
         vIcon.getLayoutParams().width = size;
         vIcon.getLayoutParams().height = size;
         vTextView.getLayoutParams().height = size;
-        vTextView.setTextSize(dp/2.5f);
+        vTextView.setTextSize(dp / 2.5f);
         vTextView.setPadding(size / 3, 0, size / 3, 0);
     }
 
     public void setChipSelected(boolean b) {
-        setChipSelected(b, false);
+        isChipSelected = b;
+        updateColors(false);
     }
 
     public void setChipSelectedAnimated(boolean b) {
-        setChipSelected(b, true);
-    }
-
-    private void setChipSelected(boolean b, boolean animated) {
         isChipSelected = b;
-        if (animated) animationBackground.to(isChipSelected ? background : unselectedBackground);
-        else animationBackground.set(isChipSelected ? background : unselectedBackground);
-        animationFocus.setClickAnimationEnabled(!b);
-        invalidate();
+        updateColors(true);
     }
 
     public void setText(@StringRes int text) {
@@ -261,22 +280,22 @@ public class ViewChip extends FrameLayout {
 
     public void setChipBackground(@ColorInt int background) {
         this.background = background;
-        setChipSelected(isChipSelected(), false);
+        updateColors(false);
     }
 
     public void setChipBackgroundAnimated(@ColorInt int background) {
         this.background = background;
-        setChipSelected(isChipSelected(), true);
+        updateColors(true);
     }
 
     public void setUnselectedBackground(@ColorInt int unselectedBackground) {
         this.unselectedBackground = unselectedBackground;
-        setChipSelected(isChipSelected(), false);
+        updateColors(false);
     }
 
     public void setUnselectedBackgroundAnimated(@ColorInt int unselectedBackground) {
         this.unselectedBackground = unselectedBackground;
-        setChipSelected(isChipSelected(), true);
+        updateColors(true);
     }
 
     public void setUseIconBackground(boolean useIconBackground) {
@@ -322,7 +341,7 @@ public class ViewChip extends FrameLayout {
                 onSelected.callback(tags[n]);
             });
             views[i].setCanUnselect(false);
-            views[i].setChipSelected(i == 0, false);
+            views[i].setChipSelected(i == 0);
         }
         return views;
     }
