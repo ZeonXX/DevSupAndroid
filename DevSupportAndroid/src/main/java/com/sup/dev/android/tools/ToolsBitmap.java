@@ -196,6 +196,30 @@ public class ToolsBitmap{
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
     }
 
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) inSampleSize *= 2;
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap decode(byte[] bytes, int reqWidth, int reqHeight, BitmapFactory.Options options) {
+        if (bytes == null) return null;
+        if (options == null) options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+    }
+
     public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
         SupAndroid.mvpActivity(
                 mvpActivity -> ToolsIntent.getGalleryImage(uri -> getFromUri((Activity) mvpActivity, uri, bitmap -> {
