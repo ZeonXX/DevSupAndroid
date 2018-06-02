@@ -15,6 +15,8 @@ import com.sup.dev.android.libs.mvp.fragments.MvpFragment;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.ViewIcon;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
 
@@ -52,9 +54,10 @@ public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
         vContainer.addView(ToolsView.inflate(getContext(), res), 0);
     }
 
-    protected ViewIcon addToolbarIcon(@DrawableRes int res) {
+    protected ViewIcon addToolbarIcon(@DrawableRes int res, Callback onClick) {
         ViewIcon viewIcon = ToolsView.inflate(getContext(), R.layout.w_icon_toolbar);
         viewIcon.setImageResource(res);
+        viewIcon.setOnClickListener(v -> onClick.callback());
         vToolbarContainer.addView(viewIcon);
         return viewIcon;
     }
@@ -104,6 +107,10 @@ public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
     //
     //  Presenter
     //
+
+    public void setTitle(@StringRes int title){
+        setTitle(ToolsResources.getString(title));
+    }
 
     public void setTitle(String title) {
         ((Toolbar) findViewById(R.id.toolbar)).setTitle(title);

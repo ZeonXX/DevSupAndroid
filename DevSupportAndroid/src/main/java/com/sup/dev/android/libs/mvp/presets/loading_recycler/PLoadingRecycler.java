@@ -27,7 +27,7 @@ public abstract class PLoadingRecycler<K extends FLoadingRecycler, C extends Car
             adapter = instanceAdapter()
                     .setOnEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.EMPTY)))
                     .setOnErrorAndEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.ERROR)))
-                    .setOnLoadingAndEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.PROGRESS)))
+                    .setOnStartLoadingAndEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.PROGRESS)))
                     .setOnLoadingAndNotEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.NONE)))
                     .setOnLoadedNotEmpty(() -> actionSingle("state", v -> v.setState(FLoadingRecycler.State.NONE)))
                     .setRetryMessage(textNetworkError.toString(), textRetry.toString())
@@ -67,14 +67,5 @@ public abstract class PLoadingRecycler<K extends FLoadingRecycler, C extends Car
     public void onReloadClicked() {
         reload();
     }
-
-
-
-
-
-
-
-
-
 
 }

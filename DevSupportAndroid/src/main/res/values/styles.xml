@@ -54,6 +54,14 @@
         <item name="android:background">?colorPrimary</item>
     </style>
 
+    <style name="Fab">
+        <item name="android:id">@id/fab</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:layout_margin">24dp</item>
+    </style>
+
     <style name="Widget.GifView" parent="@android:style/Widget"/>
 
 </resources>

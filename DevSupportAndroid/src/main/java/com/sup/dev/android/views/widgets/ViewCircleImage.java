@@ -83,7 +83,6 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        mCircleBackgroundColor = context.getResources().getColor(R.color.focus);
         animationFlash = new AnimationSpring(255, AnimationSpring.SpeedType.TIME_MS, 400);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0);

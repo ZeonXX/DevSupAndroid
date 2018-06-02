@@ -8,6 +8,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private boolean actionEnabled;
     private Callback onErrorAndEmpty;
     private Callback onEmpty;
-    private Callback onLoadingAndEmpty;
+    private Callback onStartLoadingAndEmpty;
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
@@ -79,8 +80,8 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         ArrayList<K> cards = getByClass(cardClass);
 
-        if (cards.isEmpty()) {
-            if (onLoadingAndEmpty != null) onLoadingAndEmpty.callback();
+        if (isEmpty()) {
+            if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty.callback();
             else if (!contains(cardLoading)) add(bottom ? size() - addBottomPositionOffset : addTopPositionOffset, cardLoading);
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty.callback();
@@ -94,17 +95,16 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     private void onLoaded(V[] result, boolean bottom) {
 
         inProgress = false;
-        boolean isEmpty = !containsClass(cardClass);
 
         if (result == null) {
-            if (retryEnabled && (!isEmpty || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY);
+            if (retryEnabled && (!isEmpty() || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY);
             else remove(cardLoading);
-            if (isEmpty && onErrorAndEmpty != null) onErrorAndEmpty.callback();
+            if (isEmpty() && onErrorAndEmpty != null) onErrorAndEmpty.callback();
             return;
         }
 
 
-        if (isEmpty && result.length == 0) {
+        if (!containsClass(cardClass) && result.length == 0) {
             if (bottom) lockBottom();
             else lockTop();
             if (actionEnabled) cardLoading.setState(CardLoading.State.ACTION);
@@ -124,7 +124,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
             if (bottom) add(size() - addBottomPositionOffset, mapper.provide(result[i]));
             else add(addTopPositionOffset + i, mapper.provide(result[i]));
 
-        if (!isEmpty || result.length != 0)
+        if (!isEmpty() || result.length != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty.callback();
 
     }
@@ -189,8 +189,8 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         return this;
     }
 
-    public RecyclerCardAdapterLoading<K, V> setOnLoadingAndEmpty(Callback onLoadingAndEmpty) {
-        this.onLoadingAndEmpty = onLoadingAndEmpty;
+    public RecyclerCardAdapterLoading<K, V> setOnStartLoadingAndEmpty(Callback onStartLoadingAndEmpty) {
+        this.onStartLoadingAndEmpty = onStartLoadingAndEmpty;
         return this;
     }
 

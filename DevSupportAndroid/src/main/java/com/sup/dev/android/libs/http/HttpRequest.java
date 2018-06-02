@@ -6,9 +6,6 @@ import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +25,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /*
-    Сделано на основе https://github.com/gjudkins/GjuddyRequest
+    https://github.com/gjudkins/GjuddyRequest
  */
 public class HttpRequest {
 
@@ -40,8 +37,8 @@ public class HttpRequest {
     private enum Method {POST, GET, PUT, DELETE}
 
     private ContentValues params = new ContentValues();
-    private ContentValues body = new ContentValues();
     private ContentValues headers = new ContentValues();
+    private String body;
     private String url;
     private Format format;
     private Method method;
@@ -51,9 +48,18 @@ public class HttpRequest {
         this.url = url;
     }
 
+    public HttpRequest makeGet(Callback1<String> onResult) {
+        return make(onResult, null);
+    }
+
+
     public HttpRequest makeGet(Callback1<String> onResult, Callback1<Exception> onError) {
         method = Method.GET;
         return make(onResult, onError);
+    }
+
+    public HttpRequest makePost(Callback1<String> onResult) {
+        return make(onResult, null);
     }
 
     public HttpRequest makePost(Callback1<String> onResult, Callback1<Exception> onError) {
@@ -61,9 +67,18 @@ public class HttpRequest {
         return make(onResult, onError);
     }
 
+    public HttpRequest makePut(Callback1<String> onResult) {
+        method = Method.PUT;
+        return make(onResult, null);
+    }
+
     public HttpRequest makePut(Callback1<String> onResult, Callback1<Exception> onError) {
         method = Method.PUT;
         return make(onResult, onError);
+    }
+
+    public HttpRequest makeDelete(Callback1<String> onResult) {
+        return make(onResult, null);
     }
 
     public HttpRequest makeDelete(Callback1<String> onResult, Callback1<Exception> onError) {
@@ -95,7 +110,7 @@ public class HttpRequest {
     private HttpRequest make(Callback1<String> onResult, Callback1<Exception> onError) {
         ToolsThreads.thread(() -> {
             try {
-                if(onResult != null)onResult.callback(make());
+                if (onResult != null) onResult.callback(make());
             } catch (Exception e) {
                 if (onError != null) onError.callback(e);
                 else Debug.log(e);
@@ -109,9 +124,6 @@ public class HttpRequest {
     }
 
     private String makeNow(String urlStr) throws Exception {
-
-
-        String body = createBody();
 
         if (format == Format.x_www_form_urlencoded) headers.put("Content-Type", "application/x-www-form-urlencoded");
         else if (format == Format.json) headers.put("Content-Type", "application/json");
@@ -181,13 +193,13 @@ public class HttpRequest {
         return this;
     }
 
-    public HttpRequest value(String key, Object value) {
-        params.put(key, value.toString());
+    public HttpRequest param(String key, Object param) {
+        params.put(key, param.toString());
         return this;
     }
 
-    public HttpRequest body(String key, Object value) {
-        params.put(key, value.toString());
+    public HttpRequest body(String body) {
+        this.body = body;
         return this;
     }
 
@@ -227,26 +239,6 @@ public class HttpRequest {
     //
     //  Format
     //
-
-    private String createBody() {
-        String bodyString;
-
-        if (format == Format.json) {
-            JSONObject bodyJSONObject = new JSONObject();
-            for (String key : body.keySet()) {
-                try {
-                    bodyJSONObject.put(key, body.get(key));
-                } catch (JSONException e) {
-                    Debug.log(e);
-                }
-            }
-            bodyString = bodyJSONObject.toString();
-        } else {
-            bodyString = makeQueryString(body, true, false);
-        }
-
-        return bodyString;
-    }
 
     private static String makeQueryString(ContentValues values, boolean urlEncode) {
         return makeQueryString(values, urlEncode, true);
