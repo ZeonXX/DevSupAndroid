@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.alert;
+package com.sup.dev.android.views.fragments.alert;
 
 import android.content.Context;
 import android.widget.TextView;

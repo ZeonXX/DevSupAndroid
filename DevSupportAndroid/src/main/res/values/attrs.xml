@@ -95,6 +95,11 @@
         <attr name="ViewChip_canUnselect" format="boolean"/>
         <attr name="ViewChip_selected" format="boolean"/>
         <attr name="ViewChip_textSize" format="dimension"/>
+        <attr name="ViewChip_textGravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
         <attr name="ViewChip_size" format="dimension"/>
         <attr name="ViewChip_icon" format="reference"/>
         <attr name="ViewChip_iconUseBackground" format="boolean"/>

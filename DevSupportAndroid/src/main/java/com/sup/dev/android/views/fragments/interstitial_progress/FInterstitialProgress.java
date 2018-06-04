@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.interstitial_progress;
+package com.sup.dev.android.views.fragments.interstitial_progress;
 
 import android.content.Context;
 import android.widget.ProgressBar;

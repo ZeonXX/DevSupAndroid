@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.loading;
+package com.sup.dev.android.views.fragments.loading;
 
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 

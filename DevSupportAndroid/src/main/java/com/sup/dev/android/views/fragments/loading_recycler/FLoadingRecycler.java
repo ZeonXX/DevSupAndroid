@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.loading_recycler;
+package com.sup.dev.android.views.fragments.loading_recycler;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.libs.mvp.presets.loading.FLoading;
+import com.sup.dev.android.views.fragments.loading.FLoading;
 
 public abstract class FLoadingRecycler<K extends PLoadingRecycler> extends FLoading<K> {
 

@@ -1,6 +1,6 @@
-package com.sup.dev.android.libs.mvp.presets.loading_recycler;
+package com.sup.dev.android.views.fragments.loading_recycler;
 
-import com.sup.dev.android.libs.mvp.presets.loading.PLoading;
+import com.sup.dev.android.views.fragments.loading.PLoading;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapterLoading;
 import com.sup.dev.android.views.cards.Card;

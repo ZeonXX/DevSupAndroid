@@ -21,6 +21,7 @@ public class BehaviorCollapse<V extends View> extends CoordinatorLayout.Behavior
     public boolean onDependentViewChanged(CoordinatorLayout parent, V child, View dependency) {
         child.setScaleX(Math.max((1-(-dependency.getY()) / 255), 0));
         child.setScaleY(Math.max((1-(-dependency.getY()) / 255), 0));
+        child.setVisibility(child.getScaleX() == 0?View.GONE:View.VISIBLE);
         return super.onDependentViewChanged(parent, child, dependency);
     }
 }

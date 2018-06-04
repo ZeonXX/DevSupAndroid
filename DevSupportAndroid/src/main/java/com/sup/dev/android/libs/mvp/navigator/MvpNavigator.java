@@ -17,8 +17,11 @@ import java.util.ArrayList;
 
 public class MvpNavigator {
 
+    public enum Action {SET, TO, REPLACE}
+
     private static ArrayList<MvpPresenter> presenters = new ArrayList<>();
     private static Callback1<MvpActivity> callback1 = mvpActivity -> callback(mvpActivity);
+    private static boolean lastBackCallback = false;
 
     //
     //  Presenters
@@ -33,6 +36,13 @@ public class MvpNavigator {
     //
     //  Navigation
     //
+
+
+    public static void action(Action action, MvpPresenter presenter) {
+        if (action == Action.TO) to(presenter);
+        else if (action == Action.SET) set(presenter);
+        else if (action == Action.REPLACE) replace(presenter);
+    }
 
     public static void to(MvpPresenter presenter) {
         if (!presenters.isEmpty()) {
@@ -93,7 +103,16 @@ public class MvpNavigator {
     }
 
     public static boolean back() {
-        if (!hasBackStack()) return false;
+        if (!hasBackStack()) {
+            if (!lastBackCallback) {
+                lastBackCallback = true;
+                SupAndroid.mvpActivity(a -> {
+                    a.onBackPressed();
+                    lastBackCallback = false;
+                });
+            }
+            return false;
+        }
 
         MvpPresenter current = getCurrent();
         removePresenter(current);

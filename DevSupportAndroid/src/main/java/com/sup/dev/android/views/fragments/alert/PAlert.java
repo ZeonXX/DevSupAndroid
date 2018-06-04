@@ -1,27 +1,26 @@
-package com.sup.dev.android.libs.mvp.presets.alert;
+package com.sup.dev.android.views.fragments.alert;
 
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
-public class PAlert extends MvpPresenter<FAlert>{
+public class PAlert extends MvpPresenter<FAlert> {
 
-    public static void showNetwork(Callback1<MvpPresenter> onCreate, Callback onRetry){
-        onCreate.callback(new PAlert(
+    public static void showNetwork(MvpNavigator.Action action, Callback onRetry) {
+        MvpNavigator.action(action, new PAlert(
                 ToolsResources.getString("app_whoops"),
                 ToolsResources.getString("error_network"),
                 ToolsResources.getString("app_retry"),
                 onRetry));
     }
 
-    public static void showGone(Callback1<MvpPresenter> onCreate){
-        onCreate.callback(new PAlert(
+    public static void showGone(MvpNavigator.Action action) {
+        MvpNavigator.action(action, new PAlert(
                 ToolsResources.getString("app_whoops"),
                 ToolsResources.getString("error_gone"),
                 ToolsResources.getString("app_back"),
-                ()->MvpNavigator.back()));
+                () -> MvpNavigator.back()));
     }
 
     private final Callback onAction;
@@ -38,8 +37,8 @@ public class PAlert extends MvpPresenter<FAlert>{
     //  Fragment
     //
 
-    public void onActionClicked(){
-       if(onAction != null) onAction.callback();
+    public void onActionClicked() {
+        if (onAction != null) onAction.callback();
     }
 
 }

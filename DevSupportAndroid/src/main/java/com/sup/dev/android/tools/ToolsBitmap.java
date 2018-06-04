@@ -18,7 +18,7 @@ import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
-import com.sup.dev.android.libs.mvp.presets.crop.PCrop;
+import com.sup.dev.android.views.fragments.crop.PCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;

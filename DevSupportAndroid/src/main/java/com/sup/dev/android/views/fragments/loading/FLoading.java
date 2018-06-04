@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.loading;
+package com.sup.dev.android.views.fragments.loading;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
@@ -16,7 +16,6 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class FLoading<K extends PLoading> extends MvpFragment<K> {
 

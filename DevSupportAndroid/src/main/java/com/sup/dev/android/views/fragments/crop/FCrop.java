@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.mvp.presets.crop;
+package com.sup.dev.android.views.fragments.crop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
