@@ -71,7 +71,7 @@ public class MvpNavigator {
         to(provider.provide());
     }
 
-    public static void removeAllEqualsAndTo(MvpPresenter presenter){
+    public static void removeAllEqualsAndTo(MvpPresenter presenter) {
 
         for (int i = 0; i < presenters.size(); i++)
             if (presenters.get(i).equalsPresenter(presenter))
