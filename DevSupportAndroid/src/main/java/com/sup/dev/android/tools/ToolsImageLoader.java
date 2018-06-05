@@ -1,14 +1,14 @@
 package com.sup.dev.android.tools;
 
+
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.text.style.DrawableMarginSpan;
-import android.view.Gravity;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.views.widgets._support.ViewImageFade;
+import com.sup.dev.android.views.widgets.ViewFadeImage;
+import com.sup.dev.android.views.widgets._support.FadeView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.collections.CashBytes;
 import com.sup.dev.java.classes.providers.Provider1;
@@ -16,6 +16,7 @@ import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsNetwork;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,13 +25,21 @@ import java.util.concurrent.TimeUnit;
 
 public class ToolsImageLoader {
 
-    private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * 5);
+    public static final Provider1<Bitmap, Bitmap> TRANSFORMER_SQUARE_CENTER = bitmap -> ToolsBitmap.cropCenterSquare(bitmap);
+
+    private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)?5:10));
     private static final ArrayList<Loader> turn = new ArrayList<>();
     private static ThreadPoolExecutor threadPool;
     public static Provider1<Long, byte[]> loaderById;
 
-    private static void init(){
-        threadPool = new ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+    static {
+        threadPool = new ThreadPoolExecutor(1, 8, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+    }
+
+    public static BitmapFactory.Options OPTIONS_RGB_565() {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+        return opt;
     }
 
     //
@@ -38,27 +47,19 @@ public class ToolsImageLoader {
     //
 
     public static void clearCash(long imageId) {
-        synchronized (bitmapCash) {
-            bitmapCash.remove(asKey(imageId));
-        }
+        bitmapCash.remove(asKey(imageId));
     }
 
     public static void clearCash(String url) {
-        synchronized (bitmapCash) {
-            bitmapCash.remove(url);
-        }
+        bitmapCash.remove(url);
     }
 
     public static void replace(long imageId, byte[] bytes) {
-        synchronized (bitmapCash) {
-            bitmapCash.replace(asKey(imageId), bytes);
-        }
+        bitmapCash.replace(asKey(imageId), bytes);
     }
 
     public static void replace(String url, byte[] bytes) {
-        synchronized (bitmapCash) {
-            bitmapCash.replace(asKey(url), bytes);
-        }
+        bitmapCash.replace(asKey(url), bytes);
     }
 
     public static void unsubscribe(ImageView vImage) {
@@ -105,17 +106,30 @@ public class ToolsImageLoader {
 
     public static void load(Loader loader) {
 
-        if(threadPool == null) init();
+        byte[] bytes = bitmapCash.get(loader.key);
 
-        if (checkCash(loader)) return;
+        if (bytes != null) {
+            if (loader.onLoaded != null) loader.onLoaded.callback(bytes);
+            if (loader.vImage != null) ToolsThreads.thread(() -> putImage(loader, parseImage(loader, bytes), false));
+            return;
+        }
 
         if (loader.vImage != null) {
-            if(loader.w != 0 && loader.h != 0){
-                ScaleDrawable scaleDrawable = new ScaleDrawable(new ColorDrawable(ToolsResources.getColor(R.color.focus)), Gravity.CENTER, loader.w, loader.h);
-                loader.vImage.setImageDrawable(scaleDrawable);
-            }else{
+            if (loader.w != 0 && loader.h != 0) {
+                Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.RGB_565);
+                bitmap.eraseColor(ToolsResources.getColor(R.color.focus));
+                loader.vImage.setImageBitmap(bitmap);
+                if (loader.vImage instanceof ViewFadeImage) ((ViewFadeImage) loader.vImage).setFadeColor(ToolsResources.getColor(R.color.focus));
+            } else {
                 loader.vImage.setImageResource(R.color.focus);
             }
+
+            if (loader.vImage instanceof FadeView) ((FadeView) loader.vImage).stopFade();
+
+            for (int i = 0; i < turn.size(); i++)
+                if (turn.get(i).vImage == loader.vImage)
+                    turn.remove(i--);
+
         }
 
         turn.add(loader);
@@ -137,17 +151,20 @@ public class ToolsImageLoader {
 
     private static void loadNow(Loader loader) {
 
-        byte[] bytes = loader.load();
-        synchronized (bitmapCash) {
-            bitmapCash.add(loader.key, bytes);
-        }
+        if (!turn.contains(loader)) return;
+
+        byte[] loadedBytes = loader.load();
+        Bitmap bitmap = parseImage(loader, loadedBytes);
+        byte[] bytes = loader.cashLoadedBytes ? loadedBytes : ToolsBitmap.toJPGBytes(bitmap, 100);
 
         ToolsThreads.main(() -> {
 
+            bitmapCash.add(loader.key, bytes);
             for (int i = 0; i < turn.size(); i++) {
-                if (turn.get(i).isKey(loader.key)) {
-                    if (turn.get(i).onLoaded != null) turn.get(i).onLoaded.callback(bytes);
-                    if (turn.get(i).vImage != null) putImage(turn.get(i), bytes, true);
+                Loader l = turn.get(i);
+                if (l.isKey(loader.key)) {
+                    if (l.onLoaded != null) l.onLoaded.callback(bytes);
+                    if (l.vImage != null) putImage(l, bitmap, true);
                     turn.remove(i--);
                 }
             }
@@ -156,37 +173,29 @@ public class ToolsImageLoader {
 
     }
 
-    private static void putImage(Loader loader, byte[] bytes, boolean animate) {
-        if (!loader.isKey(loader.vImage.getTag())) return;
-        loader.vImage.setImageBitmap(ToolsBitmap.decode(bytes));
-        ToolsView.fromAlpha(loader.vImage);
-        if (animate && loader.vImage instanceof ViewImageFade) ((ViewImageFade) loader.vImage).makeFlash();
+    private static Bitmap parseImage(Loader loader, byte[] bytes) {
+        Bitmap bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options);
+        if (loader.transformer != null) bm = loader.transformer.provide(bm);
+        return bm;
     }
 
-    private static boolean checkCash(Loader loader) {
-
-        byte[] bytes;
-        synchronized (bitmapCash) {
-            bytes = bitmapCash.get(loader.key);
-        }
-
-        if (bytes != null) {
-            if (loader.onLoaded != null) loader.onLoaded.callback(bytes);
-            if (loader.vImage != null) putImage(loader, bytes, false);
-        }
-
-        return bytes != null;
+    private static void putImage(Loader loader, Bitmap bm, boolean animate) {
+        ToolsThreads.main(() -> {
+            if (!loader.isKey(loader.vImage.getTag())) return;
+            loader.vImage.setImageBitmap(bm);
+            if (animate && loader.vImage instanceof FadeView) ((FadeView) loader.vImage).makeFade();
+        });
     }
 
     //
     //  Support
     //
 
-    private static String asKey(long imageId){
+    private static String asKey(long imageId) {
         return "imgId_" + imageId;
     }
 
-    private static String asKey(String url){
+    private static String asKey(String url) {
         return "url_" + url;
     }
 
@@ -199,8 +208,11 @@ public class ToolsImageLoader {
         private ImageView vImage;
         private Object key;
         private Callback1<byte[]> onLoaded;
+        private Provider1<Bitmap, Bitmap> transformer;
+        private BitmapFactory.Options options;
         private int w;
         private int h;
+        private boolean cashLoadedBytes = true;
 
         public Loader setImage(ImageView vImage) {
             this.vImage = vImage;
@@ -214,7 +226,6 @@ public class ToolsImageLoader {
             return this;
         }
 
-
         protected Loader setKey(Object key) {
             this.key = key;
             return this;
@@ -222,6 +233,21 @@ public class ToolsImageLoader {
 
         public Loader setOnLoaded(Callback1<byte[]> onLoaded) {
             this.onLoaded = onLoaded;
+            return this;
+        }
+
+        public Loader setTransformer(Provider1<Bitmap, Bitmap> transformer) {
+            this.transformer = transformer;
+            return this;
+        }
+
+        public Loader setOptions(BitmapFactory.Options options) {
+            this.options = options;
+            return this;
+        }
+
+        public Loader setCashLoadedBytes(boolean cashLoadedBytes) {
+            this.cashLoadedBytes = cashLoadedBytes;
             return this;
         }
 
@@ -236,7 +262,7 @@ public class ToolsImageLoader {
 
         private final long imageId;
 
-        public LoaderId(long imageId){
+        public LoaderId(long imageId) {
             this.imageId = imageId;
             setKey(imageId);
         }
@@ -250,7 +276,7 @@ public class ToolsImageLoader {
 
         private final String url;
 
-        public LoaderUrl(String url){
+        public LoaderUrl(String url) {
             this.url = url;
             setKey(url);
         }
@@ -258,6 +284,26 @@ public class ToolsImageLoader {
         byte[] load() {
             try {
                 return ToolsNetwork.getBytesFromURL(url);
+            } catch (IOException e) {
+                Debug.log(e);
+                return null;
+            }
+        }
+    }
+
+    public static class LoaderFile extends Loader {
+
+        private final File file;
+
+        public LoaderFile(File file) {
+            this.file = file;
+            setKey("file_" + file.getAbsolutePath());
+        }
+
+        byte[] load() {
+            try {
+                byte[] bytes = ToolsFiles.readFile(file);
+                return bytes;
             } catch (IOException e) {
                 Debug.log(e);
                 return null;

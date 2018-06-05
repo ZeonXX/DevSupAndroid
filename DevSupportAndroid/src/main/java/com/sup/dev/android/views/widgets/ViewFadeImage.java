@@ -10,16 +10,16 @@ import android.util.AttributeSet;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.views.widgets._support.ViewImageFade;
+import com.sup.dev.android.views.widgets._support.FadeView;
 import com.sup.dev.java.classes.animation.AnimationSpring;
 import com.sup.dev.java.tools.ToolsColor;
 
-public class ViewFadeImage extends android.support.v7.widget.AppCompatImageView  implements ViewImageFade {
+public class ViewFadeImage extends android.support.v7.widget.AppCompatImageView  implements FadeView {
 
     private final Paint paint = new Paint();
-    private final AnimationSpring animationFlash;
+    private final AnimationSpring animationFade;
 
-    private int backColor = 0x01FF0000;
+    private int fadeColor = 0x01FF0000;
 
     public ViewFadeImage(Context context) {
         this(context, null);
@@ -32,22 +32,28 @@ public class ViewFadeImage extends android.support.v7.widget.AppCompatImageView 
     public ViewFadeImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         SupAndroid.initEditMode(this);
-        animationFlash = new AnimationSpring(0, AnimationSpring.SpeedType.TIME_MS, 400);
+        animationFade = new AnimationSpring(0, AnimationSpring.SpeedType.TIME_MS, 400);
         paint.setAntiAlias(true);
         if(getBackground() == null) setBackgroundColor(context.getResources().getColor(R.color.focus));
     }
 
     @Override
-    public void makeFlash() {
-        animationFlash.set(255);
-        animationFlash.to(0);
+    public void makeFade() {
+        animationFade.set(ToolsColor.alpha(fadeColor));
+        animationFade.to(0);
+        invalidate();
+    }
+
+    @Override
+    public void stopFade() {
+        animationFade.set(0);
         invalidate();
     }
 
     @Override
     public void setBackground(Drawable background) {
         super.setBackground(background);
-        if(background instanceof ColorDrawable) backColor = ((ColorDrawable)background).getColor();
+        if(background instanceof ColorDrawable) fadeColor = ((ColorDrawable)background).getColor();
     }
 
     @Override
@@ -55,15 +61,20 @@ public class ViewFadeImage extends android.support.v7.widget.AppCompatImageView 
 
         super.onDraw(canvas);
 
-        if(backColor != 0x01FF0000 && animationFlash.getValue() != 0) {
-            paint.setColor(ToolsColor.setAlpha((int) animationFlash.getValue(), backColor));
+        if(fadeColor != 0x01FF0000 && animationFade.getValue() != 0) {
+            paint.setColor(ToolsColor.setAlpha((int) animationFade.getValue(), fadeColor));
             canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
         }
 
-        if (animationFlash.isNeedUpdate()) {
-            animationFlash.update();
+        if (animationFade.isNeedUpdate()) {
+            animationFade.update();
             invalidate();
         }
+    }
+
+
+    public void setFadeColor(int color) {
+        this.fadeColor = color;
     }
 
 }

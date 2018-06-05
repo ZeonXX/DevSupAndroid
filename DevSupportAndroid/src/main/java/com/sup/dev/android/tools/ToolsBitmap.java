@@ -22,6 +22,7 @@ import com.sup.dev.android.views.fragments.crop.PCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.geometry.Dimensions;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsMath;
@@ -38,6 +39,13 @@ public class ToolsBitmap{
 
     private static String errorCantLoadImage =  ToolsResources.getString("error_cant_load_image");
     private static String errorPermissionFiles =  ToolsResources.getString("error_permission_files");
+
+    public static Bitmap cropCenterSquare(Bitmap srcBmp) {
+        if(srcBmp.getWidth() == srcBmp.getHeight())return srcBmp;
+        if (srcBmp.getWidth() >= srcBmp.getHeight()) return Bitmap.createBitmap(srcBmp, srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2, 0, srcBmp.getHeight(), srcBmp.getHeight());
+        else return Bitmap.createBitmap(srcBmp, 0, srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2, srcBmp.getWidth(), srcBmp.getWidth());
+    }
+
 
     //
     //  Filters
@@ -196,6 +204,31 @@ public class ToolsBitmap{
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
     }
 
+    public static Bitmap decode(byte[] bytes, int maxWidth, int maxHeight, BitmapFactory.Options options) {
+
+        if (bytes == null) return null;
+        if (options == null) options = new BitmapFactory.Options();
+
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+        if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
+            options.inSampleSize = 2;
+            while (options.outHeight / options.inSampleSize > maxHeight || options.outWidth / options.inSampleSize > maxWidth)
+                options.inSampleSize *= 2;
+        }
+
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+        if (maxWidth != 0 || maxHeight != 0) {
+            Dimensions inscribe = ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), maxWidth, maxHeight);
+            if (bitmap.getWidth() != inscribe.w || bitmap.getHeight() != inscribe.h)
+                bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.w, (int) inscribe.h, true);
+        }
+
+        return bitmap;
+    }
+
+/*
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -209,16 +242,8 @@ public class ToolsBitmap{
 
         return inSampleSize;
     }
+*/
 
-    public static Bitmap decode(byte[] bytes, int reqWidth, int reqHeight, BitmapFactory.Options options) {
-        if (bytes == null) return null;
-        if (options == null) options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-    }
 
     public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
         SupAndroid.mvpActivity(
