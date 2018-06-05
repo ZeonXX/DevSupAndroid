@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.classes.callbacks.simple.Callback;
-import com.sup.dev.android.classes.callbacks.simple.Callback1;
-import com.sup.dev.android.libs.debug.Debug;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
@@ -20,6 +17,9 @@ import com.sup.dev.android.tools.ToolsImageLoader;
 import com.sup.dev.android.views.adapters.recycler_view.NotifyItem;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.File;
 import java.io.IOException;

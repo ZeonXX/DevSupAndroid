@@ -3,6 +3,8 @@ package com.sup.dev.android.tools;
 import android.graphics.Canvas;
 import android.graphics.drawable.GradientDrawable;
 
+import com.sup.dev.java.tools.ToolsColor;
+
 public class ToolsPaint {
 
     public static void gradientLineBottomTop(Canvas canvas, int color, int size) {
@@ -21,3 +23,4 @@ public class ToolsPaint {
         gradientDrawable.setBounds(0, canvas.getHeight() - size, canvas.getWidth(), canvas.getHeight());
         gradientDrawable.draw(canvas);
     }
+}

@@ -7,6 +7,7 @@ import android.view.View;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.CardDivider;
+import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
 import com.sup.dev.android.views.popups.PopupMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
