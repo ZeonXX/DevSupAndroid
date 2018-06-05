@@ -1,9 +1,14 @@
 package com.sup.dev.android.tools;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ScaleDrawable;
+import android.text.style.DrawableMarginSpan;
+import android.view.Gravity;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.views.widgets._support.ViewImageFlash;
+import com.sup.dev.android.views.widgets._support.ViewImageFade;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.collections.CashBytes;
 import com.sup.dev.java.classes.providers.Provider1;
@@ -22,7 +27,7 @@ public class ToolsImageLoader {
     private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * 5);
     private static final ArrayList<Loader> turn = new ArrayList<>();
     private static ThreadPoolExecutor threadPool;
-    public static Provider1<Long, byte[]> loaderCustom;
+    public static Provider1<Long, byte[]> loaderById;
 
     private static void init(){
         threadPool = new ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
@@ -79,7 +84,7 @@ public class ToolsImageLoader {
     }
 
     public static void load(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
-        load(new LoaderCustom(imageId, vImage, onLoaded));
+        load(new LoaderId(imageId).setImage(vImage).setOnLoaded(onLoaded));
     }
 
     public static void load(String url) {
@@ -95,7 +100,7 @@ public class ToolsImageLoader {
     }
 
     public static void load(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
-        load(new LoaderUrl(url, vImage, onLoaded));
+        load(new LoaderUrl(url).setImage(vImage).setOnLoaded(onLoaded));
     }
 
     public static void load(Loader loader) {
@@ -104,7 +109,14 @@ public class ToolsImageLoader {
 
         if (checkCash(loader)) return;
 
-        if (loader.vImage != null) loader.vImage.setImageResource(R.color.focus);
+        if (loader.vImage != null) {
+            if(loader.w != 0 && loader.h != 0){
+                ScaleDrawable scaleDrawable = new ScaleDrawable(new ColorDrawable(ToolsResources.getColor(R.color.focus)), Gravity.CENTER, loader.w, loader.h);
+                loader.vImage.setImageDrawable(scaleDrawable);
+            }else{
+                loader.vImage.setImageResource(R.color.focus);
+            }
+        }
 
         turn.add(loader);
 
@@ -148,7 +160,7 @@ public class ToolsImageLoader {
         if (!loader.isKey(loader.vImage.getTag())) return;
         loader.vImage.setImageBitmap(ToolsBitmap.decode(bytes));
         ToolsView.fromAlpha(loader.vImage);
-        if (animate && loader.vImage instanceof ViewImageFlash) ((ViewImageFlash) loader.vImage).makeFlash();
+        if (animate && loader.vImage instanceof ViewImageFade) ((ViewImageFade) loader.vImage).makeFlash();
     }
 
     private static boolean checkCash(Loader loader) {
@@ -182,18 +194,35 @@ public class ToolsImageLoader {
     //  Loaders
     //
 
-    private static abstract class Loader {
+    public static abstract class Loader {
 
-        private final ImageView vImage;
-        private final Object key;
-        private final Callback1<byte[]> onLoaded;
+        private ImageView vImage;
+        private Object key;
+        private Callback1<byte[]> onLoaded;
+        private int w;
+        private int h;
 
-        private Loader(ImageView vImage, Object key, Callback1<byte[]> onLoaded) {
+        public Loader setImage(ImageView vImage) {
             this.vImage = vImage;
-            this.key = key;
-            this.onLoaded = onLoaded;
-
             if (vImage != null) vImage.setTag(key);
+            return this;
+        }
+
+        public Loader setSizes(int w, int h) {
+            this.w = w;
+            this.h = h;
+            return this;
+        }
+
+
+        protected Loader setKey(Object key) {
+            this.key = key;
+            return this;
+        }
+
+        public Loader setOnLoaded(Callback1<byte[]> onLoaded) {
+            this.onLoaded = onLoaded;
+            return this;
         }
 
         boolean isKey(Object key) {
@@ -203,27 +232,27 @@ public class ToolsImageLoader {
         abstract byte[] load();
     }
 
-    private static class LoaderCustom extends Loader {
+    public static class LoaderId extends Loader {
 
-        private long imageId;
+        private final long imageId;
 
-        private LoaderCustom(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
-            super(vImage, asKey(imageId), onLoaded);
+        public LoaderId(long imageId){
             this.imageId = imageId;
+            setKey(imageId);
         }
 
         byte[] load() {
-            return loaderCustom.provide(imageId);
+            return loaderById.provide(imageId);
         }
     }
 
-    private static class LoaderUrl extends Loader {
+    public static class LoaderUrl extends Loader {
 
         private final String url;
 
-        private LoaderUrl(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
-            super(vImage, asKey(url), onLoaded);
+        public LoaderUrl(String url){
             this.url = url;
+            setKey(url);
         }
 
         byte[] load() {

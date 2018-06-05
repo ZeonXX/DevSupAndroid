@@ -70,7 +70,7 @@ public class BaseDialog{
     }
 
 
-    public BaseDialog show() {
+    public <K extends BaseDialog>K show() {
         dialog = new AppCompatDialog(viewContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         onPreShow();
@@ -99,7 +99,7 @@ public class BaseDialog{
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
-        return this;
+        return (K) this;
     }
 
     protected <V extends View> V findViewById(int id) {
