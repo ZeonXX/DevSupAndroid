@@ -63,6 +63,15 @@ public class ToolsView{
         else
             return getRootParent((View) v.getParent());
     }
+    
+        public static int getRootBackground(View v) {
+        if (v.getBackground() instanceof ColorDrawable) return ((ColorDrawable) v.getBackground()).getColor();
+        if (v.getParent() == null || !(v.getParent() instanceof View))
+            return 0;
+        else
+            return getRootBackground((View) v.getParent());
+    }
+
 
     public static <K extends View> K findViewOnParents(View v, int viewId) {
 
