@@ -50,6 +50,16 @@ public class DialogMenu extends DialogRecycler {
 
     }
 
+    public DialogMenu group(@StringRes int title) {
+        return group(ToolsResources.getString(title));
+    }
+
+    public DialogMenu group(String title) {
+        finishItemBuilding();
+        adapter.add(new CardDividerTitle().setText(title));
+        return this;
+    }
+
     //
     //  Item
     //
