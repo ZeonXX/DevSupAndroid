@@ -27,6 +27,12 @@ public class LayoutMaxSizes extends FrameLayout {
     private boolean reversMaxValuesOnScreenRotation = false;
     private boolean useScreenWidthAsParent = false;
     private boolean useScreenHeightAsParent = false;
+    private int fadeWSize;
+    private int fadeHSize;
+    private int fadeColor;
+
+    private boolean isCroppedW;
+    private boolean isCroppedH;
 
     public LayoutMaxSizes(Context context) {
         this(context, null);
@@ -51,6 +57,9 @@ public class LayoutMaxSizes extends FrameLayout {
         reversMaxValuesOnScreenRotation = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reversMaxValuesOnScreenRotation, reversMaxValuesOnScreenRotation);
         useScreenWidthAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenWidthAsParent, useScreenWidthAsParent);
         useScreenHeightAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenHeightAsParent, useScreenHeightAsParent);
+        fadeWSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeWSize, fadeWSize);
+        fadeHSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeHSize, fadeHSize);
+        fadeColor = a.getColor(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeColor, fadeColor);
         a.recycle();
 
     }
@@ -92,11 +101,17 @@ public class LayoutMaxSizes extends FrameLayout {
         if (maxW > 0 && (alMW || w > maxW + reserveW)) {
             w = maxW;
             wm = EXACTLY;
+            isCroppedW = true;
+        } else {
+            isCroppedW = false;
         }
 
         if (maxH > 0 && (alMH || h > maxH + reserveH)) {
             h = maxH;
             hm = EXACTLY;
+            isCroppedH = true;
+        } else {
+            isCroppedH = false;
         }
 
         super.onMeasure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
@@ -109,9 +124,36 @@ public class LayoutMaxSizes extends FrameLayout {
         if (hm == UNSPECIFIED) measure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), EXACTLY));
     }
 
+    @Override
+    public void onDrawForeground(Canvas canvas) {
+        super.onDrawForeground(canvas);
+
+        if(fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
+            fadeColor = ToolsView.getRootBackground(this);
+
+        if (fadeWSize != 0 && isCroppedW && fadeColor != 0) ToolsPaint.gradientLineLeftRight(canvas, fadeColor, fadeWSize);
+        if (fadeHSize != 0 && isCroppedH && fadeColor != 0) ToolsPaint.gradientLineBottomTop(canvas, fadeColor, fadeHSize);
+    }
+
     //
     //  Setters
     //
+
+
+    public void setFadeHSize(int dp) {
+        this.fadeHSize = ToolsView.dpToPx(dp);
+        invalidate();
+    }
+
+    public void setFadeWSize(int dp) {
+        this.fadeWSize = ToolsView.dpToPx(dp);
+        invalidate();
+    }
+
+    public void setFadeColor(int fadeColor) {
+        this.fadeColor = fadeColor;
+        invalidate();
+    }
 
     public void setMaxWidth(int maxWidthDp) {
         this.maxWidth = ToolsView.dpToPx(maxWidthDp);
