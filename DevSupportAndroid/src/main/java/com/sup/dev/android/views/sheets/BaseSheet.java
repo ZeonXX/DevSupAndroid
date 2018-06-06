@@ -2,6 +2,7 @@ package com.sup.dev.android.views.sheets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.providers.Provider;
 
 public abstract class BaseSheet extends FrameLayout {
 
@@ -19,10 +22,17 @@ public abstract class BaseSheet extends FrameLayout {
     protected final View view;
     private final int fabId;
     private final boolean openOnFab;
-
     private FloatingActionButton vFab;
 
     private BottomSheetBehavior behavior;
+
+    private final Provider<Boolean> onBackPressed = () -> {
+        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            hide();
+            return true;
+        }
+        return false;
+    };
 
     public BaseSheet(Context viewContext, AttributeSet attrs, @LayoutRes int res) {
         super(viewContext, attrs);
@@ -43,9 +53,9 @@ public abstract class BaseSheet extends FrameLayout {
         if (behavior != null) return;
 
         this.behavior = BottomSheetBehavior.from(this);
-        if(fabId != 0) {
+        if (fabId != 0) {
             vFab = ToolsView.findViewOnParents(BaseSheet.this, fabId);
-            if(openOnFab)vFab.setOnClickListener(v -> show());
+            if (openOnFab) vFab.setOnClickListener(v -> show());
         }
 
 
@@ -80,12 +90,14 @@ public abstract class BaseSheet extends FrameLayout {
 
     }
 
+    @CallSuper
     protected void onExpanded() {
-
+        SupAndroid.addOnBack(onBackPressed);
     }
 
+    @CallSuper
     protected void onCollapsed() {
-
+        SupAndroid.removeOnBack(onBackPressed);
     }
 
     protected void onHidden() {

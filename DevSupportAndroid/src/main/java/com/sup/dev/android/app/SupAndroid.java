@@ -11,18 +11,19 @@ import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.views.dialogs.DialogAlert;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.providers.Provider;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
-public class SupAndroid{
+public class SupAndroid {
 
     public static boolean editMode;
     public static Context appContext;
 
-    public static void initEditMode(View view){
-        if(!view.isInEditMode())return;
+    public static void initEditMode(View view) {
+        if (!view.isInEditMode()) return;
         editMode = true;
         init(view.getContext());
     }
@@ -38,6 +39,53 @@ public class SupAndroid{
         Debug.exceptionPrinter = th -> Log.e("Debug", "", th);
 
     }
+
+    //
+    //  MVP Activity
+    //
+
+    private static MvpActivity mvpActivity;
+    private static final ArrayList<Callback1<MvpActivity>> mvpActivityCallbacks = new ArrayList<>();
+    public static final ArrayList<Provider<Boolean>> onbackCallbacks = new ArrayList<>();
+
+    public static void setMvpActivity(MvpActivity mvpActivity) {
+        SupAndroid.mvpActivity = mvpActivity;
+        while (mvpActivity != null && !mvpActivityCallbacks.isEmpty())
+            mvpActivityCallbacks.remove(0).callback(mvpActivity);
+    }
+
+    public static void mvpActivity(Callback1<MvpActivity> onActivity) {
+        if (mvpActivity == null)
+            mvpActivityCallbacks.add(onActivity);
+        else
+            ToolsThreads.main(() -> onActivity.callback(mvpActivity));
+    }
+
+    public static MvpActivity mvpActivityNow() {
+        return mvpActivity;
+    }
+
+    public static boolean mvpActivityIsSubscribed(Callback1<MvpActivity> onActivity) {
+        return mvpActivityCallbacks.contains(onActivity);
+    }
+
+    public static void addOnBack(Provider<Boolean> onBack) {
+        if(onbackCallbacks.contains(onBack))onbackCallbacks.remove(onBack);
+        onbackCallbacks.add(onBack);
+    }
+
+    public static void removeOnBack(Provider<Boolean> onBack) {
+        onbackCallbacks.remove(onBack);
+    }
+
+    public static boolean onBack() {
+        for (int i = onbackCallbacks.size() - 1; i > -1; i--) {
+            Provider<Boolean> onBack = onbackCallbacks.remove(i);
+            if (onBack.provide()) return true;
+        }
+        return false;
+    }
+
 
     //
     //  Debug Dialog
@@ -60,35 +108,6 @@ public class SupAndroid{
 
     public static void showDebugDialog() {
         dialog.show();
-    }
-
-
-    //
-    //  MVP Activity
-    //
-
-    private static MvpActivity mvpActivity;
-    private static final ArrayList<Callback1<MvpActivity>> mvpActivityCallbacks = new ArrayList<>();
-
-    public static void setMvpActivity(MvpActivity mvpActivity) {
-        SupAndroid.mvpActivity = mvpActivity;
-        while (mvpActivity != null && !mvpActivityCallbacks.isEmpty())
-            mvpActivityCallbacks.remove(0).callback(mvpActivity);
-    }
-
-    public static void mvpActivity(Callback1<MvpActivity> onActivity) {
-        if (mvpActivity == null)
-            mvpActivityCallbacks.add(onActivity);
-        else
-            ToolsThreads.main(() -> onActivity.callback(mvpActivity));
-    }
-
-    public static MvpActivity mvpActivityNow() {
-        return mvpActivity;
-    }
-
-    public static boolean mvpActivityIsSubscribed(Callback1<MvpActivity> onActivity) {
-        return mvpActivityCallbacks.contains(onActivity);
     }
 
 }

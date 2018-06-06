@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 
-public class PopupAlert extends Popup {
+public class PopupAlert extends BasePopup {
 
     private TextView vTitle;
     private TextView vText;

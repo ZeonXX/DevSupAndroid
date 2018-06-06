@@ -89,7 +89,7 @@ public class MvpActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!MvpNavigator.onBackPressed() && !onLastBackPressed()) {
+        if (!SupAndroid.onBack() && !MvpNavigator.onBackPressed() && !onLastBackPressed()) {
             started = false;
             finish();
         }

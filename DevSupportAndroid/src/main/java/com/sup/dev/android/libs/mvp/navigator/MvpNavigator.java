@@ -72,6 +72,10 @@ public class MvpNavigator {
     }
 
     public static void reorderOrCreate(Class<? extends MvpPresenter> presenterClass, Provider<MvpPresenter> provider) {
+
+        if (getCurrent() != null && getCurrent().getClass() == presenterClass)
+            return;
+
         for (int i = presenters.size() - 1; i > -1; i--)
             if (presenters.get(i).getClass() == presenterClass) {
                 reorder(presenters.get(i));

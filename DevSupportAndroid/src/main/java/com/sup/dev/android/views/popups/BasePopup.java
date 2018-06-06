@@ -4,26 +4,30 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.libs.debug.Debug;
 
-public class Popup extends PopupWindow {
+public abstract class BasePopup extends PopupWindow {
 
     private final View anchor;
 
-    public Popup(View anchor, @LayoutRes int res) {
+    public BasePopup(View anchor, @LayoutRes int res) {
         this(anchor, ToolsView.inflate(anchor.getContext(), res));
     }
 
-    public Popup(Context viewContext, @LayoutRes int res) {
+    public BasePopup(Context viewContext, @LayoutRes int res) {
         this(null, ToolsView.inflate(viewContext, res));
     }
 
-    public Popup(View anchor, View view) {
+    public BasePopup(View anchor, View view) {
         super(view.getContext());
         this.anchor = anchor;
         setBackgroundDrawable(null);
@@ -77,8 +81,10 @@ public class Popup extends PopupWindow {
     }
 
     private void calculateSize() {
+        getContentView().measure(ToolsAndroid.getScreenW(), ToolsAndroid.getScreenH());
         setWidth(getContentView().getMeasuredWidth());
         setHeight(getContentView().getMeasuredHeight());
+        Debug.log(getWidth(), getHeight());
     }
 
     @CallSuper
@@ -101,13 +107,13 @@ public class Popup extends PopupWindow {
         });
     }
 
-    public Popup showWhenClick(View v) {
+    public BasePopup showWhenClick(View v) {
         setOnTouch(v);
         v.setOnClickListener(v1 -> showWhenClickNow(v));
         return this;
     }
 
-    public Popup showWhenLongClick(View v) {
+    public BasePopup showWhenLongClick(View v) {
         setOnTouch(v);
         v.setOnLongClickListener(v1 -> {
             showWhenClickNow(v);

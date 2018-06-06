@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ToolsImageLoader {
 
-    public static final Provider1<Bitmap, Bitmap> TRANSFORMER_SQUARE_CENTER = bitmap -> ToolsBitmap.cropCenterSquare(bitmap);
-
     private static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) ? 5 : 10));
     private static final ArrayList<Loader> turn = new ArrayList<>();
     private static ThreadPoolExecutor threadPool;
@@ -114,7 +112,9 @@ public class ToolsImageLoader {
         }
 
         if (loader.vImage != null) {
-            if (loader.w != 0 && loader.h != 0) {
+            if(loader.holder > 0){
+                loader.vImage.setImageResource(loader.holder);
+            } else if (loader.w != 0 && loader.h != 0) {
                 Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.RGB_565);
                 bitmap.eraseColor(ToolsResources.getColor(R.color.focus));
                 loader.vImage.setImageBitmap(bitmap);
@@ -173,8 +173,8 @@ public class ToolsImageLoader {
     }
 
     private static Bitmap parseImage(Loader loader, byte[] bytes) {
-        Bitmap bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options);
-        if (loader.transformer != null) bm = loader.transformer.provide(bm);
+        Bitmap bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options, loader.cropSquareCenter);
+        if (loader.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm);
         return bm;
     }
 
@@ -207,10 +207,11 @@ public class ToolsImageLoader {
         private ImageView vImage;
         private Object key;
         private Callback1<byte[]> onLoaded;
-        private Provider1<Bitmap, Bitmap> transformer;
+        private boolean cropSquareCenter;
         private BitmapFactory.Options options;
         private int w;
         private int h;
+        private int holder;
         private boolean cashScaledBytes;
 
         public Loader setImage(ImageView vImage) {
@@ -235,8 +236,8 @@ public class ToolsImageLoader {
             return this;
         }
 
-        public Loader setTransformer(Provider1<Bitmap, Bitmap> transformer) {
-            this.transformer = transformer;
+        public Loader setCropSquareCenter(boolean cropSquareCenter) {
+            this.cropSquareCenter = cropSquareCenter;
             return this;
         }
 
@@ -247,6 +248,11 @@ public class ToolsImageLoader {
 
         public Loader setCashScaledBytes(boolean cashScaledBytes) {
             this.cashScaledBytes = cashScaledBytes;
+            return this;
+        }
+
+        public Loader setHolder(int holder) {
+            this.holder = holder;
             return this;
         }
 
@@ -307,6 +313,20 @@ public class ToolsImageLoader {
                 Debug.log(e);
                 return null;
             }
+        }
+    }
+
+    public static class LoaderBytes extends Loader {
+
+        private final byte[] bytes;
+
+        public LoaderBytes(Object key, byte[] bytes) {
+            this.bytes = bytes;
+            setKey("bytes_" + key);
+        }
+
+        byte[] load() {
+            return bytes;
         }
     }
 }

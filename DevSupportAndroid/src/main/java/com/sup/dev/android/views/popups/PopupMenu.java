@@ -11,9 +11,8 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
-public class PopupMenu extends Popup {
+public class PopupMenu extends BasePopup {
 
     private ViewGroup vContainer;
     private TextView vTitle;

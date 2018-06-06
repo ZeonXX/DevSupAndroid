@@ -42,7 +42,7 @@ public class SheetChooseImage extends SheetRecycler {
         loadImages();
     }
 
-    private void loadImages() {
+    public void loadImages() {
         String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
         Cursor cursor = viewContext.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -50,7 +50,7 @@ public class SheetChooseImage extends SheetRecycler {
                 null,
                 null,
                 MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
-        cursor.moveToFirst();
+
         while (cursor.moveToNext()) adapter.add(new CardImage(new File(cursor.getString(0))));
 
     }
@@ -99,7 +99,7 @@ public class SheetChooseImage extends SheetRecycler {
                     .setCashScaledBytes(true)
                     .setSizes(512, 512)
                     .setOptions(ToolsImageLoader.OPTIONS_RGB_565())
-                    .setTransformer(ToolsImageLoader.TRANSFORMER_SQUARE_CENTER));
+                    .setCropSquareCenter(true));
         }
 
 

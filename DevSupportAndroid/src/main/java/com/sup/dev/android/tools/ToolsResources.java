@@ -26,19 +26,19 @@ public class ToolsResources {
     }
 
     public static String getString(@StringRes int r) {
-        return r < 0 ? null : SupAndroid.appContext.getResources().getString(r);
+        return r <= 0 ? null : SupAndroid.appContext.getResources().getString(r);
     }
 
     public static String getPlural(@PluralsRes int r, int value) {
-        return r < 0 ? null : SupAndroid.appContext.getResources().getQuantityString(r, value);
+        return r <=0 ? null : SupAndroid.appContext.getResources().getQuantityString(r, value);
     }
 
     public static String[] getStringArray(@ArrayRes int r) {
-        return r < 0 ? null : SupAndroid.appContext.getResources().getStringArray(r);
+        return r <= 0 ? null : SupAndroid.appContext.getResources().getStringArray(r);
     }
 
     public static Drawable getDrawable(@DrawableRes int r) {
-        return r < 0 ? null : SupAndroid.appContext.getResources().getDrawable(r);
+        return r <= 0 ? null : SupAndroid.appContext.getResources().getDrawable(r);
     }
 
     public static int getColorId(String name) {
@@ -51,7 +51,7 @@ public class ToolsResources {
 
 
     public static int getColor(@ColorRes int r) {
-        return r < 0 ? 0 : SupAndroid.appContext.getResources().getColor(r);
+        return r <= 0 ? 0 : SupAndroid.appContext.getResources().getColor(r);
     }
 
     public static int getAccentColor(Context context) {

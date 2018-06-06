@@ -35,13 +35,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ToolsBitmap{
+public class ToolsBitmap {
 
-    private static String errorCantLoadImage =  ToolsResources.getString("error_cant_load_image");
-    private static String errorPermissionFiles =  ToolsResources.getString("error_permission_files");
+    private static String errorCantLoadImage = ToolsResources.getString("error_cant_load_image");
+    private static String errorPermissionFiles = ToolsResources.getString("error_permission_files");
 
     public static Bitmap cropCenterSquare(Bitmap srcBmp) {
-        if(srcBmp.getWidth() == srcBmp.getHeight())return srcBmp;
+        if (srcBmp.getWidth() == srcBmp.getHeight()) return srcBmp;
         if (srcBmp.getWidth() >= srcBmp.getHeight()) return Bitmap.createBitmap(srcBmp, srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2, 0, srcBmp.getHeight(), srcBmp.getHeight());
         else return Bitmap.createBitmap(srcBmp, 0, srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2, srcBmp.getWidth(), srcBmp.getWidth());
     }
@@ -204,31 +204,30 @@ public class ToolsBitmap{
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
     }
 
-    public static Bitmap decode(byte[] bytes, int maxWidth, int maxHeight, BitmapFactory.Options options) {
+    public static Bitmap decode(byte[] bytes, int w, int h, BitmapFactory.Options options, boolean minSizes) {
 
         if (bytes == null) return null;
         if (options == null) options = new BitmapFactory.Options();
 
-        if (maxWidth != 0 && maxHeight != 0) {
+        if (w != 0 || h != 0) {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-            if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
-                options.inSampleSize = 2;
-                while (options.outHeight / options.inSampleSize > maxHeight || options.outWidth / options.inSampleSize > maxWidth)
-                    options.inSampleSize *= 2;
-            }
+            options.inSampleSize = 1;
+            while (options.outHeight / options.inSampleSize > h || options.outWidth / options.inSampleSize > w)
+                options.inSampleSize *= 2;
         }
 
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-        if (maxWidth != 0 && maxHeight != 0) {
-            Dimensions inscribe = ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), maxWidth, maxHeight);
+        if (w != 0 || h != 0) {
+            Dimensions inscribe = minSizes ? ToolsMath.inscribeMin(bitmap.getWidth(), bitmap.getHeight(), w, h) : ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), w, h);
             if (bitmap.getWidth() != inscribe.w || bitmap.getHeight() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.w, (int) inscribe.h, true);
         }
 
         return bitmap;
     }
+
 
 /*
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -323,16 +322,15 @@ public class ToolsBitmap{
     }
 
     public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
-        if(errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
+        if (errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
         getFromGallery(bitmap -> MvpNavigator.to(new PCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
                 () -> ToolsToast.show(errorCantLoadImage),
-                ()->ToolsToast.show(errorPermissionFiles));
+                () -> ToolsToast.show(errorPermissionFiles));
     }
 
     public static void getFromGalleryCroppedAndScaled(int w, int h, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
         getFromGalleryCropped(w, h, autoBackOnCrop, (pCrop, bitmap) -> onComplete.callback(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)));
     }
-
 
 
     //

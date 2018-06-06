@@ -60,6 +60,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="CollapsingToolbar">
+        <item name="android:id">@id/collapsing_toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="Fab">
         <item name="android:id">@id/fab</item>
         <item name="android:layout_width">wrap_content</item>
