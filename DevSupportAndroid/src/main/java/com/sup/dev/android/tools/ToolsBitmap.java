@@ -209,17 +209,19 @@ public class ToolsBitmap{
         if (bytes == null) return null;
         if (options == null) options = new BitmapFactory.Options();
 
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-        if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
-            options.inSampleSize = 2;
-            while (options.outHeight / options.inSampleSize > maxHeight || options.outWidth / options.inSampleSize > maxWidth)
-                options.inSampleSize *= 2;
+        if (maxWidth != 0 && maxHeight != 0) {
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+            if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
+                options.inSampleSize = 2;
+                while (options.outHeight / options.inSampleSize > maxHeight || options.outWidth / options.inSampleSize > maxWidth)
+                    options.inSampleSize *= 2;
+            }
         }
 
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-        if (maxWidth != 0 || maxHeight != 0) {
+        if (maxWidth != 0 && maxHeight != 0) {
             Dimensions inscribe = ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), maxWidth, maxHeight);
             if (bitmap.getWidth() != inscribe.w || bitmap.getHeight() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.w, (int) inscribe.h, true);
