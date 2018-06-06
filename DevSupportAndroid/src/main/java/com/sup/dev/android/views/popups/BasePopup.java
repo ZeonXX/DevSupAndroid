@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.providers.Provider;
 import com.sup.dev.java.libs.debug.Debug;
 
@@ -107,19 +108,26 @@ public abstract class BasePopup extends PopupWindow {
         });
     }
 
-    public BasePopup showWhenClick(View v) {
-        setOnTouch(v);
-        v.setOnClickListener(v1 -> showWhenClickNow(v));
-        return this;
+    public <K extends BasePopup> K showWhenClick(View v) {
+        return showWhenClick(v, null);
     }
 
-    public BasePopup showWhenLongClick(View v) {
+    public <K extends BasePopup> K showWhenClick(View v, Provider<Boolean> canShow) {
+        setOnTouch(v);
+        v.setOnClickListener(v1 -> {
+            if (canShow != null && !canShow.provide()) return;
+            showWhenClickNow(v);
+        });
+        return (K) this;
+    }
+
+    public <K extends BasePopup> K showWhenLongClick(View v) {
         setOnTouch(v);
         v.setOnLongClickListener(v1 -> {
             showWhenClickNow(v);
             return true;
         });
-        return this;
+        return (K) this;
     }
 
     private void showWhenClickNow(View v) {
