@@ -14,7 +14,6 @@ import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
 import com.sup.dev.android.tools.ToolsImageLoader;
-import com.sup.dev.android.views.adapters.recycler_view.NotifyItem;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -97,7 +96,7 @@ public class SheetChooseImage extends SheetRecycler {
 
             ToolsImageLoader.load(new ToolsImageLoader.LoaderFile(file)
                     .setImage(vImage)
-                    .setCashLoadedBytes(false)
+                    .setCashScaledBytes(true)
                     .setSizes(512, 512)
                     .setOptions(ToolsImageLoader.OPTIONS_RGB_565())
                     .setTransformer(ToolsImageLoader.TRANSFORMER_SQUARE_CENTER));

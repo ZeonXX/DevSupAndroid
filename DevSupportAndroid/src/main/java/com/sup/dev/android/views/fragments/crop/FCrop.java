@@ -17,7 +17,7 @@ public class FCrop extends MvpFragment<PCrop> {
         super(context, presenter, R.layout.fragment_image_crop);
 
         vCropImageView = findViewById(R.id.crop);
-        vButtonFinish = findViewById(R.id.finish);
+        vButtonFinish = findViewById(R.id.fab);
 
         vButtonFinish.setOnClickListener(v -> presenter.onFinishClicked(vCropImageView.getCroppedImage()));
     }
