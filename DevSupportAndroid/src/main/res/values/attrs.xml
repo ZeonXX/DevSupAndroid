@@ -3,6 +3,7 @@
 
     <declare-styleable name="BaseSheet">
         <attr name="Sheet_fabId" format="reference"/>
+        <attr name="Sheet_dimId" format="reference"/>
         <attr name="Sheet_openOnFab" format="boolean"/>
     </declare-styleable>
 

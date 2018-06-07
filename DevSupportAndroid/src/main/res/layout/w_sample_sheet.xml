@@ -9,7 +9,6 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:background="@android:color/darker_gray"
         app:Sheet_fabId="@id/fab"
         app:Sheet_openOnFab="true"
         app:behavior_peekHeight="0dp"

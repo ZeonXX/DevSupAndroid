@@ -10,10 +10,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
-import com.sup.dev.android.tools.ToolsImageLoader;
+import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -33,8 +34,8 @@ public class SheetChooseImage extends SheetRecycler {
     public SheetChooseImage(Context viewContext, AttributeSet attrs) {
         super(viewContext, attrs);
         vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6));
-        // vRecycler.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
-        //         vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6)));
+       // vRecycler.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
+       //         vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6)));
 
         adapter = new RecyclerCardAdapter();
         vRecycler.setAdapter(adapter);
@@ -55,12 +56,18 @@ public class SheetChooseImage extends SheetRecycler {
 
     }
 
-    public void setOnSelected(Callback1<Bitmap> onSelected) {
+    //
+    //  Setters
+    //
+
+    public SheetChooseImage setOnSelected(Callback1<Bitmap> onSelected) {
         this.onSelected = onSelected;
+        return this;
     }
 
-    public void setOnError(Callback onError) {
+    public SheetChooseImage setOnError(Callback onError) {
         this.onError = onError;
+        return this;
     }
 
     //
@@ -91,14 +98,15 @@ public class SheetChooseImage extends SheetRecycler {
                         Debug.log(e);
                         if (onError != null) onError.callback();
                     }
+                    hide();
                 }
             });
 
-            ToolsImageLoader.load(new ToolsImageLoader.LoaderFile(file)
+            ImageLoader.load(new ImageLoaderFile(file)
                     .setImage(vImage)
                     .setCashScaledBytes(true)
                     .setSizes(512, 512)
-                    .setOptions(ToolsImageLoader.OPTIONS_RGB_565())
+                    .setOptions(ImageLoader.OPTIONS_RGB_565())
                     .setCropSquareCenter(true));
         }
 

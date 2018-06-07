@@ -44,11 +44,9 @@ import android.view.ViewOutlineProvider;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.widgets._support.FadeView;
-import com.sup.dev.java.classes.animation.AnimationSpring;
 import com.sup.dev.java.libs.debug.Debug;
 
-public class ViewCircleImage extends android.support.v7.widget.AppCompatImageView implements FadeView {
+public class ViewCircleImage extends android.support.v7.widget.AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -62,7 +60,6 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
     private final Matrix mShaderMatrix = new Matrix();
     private final Paint mBitmapPaint = new Paint();
     private final Paint mCircleBackgroundPaint = new Paint();
-    private final AnimationSpring animationFade;
 
     private int mCircleBackgroundColor = 0x00000000;
     private Bitmap mBitmap;
@@ -83,7 +80,6 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        animationFade = new AnimationSpring(255, AnimationSpring.SpeedType.TIME_MS, 400);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0);
         disableCircle = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_disableCircle, disableCircle);
@@ -123,19 +119,6 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
     }
 
     @Override
-    public void makeFade() {
-        animationFade.set(0);
-        animationFade.to(255);
-        invalidate();
-    }
-
-    @Override
-    public void stopFade() {
-        animationFade.set(0);
-        invalidate();
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
         if (disableCircle) {
             super.onDraw(canvas);
@@ -152,13 +135,7 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
 
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint);
 
-        mBitmapPaint.setAlpha((int) animationFade.getValue());
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint);
-
-        if (animationFade.isNeedUpdate()) {
-            animationFade.update();
-            invalidate();
-        }
     }
 
     @Override

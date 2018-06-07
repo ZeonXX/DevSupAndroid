@@ -126,7 +126,7 @@ public class BaseDialog{
 
     protected BaseDialog setTitle(String title) {
         vTitle.setText(title);
-        vTitle.setVisibility(title != null ? View.VISIBLE : View.GONE);
+        vTitle.setVisibility(title != null && title.length() > 0? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -136,7 +136,7 @@ public class BaseDialog{
 
     protected BaseDialog setText(CharSequence text) {
         vText.setText(text);
-        vText.setVisibility(text != null ? View.VISIBLE : View.GONE);
+        vText.setVisibility(text != null && text.length() > 0? View.VISIBLE : View.GONE);
         if (text instanceof Spannable) vText.setMovementMethod(LinkMovementMethod.getInstance());
         else vText.setMovementMethod(null);
         return this;
