@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ImageLoader {
 
-    static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ? 5 : 10));
+    static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ? 20 : 5));
     static final ArrayList<ImageLoaderA> turn = new ArrayList<>();
     static ThreadPoolExecutor threadPool;
 
