@@ -254,7 +254,7 @@ public class LayoutZoom extends FrameLayout {
             float w = bundle.getFloat("w");
             float h = bundle.getFloat("h");
 
-            state = bundle.getParcelable("superState");
+            state = bundle.getParcelable("SUPER_STATE");
 
             ToolsThreads.main(true, () -> {
                 if (w == 0 || h == 0) return;

@@ -2,27 +2,23 @@ package com.sup.dev.android.views.sheets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider;
 import com.sup.dev.java.libs.debug.Debug;
-import com.sup.dev.java.tools.ToolsMath;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class BaseSheet extends FrameLayout {
 
@@ -35,10 +31,9 @@ public abstract class BaseSheet extends FrameLayout {
     private View vDim;
 
     private BottomSheetBehavior behavior;
-    private boolean hideable = true;
 
     private final Provider<Boolean> onBackPressed = () -> {
-        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED && isEnabled() && hideable) {
+        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             hide();
             return true;
         }
@@ -58,6 +53,10 @@ public abstract class BaseSheet extends FrameLayout {
         this.viewContext = viewContext;
         this.view = ToolsView.inflate(viewContext, res);
 
+        view.setOnClickListener(v -> {
+            //  Чтоб не тригерился vDim, когда нажимаешь на тело диалога
+        });
+
         addView(view);
     }
 
@@ -67,6 +66,7 @@ public abstract class BaseSheet extends FrameLayout {
         if (behavior != null) return;
 
         this.behavior = BottomSheetBehavior.from(this);
+
         if (fabId != 0) {
             vFab = ToolsView.findViewOnParents(BaseSheet.this, fabId);
             if (openOnFab) vFab.setOnClickListener(v -> show());
@@ -74,9 +74,7 @@ public abstract class BaseSheet extends FrameLayout {
         if (dimId != 0) {
             vDim = ToolsView.findViewOnParents(BaseSheet.this, dimId);
             vDim.setAlpha(0);
-            vDim.setOnClickListener(v -> {
-                if (isEnabled() && hideable) hide();
-            });
+            vDim.setOnClickListener(v -> hide());
             vDim.setClickable(false);
             vDim.setFocusable(false);
         }
@@ -113,34 +111,35 @@ public abstract class BaseSheet extends FrameLayout {
 
     @CallSuper
     protected void onDragged() {
-        vFab.setVisibility(VISIBLE);
-        vDim.setClickable(false);
+        if (vFab != null) vFab.setVisibility(VISIBLE);
+        if (vDim != null) vDim.setClickable(false);
     }
 
     @CallSuper
     protected void onExpanded() {
         SupAndroid.addOnBack(onBackPressed);
-        vFab.setVisibility(INVISIBLE);
-        vDim.setClickable(true);
+        if (vFab != null) vFab.setVisibility(INVISIBLE);
+        if (vDim != null) vDim.setClickable(true);
     }
 
     @CallSuper
     protected void onCollapsed() {
         SupAndroid.removeOnBack(onBackPressed);
-        vFab.setVisibility(VISIBLE);
-        vDim.setClickable(false);
+        if (vFab != null) vFab.setVisibility(VISIBLE);
+        if (vFab != null) vFab.animate().scaleX(1).scaleY(1).setDuration(0).start();
+        if (vDim != null) vDim.setClickable(false);
     }
 
     @CallSuper
     protected void onHidden() {
-        vFab.setVisibility(VISIBLE);
-        vDim.setClickable(false);
+        if (vFab != null) vFab.setVisibility(VISIBLE);
+        if (vDim != null) vDim.setClickable(false);
     }
 
     @CallSuper
     protected void onSettling() {
-        vFab.setVisibility(VISIBLE);
-        vDim.setClickable(false);
+        if (vFab != null) vFab.setVisibility(VISIBLE);
+        if (vDim != null) vDim.setClickable(false);
     }
 
     @CallSuper
@@ -152,14 +151,44 @@ public abstract class BaseSheet extends FrameLayout {
     //  Setters
     //
 
-
-    public <K extends BaseSheet> K setHideable(boolean hideable) {
-        this.hideable = hideable;
+    public <K extends BaseSheet> K setCancelable(boolean cancelable) {
         return (K) this;
     }
 
-    public <K extends BaseSheet> K setCancelable(boolean cancelable) {
-        return (K) this;
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+    }
+
+    //
+    //  Save state
+    //
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState());
+        bundle.putBoolean("enabled", isEnabled());
+        bundle.putBoolean("shoved", behavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
+
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+
+            if (bundle.getBoolean("shoved"))
+                ToolsThreads.main(true, () -> {
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    setEnabled(bundle.getBoolean("enabled"));
+                });
+
+            state = bundle.getParcelable("SUPER_STATE");
+        }
+        super.onRestoreInstanceState(state);
     }
 
 

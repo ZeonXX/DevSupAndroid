@@ -124,12 +124,6 @@ public class DialogInputText extends BaseDialog {
         return this;
     }
 
-    public DialogInputText qetInputType(int inputType) {
-        vField.setInputType(vField.getInputType() | inputType);
-        return this;
-    }
-
-
     //
     //  Setters
     //

@@ -30,12 +30,11 @@ public class SheetChooseImage extends SheetRecycler {
 
     private Callback1<Bitmap> onSelected;
     private Callback onError;
+    private boolean autoHideOnSelected;
 
     public SheetChooseImage(Context viewContext, AttributeSet attrs) {
         super(viewContext, attrs);
         vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6));
-       // vRecycler.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
-       //         vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6)));
 
         adapter = new RecyclerCardAdapter();
         vRecycler.setAdapter(adapter);
@@ -70,11 +69,22 @@ public class SheetChooseImage extends SheetRecycler {
         return this;
     }
 
+
+    public SheetChooseImage setAutoHideOnSelected(boolean autoHideOnSelected) {
+        this.autoHideOnSelected = autoHideOnSelected;
+        return this;
+    }
+
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (vRecycler != null) vRecycler.setEnabled(enabled);
+        if (vTitle != null) vTitle.setEnabled(enabled);
+    }
     //
     //  Card
     //
 
-    private class CardImage extends Card  {
+    private class CardImage extends Card {
 
         private final File file;
 
@@ -91,15 +101,15 @@ public class SheetChooseImage extends SheetRecycler {
         public void bindView(View view) {
             ImageView vImage = view.findViewById(R.id.image);
             vImage.setOnClickListener(v -> {
-                if (onSelected != null) {
+                if (onSelected != null)
                     try {
                         onSelected.callback(ToolsBitmap.decode(ToolsFiles.readFile(file)));
                     } catch (IOException e) {
                         Debug.log(e);
                         if (onError != null) onError.callback();
                     }
-                    hide();
-                }
+                if (autoHideOnSelected) hide();
+                else setEnabled(false);
             });
 
             ImageLoader.load(new ImageLoaderFile(file)

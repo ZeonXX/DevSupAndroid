@@ -79,7 +79,7 @@ public class MvpFragment<K extends MvpPresenter> extends FrameLayout {
             AppBarLayout appBarLayout = findViewById(R.id.app_bar);
             if (appBarLayout != null) appBarLayout.setExpanded(isAppbarExpanded, false);
 
-            state = bundle.getParcelable("superState");
+            state = bundle.getParcelable("SUPER_STATE");
         }
         super.onRestoreInstanceState(state);
     }

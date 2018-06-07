@@ -80,7 +80,7 @@ public class SettingsActionSwitcher extends SettingsAction {
             salient = true;
             setChecked(bundle.getBoolean("checked"));
             salient = false;
-            state = bundle.getParcelable("superState");
+            state = bundle.getParcelable("SUPER_STATE");
         }
         super.onRestoreInstanceState(state);
     }

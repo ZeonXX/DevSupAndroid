@@ -80,7 +80,7 @@ public class SettingsField extends Settings {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             setText(bundle.getString("text"));
-            state = bundle.getParcelable("superState");
+            state = bundle.getParcelable("SUPER_STATE");
         }
         super.onRestoreInstanceState(state);
     }

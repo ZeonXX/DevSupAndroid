@@ -15,7 +15,7 @@ import com.sup.dev.android.tools.ToolsResources;
 public class SheetRecycler extends BaseSheet {
 
     protected final RecyclerView vRecycler;
-    private final TextView vTitle;
+    protected final TextView vTitle;
 
     public SheetRecycler(Context viewContext, @Nullable AttributeSet attrs) {
         super(viewContext, attrs, R.layout.sheet_recycler);

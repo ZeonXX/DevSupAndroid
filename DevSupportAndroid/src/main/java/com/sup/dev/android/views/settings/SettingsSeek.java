@@ -82,7 +82,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             setProgress(bundle.getInt("progress"));
-            state = bundle.getParcelable("superState");
+            state = bundle.getParcelable("SUPER_STATE");
         }
         super.onRestoreInstanceState(state);
     }

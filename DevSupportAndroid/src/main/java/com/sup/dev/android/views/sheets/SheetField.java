@@ -1,10 +1,13 @@
 package com.sup.dev.android.views.sheets;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,25 +15,33 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.android.views.dialogs.DialogInputText;
+import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.items.Item2;
+import com.sup.dev.java.classes.providers.Provider1;
+
+import java.util.ArrayList;
 
 public class SheetField extends BaseSheet {
 
-    private final EditText vText;
-    private final TextInputLayout vTextLayout;
+    private final EditText vField;
+    private final TextInputLayout vFieldLayout;
     private final Button vCancel;
     private final Button vEnter;
     private final TextView vTitle;
 
-    private boolean autoHideOnCancel;
+    private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
+    private int max;
+    private int min;
     private boolean autoHideOnEnter;
-    private Callback1<SheetField> onCancel;
 
     public SheetField(Context viewContext, AttributeSet attrs) {
         super(viewContext, attrs, R.layout.sheet_field);
-        vText = findViewById(R.id.field);
-        vTextLayout = findViewById(R.id.field_layout);
+
+        vField = findViewById(R.id.field);
+        vFieldLayout = findViewById(R.id.field_layout);
         vCancel = findViewById(R.id.cancel);
         vEnter = findViewById(R.id.enter);
         vTitle = findViewById(R.id.title);
@@ -38,35 +49,108 @@ public class SheetField extends BaseSheet {
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vTitle.setVisibility(View.GONE);
+
+        vFieldLayout.setHint(null);
+        vField.addTextChangedListener(new TextWatcherChanged(text -> onTextChanged(text)));
     }
 
     @Override
     protected void onExpanded() {
         super.onExpanded();
-        ToolsView.showKeyboard(vText);
+        ToolsView.showKeyboard(vField);
     }
 
     @Override
     protected void onCollapsed() {
         super.onCollapsed();
-        if(onCancel != null) onCancel.callback(this);
+        ToolsView.hideKeyboard(vField);
+    }
+
+    private void onTextChanged(String text) {
+
+        String error = null;
+
+        for (Item2<String, Provider1<String, Boolean>> pair : checkers)
+            if (!pair.a2.provide(text)) {
+                error = pair.a1;
+                break;
+            }
+
+        if (error != null) {
+            vFieldLayout.setError(error);
+            vEnter.setEnabled(false);
+        } else {
+            vFieldLayout.setError(null);
+            vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
+        }
     }
 
     //
     //  Setters
     //
 
+    public SheetField setMax(int max) {
+        this.max = max;
+        vFieldLayout.setCounterMaxLength(max);
+        return this;
+    }
+
+    public SheetField setMin(int min) {
+        this.min = min;
+        return this;
+    }
+
+    public SheetField setLinesCount(int linesCount) {
+        if (linesCount == 1) {
+            vField.setSingleLine(true);
+            vField.setGravity(Gravity.CENTER | Gravity.LEFT);
+            vField.setLines(linesCount);
+        } else {
+            setMultiLine();
+            vField.setLines(linesCount);
+        }
+        return this;
+    }
+
+    public SheetField setMultiLine() {
+        vField.setSingleLine(false);
+        vField.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+        vField.setGravity(Gravity.TOP);
+        return this;
+    }
+
+    public SheetField setTextInput(String s) {
+        vField.setText(s);
+        vField.setSelection(s.length());
+        return this;
+    }
+
+    public SheetField addChecker(@StringRes int errorText, Provider1<String, Boolean> checker) {
+        return addChecker(ToolsResources.getString(errorText), checker);
+    }
+
+    public SheetField addChecker(String errorText, Provider1<String, Boolean> checker) {
+        checkers.add(new Item2<>(errorText, checker));
+        onTextChanged(vField.getText().toString());
+        return this;
+    }
+
     public SheetField setHint(@StringRes int hint) {
         return setHint(ToolsResources.getString(hint));
     }
 
     public SheetField setHint(String hint) {
-        vTextLayout.setHint(hint);
+        vFieldLayout.setHint(hint);
+        return this;
+    }
+
+    public SheetField setInputType(int type) {
+        vField.setInputType(type);
         return this;
     }
 
     public SheetField setText(String text) {
-        vText.setText(text);
+        vField.setText(text);
         return this;
     }
 
@@ -76,13 +160,7 @@ public class SheetField extends BaseSheet {
 
     public SheetField setTitle(String title) {
         vTitle.setText(title);
-        vTitle.setVisibility(title != null && title.length() > 0? View.VISIBLE : View.GONE);
-        return this;
-    }
-
-    public SheetField setAutoHideOnCancel(boolean autoHideOnCancel) {
-        this.autoHideOnCancel = autoHideOnCancel;
-        if (!autoHideOnCancel) setCancelable(false);
+        vTitle.setVisibility(title != null && title.length() > 0 ? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -95,34 +173,15 @@ public class SheetField extends BaseSheet {
         return (SheetField) super.setCancelable(cancelable);
     }
 
-    public SheetField setOnCancel(String s) {
-        return setOnCancel(s, null);
-    }
-
-    public SheetField setOnCancel(Callback1<SheetField> onCancel) {
-        return setOnCancel(null, onCancel);
-    }
-
     public SheetField setOnCancel(@StringRes int s) {
-        return setOnCancel(ToolsResources.getString(s), null);
+        return setOnCancel(ToolsResources.getString(s));
     }
 
-    public SheetField setOnCancel(@StringRes int s, Callback1<SheetField> onCancel) {
-        return setOnCancel(ToolsResources.getString(s), onCancel);
-    }
-
-    public SheetField setOnCancel(String s, Callback1<SheetField> onCancel) {
-
-        this.onCancel = onCancel;
-
+    public SheetField setOnCancel(String s) {
         if (s != null && !s.isEmpty()) {
             vCancel.setText(s);
             vCancel.setVisibility(View.VISIBLE);
-            vCancel.setOnClickListener(v -> {
-                if (autoHideOnCancel) hide();
-                else setEnabled(false);
-                if (onCancel != null) onCancel.callback(this);
-            });
+            vCancel.setOnClickListener(v -> hide());
         }
         return this;
     }
@@ -145,7 +204,7 @@ public class SheetField extends BaseSheet {
         vEnter.setOnClickListener(v -> {
             if (autoHideOnEnter) hide();
             else setEnabled(false);
-            if (onEnter != null) onEnter.callback(this, vText.getText().toString());
+            if (onEnter != null) onEnter.callback(this, vField.getText().toString());
         });
         return this;
     }
@@ -153,9 +212,9 @@ public class SheetField extends BaseSheet {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         if (vCancel != null) vCancel.setEnabled(enabled);
-        if (vTextLayout != null) vTextLayout.setEnabled(enabled);
+        if (vFieldLayout != null) vFieldLayout.setEnabled(enabled);
         if (vEnter != null) vEnter.setEnabled(enabled);
         if (vTitle != null) vTitle.setEnabled(enabled);
-        if (vText != null) vText.setEnabled(enabled);
+        if (vField != null) vField.setEnabled(enabled);
     }
 }
