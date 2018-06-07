@@ -114,10 +114,10 @@ public class SheetChooseImage extends SheetRecycler {
 
             ImageLoader.load(new ImageLoaderFile(file)
                     .setImage(vImage)
-                    .setCashScaledBytes(true)
-                    .setSizes(512, 512)
-                    .setOptions(ImageLoader.OPTIONS_RGB_565())
-                    .setCropSquareCenter(true));
+                    .cashScaledBytes()
+                    .sizes(512, 512)
+                    .options(ImageLoader.OPTIONS_RGB_565())
+                    .cropSquare());
         }
 
 

@@ -7,8 +7,9 @@ import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public abstract class ImageLoaderA {
 
+    private String key;
+
     ImageView vImage;
-    Object key;
     Callback1<byte[]> onLoaded;
     boolean cropSquareCenter;
     BitmapFactory.Options options;
@@ -17,6 +18,9 @@ public abstract class ImageLoaderA {
     int holder;
     boolean fade = true;
     boolean cashScaledBytes;
+    boolean noCash;
+    boolean noLoadFromCash;
+    String keyPrefix;
 
     public ImageLoaderA setImage(ImageView vImage) {
         this.vImage = vImage;
@@ -24,44 +28,61 @@ public abstract class ImageLoaderA {
         return this;
     }
 
-    public ImageLoaderA setSizes(int w, int h) {
+    public ImageLoaderA keyPrefix(String keyPrefix) {
+        if(this.keyPrefix != null) key = key.substring(keyPrefix.length());
+        this.keyPrefix = keyPrefix;
+        setKey(key);
+        return this;
+    }
+
+    public ImageLoaderA sizes(int w, int h) {
         this.w = w;
         this.h = h;
         return this;
     }
 
     protected ImageLoaderA setKey(Object key) {
-        this.key = key;
+        this.key = keyPrefix + key.toString();
         return this;
     }
 
-    public ImageLoaderA setOnLoaded(Callback1<byte[]> onLoaded) {
+    public ImageLoaderA onLoaded(Callback1<byte[]> onLoaded) {
         this.onLoaded = onLoaded;
         return this;
     }
 
-    public ImageLoaderA setCropSquareCenter(boolean cropSquareCenter) {
-        this.cropSquareCenter = cropSquareCenter;
+    public ImageLoaderA cropSquare() {
+        this.cropSquareCenter = true;
         return this;
     }
 
-    public ImageLoaderA setOptions(BitmapFactory.Options options) {
+    public ImageLoaderA options(BitmapFactory.Options options) {
         this.options = options;
         return this;
     }
 
-    public ImageLoaderA setCashScaledBytes(boolean cashScaledBytes) {
-        this.cashScaledBytes = cashScaledBytes;
+    public ImageLoaderA cashScaledBytes() {
+        this.cashScaledBytes = true;
         return this;
     }
 
-    public ImageLoaderA setHolder(int holder) {
+    public ImageLoaderA holder(int holder) {
         this.holder = holder;
         return this;
     }
 
-    public ImageLoaderA setFade(boolean fade) {
-        this.fade = fade;
+    public ImageLoaderA noFade() {
+        this.fade = false;
+        return this;
+    }
+
+    public ImageLoaderA noCash() {
+        this.noCash = false;
+        return this;
+    }
+
+    public ImageLoaderA noLoadFromCash() {
+        this.noLoadFromCash = true;
         return this;
     }
 
@@ -70,4 +91,18 @@ public abstract class ImageLoaderA {
     }
 
     abstract byte[] load();
+
+    public Object getKey() {
+        return key;
+    }
+
+    public void clearCash() {
+        ImageLoader.bitmapCash.remove(key);
+    }
+
+    public void replace(byte[] bytes) {
+        ImageLoader.bitmapCash.replace(key, bytes);
+    }
+
+
 }

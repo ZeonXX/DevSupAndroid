@@ -41,7 +41,7 @@ public class ImageLoaderFile extends ImageLoaderA {
     }
 
     public static void load(File file, ImageView vImage, Callback1<byte[]> onLoaded) {
-        ImageLoader.load(new ImageLoaderFile(file).setImage(vImage).setOnLoaded(onLoaded));
+        ImageLoader.load(new ImageLoaderFile(file).setImage(vImage).onLoaded(onLoaded));
     }
 
     public static void clearCash(File file) {

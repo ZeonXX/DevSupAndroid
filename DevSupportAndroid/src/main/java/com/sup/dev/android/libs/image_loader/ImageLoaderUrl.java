@@ -39,7 +39,7 @@ public class ImageLoaderUrl extends ImageLoaderA {
     }
 
     public static void load(String url, ImageView vImage, Callback1<byte[]> onLoaded) {
-        ImageLoader.load(new ImageLoaderUrl(url).setImage(vImage).setOnLoaded(onLoaded));
+        ImageLoader.load(new ImageLoaderUrl(url).setImage(vImage).onLoaded(onLoaded));
     }
 
     public static void clearCash(String url) {

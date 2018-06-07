@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ImageLoader {
 
-    static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) ? 5 : 10));
+    static final CashBytes<Object> bitmapCash = new CashBytes<>(1024 * 1024 * ((android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ? 5 : 10));
     static final ArrayList<ImageLoaderA> turn = new ArrayList<>();
     static ThreadPoolExecutor threadPool;
 
@@ -48,11 +48,12 @@ public class ImageLoader {
 
     public static void load(ImageLoaderA loader) {
 
-        byte[] bytes = bitmapCash.get(loader.key);
+        byte[] bytes = loader.noLoadFromCash?null:bitmapCash.get(loader.getKey());
 
         if (bytes != null) {
+            bitmapCash.reorderTop(loader.getKey());
             if (loader.onLoaded != null) loader.onLoaded.callback(bytes);
-            if (loader.vImage != null) ToolsThreads.thread(() -> putImage(loader, parseImage(loader, bytes), false));
+            if (loader.vImage != null) putImage(loader, parseImage(loader, bytes), false);
             return;
         }
 
@@ -72,7 +73,7 @@ public class ImageLoader {
 
         turn.add(loader);
 
-        for (ImageLoaderA l : turn) if (l.isKey(loader.key) && l != loader) return;
+        for (ImageLoaderA l : turn) if (l.isKey(loader.getKey()) && l != loader) return;
 
         threadPool.execute(() -> {
             try {
@@ -97,10 +98,10 @@ public class ImageLoader {
 
         ToolsThreads.main(() -> {
 
-            bitmapCash.add(loader.key, bytes);
+            if(!loader.noCash)bitmapCash.add(loader.getKey(), bytes);
             for (int i = 0; i < turn.size(); i++) {
                 ImageLoaderA l = turn.get(i);
-                if (l.isKey(loader.key)) {
+                if (l.isKey(loader.getKey())) {
                     if (l.onLoaded != null) l.onLoaded.callback(bytes);
                     if (l.vImage != null) putImage(l, bitmap, true);
                     turn.remove(i--);

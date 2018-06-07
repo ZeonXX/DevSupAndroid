@@ -33,7 +33,7 @@ public class ImageLoaderId extends ImageLoaderA {
     }
 
     public static void load(long imageId, ImageView vImage, Callback1<byte[]> onLoaded) {
-        ImageLoader.load(new ImageLoaderId(imageId).setImage(vImage).setOnLoaded(onLoaded));
+        ImageLoader.load(new ImageLoaderId(imageId).setImage(vImage).onLoaded(onLoaded));
     }
 
     public static void clearCash(long imageId) {
