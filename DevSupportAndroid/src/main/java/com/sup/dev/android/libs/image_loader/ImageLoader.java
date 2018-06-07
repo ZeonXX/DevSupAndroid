@@ -64,7 +64,7 @@ public class ImageLoader {
                 Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
                 loader.vImage.setImageBitmap(bitmap);
             } else {
-                loader.vImage.setImageResource(R.color.focus);
+               loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
             }
 
             unsubscribe(loader.vImage);
