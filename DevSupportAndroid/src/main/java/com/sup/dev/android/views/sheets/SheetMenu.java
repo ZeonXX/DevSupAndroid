@@ -4,12 +4,14 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.CardDivider;
 import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
+import com.sup.dev.android.views.popups.PopupMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class SheetMenu extends SheetRecycler {
@@ -36,10 +38,12 @@ public class SheetMenu extends SheetRecycler {
 
         item.card = new CardMenu();
         item.card.setText(item.text);
+        item.card.setIcon(item.icon);
         item.card.setOnClick(() -> {
             hide();
             if (item.onClick != null) item.onClick.callback(this);
         });
+
 
         if (item.preferred) {
             if (prefCount == 0) adapter.add(0, new CardDivider());
@@ -106,6 +110,11 @@ public class SheetMenu extends SheetRecycler {
         return this;
     }
 
+    public SheetMenu icon(int icon) {
+        buildItem.icon = icon;
+        return this;
+    }
+
     public SheetMenu prefered(boolean b) {
         buildItem.preferred = b;
         return this;
@@ -140,6 +149,7 @@ public class SheetMenu extends SheetRecycler {
         private CardMenu card;
         private Callback1<SheetMenu> onClick;
         private String text;
+        private int icon;
         private boolean preferred;
 
     }

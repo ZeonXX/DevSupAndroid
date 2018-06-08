@@ -215,6 +215,10 @@ public class ToolsIntent {
     //  Services / Activities
     //
 
+    public static void stopService(Class<? extends Service> serviceClass) {
+        SupAndroid.appContext.stopService(new Intent(SupAndroid.appContext, serviceClass));
+    }
+
     public static void startService(Class<? extends Service> serviceClass, Object... extras) {
         android.content.Intent intent = new android.content.Intent(SupAndroid.appContext, serviceClass);
 

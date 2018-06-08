@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 public class CardMenu extends Card {
@@ -18,6 +19,7 @@ public class CardMenu extends Card {
     private String text;
     private boolean customColor;
     private int textColor;
+    private int icon;
 
     @Override
     public int getLayout() {
@@ -29,6 +31,11 @@ public class CardMenu extends Card {
         View vTouch = view.findViewById(R.id.touch);
         View vDivider = view.findViewById(R.id.divider);
         TextView vText =  view.findViewById(R.id.text);
+        ViewIcon vIcon = view.findViewById(R.id.icon);
+
+
+        if (icon == 0) vIcon.setVisibility(View.GONE);
+        else vIcon.setImageResource(icon);
 
         vDivider.setVisibility(dividerVisible ? View.VISIBLE : View.GONE);
         vTouch.setFocusable(onClick != null && enabled);
@@ -60,6 +67,12 @@ public class CardMenu extends Card {
 
     public CardMenu setEnabled(boolean enabled) {
         this.enabled = enabled;
+        update();
+        return this;
+    }
+
+    public CardMenu setIcon(int icon) {
+        this.icon = icon;
         update();
         return this;
     }

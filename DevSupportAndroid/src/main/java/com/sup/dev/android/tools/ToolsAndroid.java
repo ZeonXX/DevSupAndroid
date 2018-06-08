@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.media.audiofx.AcousticEchoCanceler;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
@@ -33,6 +34,11 @@ public class ToolsAndroid{
     //
     //  Device
     //
+
+    public static boolean isHasInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
 
     public static String getLanguageCode() {
         return Locale.getDefault().getLanguage().toLowerCase();
