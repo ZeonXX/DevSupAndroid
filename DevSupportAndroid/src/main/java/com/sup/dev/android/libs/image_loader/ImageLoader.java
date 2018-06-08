@@ -23,7 +23,7 @@ public class ImageLoader {
     static ThreadPoolExecutor threadPool;
 
     static {
-        threadPool = new ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        threadPool = new ThreadPoolExecutor(2, 4, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
     public static BitmapFactory.Options OPTIONS_RGB_565() {
