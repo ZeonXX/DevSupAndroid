@@ -17,6 +17,10 @@ import com.sup.dev.java.tools.ToolsColor;
 
 public class ToolsResources {
 
+    public static String getStringFormat(@StringRes int r, Object... args) {
+        return (r < 0) ? null : String.format(getString(r), args);
+    }
+
     public static int getStringId(String name) {
         return SupAndroid.appContext.getResources().getIdentifier(name, "string", SupAndroid.appContext.getPackageName());
     }
@@ -30,7 +34,7 @@ public class ToolsResources {
     }
 
     public static String getPlural(@PluralsRes int r, int value) {
-        return r <=0 ? null : SupAndroid.appContext.getResources().getQuantityString(r, value);
+        return r <= 0 ? null : SupAndroid.appContext.getResources().getQuantityString(r, value);
     }
 
     public static String[] getStringArray(@ArrayRes int r) {

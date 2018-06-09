@@ -74,6 +74,36 @@
         <item name="android:layout_margin">24dp</item>
     </style>
 
+    <style name="Fab.Sheet">
+        <item name="android:id">@id/fab</item>
+        <item name="layout_anchor">@+id/sheet</item>
+        <item name="layout_anchorGravity">top|end</item>
+    </style>
+
+    <style name="Sheet">
+        <item name="android:id">@id/sheet</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:layout_margin">24dp</item>
+        <item name="behavior_peekHeight">0dp</item>
+        <item name="behavior_hideable">true</item>
+        <item name="Sheet_dimId">@id/dim</item>
+        <item name="layout_behavior">android.support.design.widget.BottomSheetBehavior</item>
+    </style>
+
+    <style name="Sheet.WithFab">
+        <item name="Sheet_fabId">@id/fab</item>
+        <item name="Sheet_openOnFab">true</item>
+    </style>
+
+    <style name="SheetDim">
+        <item name="android:id">@id/dim</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/black</item>
+    </style>
+
     <style name="Widget.GifView" parent="@android:style/Widget"/>
 
 </resources>

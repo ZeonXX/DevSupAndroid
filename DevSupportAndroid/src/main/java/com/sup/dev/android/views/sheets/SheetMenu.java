@@ -1,17 +1,16 @@
 package com.sup.dev.android.views.sheets;
 
-import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.AttributeSet;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.CardDivider;
 import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
-import com.sup.dev.android.views.popups.PopupMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class SheetMenu extends SheetRecycler {
@@ -20,18 +19,20 @@ public class SheetMenu extends SheetRecycler {
 
     private int prefCount = 0;
 
-    public SheetMenu(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        vRecycler.setLayoutManager(new LinearLayoutManager(viewContext));
+    public SheetMenu() {
         adapter = new RecyclerCardAdapter();
         setAdapter(adapter);
     }
 
-
     @Override
-    protected void onStateChanged(int newState) {
-        super.onStateChanged(newState);
+    public void bindView(View view) {
+        super.bindView(view);
         finishItemBuilding();
+
+        RecyclerView vRecycler = view.findViewById(R.id.recycler);
+
+        vRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
     }
 
     private void add(Item item) {

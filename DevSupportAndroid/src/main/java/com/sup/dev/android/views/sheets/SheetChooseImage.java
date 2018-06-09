@@ -1,20 +1,20 @@
 package com.sup.dev.android.views.sheets;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.AttributeSet;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
-import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -30,21 +30,26 @@ public class SheetChooseImage extends SheetRecycler {
 
     private Callback1<Bitmap> onSelected;
     private Callback onError;
-    private boolean autoHideOnSelected;
 
-    public SheetChooseImage(Context viewContext, AttributeSet attrs) {
-        super(viewContext, attrs);
-        vRecycler.setLayoutManager(new GridLayoutManager(viewContext, ToolsAndroid.isScreenPortrait() ? 3 : 6));
-
+    public SheetChooseImage() {
         adapter = new RecyclerCardAdapter();
-        vRecycler.setAdapter(adapter);
-
+        setAdapter(adapter);
         loadImages();
+    }
+
+    @Override
+    public void bindView(View view) {
+        super.bindView(view);
+
+        RecyclerView vRecycler = view.findViewById(R.id.recycler);
+
+        vRecycler.setLayoutManager(new GridLayoutManager(view.getContext(), ToolsAndroid.isScreenPortrait() ? 3 : 6));
+
     }
 
     public void loadImages() {
         String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
-        Cursor cursor = viewContext.getContentResolver().query(
+        Cursor cursor = SupAndroid.appContext.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 projection,
                 null,
@@ -69,17 +74,6 @@ public class SheetChooseImage extends SheetRecycler {
         return this;
     }
 
-
-    public SheetChooseImage setAutoHideOnSelected(boolean autoHideOnSelected) {
-        this.autoHideOnSelected = autoHideOnSelected;
-        return this;
-    }
-
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        if (vRecycler != null) vRecycler.setEnabled(enabled);
-        if (vTitle != null) vTitle.setEnabled(enabled);
-    }
     //
     //  Card
     //
@@ -108,8 +102,7 @@ public class SheetChooseImage extends SheetRecycler {
                         Debug.log(e);
                         if (onError != null) onError.callback();
                     }
-                if (autoHideOnSelected) hide();
-                else setEnabled(false);
+                hide();
             });
 
             ImageLoader.load(new ImageLoaderFile(file)

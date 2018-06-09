@@ -5,4 +5,6 @@
     <item type="id" name="collapsing_toolbar"/>
     <item type="id" name="mvp_fragment_id"/>
     <item type="id" name="fab"/>
+    <item type="id" name="dim"/>
+    <item type="id" name="sheet"/>
 </resources>
