@@ -122,8 +122,10 @@ public class ViewSheet extends FrameLayout {
     }
 
     public <K extends ViewSheet> K show() {
-        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        setEnabled(true);
+        if(view != null) {
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            setEnabled(true);
+        }
         return (K) this;
     }
 
