@@ -2,16 +2,26 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/AppBar">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/Toolbar"
+            app:title="Черновик"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
-       style="@style/SheetDim"/>
+        style="@style/SheetDim"/>
 
     <com.sup.dev.android.views.sheets.ViewSheet
         style="@style/Sheet.WithFab"/>
 
     <android.support.design.widget.FloatingActionButton
-        style="@style/Fab"
-        android:src="@drawable/ic_keyboard_arrow_down_white_24dp"/>
+        style="@style/Fab.Sheet"
+        android:src="@drawable/ic_add_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

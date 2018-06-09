@@ -14,8 +14,10 @@ import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class ViewSheet extends FrameLayout {
@@ -29,6 +31,7 @@ public class ViewSheet extends FrameLayout {
     private FloatingActionButton vFab;
     private View vDim;
     private BottomSheetBehavior behavior;
+    private boolean rebindViewInProgress;
 
     private final Provider<Boolean> onBackPressed = () -> {
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -47,6 +50,9 @@ public class ViewSheet extends FrameLayout {
         dimId = a.getResourceId(R.styleable.BaseSheet_Sheet_dimId, 0);
         openOnFab = a.getBoolean(R.styleable.BaseSheet_Sheet_openOnFab, false);
         a.recycle();
+
+        setClickable(true); //  Чтоб не тригерился vDim, когда нажимаешь на тело диалога
+        setBackgroundColor(ToolsResources.getBackgroundColor(viewContext));
     }
 
     public void setSheet(BaseSheet sheet) {
@@ -55,25 +61,20 @@ public class ViewSheet extends FrameLayout {
         this.sheet = sheet;
         this.view = null;
 
-        if (sheet == null) {
-            removeView(oldView);
-            return;
+        if (sheet != null) {
+            sheet.setVSheet(this);
+            view = sheet.instanceView(getContext());
         }
 
-        sheet.setVSheet(this);
-        view = sheet.instanceView(getContext());
-        view.setOnClickListener(v -> {        //  Чтоб не тригерился vDim, когда нажимаешь на тело диалога
-        });
-
-        addView(view);
         if (oldView != null && behavior.getState() != BottomSheetBehavior.STATE_HIDDEN && behavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
-            ToolsView.toAlpha(oldView, () -> removeView(oldView));
-            ToolsView.fromAlpha(view);
+            rebindViewInProgress = true;
+            hide();
         } else {
-            removeView(oldView);
+            removeAllViews();
+            addView(view);
+            rebindView();
         }
 
-        rebindView();
     }
 
     public void rebindView() {
@@ -91,14 +92,18 @@ public class ViewSheet extends FrameLayout {
 
         if (fabId != 0) {
             vFab = ToolsView.findViewOnParents(this, fabId);
-            if (openOnFab) vFab.setOnClickListener(v -> show());
+            if (vFab != null) {
+                if (openOnFab) vFab.setOnClickListener(v -> show());
+            }
         }
         if (dimId != 0) {
             vDim = ToolsView.findViewOnParents(this, dimId);
-            vDim.setAlpha(0);
-            vDim.setOnClickListener(v -> hide());
-            vDim.setClickable(false);
-            vDim.setFocusable(false);
+            if (vDim != null) {
+                vDim.setAlpha(0);
+                vDim.setOnClickListener(v -> hide());
+                vDim.setClickable(false);
+                vDim.setFocusable(false);
+            }
         }
 
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -122,7 +127,7 @@ public class ViewSheet extends FrameLayout {
     }
 
     public <K extends ViewSheet> K show() {
-        if(view != null) {
+        if (view != null) {
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             setEnabled(true);
         }
@@ -155,6 +160,16 @@ public class ViewSheet extends FrameLayout {
         if (vFab != null) vFab.animate().scaleX(1).scaleY(1).setDuration(0).start();
         if (vDim != null) vDim.setClickable(false);
         if (sheet != null) sheet.onCollapsed(view);
+
+        Debug.log(">> " + rebindViewInProgress);
+        if(rebindViewInProgress) {
+            rebindViewInProgress = false;
+            removeAllViews();
+            if (view != null) {
+                addView(view);
+                show();
+            }
+        }
     }
 
     @CallSuper

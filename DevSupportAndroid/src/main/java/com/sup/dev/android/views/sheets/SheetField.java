@@ -24,7 +24,7 @@ public class SheetField extends BaseSheet {
     private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
     private int min;
-    private int linesCount;
+    private int linesCount = 1;
     private int inputType = -1;
     private String text;
     private String hint;
@@ -32,8 +32,8 @@ public class SheetField extends BaseSheet {
     private String textCancel;
     private String textEnter;
     private boolean multiline;
-    private boolean autoHideOnEnter;
-    private boolean enabled;
+    private boolean autoHideOnEnter = true;
+    private boolean enabled = true;
     private Callback2<SheetField, String> onEnter;
 
     @Override
@@ -65,7 +65,7 @@ public class SheetField extends BaseSheet {
             vField.setGravity(Gravity.CENTER | Gravity.LEFT);
             vField.setLines(linesCount);
         } else {
-            setMultiLine();
+            multiline = true;
             vField.setLines(linesCount);
         }
 
@@ -82,7 +82,7 @@ public class SheetField extends BaseSheet {
         }
 
         vEnter.setText(textEnter);
-        vEnter.setVisibility(textEnter != null && textEnter.length() > 0?View.VISIBLE:View.GONE);
+        vEnter.setVisibility(textEnter != null && textEnter.length() > 0 ? View.VISIBLE : View.GONE);
         vEnter.setOnClickListener(v -> {
             if (autoHideOnEnter) hide();
             else setEnabled(false);
@@ -111,7 +111,7 @@ public class SheetField extends BaseSheet {
         }));
 
         vField.setText(text);
-        vField.setSelection(text.length());
+        if (text != null) vField.setSelection(text.length());
 
 
         if (vCancel != null) vCancel.setEnabled(enabled);
