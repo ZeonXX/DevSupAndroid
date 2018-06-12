@@ -58,19 +58,19 @@ public class ImageLoader {
             return;
         }
 
-        if (loader.vImage != null) {
-            if (loader.holder > 0) {
-                loader.vImage.setImageResource(loader.holder);
-            } else if (loader.w != 0 && loader.h != 0) {
-                Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
-                loader.vImage.setImageBitmap(bitmap);
-            } else {
-               loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
-            }
+       //if (loader.vImage != null) {
+       //    if (loader.holder > 0) {
+       //        loader.vImage.setImageResource(loader.holder);
+       //    } else if (loader.w != 0 && loader.h != 0) {
+       //        Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
+       //        loader.vImage.setImageBitmap(bitmap);
+       //    } else {
+       //       loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
+       //    }
 
-            unsubscribe(loader.vImage);
+       //    unsubscribe(loader.vImage);
 
-        }
+       //}
 
         turn.add(loader);
 

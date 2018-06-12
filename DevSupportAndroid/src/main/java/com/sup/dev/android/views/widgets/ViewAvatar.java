@@ -102,8 +102,8 @@ public class ViewAvatar extends FrameLayout {
     @Override
     public void setLayoutParams(ViewGroup.LayoutParams params) {
         if (params.width == LayoutParams.WRAP_CONTENT && params.height == LayoutParams.WRAP_CONTENT) {
-            params.width = ToolsView.dpToPx(52);
-            params.height = ToolsView.dpToPx(52);
+            params.width = ToolsView.dpToPx(48);
+            params.height = ToolsView.dpToPx(48);
         }
 
         if (params.width > 0 && params.height == LayoutParams.WRAP_CONTENT)

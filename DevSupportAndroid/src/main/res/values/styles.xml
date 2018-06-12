@@ -105,4 +105,21 @@
 
     <style name="Widget.GifView" parent="@android:style/Widget"/>
 
+    <style name="Divider">
+        <item name="android:id">@id/divider</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/grey_700</item>
+    </style>
+
+    <style name="Divider.8">
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+
+    <style name="Divider.16">
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+    </style>
+
 </resources>
