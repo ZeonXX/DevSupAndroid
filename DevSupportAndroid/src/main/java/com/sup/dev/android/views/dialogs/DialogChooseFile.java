@@ -52,9 +52,8 @@ public class DialogChooseFile extends BaseDialog {
     //  Public methods
     //
 
-    public DialogChooseFile showWithRequestPermission(Activity activity, Callback onPermissionRestriction) {
-        ToolsPermission.requestReadPermission(activity,
-                () -> super.show(), onPermissionRestriction);
+    public DialogChooseFile showWithRequestPermission(Callback onPermissionRestriction) {
+        ToolsPermission.requestReadPermission(() -> super.show(), onPermissionRestriction);
         return this;
     }
 

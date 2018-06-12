@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.fragments.loading_recycler;
 
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.views.fragments.loading.PLoading;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapterLoading;
@@ -48,11 +49,11 @@ public abstract class PLoadingRecycler<K extends FLoadingRecycler, C extends Car
     protected abstract RecyclerCardAdapterLoading<C, V> instanceAdapter();
 
     protected Object getTextNetworkError(){
-        return ToolsResources.getString("app_retry");
+        return SupAndroid.TEXT_APP_RETRY;
     }
 
     protected Object getTextRetry(){
-        return ToolsResources.getString("app_retry");
+        return SupAndroid.TEXT_APP_RETRY;
     }
 
     protected int getNotifyCount(){

@@ -16,7 +16,7 @@ import static android.Manifest.permission.SYSTEM_ALERT_WINDOW;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-public class ToolsPermission{
+public class ToolsPermission {
 
     private static final long MAX_WAIT_TIME = 1000 * 10;
     private static final int REQUEST_CODE = 102;
@@ -25,25 +25,24 @@ public class ToolsPermission{
     //  Requests
     //
 
-    public static void requestReadPermission(Activity activity, Callback onGranted, Callback onPermissionRestriction) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            requestPermission(activity, READ_EXTERNAL_STORAGE, onGranted, onPermissionRestriction);
+    public static void requestReadPermission(Callback onGranted, Callback onPermissionRestriction) {
+        requestPermission(READ_EXTERNAL_STORAGE, onGranted, onPermissionRestriction);
     }
 
-    public static void requestWritePermission(Activity activity, Callback onGranted, Callback onPermissionRestriction) {
-        requestPermission(activity, WRITE_EXTERNAL_STORAGE, onGranted, onPermissionRestriction);
+    public static void requestWritePermission(Callback onGranted, Callback onPermissionRestriction) {
+        requestPermission(WRITE_EXTERNAL_STORAGE, onGranted, onPermissionRestriction);
     }
 
-    public static void requestCallPhonePermission(Activity activity, Callback onGranted, Callback onPermissionRestriction) {
-        requestPermission(activity, CALL_PHONE, onGranted, onPermissionRestriction);
+    public static void requestCallPhonePermission(Callback onGranted, Callback onPermissionRestriction) {
+        requestPermission(CALL_PHONE, onGranted, onPermissionRestriction);
     }
 
-    public static void requestOverlayPermission(Activity activity, Callback onGranted, Callback onPermissionRestriction) {
-        requestPermission(activity, SYSTEM_ALERT_WINDOW, onGranted, onPermissionRestriction);
+    public static void requestOverlayPermission(Callback onGranted, Callback onPermissionRestriction) {
+        requestPermission(SYSTEM_ALERT_WINDOW, onGranted, onPermissionRestriction);
     }
 
-    public static void requestMicrophonePermission(Activity activity, Callback onGranted, Callback onPermissionRestriction) {
-        requestPermission(activity, RECORD_AUDIO, onGranted, onPermissionRestriction);
+    public static void requestMicrophonePermission(Callback onGranted, Callback onPermissionRestriction) {
+        requestPermission(RECORD_AUDIO, onGranted, onPermissionRestriction);
     }
 
     //
@@ -79,20 +78,22 @@ public class ToolsPermission{
         return ContextCompat.checkSelfPermission(SupAndroid.appContext, permission) == PERMISSION_GRANTED;
     }
 
-    public static void requestPermission(Activity activity, String permission, Callback onGranted, Callback onPermissionRestriction) {
-        if(hasPermission(permission)) {
-            if(onGranted != null)onGranted.callback();
+    public static void requestPermission(String permission, Callback onGranted, Callback onPermissionRestriction) {
+        if (hasPermission(permission)) {
+            if (onGranted != null) onGranted.callback();
             return;
         }
-        ToolsThreads.thread(() -> {
-            if (requestPermission(activity, permission)) {
-                if (onGranted != null)
-                    ToolsThreads.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
-            } else {
-                if (onPermissionRestriction != null)
-                    ToolsThreads.main(onPermissionRestriction::callback);
-            }
-        });
+        SupAndroid.mvpActivity(
+                activity -> ToolsThreads.thread(
+                        () -> {
+                            if (requestPermission(activity, permission)) {
+                                if (onGranted != null)
+                                    ToolsThreads.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
+                            } else {
+                                if (onPermissionRestriction != null)
+                                    ToolsThreads.main(onPermissionRestriction::callback);
+                            }
+                        }));
     }
 
     private static boolean requestPermission(Activity activity, String permission) {

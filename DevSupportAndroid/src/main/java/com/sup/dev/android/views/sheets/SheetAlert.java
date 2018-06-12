@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
 
-public class SheetAlert extends BaseSheet{
+public class SheetAlert extends Sheet {
 
     public SheetAlert() {
 

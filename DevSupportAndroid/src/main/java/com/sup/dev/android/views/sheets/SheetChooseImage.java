@@ -15,6 +15,8 @@ import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
+import com.sup.dev.android.tools.ToolsPermission;
+import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -30,11 +32,11 @@ public class SheetChooseImage extends SheetRecycler {
 
     private Callback1<Bitmap> onSelected;
     private Callback onError;
+    private boolean imagesLoaded;
 
     public SheetChooseImage() {
         adapter = new RecyclerCardAdapter();
         setAdapter(adapter);
-        loadImages();
     }
 
     @Override
@@ -47,16 +49,29 @@ public class SheetChooseImage extends SheetRecycler {
 
     }
 
-    public void loadImages() {
-        String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
-        Cursor cursor = SupAndroid.appContext.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                projection,
-                null,
-                null,
-                MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+    @Override
+    protected void onExpanded(View view) {
+        super.onExpanded(view);
+        loadImages();
+    }
 
-        while (cursor.moveToNext()) adapter.add(new CardImage(new File(cursor.getString(0))));
+    private void loadImages() {
+        if(imagesLoaded)return;
+
+        ToolsPermission.requestReadPermission(() -> {
+            imagesLoaded = true;
+            String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA};
+            Cursor cursor = SupAndroid.appContext.getContentResolver().query(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    projection,
+                    null,
+                    null,
+                    MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+
+            while (cursor.moveToNext()) adapter.add(new CardImage(new File(cursor.getString(0))));
+        }, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+
+
 
     }
 

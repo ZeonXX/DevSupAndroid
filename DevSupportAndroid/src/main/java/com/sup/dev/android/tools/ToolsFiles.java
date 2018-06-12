@@ -143,7 +143,7 @@ public class ToolsFiles extends com.sup.dev.java.tools.ToolsFiles{
     //
 
     public static void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
-        ToolsPermission.requestWritePermission(activity, () -> {
+        ToolsPermission.requestWritePermission(() -> {
             File file = createJpgFileInCameraFolder();
             writeBitmap(bitmap, file);
             onResult.callback(file.getAbsolutePath());

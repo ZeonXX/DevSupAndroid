@@ -14,6 +14,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
@@ -37,8 +41,8 @@ import java.net.URL;
 
 public class ToolsBitmap {
 
-    private static String errorCantLoadImage = ToolsResources.getString("error_cant_load_image");
-    private static String errorPermissionFiles = ToolsResources.getString("error_permission_files");
+    private static String errorCantLoadImage = SupAndroid.TEXT_ERROR_PCANT_LOAD_IMAGE;
+    private static String errorPermissionFiles = SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES;
 
     public static Bitmap cropCenterSquare(Bitmap srcBmp) {
         if (srcBmp.getWidth() == srcBmp.getHeight()) return srcBmp;
@@ -87,6 +91,18 @@ public class ToolsBitmap {
             }
 
         return output;
+    }
+
+    public static Bitmap filterBlur(Bitmap bitmap, float arg) {
+        RenderScript rs = RenderScript.create(SupAndroid.appContext);
+        final Allocation input = Allocation.createFromBitmap(rs, bitmap);
+        final Allocation output = Allocation.createTyped(rs, input.getType());
+        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        script.setRadius(arg);
+        script.setInput(input);
+        script.forEach(output);
+        output.copyTo(bitmap);
+        return bitmap;
     }
 
     public static Bitmap filterBlackAndWhite(Bitmap bitmap) {
@@ -311,7 +327,7 @@ public class ToolsBitmap {
     }
 
     public static void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
-        ToolsPermission.requestReadPermission(activity, () -> {
+        ToolsPermission.requestReadPermission(() -> {
             try {
                 callbackResult.callback(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri));
             } catch (IOException ex) {

@@ -26,7 +26,7 @@ public class ViewSheet extends FrameLayout {
     private final int dimId;
     private final boolean openOnFab;
 
-    private BaseSheet sheet;
+    private Sheet sheet;
     private View view;
     private FloatingActionButton vFab;
     private View vDim;
@@ -45,17 +45,17 @@ public class ViewSheet extends FrameLayout {
         super(viewContext, attrs);
         SupAndroid.initEditMode(this);
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.BaseSheet, 0, 0);
-        fabId = a.getResourceId(R.styleable.BaseSheet_Sheet_fabId, 0);
-        dimId = a.getResourceId(R.styleable.BaseSheet_Sheet_dimId, 0);
-        openOnFab = a.getBoolean(R.styleable.BaseSheet_Sheet_openOnFab, false);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Sheet, 0, 0);
+        fabId = a.getResourceId(R.styleable.Sheet_Sheet_fabId, 0);
+        dimId = a.getResourceId(R.styleable.Sheet_Sheet_dimId, 0);
+        openOnFab = a.getBoolean(R.styleable.Sheet_Sheet_openOnFab, false);
         a.recycle();
 
         setClickable(true); //  Чтоб не тригерился vDim, когда нажимаешь на тело диалога
         setBackgroundColor(ToolsResources.getBackgroundColor(viewContext));
     }
 
-    public void setSheet(BaseSheet sheet) {
+    public void setSheet(Sheet sheet) {
 
         View oldView = view;
         this.sheet = sheet;
@@ -79,8 +79,8 @@ public class ViewSheet extends FrameLayout {
 
     public void rebindView() {
         if (view != null) sheet.bindView(view);
-        if (sheet.getState() == BaseSheet.State.HIDE) hide();
-        if (sheet.getState() == BaseSheet.State.SHOW) show();
+        if (sheet.getState() == Sheet.State.HIDE) hide();
+        if (sheet.getState() == Sheet.State.SHOW) show();
     }
 
     @Override
@@ -128,14 +128,14 @@ public class ViewSheet extends FrameLayout {
 
     public <K extends ViewSheet> K show() {
         if (view != null) {
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (behavior != null) behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             setEnabled(true);
         }
         return (K) this;
     }
 
     public void hide() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if (behavior != null) behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @CallSuper
@@ -161,12 +161,12 @@ public class ViewSheet extends FrameLayout {
         if (vDim != null) vDim.setClickable(false);
         if (sheet != null) sheet.onCollapsed(view);
 
-        Debug.log(">> " + rebindViewInProgress);
-        if(rebindViewInProgress) {
+        if (rebindViewInProgress) {
             rebindViewInProgress = false;
             removeAllViews();
             if (view != null) {
                 addView(view);
+                rebindView();
                 show();
             }
         }

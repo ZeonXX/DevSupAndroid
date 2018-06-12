@@ -188,7 +188,7 @@ public class ToolsStorage {
 
     public static void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         if(preferences == null) init();
-        ToolsPermission.requestWritePermission(activity, () -> {
+        ToolsPermission.requestWritePermission(() -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
             try {
@@ -202,15 +202,15 @@ public class ToolsStorage {
         }, onPermissionPermissionRestriction);
     }
 
-    public static void saveFileInDownloadFolder(Activity activity, byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public static void saveFileInDownloadFolder(byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         if(preferences == null) init();
-        saveFile(activity, new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
+        saveFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
                 bytes, onComplete, onPermissionPermissionRestriction);
     }
 
-    public static void saveFile(Activity activity, String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public static void saveFile( String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         if(preferences == null) init();
-        ToolsPermission.requestWritePermission(activity, () -> {
+        ToolsPermission.requestWritePermission(() -> {
             final File f = new File(patch);
             f.delete();
             if(f.getParentFile() != null)f.getParentFile().mkdirs();

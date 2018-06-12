@@ -5,12 +5,14 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 import java.lang.ref.WeakReference;
 
-public abstract class BaseSheet {
+public abstract class Sheet {
 
     protected WeakReference<ViewSheet> vSheetRef;
+    private Callback onCollapsed;
 
     public View instanceView(Context viewContext) {
         if (getLayoutId() != 0) {
@@ -44,6 +46,7 @@ public abstract class BaseSheet {
 
     @CallSuper
     protected void onCollapsed(View view) {
+        if (onCollapsed != null) onCollapsed.callback();
     }
 
     @CallSuper
@@ -59,6 +62,9 @@ public abstract class BaseSheet {
 
     }
 
+    public void setOnCollapsed(Callback onCollapsed) {
+        this.onCollapsed = onCollapsed;
+    }
 
     //
     //  State - for background control of Sheet

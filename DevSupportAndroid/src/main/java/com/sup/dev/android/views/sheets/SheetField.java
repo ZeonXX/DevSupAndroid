@@ -19,7 +19,7 @@ import com.sup.dev.java.classes.providers.Provider1;
 
 import java.util.ArrayList;
 
-public class SheetField extends BaseSheet {
+public class SheetField extends Sheet {
 
     private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
     private int max;

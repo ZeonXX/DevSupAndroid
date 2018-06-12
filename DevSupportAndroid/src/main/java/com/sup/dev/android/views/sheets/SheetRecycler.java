@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 
-public class SheetRecycler extends BaseSheet {
+public class SheetRecycler extends Sheet {
 
 
     protected RecyclerView.Adapter adapter;

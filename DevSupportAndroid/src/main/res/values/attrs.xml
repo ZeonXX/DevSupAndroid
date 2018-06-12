@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="BaseSheet">
+    <declare-styleable name="Sheet">
         <attr name="Sheet_fabId" format="reference"/>
         <attr name="Sheet_dimId" format="reference"/>
         <attr name="Sheet_openOnFab" format="boolean"/>
