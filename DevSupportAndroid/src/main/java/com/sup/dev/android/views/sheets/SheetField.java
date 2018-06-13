@@ -10,12 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.classes.providers.Provider1;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
@@ -130,7 +133,7 @@ public class SheetField extends Sheet {
     @Override
     protected void onCollapsed(ViewSheet view) {
         super.onCollapsed(view);
-        ToolsView.hideKeyboard(view.findViewById(R.id.field));
+        SupAndroid.mvpActivity(activity -> ToolsView.hideKeyboard(activity));
     }
 
     //

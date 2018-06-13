@@ -59,7 +59,7 @@ public class ViewSheet extends FrameLayout {
 
         this.nextSheet = sheet;
 
-        if (behavior.getState() != BottomSheetBehavior.STATE_HIDDEN && behavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        if (behavior != null && behavior.getState() != BottomSheetBehavior.STATE_HIDDEN && behavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             rebindViewInProgress = true;
             hide();
         } else {
