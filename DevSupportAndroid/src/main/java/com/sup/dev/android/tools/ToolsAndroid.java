@@ -12,10 +12,12 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.support.annotation.RequiresPermission;
 import android.view.WindowManager;
 
 import com.sup.dev.android.androiddevsup.BuildConfig;
@@ -35,6 +37,14 @@ public class ToolsAndroid{
     //  Device
     //
 
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    public static String getNetworkName(){
+        ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo n = cm.getActiveNetworkInfo();
+        return (n == null)?null:n.getExtraInfo();
+    }
+
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static boolean isHasInternetConnection(){
         ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;

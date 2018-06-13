@@ -50,7 +50,7 @@ public class SheetChooseImage extends SheetRecycler {
     }
 
     @Override
-    protected void onExpanded(View view) {
+    protected void onExpanded(ViewSheet view) {
         super.onExpanded(view);
         loadImages();
     }

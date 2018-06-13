@@ -9,6 +9,29 @@ import android.widget.EditText;
 
 public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
 
+    public static boolean equalsNoCase(String... s) {
+        if (s == null) return true;
+        String s1 = s[0];
+        for (int i = 1; i < s.length; i++) {
+            if (s1 == null && s[i] != null) return false;
+            if (s1 != null && s[i] == null) return false;
+            if (s1 == null && s[i] == null) continue;
+            if (!s1.toLowerCase().equals(s[i].toLowerCase())) return false;
+        }
+        return true;
+    }
+
+    public static boolean equals(String... s) {
+        if (s == null) return true;
+        String s1 = s[0];
+        for (int i = 1; i < s.length; i++) {
+            if (s1 == null && s[i] != null) return false;
+            if (s1 != null && s[i] == null) return false;
+            if (s1 == null && s[i] == null) continue;
+            if (!s1.equals(s[i])) return false;
+        }
+        return true;
+    }
     public static InputFilter getFilterSpecChars() {
         return (source, start, end, dest, dstart, dend) -> source != null && SPEC.contains(source) ? "" : null;
     }

@@ -7,4 +7,5 @@
     <item type="id" name="fab"/>
     <item type="id" name="dim"/>
     <item type="id" name="sheet"/>
+    <item type="id" name="recycler"/>
 </resources>

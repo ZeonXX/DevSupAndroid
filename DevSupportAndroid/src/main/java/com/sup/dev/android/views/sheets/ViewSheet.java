@@ -17,7 +17,6 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class ViewSheet extends FrameLayout {
@@ -27,6 +26,7 @@ public class ViewSheet extends FrameLayout {
     private final boolean openOnFab;
 
     private Sheet sheet;
+    private Sheet nextSheet;
     private View view;
     private FloatingActionButton vFab;
     private View vDim;
@@ -57,24 +57,29 @@ public class ViewSheet extends FrameLayout {
 
     public void setSheet(Sheet sheet) {
 
-        View oldView = view;
-        this.sheet = sheet;
-        this.view = null;
+        this.nextSheet = sheet;
 
-        if (sheet != null) {
-            sheet.setVSheet(this);
-            view = sheet.instanceView(getContext());
-        }
-
-        if (oldView != null && behavior.getState() != BottomSheetBehavior.STATE_HIDDEN && behavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        if (behavior.getState() != BottomSheetBehavior.STATE_HIDDEN && behavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             rebindViewInProgress = true;
             hide();
         } else {
-            removeAllViews();
-            addView(view);
-            rebindView();
+            setSheetNow();
         }
 
+    }
+
+    private void setSheetNow(){
+        rebindViewInProgress = false;
+        if(nextSheet == null)return;
+        if (sheet != null) sheet.onDetach(this);
+        sheet = nextSheet;
+        removeAllViews();
+        if(sheet != null){
+            view = sheet.instanceView(getContext());
+            addView(view);
+            sheet.onAttach(this);
+            rebindView();
+        }
     }
 
     public void rebindView() {
@@ -118,7 +123,6 @@ public class ViewSheet extends FrameLayout {
             }
 
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                if (vFab != null) vFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
                 if (vDim != null) vDim.setAlpha(slideOffset / 1.5f);
             }
 
@@ -140,55 +144,44 @@ public class ViewSheet extends FrameLayout {
 
     @CallSuper
     protected void onDragged() {
-        if (vFab != null) vFab.setVisibility(VISIBLE);
         if (vDim != null) vDim.setClickable(false);
-        if (sheet != null) sheet.onDragged(view);
+        if (sheet != null) sheet.onDragged(this);
     }
 
     @CallSuper
     protected void onExpanded() {
         SupAndroid.addOnBack(onBackPressed);
-        if (vFab != null) vFab.setVisibility(INVISIBLE);
         if (vDim != null) vDim.setClickable(true);
-        if (sheet != null) sheet.onExpanded(view);
+        if (sheet != null) sheet.onExpanded(this);
     }
 
     @CallSuper
     protected void onCollapsed() {
         SupAndroid.removeOnBack(onBackPressed);
-        if (vFab != null) vFab.setVisibility(VISIBLE);
-        if (vFab != null) vFab.animate().scaleX(1).scaleY(1).setDuration(0).start();
         if (vDim != null) vDim.setClickable(false);
-        if (sheet != null) sheet.onCollapsed(view);
+        if (sheet != null) sheet.onCollapsed(this);
 
         if (rebindViewInProgress) {
-            rebindViewInProgress = false;
-            removeAllViews();
-            if (view != null) {
-                addView(view);
-                rebindView();
-                show();
-            }
+            setSheetNow();
+            show();
         }
     }
 
     @CallSuper
     protected void onHidden() {
-        if (vFab != null) vFab.setVisibility(VISIBLE);
         if (vDim != null) vDim.setClickable(false);
-        if (sheet != null) sheet.onHidden(view);
+        if (sheet != null) sheet.onHidden(this);
     }
 
     @CallSuper
     protected void onSettling() {
-        if (vFab != null) vFab.setVisibility(VISIBLE);
         if (vDim != null) vDim.setClickable(false);
-        if (sheet != null) sheet.onSettling(view);
+        if (sheet != null) sheet.onSettling(this);
     }
 
     @CallSuper
     protected void onStateChanged(int newState) {
-        if (sheet != null) sheet.onStateChanged(view, newState);
+        if (sheet != null) sheet.onStateChanged(this, newState);
     }
 
     //

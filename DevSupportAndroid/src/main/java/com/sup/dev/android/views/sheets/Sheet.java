@@ -27,43 +27,54 @@ public abstract class Sheet {
 
     public abstract void bindView(View view);
 
-    public void setVSheet(ViewSheet vSheet) {
-        vSheetRef = new WeakReference<>(vSheet);
-    }
-
     public void update() {
         if (vSheetRef != null && vSheetRef.get() != null)
             vSheetRef.get().rebindView();
     }
 
     @CallSuper
-    protected void onDragged(View view) {
+    protected void onDragged(ViewSheet view) {
     }
 
     @CallSuper
-    protected void onExpanded(View view) {
+    protected void onExpanded(ViewSheet view) {
     }
 
     @CallSuper
-    protected void onCollapsed(View view) {
+    protected void onCollapsed(ViewSheet view) {
         if (onCollapsed != null) onCollapsed.callback();
     }
 
     @CallSuper
-    protected void onHidden(View view) {
+    protected void onHidden(ViewSheet view) {
     }
 
     @CallSuper
-    protected void onSettling(View view) {
+    protected void onSettling(ViewSheet view) {
     }
 
     @CallSuper
-    protected void onStateChanged(View view, int newState) {
+    protected void onStateChanged(ViewSheet view, int newState) {
 
     }
 
-    public void setOnCollapsed(Callback onCollapsed) {
+    @CallSuper
+    protected void onAttach(ViewSheet vSheet) {
+        vSheetRef = new WeakReference<>(vSheet);
+    }
+
+    @CallSuper
+    protected void onDetach(ViewSheet vSheet) {
+       if(vSheetRef != null) {
+           vSheetRef.clear();
+           vSheetRef = null;
+       }
+    }
+
+
+    public <K extends Sheet> K setOnCollapsed(Callback onCollapsed) {
         this.onCollapsed = onCollapsed;
+        return (K) this;
     }
 
     //

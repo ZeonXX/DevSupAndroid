@@ -122,13 +122,13 @@ public class SheetField extends Sheet {
     }
 
     @Override
-    protected void onExpanded(View view) {
+    protected void onExpanded(ViewSheet view) {
         super.onExpanded(view);
         ToolsView.showKeyboard(view.findViewById(R.id.field));
     }
 
     @Override
-    protected void onCollapsed(View view) {
+    protected void onCollapsed(ViewSheet view) {
         super.onCollapsed(view);
         ToolsView.hideKeyboard(view.findViewById(R.id.field));
     }
