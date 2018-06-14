@@ -97,7 +97,6 @@ public class LayoutFlow extends ViewGroup {
     }
 
     @Override
-    @MainThread
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
@@ -108,25 +107,21 @@ public class LayoutFlow extends ViewGroup {
     }
 
     @Override
-    @MainThread
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
         return p instanceof LayoutParams;
     }
 
     @Override
-    @MainThread
     protected LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     }
 
     @Override
-    @MainThread
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
     }
 
     @Override
-    @MainThread
     protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
         return new LayoutParams(p.width, p.height);
     }
@@ -138,7 +133,6 @@ public class LayoutFlow extends ViewGroup {
         int x;
         int y;
 
-        @MainThread
         public LayoutParams(Context context, AttributeSet attrs) {
             super(context, attrs);
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LayoutFlow_LayoutParams);
@@ -150,7 +144,6 @@ public class LayoutFlow extends ViewGroup {
             }
         }
 
-        @MainThread
         public LayoutParams(int w, int h) {
             super(w, h);
         }

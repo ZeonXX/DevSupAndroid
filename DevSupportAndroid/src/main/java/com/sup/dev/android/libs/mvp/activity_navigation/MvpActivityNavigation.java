@@ -22,10 +22,13 @@ public class MvpActivityNavigation extends MvpActivity implements DrawerLayout.D
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
         drawerLayout = findViewById(R.id.mvp_drawer);
         drawerContainer = findViewById(R.id.mvp_drawer_container);
         drawerLayout.setDrawerListener(this);
         setNavigationLock(navigationLock);
+
+        setDrawerView(ToolsView.inflate(this, R.layout.mvp_activity_navigation_driver));
     }
 
     @Override

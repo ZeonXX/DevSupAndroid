@@ -203,7 +203,7 @@ public class ViewSheet extends FrameLayout {
         Bundle bundle = new Bundle();
         bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState());
         bundle.putBoolean("enabled", isEnabled());
-        bundle.putBoolean("shoved", behavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
+        bundle.putBoolean("shoved", behavior != null && behavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
 
         return bundle;
     }

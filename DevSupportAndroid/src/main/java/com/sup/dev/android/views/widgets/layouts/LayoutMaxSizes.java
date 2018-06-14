@@ -3,8 +3,9 @@ package com.sup.dev.android.views.widgets.layouts;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
@@ -14,10 +15,11 @@ import com.sup.dev.android.tools.ToolsPaint;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.libs.debug.Debug;
 
+import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.UNSPECIFIED;
 
-public class LayoutMaxSizes extends FrameLayout {
+public class LayoutMaxSizes extends ViewGroup {
 
     private int maxWidth;
     private int maxHeight;
@@ -27,10 +29,11 @@ public class LayoutMaxSizes extends FrameLayout {
     private float maxHeightPercent;
     private boolean alwaysMaxW = false;
     private boolean alwaysMaxH = false;
-    private boolean cropEnabled = true;
     private boolean reversMaxValuesOnScreenRotation = false;
     private boolean useScreenWidthAsParent = false;
     private boolean useScreenHeightAsParent = false;
+    private boolean allowChildMaxW = false;
+    private boolean allowChildMaxH = false;
     private int fadeWSize;
     private int fadeHSize;
     private int fadeColor;
@@ -64,25 +67,25 @@ public class LayoutMaxSizes extends FrameLayout {
         fadeWSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeWSize, fadeWSize);
         fadeHSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeHSize, fadeHSize);
         fadeColor = a.getColor(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeColor, fadeColor);
+        allowChildMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_allowChildMaxW, allowChildMaxW);
+        allowChildMaxH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_allowChildMaxH, allowChildMaxH);
         a.recycle();
+    }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        for (int i = 0; i < getChildCount(); i++)
+            getChildAt(i).layout(0, 0, getChildAt(i).getMeasuredWidth(), getChildAt(i).getMeasuredHeight());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        if (!cropEnabled) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            return;
-        }
 
         boolean reverse = reversMaxValuesOnScreenRotation && ToolsAndroid.isScreenLandscape();
         boolean uScreenW = reverse ? useScreenHeightAsParent : useScreenWidthAsParent;
         boolean uScreenH = reverse ? useScreenWidthAsParent : useScreenHeightAsParent;
         int w = uScreenW ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
         int h = uScreenH ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
-        int wm = MeasureSpec.getMode(widthMeasureSpec);
-        int hm = MeasureSpec.getMode(heightMeasureSpec);
         int maxW = reverse ? maxHeight : maxWidth;
         int maxH = reverse ? maxWidth : maxHeight;
         int reserveW = reverse ? reserveHeight : reserveWidth;
@@ -104,7 +107,6 @@ public class LayoutMaxSizes extends FrameLayout {
 
         if (maxW > 0 && (alMW || w > maxW + reserveW)) {
             w = maxW;
-            wm = EXACTLY;
             isCroppedW = true;
         } else {
             isCroppedW = false;
@@ -112,20 +114,21 @@ public class LayoutMaxSizes extends FrameLayout {
 
         if (maxH > 0 && (alMH || h > maxH + reserveH)) {
             h = maxH;
-            hm = EXACTLY;
             isCroppedH = true;
         } else {
             isCroppedH = false;
         }
 
-        super.onMeasure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
-
-        if (wm == UNSPECIFIED && hm == UNSPECIFIED) {
-            measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), EXACTLY), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), EXACTLY));
-            return;
+        int maxChildW = 0;
+        int maxChildH = 0;
+        for (int i = 0; i < getChildCount(); i++) {
+            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(w, allowChildMaxW ? UNSPECIFIED : AT_MOST), MeasureSpec.makeMeasureSpec(h, allowChildMaxH ? UNSPECIFIED : AT_MOST));
+            maxChildW = Math.max(getChildAt(i).getMeasuredWidth(), maxChildW);
+            maxChildH = Math.max(getChildAt(i).getMeasuredHeight(), maxChildH);
         }
-        if (wm == UNSPECIFIED) measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), EXACTLY), MeasureSpec.makeMeasureSpec(h, hm));
-        if (hm == UNSPECIFIED) measure(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), EXACTLY));
+
+        setMeasuredDimension(Math.min(w, maxChildW), Math.min(h, maxChildH));
+
     }
 
     @Override
@@ -133,7 +136,7 @@ public class LayoutMaxSizes extends FrameLayout {
         super.onDrawForeground(canvas);
 
 
-        if(fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
+        if (fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
             fadeColor = ToolsView.getRootBackground(this);
 
         if (fadeWSize != 0 && isCroppedW && fadeColor != 0) ToolsPaint.gradientLineLeftRight(canvas, fadeColor, fadeWSize);
@@ -171,7 +174,6 @@ public class LayoutMaxSizes extends FrameLayout {
         requestLayout();
     }
 
-
     public void setAlwaysMaxW(boolean b) {
         this.alwaysMaxW = b;
         requestLayout();
@@ -189,11 +191,6 @@ public class LayoutMaxSizes extends FrameLayout {
 
     public void setMaxWidthParentPercent(float maxWidthPercent) {
         this.maxWidthPercent = maxWidthPercent;
-        requestLayout();
-    }
-
-    public void setCropEnabled(boolean cropEnabled) {
-        this.cropEnabled = cropEnabled;
         requestLayout();
     }
 

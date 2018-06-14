@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class SupAndroid {
 
+    public static String TEXT_APP_NAME;
     public static String TEXT_APP_WHOOPS;
     public static String TEXT_APP_RETRY;
     public static String TEXT_APP_BACK;
@@ -48,6 +49,7 @@ public class SupAndroid {
         Debug.printer = s -> Log.e("Debug", s);
         Debug.exceptionPrinter = th -> Log.e("Debug", "", th);
 
+        TEXT_APP_NAME = ToolsResources.getString("app_name");
         TEXT_APP_WHOOPS = ToolsResources.getString("app_whoops");
         TEXT_APP_RETRY = ToolsResources.getString("app_retry");
         TEXT_APP_BACK = ToolsResources.getString("app_back");
@@ -55,6 +57,8 @@ public class SupAndroid {
         TEXT_ERROR_PCANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
         TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");
         TEXT_ERROR_GONE = ToolsResources.getString("error_gone");
+
+
     }
 
     //

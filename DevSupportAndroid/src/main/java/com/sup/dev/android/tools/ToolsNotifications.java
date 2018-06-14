@@ -14,23 +14,28 @@ import android.support.v4.app.NotificationCompat;
 
 import com.sup.dev.android.app.SupAndroid;
 
-public class ToolsNotifications{
+public class ToolsNotifications {
 
     public static final String CHANEL_ID_PREFIX = "notifications_id_";
     public static final String CHANEL_ID_DEF = "_def";
     public static final String CHANEL_ID_HIGH = "_high";
     public static final String CHANEL_ID_SALIENT = "_salient";
 
+    public static String chanelNameDef = SupAndroid.TEXT_APP_NAME;
+    public static String chanelNameHigh = SupAndroid.TEXT_APP_NAME;
+    public static String chanelNameSalient = SupAndroid.TEXT_APP_NAME;
+
     private static NotificationManager notificationManager;
 
-    public static void init(String channelName) {
+    private static void init() {
+        if (notificationManager != null) return;
         notificationManager = (NotificationManager) SupAndroid.appContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel defChannel = new NotificationChannel(getDefChanelId(), channelName, NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationChannel highChannel = new NotificationChannel(getHighChanelId(), channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel defChannel = new NotificationChannel(getDefChanelId(), chanelNameDef, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel highChannel = new NotificationChannel(getHighChanelId(), chanelNameHigh, NotificationManager.IMPORTANCE_HIGH);
 
-            NotificationChannel salientChannel = new NotificationChannel(getSalientChanelId(), channelName, NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel salientChannel = new NotificationChannel(getSalientChanelId(), chanelNameSalient, NotificationManager.IMPORTANCE_MIN);
             salientChannel.setVibrationPattern(new long[]{0});
             salientChannel.enableVibration(true);
             salientChannel.setSound(null, null);
@@ -43,7 +48,7 @@ public class ToolsNotifications{
     }
 
     public static NotificationManager getNotificationManager() {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
         return notificationManager;
     }
 
@@ -64,11 +69,11 @@ public class ToolsNotifications{
     }
 
     public static void notification(@DrawableRes int icon, String title, String body, Class<? extends Activity> activityClass, boolean sound) {
-        notification(icon, title, body, new Intent(SupAndroid.appContext, activityClass), false);
+        notification(icon, title, body, new Intent(SupAndroid.appContext, activityClass), sound);
     }
 
     public static void notification(@DrawableRes int icon, String title, String body, Intent intent, boolean sound) {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(SupAndroid.appContext, getDefChanelId())
                 .setSmallIcon(icon)
@@ -88,7 +93,7 @@ public class ToolsNotifications{
     }
 
     public static void hide() {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
         NotificationManager mNotificationManager = (NotificationManager) SupAndroid.appContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(1);
     }
@@ -98,17 +103,17 @@ public class ToolsNotifications{
     //
 
     public static String getDefChanelId() {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
         return CHANEL_ID_PREFIX + SupAndroid.appContext.getApplicationInfo().packageName + CHANEL_ID_DEF;
     }
 
     public static String getHighChanelId() {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
         return CHANEL_ID_PREFIX + SupAndroid.appContext.getApplicationInfo().packageName + CHANEL_ID_HIGH;
     }
 
     public static String getSalientChanelId() {
-        if(notificationManager == null) throw new RuntimeException("You must call ToolsNotifications.init");
+        init();
         return CHANEL_ID_PREFIX + SupAndroid.appContext.getApplicationInfo().packageName + CHANEL_ID_SALIENT;
     }
 }

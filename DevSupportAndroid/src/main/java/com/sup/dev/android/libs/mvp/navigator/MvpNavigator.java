@@ -1,7 +1,5 @@
 package com.sup.dev.android.libs.mvp.navigator;
 
-import android.content.Context;
-
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
@@ -21,7 +19,6 @@ public class MvpNavigator {
 
     private static ArrayList<MvpPresenter> presenters = new ArrayList<>();
     private static Callback1<MvpActivity> callback1 = mvpActivity -> callback(mvpActivity);
-    private static boolean lastBackCallback = false;
 
     //
     //  Presenters
@@ -106,17 +103,10 @@ public class MvpNavigator {
         if (needUpdate) updateFragment();
     }
 
+
     public static boolean back() {
-        if (!hasBackStack()) {
-            if (!lastBackCallback) {
-                lastBackCallback = true;
-                SupAndroid.mvpActivity(a -> {
-                    a.onBackPressed();
-                    lastBackCallback = false;
-                });
-            }
-            return false;
-        }
+
+        if(!hasBackStack())return false;
 
         MvpPresenter current = getCurrent();
         removePresenter(current);
@@ -147,7 +137,7 @@ public class MvpNavigator {
     }
 
     public static void callback(MvpActivity activity) {
-        activity.setFragment(getCurrent().instanceView((Context) activity));
+        activity.setFragment(getCurrent().instanceView(activity));
         getCurrent().onResume();
     }
 
@@ -182,7 +172,7 @@ public class MvpNavigator {
 
     public static void showProgressDialog(Callback1<DialogProgressTransparent> onShow) {
         SupAndroid.mvpActivity(activity -> {
-            DialogProgressTransparent dialog = new DialogProgressTransparent((Context) activity);
+            DialogProgressTransparent dialog = new DialogProgressTransparent(activity);
             dialog.setCancelable(false);
             dialog.show();
             onShow.callback(dialog);
@@ -195,7 +185,7 @@ public class MvpNavigator {
 
     public static void showProgressDialog(String title, Callback1<DialogProgressWithTitle> onShow) {
         SupAndroid.mvpActivity(activity -> {
-            DialogProgressWithTitle dialog = new DialogProgressWithTitle((Context) activity);
+            DialogProgressWithTitle dialog = new DialogProgressWithTitle(activity);
             dialog.setTitle(title);
             dialog.setCancelable(false);
             dialog.show();
