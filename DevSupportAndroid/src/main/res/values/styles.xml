@@ -74,11 +74,6 @@
         <item name="android:layout_margin">24dp</item>
     </style>
 
-    <style name="Fab.Sheet">
-        <item name="layout_anchor">@id/sheet</item>
-        <item name="layout_anchorGravity">top|end</item>
-    </style>
-
     <style name="Sheet">
         <item name="android:id">@id/sheet</item>
         <item name="android:layout_width">match_parent</item>

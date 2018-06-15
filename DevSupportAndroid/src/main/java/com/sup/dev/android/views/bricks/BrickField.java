@@ -114,11 +114,11 @@ public class BrickField extends Brick {
         if (text != null) vField.setSelection(text.length());
 
 
-        vCancel.setEnabled(enabled);
-        vFieldLayout.setEnabled(enabled);
-        vEnter.setEnabled(enabled);
-        vTitle.setEnabled(enabled);
-        vField.setEnabled(enabled);
+        vCancel.setEnabled(isEnabled());
+        vFieldLayout.setEnabled(isEnabled());
+        vEnter.setEnabled(isEnabled());
+        vTitle.setEnabled(isEnabled());
+        vField.setEnabled(isEnabled());
     }
 
     @Override

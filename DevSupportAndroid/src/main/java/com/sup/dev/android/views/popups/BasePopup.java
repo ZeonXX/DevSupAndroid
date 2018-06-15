@@ -85,7 +85,6 @@ public abstract class BasePopup extends PopupWindow {
         getContentView().measure(ToolsAndroid.getScreenW(), ToolsAndroid.getScreenH());
         setWidth(getContentView().getMeasuredWidth());
         setHeight(getContentView().getMeasuredHeight());
-        Debug.log(getWidth(), getHeight());
     }
 
     @CallSuper

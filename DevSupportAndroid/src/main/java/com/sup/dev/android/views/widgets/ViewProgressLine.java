@@ -33,6 +33,7 @@ public class ViewProgressLine extends View {
 
         SupAndroid.initEditMode(this);
         colorBackground = ToolsResources.getColor(R.color.focus_dark);
+        colorProgress = ToolsResources.getAccentColor(context);
 
         path = new Path();
         paint = new Paint();
@@ -61,8 +62,6 @@ public class ViewProgressLine extends View {
         super.onDraw(canvas);
 
         int r = Math.min(getWidth(), getHeight()) / 2;
-
-        Debug.log(getWidth());
 
         paint.setColor(colorBackground);
         canvas.drawPath(path, paint);
