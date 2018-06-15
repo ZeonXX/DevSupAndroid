@@ -39,14 +39,14 @@
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Body2"
+                style="@style/Base.TextAppearance.AppCompat.Title"
                 android:text="Item"/>
 
             <TextView
                 android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Caption"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:text="Item description"/>
 
 

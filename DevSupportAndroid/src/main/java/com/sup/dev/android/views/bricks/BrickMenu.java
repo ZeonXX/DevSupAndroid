@@ -1,5 +1,7 @@
-package com.sup.dev.android.views.sheets;
+package com.sup.dev.android.views.bricks;
 
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +15,13 @@ import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
-public class SheetMenu extends SheetRecycler {
+public class BrickMenu extends BrickRecycler{
 
     private final RecyclerCardAdapter adapter;
 
     private int prefCount = 0;
 
-    public SheetMenu() {
+    public BrickMenu() {
         adapter = new RecyclerCardAdapter();
         setAdapter(adapter);
     }
@@ -32,7 +34,6 @@ public class SheetMenu extends SheetRecycler {
         RecyclerView vRecycler = view.findViewById(R.id.recycler);
 
         vRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
     }
 
     private void add(Item item) {
@@ -40,6 +41,7 @@ public class SheetMenu extends SheetRecycler {
         item.card = new CardMenu();
         item.card.setText(item.text);
         item.card.setIcon(item.icon);
+        item.card.setBackground(item.bg);
         item.card.setOnClick(() -> {
             hide();
             if (item.onClick != null) item.onClick.callback(this);
@@ -56,11 +58,11 @@ public class SheetMenu extends SheetRecycler {
 
     }
 
-    public SheetMenu group(@StringRes int title) {
+    public BrickMenu group(@StringRes int title) {
         return group(ToolsResources.getString(title));
     }
 
-    public SheetMenu group(String title) {
+    public BrickMenu group(String title) {
         finishItemBuilding();
         adapter.add(new CardDividerTitle().setText(title));
         return this;
@@ -82,19 +84,19 @@ public class SheetMenu extends SheetRecycler {
         }
     }
 
-    public SheetMenu add(@StringRes int text) {
+    public BrickMenu add(@StringRes int text) {
         return add(ToolsResources.getString(text), null);
     }
 
-    public SheetMenu add(String text) {
+    public BrickMenu add(String text) {
         return add(text, null);
     }
 
-    public SheetMenu add(@StringRes int text, Callback1<SheetMenu> onClick) {
+    public BrickMenu add(@StringRes int text, Callback1<BrickMenu> onClick) {
         return add(ToolsResources.getString(text), onClick);
     }
 
-    public SheetMenu add(String text, Callback1<SheetMenu> onClick) {
+    public BrickMenu add(String text, Callback1<BrickMenu> onClick) {
         finishItemBuilding();
         buildItem = new Item();
         buildItem.text = text;
@@ -102,41 +104,55 @@ public class SheetMenu extends SheetRecycler {
         return this;
     }
 
-    public SheetMenu text(@StringRes int text) {
+    public BrickMenu text(@StringRes int text) {
         return text(ToolsResources.getString(text));
     }
 
-    public SheetMenu text(String text) {
+    public BrickMenu text(String text) {
         buildItem.text = text;
         return this;
     }
 
-    public SheetMenu icon(int icon) {
+    public BrickMenu icon(int icon) {
         buildItem.icon = icon;
         return this;
     }
 
-    public SheetMenu prefered(boolean b) {
+    public BrickMenu backgroundRes(@ColorRes int color) {
+        return background(ToolsResources.getColor(color));
+    }
+
+    public BrickMenu background(@ColorInt int color) {
+        buildItem.bg = color;
+        return this;
+    }
+
+    public BrickMenu preferred(boolean b) {
         buildItem.preferred = b;
         return this;
     }
 
-    public SheetMenu condition(boolean b) {
+    public BrickMenu onClick(Callback1<BrickMenu> onClick) {
+        buildItem.onClick = onClick;
+        return this;
+    }
+
+    public BrickMenu condition(boolean b) {
         skipThisItem = !b;
         return this;
     }
 
-    public SheetMenu groupCondition(boolean b) {
+    public BrickMenu groupCondition(boolean b) {
         skipGroup = !b;
         return this;
     }
 
-    public SheetMenu reverseGroupCondition() {
+    public BrickMenu reverseGroupCondition() {
         skipGroup = !skipGroup;
         return this;
     }
 
-    public SheetMenu clearGroupCondition() {
+    public BrickMenu clearGroupCondition() {
         skipGroup = false;
         return this;
     }
@@ -148,12 +164,14 @@ public class SheetMenu extends SheetRecycler {
     private class Item {
 
         private CardMenu card;
-        private Callback1<SheetMenu> onClick;
+        private Callback1<BrickMenu> onClick;
         private String text;
         private int icon;
+        private int bg;
         private boolean preferred;
 
     }
+
 
 
 }

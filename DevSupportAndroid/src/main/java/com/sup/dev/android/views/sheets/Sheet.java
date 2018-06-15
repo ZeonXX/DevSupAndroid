@@ -12,22 +12,17 @@ import java.lang.ref.WeakReference;
 
 public abstract class Sheet {
 
-    private final int layoutId;
-
-    protected WeakReference<ViewSheet> vSheetRef;
-    protected boolean isEnabled;
+    private WeakReference<ViewSheet> vSheetRef;
+    private boolean isEnabled = true;
+    private boolean canCollapse = false;
     private Callback onCollapsed;
 
-    public Sheet(@LayoutRes int layoutId){
-        this.layoutId = layoutId;
-    }
 
     public View instanceView(Context viewContext) {
-        if (layoutId != 0) {
-            return ToolsView.inflate(viewContext, layoutId);
-        }
-        return null;
+        return getLayoutRes() != 0?ToolsView.inflate(viewContext, getLayoutRes()):null;
     }
+
+    public abstract int getLayoutRes();
 
     public abstract void bindView(View view);
 
@@ -45,7 +40,7 @@ public abstract class Sheet {
     }
 
     @CallSuper
-    protected void onCollapsed(ViewSheet view) {
+    protected void onCollapsed() {
         if (onCollapsed != null) onCollapsed.callback();
     }
 
@@ -84,10 +79,27 @@ public abstract class Sheet {
         return (K) this;
     }
 
+    public <K extends Sheet> K setCanCollapse(boolean canCollapse) {
+        this.canCollapse = canCollapse;
+        return (K) this;
+    }
+
     @CallSuper
     public  <K extends Sheet> K setEnabled(boolean b){
         this.isEnabled = b;
         return (K) this;
+    }
+
+    //
+    //  Getters
+    //
+
+    public boolean isCanCollapse() {
+        return canCollapse;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     //

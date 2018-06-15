@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.sheets;
+package com.sup.dev.android.views.bricks;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,22 +20,21 @@ import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SheetChooseImage extends SheetRecycler {
+public class BrickChooseImage extends BrickRecycler{
 
     private final RecyclerCardAdapter adapter;
 
-    private Callback2<SheetChooseImage, Bitmap> onSelected;
+    private Callback2<BrickChooseImage, Bitmap> onSelected;
     private Callback onError;
     private boolean imagesLoaded;
 
-    public SheetChooseImage() {
+    public BrickChooseImage() {
         adapter = new RecyclerCardAdapter();
         setAdapter(adapter);
     }
@@ -51,8 +50,8 @@ public class SheetChooseImage extends SheetRecycler {
     }
 
     @Override
-    protected void onExpanded(ViewSheet view) {
-        super.onExpanded(view);
+    public void onShow(View view) {
+        super.onShow(view);
         loadImages();
     }
 
@@ -80,12 +79,12 @@ public class SheetChooseImage extends SheetRecycler {
     //  Setters
     //
 
-    public SheetChooseImage setOnSelected(Callback2<SheetChooseImage, Bitmap> onSelected) {
+    public BrickChooseImage setOnSelected(Callback2<BrickChooseImage, Bitmap> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
 
-    public SheetChooseImage setOnError(Callback onError) {
+    public BrickChooseImage setOnError(Callback onError) {
         this.onError = onError;
         return this;
     }
@@ -113,7 +112,7 @@ public class SheetChooseImage extends SheetRecycler {
             vImage.setOnClickListener(v -> {
                 if (onSelected != null)
                     try {
-                        onSelected.callback(SheetChooseImage.this, ToolsBitmap.decode(ToolsFiles.readFile(file)));
+                        onSelected.callback(BrickChooseImage.this, ToolsBitmap.decode(ToolsFiles.readFile(file)));
                     } catch (IOException e) {
                         Debug.log(e);
                         if (onError != null) onError.callback();

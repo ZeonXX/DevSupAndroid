@@ -53,6 +53,7 @@ public class DialogAlert extends BaseDialog {
         if(lockUntilAccept)
             vEnter.setEnabled(vCheck.isChecked());
     }
+
     //
     //  Setters
     //

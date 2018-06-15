@@ -85,9 +85,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:elevation">16dp</item>
         <item name="behavior_peekHeight">0dp</item>
-        <item name="behavior_hideable">true</item>
+        <item name="behavior_hideable">false</item>
         <item name="Sheet_dimId">@id/dim</item>
-        <item name="layout_behavior">android.support.design.widget.BottomSheetBehavior</item>
+        <item name="layout_behavior">com.sup.dev.android.views.behavior.BehaviorBottomSheet</item>
     </style>
 
     <style name="Sheet.WithFab">

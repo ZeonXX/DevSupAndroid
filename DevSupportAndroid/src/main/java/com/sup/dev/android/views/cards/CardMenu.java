@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.cards;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
@@ -14,9 +15,10 @@ public class CardMenu extends Card {
     private Callback onClick;
     private boolean dividerVisible = false;
     private boolean enabled = true;
-    private int background = 0x01FF0000;
+    private int background;
 
     private String text;
+    private String description;
     private boolean customColor;
     private int textColor;
     private int icon;
@@ -30,7 +32,8 @@ public class CardMenu extends Card {
     public void bindView(View view) {
         View vTouch = view.findViewById(R.id.touch);
         View vDivider = view.findViewById(R.id.divider);
-        TextView vText =  view.findViewById(R.id.text);
+        TextView vText = view.findViewById(R.id.text);
+        TextView vDescription = view.findViewById(R.id.desc);
         ViewIcon vIcon = view.findViewById(R.id.icon);
 
 
@@ -41,9 +44,12 @@ public class CardMenu extends Card {
         vTouch.setFocusable(onClick != null && enabled);
         vTouch.setClickable(onClick != null && enabled);
         vTouch.setEnabled(onClick != null && enabled);
-        vTouch.setOnClickListener((onClick != null && enabled)?v -> onClick.callback():null);
-        if (background != 0x01FF0000) view.setBackgroundColor(background);
+        vTouch.setOnClickListener((onClick != null && enabled) ? v -> onClick.callback() : null);
+        view.setBackgroundColor(background);
 
+        vDescription.setText(description);
+        vDescription.setEnabled(enabled);
+        vDescription.setVisibility(description != null && !description.isEmpty() ? View.VISIBLE : View.GONE);
         vText.setText(text);
         vText.setEnabled(enabled);
         if (customColor) vText.setTextColor(textColor);
@@ -77,6 +83,10 @@ public class CardMenu extends Card {
         return this;
     }
 
+    public CardMenu setBackgroundRes(@ColorRes int background) {
+        return setBackground(ToolsResources.getColor(background));
+    }
+
     public CardMenu setBackground(int background) {
         this.background = background;
         update();
@@ -89,6 +99,16 @@ public class CardMenu extends Card {
 
     public CardMenu setText(String text) {
         this.text = text;
+        update();
+        return this;
+    }
+
+    public CardMenu setDescription(@StringRes int desc) {
+        return setDescription(ToolsResources.getString(text));
+    }
+
+    public CardMenu setDescription(String desc) {
+        this.description = desc;
         update();
         return this;
     }

@@ -9,6 +9,10 @@ import android.widget.EditText;
 
 public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
 
+    public static boolean empty(String s){
+        return s == null || s.isEmpty();
+    }
+
     public static boolean equalsNoCase(String... s) {
         if (s == null) return true;
         String s1 = s[0];

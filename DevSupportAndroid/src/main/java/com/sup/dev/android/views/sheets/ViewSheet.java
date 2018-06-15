@@ -16,7 +16,9 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.android.views.behavior.BehaviorBottomSheet;
 import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class ViewSheet extends FrameLayout {
@@ -30,7 +32,7 @@ public class ViewSheet extends FrameLayout {
     private View view;
     private FloatingActionButton vFab;
     private View vDim;
-    private BottomSheetBehavior behavior;
+    private BehaviorBottomSheet behavior;
     private boolean rebindViewInProgress;
 
     private final Provider<Boolean> onBackPressed = () -> {
@@ -79,6 +81,7 @@ public class ViewSheet extends FrameLayout {
             addView(view);
             sheet.onAttach(this);
             rebindView();
+            if(behavior != null) behavior.setCanColapse(sheet.isCanCollapse());
         }
     }
 
@@ -93,7 +96,8 @@ public class ViewSheet extends FrameLayout {
         super.onAttachedToWindow();
         if (behavior != null) return;
 
-        this.behavior = BottomSheetBehavior.from(this);
+        behavior = (BehaviorBottomSheet)BottomSheetBehavior.from(this);
+        if(sheet != null) behavior.setCanColapse(sheet.isCanCollapse());
 
         if (fabId != 0) {
             vFab = ToolsView.findViewOnParents(this, fabId);
@@ -159,7 +163,7 @@ public class ViewSheet extends FrameLayout {
     protected void onCollapsed() {
         SupAndroid.removeOnBack(onBackPressed);
         if (vDim != null) vDim.setClickable(false);
-        if (sheet != null) sheet.onCollapsed(this);
+        if (sheet != null) sheet.onCollapsed();
 
         if (rebindViewInProgress) {
             setSheetNow();

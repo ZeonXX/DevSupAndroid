@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.sheets;
+package com.sup.dev.android.views.bricks;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.StringRes;
@@ -9,14 +9,14 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 
-public class SheetRecycler extends Sheet {
-
+public class BrickRecycler extends Brick {
 
     protected RecyclerView.Adapter adapter;
     protected String title;
 
-    public SheetRecycler(){
-        super(R.layout.sheet_recycler);
+    @Override
+    public int getLayoutRes() {
+        return R.layout.brick_recycler;
     }
 
     @Override
@@ -35,19 +35,20 @@ public class SheetRecycler extends Sheet {
     //  Setters
     //
 
-    public <K extends SheetRecycler> K setAdapter(RecyclerView.Adapter adapter) {
+    public <K extends BrickRecycler> K setAdapter(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
         update();
         return (K) this;
     }
 
-    public <K extends SheetRecycler> K setTitle(@StringRes int title) {
+    public <K extends BrickRecycler> K setTitle(@StringRes int title) {
         return setTitle(ToolsResources.getString(title));
     }
 
-    public <K extends SheetRecycler> K setTitle(String title) {
+    public <K extends BrickRecycler> K setTitle(String title) {
         this.title = title;
         return (K) this;
     }
+
 
 }

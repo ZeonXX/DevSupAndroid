@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.sheets;
+package com.sup.dev.android.views.bricks;
 
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
@@ -11,18 +11,16 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.classes.providers.Provider1;
-import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
-public class SheetField extends Sheet {
+public class BrickField extends Brick {
 
     private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
@@ -36,10 +34,11 @@ public class SheetField extends Sheet {
     private String textEnter;
     private boolean multiline;
     private boolean autoHideOnEnter = true;
-    private Callback2<SheetField, String> onEnter;
+    private Callback2<BrickField, String> onEnter;
 
-    public SheetField(){
-        super( R.layout.sheet_field);
+    @Override
+    public int getLayoutRes() {
+        return R.layout.brick_field;
     }
 
     @Override
@@ -115,22 +114,22 @@ public class SheetField extends Sheet {
         if (text != null) vField.setSelection(text.length());
 
 
-        vCancel.setEnabled(isEnabled);
-        vFieldLayout.setEnabled(isEnabled);
-        vEnter.setEnabled(isEnabled);
-        vTitle.setEnabled(isEnabled);
-        vField.setEnabled(isEnabled);
+        vCancel.setEnabled(enabled);
+        vFieldLayout.setEnabled(enabled);
+        vEnter.setEnabled(enabled);
+        vTitle.setEnabled(enabled);
+        vField.setEnabled(enabled);
     }
 
     @Override
-    protected void onExpanded(ViewSheet view) {
-        super.onExpanded(view);
+    public void onShow(View view) {
+        super.onShow(view);
         ToolsView.showKeyboard(view.findViewById(R.id.field));
     }
 
     @Override
-    protected void onCollapsed(ViewSheet view) {
-        super.onCollapsed(view);
+    public void onHide() {
+        super.onHide();
         SupAndroid.mvpActivity(activity -> ToolsView.hideKeyboard(activity));
     }
 
@@ -138,100 +137,100 @@ public class SheetField extends Sheet {
     //  Setters
     //
 
-    public SheetField setMax(int max) {
+    public BrickField setMax(int max) {
         this.max = max;
         update();
         return this;
     }
 
-    public SheetField setMin(int min) {
+    public BrickField setMin(int min) {
         this.min = min;
         update();
         return this;
     }
 
-    public SheetField setLinesCount(int linesCount) {
+    public BrickField setLinesCount(int linesCount) {
         this.linesCount = linesCount;
         update();
         return this;
     }
 
-    public SheetField setMultiLine() {
+    public BrickField setMultiLine() {
         multiline = true;
         update();
         return this;
     }
 
-    public SheetField addChecker(@StringRes int errorText, Provider1<String, Boolean> checker) {
+    public BrickField addChecker(@StringRes int errorText, Provider1<String, Boolean> checker) {
         return addChecker(ToolsResources.getString(errorText), checker);
     }
 
-    public SheetField addChecker(String errorText, Provider1<String, Boolean> checker) {
+    public BrickField addChecker(String errorText, Provider1<String, Boolean> checker) {
         checkers.add(new Item2<>(errorText, checker));
         update();
         return this;
     }
 
-    public SheetField setHint(@StringRes int hint) {
+    public BrickField setHint(@StringRes int hint) {
         return setHint(ToolsResources.getString(hint));
     }
 
-    public SheetField setHint(String hint) {
+    public BrickField setHint(String hint) {
         this.hint = hint;
         update();
         return this;
     }
 
-    public SheetField setInputType(int type) {
+    public BrickField setInputType(int type) {
         this.inputType = type;
         update();
         return this;
     }
 
-    public SheetField setText(String text) {
+    public BrickField setText(String text) {
         this.text = text;
         update();
         return this;
     }
 
-    public SheetField setTitle(@StringRes int title) {
+    public BrickField setTitle(@StringRes int title) {
         return setTitle(ToolsResources.getString(title));
     }
 
-    public SheetField setTitle(String title) {
+    public BrickField setTitle(String title) {
         this.title = title;
         update();
         return this;
     }
 
-    public SheetField setAutoHideOnEnter(boolean autoHideOnEnter) {
+    public BrickField setAutoHideOnEnter(boolean autoHideOnEnter) {
         this.autoHideOnEnter = autoHideOnEnter;
         return this;
     }
 
-    public SheetField setOnCancel(@StringRes int s) {
+    public BrickField setOnCancel(@StringRes int s) {
         return setOnCancel(ToolsResources.getString(s));
     }
 
-    public SheetField setOnCancel(String s) {
+    public BrickField setOnCancel(String s) {
         this.textCancel = s;
         update();
         return this;
     }
 
-    public SheetField setOnEnter(@StringRes int s) {
+    public BrickField setOnEnter(@StringRes int s) {
         return setOnEnter(ToolsResources.getString(s), null);
     }
 
-    public SheetField setOnEnter(String s) {
+    public BrickField setOnEnter(String s) {
         return setOnEnter(s, null);
     }
 
-    public SheetField setOnEnter(@StringRes int s, Callback2<SheetField, String> onEnter) {
+    public BrickField setOnEnter(@StringRes int s, Callback2<BrickField, String> onEnter) {
         return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
-    public SheetField setOnEnter(String s, Callback2<SheetField, String> onEnter) {
+    public BrickField setOnEnter(String s, Callback2<BrickField, String> onEnter) {
         this.textEnter = s;
         this.onEnter = onEnter;
         update();
@@ -239,9 +238,9 @@ public class SheetField extends Sheet {
     }
 
     @Override
-    public SheetField setEnabled(boolean enabled) {
+    public BrickField setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        update();
         return this;
     }
+
 }
