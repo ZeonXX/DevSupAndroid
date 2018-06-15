@@ -23,9 +23,14 @@ import android.view.WindowManager;
 import com.sup.dev.android.androiddevsup.BuildConfig;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,9 +50,19 @@ public class ToolsAndroid{
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    public static boolean isHasInternetConnection(){
-        ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
+    public static void isHasInternetConnection(Callback1<Boolean> onResult) {
+        ToolsThreads.thread(() -> {
+            try {
+                int timeoutMs = 1500;
+                Socket sock = new Socket();
+                SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+                sock.connect(sockaddr, timeoutMs);
+                sock.close();
+                onResult.callback(true);
+            } catch (IOException e) {
+                onResult.callback(false);
+            }
+        });
     }
 
     public static String getLanguageCode() {
