@@ -36,12 +36,10 @@ public class SheetField extends Sheet {
     private String textEnter;
     private boolean multiline;
     private boolean autoHideOnEnter = true;
-    private boolean enabled = true;
     private Callback2<SheetField, String> onEnter;
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.sheet_field;
+    public SheetField(){
+        super( R.layout.sheet_field);
     }
 
     @Override
@@ -117,11 +115,11 @@ public class SheetField extends Sheet {
         if (text != null) vField.setSelection(text.length());
 
 
-        if (vCancel != null) vCancel.setEnabled(enabled);
-        if (vFieldLayout != null) vFieldLayout.setEnabled(enabled);
-        if (vEnter != null) vEnter.setEnabled(enabled);
-        if (vTitle != null) vTitle.setEnabled(enabled);
-        if (vField != null) vField.setEnabled(enabled);
+        vCancel.setEnabled(isEnabled);
+        vFieldLayout.setEnabled(isEnabled);
+        vEnter.setEnabled(isEnabled);
+        vTitle.setEnabled(isEnabled);
+        vField.setEnabled(isEnabled);
     }
 
     @Override
@@ -240,8 +238,9 @@ public class SheetField extends Sheet {
         return this;
     }
 
+    @Override
     public SheetField setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        super.setEnabled(enabled);
         update();
         return this;
     }

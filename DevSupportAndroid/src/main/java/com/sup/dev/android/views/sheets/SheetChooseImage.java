@@ -21,6 +21,7 @@ import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.libs.debug.Debug;
 
 import java.io.File;
@@ -30,7 +31,7 @@ public class SheetChooseImage extends SheetRecycler {
 
     private final RecyclerCardAdapter adapter;
 
-    private Callback1<Bitmap> onSelected;
+    private Callback2<SheetChooseImage, Bitmap> onSelected;
     private Callback onError;
     private boolean imagesLoaded;
 
@@ -79,7 +80,7 @@ public class SheetChooseImage extends SheetRecycler {
     //  Setters
     //
 
-    public SheetChooseImage setOnSelected(Callback1<Bitmap> onSelected) {
+    public SheetChooseImage setOnSelected(Callback2<SheetChooseImage, Bitmap> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
@@ -112,7 +113,7 @@ public class SheetChooseImage extends SheetRecycler {
             vImage.setOnClickListener(v -> {
                 if (onSelected != null)
                     try {
-                        onSelected.callback(ToolsBitmap.decode(ToolsFiles.readFile(file)));
+                        onSelected.callback(SheetChooseImage.this, ToolsBitmap.decode(ToolsFiles.readFile(file)));
                     } catch (IOException e) {
                         Debug.log(e);
                         if (onError != null) onError.callback();

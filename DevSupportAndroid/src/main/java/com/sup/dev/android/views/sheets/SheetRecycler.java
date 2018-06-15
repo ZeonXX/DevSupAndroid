@@ -15,9 +15,8 @@ public class SheetRecycler extends Sheet {
     protected RecyclerView.Adapter adapter;
     protected String title;
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.sheet_recycler;
+    public SheetRecycler(){
+        super(R.layout.sheet_recycler);
     }
 
     @Override
