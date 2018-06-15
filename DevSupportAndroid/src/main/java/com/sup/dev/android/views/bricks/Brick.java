@@ -17,18 +17,23 @@ public abstract class Brick {
     private boolean canSheetCollapse;
     private boolean canDialogCancel;
 
+    private SheetBrick sheetBrick;
+    private DialogBrick dialogBrick;
+
     public View instanceView(Context viewContext) {
         return getLayoutRes() != 0 ? ToolsView.inflate(viewContext, getLayoutRes()) : null;
     }
 
     public void update() {
-
+        if(sheetBrick != null)sheetBrick.update();
+       // if(dialogBrick != null) dialogBrick.update();
     }
 
     public abstract void bindView(View view);
 
     public void hide() {
-
+        if(sheetBrick != null)sheetBrick.hide();
+        if(dialogBrick != null) dialogBrick.hide();
     }
 
     //
@@ -94,14 +99,18 @@ public abstract class Brick {
     //
 
     public SheetBrick asSheet() {
-        return new SheetBrick(this);
+        if(sheetBrick == null) sheetBrick = new SheetBrick(this);
+        return sheetBrick;
     }
 
     public DialogBrick asDialog() {
-        return new DialogBrick(this);
+        if(dialogBrick == null) dialogBrick =  new DialogBrick(this);
+        return dialogBrick;
     }
 
     public DialogBrick asDialogShow() {
-        return new DialogBrick(this).show();
+        DialogBrick dialogBrick = asDialog();
+        dialogBrick.show();
+        return dialogBrick;
     }
 }

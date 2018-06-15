@@ -104,7 +104,8 @@
         <item name="android:id">@id/divider</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/grey_700</item>
+        <item name="android:background">@color/focus_dark</item>
+        <item name="android:layout_gravity">bottom</item>
     </style>
 
     <style name="Divider.8">
