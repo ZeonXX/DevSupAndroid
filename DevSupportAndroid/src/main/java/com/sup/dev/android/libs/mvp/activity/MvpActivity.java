@@ -49,6 +49,7 @@ public class MvpActivity extends Activity {
     protected void onStart() {
         super.onStart();
         SupAndroid.setMvpActivity(this);
+        MvpNavigator.onActivityResume();
         if (vContainer.getChildCount() == 0) MvpNavigator.updateFragment();
     }
 

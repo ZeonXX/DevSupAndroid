@@ -15,7 +15,7 @@ public abstract class Brick {
     private Callback1<Brick> onHide;
     private boolean enabled = true;
     private boolean canSheetCollapse;
-    private boolean canDialogCancel;
+    private boolean canDialogCancel = true;
 
     private SheetBrick sheetBrick;
     private DialogBrick dialogBrick;

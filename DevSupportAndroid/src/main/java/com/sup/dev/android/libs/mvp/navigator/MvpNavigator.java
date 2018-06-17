@@ -145,6 +145,10 @@ public class MvpNavigator {
         getCurrent().onPause();
     }
 
+    public static void onActivityResume() {
+        getCurrent().onResume();
+    }
+
     public static void onActivityDestroy() {
         getCurrent().clearView();
     }

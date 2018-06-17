@@ -28,7 +28,7 @@ public class BrickAlert extends Brick {
     private Callback1<BrickAlert> onEnter;
     private Callback1<BrickAlert> onCancel;
     private boolean lockUntilAccept;
-    private boolean autoHideOnEnter;
+    private boolean autoHideOnEnter = true;
     private int imageBackground;
     private int image;
 
