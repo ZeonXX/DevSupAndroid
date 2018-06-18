@@ -119,15 +119,18 @@ public class LayoutMaxSizes extends ViewGroup {
             isCroppedH = false;
         }
 
+        Debug.log(alMW, maxW, w, "   ", alMH, maxH, h);
+
         int maxChildW = 0;
         int maxChildH = 0;
         for (int i = 0; i < getChildCount(); i++) {
-            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(w, allowChildMaxW ? UNSPECIFIED : AT_MOST), MeasureSpec.makeMeasureSpec(h, allowChildMaxH ? UNSPECIFIED : AT_MOST));
+            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(w, alMW ? EXACTLY : allowChildMaxW ? UNSPECIFIED : AT_MOST),
+                    MeasureSpec.makeMeasureSpec(h, alMH ? EXACTLY : allowChildMaxH ? UNSPECIFIED : AT_MOST));
             maxChildW = Math.max(getChildAt(i).getMeasuredWidth(), maxChildW);
             maxChildH = Math.max(getChildAt(i).getMeasuredHeight(), maxChildH);
         }
 
-        setMeasuredDimension(Math.min(w, maxChildW), Math.min(h, maxChildH));
+        setMeasuredDimension(alMW ? maxW : Math.min(w, maxChildW), alMH ? maxH : Math.min(h, maxChildH));
 
     }
 

@@ -1,8 +1,8 @@
 package com.sup.dev.android.views.widgets;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -13,14 +13,13 @@ import android.view.View;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewProgressLine extends View {
 
     private final Paint paint;
     private final Path path;
 
-    private double progress;
+    private float progressPercent;
     private int colorProgress;
     private int colorBackground;
 
@@ -35,10 +34,19 @@ public class ViewProgressLine extends View {
         colorBackground = ToolsResources.getColor(R.color.focus_dark);
         colorProgress = ToolsResources.getAccentColor(context);
 
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewProgressLine, 0, 0);
+        int progress = a.getInteger(R.styleable.ViewProgressLine_ViewProgressLine_progress, 0);
+        colorProgress = a.getColor(R.styleable.ViewProgressLine_ViewProgressLine_color, colorProgress);
+        colorBackground = a.getColor(R.styleable.ViewProgressLine_ViewProgressLine_colorBackground, colorBackground);
+        a.recycle();
+
         path = new Path();
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
+
+        setProgress(progress);
     }
 
     @Override
@@ -66,30 +74,30 @@ public class ViewProgressLine extends View {
         paint.setColor(colorBackground);
         canvas.drawPath(path, paint);
 
-        if (progress > 0) {
+        if (progressPercent > 0) {
             paint.setColor(colorProgress);
 
-            int end = (int) (getWidth() / 100 * progress);
+            float end = ((getWidth()-r) / 100f * progressPercent);
 
             canvas.drawCircle(r, r, r, paint);
-            if (end > r * 2) {
-                canvas.drawCircle(end - r, r, r, paint);
-                canvas.drawRect(r, 0, end - r, getHeight(), paint);
+            if (end > r) {
+                canvas.drawCircle(end, r, r, paint);
+                canvas.drawRect(r, 0, end, getHeight(), paint);
             }
         }
 
     }
 
     public void setProgress(long value, long max) {
-        setProgress(100D * ((double) value / max));
+        setProgress(100F * ((float) value / max));
     }
 
-    public void setProgress(double value, double max) {
-        setProgress(100D / (max / value));
+    public void setProgress(float value, float max) {
+        setProgress(100F / (max / value));
     }
 
-    public void setProgress(double percent) {
-        this.progress = percent;
+    public void setProgress(float percent) {
+        this.progressPercent = percent;
         invalidate();
     }
 

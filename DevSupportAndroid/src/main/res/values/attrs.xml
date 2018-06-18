@@ -92,6 +92,12 @@
         <attr name="android:src"/>
     </declare-styleable>
 
+    <declare-styleable name="ViewProgressLine">
+        <attr name="ViewProgressLine_progress" format="integer"/>
+        <attr name="ViewProgressLine_color" format="color"/>
+        <attr name="ViewProgressLine_colorBackground" format="color"/>
+    </declare-styleable>
+
     <declare-styleable name="ViewChip">
         <attr name="android:text"/>
         <attr name="ViewChip_background" format="color"/>
