@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.dialogs_adwanced;
+package com.sup.dev.android.views.dialogs_x;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class Dialog {
 
-    private WeakReference<AppCompatDialog> dialog;
+    private WeakReference<AppCompatDialog> weakView;
     private boolean enabled;
     private boolean cancelable;
 
@@ -49,8 +49,8 @@ public abstract class Dialog {
     }
 
     public void hide() {
-        if (dialog != null && dialog.get() != null)
-            dialog.get().dismiss();
+        if (weakView != null && weakView.get() != null)
+            weakView.get().dismiss();
     }
 
     public <K extends Dialog> K show(Context viewContext) {
@@ -59,7 +59,7 @@ public abstract class Dialog {
         bindView(view);
 
         AppCompatDialog dialog = new AppCompatDialog(viewContext);
-        this.dialog = new WeakReference<>(dialog);
+        this.weakView = new WeakReference<>(dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         onPreShow(view);
         dialog.setCancelable(cancelable && enabled);

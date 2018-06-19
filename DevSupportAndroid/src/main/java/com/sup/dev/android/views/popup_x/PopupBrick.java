@@ -1,14 +1,14 @@
-package com.sup.dev.android.views.dialogs_adwanced;
+package com.sup.dev.android.views.popup_x;
 
 import android.view.View;
 
 import com.sup.dev.android.views.bricks.Brick;
 
-public class DialogBrick extends Dialog{
+public class PopupBrick extends Popup {
 
     private final Brick brick;
 
-    public DialogBrick(Brick brick){
+    public PopupBrick(Brick brick){
         this.brick = brick;
     }
 
@@ -40,12 +40,12 @@ public class DialogBrick extends Dialog{
     //
 
 
-    public DialogBrick setCancelable(boolean cancelable) {
+    public PopupBrick setCancelable(boolean cancelable) {
         brick.setCanDialogCancel(cancelable);
         return this;
     }
 
-    public DialogBrick setEnabled(boolean enabled) {
+    public PopupBrick setEnabled(boolean enabled) {
         brick.setEnabled(enabled);
         return this;
     }

@@ -42,7 +42,7 @@ public class BrickMenu extends BrickRecycler{
         item.card.setText(item.text);
         item.card.setIcon(item.icon);
         item.card.setBackground(item.bg);
-        item.card.setOnClick(() -> {
+        item.card.setOnClick((v,x,y) -> {
             hide();
             if (item.onClick != null) item.onClick.callback(this);
         });

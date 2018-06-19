@@ -6,7 +6,8 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.dialogs_adwanced.DialogBrick;
+import com.sup.dev.android.views.dialogs_x.DialogBrick;
+import com.sup.dev.android.views.popup_x.PopupBrick;
 import com.sup.dev.android.views.sheets.SheetBrick;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
@@ -112,5 +113,21 @@ public abstract class Brick {
         DialogBrick dialogBrick = asDialog();
         dialogBrick.show();
         return dialogBrick;
+    }
+
+    public PopupBrick asPopup(){
+       return new PopupBrick(this);
+    }
+
+    public PopupBrick asPopupShow(View view){
+        PopupBrick popupBrick = asPopup();
+        popupBrick.show(view);
+        return popupBrick;
+    }
+
+    public PopupBrick asPopupShow(View view, int x, int y){
+        PopupBrick popupBrick = asPopup();
+        popupBrick.show(view, x, y);
+        return popupBrick;
     }
 }

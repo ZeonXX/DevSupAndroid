@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.Callback3;
+import com.sup.dev.java.classes.items.Item;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import static android.view.View.GONE;
@@ -28,6 +30,39 @@ import static android.view.View.VISIBLE;
 public class ToolsView{
 
     public static final int ANIMATION_TIME = 300;
+
+    public static void setOnClickCoordinates(View v, Callback3<View, Integer, Integer> onClick){
+
+        Item<Integer> clickScreenX = new Item<>();
+        Item<Integer> clickScreenY = new Item<>();
+
+        v.setOnTouchListener((v1, event) -> {
+            clickScreenX.a = (int) event.getX();
+            clickScreenY.a = (int) (event.getY());
+            return false;
+        });
+
+        v.setOnClickListener(v1 -> {
+            if(onClick != null)onClick.callback(v, clickScreenX.a, clickScreenY.a);
+        });
+    }
+
+    public static void setOnLongClickCoordinates(View v, Callback3<View, Integer, Integer> onClick){
+
+        Item<Integer> clickScreenX = new Item<>();
+        Item<Integer> clickScreenY = new Item<>();
+
+        v.setOnTouchListener((v1, event) -> {
+            clickScreenX.a = (int) event.getX();
+            clickScreenY.a = (int) (event.getY());
+            return false;
+        });
+
+        v.setOnLongClickListener(v1 -> {
+            if(onClick != null)onClick.callback(v, clickScreenX.a, clickScreenY.a);
+            return true;
+        });
+    }
 
     public static int[] viewPointAsScreenPoint(View view, int x, int y) {
         int[] location = new int[2];

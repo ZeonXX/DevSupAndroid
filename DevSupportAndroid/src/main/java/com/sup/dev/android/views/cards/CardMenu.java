@@ -7,12 +7,15 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback3;
 
 public class CardMenu extends Card {
 
-    private Callback onClick;
+    private Callback3<View, Integer, Integer> onClick;
     private boolean dividerVisible = false;
     private boolean enabled = true;
     private int background;
@@ -36,7 +39,6 @@ public class CardMenu extends Card {
         TextView vDescription = view.findViewById(R.id.desc);
         ViewIcon vIcon = view.findViewById(R.id.icon);
 
-
         if (icon == 0) vIcon.setVisibility(View.GONE);
         else vIcon.setImageResource(icon);
 
@@ -44,7 +46,9 @@ public class CardMenu extends Card {
         vTouch.setFocusable(onClick != null && enabled);
         vTouch.setClickable(onClick != null && enabled);
         vTouch.setEnabled(onClick != null && enabled);
-        vTouch.setOnClickListener((onClick != null && enabled) ? v -> onClick.callback() : null);
+        ToolsView.setOnClickCoordinates(vTouch, (v, x, y) -> {
+            if (enabled) onClick.callback(v, x, y);
+        });
         view.setBackgroundColor(background);
 
         vDescription.setText(description);
@@ -59,7 +63,7 @@ public class CardMenu extends Card {
     //  Setters
     //
 
-    public CardMenu setOnClick(Callback onClick) {
+    public CardMenu setOnClick(Callback3<View, Integer, Integer> onClick) {
         this.onClick = onClick;
         update();
         return this;

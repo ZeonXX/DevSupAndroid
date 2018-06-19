@@ -35,7 +35,7 @@ public class DialogMenu extends DialogRecycler {
 
         item.card = new CardMenu();
         item.card.setText(item.text);
-        item.card.setOnClick(() -> {
+        item.card.setOnClick((v,x,y) -> {
             if (isAutoHideOnEnter()) hide();
             else setEnabled(false);
             if (item.onClick != null) item.onClick.callback(this);
