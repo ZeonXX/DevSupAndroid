@@ -20,6 +20,7 @@ public class ToolsToast {
     }
 
     private static void showNow(String text) {
+        if(text == null || text.isEmpty())return;
         Toast.makeText(SupAndroid.appContext, text, Toast.LENGTH_SHORT).show();
     }
 
@@ -32,6 +33,7 @@ public class ToolsToast {
     }
 
     private static void showSnackNow(View v, String text) {
+        if(text == null || text.isEmpty())return;
         Snackbar snack = Snackbar.make(v, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snack.getView();
         TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);

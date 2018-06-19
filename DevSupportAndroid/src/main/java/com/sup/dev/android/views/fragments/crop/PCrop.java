@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
-import com.sup.dev.android.views.dialogs.BaseDialog;
-import com.sup.dev.android.views.dialogs.DialogProgressTransparent;
+import com.sup.dev.android.views.bricks.BrickProgressTransparent;
+import com.sup.dev.android.views.dialogs.DialogBrick;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class PCrop extends MvpPresenter<FCrop> {
@@ -15,7 +15,7 @@ public class PCrop extends MvpPresenter<FCrop> {
     private boolean autoBackOnCrop = true;
     private boolean locked;
 
-    private BaseDialog dialogProgress;
+    private DialogBrick dialogProgress;
 
     public PCrop(Bitmap bitmap, Callback2<PCrop, Bitmap> onCrop) {
         this(bitmap, 0, 0, onCrop);
@@ -34,7 +34,7 @@ public class PCrop extends MvpPresenter<FCrop> {
         locked = b;
         if (b) {
             SupAndroid.mvpActivity(activity -> {
-                if (locked) dialogProgress = new DialogProgressTransparent(activity).show();
+                if (locked) dialogProgress = new BrickProgressTransparent().asDialogShow();
             });
         } else {
             if (dialogProgress != null) {

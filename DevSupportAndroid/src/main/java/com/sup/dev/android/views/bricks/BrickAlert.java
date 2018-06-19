@@ -15,6 +15,7 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsStorage;
 import com.sup.dev.android.tools.ToolsText;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class BrickAlert extends Brick {
@@ -41,7 +42,7 @@ public class BrickAlert extends Brick {
     }
 
     @Override
-    public void bindView(View view) {
+    public void bindView(View view, Mode mode) {
         TextView vTitle = view.findViewById(R.id.title);
         TextView vText = view.findViewById(R.id.text);
         Button vCancel = view.findViewById(R.id.cancel);
@@ -50,21 +51,16 @@ public class BrickAlert extends Brick {
         ViewGroup vImageContainer = view.findViewById(R.id.image_container);
         ImageView vImage = view.findViewById(R.id.image);
 
-        vTitle.setText(title);
-        vText.setText(text);
-        vCancel.setText(cancelText);
-        vEnter.setText(enterText);
-        vCheck.setText(checkText);
+        ToolsView.setTextOrGone(vTitle, title);
+        ToolsView.setTextOrGone(vText, text);
+        ToolsView.setTextOrGone(vCancel, cancelText);
+        ToolsView.setTextOrGone(vEnter, enterText);
+        ToolsView.setTextOrGone(vCheck, checkText);
         vImage.setImageResource(image);
         vImageContainer.setBackgroundColor(imageBackground);
 
         vCheck.setOnCheckedChangeListener((compoundButton, b) -> updateLock(vEnter, vCheck));
 
-        vCheck.setVisibility(ToolsText.empty(checkText) ? View.GONE : View.VISIBLE);
-        vTitle.setVisibility(ToolsText.empty(title) ? View.GONE : View.VISIBLE);
-        vText.setVisibility(ToolsText.empty(text.toString()) ? View.GONE : View.VISIBLE);
-        vCancel.setVisibility(ToolsText.empty(cancelText) ? View.GONE : View.VISIBLE);
-        vEnter.setVisibility(ToolsText.empty(enterText) ? View.GONE : View.VISIBLE);
         vImageContainer.setVisibility(imageBackground != 0 || image != 0 ? View.VISIBLE : View.GONE);
         vImage.setVisibility(image != 0 ? View.VISIBLE : View.GONE);
 
@@ -83,7 +79,7 @@ public class BrickAlert extends Brick {
     }
 
     @Override
-    public int getLayoutRes() {
+    public int getLayoutRes(Mode mode) {
         return R.layout.brick_alert;
     }
 

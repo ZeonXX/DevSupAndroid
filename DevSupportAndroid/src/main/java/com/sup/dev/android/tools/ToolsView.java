@@ -19,7 +19,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
+import com.sup.dev.android.views.bricks.BrickProgressTransparent;
+import com.sup.dev.android.views.bricks.BrickProgressWithTitle;
+import com.sup.dev.android.views.dialogs.Dialog;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.items.Item;
 import com.sup.dev.java.tools.ToolsThreads;
@@ -27,11 +31,34 @@ import com.sup.dev.java.tools.ToolsThreads;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class ToolsView{
+public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
 
-    public static void setOnClickCoordinates(View v, Callback3<View, Integer, Integer> onClick){
+    public static Dialog showProgressDialog() {
+        return new BrickProgressTransparent()
+                .setCancelable(false)
+                .asDialogShow();
+    }
+
+    public static Dialog showProgressDialog(int title) {
+        return showProgressDialog(ToolsResources.getString(title));
+    }
+
+    public static Dialog showProgressDialog(String title) {
+        return new BrickProgressWithTitle()
+                .setTitle(title)
+                .setCancelable(false)
+                .asDialogShow();
+    }
+
+
+    public static void setTextOrGone(TextView vText, CharSequence text) {
+        vText.setText(text);
+        vText.setVisibility(ToolsText.empty(text) ? GONE : VISIBLE);
+    }
+
+    public static void setOnClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
 
         Item<Integer> clickScreenX = new Item<>();
         Item<Integer> clickScreenY = new Item<>();
@@ -43,11 +70,11 @@ public class ToolsView{
         });
 
         v.setOnClickListener(v1 -> {
-            if(onClick != null)onClick.callback(v, clickScreenX.a, clickScreenY.a);
+            if (onClick != null) onClick.callback(v, clickScreenX.a, clickScreenY.a);
         });
     }
 
-    public static void setOnLongClickCoordinates(View v, Callback3<View, Integer, Integer> onClick){
+    public static void setOnLongClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
 
         Item<Integer> clickScreenX = new Item<>();
         Item<Integer> clickScreenY = new Item<>();
@@ -59,7 +86,7 @@ public class ToolsView{
         });
 
         v.setOnLongClickListener(v1 -> {
-            if(onClick != null)onClick.callback(v, clickScreenX.a, clickScreenY.a);
+            if (onClick != null) onClick.callback(v, clickScreenX.a, clickScreenY.a);
             return true;
         });
     }
@@ -99,8 +126,8 @@ public class ToolsView{
         else
             return getRootParent((View) v.getParent());
     }
-    
-        public static int getRootBackground(View v) {
+
+    public static int getRootBackground(View v) {
         if (v.getBackground() instanceof ColorDrawable) return ((ColorDrawable) v.getBackground()).getColor();
         if (v.getParent() == null || !(v.getParent() instanceof View))
             return 0;
@@ -128,7 +155,7 @@ public class ToolsView{
     }
 
     public static int pxToDp(float px) {
-        return (int) (px*(px/TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().getDisplayMetrics())));
+        return (int) (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().getDisplayMetrics())));
     }
 
     public static int dpToPx(float dp) {

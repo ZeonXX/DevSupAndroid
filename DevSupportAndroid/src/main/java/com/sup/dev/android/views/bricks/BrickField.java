@@ -37,12 +37,12 @@ public class BrickField extends Brick {
     private Callback2<BrickField, String> onEnter;
 
     @Override
-    public int getLayoutRes() {
+    public int getLayoutRes(Mode mode) {
         return R.layout.brick_field;
     }
 
     @Override
-    public void bindView(View view) {
+    public void bindView(View view, Mode mode) {
         EditText vField = view.findViewById(R.id.field);
         TextInputLayout vFieldLayout = view.findViewById(R.id.field_layout);
         Button vCancel = view.findViewById(R.id.cancel);

@@ -12,6 +12,7 @@ import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class CardMenu extends Card {
 
@@ -47,7 +48,7 @@ public class CardMenu extends Card {
         vTouch.setClickable(onClick != null && enabled);
         vTouch.setEnabled(onClick != null && enabled);
         ToolsView.setOnClickCoordinates(vTouch, (v, x, y) -> {
-            if (enabled) onClick.callback(v, x, y);
+            if (enabled && onClick != null) onClick.callback(v, x, y);
         });
         view.setBackgroundColor(background);
 

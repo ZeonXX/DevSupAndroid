@@ -9,8 +9,8 @@ import android.widget.EditText;
 
 public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
 
-    public static boolean empty(String s){
-        return s == null || s.isEmpty();
+    public static boolean empty(CharSequence s){
+        return s == null || s.length() == 0;
     }
 
     public static boolean equalsNoCase(String... s) {

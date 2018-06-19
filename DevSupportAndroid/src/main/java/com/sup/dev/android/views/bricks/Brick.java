@@ -6,35 +6,36 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.dialogs_x.DialogBrick;
-import com.sup.dev.android.views.popup_x.PopupBrick;
+import com.sup.dev.android.views.dialogs.DialogBrick;
+import com.sup.dev.android.views.popup.PopupBrick;
 import com.sup.dev.android.views.sheets.SheetBrick;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public abstract class Brick {
 
+    public enum Mode {DIALOG, CARD, SHEET, POPUP, FRAGMENT}
+
     private Callback1<Brick> onHide;
     private boolean enabled = true;
     private boolean canSheetCollapse;
     private boolean canDialogCancel = true;
+    private boolean cancelable = true;
 
-    private SheetBrick sheetBrick;
-    private DialogBrick dialogBrick;
+    private BrickViewWrapper viewWrapper;
 
-    public View instanceView(Context viewContext) {
-        return getLayoutRes() != 0 ? ToolsView.inflate(viewContext, getLayoutRes()) : null;
+    public View instanceView(Context viewContext, Mode mode) {
+        int layoutRes = getLayoutRes(mode);
+        return layoutRes != 0 ? ToolsView.inflate(viewContext, layoutRes) : null;
     }
 
     public void update() {
-        if(sheetBrick != null)sheetBrick.update();
-       // if(dialogBrick != null) dialogBrick.update();
+        if (viewWrapper != null) viewWrapper.update();
     }
 
-    public abstract void bindView(View view);
+    public abstract void bindView(View view, Mode mode);
 
     public void hide() {
-        if(sheetBrick != null)sheetBrick.hide();
-        if(dialogBrick != null) dialogBrick.hide();
+        if (viewWrapper != null) viewWrapper.hide();
     }
 
     //
@@ -76,12 +77,17 @@ public abstract class Brick {
         return (K) this;
     }
 
+    public <K extends Brick> K setCancelable(boolean cancelable) {
+        this.cancelable = cancelable;
+        return (K) this;
+    }
+
     //
     //  Getters
     //
 
     @LayoutRes
-    public abstract int getLayoutRes();
+    public abstract int getLayoutRes(Mode mode);
 
     public boolean isSheetCanCollapse() {
         return canSheetCollapse;
@@ -95,17 +101,23 @@ public abstract class Brick {
         return canDialogCancel;
     }
 
+    public boolean isCancelable() {
+        return cancelable;
+    }
+
     //
     //  Support
     //
 
     public SheetBrick asSheet() {
-        if(sheetBrick == null) sheetBrick = new SheetBrick(this);
+        SheetBrick sheetBrick = new SheetBrick(this);
+        viewWrapper = sheetBrick;
         return sheetBrick;
     }
 
     public DialogBrick asDialog() {
-        if(dialogBrick == null) dialogBrick =  new DialogBrick(this);
+        DialogBrick dialogBrick = new DialogBrick(this);
+        viewWrapper = dialogBrick;
         return dialogBrick;
     }
 
@@ -115,17 +127,19 @@ public abstract class Brick {
         return dialogBrick;
     }
 
-    public PopupBrick asPopup(){
-       return new PopupBrick(this);
+    public PopupBrick asPopup() {
+        PopupBrick popupBrick = new PopupBrick(this);
+        viewWrapper = popupBrick;
+        return popupBrick;
     }
 
-    public PopupBrick asPopupShow(View view){
+    public PopupBrick asPopupShow(View view) {
         PopupBrick popupBrick = asPopup();
         popupBrick.show(view);
         return popupBrick;
     }
 
-    public PopupBrick asPopupShow(View view, int x, int y){
+    public PopupBrick asPopupShow(View view, int x, int y) {
         PopupBrick popupBrick = asPopup();
         popupBrick.show(view, x, y);
         return popupBrick;

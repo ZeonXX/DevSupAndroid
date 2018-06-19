@@ -27,8 +27,8 @@ public class BrickMenu extends BrickRecycler{
     }
 
     @Override
-    public void bindView(View view) {
-        super.bindView(view);
+    public void bindView(View view, Mode mode) {
+        super.bindView(view, mode);
         finishItemBuilding();
 
         RecyclerView vRecycler = view.findViewById(R.id.recycler);

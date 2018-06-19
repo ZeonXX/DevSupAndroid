@@ -1,10 +1,12 @@
-package com.sup.dev.android.views.popup_x;
+package com.sup.dev.android.views.popup;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
 
@@ -39,9 +41,16 @@ public abstract class Popup {
 
     }
 
-    public void hide() {
+    public <K extends Popup>K update() {
+        if (weakView != null && weakView.get() != null)
+            bindView(weakView.get().getContentView());
+        return (K) this;
+    }
+
+    public <K extends Popup>K hide() {
         if (weakView != null && weakView.get() != null)
             weakView.get().dismiss();
+        return (K) this;
     }
 
 
@@ -56,27 +65,29 @@ public abstract class Popup {
 
         onPreShow(view);
 
+        CardView vCard = ToolsView.inflate(anchor.getContext(), R.layout.view_card_6dp);
+        vCard.addView(view);
         PopupWindow popupWindow = new PopupWindow(anchor.getContext());
         weakView = new WeakReference<>(popupWindow);
         popupWindow.setBackgroundDrawable(null);
-        popupWindow.setContentView(view);
+        popupWindow.setContentView(vCard);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
 
 
-        view.measure(ToolsAndroid.getScreenW(), ToolsAndroid.getScreenH());
+        view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenW(), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenH(), View.MeasureSpec.AT_MOST));
         popupWindow.setWidth(view.getMeasuredWidth());
         popupWindow.setHeight(view.getMeasuredHeight());
 
-        x -= popupWindow.getWidth();
-        y -= anchor.getHeight();
         if (x > -1 && y > -1) {
+            x -= popupWindow.getWidth() / 2;
+            y -= anchor.getHeight();
+
             int[] p = new int[2];
             anchor.getLocationOnScreen(p);
-
             if (popupWindow.getHeight() + (anchor.getHeight() + y) + p[1] > ToolsAndroid.getScreenH())
-                x += anchor.getHeight();
-
+                y += anchor.getHeight();
 
             popupWindow.showAsDropDown(anchor, x, y);
         } else {

@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
@@ -17,6 +18,7 @@ import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsFiles;
 import com.sup.dev.android.tools.ToolsPermission;
 import com.sup.dev.android.tools.ToolsToast;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -26,7 +28,7 @@ import com.sup.dev.java.libs.debug.Debug;
 import java.io.File;
 import java.io.IOException;
 
-public class BrickChooseImage extends BrickRecycler{
+public class BrickChooseImage extends BrickRecycler {
 
     private final RecyclerCardAdapter adapter;
 
@@ -40,10 +42,12 @@ public class BrickChooseImage extends BrickRecycler{
     }
 
     @Override
-    public void bindView(View view) {
-        super.bindView(view);
+    public void bindView(View view, Mode mode) {
+        super.bindView(view, mode);
 
         RecyclerView vRecycler = view.findViewById(R.id.recycler);
+
+        if (mode == Mode.DIALOG) ((ViewGroup.MarginLayoutParams) vRecycler.getLayoutParams()).setMargins(ToolsView.dpToPx(8), 0, ToolsView.dpToPx(8), 0);
 
         vRecycler.setLayoutManager(new GridLayoutManager(view.getContext(), ToolsAndroid.isScreenPortrait() ? 3 : 6));
 
@@ -56,7 +60,7 @@ public class BrickChooseImage extends BrickRecycler{
     }
 
     private void loadImages() {
-        if(imagesLoaded)return;
+        if (imagesLoaded) return;
 
         ToolsPermission.requestReadPermission(() -> {
             imagesLoaded = true;
@@ -70,7 +74,6 @@ public class BrickChooseImage extends BrickRecycler{
 
             while (cursor.moveToNext()) adapter.add(new CardImage(new File(cursor.getString(0))));
         }, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
-
 
 
     }

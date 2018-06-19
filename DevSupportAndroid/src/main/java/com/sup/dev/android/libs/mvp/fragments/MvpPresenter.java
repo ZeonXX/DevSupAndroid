@@ -18,7 +18,7 @@ import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
-public class MvpPresenter<K extends MvpFragment>{
+public class MvpPresenter<K extends MvpFragment> {
 
     private final ArrayList<MvpAction<K>> actions = new ArrayList<>();
     private final Class<? extends K> viewClass;
@@ -33,7 +33,7 @@ public class MvpPresenter<K extends MvpFragment>{
 
     public MvpFragment instanceView(Context context) {
 
-        if(view != null)view.onDestroy();
+        if (view != null) view.onDestroy();
 
         try {
             view = viewClass.getConstructor(Context.class, this.getClass()).newInstance(context, this);
@@ -41,7 +41,7 @@ public class MvpPresenter<K extends MvpFragment>{
             throw new RuntimeException(e);
         }
 
-        if(state != null){
+        if (state != null) {
             view.load(state);
             state = null;
         }
@@ -56,7 +56,7 @@ public class MvpPresenter<K extends MvpFragment>{
     }
 
     public void clearView() {
-        if(view != null) {
+        if (view != null) {
             state = new SparseArray<>();
             view.saveHierarchyState(state);
             view.onDestroy();
@@ -68,7 +68,7 @@ public class MvpPresenter<K extends MvpFragment>{
     //  Events
     //
 
-    protected void onAttachView(){
+    protected void onAttachView() {
 
     }
 
@@ -100,7 +100,7 @@ public class MvpPresenter<K extends MvpFragment>{
         return backStackAllowed;
     }
 
-    public boolean equalsPresenter(MvpPresenter presenter){
+    public boolean equalsPresenter(MvpPresenter presenter) {
         return presenter != null && presenter.getClass() == getClass();
     }
 
@@ -162,6 +162,11 @@ public class MvpPresenter<K extends MvpFragment>{
 
     //  Дабавляет действие в конец списка и удаляется после исполнения
     public void actionSingleExecute(Callback1<K> executor) {
+        action(new ActionSingleExecute<>(executor));
+    }
+
+    public void actionSingleExecute(String tag, Callback1<K> executor) {
+        clearTag(tag);
         action(new ActionSingleExecute<>(executor));
     }
 

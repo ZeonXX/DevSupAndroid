@@ -4,8 +4,8 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.libs.mvp.fragments.MvpPresenter;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.dialogs.DialogProgressTransparent;
-import com.sup.dev.android.views.dialogs.DialogProgressWithTitle;
+import com.sup.dev.android.views.bricks.BrickProgressTransparent;
+import com.sup.dev.android.views.dialogs.Dialog;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
@@ -170,32 +170,6 @@ public class MvpNavigator {
         return presenters.get(presenters.size() - 1);
     }
 
-    //
-    //  Support Methods
-    //
-
-    public static void showProgressDialog(Callback1<DialogProgressTransparent> onShow) {
-        SupAndroid.mvpActivity(activity -> {
-            DialogProgressTransparent dialog = new DialogProgressTransparent(activity);
-            dialog.setCancelable(false);
-            dialog.show();
-            onShow.callback(dialog);
-        });
-    }
-
-    public static void showProgressDialog(int title, Callback1<DialogProgressWithTitle> onShow) {
-        showProgressDialog(ToolsResources.getString(title), onShow);
-    }
-
-    public static void showProgressDialog(String title, Callback1<DialogProgressWithTitle> onShow) {
-        SupAndroid.mvpActivity(activity -> {
-            DialogProgressWithTitle dialog = new DialogProgressWithTitle(activity);
-            dialog.setTitle(title);
-            dialog.setCancelable(false);
-            dialog.show();
-            onShow.callback(dialog);
-        });
-    }
 
     //
     //  Listeners

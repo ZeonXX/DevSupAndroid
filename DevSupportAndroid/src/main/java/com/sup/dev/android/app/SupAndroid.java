@@ -9,9 +9,7 @@ import android.view.View;
 import com.sup.dev.android.libs.mvp.activity.MvpActivity;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.dialogs.DialogAlert;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
@@ -105,30 +103,6 @@ public class SupAndroid {
             if (onBack.provide()) return true;
         }
         return false;
-    }
-
-
-    //
-    //  Debug Dialog
-    //
-
-    private static DialogAlert dialog;
-
-    public static void initDebugDialog(Context viewContext, int autoShowCharsLimit) {
-
-        dialog = new DialogAlert(viewContext == null ? appContext : viewContext);
-
-        Debug.exceptionPrinter = th -> {
-            Log.e("Debug", "", th);
-            String stackTraceString = Log.getStackTraceString(th);
-            dialog.addLine(stackTraceString);
-            if (stackTraceString.length() >= autoShowCharsLimit)
-                showDebugDialog();
-        };
-    }
-
-    public static void showDebugDialog() {
-        dialog.show();
     }
 
 }

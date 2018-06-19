@@ -1,17 +1,18 @@
-package com.sup.dev.android.views.popup_x;
+package com.sup.dev.android.views.popup;
 
+import android.content.Context;
 import android.view.View;
 
 import com.sup.dev.android.views.bricks.Brick;
+import com.sup.dev.android.views.bricks.BrickViewWrapper;
 
-public class PopupBrick extends Popup {
+public class PopupBrick extends Popup implements BrickViewWrapper{
 
     private final Brick brick;
 
     public PopupBrick(Brick brick){
         this.brick = brick;
     }
-
 
     @Override
     protected void onShow(View view) {
@@ -26,13 +27,28 @@ public class PopupBrick extends Popup {
     }
 
     @Override
+    public View instanceView(Context viewContext) {
+        return brick.instanceView(viewContext, Brick.Mode.POPUP);
+    }
+
+    @Override
     public int getLayoutRes() {
-        return brick.getLayoutRes();
+        return 0;
     }
 
     @Override
     public void bindView(View view) {
-        brick.bindView(view);
+        brick.bindView(view, Brick.Mode.POPUP);
+    }
+
+    @Override
+    public PopupBrick update() {
+        return super.update();
+    }
+
+    @Override
+    public PopupBrick hide() {
+        return super.hide();
     }
 
     //
@@ -41,28 +57,13 @@ public class PopupBrick extends Popup {
 
 
     public PopupBrick setCancelable(boolean cancelable) {
-        brick.setCanDialogCancel(cancelable);
-        return this;
+        return super.setCancelable(cancelable);
     }
 
     public PopupBrick setEnabled(boolean enabled) {
-        brick.setEnabled(enabled);
-        return this;
+        return super.setEnabled(enabled);
     }
 
 
-    //
-    //  Getters
-    //
-
-    @Override
-    public boolean isCancelable() {
-        return brick.isCanDialogCancel();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return brick.isEnabled();
-    }
 
 }

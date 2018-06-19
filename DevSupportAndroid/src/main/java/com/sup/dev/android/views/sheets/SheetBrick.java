@@ -1,10 +1,12 @@
 package com.sup.dev.android.views.sheets;
 
+import android.content.Context;
 import android.view.View;
 
 import com.sup.dev.android.views.bricks.Brick;
+import com.sup.dev.android.views.bricks.BrickViewWrapper;
 
-public class SheetBrick extends Sheet{
+public class SheetBrick extends Sheet implements BrickViewWrapper{
 
     private final Brick brick;
 
@@ -25,13 +27,30 @@ public class SheetBrick extends Sheet{
     }
 
     @Override
+    public View instanceView(Context viewContext) {
+        return brick.instanceView(viewContext, Brick.Mode.SHEET);
+    }
+
+    @Override
     public int getLayoutRes() {
-        return brick.getLayoutRes();
+        return 0;
     }
 
     @Override
     public void bindView(View view) {
-        brick.bindView(view);
+        brick.bindView(view, Brick.Mode.SHEET);
+    }
+
+    @Override
+    public SheetBrick update() {
+        super.update();
+        return this;
+    }
+
+    @Override
+    public SheetBrick hide() {
+        super.hide();
+        return this;
     }
 
     //
@@ -39,28 +58,17 @@ public class SheetBrick extends Sheet{
     //
 
     @Override
-    public SheetBrick setCanCollapse(boolean canCollapse) {
-        brick.setCanSheetCollapse(canCollapse);
+    public SheetBrick setCancelable(boolean canCollapse) {
+        super.setCancelable(canCollapse);
         return this;
     }
 
     @Override
     public SheetBrick setEnabled(boolean b) {
-        brick.setEnabled(b);
+        super.setEnabled(b);
         return this;
     }
 
-    //
-    //  Getters
-    //
 
-    @Override
-    public boolean isCanCollapse() {
-        return brick.isSheetCanCollapse();
-    }
 
-    @Override
-    public boolean isEnabled() {
-        return brick.isEnabled();
-    }
 }

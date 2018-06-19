@@ -26,9 +26,10 @@ public abstract class Sheet {
 
     public abstract void bindView(View view);
 
-    public void update() {
+    public <K extends Sheet>K update() {
         if (vSheetRef != null && vSheetRef.get() != null)
             vSheetRef.get().rebindView();
+        return (K) this;
     }
 
     @CallSuper
@@ -79,7 +80,7 @@ public abstract class Sheet {
         return (K) this;
     }
 
-    public <K extends Sheet> K setCanCollapse(boolean canCollapse) {
+    public <K extends Sheet> K setCancelable(boolean canCollapse) {
         this.canCollapse = canCollapse;
         return (K) this;
     }
@@ -110,12 +111,14 @@ public abstract class Sheet {
 
     private State state = State.NONE;
 
-    public void hide() {
+    public <K extends Sheet> K hide() {
         setState(State.HIDE);
+        return (K) this;
     }
 
-    public void show() {
+    public <K extends Sheet> K show() {
         setState(State.SHOW);
+        return (K) this;
     }
 
     void setState(State state) {

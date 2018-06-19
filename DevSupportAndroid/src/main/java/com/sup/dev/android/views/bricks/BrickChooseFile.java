@@ -1,29 +1,26 @@
-package com.sup.dev.android.views.dialogs;
+package com.sup.dev.android.views.bricks;
 
-
-import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsPermission;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
-import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.android.views.settings.SettingsAction;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.android.views.widgets.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 import java.io.File;
 
-public class DialogChooseFile extends BaseDialog {
-
-    private final RecyclerCardAdapter adapter;
-    private final RecyclerView vRecycler;
+public class BrickChooseFile extends BrickRecycler {
 
     private File currentFolder;
     private File rootFolder;
@@ -33,99 +30,34 @@ public class DialogChooseFile extends BaseDialog {
     private String[] fileTypes;
     private Callback1<File> onFileSelected;
     private Callback1<File> onFolderSelected;
-
-    public DialogChooseFile(Context viewContext) {
-        super(viewContext, R.layout.dialog_choose_file);
+    
+    public BrickChooseFile() {
 
         adapter = new RecyclerCardAdapter();
         rootFolder = Environment.getExternalStorageDirectory();
         currentFolder = rootFolder;
+    }
+    
 
-        vRecycler = findViewById(R.id.recycler);
-        vRecycler.setLayoutManager(new LinearLayoutManager(viewContext));
+    @Override
+    public void bindView(View view, Mode mode) {
+        super.bindView(view, mode);
+
+        RecyclerView vRecycler = view.findViewById(R.id.recycler);
+
+        vRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         vRecycler.setAdapter(adapter);
 
-        resetCards(rootFolder);
+        ToolsPermission.requestReadPermission(() -> resetCards(rootFolder));
     }
 
-    //
-    //  Public methods
-    //
-
-    public DialogChooseFile showWithRequestPermission(Callback onPermissionRestriction) {
-        ToolsPermission.requestReadPermission(() -> super.show(), onPermissionRestriction);
-        return this;
-    }
-
-    public DialogChooseFile show() {
-        throw new RuntimeException("Use showWithRequestPermission for DialogChooseFile");
-    }
-
-    public DialogChooseFile setShowFiles(boolean showFiles) {
-        this.showFiles = showFiles;
-        resetCards(currentFolder);
-        return this;
-    }
-
-    public DialogChooseFile setShowFolders(boolean showFolders) {
-        this.showFolders = showFolders;
-        resetCards(currentFolder);
-        return this;
-    }
-
-    public DialogChooseFile setCanGoInFolder(boolean canGoInFolder) {
-        this.canGoInFolder = canGoInFolder;
-        resetCards(currentFolder);
-        return this;
-    }
-
-    public DialogChooseFile setFileTypes(String... fileTypes) {
-        this.fileTypes = fileTypes;
-        return this;
-    }
-
-    public DialogChooseFile setFolder(File file) {
-        currentFolder = file;
-        resetCards(file);
-        return this;
-    }
-
-    public DialogChooseFile setRootFolder(File file) {
-        rootFolder = file;
-        resetCards(file);
-        return this;
-    }
-
-    public DialogChooseFile setOnFileSelected(Callback1<File> onFileSelected) {
-        this.onFileSelected = onFileSelected;
-        resetCards(currentFolder);
-        return this;
-    }
-
-    public DialogChooseFile setOnFolderSelected(Callback1<File> onFolderSelected) {
-        this.onFolderSelected = onFolderSelected;
-        resetCards(currentFolder);
-        return this;
-    }
-
-    public DialogChooseFile setOnCancel(int s) {
-        return (DialogChooseFile) super.setOnCancel(s);
-    }
-
-    public DialogChooseFile setOnCancel(String s) {
-        return (DialogChooseFile) super.setOnCancel(s);
-    }
-
-    //
-    //  Private Methods
-    //
 
     private void resetCards(File file) {
         adapter.clear();
-        if (!file.getAbsolutePath().equals(rootFolder.getAbsolutePath())) adapter.add(new CardBack(file));
+        if (!file.getAbsolutePath().equals(rootFolder.getAbsolutePath())) adapter.add(new BrickChooseFile.CardBack(file));
         File[] files = file.listFiles();
-        if (showFolders) for (File f : files) if (f.isDirectory()) adapter.add(new CardFile(f));
-        if (showFiles && onFileSelected != null) for (File f : files) if (!f.isDirectory() && checkType(f)) adapter.add(new CardFile(f));
+        if (showFolders) for (File f : files) if (f.isDirectory()) adapter.add(new BrickChooseFile.CardFile(f));
+        if (showFiles && onFileSelected != null) for (File f : files) if (!f.isDirectory() && checkType(f)) adapter.add(new BrickChooseFile.CardFile(f));
     }
 
 
@@ -139,6 +71,67 @@ public class DialogChooseFile extends BaseDialog {
         return false;
     }
 
+
+    //
+    //  Setters
+    //
+
+    public BrickChooseFile setTitle(@StringRes int title) {
+        return setTitle(ToolsResources.getString(title));
+    }
+
+    public BrickChooseFile setTitle(String title) {
+        this.title = title;
+        update();
+        return this;
+    }
+
+    public BrickChooseFile setShowFiles(boolean showFiles) {
+        this.showFiles = showFiles;
+        resetCards(currentFolder);
+        return this;
+    }
+
+    public BrickChooseFile setShowFolders(boolean showFolders) {
+        this.showFolders = showFolders;
+        resetCards(currentFolder);
+        return this;
+    }
+
+    public BrickChooseFile setCanGoInFolder(boolean canGoInFolder) {
+        this.canGoInFolder = canGoInFolder;
+        resetCards(currentFolder);
+        return this;
+    }
+
+    public BrickChooseFile setFileTypes(String... fileTypes) {
+        this.fileTypes = fileTypes;
+        return this;
+    }
+
+    public BrickChooseFile setFolder(File file) {
+        currentFolder = file;
+        resetCards(file);
+        return this;
+    }
+
+    public BrickChooseFile setRootFolder(File file) {
+        rootFolder = file;
+        resetCards(file);
+        return this;
+    }
+
+    public BrickChooseFile setOnFileSelected(Callback1<File> onFileSelected) {
+        this.onFileSelected = onFileSelected;
+        resetCards(currentFolder);
+        return this;
+    }
+
+    public BrickChooseFile setOnFolderSelected(Callback1<File> onFolderSelected) {
+        this.onFolderSelected = onFolderSelected;
+        resetCards(currentFolder);
+        return this;
+    }
 
     //
     //  Card
@@ -186,9 +179,9 @@ public class DialogChooseFile extends BaseDialog {
             return new SettingsAction(context);
         }
 
-        private ViewIcon getViewIcon() {
+        private ViewIcon getViewIcon(Context context) {
             if (viewIcon == null) {
-                viewIcon = ToolsView.inflate(viewContext, R.layout.w_icon);
+                viewIcon = ToolsView.inflate(context, R.layout.w_icon);
                 viewIcon.setImageResource(R.drawable.ic_done_white_24dp);
                 viewIcon.setOnClickListener(v -> {
                     if (onFolderSelected != null) {
@@ -205,7 +198,7 @@ public class DialogChooseFile extends BaseDialog {
             SettingsAction v = (SettingsAction) view;
             v.setTitle(file.getName());
             v.setIcon(file.isDirectory() ? R.drawable.ic_folder_white_24dp : R.drawable.ic_insert_drive_file_white_24dp);
-            v.setSubView((file.isDirectory() && onFolderSelected != null && canGoInFolder) ? getViewIcon() : null);
+            v.setSubView((file.isDirectory() && onFolderSelected != null && canGoInFolder) ? getViewIcon(view.getContext()) : null);
 
             v.setOnClickListener(v1 -> {
                 if (file.isDirectory()) {
@@ -226,4 +219,5 @@ public class DialogChooseFile extends BaseDialog {
             });
         }
     }
+    
 }

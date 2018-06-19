@@ -22,6 +22,13 @@ public class ToolsPermission {
     private static final int REQUEST_CODE = 102;
 
     //
+    //  Requests Simple
+    //
+
+    public static void requestReadPermission(Callback onGranted) {
+        requestPermission(READ_EXTERNAL_STORAGE, onGranted, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+    }
+    //
     //  Requests
     //
 
