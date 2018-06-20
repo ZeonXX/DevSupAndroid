@@ -16,7 +16,7 @@ import android.widget.EditText;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
-import com.sup.dev.android.views.widgets.ViewIcon;
+import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.providers.Provider1;
 
 public class SettingsField extends Settings {

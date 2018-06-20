@@ -8,11 +8,8 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.widgets.ViewIcon;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class CardMenu extends Card {
 

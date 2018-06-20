@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.collections.HashList;
 import com.sup.dev.java.tools.ToolsClass;
@@ -41,7 +42,7 @@ public class RecyclerCardAdapter extends RecyclerArrayAdapter<Card> {
             cardView = card.instanceView(view.getContext());
 
 
-        frame.addView(cardView);
+        frame.addView(ToolsView.removeFromParent(cardView));
         frame.setTag(card.getClass());
 
         card.bindView(cardView);

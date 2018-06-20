@@ -39,7 +39,7 @@ public class ToolsIntent {
             codeCounter = 0;
         int code = codeCounter++;
         progressIntents.add(new Item2<>(code, onResult));
-        SupAndroid.mvpActivity(mvpActivity -> mvpActivity.startActivityForResult(intent, code));
+        SupAndroid.activity.startActivityForResult(intent, code);
     }
 
     public static void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
@@ -132,20 +132,17 @@ public class ToolsIntent {
             Debug.log(e);
         }
 
-        SupAndroid.mvpActivity(activity -> {
-            try {
-                ((Activity) activity).startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile((Activity) activity, providerKey, file))
-                        .putExtra(Intent.EXTRA_TEXT, text)
-                        .setType("image/*"), null));
-            } catch (ActivityNotFoundException ex) {
-                Debug.log(ex);
-                if (onActivityNotFound != null) onActivityNotFound.callback();
-            }
-        });
-
+        try {
+            SupAndroid.activity.startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity, providerKey, file))
+                    .putExtra(Intent.EXTRA_TEXT, text)
+                    .setType("image/*"), null));
+        } catch (ActivityNotFoundException ex) {
+            Debug.log(ex);
+            if (onActivityNotFound != null) onActivityNotFound.callback();
+        }
 
     }
 
@@ -168,20 +165,18 @@ public class ToolsIntent {
     }
 
     public static void shareFile(Uri uri, String type, String text, Callback onActivityNotFound) {
-        SupAndroid.mvpActivity(activity -> {
-            try {
-                Intent i = new Intent()
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setAction(Intent.ACTION_SEND)
-                        .putExtra(Intent.EXTRA_STREAM, uri)
-                        .setType(type);
-                if (text == null) i.putExtra(Intent.EXTRA_TEXT, text);
-                activity.startActivity(Intent.createChooser(i, null));
-            } catch (ActivityNotFoundException ex) {
-                Debug.log(ex);
-                if (onActivityNotFound != null) onActivityNotFound.callback();
-            }
-        });
+        try {
+            Intent i = new Intent()
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setAction(Intent.ACTION_SEND)
+                    .putExtra(Intent.EXTRA_STREAM, uri)
+                    .setType(type);
+            if (text == null) i.putExtra(Intent.EXTRA_TEXT, text);
+            SupAndroid.activity.startActivity(Intent.createChooser(i, null));
+        } catch (ActivityNotFoundException ex) {
+            Debug.log(ex);
+            if (onActivityNotFound != null) onActivityNotFound.callback();
+        }
     }
 
     public static void shareText(String text, Callback onActivityNotFound) {

@@ -90,17 +90,16 @@ public class ToolsPermission {
             if (onGranted != null) onGranted.callback();
             return;
         }
-        SupAndroid.mvpActivity(
-                activity -> ToolsThreads.thread(
-                        () -> {
-                            if (requestPermission(activity, permission)) {
-                                if (onGranted != null)
-                                    ToolsThreads.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
-                            } else {
-                                if (onPermissionRestriction != null)
-                                    ToolsThreads.main(onPermissionRestriction::callback);
-                            }
-                        }));
+        ToolsThreads.thread(
+                () -> {
+                    if (requestPermission(SupAndroid.activity, permission)) {
+                        if (onGranted != null)
+                            ToolsThreads.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
+                    } else {
+                        if (onPermissionRestriction != null)
+                            ToolsThreads.main(onPermissionRestriction::callback);
+                    }
+                });
     }
 
     private static boolean requestPermission(Activity activity, String permission) {

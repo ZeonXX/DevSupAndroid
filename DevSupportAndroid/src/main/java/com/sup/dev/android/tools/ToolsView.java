@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
-import com.sup.dev.android.views.bricks.BrickProgressTransparent;
-import com.sup.dev.android.views.bricks.BrickProgressWithTitle;
+import com.sup.dev.android.views.widgets.WidgetProgressTransparent;
+import com.sup.dev.android.views.widgets.WidgetProgressWithTitle;
 import com.sup.dev.android.views.dialogs.Dialog;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.items.Item;
 import com.sup.dev.java.tools.ToolsThreads;
@@ -35,8 +35,13 @@ public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
 
+    public static View removeFromParent(View view){
+        if(view.getParent() != null) ((ViewGroup)view.getParent()).removeView(view);
+        return view;
+    }
+
     public static Dialog showProgressDialog() {
-        return new BrickProgressTransparent()
+        return new WidgetProgressTransparent()
                 .setCancelable(false)
                 .asDialogShow();
     }
@@ -46,7 +51,7 @@ public class ToolsView {
     }
 
     public static Dialog showProgressDialog(String title) {
-        return new BrickProgressWithTitle()
+        return new WidgetProgressWithTitle()
                 .setTitle(title)
                 .setCancelable(false)
                 .asDialogShow();
@@ -112,6 +117,10 @@ public class ToolsView {
         return x >= l && y >= t && x <= r && y <= b;
     }
 
+    public static <K extends View> K inflate(@LayoutRes int res) {
+        return (K) LayoutInflater.from(SupAndroid.activity).inflate(res, null, false);
+    }
+
     public static <K extends View> K inflate(Context viewContext, @LayoutRes int res) {
         return (K) LayoutInflater.from(viewContext).inflate(res, null, false);
     }
@@ -170,10 +179,10 @@ public class ToolsView {
     //  Keyboard
     //
 
-    public static void hideKeyboard(Activity activity) {
-        View currentFocus = activity.getCurrentFocus();
+    public static void hideKeyboard() {
+        View currentFocus = SupAndroid.activity.getCurrentFocus();
         if (currentFocus != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) SupAndroid.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }

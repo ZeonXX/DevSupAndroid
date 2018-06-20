@@ -31,12 +31,17 @@ public abstract class Card {
 
     public abstract void bindView(View view);
 
+    protected View instanceView(){
+        return null;
+    }
+
     //
     //  Adapter
     //
 
     public View instanceView(Context context) {
-        return ToolsView.inflate(context, getLayout());
+        int layout = getLayout();
+        return (layout > 0)?ToolsView.inflate(context, getLayout()):instanceView();
     }
 
     public void setAdapter(RecyclerCardAdapter adapter) {

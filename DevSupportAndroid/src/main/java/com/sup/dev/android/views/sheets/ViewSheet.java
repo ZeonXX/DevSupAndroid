@@ -14,11 +14,11 @@ import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.screens.SNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.behavior.BehaviorBottomSheet;
 import com.sup.dev.java.classes.providers.Provider;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class ViewSheet extends FrameLayout {
@@ -29,7 +29,6 @@ public class ViewSheet extends FrameLayout {
 
     private Sheet sheet;
     private Sheet nextSheet;
-    private View view;
     private FloatingActionButton vFab;
     private View vDim;
     private BehaviorBottomSheet behavior;
@@ -70,23 +69,22 @@ public class ViewSheet extends FrameLayout {
 
     }
 
-    private void setSheetNow(){
+    private void setSheetNow() {
         rebindViewInProgress = false;
-        if(nextSheet == null)return;
+        if (nextSheet == null) return;
         if (sheet != null) sheet.onDetach(this);
         sheet = nextSheet;
         removeAllViews();
-        if(sheet != null){
-            view = sheet.instanceView(getContext());
-            addView(view);
+        if (sheet != null) {
+            ToolsView.removeFromParent(sheet.getView());
+            addView(sheet.getView());
             sheet.onAttach(this);
             rebindView();
-            if(behavior != null) behavior.setCanColapse(sheet.isCanCollapse());
+            if (behavior != null) behavior.setCanColapse(sheet.isCanCollapse());
         }
     }
 
     public void rebindView() {
-        if (view != null) sheet.bindView(view);
         if (sheet.getState() == Sheet.State.HIDE) hide();
         if (sheet.getState() == Sheet.State.SHOW) show();
     }
@@ -96,8 +94,8 @@ public class ViewSheet extends FrameLayout {
         super.onAttachedToWindow();
         if (behavior != null) return;
 
-        behavior = (BehaviorBottomSheet)BottomSheetBehavior.from(this);
-        if(sheet != null) behavior.setCanColapse(sheet.isCanCollapse());
+        behavior = (BehaviorBottomSheet) BottomSheetBehavior.from(this);
+        if (sheet != null) behavior.setCanColapse(sheet.isCanCollapse());
 
         if (fabId != 0) {
             vFab = ToolsView.findViewOnParents(this, fabId);
@@ -135,7 +133,8 @@ public class ViewSheet extends FrameLayout {
     }
 
     public <K extends ViewSheet> K show() {
-        if (view != null) {
+        if (sheet.getView() != null) {
+            sheet.onShow();
             if (behavior != null) behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             setEnabled(true);
         }
@@ -154,14 +153,14 @@ public class ViewSheet extends FrameLayout {
 
     @CallSuper
     protected void onExpanded() {
-        SupAndroid.addOnBack(onBackPressed);
+        SNavigator.addOnBack(onBackPressed);
         if (vDim != null) vDim.setClickable(true);
         if (sheet != null) sheet.onExpanded(this);
     }
 
     @CallSuper
     protected void onCollapsed() {
-        SupAndroid.removeOnBack(onBackPressed);
+        SNavigator.removeOnBack(onBackPressed);
         if (vDim != null) vDim.setClickable(false);
         if (sheet != null) sheet.onCollapsed();
 
@@ -186,6 +185,14 @@ public class ViewSheet extends FrameLayout {
     @CallSuper
     protected void onStateChanged(int newState) {
         if (sheet != null) sheet.onStateChanged(this, newState);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (MeasureSpec.getSize(heightMeasureSpec) <= ToolsView.dpToPx(400/*Запас, чтоб не обрезать 2 пикселя*/))
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        else
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(364), MeasureSpec.getMode(heightMeasureSpec)));
     }
 
     //

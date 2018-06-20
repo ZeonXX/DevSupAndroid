@@ -4,7 +4,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal">
 
-    <com.sup.dev.android.views.widgets.ViewAvatar
+    <com.sup.dev.android.views.views.ViewAvatar
         android:id="@+id/dev_sup_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

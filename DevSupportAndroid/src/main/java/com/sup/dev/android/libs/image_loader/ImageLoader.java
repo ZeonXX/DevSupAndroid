@@ -49,7 +49,7 @@ public class ImageLoader {
 
     public static void load(ImageLoaderA loader) {
 
-        byte[] bytes = loader.noLoadFromCash?null:bitmapCash.get(loader.getKey());
+        byte[] bytes = loader.noLoadFromCash ? null : bitmapCash.get(loader.getKey());
 
         if (bytes != null) {
             bitmapCash.reorderTop(loader.getKey());
@@ -58,19 +58,19 @@ public class ImageLoader {
             return;
         }
 
-       //if (loader.vImage != null) {
-       //    if (loader.holder > 0) {
-       //        loader.vImage.setImageResource(loader.holder);
-       //    } else if (loader.w != 0 && loader.h != 0) {
-       //        Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
-       //        loader.vImage.setImageBitmap(bitmap);
-       //    } else {
-       //       loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
-       //    }
+        if (loader.vImage != null) {
+            if (loader.holder > 0) {
+                loader.vImage.setImageResource(loader.holder);
+            } else if (loader.w != 0 && loader.h != 0) {
+                Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
+                loader.vImage.setImageBitmap(bitmap);
+            } else {
+                loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
+            }
 
-       //    unsubscribe(loader.vImage);
+            unsubscribe(loader.vImage);
 
-       //}
+        }
 
         turn.add(loader);
 
@@ -99,7 +99,7 @@ public class ImageLoader {
 
         ToolsThreads.main(() -> {
 
-            if(!loader.noCash)bitmapCash.add(loader.getKey(), bytes);
+            if (!loader.noCash) bitmapCash.add(loader.getKey(), bytes);
             for (int i = 0; i < turn.size(); i++) {
                 ImageLoaderA l = turn.get(i);
                 if (l.isKey(loader.getKey())) {

@@ -1,38 +1,43 @@
 package com.sup.dev.android.views.popup;
 
-import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.PopupWindow;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
 
 import java.lang.ref.WeakReference;
 
-public abstract class Popup {
+public abstract class Popup extends PopupWindow {
 
-    private WeakReference<PopupWindow> weakView;
+    private final View view;
     private boolean enabled;
     private boolean cancelable;
 
-    public View instanceView(Context viewContext) {
-        return getLayoutRes() != 0 ? ToolsView.inflate(viewContext, getLayoutRes()) : null;
+    public Popup(int layoutRes) {
+        this(ToolsView.inflate(layoutRes));
     }
 
-    public abstract int getLayoutRes();
+    public Popup(View view) {
+        super(SupAndroid.activity);
+        this.view = view;
 
-    public abstract void bindView(View view);
-
-    @CallSuper
-    protected void onPreShow(View view) {
+        CardView vCard = ToolsView.inflate(R.layout.view_card_6dp);
+        ToolsView.removeFromParent(view);
+        vCard.addView(view);
+        setBackgroundDrawable(null);
+        setContentView(vCard);
+        setOutsideTouchable(true);
+        setFocusable(true);
 
     }
 
     @CallSuper
-    protected void onShow(View view) {
+    protected void onShow() {
 
     }
 
@@ -41,15 +46,8 @@ public abstract class Popup {
 
     }
 
-    public <K extends Popup>K update() {
-        if (weakView != null && weakView.get() != null)
-            bindView(weakView.get().getContentView());
-        return (K) this;
-    }
-
-    public <K extends Popup>K hide() {
-        if (weakView != null && weakView.get() != null)
-            weakView.get().dismiss();
+    public <K extends Popup> K hide() {
+        dismiss();
         return (K) this;
     }
 
@@ -60,38 +58,28 @@ public abstract class Popup {
 
     public <K extends Popup> K show(View anchor, int x, int y) {
 
-        View view = instanceView(anchor.getContext());
-        bindView(view);
-
-        onPreShow(view);
-
-        CardView vCard = ToolsView.inflate(anchor.getContext(), R.layout.view_card_6dp);
-        vCard.addView(view);
-        PopupWindow popupWindow = new PopupWindow(anchor.getContext());
-        weakView = new WeakReference<>(popupWindow);
-        popupWindow.setBackgroundDrawable(null);
-        popupWindow.setContentView(vCard);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-
+        onShow();
 
         view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenW(), View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenH(), View.MeasureSpec.AT_MOST));
-        popupWindow.setWidth(view.getMeasuredWidth());
-        popupWindow.setHeight(view.getMeasuredHeight());
+        setWidth(view.getMeasuredWidth());
+        if (view.getMeasuredHeight() < ToolsView.dpToPx(240/*Запас, чтоб не обрезать 2 пикселя*/))
+            setHeight(Math.min(view.getMeasuredHeight(), view.getMeasuredHeight()));
+        else
+            setHeight(Math.min(view.getMeasuredHeight(), ToolsView.dpToPx(200)));
 
         if (x > -1 && y > -1) {
-            x -= popupWindow.getWidth() / 2;
+            x -= getWidth() / 2;
             y -= anchor.getHeight();
 
             int[] p = new int[2];
             anchor.getLocationOnScreen(p);
-            if (popupWindow.getHeight() + (anchor.getHeight() + y) + p[1] > ToolsAndroid.getScreenH())
+            if (getHeight() + (anchor.getHeight() + y) + p[1] > ToolsAndroid.getScreenH())
                 y += anchor.getHeight();
 
-            popupWindow.showAsDropDown(anchor, x, y);
+            showAsDropDown(anchor, x, y);
         } else {
-            popupWindow.showAsDropDown(anchor);
+            showAsDropDown(anchor);
         }
 
         return (K) this;

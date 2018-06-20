@@ -15,7 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.views.widgets.ViewIcon;
+import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeListener {

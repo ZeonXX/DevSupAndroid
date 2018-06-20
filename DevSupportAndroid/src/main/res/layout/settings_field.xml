@@ -8,7 +8,7 @@
     android:paddingLeft="6dp"
     android:paddingTop="8dp">
 
-    <com.sup.dev.android.views.widgets.ViewIcon
+    <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/dev_sup_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false">
 
-            <com.sup.dev.android.views.widgets.ViewErrorEditText
+            <com.sup.dev.android.views.views.ViewErrorEditText
                 android:id="@+id/dev_sup_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

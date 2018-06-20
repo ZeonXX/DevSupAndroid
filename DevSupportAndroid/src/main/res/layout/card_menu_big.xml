@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.sup.dev.android.views.widgets.ViewIcon
+        <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="48dp"

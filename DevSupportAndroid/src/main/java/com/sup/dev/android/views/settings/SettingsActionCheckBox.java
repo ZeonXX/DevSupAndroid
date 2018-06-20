@@ -26,7 +26,7 @@ public class SettingsActionCheckBox extends SettingsAction {
     public SettingsActionCheckBox(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        vCheckBox = ToolsView.inflate(context, R.layout.w_check_box);
+        vCheckBox = ToolsView.inflate(context, R.layout.view_check_box);
         vCheckBox.setFocusable(false);
         vCheckBox.setOnCheckedChangeListener((v, b) -> {
             setEnabledSubSettings(b);

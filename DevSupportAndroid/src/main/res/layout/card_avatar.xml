@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.sup.dev.android.views.widgets.ViewAvatarTitle
+    <com.sup.dev.android.views.views.ViewAvatarTitle
         android:id="@+id/avatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

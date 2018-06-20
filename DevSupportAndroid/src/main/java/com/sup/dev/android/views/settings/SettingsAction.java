@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.views.widgets.ViewIcon;
+import com.sup.dev.android.views.views.ViewIcon;
 
 public class SettingsAction extends Settings {
 

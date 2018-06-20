@@ -21,8 +21,8 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.mvp.navigator.MvpNavigator;
-import com.sup.dev.android.views.fragments.crop.PCrop;
+import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.views.screens.SCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
@@ -263,13 +263,12 @@ public class ToolsBitmap {
 
 
     public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
-        SupAndroid.mvpActivity(
-                mvpActivity -> ToolsIntent.getGalleryImage(uri -> getFromUri((Activity) mvpActivity, uri, bitmap -> {
-                    if (bitmap == null)
-                        onError.callback();
-                    else
-                        onLoad.callback(bitmap);
-                }, onPermissionPermissionRestriction), onError));
+        ToolsIntent.getGalleryImage(uri -> getFromUri(SupAndroid.activity, uri, bitmap -> {
+            if (bitmap == null)
+                onError.callback();
+            else
+                onLoad.callback(bitmap);
+        }, onPermissionPermissionRestriction), onError);
     }
 
     public static Bitmap getFromDrawable(Drawable drawable) {
@@ -337,14 +336,14 @@ public class ToolsBitmap {
         }, onPermissionPermissionRestriction);
     }
 
-    public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
+    public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<SCrop, Bitmap> onComplete) {
         if (errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
-        getFromGallery(bitmap -> MvpNavigator.to(new PCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
+        getFromGallery(bitmap -> SNavigator.to(new SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
                 () -> ToolsToast.show(errorCantLoadImage),
                 () -> ToolsToast.show(errorPermissionFiles));
     }
 
-    public static void getFromGalleryCroppedAndScaled(int w, int h, boolean autoBackOnCrop, Callback2<PCrop, Bitmap> onComplete) {
+    public static void getFromGalleryCroppedAndScaled(int w, int h, boolean autoBackOnCrop, Callback2<SCrop, Bitmap> onComplete) {
         getFromGalleryCropped(w, h, autoBackOnCrop, (pCrop, bitmap) -> onComplete.callback(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)));
     }
 

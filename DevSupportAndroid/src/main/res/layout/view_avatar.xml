@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <com.sup.dev.android.views.widgets.ViewCircleImage
+    <com.sup.dev.android.views.views.ViewCircleImage
         android:id="@+id/dev_sup_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,14 +12,14 @@
         android:src="@color/blue_700"/>
 
 
-    <com.sup.dev.android.views.widgets.ViewChip
+    <com.sup.dev.android.views.views.ViewChip
         android:id="@+id/dev_sup_chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="text"
         android:layout_gravity="right|bottom"/>
 
-    <com.sup.dev.android.views.widgets.ViewDraw
+    <com.sup.dev.android.views.views.ViewDraw
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dev_sup_avatar_touch"/>

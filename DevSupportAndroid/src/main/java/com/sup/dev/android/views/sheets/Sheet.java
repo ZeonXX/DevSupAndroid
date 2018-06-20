@@ -1,8 +1,6 @@
 package com.sup.dev.android.views.sheets;
 
-import android.content.Context;
 import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
@@ -12,24 +10,26 @@ import java.lang.ref.WeakReference;
 
 public abstract class Sheet {
 
+    private final View view;
     private WeakReference<ViewSheet> vSheetRef;
     private boolean isEnabled = true;
     private boolean canCollapse = false;
     private Callback onCollapsed;
 
-
-    public View instanceView(Context viewContext) {
-        return getLayoutRes() != 0?ToolsView.inflate(viewContext, getLayoutRes()):null;
+    public Sheet(int layoutRes) {
+        this(ToolsView.inflate(layoutRes));
     }
 
-    public abstract int getLayoutRes();
+    public Sheet(View view) {
+        this.view = view;
+    }
 
-    public abstract void bindView(View view);
+    public View getView() {
+        return view;
+    }
 
-    public <K extends Sheet>K update() {
-        if (vSheetRef != null && vSheetRef.get() != null)
-            vSheetRef.get().rebindView();
-        return (K) this;
+    protected void onShow(){
+
     }
 
     @CallSuper
@@ -123,7 +123,12 @@ public abstract class Sheet {
 
     void setState(State state) {
         this.state = state;
-        update();
+        if(vSheetRef != null && vSheetRef.get() != null) {
+            ViewSheet viewSheet = vSheetRef.get();
+            if(state == State.SHOW)viewSheet.show();
+            if(state == State.HIDE)viewSheet.hide();
+        }
+
     }
 
     public State getState() {
