@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.widgets;
 
+import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.sup.dev.android.views.popup.PopupWidget;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.sheets.SheetWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback3;
+import com.sup.dev.java.classes.providers.Provider;
 
 public abstract class Widget {
 
@@ -89,6 +92,10 @@ public abstract class Widget {
     //  Getters
     //
 
+    protected Context getContext() {
+        return view.getContext();
+    }
+
     public View getView() {
         return view;
     }
@@ -149,6 +156,24 @@ public abstract class Widget {
         return popup;
     }
 
+    public Widget showPopupWhenClick(View view) {
+        return showPopupWhenClick(view, null);
+    }
+
+    public Widget showPopupWhenClick(View view, Provider<Boolean> willShow) {
+        PopupWidget popup = asPopup();
+        ToolsView.setOnClickCoordinates(view, (view1, x, y) -> {
+            if (willShow == null || willShow.provide()) popup.show(view1, x, y);
+        });
+        return this;
+    }
+
+    public Widget showPopupWhenLongClick(View view) {
+        PopupWidget popup = asPopup();
+        ToolsView.setOnLongClickCoordinates(view, (view1, x, y) -> popup.show(view1, x, y));
+        return this;
+    }
+
     public SWidget asScreen() {
         SWidget screen = new SWidget(this);
         this.viewWrapper = screen;
@@ -161,10 +186,11 @@ public abstract class Widget {
         return screen;
     }
 
-    public CardWidget asCard(){
+    public CardWidget asCard() {
         CardWidget card = new CardWidget(this);
         this.viewWrapper = card;
         return card;
     }
+
 
 }

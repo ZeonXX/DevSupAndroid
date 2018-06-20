@@ -20,13 +20,14 @@ public class SupAndroid {
     public static String TEXT_APP_BACK;
 
     public static String TEXT_ERROR_PERMISSION_READ_FILES;
-    public static String TEXT_ERROR_PCANT_LOAD_IMAGE;
+    public static String TEXT_ERROR_CANT_LOAD_IMAGE;
     public static String TEXT_ERROR_NETWORK;
     public static String TEXT_ERROR_GONE;
 
     public static boolean editMode;
     public static Context appContext;
     public static SActivity activity;
+    public static boolean activityIsVisible;
 
     public static void initEditMode(View view) {
         if (!view.isInEditMode()) return;
@@ -49,7 +50,7 @@ public class SupAndroid {
         TEXT_APP_RETRY = ToolsResources.getString("app_retry");
         TEXT_APP_BACK = ToolsResources.getString("app_back");
         TEXT_ERROR_PERMISSION_READ_FILES = ToolsResources.getString("error_permission_files");
-        TEXT_ERROR_PCANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
+        TEXT_ERROR_CANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
         TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");
         TEXT_ERROR_GONE = ToolsResources.getString("error_gone");
 

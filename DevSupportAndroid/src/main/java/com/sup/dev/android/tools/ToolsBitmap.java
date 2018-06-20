@@ -41,7 +41,7 @@ import java.net.URL;
 
 public class ToolsBitmap {
 
-    private static String errorCantLoadImage = SupAndroid.TEXT_ERROR_PCANT_LOAD_IMAGE;
+    private static String errorCantLoadImage = SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE;
     private static String errorPermissionFiles = SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES;
 
     public static Bitmap cropCenterSquare(Bitmap srcBmp) {

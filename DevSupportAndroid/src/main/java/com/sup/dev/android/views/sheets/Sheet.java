@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.sheets;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
@@ -10,7 +11,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class Sheet {
 
-    private final View view;
+    protected final View view;
     private WeakReference<ViewSheet> vSheetRef;
     private boolean isEnabled = true;
     private boolean canCollapse = false;
@@ -69,6 +70,10 @@ public abstract class Sheet {
            vSheetRef.clear();
            vSheetRef = null;
        }
+    }
+
+    public final <K extends View> K findViewById(@IdRes int id) {
+        return view.findViewById(id);
     }
 
     //

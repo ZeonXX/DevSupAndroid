@@ -10,6 +10,7 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback5;
 import com.sup.dev.java.tools.ToolsDate;
 
 public class WidgetChooseTimeRange extends Widget {
@@ -19,6 +20,11 @@ public class WidgetChooseTimeRange extends Widget {
     private final Button vCancel;
     private final Button vEnter;
     private final TextView vTitle;
+
+    private int h1;
+    private int m1;
+    private int h2;
+    private int m2;
 
     private boolean autoHideOnEnter = true;
 
@@ -73,11 +79,15 @@ public class WidgetChooseTimeRange extends Widget {
     }
 
     public WidgetChooseTimeRange setTimeStart(int h, int m) {
+        h1 = h;
+        m1 = m;
         vStart.setText(ToolsDate.timeToString(h, m));
         return this;
     }
 
     public WidgetChooseTimeRange setTimeEnd(int h, int m) {
+        h2 = h;
+        m2 = m;
         vEnd.setText(ToolsDate.timeToString(h, m));
         return this;
     }
@@ -90,16 +100,16 @@ public class WidgetChooseTimeRange extends Widget {
         return setOnEnter(s, null);
     }
 
-    public WidgetChooseTimeRange setOnEnter(@StringRes int s, Callback1<WidgetChooseTimeRange> onEnter) {
+    public WidgetChooseTimeRange setOnEnter(@StringRes int s, Callback5<WidgetChooseTimeRange, Integer, Integer, Integer, Integer> onEnter) {
         return setOnEnter(ToolsResources.getString(s), onEnter);
     }
 
-    public WidgetChooseTimeRange setOnEnter(String s, Callback1<WidgetChooseTimeRange> onEnter) {
+    public WidgetChooseTimeRange setOnEnter(String s, Callback5<WidgetChooseTimeRange, Integer, Integer, Integer, Integer> onEnter) {
         ToolsView.setTextOrGone(vEnter, s);
         vEnter.setOnClickListener(v -> {
             if (autoHideOnEnter) hide();
             else setEnabled(false);
-            if (onEnter != null) onEnter.callback(this);
+            if (onEnter != null) onEnter.callback(this, h1, m1, h2, m2);
         });
         return this;
     }

@@ -15,6 +15,7 @@ import com.sup.dev.android.tools.ToolsView;
 public class Screen extends FrameLayout{
 
     private final View view;
+    protected boolean backStackAllowed = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
     public Screen(@LayoutRes int layoutRes) {

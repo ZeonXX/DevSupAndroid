@@ -41,6 +41,7 @@ public class SActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
+        SupAndroid.activityIsVisible = true;
         SNavigator.onActivityResume();
 
         if (!started) {
@@ -53,6 +54,7 @@ public class SActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        SupAndroid.activityIsVisible = false;
         SNavigator.onActivityStop();
     }
 

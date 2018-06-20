@@ -169,12 +169,12 @@ public class SNavigator {
     private static final CallbacksList2<Screen, Screen> onBack = new CallbacksList2<>();
     public static final ArrayList<Provider<Boolean>> onBackCallbacks = new ArrayList<>();
 
-    public static void addOnBackViewListener(Callback2<Screen, Screen> onBack) {
+    public static void addOnBackScreenListener(Callback2<Screen, Screen> onBack) {
         SNavigator.onBack.remove(onBack);
         SNavigator.onBack.add(onBack);
     }
 
-    public static void removeOnBackViewListener(Callback2<Screen, Screen> onBack) {
+    public static void removeOnBackScreenListener(Callback2<Screen, Screen> onBack) {
         SNavigator.onBack.remove(onBack);
     }
 
