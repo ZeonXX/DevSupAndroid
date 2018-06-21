@@ -3,6 +3,7 @@ package com.sup.dev.android.views.views.layouts;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsPaint;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.libs.debug.Debug;
 
 import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.EXACTLY;
@@ -26,7 +28,6 @@ public class LayoutMaxSizes extends ViewGroup {
     private float maxHeightPercent;
     private boolean alwaysMaxW = false;
     private boolean alwaysMaxH = false;
-    private boolean reversMaxValuesOnScreenRotation = false;
     private boolean useScreenWidthAsParent = false;
     private boolean useScreenHeightAsParent = false;
     private boolean allowChildMaxW = false;
@@ -58,7 +59,6 @@ public class LayoutMaxSizes extends ViewGroup {
         maxHeightPercent = a.getFloat(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxHeightParentPercent, maxHeightPercent);
         alwaysMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_alwaysMaxW, alwaysMaxW);
         alwaysMaxH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_alwaysMaxH, alwaysMaxH);
-        reversMaxValuesOnScreenRotation = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reversMaxValuesOnScreenRotation, reversMaxValuesOnScreenRotation);
         useScreenWidthAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenWidthAsParent, useScreenWidthAsParent);
         useScreenHeightAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenHeightAsParent, useScreenHeightAsParent);
         fadeWSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeWSize, fadeWSize);
@@ -78,19 +78,16 @@ public class LayoutMaxSizes extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        boolean reverse = reversMaxValuesOnScreenRotation && ToolsAndroid.isScreenLandscape();
-        boolean uScreenW = reverse ? useScreenHeightAsParent : useScreenWidthAsParent;
-        boolean uScreenH = reverse ? useScreenWidthAsParent : useScreenHeightAsParent;
+        boolean uScreenW = useScreenWidthAsParent;
+        boolean uScreenH = useScreenHeightAsParent;
         int w = uScreenW ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
         int h = uScreenH ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
-        int maxW = reverse ? maxHeight : maxWidth;
-        int maxH = reverse ? maxWidth : maxHeight;
-        int reserveW = reverse ? reserveHeight : reserveWidth;
-        int reserveH = reverse ? reserveWidth : reserveHeight;
-        float maxWPer = reverse ? maxHeightPercent : maxWidthPercent;
-        float maxHPer = reverse ? maxWidthPercent : maxHeightPercent;
-        boolean alMW = reverse ? alwaysMaxH : alwaysMaxW;
-        boolean alMH = reverse ? alwaysMaxW : alwaysMaxH;
+        int maxW = maxWidth;
+        int maxH = maxHeight;
+        float maxWPer = maxWidthPercent;
+        float maxHPer = maxHeightPercent;
+        boolean alMW = alwaysMaxW;
+        boolean alMH = alwaysMaxH;
 
         if (maxWPer != 0) {
             int arg = (int) (w / 100f * maxWPer);
@@ -102,19 +99,8 @@ public class LayoutMaxSizes extends ViewGroup {
             maxH = maxH == 0 || maxH > arg ? arg : maxH;
         }
 
-        if (maxW > 0 && (alMW || w > maxW + reserveW)) {
-            w = maxW;
-            isCroppedW = true;
-        } else {
-            isCroppedW = false;
-        }
-
-        if (maxH > 0 && (alMH || h > maxH + reserveH)) {
-            h = maxH;
-            isCroppedH = true;
-        } else {
-            isCroppedH = false;
-        }
+        if (maxW > 0) w = maxW;
+        if (maxH > 0) h = maxH;
 
         int maxChildW = 0;
         int maxChildH = 0;
@@ -124,6 +110,9 @@ public class LayoutMaxSizes extends ViewGroup {
             maxChildW = Math.max(getChildAt(i).getMeasuredWidth(), maxChildW);
             maxChildH = Math.max(getChildAt(i).getMeasuredHeight(), maxChildH);
         }
+
+        isCroppedW = maxChildW > w;
+        isCroppedH = maxChildH > h;
 
         setMeasuredDimension(alMW ? maxW : Math.min(w, maxChildW), alMH ? maxH : Math.min(h, maxChildH));
 
@@ -135,7 +124,9 @@ public class LayoutMaxSizes extends ViewGroup {
 
 
         if (fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
-            fadeColor = ToolsView.getRootBackground(this);
+            fadeColor = Color.RED;
+
+        Debug.logColor(fadeColor);
 
         if (fadeWSize != 0 && isCroppedW && fadeColor != 0) ToolsPaint.gradientLineLeftRight(canvas, fadeColor, fadeWSize);
         if (fadeHSize != 0 && isCroppedH && fadeColor != 0) ToolsPaint.gradientLineBottomTop(canvas, fadeColor, fadeHSize);
@@ -189,11 +180,6 @@ public class LayoutMaxSizes extends ViewGroup {
 
     public void setMaxWidthParentPercent(float maxWidthPercent) {
         this.maxWidthPercent = maxWidthPercent;
-        requestLayout();
-    }
-
-    public void setReversMaxValuesOnScreenRotation(boolean reversMaxValuesOnScreenRotation) {
-        this.reversMaxValuesOnScreenRotation = reversMaxValuesOnScreenRotation;
         requestLayout();
     }
 

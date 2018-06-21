@@ -159,7 +159,6 @@
         <attr name="LayoutMaxSizes_maxWidthParentPercent" format="float"/>
         <attr name="LayoutMaxSizes_alwaysMaxW" format="boolean"/>
         <attr name="LayoutMaxSizes_alwaysMaxH" format="boolean"/>
-        <attr name="LayoutMaxSizes_reversMaxValuesOnScreenRotation" format="boolean"/>
         <attr name="LayoutMaxSizes_useScreenWidthAsParent" format="boolean"/>
         <attr name="LayoutMaxSizes_useScreenHeightAsParent" format="boolean"/>
         <attr name="LayoutMaxSizes_fadeWSize" format="dimension"/>

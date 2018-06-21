@@ -140,7 +140,6 @@ public class WidgetChooseFile extends WidgetRecycler {
         private final File file;
 
         private CardBack(File file) {
-            Debug.log("Instance " + file.getAbsolutePath());
             this.file = file;
         }
 

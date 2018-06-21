@@ -12,7 +12,7 @@ public class SNavigator {
     public enum Action {SET, TO, REPLACE}
 
     private static ArrayList<Screen> backStack = new ArrayList<>();
-    
+
     //
     //  Views
     //
@@ -44,19 +44,28 @@ public class SNavigator {
         setCurrentView();
     }
 
-    public static void replace(Screen view) {
+    public static void replace(Screen screen, Screen newScreen) {
+        if (backStack.isEmpty()) return;
+        if (getCurrent() == screen) {
+            replace(newScreen);
+            return;
+        }
+        for (int i = 0; i < backStack.size(); i++) if (backStack.get(i) == screen) backStack.set(i, newScreen);
+    }
+
+    public static void replace(Screen screen) {
         if (!backStack.isEmpty()) removeView(getCurrent());
-        to(view);
+        to(screen);
     }
 
-    public static void set(Screen view) {
+    public static void set(Screen screen) {
         while (backStack.size() != 0) removeView(backStack.get(0));
-        to(view);
+        to(screen);
     }
 
-    public static void reorder(Screen view) {
-        backStack.remove(view);
-        to(view);
+    public static void reorder(Screen screen) {
+        backStack.remove(screen);
+        to(screen);
     }
 
     public static void reorderOrCreate(Class<? extends Screen> viewClass, Provider<Screen> provider) {
@@ -97,7 +106,7 @@ public class SNavigator {
 
     public static boolean back() {
 
-        if(!hasBackStack())return false;
+        if (!hasBackStack()) return false;
 
         Screen current = getCurrent();
         removeView(current);
@@ -120,15 +129,15 @@ public class SNavigator {
 
     public static void setCurrentView() {
         SupAndroid.activity.setView(getCurrent());
-        if(getCurrent() != null)getCurrent().onResume();
+        if (getCurrent() != null) getCurrent().onResume();
     }
 
     public static void onActivityStop() {
-        if(getCurrent() != null)getCurrent().onPause();
+        if (getCurrent() != null) getCurrent().onPause();
     }
 
     public static void onActivityResume() {
-        if(getCurrent() != null)getCurrent().onResume();
+        if (getCurrent() != null) getCurrent().onResume();
     }
 
     public static void onActivityDestroy() {
@@ -136,7 +145,7 @@ public class SNavigator {
     }
 
     public static void onActivityConfigChanged() {
-        if(getCurrent() != null)getCurrent().onConfigChanged();
+        if (getCurrent() != null) getCurrent().onConfigChanged();
     }
 
     public static boolean onBackPressed() {

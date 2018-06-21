@@ -24,6 +24,8 @@ public class SupAndroid {
     public static String TEXT_ERROR_NETWORK;
     public static String TEXT_ERROR_GONE;
 
+    public static int SCREEN_ALERT_COLOR;
+
     public static boolean editMode;
     public static Context appContext;
     public static SActivity activity;
