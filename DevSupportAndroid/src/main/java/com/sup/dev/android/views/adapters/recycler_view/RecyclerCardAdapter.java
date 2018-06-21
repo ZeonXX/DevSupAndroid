@@ -1,17 +1,12 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 
 
-import android.content.Context;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.CardAdapter;
@@ -20,8 +15,11 @@ import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.collections.HashList;
 import com.sup.dev.java.tools.ToolsClass;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapter.Holder> implements CardAdapter {
+
+public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapter.Holder> implements CardAdapter {
 
     private final HashList<Class<? extends Card>, View> viewCash = new HashList<>();
     private final ArrayList<Card> items = new ArrayList<>();
@@ -68,6 +66,12 @@ public abstract class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerC
         Holder holder = new Holder(view);
         holders.add(holder);
         return holder;
+    }
+
+    private void removeItemFromHolders(Card item) {
+        for (Holder h : holders)
+            if (h.item == item)
+                h.item = null;
     }
 
     //
@@ -155,11 +159,6 @@ public abstract class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerC
         return getItemCount() == 0;
     }
 
-    protected ArrayList<Holder> getHolders() {
-        return holders;
-    }
-
-
     public ArrayList<Card> getByTag(Object tag) {
         ArrayList<Card> list = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++)
@@ -213,10 +212,8 @@ public abstract class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerC
         return getItemCount();
     }
 
-    private void removeItemFromHolders(Card item) {
-        for (Holder h : holders)
-            if (h.item == item)
-                h.item = null;
+    protected ArrayList<Holder> getHolders() {
+        return holders;
     }
 
     //

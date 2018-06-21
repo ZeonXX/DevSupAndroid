@@ -1,7 +1,9 @@
 package com.sup.dev.android.views.adapters.pager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -15,7 +17,7 @@ import com.sup.dev.android.views.adapters.NotifyItem;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.collections.HashList;
 
-public abstract class PagerCardAdapter extends PagerAdapter implements CardAdapter{
+public class PagerCardAdapter extends PagerAdapter implements CardAdapter{
 
     private final ArrayList<Holder> holders = new ArrayList<>();
     private final ArrayList<Card> items = new ArrayList<>();
@@ -35,6 +37,8 @@ public abstract class PagerCardAdapter extends PagerAdapter implements CardAdapt
     public Object instantiateItem(ViewGroup parent, int position) {
         Holder holder = getFreeHolder(parent);
         parent.addView(holder.itemView);
+        holder.itemView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+        holder.itemView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
         for(int i = position; i < position + notifyCount && i < items.size(); i++)
             if(items.get(i) instanceof NotifyItem)
@@ -56,6 +60,7 @@ public abstract class PagerCardAdapter extends PagerAdapter implements CardAdapt
 
         frame.addView(ToolsView.removeFromParent(cardView));
         frame.setTag(card.getClass());
+        ((FrameLayout.LayoutParams)cardView.getLayoutParams()).gravity = Gravity.CENTER;
 
         card.bindView(cardView);
 
