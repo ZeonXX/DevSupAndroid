@@ -18,6 +18,14 @@ public class CardTitle extends Card {
     private boolean customColor;
     private int textColor;
 
+    public CardTitle(){
+
+    }
+
+    public CardTitle(String title){
+        setTitle(title);
+    }
+
     @Override
     public int getLayout() {
         return R.layout.card_title;
@@ -58,17 +66,17 @@ public class CardTitle extends Card {
         return this;
     }
 
-    public CardTitle setText(@StringRes  int title) {
-        return setText(ToolsResources.getString(title));
+    public CardTitle setTitle(@StringRes  int title) {
+        return setTitle(ToolsResources.getString(title));
     }
 
-    public CardTitle setText(String title) {
+    public CardTitle setTitle(String title) {
         this.title = title;
         update();
         return this;
     }
 
-    public CardTitle setTextColor(int color) {
+    public CardTitle setTitleColor(int color) {
         customColor = true;
         textColor = color;
         update();

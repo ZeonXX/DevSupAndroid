@@ -1,7 +1,9 @@
 package com.sup.dev.android.views.adapters.pager;
 
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
@@ -10,10 +12,10 @@ import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
-public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends PagerRecyclerArrayAdapter<K, V> {
+public class PagerCardAdapterLoader<X> extends PagerCardAdapter {
 
-    private final Callback2<Callback1<X[]>, ArrayList<K>> loader;
-    private final Provider1<X, K> mapper;
+    private final Callback2<Callback1<X[]>, ArrayList<Card>> loader;
+    private final Provider1<X, Card> mapper;
 
     private int startLoadOffset = 0;
     private boolean lock;
@@ -24,28 +26,24 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     private Callback onLoadingAndNotEmpty;
     private Callback onLoadedNotEmpty;
 
-    public PagerRecyclerArrayAdapterLoader(int layoutRes, Callback2<Callback1<X[]>, ArrayList<K>> loader, Provider1<X, K> mapper) {
-        super(layoutRes);
+    public PagerCardAdapterLoader(Callback2<Callback1<X[]>, ArrayList<Card>> loader, Provider1<X, Card> mapper) {
+        super();
         this.loader = loader;
         this.mapper = mapper;
     }
 
     @Override
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setBinder(Callback2<V, K> binder) {
-        return (PagerRecyclerArrayAdapterLoader<K, X, V>) super.setBinder(binder);
-    }
+    public Object instantiateItem(ViewGroup parent, int position) {
+        Object o = super.instantiateItem(parent, position);
 
-    @Override
-    public void bind(V view, K item) {
-        super.bind(view, item);
-        int position = indexOf(item);
-
-        if (lock || inProgress) return;
+        if (lock || inProgress) return o;
 
         if (position >= size() - 1 - startLoadOffset) {
             inProgress = true;
             ToolsThreads.main(true, this::loadNow);
         }
+
+        return o;
     }
 
 
@@ -58,19 +56,19 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     private void loadNow() {
         lock = false;
 
-        if (items.isEmpty()) {
+        if (isEmpty()) {
             if (onLoadingAndEmpty != null) onLoadingAndEmpty.callback();
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty.callback();
         }
 
-        loader.callback(this::onLoaded, items);
+        loader.callback(this::onLoaded, getItems());
     }
 
     private void onLoaded(X[] result) {
 
         inProgress = false;
-        boolean isEmpty = items.isEmpty();
+        boolean isEmpty = isEmpty();
 
         if (result == null) {
             if (isEmpty && onErrorAndEmpty != null) onErrorAndEmpty.callback();
@@ -110,39 +108,39 @@ public class PagerRecyclerArrayAdapterLoader<K, X, V extends View> extends Pager
     //
 
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setOnLoadedNotEmpty(Callback onLoadedNotEmpty) {
+    public PagerCardAdapterLoader<X> setOnLoadedNotEmpty(Callback onLoadedNotEmpty) {
         this.onLoadedNotEmpty = onLoadedNotEmpty;
         return this;
     }
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setOnLoadingAndNotEmpty(Callback onLoadingAndNotEmpty) {
+    public PagerCardAdapterLoader<X> setOnLoadingAndNotEmpty(Callback onLoadingAndNotEmpty) {
         this.onLoadingAndNotEmpty = onLoadingAndNotEmpty;
         return this;
     }
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setOnLoadingAndEmpty(Callback onLoadingAndEmpty) {
+    public PagerCardAdapterLoader<X> setOnLoadingAndEmpty(Callback onLoadingAndEmpty) {
         this.onLoadingAndEmpty = onLoadingAndEmpty;
         return this;
     }
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setOnEmpty(Callback onEmpty) {
+    public PagerCardAdapterLoader<X> setOnEmpty(Callback onEmpty) {
         this.onEmpty = onEmpty;
         return this;
     }
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setOnErrorAndEmpty(Callback onErrorAndEmpty) {
+    public PagerCardAdapterLoader<X> setOnErrorAndEmpty(Callback onErrorAndEmpty) {
         this.onErrorAndEmpty = onErrorAndEmpty;
         return this;
     }
 
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setStartLoadOffset(int startLoadOffset) {
+    public PagerCardAdapterLoader<X> setStartLoadOffset(int startLoadOffset) {
         this.startLoadOffset = startLoadOffset;
         return this;
     }
 
     @Override
-    public PagerRecyclerArrayAdapterLoader<K, X, V> setNotifyCount(int notifyCount) {
-        return (PagerRecyclerArrayAdapterLoader<K, X, V>) super.setNotifyCount(notifyCount);
+    public PagerCardAdapterLoader<X> setNotifyCount(int notifyCount) {
+        return (PagerCardAdapterLoader<X>) super.setNotifyCount(notifyCount);
     }
 
     //

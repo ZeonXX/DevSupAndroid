@@ -2,19 +2,19 @@ package com.sup.dev.android.views.adapters.recycler_view;
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.views.adapters.CardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.android.views.cards.CardLoading;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardAdapter {
+public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardAdapter implements CardAdapter {
 
     private Callback2<Callback1<V[]>, ArrayList<K>> bottomLoader;
     private Callback2<Callback1<V[]>, ArrayList<K>> topLoader;
@@ -138,7 +138,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     }
 
     public void reload(boolean bottom) {
-        removeClass(cardClass);
+        remove(cardClass);
         load(bottom);
     }
 
@@ -160,8 +160,8 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     }
 
     @Override
-    public void removeIndex(int position) {
-        super.removeIndex(position);
+    public void remove(int position) {
+        super.remove(position);
         if (onEmpty != null && isEmpty()) onEmpty.callback();
     }
 

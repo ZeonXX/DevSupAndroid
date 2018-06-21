@@ -6,7 +6,6 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.CardDivider;
 import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;

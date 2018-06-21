@@ -5,12 +5,11 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.android.views.adapters.CardAdapter;
 
 public abstract class Card {
 
-    public RecyclerCardAdapter adapter;
+    public CardAdapter adapter;
 
     public Object tag;
 
@@ -44,7 +43,7 @@ public abstract class Card {
         return (layout > 0)?ToolsView.inflate(context, getLayout()):instanceView();
     }
 
-    public void setAdapter(RecyclerCardAdapter adapter) {
+    public void setAdapter(CardAdapter adapter) {
         this.adapter = adapter;
     }
 

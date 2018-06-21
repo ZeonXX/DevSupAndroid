@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.adapters.recycler_view;
+package com.sup.dev.android.views.adapters;
 
 public interface NotifyItem {
 

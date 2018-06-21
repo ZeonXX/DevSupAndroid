@@ -1,45 +1,58 @@
 package com.sup.dev.android.views.adapters.recycler_view;
 
+
 import android.content.Context;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.android.views.adapters.CardAdapter;
+import com.sup.dev.android.views.adapters.NotifyItem;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.java.classes.collections.HashList;
 import com.sup.dev.java.tools.ToolsClass;
 
-import java.util.ArrayList;
 
-public class RecyclerCardAdapter extends RecyclerArrayAdapter<Card> {
+public abstract class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapter.Holder> implements CardAdapter {
 
     private final HashList<Class<? extends Card>, View> viewCash = new HashList<>();
+    private final ArrayList<Card> items = new ArrayList<>();
+    private final ArrayList<Holder> holders = new ArrayList<>();
 
-    public RecyclerCardAdapter() {
-        super(0);
-    }
+    private int notifyCount = 0;
+
+    //
+    //  Bind
+    //
 
     @Override
-    protected View instanceView(Context context) {
-        return new FrameLayout(context);
-    }
+    public final void onBindViewHolder(final Holder holder, final int position) {
+        for (int i = position; i < position + notifyCount && i < items.size(); i++)
+            if (items.get(i) instanceof NotifyItem)
+                ((NotifyItem) items.get(i)).notifyItem();
+        removeItemFromHolders(items.get(position));
+        holder.item = items.get(position);
 
-    @Override
-    protected void bind(View view, Card card) {
-
-        FrameLayout frame = (FrameLayout) view;
+        Card card = items.get(position);
+        FrameLayout frame = (FrameLayout) holder.itemView;
 
         Class<? extends Card> tag = (Class<? extends Card>) frame.getTag();
 
-        if(frame.getChildCount() != 0)
+        if (frame.getChildCount() != 0)
             viewCash.add(tag, frame.getChildAt(0));
         frame.removeAllViews();
 
         View cardView = viewCash.removeOne(card.getClass());
-        if(cardView == null)
-            cardView = card.instanceView(view.getContext());
+        if (cardView == null)
+            cardView = card.instanceView(frame.getContext());
 
 
         frame.addView(ToolsView.removeFromParent(cardView));
@@ -49,27 +62,101 @@ public class RecyclerCardAdapter extends RecyclerArrayAdapter<Card> {
     }
 
     @Override
-    public void add(@NonNull Card o) {
-        o.setAdapter(this);
-        super.add(o);
+    public Holder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        View view = new FrameLayout(parent.getContext());
+        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        Holder holder = new Holder(view);
+        holders.add(holder);
+        return holder;
     }
 
-    @Override
-    public void add(int p, @NonNull Card o) {
-        o.setAdapter(this);
-        super.add(p, o);
-    }
+    //
+    //  Items
+    //
 
-    @Override
-    public void remove(@NonNull Card o) {
-        o.setAdapter(null);
-        super.remove(o);
-    }
 
-    public void removeClass(Class<? extends Card> c) {
+    public boolean containsClass(Class<? extends Card> c) {
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))
-                removeIndex(i--);
+                return true;
+        return false;
+    }
+
+    public int sizeClass(Class<? extends Card> c) {
+        int x = 0;
+        for (int i = 0; i < getItemCount(); i++)
+            if (ToolsClass.instanceOf(get(i).getClass(), c))
+                x++;
+        return x;
+    }
+
+
+    @MainThread
+    public void add(@NonNull List<Card> list) {
+        for (Card card : list)
+            add(card);
+    }
+
+    @MainThread
+    public void add(@NonNull Card card) {
+        add(items.size(), card);
+    }
+
+    @MainThread
+    public void add(int p, @NonNull Card card) {
+        card.setAdapter(this);
+        items.add(p, card);
+        notifyItemInserted(p);
+    }
+
+    @MainThread
+    public void remove(@NonNull Card card) {
+        card.setAdapter(null);
+        int position = items.indexOf(card);
+        if (position == -1) return;
+        remove(position);
+    }
+
+    public void remove(Class<? extends Card> c) {
+        for (int i = 0; i < getItemCount(); i++)
+            if (ToolsClass.instanceOf(get(i).getClass(), c))
+                remove(i--);
+    }
+
+    @MainThread
+    public void remove(int position) {
+        Card card = items.remove(position);
+        notifyItemRemoved(position);
+        removeItemFromHolders(card);
+    }
+
+    @MainThread
+    public void remove(@NonNull List<Card> list) {
+        for (Card card : list) remove(card);
+    }
+
+    @MainThread
+    public void replace(int index, @NonNull Card o) {
+        removeItemFromHolders(items.get(index));
+        items.set(index, o);
+        notifyItemChanged(index);
+    }
+
+    @MainThread
+    public void clear() {
+        int count = items.size();
+        items.clear();
+        notifyItemRangeRemoved(0, count);
+        for (Holder h : holders)
+            h.item = null;
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+    protected ArrayList<Holder> getHolders() {
+        return holders;
     }
 
 
@@ -81,40 +168,85 @@ public class RecyclerCardAdapter extends RecyclerArrayAdapter<Card> {
         return list;
     }
 
-    public <K extends Card>ArrayList<K> getByClass(Class<K> c) {
+    public <K extends Card> ArrayList<K> getByClass(Class<K> c) {
         ArrayList<K> list = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))
-                list.add((K)get(i));
+                list.add((K) get(i));
         return list;
     }
 
-    public boolean containsClass(Class<? extends Card> c){
-        for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
-                return true;
-        return false;
-    }
-
-    public int sizeClass(Class<? extends Card> c){
-        int x = 0;
-        for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
-               x++;
-        return x;
-    }
-
-    @Nullable
     public View getView(Card item) {
-        View view = super.getView(item);
+        View view = null;
 
-        if(view != null){
+        for (Holder h : holders)
+            if (h.item == item)
+                view = h.itemView;
+
+        if (view != null) {
             FrameLayout frame = (FrameLayout) view;
-            if(frame.getChildCount() == 1)
+            if (frame.getChildCount() == 1)
                 return frame.getChildAt(0);
         }
 
         return null;
+    }
+
+    public Card get(int index) {
+        return items.get(index);
+    }
+
+    public int indexOf(@NonNull Card o) {
+        return items.indexOf(o);
+    }
+
+    public boolean contains(@NonNull Card o) {
+        return items.contains(o);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public int size() {
+        return getItemCount();
+    }
+
+    private void removeItemFromHolders(Card item) {
+        for (Holder h : holders)
+            if (h.item == item)
+                h.item = null;
+    }
+
+    //
+    //  Notify
+    //
+
+    public void notifyAllChanged() {
+        notifyItemRangeChanged(0, getItemCount());
+    }
+
+    //
+    //  Setters
+    //
+
+    public RecyclerCardAdapter setNotifyCount(int notifyCount) {
+        this.notifyCount = notifyCount;
+        return this;
+    }
+
+    //
+    //  Holder
+    //
+
+    protected static class Holder extends RecyclerView.ViewHolder {
+
+        public Card item;
+
+        public Holder(View itemView) {
+            super(itemView);
+        }
     }
 
 }

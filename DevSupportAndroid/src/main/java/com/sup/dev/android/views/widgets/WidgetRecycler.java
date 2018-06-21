@@ -9,12 +9,9 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.popup.PopupWidget;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.sheets.SheetWidget;
-import com.sup.dev.android.views.views.layouts.LayoutMaxSizes;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class WidgetRecycler extends Widget {
 

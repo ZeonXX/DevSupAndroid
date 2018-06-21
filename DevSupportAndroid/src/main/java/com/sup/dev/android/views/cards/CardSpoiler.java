@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
+import com.sup.dev.android.views.adapters.CardAdapter;
 
 import java.util.ArrayList;
 
@@ -95,7 +95,7 @@ public class CardSpoiler extends Card {
     }
 
     @Override
-    public void setAdapter(RecyclerCardAdapter adapter) {
+    public void setAdapter(CardAdapter adapter) {
         super.setAdapter(adapter);
         setExpanded(expanded);
     }
