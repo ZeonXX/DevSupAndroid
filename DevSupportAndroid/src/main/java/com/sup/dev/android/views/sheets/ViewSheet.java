@@ -18,6 +18,7 @@ import com.sup.dev.android.libs.screens.SNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.behavior.BehaviorBottomSheet;
+import com.sup.dev.android.views.widgets.Widget;
 import com.sup.dev.java.classes.providers.Provider;
 import com.sup.dev.java.tools.ToolsThreads;
 
@@ -56,6 +57,9 @@ public class ViewSheet extends FrameLayout {
         setBackgroundColor(ToolsResources.getBackgroundColor(viewContext));
     }
 
+    public void setSheet(Widget widget) {
+        setSheet(widget.asSheet());
+    }
     public void setSheet(Sheet sheet) {
 
         this.nextSheet = sheet;
