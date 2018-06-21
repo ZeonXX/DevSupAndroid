@@ -1,12 +1,5 @@
 <resources>
 
-    <!-- THEME -->
-
-    <attr name="iconsFilter" format="color"/>
-    <attr name="iconsFilterInverse" format="color"/>
-    <attr name="contentBackground" format="color"/>
-
-
     <!-- Styles -->
 
     <style name="Touchable">
@@ -36,14 +29,6 @@
 
     <style name="Icon.18">
         <item name="android:padding">9dp</item>
-    </style>
-
-    <style name="Icon.Filtered">
-        <item name="ViewIcon_filter">?iconsFilter</item>
-    </style>
-
-    <style name="Icon.FilteredInverse">
-        <item name="ViewIcon_filter">?iconsFilterInverse</item>
     </style>
 
     <style name="Toolbar">

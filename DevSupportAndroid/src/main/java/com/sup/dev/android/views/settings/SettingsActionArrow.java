@@ -22,7 +22,7 @@ public class SettingsActionArrow extends SettingsAction {
         super(context, attrs);
 
         vArrow = new ImageView(context);
-        vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp);
+        vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_grey_500_24dp);
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsActionArrow, 0, 0);
@@ -49,9 +49,9 @@ public class SettingsActionArrow extends SettingsAction {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         if (enabled)
-            vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp);
+            vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_grey_500_24dp);
         else
-            vArrow.setImageBitmap(ToolsBitmap.filter(R.drawable.ic_keyboard_arrow_right_white_24dp, 0xAFFFFFFF, true));
+            vArrow.setImageBitmap(ToolsBitmap.filter(R.drawable.ic_keyboard_arrow_right_grey_500_24dp, 0xAFFFFFFF, true));
     }
 
 }
