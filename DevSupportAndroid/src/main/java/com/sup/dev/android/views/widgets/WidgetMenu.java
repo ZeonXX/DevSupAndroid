@@ -11,10 +11,12 @@ import com.sup.dev.android.views.cards.CardDivider;
 import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
 public class WidgetMenu extends WidgetRecycler {
 
     private final RecyclerCardAdapter adapter;
+    private Callback2<WidgetMenu, String> onGlobalSelected;
 
     private int prefCount = 0;
 
@@ -39,6 +41,7 @@ public class WidgetMenu extends WidgetRecycler {
         item.card.setOnClick((v,x,y) -> {
             hide();
             if (item.onClick != null) item.onClick.callback(this);
+            if(onGlobalSelected != null) onGlobalSelected.callback(this, item.text);
         });
 
 
@@ -60,6 +63,10 @@ public class WidgetMenu extends WidgetRecycler {
         finishItemBuilding();
         adapter.add(new CardDividerTitle().setText(title));
         return this;
+    }
+
+    public void setOnGlobalSelected(Callback2<WidgetMenu, String> onGlobalSelected) {
+        this.onGlobalSelected = onGlobalSelected;
     }
 
     //

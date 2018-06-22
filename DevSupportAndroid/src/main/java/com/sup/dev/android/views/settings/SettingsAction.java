@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.views.views.ViewIcon;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class SettingsAction extends Settings {
 
@@ -53,6 +54,12 @@ public class SettingsAction extends Settings {
         vSubViewContainer.removeAllViews();
         if (view != null)
             vSubViewContainer.addView(view);
+    }
+
+    @Override
+    public void setOnTouchListener(OnTouchListener l) {
+        Debug.printStack();
+        super.setOnTouchListener(l);
     }
 
     //

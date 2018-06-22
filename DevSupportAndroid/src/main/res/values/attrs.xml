@@ -227,8 +227,15 @@
         <attr name="SettingsAction_icon_background" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="SettingsSelection">
+        <attr name="SettingsSelection_lineVisible" format="boolean"/>
+        <attr name="SettingsSelection_title" format="string"/>
+        <attr name="SettingsSelection_subtitle" format="string"/>
+        <attr name="SettingsSelection_icon" format="reference"/>
+        <attr name="SettingsSelection_icon_background" format="color"/>
+    </declare-styleable>
 
-    <declare-styleable name="SettingsActionArrow">
+    <declare-styleable name="SettingsArrow">
         <attr name="SettingsActionArrow_lineVisible" format="boolean"/>
         <attr name="SettingsActionArrow_title" format="string"/>
         <attr name="SettingsActionArrow_subtitle" format="string"/>
@@ -236,7 +243,7 @@
         <attr name="SettingsActionArrow_icon_background" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="SettingsActionCheckBox">
+    <declare-styleable name="SettingsCheckBox">
         <attr name="SettingsActionCheckBox_lineVisible" format="boolean"/>
         <attr name="SettingsActionCheckBox_title" format="string"/>
         <attr name="SettingsActionCheckBox_subtitle" format="string"/>
@@ -245,7 +252,7 @@
         <attr name="SettingsActionCheckBox_icon_background" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="SettingsActionSwitcher">
+    <declare-styleable name="SettingsSwitcher">
         <attr name="SettingsActionSwitcher_lineVisible" format="boolean"/>
         <attr name="SettingsActionSwitcher_title" format="string"/>
         <attr name="SettingsActionSwitcher_subtitle" format="string"/>

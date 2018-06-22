@@ -7,38 +7,39 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.Switch;
+import android.widget.CheckBox;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.tools.ToolsView;
 
-public class SettingsActionSwitcher extends SettingsAction {
+public class SettingsCheckBox extends SettingsAction {
 
-    private final Switch vSwitcher;
+    private final CheckBox vCheckBox;
 
     private OnClickListener onClickListener;
     private boolean salient;
 
-    public SettingsActionSwitcher(@NonNull Context context) {
+    public SettingsCheckBox(@NonNull Context context) {
         this(context, null);
     }
 
-    public SettingsActionSwitcher(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public SettingsCheckBox(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        vSwitcher = new Switch(context);
-        vSwitcher.setFocusable(false);
-        vSwitcher.setOnCheckedChangeListener((v, b) -> {
+        vCheckBox = ToolsView.inflate(context, R.layout.view_check_box);
+        vCheckBox.setFocusable(false);
+        vCheckBox.setOnCheckedChangeListener((v, b) -> {
             setEnabledSubSettings(b);
             if (!salient) onClick();
         });
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsActionSwitcher, 0, 0);
-        boolean lineVisible = a.getBoolean(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_lineVisible, true);
-        String title = a.getString(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_title);
-        String subtitle = a.getString(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_subtitle);
-        int icon = a.getResourceId(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_icon, 0);
-        boolean checked = a.getBoolean(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_checked, false);
-        int iconBackground = a.getColor(R.styleable.SettingsActionSwitcher_SettingsActionSwitcher_icon_background, 0x01FF0000);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsCheckBox, 0, 0);
+        boolean lineVisible = a.getBoolean(R.styleable.SettingsCheckBox_SettingsActionCheckBox_lineVisible, true);
+        String title = a.getString(R.styleable.SettingsCheckBox_SettingsActionCheckBox_title);
+        String subtitle = a.getString(R.styleable.SettingsCheckBox_SettingsActionCheckBox_subtitle);
+        int icon = a.getResourceId(R.styleable.SettingsCheckBox_SettingsActionCheckBox_icon, 0);
+        boolean checked = a.getBoolean(R.styleable.SettingsCheckBox_SettingsActionCheckBox_checked, false);
+        int iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsActionCheckBox_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);
@@ -46,15 +47,16 @@ public class SettingsActionSwitcher extends SettingsAction {
         setSubtitle(subtitle);
         setIcon(icon);
         setChecked(checked);
-        setSubView(vSwitcher);
+        setSubView(vCheckBox);
         setIconBackground(iconBackground);
 
         super.setOnClickListener(v -> {
             salient = true;
-            vSwitcher.setChecked(!vSwitcher.isChecked());
+            vCheckBox.setChecked(!vCheckBox.isChecked());
             salient = false;
             onClick();
         });
+
     }
 
     private void onClick() {
@@ -94,17 +96,16 @@ public class SettingsActionSwitcher extends SettingsAction {
         this.onClickListener = onClickListener;
     }
 
-
     public void setChecked(boolean checked) {
         salient = true;
-        vSwitcher.setChecked(checked);
+        vCheckBox.setChecked(checked);
         salient = false;
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        vSwitcher.setEnabled(enabled);
+        vCheckBox.setEnabled(enabled);
     }
 
     //
@@ -112,8 +113,7 @@ public class SettingsActionSwitcher extends SettingsAction {
     //
 
     public boolean isChecked() {
-        return vSwitcher.isChecked();
+        return vCheckBox.isChecked();
     }
-
 
 }

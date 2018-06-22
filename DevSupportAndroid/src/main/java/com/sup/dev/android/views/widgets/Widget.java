@@ -15,6 +15,7 @@ import com.sup.dev.android.views.sheets.SheetWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class Widget {
 
@@ -163,6 +164,7 @@ public abstract class Widget {
     public Widget showPopupWhenClick(View view, Provider<Boolean> willShow) {
         PopupWidget popup = asPopup();
         ToolsView.setOnClickCoordinates(view, (view1, x, y) -> {
+            Debug.log(willShow, view1, x, y);
             if (willShow == null || willShow.provide()) popup.show(view1, x, y);
         });
         return this;

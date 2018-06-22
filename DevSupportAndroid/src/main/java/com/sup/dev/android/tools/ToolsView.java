@@ -26,6 +26,7 @@ import com.sup.dev.android.views.dialogs.Dialog;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.items.Item;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import static android.view.View.GONE;
@@ -35,8 +36,8 @@ public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
 
-    public static View removeFromParent(View view){
-        if(view.getParent() != null) ((ViewGroup)view.getParent()).removeView(view);
+    public static View removeFromParent(View view) {
+        if (view.getParent() != null) ((ViewGroup) view.getParent()).removeView(view);
         return view;
     }
 
@@ -70,13 +71,16 @@ public class ToolsView {
 
         v.setOnTouchListener((v1, event) -> {
             clickScreenX.a = (int) event.getX();
-            clickScreenY.a = (int) (event.getY());
+            clickScreenY.a = (int) event.getY();
             return false;
         });
 
         v.setOnClickListener(v1 -> {
-            if (onClick != null) onClick.callback(v, clickScreenX.a, clickScreenY.a);
+            if (onClick != null) onClick.callback(v, clickScreenX.a == null ? 0 : clickScreenX.a, clickScreenY.a == null ? 0 : clickScreenY.a);
         });
+
+
+
     }
 
     public static void setOnLongClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
