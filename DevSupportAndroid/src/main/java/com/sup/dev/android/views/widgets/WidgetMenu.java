@@ -59,9 +59,17 @@ public class WidgetMenu extends WidgetRecycler {
         return group(ToolsResources.getString(title));
     }
 
+    public WidgetMenu group(@StringRes int title, boolean divider) {
+        return group(ToolsResources.getString(title), divider);
+    }
+
     public WidgetMenu group(String title) {
+        return group(title, true);
+    }
+
+    public WidgetMenu group(String title, boolean divider) {
         finishItemBuilding();
-        adapter.add(new CardDividerTitle().setText(title));
+        adapter.add(new CardDividerTitle().setText(title).setDivider(divider));
         return this;
     }
 

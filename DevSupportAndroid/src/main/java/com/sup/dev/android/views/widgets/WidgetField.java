@@ -42,6 +42,8 @@ public class WidgetField extends Widget {
         vEnter = view.findViewById(R.id.enter);
         vTitle = view.findViewById(R.id.title);
 
+        vTitle.setText(null);
+
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vTitle.setVisibility(View.GONE);

@@ -49,6 +49,8 @@ public class WidgetAlert extends Widget {
         vImageContainer = findViewById(R.id.image_container);
         vImage = findViewById(R.id.image);
 
+        vTitle.setText(null);
+
         vTitle.setVisibility(View.GONE);
         vText.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);

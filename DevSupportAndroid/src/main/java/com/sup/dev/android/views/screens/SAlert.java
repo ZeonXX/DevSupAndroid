@@ -9,8 +9,6 @@ import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.views.views.ViewChip;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
-import static com.sup.dev.android.app.SupAndroid.SCREEN_ALERT_COLOR;
-
 public class SAlert extends Screen {
 
     public static void showNetwork(SNavigator.Action action, Callback onRetry) {
@@ -43,8 +41,6 @@ public class SAlert extends Screen {
         vTitle.setText(title);
         vText.setText(text);
         vAction.setText(action);
-
-        if(SCREEN_ALERT_COLOR != 0)setBackgroundColor(SCREEN_ALERT_COLOR);
 
         vAction.setOnClickListener(v -> {
             if (onAction != null) onAction.callback();

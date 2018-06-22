@@ -9,8 +9,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,19 @@ import static android.view.View.VISIBLE;
 public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
+
+    public static void recyclerHideFabWhenScrollEnd(RecyclerView vRecycler, FloatingActionButton vFab){
+        vRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (vRecycler.computeVerticalScrollOffset() != 0
+                        && vRecycler.computeVerticalScrollOffset() + 50 >= vRecycler.computeVerticalScrollRange() - vRecycler.computeVerticalScrollExtent())
+                    vFab.hide();
+                else vFab.show();
+            }
+
+        });
+    }
 
     public static View removeFromParent(View view) {
         if (view.getParent() != null) ((ViewGroup) view.getParent()).removeView(view);

@@ -2,9 +2,7 @@
 <resources>
 
     <declare-styleable name="Sheet">
-        <attr name="Sheet_fabId" format="reference"/>
         <attr name="Sheet_dimId" format="reference"/>
-        <attr name="Sheet_openOnFab" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ViewCircleImage">
@@ -236,29 +234,29 @@
     </declare-styleable>
 
     <declare-styleable name="SettingsArrow">
-        <attr name="SettingsActionArrow_lineVisible" format="boolean"/>
-        <attr name="SettingsActionArrow_title" format="string"/>
-        <attr name="SettingsActionArrow_subtitle" format="string"/>
-        <attr name="SettingsActionArrow_icon" format="reference"/>
-        <attr name="SettingsActionArrow_icon_background" format="color"/>
+        <attr name="SettingsArrow_lineVisible" format="boolean"/>
+        <attr name="SettingsArrow_title" format="string"/>
+        <attr name="SettingsArrow_subtitle" format="string"/>
+        <attr name="SettingsArrow_icon" format="reference"/>
+        <attr name="SettingsArrow_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsCheckBox">
-        <attr name="SettingsActionCheckBox_lineVisible" format="boolean"/>
-        <attr name="SettingsActionCheckBox_title" format="string"/>
-        <attr name="SettingsActionCheckBox_subtitle" format="string"/>
-        <attr name="SettingsActionCheckBox_icon" format="reference"/>
-        <attr name="SettingsActionCheckBox_checked" format="boolean"/>
-        <attr name="SettingsActionCheckBox_icon_background" format="color"/>
+        <attr name="SettingsCheckBox_lineVisible" format="boolean"/>
+        <attr name="SettingsCheckBox_title" format="string"/>
+        <attr name="SettingsCheckBox_subtitle" format="string"/>
+        <attr name="SettingsCheckBox_icon" format="reference"/>
+        <attr name="SettingsCheckBox_checked" format="boolean"/>
+        <attr name="SettingsCheckBox_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsSwitcher">
-        <attr name="SettingsActionSwitcher_lineVisible" format="boolean"/>
-        <attr name="SettingsActionSwitcher_title" format="string"/>
-        <attr name="SettingsActionSwitcher_subtitle" format="string"/>
-        <attr name="SettingsActionSwitcher_icon" format="reference"/>
-        <attr name="SettingsActionSwitcher_checked" format="boolean"/>
-        <attr name="SettingsActionSwitcher_icon_background" format="color"/>
+        <attr name="SettingsSwitcher_lineVisible" format="boolean"/>
+        <attr name="SettingsSwitcher_title" format="string"/>
+        <attr name="SettingsSwitcher_subtitle" format="string"/>
+        <attr name="SettingsSwitcher_icon" format="reference"/>
+        <attr name="SettingsSwitcher_checked" format="boolean"/>
+        <attr name="SettingsSwitcher_icon_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsField">

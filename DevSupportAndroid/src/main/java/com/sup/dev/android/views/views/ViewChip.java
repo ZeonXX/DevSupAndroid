@@ -84,7 +84,7 @@ public class ViewChip extends FrameLayout {
         unselectedBackground = a.getColor(R.styleable.ViewChip_ViewChip_unselectBackground, unselectedBackground);
         isChipSelected = a.getBoolean(R.styleable.ViewChip_ViewChip_selected, isChipSelected);
         useIconBackground = a.getBoolean(R.styleable.ViewChip_ViewChip_iconUseBackground, useIconBackground);
-        int textGravity = a.getInteger(R.styleable.ViewChip_ViewChip_textGravity, 1);
+        int textGravity = a.getInteger(R.styleable.ViewChip_ViewChip_textGravity, 0);
         int icon = a.getResourceId(R.styleable.ViewChip_ViewChip_icon, 0);
         float iconPadding = a.getDimension(R.styleable.ViewChip_ViewChip_iconPadding, 0);
         float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, ToolsView.dpToPx(36));

@@ -33,12 +33,12 @@ public class SettingsSwitcher extends SettingsAction {
         });
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSwitcher, 0, 0);
-        boolean lineVisible = a.getBoolean(R.styleable.SettingsSwitcher_SettingsActionSwitcher_lineVisible, true);
-        String title = a.getString(R.styleable.SettingsSwitcher_SettingsActionSwitcher_title);
-        String subtitle = a.getString(R.styleable.SettingsSwitcher_SettingsActionSwitcher_subtitle);
-        int icon = a.getResourceId(R.styleable.SettingsSwitcher_SettingsActionSwitcher_icon, 0);
-        boolean checked = a.getBoolean(R.styleable.SettingsSwitcher_SettingsActionSwitcher_checked, false);
-        int iconBackground = a.getColor(R.styleable.SettingsSwitcher_SettingsActionSwitcher_icon_background, 0x01FF0000);
+        boolean lineVisible = a.getBoolean(R.styleable.SettingsSwitcher_SettingsSwitcher_lineVisible, true);
+        String title = a.getString(R.styleable.SettingsSwitcher_SettingsSwitcher_title);
+        String subtitle = a.getString(R.styleable.SettingsSwitcher_SettingsSwitcher_subtitle);
+        int icon = a.getResourceId(R.styleable.SettingsSwitcher_SettingsSwitcher_icon, 0);
+        boolean checked = a.getBoolean(R.styleable.SettingsSwitcher_SettingsSwitcher_checked, false);
+        int iconBackground = a.getColor(R.styleable.SettingsSwitcher_SettingsSwitcher_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);

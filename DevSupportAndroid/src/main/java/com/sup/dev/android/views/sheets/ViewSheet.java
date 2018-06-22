@@ -24,13 +24,10 @@ import com.sup.dev.java.tools.ToolsThreads;
 
 public class ViewSheet extends FrameLayout {
 
-    private final int fabId;
     private final int dimId;
-    private final boolean openOnFab;
 
     private Sheet sheet;
     private Sheet nextSheet;
-    private FloatingActionButton vFab;
     private View vDim;
     private BehaviorBottomSheet behavior;
     private boolean rebindViewInProgress;
@@ -48,9 +45,7 @@ public class ViewSheet extends FrameLayout {
         SupAndroid.initEditMode(this);
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Sheet, 0, 0);
-        fabId = a.getResourceId(R.styleable.Sheet_Sheet_fabId, 0);
         dimId = a.getResourceId(R.styleable.Sheet_Sheet_dimId, 0);
-        openOnFab = a.getBoolean(R.styleable.Sheet_Sheet_openOnFab, false);
         a.recycle();
 
         setClickable(true); //  Чтоб не тригерился vDim, когда нажимаешь на тело диалога
@@ -101,12 +96,6 @@ public class ViewSheet extends FrameLayout {
         behavior = (BehaviorBottomSheet) BottomSheetBehavior.from(this);
         if (sheet != null) behavior.setCanColapse(sheet.isCanCollapse());
 
-        if (fabId != 0) {
-            vFab = ToolsView.findViewOnParents(this, fabId);
-            if (vFab != null) {
-                if (openOnFab) vFab.setOnClickListener(v -> show());
-            }
-        }
         if (dimId != 0) {
             vDim = ToolsView.findViewOnParents(this, dimId);
             if (vDim != null) {
@@ -134,6 +123,16 @@ public class ViewSheet extends FrameLayout {
 
 
         });
+    }
+
+    public <K extends ViewSheet> K show(Widget widget) {
+        setSheet(widget.asSheet());
+        return show();
+    }
+
+    public <K extends ViewSheet> K show(Sheet sheet) {
+        setSheet(sheet);
+        return show();
     }
 
     public <K extends ViewSheet> K show() {
@@ -165,7 +164,10 @@ public class ViewSheet extends FrameLayout {
     @CallSuper
     protected void onCollapsed() {
         SNavigator.removeOnBack(onBackPressed);
-        if (vDim != null) vDim.setClickable(false);
+        if (vDim != null) {
+            vDim.setClickable(false);
+            vDim.setAlpha(0);
+        }
         if (sheet != null) sheet.onCollapsed();
 
         if (rebindViewInProgress) {
@@ -176,7 +178,10 @@ public class ViewSheet extends FrameLayout {
 
     @CallSuper
     protected void onHidden() {
-        if (vDim != null) vDim.setClickable(false);
+        if (vDim != null) {
+            vDim.setClickable(false);
+            vDim.setAlpha(0);
+        }
         if (sheet != null) sheet.onHidden(this);
     }
 

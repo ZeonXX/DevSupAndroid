@@ -9,7 +9,8 @@ import com.sup.dev.android.tools.ToolsResources;
 
 public class CardDividerTitle extends Card {
 
-    private int background = 0x01FF0000;
+    private int background;
+    private boolean divider = true;
     private boolean enabled = true;
 
     private String text;
@@ -22,8 +23,12 @@ public class CardDividerTitle extends Card {
     @Override
     public void bindView(View view) {
         TextView vText =  view.findViewById(R.id.text);
+        View vDivider1 = view.findViewById(R.id.divider_d_1);
+        View vDivider2 = view.findViewById(R.id.divider_d_2);
 
-        if (background != 0x01FF0000) view.setBackgroundColor(background);
+        vDivider1.setVisibility(divider?View.VISIBLE:View.INVISIBLE);
+        vDivider2.setVisibility(divider?View.VISIBLE:View.INVISIBLE);
+        if (background != 0) view.setBackgroundColor(background);
 
         vText.setText(text);
         vText.setEnabled(isEnabled());
@@ -51,6 +56,12 @@ public class CardDividerTitle extends Card {
 
     public CardDividerTitle setText(String text) {
         this.text = text;
+        update();
+        return this;
+    }
+
+    public CardDividerTitle setDivider(boolean divider) {
+        this.divider = divider;
         update();
         return this;
     }

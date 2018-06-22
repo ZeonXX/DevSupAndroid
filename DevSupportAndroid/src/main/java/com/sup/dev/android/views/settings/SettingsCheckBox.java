@@ -34,12 +34,12 @@ public class SettingsCheckBox extends SettingsAction {
         });
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsCheckBox, 0, 0);
-        boolean lineVisible = a.getBoolean(R.styleable.SettingsCheckBox_SettingsActionCheckBox_lineVisible, true);
-        String title = a.getString(R.styleable.SettingsCheckBox_SettingsActionCheckBox_title);
-        String subtitle = a.getString(R.styleable.SettingsCheckBox_SettingsActionCheckBox_subtitle);
-        int icon = a.getResourceId(R.styleable.SettingsCheckBox_SettingsActionCheckBox_icon, 0);
-        boolean checked = a.getBoolean(R.styleable.SettingsCheckBox_SettingsActionCheckBox_checked, false);
-        int iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsActionCheckBox_icon_background, 0x01FF0000);
+        boolean lineVisible = a.getBoolean(R.styleable.SettingsCheckBox_SettingsCheckBox_lineVisible, true);
+        String title = a.getString(R.styleable.SettingsCheckBox_SettingsCheckBox_title);
+        String subtitle = a.getString(R.styleable.SettingsCheckBox_SettingsCheckBox_subtitle);
+        int icon = a.getResourceId(R.styleable.SettingsCheckBox_SettingsCheckBox_icon, 0);
+        boolean checked = a.getBoolean(R.styleable.SettingsCheckBox_SettingsCheckBox_checked, false);
+        int iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsCheckBox_icon_background, 0x01FF0000);
         a.recycle();
 
         setLineVisible(lineVisible);

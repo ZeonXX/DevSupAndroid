@@ -26,11 +26,11 @@ public class SettingsArrow extends SettingsAction {
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsArrow, 0, 0);
-        boolean lineVisible = a.getBoolean(R.styleable.SettingsArrow_SettingsActionArrow_lineVisible, true);
-        String title = a.getString(R.styleable.SettingsArrow_SettingsActionArrow_title);
-        String subtitle = a.getString(R.styleable.SettingsArrow_SettingsActionArrow_subtitle);
-        int icon = a.getResourceId(R.styleable.SettingsArrow_SettingsActionArrow_icon, 0);
-        int iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsActionArrow_icon_background, 0x01FF0000);
+        boolean lineVisible = a.getBoolean(R.styleable.SettingsArrow_SettingsArrow_lineVisible, true);
+        String title = a.getString(R.styleable.SettingsArrow_SettingsArrow_title);
+        String subtitle = a.getString(R.styleable.SettingsArrow_SettingsArrow_subtitle);
+        int icon = a.getResourceId(R.styleable.SettingsArrow_SettingsArrow_icon, 0);
+        int iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsArrow_icon_background, 0x01FF0000);
         setIconBackground(iconBackground);
         a.recycle();
 

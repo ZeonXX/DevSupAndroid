@@ -126,8 +126,6 @@ public class LayoutMaxSizes extends ViewGroup {
         if (fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
             fadeColor = Color.RED;
 
-        Debug.logColor(fadeColor);
-
         if (fadeWSize != 0 && isCroppedW && fadeColor != 0) ToolsPaint.gradientLineLeftRight(canvas, fadeColor, fadeWSize);
         if (fadeHSize != 0 && isCroppedH && fadeColor != 0) ToolsPaint.gradientLineBottomTop(canvas, fadeColor, fadeHSize);
 
