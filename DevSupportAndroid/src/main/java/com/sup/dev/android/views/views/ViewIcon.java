@@ -22,12 +22,12 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
     private final AnimationSpringColor animationSelectedBackground;
 
     private int src = 0;
-    private int filter = 0x01FF0000;
+    private int filter = 0;
     private int srcSelect = 0;
-    private int filterSelect = 0x01FF0000;
+    private int filterSelect = 0;
     private int accentColor;
     private float padding;
-    private int background = 0x01FF0000;
+    private int background = 0;
     private boolean useActiveBackground = true;
     private int circleColor = 0xFFFFFFFF;
     private float circleSize = 0;
@@ -94,7 +94,7 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
         float y = getHeight() / 2;
         float r = getWidth() / 2 - p;
 
-        if (background != 0x01FF0000) {
+        if (background != 0) {
             paint.setColor(isEnabled() ? background : ToolsColor.setAlpha(106, background));
             canvas.drawCircle(x, y, r, paint);
         }
@@ -129,8 +129,8 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
 
         super.setImageResource((selected && srcSelect != 0) ? srcSelect : src);
 
-        int myFilter = (selected && filterSelect != 0x01FF0000) ? filterSelect : filter;
-        if (myFilter != 0x01FF0000) setColorFilter(myFilter, PorterDuff.Mode.SRC_ATOP);
+        int myFilter = (selected && filterSelect != 0) ? filterSelect : filter;
+        if (myFilter != 0) setColorFilter(myFilter, PorterDuff.Mode.SRC_ATOP);
 
         setAlpha((!isEnabled() && transparentOnDisabled)?106:255);
     }

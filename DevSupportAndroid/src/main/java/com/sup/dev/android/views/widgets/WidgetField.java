@@ -17,6 +17,7 @@ import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.classes.providers.Provider1;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
@@ -84,7 +85,7 @@ public class WidgetField extends Widget {
     @Override
     public void onHide() {
         super.onHide();
-        ToolsView.hideKeyboard();
+        ToolsThreads.main(500, () -> ToolsView.hideKeyboard()); //  Без задержки будет скрываться под клавиатуру и оставаться посреди экрана
     }
 
     //

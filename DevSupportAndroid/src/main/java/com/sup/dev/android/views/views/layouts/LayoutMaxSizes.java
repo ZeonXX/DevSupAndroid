@@ -11,8 +11,10 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsPaint;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.tools.ToolsColor;
 
 import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.EXACTLY;
@@ -28,6 +30,8 @@ public class LayoutMaxSizes extends ViewGroup {
     private float maxHeightPercent;
     private boolean alwaysMaxW = false;
     private boolean alwaysMaxH = false;
+    private boolean childAlwaysMaxW = false;
+    private boolean childAlwaysMaxH = false;
     private boolean useScreenWidthAsParent = false;
     private boolean useScreenHeightAsParent = false;
     private boolean allowChildMaxW = false;
@@ -59,6 +63,8 @@ public class LayoutMaxSizes extends ViewGroup {
         maxHeightPercent = a.getFloat(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxHeightParentPercent, maxHeightPercent);
         alwaysMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_alwaysMaxW, alwaysMaxW);
         alwaysMaxH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_alwaysMaxH, alwaysMaxH);
+        childAlwaysMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_childAlwaysMaxW, childAlwaysMaxW);
+        childAlwaysMaxH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_childAlwaysMaxH, childAlwaysMaxH);
         useScreenWidthAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenWidthAsParent, useScreenWidthAsParent);
         useScreenHeightAsParent = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_useScreenHeightAsParent, useScreenHeightAsParent);
         fadeWSize = (int) a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeWSize, fadeWSize);
@@ -78,43 +84,37 @@ public class LayoutMaxSizes extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        boolean uScreenW = useScreenWidthAsParent;
-        boolean uScreenH = useScreenHeightAsParent;
-        int w = uScreenW ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
-        int h = uScreenH ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
-        int maxW = maxWidth;
-        int maxH = maxHeight;
-        float maxWPer = maxWidthPercent;
-        float maxHPer = maxHeightPercent;
-        boolean alMW = alwaysMaxW;
-        boolean alMH = alwaysMaxH;
+        int w = useScreenWidthAsParent ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
+        int h = useScreenHeightAsParent ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
 
-        if (maxWPer != 0) {
-            int arg = (int) (w / 100f * maxWPer);
-            maxW = maxW == 0 || maxW > arg ? arg : maxW;
+        if (maxWidthPercent != 0) {
+            int arg = (int) (w / 100f * maxWidthPercent);
+            maxWidth = maxWidth == 0 || maxWidth > arg ? arg : maxWidth;
         }
 
-        if (maxHPer != 0) {
-            int arg = (int) (h / 100f * maxHPer);
-            maxH = maxH == 0 || maxH > arg ? arg : maxH;
+        if (maxHeightPercent != 0) {
+            int arg = (int) (h / 100f * maxHeightPercent);
+            maxHeight = maxHeight == 0 || maxHeight > arg ? arg : maxHeight;
         }
 
-        if (maxW > 0) w = maxW;
-        if (maxH > 0) h = maxH;
+        if (maxWidth > 0) w = maxWidth;
+        if (maxHeight > 0) h = maxHeight;
 
         int maxChildW = 0;
         int maxChildH = 0;
         for (int i = 0; i < getChildCount(); i++) {
-            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(w, alMW ? EXACTLY : allowChildMaxW ? UNSPECIFIED : AT_MOST),
-                    MeasureSpec.makeMeasureSpec(h, alMH ? EXACTLY : allowChildMaxH ? UNSPECIFIED : AT_MOST));
+            getChildAt(i).measure(
+                    MeasureSpec.makeMeasureSpec(w, childAlwaysMaxW ? EXACTLY : allowChildMaxW ? UNSPECIFIED : AT_MOST),
+                    MeasureSpec.makeMeasureSpec(h, childAlwaysMaxH ? EXACTLY : allowChildMaxH ? UNSPECIFIED : AT_MOST));
             maxChildW = Math.max(getChildAt(i).getMeasuredWidth(), maxChildW);
             maxChildH = Math.max(getChildAt(i).getMeasuredHeight(), maxChildH);
         }
 
+
         isCroppedW = maxChildW > w;
         isCroppedH = maxChildH > h;
 
-        setMeasuredDimension(alMW ? maxW : Math.min(w, maxChildW), alMH ? maxH : Math.min(h, maxChildH));
+        setMeasuredDimension(alwaysMaxW ? maxWidth : w == 0 ? maxChildW : Math.min(w, maxChildW), alwaysMaxH ? maxHeight : h == 0 ? maxChildH : Math.min(h, maxChildH));
 
     }
 
@@ -124,7 +124,7 @@ public class LayoutMaxSizes extends ViewGroup {
 
 
         if (fadeColor == 0 && (fadeHSize != 0 || fadeWSize != 0) && (isCroppedH || isCroppedW))
-            fadeColor = Color.RED;
+            fadeColor = ToolsResources.getColor(R.color.focus);
 
         if (fadeWSize != 0 && isCroppedW && fadeColor != 0) ToolsPaint.gradientLineLeftRight(canvas, fadeColor, fadeWSize);
         if (fadeHSize != 0 && isCroppedH && fadeColor != 0) ToolsPaint.gradientLineBottomTop(canvas, fadeColor, fadeHSize);

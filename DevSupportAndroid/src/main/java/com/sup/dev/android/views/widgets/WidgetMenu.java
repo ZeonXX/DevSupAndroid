@@ -152,16 +152,19 @@ public class WidgetMenu extends WidgetRecycler {
     }
 
     public WidgetMenu groupCondition(boolean b) {
+        finishItemBuilding();
         skipGroup = !b;
         return this;
     }
 
     public WidgetMenu reverseGroupCondition() {
+        finishItemBuilding();
         skipGroup = !skipGroup;
         return this;
     }
 
     public WidgetMenu clearGroupCondition() {
+        finishItemBuilding();
         skipGroup = false;
         return this;
     }
