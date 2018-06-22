@@ -153,7 +153,7 @@ public class WidgetChooseFile extends WidgetRecycler {
 
         public void bindView(View view) {
             SettingsAction settingsAction = (SettingsAction)view;
-            settingsAction.setIcon(R.drawable.ic_keyboard_arrow_left_grey_500_24dp);
+            settingsAction.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp);
             settingsAction.setOnClickListener(v -> setFolder(file.getParentFile()));
             settingsAction.setTitle(file.getName());
         }
@@ -179,7 +179,7 @@ public class WidgetChooseFile extends WidgetRecycler {
         private ViewIcon getViewIcon(Context context) {
             if (viewIcon == null) {
                 viewIcon = ToolsView.inflate(context, R.layout.view_icon);
-                viewIcon.setImageResource(R.drawable.ic_done_grey_500_24dp);
+                viewIcon.setImageResource(R.drawable.ic_done_black_24dp);
                 viewIcon.setOnClickListener(v -> {
                     if (onFolderSelected != null) {
                         onFolderSelected.callback(file);
@@ -194,7 +194,7 @@ public class WidgetChooseFile extends WidgetRecycler {
         public void bindView(View view) {
             SettingsAction v = (SettingsAction) view;
             v.setTitle(file.getName());
-            v.setIcon(file.isDirectory() ? R.drawable.ic_folder_grey_500_24dp : R.drawable.ic_insert_drive_file_grey_500_24dp);
+            v.setIcon(file.isDirectory() ? R.drawable.ic_folder_black_24dp : R.drawable.ic_insert_drive_file_black_24dp);
             v.setSubView((file.isDirectory() && onFolderSelected != null && canGoInFolder) ? getViewIcon(view.getContext()) : null);
 
             v.setOnClickListener(v1 -> {
