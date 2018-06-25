@@ -9,11 +9,11 @@ import com.sup.dev.android.tools.ToolsView;
 
 public class WidgetProgressWithTitle extends Widget {
 
-    private final TextView vTitle;
+    private final TextView vLoadTitle;
 
     public WidgetProgressWithTitle() {
         super(R.layout.widget_progress_with_title);
-        vTitle = view.findViewById(R.id.title);
+        vLoadTitle = view.findViewById(R.id.load_title);
     }
 
     //
@@ -25,7 +25,7 @@ public class WidgetProgressWithTitle extends Widget {
     }
 
     public WidgetProgressWithTitle setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
+        ToolsView.setTextOrGone(vLoadTitle, title);
         return  this;
     }
 }

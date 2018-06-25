@@ -19,7 +19,6 @@ public class WidgetChooseTimeRange extends Widget {
     private final Button vEnd;
     private final Button vCancel;
     private final Button vEnter;
-    private final TextView vTitle;
 
     private int h1;
     private int m1;
@@ -35,7 +34,6 @@ public class WidgetChooseTimeRange extends Widget {
         vEnd = view.findViewById(R.id.end);
         vCancel = view.findViewById(R.id.cancel);
         vEnter = view.findViewById(R.id.enter);
-        vTitle = view.findViewById(R.id.title);
 
         vCancel.setVisibility(View.GONE);
         vEnter.setVisibility(View.GONE);
@@ -54,29 +52,9 @@ public class WidgetChooseTimeRange extends Widget {
         setTimeEnd(24, 0);
     }
 
-    @Override
-    public void onShow() {
-        super.onShow();
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
-    }
-
     //
     //  Setters
     //
-
-    public WidgetChooseTimeRange setTitle(@StringRes int title) {
-        return setTitle(ToolsResources.getString(title));
-    }
-
-    public WidgetChooseTimeRange setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
-        return this;
-    }
 
     public WidgetChooseTimeRange setTimeStart(int h, int m) {
         h1 = h;

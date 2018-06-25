@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.screens.SNavigator;
 import com.sup.dev.android.libs.screens.Screen;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.Widget;
 import com.sup.dev.android.views.widgets.WidgetViewWrapper;
 
@@ -19,7 +20,7 @@ public class SWidget extends Screen implements WidgetViewWrapper {
         this.widget = widget;
 
         vContainer = findViewById(R.id.container);
-        vContainer.addView(widget.getView());
+        vContainer.addView(ToolsView.removeFromParent(widget.getView()));
     }
 
     public void setTitle(String title){

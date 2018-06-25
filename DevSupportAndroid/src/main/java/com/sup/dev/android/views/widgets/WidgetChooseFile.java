@@ -61,28 +61,9 @@ public class WidgetChooseFile extends WidgetRecycler {
         return false;
     }
 
-    @Override
-    public void onShow() {
-        super.onShow();
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
-    }
-
     //
     //  Setters
     //
-
-    public WidgetChooseFile setTitle(@StringRes int title) {
-        return super.setTitle(title);
-    }
-
-    public WidgetChooseFile setTitle(String title) {
-        return super.setTitle(title);
-    }
 
     public WidgetChooseFile setShowFiles(boolean showFiles) {
         this.showFiles = showFiles;

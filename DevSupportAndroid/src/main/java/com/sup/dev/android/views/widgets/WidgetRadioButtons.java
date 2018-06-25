@@ -23,7 +23,6 @@ public class WidgetRadioButtons  extends Widget {
 
     private final ArrayList<Item> items = new ArrayList<>();
     private final LinearLayout vOptionsContainer;
-    private final TextView vTitle;
     private final Button vCancel;
     private final Button vEnter;
 
@@ -33,11 +32,9 @@ public class WidgetRadioButtons  extends Widget {
         super(R.layout.widget_container);
 
         vOptionsContainer = view.findViewById(R.id.content_container);
-        vTitle = view.findViewById(R.id.title);
         vCancel = view.findViewById(R.id.cancel);
         vEnter = view.findViewById(R.id.enter);
 
-        vTitle.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vEnter.setVisibility(View.GONE);
     }
@@ -46,12 +43,6 @@ public class WidgetRadioButtons  extends Widget {
     public void onShow() {
         super.onShow();
         finishItemBuilding();
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
     }
 
     private void add(Item item) {
@@ -148,7 +139,6 @@ public class WidgetRadioButtons  extends Widget {
         ToolsView.setTextOrGone(vTitle, title);
         return this;
     }
-
 
     public WidgetRadioButtons setOnEnter(@StringRes int s) {
         return setOnEnter(ToolsResources.getString(s));

@@ -22,7 +22,6 @@ public class WidgetCheckBoxes extends Widget {
 
     private final ArrayList<Item> items = new ArrayList<>();
     private final LinearLayout vOptionsContainer;
-    private final TextView vTitle;
     private final Button vCancel;
     private final Button vEnter;
 
@@ -32,11 +31,9 @@ public class WidgetCheckBoxes extends Widget {
         super(R.layout.widget_container);
 
         vOptionsContainer = view.findViewById(R.id.content_container);
-        vTitle = view.findViewById(R.id.title);
         vCancel = view.findViewById(R.id.cancel);
         vEnter = view.findViewById(R.id.enter);
 
-        vTitle.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vEnter.setVisibility(View.GONE);
     }
@@ -45,18 +42,21 @@ public class WidgetCheckBoxes extends Widget {
     public void onShow() {
         super.onShow();
         finishItemBuilding();
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
     }
 
     private void add(Item item) {
         items.add(item);
     }
 
+    @Override
+    public WidgetCheckBoxes setTitle(int title) {
+        return super.setTitle(title);
+    }
+
+    @Override
+    public WidgetCheckBoxes setTitle(String title) {
+        return super.setTitle(title);
+    }
 
     //
     //  Item
@@ -138,16 +138,6 @@ public class WidgetCheckBoxes extends Widget {
     //
     //  Setters
     //
-
-    public WidgetCheckBoxes setTitle(@StringRes int title) {
-        return setTitle(ToolsResources.getString(title));
-    }
-
-    public WidgetCheckBoxes setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
-        return this;
-    }
-
 
     public WidgetCheckBoxes setOnEnter(@StringRes int s) {
         return setOnEnter(ToolsResources.getString(s));

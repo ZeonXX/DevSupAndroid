@@ -23,7 +23,6 @@ public class WidgetAlert extends Widget {
     private final Button vEnter;
     private final Button vCancel;
     private final TextView vText;
-    private final TextView vTitle;
     private final ViewGroup vImageContainer;
     private final ImageView vImage;
 
@@ -41,7 +40,6 @@ public class WidgetAlert extends Widget {
 
     public WidgetAlert() {
         super(R.layout.widget_alert);
-        vTitle = findViewById(R.id.title);
         vText = findViewById(R.id.text);
         vCancel = findViewById(R.id.cancel);
         vEnter = findViewById(R.id.enter);
@@ -49,9 +47,6 @@ public class WidgetAlert extends Widget {
         vImageContainer = findViewById(R.id.image_container);
         vImage = findViewById(R.id.image);
 
-        vTitle.setText(null);
-
-        vTitle.setVisibility(View.GONE);
         vText.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vEnter.setVisibility(View.GONE);
@@ -61,18 +56,6 @@ public class WidgetAlert extends Widget {
         vCheck.setOnCheckedChangeListener((compoundButton, b) -> updateLock(vEnter, vCheck));
     }
 
-    @Override
-    public void onShow() {
-        super.onShow();
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
-
-    }
-
     private void updateLock(Button vEnter, CheckBox vCheck) {
         if (lockUntilAccept) vEnter.setEnabled(vCheck.isChecked());
     }
@@ -80,6 +63,17 @@ public class WidgetAlert extends Widget {
     //
     //  Setters
     //
+
+
+    @Override
+    public WidgetAlert setTitle(int title) {
+        return super.setTitle(title);
+    }
+
+    @Override
+    public WidgetAlert setTitle(String title) {
+        return super.setTitle(title);
+    }
 
     public WidgetAlert setLockUntilAccept(boolean lockUntilAccept) {
         this.lockUntilAccept = lockUntilAccept;
@@ -118,15 +112,6 @@ public class WidgetAlert extends Widget {
     public WidgetAlert addLine(String text) {
         vText.setText(vText.getText().toString() + "\n" + text);
         vText.setVisibility(View.VISIBLE);
-        return this;
-    }
-
-    public WidgetAlert setTitle(@StringRes int title) {
-        return setTitle(ToolsResources.getString(title));
-    }
-
-    public WidgetAlert setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
         return this;
     }
 

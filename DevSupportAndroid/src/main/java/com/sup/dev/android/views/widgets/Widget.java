@@ -3,9 +3,13 @@ package com.sup.dev.android.views.widgets;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.view.View;
+import android.widget.TextView;
 
+import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.CardWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
@@ -20,6 +24,7 @@ import com.sup.dev.java.libs.debug.Debug;
 public abstract class Widget {
 
     protected final View view;
+    protected final TextView vTitle;
 
     private Callback1<Widget> onHide;
     private boolean enabled = true;
@@ -30,6 +35,12 @@ public abstract class Widget {
 
     public Widget(int layoutRes) {
         view = layoutRes > 0 ? ToolsView.inflate(layoutRes) : instanceView();
+        vTitle = findViewById(R.id.title);
+
+        if (vTitle != null) {
+            vTitle.setText(null);
+            vTitle.setVisibility(View.GONE);
+        }
     }
 
     protected View instanceView() {
@@ -50,7 +61,13 @@ public abstract class Widget {
 
     @CallSuper
     public void onShow() {
-
+        if (vTitle != null) {
+            ToolsView.setTextOrGone(vTitle, vTitle.getText());
+            if (viewWrapper instanceof SWidget) {
+                vTitle.setVisibility(View.GONE);
+                ((SWidget) viewWrapper).setTitle(vTitle.getText().toString());
+            }
+        }
     }
 
     @CallSuper
@@ -61,6 +78,15 @@ public abstract class Widget {
     //
     //  Setters
     //
+
+    public <K extends Widget> K setTitle(@StringRes int title) {
+        return setTitle(ToolsResources.getString(title));
+    }
+
+    public <K extends Widget> K setTitle(String title) {
+        if (vTitle != null) ToolsView.setTextOrGone(vTitle, title);
+        return (K) this;
+    }
 
     public <K extends Widget> K setCanSheetCollapse(boolean canSheetCollapse) {
         this.canSheetCollapse = canSheetCollapse;
@@ -74,6 +100,7 @@ public abstract class Widget {
 
     public <K extends Widget> K setEnabled(boolean enabled) {
         this.enabled = enabled;
+        vTitle.setEnabled(enabled);
         if (viewWrapper != null) viewWrapper.setWidgetEnabled(enabled);
         return (K) this;
     }

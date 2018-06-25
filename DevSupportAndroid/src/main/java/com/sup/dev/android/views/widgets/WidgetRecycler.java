@@ -17,7 +17,6 @@ import com.sup.dev.android.views.sheets.SheetWidget;
 public class WidgetRecycler extends Widget {
 
     protected final RecyclerView vRecycler;
-    protected final TextView vTitle;
 
     protected RecyclerCardAdapter adapter;
 
@@ -25,17 +24,12 @@ public class WidgetRecycler extends Widget {
         super(R.layout.widget_recycler);
 
         vRecycler = findViewById(R.id.recycler);
-        vTitle = findViewById(R.id.title);
-
-        vTitle.setText(null);
-        vTitle.setVisibility(View.GONE);
     }
 
     @Override
     public void onShow() {
         super.onShow();
 
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
         vRecycler.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         vRecycler.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -43,9 +37,6 @@ public class WidgetRecycler extends Widget {
             vRecycler.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else if (viewWrapper instanceof PopupWidget) {
             vRecycler.getLayoutParams().width = ToolsView.dpToPx(200);
-        } else if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
         }
     }
 
@@ -57,15 +48,5 @@ public class WidgetRecycler extends Widget {
         vRecycler.setAdapter(adapter);
         return (K) this;
     }
-
-    public <K extends WidgetRecycler> K setTitle(@StringRes int title) {
-        return setTitle(ToolsResources.getString(title));
-    }
-
-    public <K extends WidgetRecycler> K setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
-        return (K) this;
-    }
-
 
 }

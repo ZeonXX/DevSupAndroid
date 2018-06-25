@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.screens;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
@@ -15,7 +16,8 @@ public class SCrop extends Screen {
 
 
     private final ViewCropImage vCropImageView;
-    private final View vButtonFinish;
+    private final View vFinish;
+    private final View vAll;
     private final Callback2<SCrop, Bitmap> onCrop;
 
     private boolean autoBackOnCrop = true;
@@ -33,13 +35,15 @@ public class SCrop extends Screen {
         this.onCrop = onCrop;
 
         vCropImageView = findViewById(R.id.crop);
-        vButtonFinish = findViewById(R.id.fab);
+        vFinish = findViewById(R.id.fab);
+        vAll = findViewById(R.id.all);
 
         if (aw > 0 && ah > 0) vCropImageView.setAspectRatio(aw, ah);
         vCropImageView.setImageBitmap(bitmap);
 
+        vAll.setOnClickListener(v -> vCropImageView.setCropRect(new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight())));
 
-        vButtonFinish.setOnClickListener(v -> {
+        vFinish.setOnClickListener(v -> {
             if (onCrop != null) {
                 if (autoBackOnCrop) SNavigator.back();
                 else setLock(false);

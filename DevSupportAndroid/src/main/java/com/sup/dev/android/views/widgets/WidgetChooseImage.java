@@ -50,15 +50,10 @@ public class WidgetChooseImage extends WidgetRecycler {
         super.onShow();
         loadImages();
 
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
         ((ViewGroup.MarginLayoutParams) vRecycler.getLayoutParams()).setMargins(0, ToolsView.dpToPx(2), 0, 0);
 
         if (viewWrapper instanceof DialogWidget)
             ((ViewGroup.MarginLayoutParams) vRecycler.getLayoutParams()).setMargins(ToolsView.dpToPx(8), ToolsView.dpToPx(2), ToolsView.dpToPx(8), 0);
-        else if (viewWrapper instanceof SWidget) {
-            vTitle.setVisibility(View.GONE);
-            ((SWidget) viewWrapper).setTitle(vTitle.getText().toString());
-        }
     }
 
     private void loadImages() {

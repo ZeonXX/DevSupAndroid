@@ -27,7 +27,6 @@ public class WidgetField extends Widget {
     private final TextInputLayout vFieldLayout;
     private final Button vCancel;
     private final Button vEnter;
-    private final TextView vTitle;
 
     private ArrayList<Item2<String, Provider1<String, Boolean>>> checkers = new ArrayList<>();
     private int max;
@@ -41,15 +40,10 @@ public class WidgetField extends Widget {
         vFieldLayout = view.findViewById(R.id.field_layout);
         vCancel = view.findViewById(R.id.cancel);
         vEnter = view.findViewById(R.id.enter);
-        vTitle = view.findViewById(R.id.title);
-
-        vTitle.setText(null);
 
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
-        vTitle.setVisibility(View.GONE);
 
-        vFieldLayout.setHint(null);
         vField.addTextChangedListener(new TextWatcherChanged(text -> {
 
             String error = null;
@@ -74,12 +68,6 @@ public class WidgetField extends Widget {
     public void onShow() {
         super.onShow();
         ToolsView.showKeyboard(view.findViewById(R.id.field));
-
-        ToolsView.setTextOrGone(vTitle, vTitle.getText());
-        if(viewWrapper instanceof SWidget){
-            vTitle.setVisibility(View.GONE);
-            ((SWidget)viewWrapper).setTitle(vTitle.getText().toString());
-        }
     }
 
     @Override
@@ -91,6 +79,17 @@ public class WidgetField extends Widget {
     //
     //  Setters
     //
+
+
+    @Override
+    public WidgetField setTitle(int title) {
+        return super.setTitle(title);
+    }
+
+    @Override
+    public WidgetField setTitle(String title) {
+        return super.setTitle(title);
+    }
 
     public WidgetField setMax(int max) {
         this.max = max;
@@ -136,7 +135,7 @@ public class WidgetField extends Widget {
     }
 
     public WidgetField setHint(String hint) {
-        vFieldLayout.setHint(hint);
+        vField.setHint(hint);
         return this;
     }
 
@@ -148,15 +147,6 @@ public class WidgetField extends Widget {
     public WidgetField setText(String text) {
         vField.setText(text);
         if (text != null) vField.setSelection(text.length());
-        return this;
-    }
-
-    public WidgetField setTitle(@StringRes int title) {
-        return setTitle(ToolsResources.getString(title));
-    }
-
-    public WidgetField setTitle(String title) {
-        ToolsView.setTextOrGone(vTitle, title);
         return this;
     }
 
@@ -205,7 +195,6 @@ public class WidgetField extends Widget {
         vCancel.setEnabled(enabled);
         vFieldLayout.setEnabled(enabled);
         vEnter.setEnabled(enabled);
-        vTitle.setEnabled(enabled);
         vField.setEnabled(enabled);
         return this;
     }

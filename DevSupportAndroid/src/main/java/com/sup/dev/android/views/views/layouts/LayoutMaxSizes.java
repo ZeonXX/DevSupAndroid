@@ -166,6 +166,14 @@ public class LayoutMaxSizes extends ViewGroup {
         requestLayout();
     }
 
+    public void setChildAlwaysMaxW(boolean childAlwaysMaxW) {
+        this.childAlwaysMaxW = childAlwaysMaxW;
+    }
+
+    public void setChildAlwaysMaxH(boolean childAlwaysMaxH) {
+        this.childAlwaysMaxH = childAlwaysMaxH;
+    }
+
     public void setAlwaysMaxH(boolean b) {
         this.alwaysMaxH = b;
         requestLayout();

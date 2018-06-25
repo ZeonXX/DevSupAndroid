@@ -81,7 +81,7 @@ public class Screen extends FrameLayout{
     }
 
     public boolean isBackStackAllowed() {
-        return true;
+        return backStackAllowed;
     }
 
 }

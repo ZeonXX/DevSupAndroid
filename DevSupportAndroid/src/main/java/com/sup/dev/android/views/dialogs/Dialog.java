@@ -39,6 +39,7 @@ public abstract class Dialog extends AppCompatDialog{
         layoutMaxSizes.setMaxWidth(600);
         layoutMaxSizes.setUseScreenWidthAsParent(true);
         layoutMaxSizes.setAlwaysMaxW(true);
+        layoutMaxSizes.setChildAlwaysMaxW(true);
         layoutMaxSizes.addView(ToolsView.removeFromParent(view), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setContentView(layoutMaxSizes);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT); //  Без этой строки диалог умирает при повороте экрана
