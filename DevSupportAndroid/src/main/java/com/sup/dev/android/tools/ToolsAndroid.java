@@ -49,18 +49,17 @@ public class ToolsAndroid{
         return (n == null)?null:n.getExtraInfo();
     }
 
+
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static void isHasInternetConnection(Callback1<Boolean> onResult) {
         ToolsThreads.thread(() -> {
             try {
-                int timeoutMs = 1500;
                 Socket sock = new Socket();
-                SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
-                sock.connect(sockaddr, timeoutMs);
+                sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
                 sock.close();
-                onResult.callback(true);
+                ToolsThreads.main(() ->  onResult.callback(true));
             } catch (IOException e) {
-                onResult.callback(false);
+                ToolsThreads.main(() ->  onResult.callback(false));
             }
         });
     }

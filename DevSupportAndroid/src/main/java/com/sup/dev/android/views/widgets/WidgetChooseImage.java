@@ -20,6 +20,7 @@ import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
+import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
@@ -51,9 +52,12 @@ public class WidgetChooseImage extends WidgetRecycler {
         loadImages();
 
         ((ViewGroup.MarginLayoutParams) vRecycler.getLayoutParams()).setMargins(0, ToolsView.dpToPx(2), 0, 0);
+        vRecycler.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
 
         if (viewWrapper instanceof DialogWidget)
             ((ViewGroup.MarginLayoutParams) vRecycler.getLayoutParams()).setMargins(ToolsView.dpToPx(8), ToolsView.dpToPx(2), ToolsView.dpToPx(8), 0);
+        else if (viewWrapper instanceof DialogSheetWidget)
+            vRecycler.getLayoutParams().height = ToolsView.dpToPx(320);
     }
 
     private void loadImages() {

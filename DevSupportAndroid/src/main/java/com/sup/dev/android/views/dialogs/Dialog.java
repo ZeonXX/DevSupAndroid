@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
@@ -12,7 +13,7 @@ import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes;
 
-public abstract class Dialog extends AppCompatDialog{
+public abstract class Dialog extends AppCompatDialog {
 
     protected final View view;
     private boolean enabled;
@@ -42,6 +43,7 @@ public abstract class Dialog extends AppCompatDialog{
         layoutMaxSizes.setChildAlwaysMaxW(true);
         layoutMaxSizes.addView(ToolsView.removeFromParent(view), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setContentView(layoutMaxSizes);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT); //  Без этой строки диалог умирает при повороте экрана
 
     }

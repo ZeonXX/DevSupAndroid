@@ -92,4 +92,8 @@ public abstract class Settings extends FrameLayout {
     public boolean isSubSettingsEnabled() {
         return subSettingsEnabled;
     }
+
+    public View getView() {
+        return view;
+    }
 }

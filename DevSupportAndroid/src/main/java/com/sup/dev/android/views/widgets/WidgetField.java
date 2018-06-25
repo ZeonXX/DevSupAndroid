@@ -33,7 +33,7 @@ public class WidgetField extends Widget {
     private int min;
     private boolean autoHideOnEnter = true;
 
-    public WidgetField(){
+    public WidgetField() {
         super(R.layout.widget_field);
 
         vField = view.findViewById(R.id.field);

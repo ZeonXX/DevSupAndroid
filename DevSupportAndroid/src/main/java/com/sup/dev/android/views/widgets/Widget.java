@@ -12,14 +12,12 @@ import com.sup.dev.android.libs.screens.SNavigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.CardWidget;
+import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
 import com.sup.dev.android.views.popup.PopupWidget;
 import com.sup.dev.android.views.screens.SWidget;
-import com.sup.dev.android.views.sheets.SheetWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
-import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.providers.Provider;
-import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class Widget {
 
@@ -148,9 +146,15 @@ public abstract class Widget {
     //  Support
     //
 
-    public SheetWidget asSheet() {
-        SheetWidget sheet = new SheetWidget(this);
+    public DialogSheetWidget asSheet() {
+        DialogSheetWidget sheet = new DialogSheetWidget(this);
         this.viewWrapper = sheet;
+        return sheet;
+    }
+
+    public DialogSheetWidget asSheetShow() {
+        DialogSheetWidget sheet = asSheet();
+        sheet.show();
         return sheet;
     }
 

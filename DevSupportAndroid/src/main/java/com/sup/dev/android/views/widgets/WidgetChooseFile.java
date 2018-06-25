@@ -5,12 +5,15 @@ import android.os.Environment;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsPermission;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
+import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.settings.SettingsAction;
 import com.sup.dev.android.views.views.ViewIcon;
@@ -41,6 +44,17 @@ public class WidgetChooseFile extends WidgetRecycler {
         setAdapter(adapter);
         ToolsPermission.requestReadPermission(() -> resetCards(rootFolder));
     }
+
+    @Override
+    public void onShow() {
+        super.onShow();
+
+        vRecycler.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        if (viewWrapper instanceof DialogSheetWidget)
+            vRecycler.getLayoutParams().height = ToolsView.dpToPx(320);
+    }
+
 
     private void resetCards(File file) {
         adapter.clear();
@@ -134,6 +148,7 @@ public class WidgetChooseFile extends WidgetRecycler {
 
         public void bindView(View view) {
             SettingsAction settingsAction = (SettingsAction)view;
+            settingsAction.getView().setPadding(ToolsView.dpToPx(16),0,ToolsView.dpToPx(16),0);
             settingsAction.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp);
             settingsAction.setOnClickListener(v -> setFolder(file.getParentFile()));
             settingsAction.setTitle(file.getName());
@@ -174,6 +189,7 @@ public class WidgetChooseFile extends WidgetRecycler {
         @Override
         public void bindView(View view) {
             SettingsAction v = (SettingsAction) view;
+            v.getView().setPadding(ToolsView.dpToPx(16),0,ToolsView.dpToPx(16),0);
             v.setTitle(file.getName());
             v.setIcon(file.isDirectory() ? R.drawable.ic_folder_black_24dp : R.drawable.ic_insert_drive_file_black_24dp);
             v.setSubView((file.isDirectory() && onFolderSelected != null && canGoInFolder) ? getViewIcon(view.getContext()) : null);
