@@ -24,6 +24,9 @@ public class SupAndroid {
     public static String TEXT_ERROR_NETWORK;
     public static String TEXT_ERROR_GONE;
 
+    public static int IMG_ERROR_NETWORK;
+    public static int IMG_ERROR_GONE;
+
     public static boolean editMode;
     public static Context appContext;
     public static SActivity activity;
@@ -53,6 +56,9 @@ public class SupAndroid {
         TEXT_ERROR_CANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
         TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");
         TEXT_ERROR_GONE = ToolsResources.getString("error_gone");
+
+        IMG_ERROR_NETWORK = ToolsResources.getDrawableId("error_network");
+        IMG_ERROR_GONE = ToolsResources.getDrawableId("error_gone");
 
 
     }

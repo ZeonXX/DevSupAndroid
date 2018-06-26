@@ -20,8 +20,8 @@ public class SActivity extends Activity {
 
     public static boolean started;
 
-    private ViewGroup vContainer;
-    private View vTouchLock;
+    protected ViewGroup vContainer;
+    protected View vTouchLock;
 
     @Override
     protected void onCreate(Bundle bundle) {

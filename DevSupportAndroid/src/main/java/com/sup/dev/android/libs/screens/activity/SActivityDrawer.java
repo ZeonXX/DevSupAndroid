@@ -5,6 +5,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.screens.SNavigator;
@@ -17,6 +18,7 @@ public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerLis
 
     private DrawerLayout drawerLayout;
     private ViewGroup drawerContainer;
+    private float lastTranslate = 0.0f;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -25,6 +27,8 @@ public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerLis
         drawerLayout = findViewById(R.id.screen_drawer);
         drawerContainer = findViewById(R.id.screen_drawer_container);
         drawerLayout.setDrawerListener(this);
+        drawerLayout.setDrawerElevation(0);
+        drawerLayout.setScrimColor(0);
         setNavigationLock(navigationLock);
 
         setDrawerView(ToolsView.inflate(this, R.layout.screen_activity_navigation_driver));
@@ -86,7 +90,14 @@ public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
+        float moveFactor = (drawerContainer.getWidth() * slideOffset);
 
+        TranslateAnimation anim = new TranslateAnimation(lastTranslate, moveFactor, 0.0f, 0.0f);
+        anim.setDuration(0);
+        anim.setFillAfter(true);
+        vContainer.startAnimation(anim);
+
+        lastTranslate = moveFactor;
     }
 
     @Override
