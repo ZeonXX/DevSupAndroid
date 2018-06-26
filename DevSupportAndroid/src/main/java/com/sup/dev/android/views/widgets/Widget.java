@@ -98,7 +98,7 @@ public abstract class Widget {
 
     public <K extends Widget> K setEnabled(boolean enabled) {
         this.enabled = enabled;
-        vTitle.setEnabled(enabled);
+        if (vTitle != null) vTitle.setEnabled(enabled);
         if (viewWrapper != null) viewWrapper.setWidgetEnabled(enabled);
         return (K) this;
     }
