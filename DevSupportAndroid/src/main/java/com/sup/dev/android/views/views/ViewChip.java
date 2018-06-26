@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -84,7 +85,9 @@ public class ViewChip extends FrameLayout {
         unselectedBackground = a.getColor(R.styleable.ViewChip_ViewChip_unselectBackground, unselectedBackground);
         isChipSelected = a.getBoolean(R.styleable.ViewChip_ViewChip_selected, isChipSelected);
         useIconBackground = a.getBoolean(R.styleable.ViewChip_ViewChip_iconUseBackground, useIconBackground);
+        int textColor = a.getColor(R.styleable.ViewChip_ViewChip_textColor, 0);
         int textGravity = a.getInteger(R.styleable.ViewChip_ViewChip_textGravity, 0);
+        int textStyle = a.getInteger(R.styleable.ViewChip_ViewChip_textStyle, 0);
         int icon = a.getResourceId(R.styleable.ViewChip_ViewChip_icon, 0);
         float iconPadding = a.getDimension(R.styleable.ViewChip_ViewChip_iconPadding, 0);
         float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, ToolsView.dpToPx(36));
@@ -101,6 +104,10 @@ public class ViewChip extends FrameLayout {
         setIconPadding(ToolsView.pxToDp(iconPadding));
         setIcon(icon);
         setSelectionMode(selectionMode);
+        if(textColor != 0) vTextView.setTextColor(textColor);
+        else if(textStyle == 1) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD);
+        else if(textStyle == 2) vTextView.setTypeface(vTextView.getTypeface(), Typeface.ITALIC);
+        else if(textStyle == 3) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD_ITALIC);
     }
 
     @Override

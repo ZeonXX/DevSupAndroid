@@ -88,4 +88,14 @@
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
     </style>
 
+    <style name="ChipButton">
+        <item name="android:id">@id/recycler</item>
+        <item name="android:layout_width">128dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="ViewChip_size">42dp</item>
+        <item name="ViewChip_textColor">@color/white</item>
+        <item name="ViewChip_textGravity">center</item>
+        <item name="ViewChip_textStyle">bold</item>
+    </style>
+
 </resources>

@@ -105,6 +105,13 @@
         <attr name="ViewChip_canUnselect" format="boolean"/>
         <attr name="ViewChip_selected" format="boolean"/>
         <attr name="ViewChip_textSize" format="dimension"/>
+        <attr name="ViewChip_textColor" format="color"/>
+        <attr name="ViewChip_textStyle">
+            <enum name="def" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+            <enum name="bold_italic" value="3"/>
+        </attr>
         <attr name="ViewChip_textGravity">
             <enum name="left" value="0"/>
             <enum name="center" value="1"/>
