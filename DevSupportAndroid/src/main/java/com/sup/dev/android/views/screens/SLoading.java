@@ -28,12 +28,14 @@ public abstract class SLoading extends Screen {
     protected final View vProgress;
     protected final ImageView vEmptyImage;
 
-    protected String textErrorNetwork;
-    protected String textRetry;
+    protected String textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK;
+    protected String textRetry = SupAndroid.TEXT_APP_RETRY;
     protected String textEmpty;
+    protected String textAction;
+    protected Callback onAction;
 
     public SLoading(@LayoutRes int layoutRes) {
-        super(layoutRes);
+        super(R.layout.screen_loading);
 
         vContainer = findViewById(R.id.container);
         vToolbarContainer = findViewById(R.id.toolbar_icons_container);
@@ -46,6 +48,7 @@ public abstract class SLoading extends Screen {
         vMessage.setVisibility(View.INVISIBLE);
 
         setState(State.PROGRESS);
+        setContent(layoutRes);
     }
 
     public abstract void onReloadClicked();
@@ -72,19 +75,20 @@ public abstract class SLoading extends Screen {
     }
 
     protected void setTextEmpty(@StringRes int t) {
-        textEmpty = ToolsResources.getString(t);
+        setTextEmpty(ToolsResources.getString(t));
     }
 
-    public Object getTextRetry() {
-        return SupAndroid.TEXT_APP_RETRY;
+    protected void setAction(@StringRes int textAction, Callback onAction) {
+        setAction(ToolsResources.getString(textAction), onAction);
     }
 
-    public Object getTextErrorNetwork() {
-        return SupAndroid.TEXT_ERROR_NETWORK;
+    protected void setAction(String textAction, Callback onAction) {
+        this.textAction = textAction;
+        this.onAction = onAction;
     }
 
-    public Object getTextEmpty() {
-        return 0;
+    protected void setTextEmpty(String t) {
+        textEmpty = t;
     }
 
     public void setBackgroundImage(@DrawableRes int res) {
@@ -105,31 +109,27 @@ public abstract class SLoading extends Screen {
     }
 
     public void setState(State state) {
-        ToolsView.alpha(vAction, state != State.ERROR);
+        ToolsView.alpha(vAction, state == State.PROGRESS || state == State.NONE);
         ToolsView.alpha(vProgress, state != State.PROGRESS);
         ToolsView.alpha(vMessage, state == State.PROGRESS || state == State.NONE);
         ToolsView.alpha(vEmptyImage, state == State.NONE);
 
         if (state == State.ERROR) {
 
-            Object textNetworkError = getTextErrorNetwork();
-            if (textNetworkError instanceof Integer) textNetworkError = ToolsResources.getString((int) textNetworkError);
-
-            Object textRetry = getTextRetry();
-            if (textRetry instanceof Integer) textRetry = ToolsResources.getString((int) textRetry);
-
-
-            vMessage.setText(textNetworkError == null ? null : textNetworkError.toString());
-            vAction.setText(textRetry == null ? null : textRetry.toString());
+            vMessage.setText(textErrorNetwork);
+            vAction.setText(textRetry);
             vAction.setOnClickListener(v -> onReloadClicked());
+            ToolsView.alpha(vAction, vAction.getText().length() == 0);
         }
 
         if (state == State.EMPTY) {
 
-            Object textEmpty = getTextEmpty();
-            if (textEmpty instanceof Integer) textEmpty = ToolsResources.getString((int) textEmpty);
-
-            vMessage.setText(textEmpty == null ? null : textEmpty.toString());
+            vMessage.setText(textEmpty);
+            vAction.setText(textAction);
+            vAction.setOnClickListener(v -> {
+                if (onAction != null) onAction.callback();
+            });
+            ToolsView.alpha(vAction, vAction.getText().length() == 0);
         }
 
     }

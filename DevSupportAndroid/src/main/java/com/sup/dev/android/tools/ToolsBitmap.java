@@ -21,7 +21,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.views.screens.SCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -338,7 +338,7 @@ public class ToolsBitmap {
 
     public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<SCrop, Bitmap> onComplete) {
         if (errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
-        getFromGallery(bitmap -> SNavigator.to(new SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
+        getFromGallery(bitmap -> Navigator.to(new SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
                 () -> ToolsToast.show(errorCantLoadImage),
                 () -> ToolsToast.show(errorPermissionFiles));
     }

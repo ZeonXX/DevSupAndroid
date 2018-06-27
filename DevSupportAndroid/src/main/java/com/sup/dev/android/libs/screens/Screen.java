@@ -36,13 +36,13 @@ public class Screen extends FrameLayout{
     public void onResume() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(SNavigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
+            toolbar.setNavigationIcon(Navigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
             toolbar.setNavigationOnClickListener(v -> SupAndroid.activity.onViewBackPressed());
         } else {
             View v = findViewById(R.id.back);
             if (v != null && v instanceof ImageView) {
                 ImageView vBack = (ImageView) v;
-                vBack.setImageResource(SNavigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
+                vBack.setImageResource(Navigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
                 v.setOnClickListener(vv -> SupAndroid.activity.onViewBackPressed());
             }
         }

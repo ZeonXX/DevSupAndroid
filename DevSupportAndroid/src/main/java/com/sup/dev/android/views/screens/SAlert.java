@@ -5,15 +5,16 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.NavigationAction;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.views.views.ViewChip;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 
 public class SAlert extends Screen {
 
-    public static void showNetwork(SNavigator.Action action, Callback onRetry) {
-        SNavigator.action(action, instanceNetwork(onRetry));
+    public static void showNetwork(NavigationAction action, Callback onRetry) {
+        Navigator.action(action, instanceNetwork(onRetry));
     }
 
     public static SAlert instanceNetwork(Callback onRetry) {
@@ -25,8 +26,8 @@ public class SAlert extends Screen {
                 onRetry);
     }
 
-    public static void showGone(SNavigator.Action action) {
-        SNavigator.action(action, instanceGone());
+    public static void showGone(NavigationAction action) {
+        Navigator.action(action, instanceGone());
     }
 
     public static SAlert instanceGone() {
@@ -35,7 +36,7 @@ public class SAlert extends Screen {
                 SupAndroid.TEXT_ERROR_GONE,
                 SupAndroid.TEXT_APP_BACK,
                 SupAndroid.IMG_ERROR_GONE,
-                () -> SNavigator.back());
+                () -> Navigator.back());
     }
 
     public SAlert(String title, String text, String action, Callback onAction) {

@@ -10,7 +10,7 @@ public class DialogWidget extends Dialog implements WidgetViewWrapper {
     public DialogWidget(Widget widget){
         super(widget.getView());
         this.widget = widget;
-        setCancelable(widget.isCanDialogCancel());
+        setCancelable(widget.isCancelable());
         setEnabled(widget.isEnabled());
     }
 

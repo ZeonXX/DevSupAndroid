@@ -7,9 +7,11 @@ import com.sup.dev.java.classes.providers.Provider;
 
 import java.util.ArrayList;
 
-public class SNavigator {
+public class Navigator {
 
-    public enum Action {SET, TO, REPLACE}
+    public final static NavigationAction TO = NavigationAction.to().immutable();
+    public final static NavigationAction SET = NavigationAction.set().immutable();
+    public final static NavigationAction REPLACE = NavigationAction.replace().immutable();
 
     private static ArrayList<Screen> backStack = new ArrayList<>();
 
@@ -22,15 +24,12 @@ public class SNavigator {
         backStack.remove(view);
     }
 
-//
+    //
     //  Navigation
     //
 
-
-    public static void action(Action action, Screen view) {
-        if (action == Action.TO) to(view);
-        else if (action == Action.SET) set(view);
-        else if (action == Action.REPLACE) replace(view);
+    public static void action(NavigationAction action, Screen screen) {
+        action.doAction(screen);
     }
 
     public static void to(Screen view) {
@@ -179,12 +178,12 @@ public class SNavigator {
     public static final ArrayList<Provider<Boolean>> onBackCallbacks = new ArrayList<>();
 
     public static void addOnBackScreenListener(Callback2<Screen, Screen> onBack) {
-        SNavigator.onBack.remove(onBack);
-        SNavigator.onBack.add(onBack);
+        Navigator.onBack.remove(onBack);
+        Navigator.onBack.add(onBack);
     }
 
     public static void removeOnBackScreenListener(Callback2<Screen, Screen> onBack) {
-        SNavigator.onBack.remove(onBack);
+        Navigator.onBack.remove(onBack);
     }
 
 
@@ -196,6 +195,5 @@ public class SNavigator {
     public static void removeOnBack(Provider<Boolean> onBack) {
         onBackCallbacks.remove(onBack);
     }
-
 
 }

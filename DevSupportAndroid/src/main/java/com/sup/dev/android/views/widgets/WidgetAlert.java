@@ -72,6 +72,11 @@ public class WidgetAlert extends Widget {
 
 
     @Override
+    public WidgetAlert setCancelable(boolean cancelable) {
+        return super.setCancelable(cancelable);
+    }
+
+    @Override
     public WidgetAlert setTitle(int title) {
         return super.setTitle(title);
     }

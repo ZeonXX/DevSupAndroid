@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.NavigationAction;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.CardWidget;
@@ -26,8 +27,6 @@ public abstract class Widget {
 
     private Callback1<Widget> onHide;
     private boolean enabled = true;
-    private boolean canSheetCollapse;
-    private boolean canDialogCancel = true;
     private boolean cancelable = true;
     protected WidgetViewWrapper viewWrapper;
 
@@ -86,11 +85,6 @@ public abstract class Widget {
         return (K) this;
     }
 
-    public <K extends Widget> K setCanSheetCollapse(boolean canSheetCollapse) {
-        this.canSheetCollapse = canSheetCollapse;
-        return (K) this;
-    }
-
     public <K extends Widget> K setOnHide(Callback1<Widget> onHide) {
         this.onHide = onHide;
         return (K) this;
@@ -100,11 +94,6 @@ public abstract class Widget {
         this.enabled = enabled;
         if (vTitle != null) vTitle.setEnabled(enabled);
         if (viewWrapper != null) viewWrapper.setWidgetEnabled(enabled);
-        return (K) this;
-    }
-
-    public <K extends Widget> K setCanDialogCancel(boolean canDialogCancel) {
-        this.canDialogCancel = canDialogCancel;
         return (K) this;
     }
 
@@ -126,16 +115,8 @@ public abstract class Widget {
         return view;
     }
 
-    public boolean isSheetCanCollapse() {
-        return canSheetCollapse;
-    }
-
     public boolean isEnabled() {
         return enabled;
-    }
-
-    public boolean isCanDialogCancel() {
-        return canDialogCancel;
     }
 
     public boolean isCancelable() {
@@ -212,9 +193,9 @@ public abstract class Widget {
         return screen;
     }
 
-    public SWidget asScreen(SNavigator.Action action) {
+    public SWidget asScreen(NavigationAction action) {
         SWidget screen = asScreen();
-        SNavigator.action(action, screen);
+        Navigator.action(action, screen);
         return screen;
     }
 

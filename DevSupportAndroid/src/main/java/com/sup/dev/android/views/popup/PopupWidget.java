@@ -10,7 +10,7 @@ public class PopupWidget extends Popup implements WidgetViewWrapper {
     public PopupWidget(Widget widget){
         super(widget.getView());
         this.widget = widget;
-        setCancelable(widget.isCanDialogCancel());
+        setCancelable(widget.isCancelable());
         setEnabled(widget.isEnabled());
     }
 

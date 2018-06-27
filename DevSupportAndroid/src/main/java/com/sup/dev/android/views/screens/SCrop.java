@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.view.View;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent;
 import com.sup.dev.android.views.dialogs.DialogWidget;
@@ -45,7 +45,7 @@ public class SCrop extends Screen {
 
         vFinish.setOnClickListener(v -> {
             if (onCrop != null) {
-                if (autoBackOnCrop) SNavigator.back();
+                if (autoBackOnCrop) Navigator.back();
                 else setLock(false);
 
                 onCrop.callback(this, vCropImageView.getCroppedImage());
@@ -77,7 +77,7 @@ public class SCrop extends Screen {
     }
 
     public void back() {
-        SNavigator.back();
+        Navigator.back();
     }
 
 }

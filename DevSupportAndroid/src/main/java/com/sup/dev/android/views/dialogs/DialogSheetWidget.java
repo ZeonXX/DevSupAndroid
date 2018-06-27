@@ -10,7 +10,7 @@ public class DialogSheetWidget extends DialogSheet implements WidgetViewWrapper 
     public DialogSheetWidget(Widget widget) {
         super(widget.getView());
         this.widget = widget;
-        setCancelable(widget.isCanDialogCancel());
+        setCancelable(widget.isCancelable());
         setEnabled(widget.isEnabled());
     }
 

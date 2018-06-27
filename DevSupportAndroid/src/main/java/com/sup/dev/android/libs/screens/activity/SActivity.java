@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsIntent;
 import com.sup.dev.android.tools.ToolsView;
@@ -42,7 +42,7 @@ public class SActivity extends Activity {
         super.onStart();
 
         SupAndroid.activityIsVisible = true;
-        SNavigator.onActivityResume();
+        Navigator.onActivityResume();
 
         if (!started) {
             started = true;
@@ -55,19 +55,19 @@ public class SActivity extends Activity {
     protected void onStop() {
         super.onStop();
         SupAndroid.activityIsVisible = false;
-        SNavigator.onActivityStop();
+        Navigator.onActivityStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SNavigator.onActivityDestroy();
+        Navigator.onActivityDestroy();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        SNavigator.onActivityConfigChanged();
+        Navigator.onActivityConfigChanged();
     }
 
     protected void applyTheme() {
@@ -98,7 +98,7 @@ public class SActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!SNavigator.onBackPressed() && !onLastBackPressed()) {
+        if (!Navigator.onBackPressed() && !onLastBackPressed()) {
             started = false;
             finish();
         }
@@ -123,7 +123,7 @@ public class SActivity extends Activity {
         }
 
         View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
-        vContainer.addView(view, 0);
+        vContainer.addView(ToolsView.removeFromParent(view), 0);
 
         if (old != null) {
             view.setVisibility(View.INVISIBLE);

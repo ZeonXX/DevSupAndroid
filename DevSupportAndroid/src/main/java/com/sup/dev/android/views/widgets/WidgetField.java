@@ -14,6 +14,7 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.classes.providers.Provider1;
@@ -32,6 +33,7 @@ public class WidgetField extends Widget {
     private int max;
     private int min;
     private boolean autoHideOnEnter = true;
+    private boolean autoHideOnCancel = true;
 
     public WidgetField() {
         super(R.layout.widget_field);
@@ -44,24 +46,27 @@ public class WidgetField extends Widget {
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
 
-        vField.addTextChangedListener(new TextWatcherChanged(text -> {
+        vField.addTextChangedListener(new TextWatcherChanged(text -> check()));
+    }
 
-            String error = null;
+    private void check() {
 
-            for (Item2<String, Provider1<String, Boolean>> pair : checkers)
-                if (!pair.a2.provide(text)) {
-                    error = pair.a1;
-                    break;
-                }
+        String text = getText();
+        String error = null;
 
-            if (error != null) {
-                vFieldLayout.setError(error);
-                vEnter.setEnabled(false);
-            } else {
-                vFieldLayout.setError(null);
-                vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
+        for (Item2<String, Provider1<String, Boolean>> pair : checkers)
+            if (!pair.a2.provide(text)) {
+                error = pair.a1;
+                break;
             }
-        }));
+
+        if (error != null) {
+            vFieldLayout.setError(error.isEmpty()?null:error);
+            vEnter.setEnabled(false);
+        } else {
+            vFieldLayout.setError(null);
+            vEnter.setEnabled(text.length() >= min && (max == 0 || text.length() <= max));
+        }
     }
 
     @Override
@@ -76,10 +81,13 @@ public class WidgetField extends Widget {
         ToolsThreads.main(500, () -> ToolsView.hideKeyboard()); //  Без задержки будет скрываться под клавиатуру и оставаться посреди экрана
     }
 
+    public String getText() {
+        return vField.getText().toString();
+    }
+
     //
     //  Setters
     //
-
 
     @Override
     public WidgetField setTitle(int title) {
@@ -125,8 +133,13 @@ public class WidgetField extends Widget {
         return addChecker(ToolsResources.getString(errorText), checker);
     }
 
+    public WidgetField addChecker(Provider1<String, Boolean> checker) {
+        return addChecker(null, checker);
+    }
+
     public WidgetField addChecker(String errorText, Provider1<String, Boolean> checker) {
-        checkers.add(new Item2<>(errorText, checker));
+        checkers.add(new Item2<>(errorText == null ? "" : errorText, checker));
+        check();
         return this;
     }
 
@@ -155,14 +168,31 @@ public class WidgetField extends Widget {
         return this;
     }
 
+    public WidgetField setAutoHideOnCancel(boolean autoHideOnCancel) {
+        this.autoHideOnCancel = autoHideOnCancel;
+        return this;
+    }
+
     public WidgetField setOnCancel(@StringRes int s) {
         return setOnCancel(ToolsResources.getString(s));
     }
 
     public WidgetField setOnCancel(String s) {
+        return setOnCancel(s, null);
+    }
+
+    public WidgetField setOnCancel(@StringRes int s, Callback1<WidgetField> onCancel) {
+        return setOnCancel(ToolsResources.getString(s), onCancel);
+    }
+
+    public WidgetField setOnCancel(String s, Callback1<WidgetField> onCancel) {
         ToolsView.setTextOrGone(vCancel, s);
         vCancel.setVisibility(View.VISIBLE);
-        vCancel.setOnClickListener(v -> hide());
+        vCancel.setOnClickListener(v -> {
+            if (autoHideOnEnter) hide();
+            else setEnabled(false);
+            if (onCancel != null) onCancel.callback(this);
+        });
         return this;
     }
 

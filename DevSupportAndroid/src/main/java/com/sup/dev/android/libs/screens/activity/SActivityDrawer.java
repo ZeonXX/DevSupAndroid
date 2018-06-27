@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsView;
 
@@ -45,7 +45,7 @@ public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void onViewBackPressed() {
-        if(SNavigator.hasBackStack())
+        if(Navigator.hasBackStack())
             super.onBackPressed();
         else
             showDrawer();

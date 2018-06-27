@@ -4,7 +4,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
 import com.sup.dev.android.androiddevsup.R;
-import com.sup.dev.android.libs.screens.SNavigator;
+import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.Widget;
@@ -41,7 +41,7 @@ public class SWidget extends Screen implements WidgetViewWrapper {
 
     @Override
     public <K extends WidgetViewWrapper> K hideWidget() {
-        SNavigator.remove(this);
+        Navigator.remove(this);
         return (K) this;
     }
 
