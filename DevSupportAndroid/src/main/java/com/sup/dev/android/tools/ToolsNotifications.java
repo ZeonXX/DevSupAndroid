@@ -28,6 +28,7 @@ public class ToolsNotifications {
     private static NotificationManager notificationManager;
 
     private static void init() {
+        String s = "Либые изменения в опубликованной статье сразуже видны пользователям. Для серьезных изменений верните статьи в черновики.";
         if (notificationManager != null) return;
         notificationManager = (NotificationManager) SupAndroid.appContext.getSystemService(Context.NOTIFICATION_SERVICE);
 

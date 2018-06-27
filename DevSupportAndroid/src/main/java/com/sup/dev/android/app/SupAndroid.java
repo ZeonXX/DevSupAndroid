@@ -18,6 +18,8 @@ public class SupAndroid {
     public static String TEXT_APP_WHOOPS;
     public static String TEXT_APP_RETRY;
     public static String TEXT_APP_BACK;
+    public static String TEXT_APP_DONT_SHOW_AGAIN;
+    public static String TEXT_APP_ATTENTION;
 
     public static String TEXT_ERROR_PERMISSION_READ_FILES;
     public static String TEXT_ERROR_CANT_LOAD_IMAGE;
@@ -52,6 +54,8 @@ public class SupAndroid {
         TEXT_APP_WHOOPS = ToolsResources.getString("app_whoops");
         TEXT_APP_RETRY = ToolsResources.getString("app_retry");
         TEXT_APP_BACK = ToolsResources.getString("app_back");
+        TEXT_APP_DONT_SHOW_AGAIN = ToolsResources.getString("app_dont_show_again");
+        TEXT_APP_ATTENTION = ToolsResources.getString("app_attention");
         TEXT_ERROR_PERMISSION_READ_FILES = ToolsResources.getString("error_permission_files");
         TEXT_ERROR_CANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
         TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");

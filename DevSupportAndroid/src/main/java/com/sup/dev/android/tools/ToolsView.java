@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.app.SupAndroid;
@@ -73,6 +75,21 @@ public class ToolsView {
                 .asDialogShow();
     }
 
+    public static void setImageOrGone(ImageView vImage, Bitmap bitmap) {
+        vImage.setImageBitmap(bitmap);
+        if (bitmap != null) vImage.setVisibility(VISIBLE);
+        else vImage.setVisibility(GONE);
+    }
+
+    public static void setImageOrGone(ImageView vImage, int image) {
+        if (image > 0) {
+            vImage.setImageResource(image);
+            vImage.setVisibility(VISIBLE);
+        } else {
+            vImage.setImageBitmap(null);
+            vImage.setVisibility(GONE);
+        }
+    }
 
     public static void setTextOrGone(TextView vText, CharSequence text) {
         vText.setText(text);

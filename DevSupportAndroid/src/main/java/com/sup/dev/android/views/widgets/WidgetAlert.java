@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsStorage;
+import com.sup.dev.android.tools.ToolsText;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -23,8 +25,9 @@ public class WidgetAlert extends Widget {
     private final Button vEnter;
     private final Button vCancel;
     private final TextView vText;
-    private final ViewGroup vImageContainer;
-    private final ImageView vImage;
+    private final ViewGroup vTopContainer;
+    private final ImageView vTopImage;
+    private final TextView vTopTitle;
 
     private String key;
     private boolean lockUntilAccept;
@@ -44,14 +47,17 @@ public class WidgetAlert extends Widget {
         vCancel = findViewById(R.id.cancel);
         vEnter = findViewById(R.id.enter);
         vCheck = findViewById(R.id.check_box);
-        vImageContainer = findViewById(R.id.image_container);
-        vImage = findViewById(R.id.image);
+        vTopContainer = findViewById(R.id.top_container);
+        vTopImage = findViewById(R.id.top_image);
+        vTopTitle = findViewById(R.id.top_title);
 
         vText.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
         vEnter.setVisibility(View.GONE);
         vCheck.setVisibility(View.GONE);
-        vImageContainer.setVisibility(View.GONE);
+        vTopContainer.setVisibility(View.GONE);
+        vTopImage.setVisibility(View.GONE);
+        vTopTitle.setVisibility(View.GONE);
 
         vCheck.setOnCheckedChangeListener((compoundButton, b) -> updateLock(vEnter, vCheck));
     }
@@ -80,6 +86,10 @@ public class WidgetAlert extends Widget {
         return this;
     }
 
+    public WidgetAlert setChecker(String key) {
+        return setChecker(key, SupAndroid.TEXT_APP_DONT_SHOW_AGAIN);
+    }
+
     public WidgetAlert setChecker(String key, @StringRes int text) {
         return setChecker(key, ToolsResources.getString(text));
     }
@@ -97,15 +107,24 @@ public class WidgetAlert extends Widget {
     }
 
     public WidgetAlert setImageBackground(@ColorInt int color) {
-        vImageContainer.setBackgroundColor(color);
+        vTopContainer.setBackgroundColor(color);
         return this;
     }
 
     public WidgetAlert setImage(int image) {
-        vImageContainer.setVisibility(image > 0 ? View.VISIBLE : View.GONE);
-        if (image > 0) vImage.setImageResource(image);
-        else vImage.setImageBitmap(null);
+        vTopContainer.setVisibility(image > 0 ? View.VISIBLE : View.GONE);
+        ToolsView.setImageOrGone(vTopImage, image);
 
+        return this;
+    }
+
+    public WidgetAlert setTopTitle(@StringRes int topTitle) {
+        return setTopTitle(ToolsResources.getString(topTitle));
+    }
+
+    public WidgetAlert setTopTitle(String topTitle) {
+        vTopContainer.setVisibility(ToolsText.empty(topTitle) ? View.VISIBLE : View.GONE);
+        ToolsView.setTextOrGone(vTopTitle, topTitle);
         return this;
     }
 

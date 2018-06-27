@@ -6,16 +6,23 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/image_container"
+        android:id="@+id/top_container"
         android:layout_width="match_parent"
         android:layout_height="124dp">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/top_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_clear_black_24dp"
             android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/top_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/TextAppearance.AppCompat.Title"/>
 
     </FrameLayout>
 
