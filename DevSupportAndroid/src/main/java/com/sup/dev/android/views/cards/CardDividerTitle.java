@@ -13,7 +13,20 @@ public class CardDividerTitle extends Card {
     private boolean divider = true;
     private boolean enabled = true;
 
-    private String text;
+    private String title;
+
+    public CardDividerTitle(){
+        this(null);
+    }
+
+    public CardDividerTitle(@StringRes int title){
+       this(ToolsResources.getString(title));
+    }
+
+    public CardDividerTitle(String title){
+        this.title = title;
+    }
+
 
     @Override
     public int getLayout() {
@@ -30,7 +43,7 @@ public class CardDividerTitle extends Card {
         vDivider2.setVisibility(divider?View.VISIBLE:View.INVISIBLE);
         if (background != 0) view.setBackgroundColor(background);
 
-        vText.setText(text);
+        vText.setText(title);
         vText.setEnabled(isEnabled());
     }
 
@@ -50,12 +63,12 @@ public class CardDividerTitle extends Card {
         return this;
     }
     
-    public CardDividerTitle setText(@StringRes int text) {
-       return setText(ToolsResources.getString(text));
+    public CardDividerTitle setText(@StringRes int title) {
+       return setText(ToolsResources.getString(title));
     }
 
-    public CardDividerTitle setText(String text) {
-        this.text = text;
+    public CardDividerTitle setText(String title) {
+        this.title = title;
         update();
         return this;
     }

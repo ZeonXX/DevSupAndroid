@@ -175,7 +175,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
         return false;
     }
 
-    public int sizeClass(Class<? extends Card> c) {
+    public int size(Class<? extends Card> c) {
         int x = 0;
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))

@@ -123,7 +123,7 @@ public class WidgetAlert extends Widget {
     }
 
     public WidgetAlert setTopTitle(String topTitle) {
-        vTopContainer.setVisibility(ToolsText.empty(topTitle) ? View.VISIBLE : View.GONE);
+        vTopContainer.setVisibility(ToolsText.empty(topTitle) ? View.GONE : View.VISIBLE);
         ToolsView.setTextOrGone(vTopTitle, topTitle);
         return this;
     }
