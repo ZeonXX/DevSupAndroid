@@ -17,6 +17,7 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class SLoading extends Screen {
 
@@ -34,6 +35,7 @@ public abstract class SLoading extends Screen {
     protected String textEmpty;
     protected String textAction;
     protected Callback onAction;
+    protected State state;
 
     public SLoading(@LayoutRes int layoutRes) {
         super(R.layout.screen_loading);
@@ -47,6 +49,7 @@ public abstract class SLoading extends Screen {
 
         vAction.setVisibility(View.INVISIBLE);
         vMessage.setVisibility(View.INVISIBLE);
+        vProgress.setVisibility(View.INVISIBLE);
         vEmptyImage.setImageDrawable(null);
 
         setState(State.PROGRESS);
@@ -111,9 +114,12 @@ public abstract class SLoading extends Screen {
     }
 
     public void setState(State state) {
+        this.state = state;
         ToolsView.alpha(vAction, state == State.PROGRESS || state == State.NONE);
-        ToolsView.alpha(vProgress, state != State.PROGRESS);
         ToolsView.alpha(vMessage, state == State.PROGRESS || state == State.NONE);
+
+        if(state == State.PROGRESS) ToolsThreads.main(1000, () -> ToolsView.alpha(vProgress, this.state != State.PROGRESS));
+        else ToolsView.toAlpha(vProgress);
 
         if(vEmptyImage.getDrawable() == null) vEmptyImage.setVisibility(GONE);
         else ToolsView.alpha(vEmptyImage, state == State.NONE);

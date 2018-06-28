@@ -34,6 +34,7 @@
     </LinearLayout>
 
     <ProgressBar
+        android:visibility="invisible"
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
         android:layout_gravity="center"/>
 
     <ProgressBar
+        android:visibility="invisible"
         android:id="@+id/loading_horizontal"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"

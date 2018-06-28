@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public class CardLoading extends Card {
 
@@ -49,8 +51,12 @@ public class CardLoading extends Card {
 
         if (state == State.LOADING) {
             vContainer.setVisibility(View.GONE);
-            vLoadingCircle.setVisibility(type == Type.CIRCLE ? View.VISIBLE : View.GONE);
-            vLoadingHorizontal.setVisibility(type == Type.HORIZONTAL ? View.VISIBLE : View.GONE);
+
+            if(type == Type.CIRCLE) ToolsThreads.main(1000, () -> ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE));
+            else vLoadingCircle.setVisibility(View.GONE);
+            if(type == Type.HORIZONTAL)ToolsThreads.main(1000, () ->ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL));
+            else vLoadingHorizontal.setVisibility(View.GONE);
+
             vText.setVisibility(View.GONE);
             vAction.setVisibility(View.GONE);
             vText.setText("");
@@ -58,8 +64,8 @@ public class CardLoading extends Card {
         }
         if (state == State.RETRY) {
             vContainer.setVisibility(View.VISIBLE);
-            vLoadingCircle.setVisibility(View.GONE);
-            vLoadingHorizontal.setVisibility(View.GONE);
+            ToolsView.toAlpha(vLoadingCircle);
+            ToolsView.toAlpha(vLoadingHorizontal);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(retryMessage);
@@ -71,8 +77,8 @@ public class CardLoading extends Card {
         }
         if (state == State.ACTION) {
             vContainer.setVisibility(View.VISIBLE);
-            vLoadingCircle.setVisibility(View.GONE);
-            vLoadingHorizontal.setVisibility(View.GONE);
+            ToolsView.toAlpha(vLoadingCircle);
+            ToolsView.toAlpha(vLoadingHorizontal);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(actionMessage);
