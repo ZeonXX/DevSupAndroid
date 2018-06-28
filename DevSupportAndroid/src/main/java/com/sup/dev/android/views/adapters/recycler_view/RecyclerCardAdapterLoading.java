@@ -1,4 +1,5 @@
 package com.sup.dev.android.views.adapters.recycler_view;
+
 import android.support.annotation.StringRes;
 
 import com.sup.dev.android.tools.ToolsResources;

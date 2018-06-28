@@ -22,31 +22,36 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
     protected Request subscription;
 
     public SLoadingRecycler() {
-        super(R.layout.screen_loading_recycler);
+        this(R.layout.screen_loading_recycler);
+    }
+
+    public SLoadingRecycler(int res) {
+        super(res);
 
         vRecycler = findViewById(R.id.recycler);
         vRefresh = findViewById(R.id.refresh);
 
         vRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        vRefresh.setOnRefreshListener(() -> {
-            vRefresh.setRefreshing(false);
-            onReloadClicked();
-        });
+        if (vRefresh != null)
+            vRefresh.setOnRefreshListener(() -> {
+                vRefresh.setRefreshing(false);
+                onReloadClicked();
+            });
 
         ToolsThreads.main(true, () -> {
 
             Object textNetworkError = getTextErrorNetwork();
-            if(textNetworkError instanceof Integer) textNetworkError = ToolsResources.getString((int)textNetworkError);
+            if (textNetworkError instanceof Integer) textNetworkError = ToolsResources.getString((int) textNetworkError);
 
             Object textRetry = getTextRetry();
-            if(textRetry instanceof Integer) textRetry = ToolsResources.getString((int)textRetry);
+            if (textRetry instanceof Integer) textRetry = ToolsResources.getString((int) textRetry);
 
             adapter = instanceAdapter()
-                    .setOnEmpty(()->setState(State.EMPTY))
-                    .setOnErrorAndEmpty(()->setState(State.ERROR))
-                    .setOnStartLoadingAndEmpty(()->setState(State.PROGRESS))
-                    .setOnLoadingAndNotEmpty(()->setState(State.NONE))
-                    .setOnLoadedNotEmpty(()->setState(State.NONE))
+                    .setOnEmpty(() -> setState(State.EMPTY))
+                    .setOnErrorAndEmpty(() -> setState(State.ERROR))
+                    .setOnStartLoadingAndEmpty(() -> setState(State.PROGRESS))
+                    .setOnLoadingAndNotEmpty(() -> setState(State.NONE))
+                    .setOnLoadedNotEmpty(() -> setState(State.NONE))
                     .setRetryMessage(textNetworkError.toString(), textRetry.toString())
                     .setNotifyCount(5);
 
@@ -68,15 +73,15 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
 
     protected abstract RecyclerCardAdapterLoading<C, V> instanceAdapter();
 
-    public Object getTextErrorNetwork(){
+    public Object getTextErrorNetwork() {
         return SupAndroid.TEXT_APP_RETRY;
     }
 
-    public Object getTextRetry(){
+    public Object getTextRetry() {
         return SupAndroid.TEXT_APP_RETRY;
     }
 
-    protected int getNotifyCount(){
+    protected int getNotifyCount() {
         return 5;
     }
 
@@ -87,14 +92,6 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
     public void setAdapter(RecyclerView.Adapter adapter) {
         vRecycler.setAdapter(adapter);
     }
-
-
-
-
-
-
-
-
 
 
 }

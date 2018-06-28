@@ -77,6 +77,15 @@ public class WidgetMenu extends WidgetRecycler {
         this.onGlobalSelected = onGlobalSelected;
     }
 
+    public WidgetMenu setTitle(@StringRes int title) {
+        return super.setTitle(title);
+    }
+
+    public WidgetMenu setTitle(String title) {
+        return super.setTitle(title);
+    }
+
+
     //
     //  Item
     //
@@ -90,6 +99,7 @@ public class WidgetMenu extends WidgetRecycler {
             Item i = buildItem;
             buildItem = null;
             if (!skipThisItem && !skipGroup) add(i);
+            skipThisItem = false;
         }
     }
 

@@ -174,16 +174,25 @@ public abstract class Widget {
     }
 
     public Widget showPopupWhenClick(View view, Provider<Boolean> willShow) {
-        PopupWidget popup = asPopup();
         ToolsView.setOnClickCoordinates(view, (view1, x, y) -> {
-            if (willShow == null || willShow.provide()) popup.show(view1, x, y);
+            if (willShow == null || willShow.provide()) asPopup().show(view1, x, y);
         });
         return this;
     }
 
     public Widget showPopupWhenLongClick(View view) {
-        PopupWidget popup = asPopup();
-        ToolsView.setOnLongClickCoordinates(view, (view1, x, y) -> popup.show(view1, x, y));
+        ToolsView.setOnLongClickCoordinates(view, (view1, x, y) -> asPopup().show(view1, x, y));
+        return this;
+    }
+
+    public Widget showPopupWhenClickAndLongClick(View view, Provider<Boolean> willShowClicik) {
+        ToolsView.setOnClickAndLongClickCoordinates(view, (view1, x, y, isClick) -> {
+            if (isClick) {
+                if (willShowClicik == null || willShowClicik.provide()) asPopup().show(view1, x, y);
+            }else{
+                asPopup().show(view1, x, y);
+            }
+        });
         return this;
     }
 

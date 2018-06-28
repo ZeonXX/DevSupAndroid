@@ -16,6 +16,7 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public abstract class SLoading extends Screen {
 
@@ -46,6 +47,7 @@ public abstract class SLoading extends Screen {
 
         vAction.setVisibility(View.INVISIBLE);
         vMessage.setVisibility(View.INVISIBLE);
+        vEmptyImage.setImageDrawable(null);
 
         setState(State.PROGRESS);
         setContent(layoutRes);
@@ -58,10 +60,10 @@ public abstract class SLoading extends Screen {
         vContainer.addView(ToolsView.inflate(getContext(), res), 0);
     }
 
-    protected ViewIcon addToolbarIcon(@DrawableRes int res, Callback onClick) {
+    protected ViewIcon addToolbarIcon(@DrawableRes int res, Callback1<View> onClick) {
         ViewIcon viewIcon = ToolsView.inflate(getContext(), R.layout.view_icon_toolbar);
         viewIcon.setImageResource(res);
-        viewIcon.setOnClickListener(v -> onClick.callback());
+        viewIcon.setOnClickListener(onClick::callback);
         vToolbarContainer.addView(viewIcon);
         return viewIcon;
     }
@@ -112,7 +114,9 @@ public abstract class SLoading extends Screen {
         ToolsView.alpha(vAction, state == State.PROGRESS || state == State.NONE);
         ToolsView.alpha(vProgress, state != State.PROGRESS);
         ToolsView.alpha(vMessage, state == State.PROGRESS || state == State.NONE);
-        ToolsView.alpha(vEmptyImage, state == State.NONE);
+
+        if(vEmptyImage.getDrawable() == null) vEmptyImage.setVisibility(GONE);
+        else ToolsView.alpha(vEmptyImage, state == State.NONE);
 
         if (state == State.ERROR) {
 

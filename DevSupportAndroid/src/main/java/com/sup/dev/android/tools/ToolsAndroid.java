@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.support.annotation.RequiresPermission;
+import android.support.annotation.WorkerThread;
 import android.view.WindowManager;
 
 import com.sup.dev.android.androiddevsup.BuildConfig;
@@ -49,19 +50,25 @@ public class ToolsAndroid{
         return (n == null)?null:n.getExtraInfo();
     }
 
-
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static void isHasInternetConnection(Callback1<Boolean> onResult) {
         ToolsThreads.thread(() -> {
-            try {
-                Socket sock = new Socket();
-                sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
-                sock.close();
-                ToolsThreads.main(() ->  onResult.callback(true));
-            } catch (IOException e) {
-                ToolsThreads.main(() ->  onResult.callback(false));
-            }
+            boolean has = isHasInternetConnectionNow();
+            ToolsThreads.main(() ->  onResult.callback(has));
         });
+    }
+
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    @WorkerThread
+    public static boolean isHasInternetConnectionNow() {
+        try {
+            Socket sock = new Socket();
+            sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
+            sock.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public static String getLanguageCode() {

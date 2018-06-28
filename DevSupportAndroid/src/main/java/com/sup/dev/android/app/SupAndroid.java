@@ -48,6 +48,7 @@ public class SupAndroid {
         });
 
         Debug.printer = s -> Log.e("Debug", s);
+        Debug.printerInfo = (tag,s) -> Log.i(tag, s);
         Debug.exceptionPrinter = th -> Log.e("Debug", "", th);
 
         TEXT_APP_NAME = ToolsResources.getString("app_name");

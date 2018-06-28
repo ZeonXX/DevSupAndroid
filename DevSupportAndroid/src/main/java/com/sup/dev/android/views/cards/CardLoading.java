@@ -36,7 +36,7 @@ public class CardLoading extends Card {
     @Override
     public void bindView(View view) {
         View vDivider = view.findViewById(R.id.divider);
-        View vLoading = view.findViewById(R.id.loading);
+        View vLoadingCircle = view.findViewById(R.id.loading);
         View vLoadingHorizontal = view.findViewById(R.id.loading_horizontal);
         View vContainer = view.findViewById(R.id.container);
         Button vAction = view.findViewById(R.id.action);
@@ -49,7 +49,7 @@ public class CardLoading extends Card {
 
         if (state == State.LOADING) {
             vContainer.setVisibility(View.GONE);
-            vLoading.setVisibility(type == Type.CIRCLE ? View.GONE : View.VISIBLE);
+            vLoadingCircle.setVisibility(type == Type.CIRCLE ? View.VISIBLE : View.GONE);
             vLoadingHorizontal.setVisibility(type == Type.HORIZONTAL ? View.VISIBLE : View.GONE);
             vText.setVisibility(View.GONE);
             vAction.setVisibility(View.GONE);
@@ -58,7 +58,7 @@ public class CardLoading extends Card {
         }
         if (state == State.RETRY) {
             vContainer.setVisibility(View.VISIBLE);
-            vLoading.setVisibility(View.GONE);
+            vLoadingCircle.setVisibility(View.GONE);
             vLoadingHorizontal.setVisibility(View.GONE);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.GONE : View.VISIBLE);
@@ -71,7 +71,7 @@ public class CardLoading extends Card {
         }
         if (state == State.ACTION) {
             vContainer.setVisibility(View.VISIBLE);
-            vLoading.setVisibility(View.GONE);
+            vLoadingCircle.setVisibility(View.GONE);
             vLoadingHorizontal.setVisibility(View.GONE);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.GONE : View.VISIBLE);

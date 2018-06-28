@@ -28,7 +28,6 @@ public class SettingsSwitcher extends SettingsAction {
         vSwitcher = new Switch(context);
         vSwitcher.setFocusable(false);
         vSwitcher.setOnCheckedChangeListener((v, b) -> {
-            setEnabledSubSettings(b);
             if (!salient) onClick();
         });
 
@@ -50,9 +49,7 @@ public class SettingsSwitcher extends SettingsAction {
         setIconBackground(iconBackground);
 
         super.setOnClickListener(v -> {
-            salient = true;
-            vSwitcher.setChecked(!vSwitcher.isChecked());
-            salient = false;
+            setChecked(!vSwitcher.isChecked());
             onClick();
         });
     }
@@ -99,6 +96,7 @@ public class SettingsSwitcher extends SettingsAction {
         salient = true;
         vSwitcher.setChecked(checked);
         salient = false;
+        setEnabledSubSettings(checked);
     }
 
     @Override
