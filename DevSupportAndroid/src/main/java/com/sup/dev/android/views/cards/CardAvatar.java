@@ -14,7 +14,7 @@ public class CardAvatar extends Card {
     private Callback onClick;
     private boolean dividerVisible = false;
     private boolean enabled = true;
-    private int background = 0x01FF0000;
+    private int background = 0;
     private String title;
     private String subtitle;
     private String chipText;
@@ -41,7 +41,7 @@ public class CardAvatar extends Card {
         vTouch.setClickable(onClick != null && enabled);
         vTouch.setEnabled(onClick != null && enabled);
         vTouch.setOnClickListener((onClick != null && enabled)?v -> onClick.callback():null);
-        if (background != 0x01FF0000) view.setBackgroundColor(background);
+        if (background != 0) view.setBackgroundColor(background);
         vAvatar.setEnabled(isEnabled());
         vAvatar.setTitle(title);
         vAvatar.setSubtitle(subtitle);

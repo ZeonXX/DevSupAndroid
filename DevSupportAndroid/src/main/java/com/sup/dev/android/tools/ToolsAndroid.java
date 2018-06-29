@@ -92,6 +92,24 @@ public class ToolsAndroid {
         return echoCancelerAvailable;
     }
 
+    public static void main(String[] args) {
+        try {
+            Integer.parseInt("vvv");
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+    }
+
+    public static void m1() {
+        Debug.log("m1");
+    }
+
+    public static void m2() {
+        Debug.log("m2");
+    }
+
     public static boolean isDirectToTV() {
         return SupAndroid.appContext.getPackageManager().hasSystemFeature("android.software.leanb‌​ack")
                 || SupAndroid.appContext.getPackageManager().hasSystemFeature("android.software.live_tv")

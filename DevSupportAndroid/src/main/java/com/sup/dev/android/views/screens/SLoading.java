@@ -25,6 +25,7 @@ public abstract class SLoading extends Screen {
 
     protected final ViewGroup vContainer;
     protected final ViewGroup vToolbarContainer;
+    protected final Toolbar vToolbar;
     protected final TextView vMessage;
     protected final TextView vAction;
     protected final View vProgress;
@@ -42,6 +43,7 @@ public abstract class SLoading extends Screen {
 
         vContainer = findViewById(R.id.container);
         vToolbarContainer = findViewById(R.id.toolbar_icons_container);
+        vToolbar = findViewById(R.id.toolbar);
         vMessage = findViewById(R.id.message);
         vAction = findViewById(R.id.action);
         vProgress = findViewById(R.id.progress);
@@ -69,6 +71,10 @@ public abstract class SLoading extends Screen {
         viewIcon.setOnClickListener(onClick::callback);
         vToolbarContainer.addView(viewIcon);
         return viewIcon;
+    }
+
+    protected void addToolbarView(View v){
+        vToolbar.addView(v);
     }
 
     protected void setTextErrorNetwork(@StringRes int t) {
@@ -99,11 +105,6 @@ public abstract class SLoading extends Screen {
     public void setBackgroundImage(@DrawableRes int res) {
         vEmptyImage.setImageResource(res);
     }
-
-
-    //
-    //  Presenter
-    //
 
     public void setTitle(@StringRes int title) {
         setTitle(ToolsResources.getString(title));

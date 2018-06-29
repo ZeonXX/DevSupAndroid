@@ -39,7 +39,7 @@ public class SettingsCheckBox extends SettingsAction {
         String subtitle = a.getString(R.styleable.SettingsCheckBox_SettingsCheckBox_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsCheckBox_SettingsCheckBox_icon, 0);
         boolean checked = a.getBoolean(R.styleable.SettingsCheckBox_SettingsCheckBox_checked, false);
-        int iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsCheckBox_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsCheckBox_icon_background, 0);
         a.recycle();
 
         setLineVisible(lineVisible);

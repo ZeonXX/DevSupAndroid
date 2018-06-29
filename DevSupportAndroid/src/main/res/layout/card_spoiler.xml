@@ -57,12 +57,6 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/grey_600"/>
+        style="@style/Divider.8"/>
 
 </FrameLayout>

@@ -48,7 +48,7 @@ public class SettingsField extends Settings {
         int inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.getInputType());
         int icon = a.getResourceId(R.styleable.SettingsField_SettingsField_icon, 0);
         int maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0);
-        int iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0x01FF0000);
+        int iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0);
         setIconBackground(iconBackground);
         a.recycle();
 

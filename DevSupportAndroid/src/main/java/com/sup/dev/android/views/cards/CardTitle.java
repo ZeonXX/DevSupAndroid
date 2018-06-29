@@ -11,7 +11,7 @@ import com.sup.dev.android.tools.ToolsResources;
 public class CardTitle extends Card {
 
     private boolean dividerVisible = false;
-    private int background = 0x01FF0000;
+    private int background = 0;
     private boolean enabled = true;
 
     private String title;
@@ -37,7 +37,7 @@ public class CardTitle extends Card {
         TextView textView = view.findViewById(R.id.text);
 
         vDivider.setVisibility(dividerVisible ? View.VISIBLE : View.GONE);
-        if (background != 0x01FF0000) view.setBackgroundColor(background);
+        if (background != 0) view.setBackgroundColor(background);
         textView.setText(title);
         textView.setEnabled(enabled);
 

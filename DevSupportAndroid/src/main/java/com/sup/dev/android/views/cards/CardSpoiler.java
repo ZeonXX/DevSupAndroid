@@ -19,14 +19,15 @@ public class CardSpoiler extends Card {
     private String title;
     private String text;
     private String rightText;
-    private int titleColor = 0x01FF0000;
-    private int rightTextColor = 0x01FF0000;
-    private int textColor = 0x01FF0000;
+    private int titleColor = 0;
+    private int rightTextColor = 0;
+    private int textColor = 0;
     private boolean originalSeted = false;
+    private boolean dividerVisible = true;
     private int titleColorOriginal;
     private int rightTextColorOriginal;
     private int textColorOriginal;
-    private int iconColor = 0x01FF0000;
+    private int iconColor = 0;
 
     boolean expanded;
     boolean enabled = true;
@@ -43,6 +44,7 @@ public class CardSpoiler extends Card {
         TextView vText = view.findViewById(R.id.text);
         TextView vRightText = view.findViewById(R.id.right_text);
         View vTouch = view.findViewById(R.id.touch);
+        View vDivider = view.findViewById(R.id.divider);
 
         if (!originalSeted) {
             originalSeted = true;
@@ -63,13 +65,14 @@ public class CardSpoiler extends Card {
         vRightText.setEnabled(enabled);
         vTitle.setEnabled(enabled);
 
-        vText.setTextColor(textColor != 0x01FF0000 ? textColor : textColorOriginal);
-        vRightText.setTextColor(rightTextColor != 0x01FF0000 ? rightTextColor : rightTextColorOriginal);
-        vTitle.setTextColor(titleColor != 0x01FF0000 ? titleColor : titleColorOriginal);
+        vDivider.setVisibility(dividerVisible?View.VISIBLE:View.GONE);
+        vText.setTextColor(textColor != 0 ? textColor : textColorOriginal);
+        vRightText.setTextColor(rightTextColor != 0 ? rightTextColor : rightTextColorOriginal);
+        vTitle.setTextColor(titleColor != 0 ? titleColor : titleColorOriginal);
 
         vIcon.setImageResource(expanded ? R.drawable.ic_keyboard_arrow_up_black_24dp : R.drawable.ic_keyboard_arrow_down_black_24dp);
         vIcon.setAlpha(enabled ? 255 : 106);
-        if (iconColor != 0x01FF0000) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+        if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
         vTouch.setOnClickListener(!enabled ? null : v -> setExpanded(!expanded));
         vTouch.setClickable(enabled);
     }
@@ -157,6 +160,12 @@ public class CardSpoiler extends Card {
 
     public CardSpoiler setRightTextColor(int rightTextColor) {
         this.rightTextColor = rightTextColor;
+        update();
+        return this;
+    }
+
+    public CardSpoiler setDividerVisible(boolean dividerVisible) {
+        this.dividerVisible = dividerVisible;
         update();
         return this;
     }

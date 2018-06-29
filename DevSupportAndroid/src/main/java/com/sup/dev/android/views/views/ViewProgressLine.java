@@ -31,7 +31,7 @@ public class ViewProgressLine extends View {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
-        colorBackground = ToolsResources.getColor(R.color.focus_dark);
+        colorBackground = ToolsResources.getColor(R.color.focus);
         colorProgress = ToolsResources.getAccentColor(context);
 
 

@@ -49,7 +49,7 @@ public class SettingsSeek extends Settings implements SeekBar.OnSeekBarChangeLis
         int maxProgress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_maxProgress, 100);
         int progress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_progress, 70);
         int dpadStep = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_dpad_step, 1);
-        int iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0x01FF0000);
+        int iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0);
         a.recycle();
 
         vSeekBar.setOnSeekBarChangeListener(this);

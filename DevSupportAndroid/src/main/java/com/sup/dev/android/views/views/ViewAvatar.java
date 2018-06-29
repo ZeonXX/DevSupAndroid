@@ -57,7 +57,7 @@ public class ViewAvatar extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewAvatar, 0, 0);
         int src = a.getResourceId(R.styleable.ViewAvatar_android_src, R.color.blue_700);
         String text = a.getString(R.styleable.ViewAvatar_ViewAvatar_chipText);
-        int chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0x01FF0000);
+        int chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0);
         int srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0);
         boolean iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false);
         float iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0);
@@ -73,7 +73,7 @@ public class ViewAvatar extends FrameLayout {
         vChip.setIcon(srcIcon);
         vChip.setText(text);
         vChip.setUseIconBackground(iconUseBackground);
-        if (chipBackground != 0x01FF0000) vChip.setChipBackground(chipBackground);
+        if (chipBackground != 0) vChip.setChipBackground(chipBackground);
 
         vTouch.setOnDraw(canvas -> {
             paint.setColor(animationFocus.update());

@@ -15,7 +15,7 @@ public class CardLoading extends Card {
 
     private boolean dividerVisible = false;
     private boolean enabled = true;
-    private int background = 0x01FF0000;
+    private int background = 0;
 
     public enum State {LOADING, ACTION, RETRY}
 
@@ -45,7 +45,7 @@ public class CardLoading extends Card {
         TextView vText = view.findViewById(R.id.text);
 
         vDivider.setVisibility(dividerVisible ? View.VISIBLE : View.GONE);
-        if (background != 0x01FF0000) view.setBackgroundColor(background);
+        if (background != 0) view.setBackgroundColor(background);
         vAction.setEnabled(isEnabled());
         vText.setEnabled(isEnabled());
 

@@ -30,7 +30,7 @@ public class SettingsArrow extends SettingsAction {
         String title = a.getString(R.styleable.SettingsArrow_SettingsArrow_title);
         String subtitle = a.getString(R.styleable.SettingsArrow_SettingsArrow_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsArrow_SettingsArrow_icon, 0);
-        int iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsArrow_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsArrow_icon_background, 0);
         setIconBackground(iconBackground);
         a.recycle();
 

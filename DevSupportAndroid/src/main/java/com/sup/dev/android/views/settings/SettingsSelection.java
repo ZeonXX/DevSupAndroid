@@ -29,7 +29,7 @@ public class SettingsSelection extends SettingsAction{
         String title = a.getString(R.styleable.SettingsSelection_SettingsSelection_title);
         String subtitle = a.getString(R.styleable.SettingsSelection_SettingsSelection_subtitle);
         int icon = a.getResourceId(R.styleable.SettingsSelection_SettingsSelection_icon, 0);
-        int iconBackground = a.getColor(R.styleable.SettingsSelection_SettingsSelection_icon_background, 0x01FF0000);
+        int iconBackground = a.getColor(R.styleable.SettingsSelection_SettingsSelection_icon_background, 0);
         setIconBackground(iconBackground);
         a.recycle();
 

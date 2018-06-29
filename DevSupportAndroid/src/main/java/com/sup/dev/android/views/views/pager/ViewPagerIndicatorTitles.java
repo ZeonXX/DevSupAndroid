@@ -24,16 +24,18 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
     private String[] titles;
     private TextView[] views;
 
+    public ViewPagerIndicatorTitles(Context context) {
+        this(context, null);
+    }
 
-    @MainThread
     public ViewPagerIndicatorTitles(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         SupAndroid.initEditMode(this);
 
-       TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicatorTitles, 0, 0);
-       offsetLeft = (int) a.getDimension(R.styleable.ViewPagerIndicatorTitles_ViewPagerIndicatorTitles_offset_left, offsetLeft);
-       a.recycle();
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicatorTitles, 0, 0);
+        offsetLeft = (int) a.getDimension(R.styleable.ViewPagerIndicatorTitles_ViewPagerIndicatorTitles_offset_left, offsetLeft);
+        a.recycle();
     }
 
     public void setTitles(String... titles) {
@@ -42,7 +44,7 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
 
     public void setTitles(int... titles) {
         this.titles = new String[titles.length];
-        for(int i=0;i<titles.length;i++)
+        for (int i = 0; i < titles.length; i++)
             this.titles[i] = ToolsResources.getString(titles[i]);
     }
 
@@ -59,7 +61,7 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
 
     public void reset() {
         removeAllViews();
-        if(pager.getAdapter() == null) return;
+        if (pager.getAdapter() == null) return;
 
         views = new TextView[pager.getAdapter().getCount()];
         for (int i = 0; i < views.length; i++) {
@@ -77,6 +79,10 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
         requestLayout();
     }
 
+    public void setOffsetLeft(int offsetLeft) {
+        this.offsetLeft = offsetLeft;
+    }
+
     //
     //  Layout
     //
@@ -84,13 +90,13 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
     @Override
     @MainThread
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(pager == null && pagerId != 0) setPager(ToolsView.findViewOnParents(this, pagerId));
+        if (pager == null && pagerId != 0) setPager(ToolsView.findViewOnParents(this, pagerId));
 
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             measureChild(v, widthMeasureSpec, heightMeasureSpec);
         }
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48),  MeasureSpec.EXACTLY));
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48), MeasureSpec.EXACTLY));
     }
 
     @Override
