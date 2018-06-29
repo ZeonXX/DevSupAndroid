@@ -186,7 +186,7 @@ public class ToolsStorage {
     //  Files
     //
 
-    public static void saveImageInDownloadFolder(Activity activity, Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+    public static void saveImageInDownloadFolder(Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
         if(preferences == null) init();
         ToolsPermission.requestWritePermission(() -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();

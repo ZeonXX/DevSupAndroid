@@ -1,6 +1,5 @@
 package com.sup.dev.android.tools;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
@@ -142,7 +141,7 @@ public class ToolsFiles extends com.sup.dev.java.tools.ToolsFiles{
     //  Bitmap
     //
 
-    public static void saveImageInCameraFolder(Activity activity, Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
+    public static void saveImageInCameraFolder(Bitmap bitmap, Callback1<String> onResult, Callback onPermissionPermissionRestriction) {
         ToolsPermission.requestWritePermission(() -> {
             File file = createJpgFileInCameraFolder();
             writeBitmap(bitmap, file);

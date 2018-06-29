@@ -25,6 +25,7 @@ import com.sup.dev.android.androiddevsup.BuildConfig;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.File;
@@ -37,37 +38,46 @@ import java.util.Locale;
 
 import static android.content.Context.WINDOW_SERVICE;
 
-public class ToolsAndroid{
-    
+public class ToolsAndroid {
+
     //
     //  Device
     //
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    public static String getNetworkName(){
+    public static String getNetworkName() {
         ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo n = cm.getActiveNetworkInfo();
-        return (n == null)?null:n.getExtraInfo();
+        return (n == null) ? null : n.getExtraInfo();
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static void isHasInternetConnection(Callback1<Boolean> onResult) {
         ToolsThreads.thread(() -> {
             boolean has = isHasInternetConnectionNow();
-            ToolsThreads.main(() ->  onResult.callback(has));
+            ToolsThreads.main(() -> onResult.callback(has));
         });
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     @WorkerThread
     public static boolean isHasInternetConnectionNow() {
+        Socket sock = null;
         try {
-            Socket sock = new Socket();
+            sock = new Socket();
             sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
             sock.close();
             return true;
         } catch (IOException e) {
             return false;
+        } finally {
+            if (sock != null) {
+                try {
+                    sock.close();
+                } catch (IOException e) {
+                    Debug.log(e);
+                }
+            }
         }
     }
 
@@ -110,12 +120,12 @@ public class ToolsAndroid{
         return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 
-    public static long getMaxMemory(){
+    public static long getMaxMemory() {
         return Runtime.getRuntime().totalMemory();
     }
 
-    public static long getFreeMemory(){
-        Runtime runtime =  Runtime.getRuntime();
+    public static long getFreeMemory() {
+        Runtime runtime = Runtime.getRuntime();
         return runtime.totalMemory() - runtime.freeMemory();
     }
 
@@ -221,7 +231,6 @@ public class ToolsAndroid{
         }).start();
 
     }
-
 
 
 }

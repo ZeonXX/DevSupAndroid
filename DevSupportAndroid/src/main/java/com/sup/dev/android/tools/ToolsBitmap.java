@@ -244,26 +244,8 @@ public class ToolsBitmap {
         return bitmap;
     }
 
-
-/*
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) inSampleSize *= 2;
-        }
-
-        return inSampleSize;
-    }
-*/
-
-
     public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
-        ToolsIntent.getGalleryImage(uri -> getFromUri(SupAndroid.activity, uri, bitmap -> {
+        ToolsIntent.getGalleryImage(uri -> getFromUri(uri, bitmap -> {
             if (bitmap == null)
                 onError.callback();
             else
@@ -325,10 +307,10 @@ public class ToolsBitmap {
         });
     }
 
-    public static void getFromUri(Activity activity, final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
+    public static void getFromUri(final Uri uri, final Callback1<Bitmap> callbackResult, Callback onPermissionPermissionRestriction) {
         ToolsPermission.requestReadPermission(() -> {
             try {
-                callbackResult.callback(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri));
+                callbackResult.callback(MediaStore.Images.Media.getBitmap(SupAndroid.activity.getContentResolver(), uri));
             } catch (IOException ex) {
                 Debug.log(ex);
                 callbackResult.callback(null);
