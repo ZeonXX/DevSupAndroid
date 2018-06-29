@@ -86,28 +86,7 @@ public class ToolsAndroid {
     }
 
     public static boolean isEchoCancelerAvailable() {
-        boolean echoCancelerAvailable = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            echoCancelerAvailable = AcousticEchoCanceler.isAvailable();
-        return echoCancelerAvailable;
-    }
-
-    public static void main(String[] args) {
-        try {
-            Integer.parseInt("vvv");
-        } catch (Exception e) {
-
-        } finally {
-
-        }
-    }
-
-    public static void m1() {
-        Debug.log("m1");
-    }
-
-    public static void m2() {
-        Debug.log("m2");
+        return AcousticEchoCanceler.isAvailable();
     }
 
     public static boolean isDirectToTV() {
