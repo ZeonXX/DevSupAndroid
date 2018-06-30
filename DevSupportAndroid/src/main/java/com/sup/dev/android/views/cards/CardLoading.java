@@ -52,9 +52,9 @@ public class CardLoading extends Card {
         if (state == State.LOADING) {
             vContainer.setVisibility(View.GONE);
 
-            if(type == Type.CIRCLE) ToolsThreads.main(1000, () -> ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE));
+            if(type == Type.CIRCLE) ToolsThreads.main(1000, () -> {if(state == State.LOADING)ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE);});
             else vLoadingCircle.setVisibility(View.GONE);
-            if(type == Type.HORIZONTAL)ToolsThreads.main(1000, () ->ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL));
+            if(type == Type.HORIZONTAL)ToolsThreads.main(1000, () ->{if(state == State.LOADING)ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL);});
             else vLoadingHorizontal.setVisibility(View.GONE);
 
             vText.setVisibility(View.GONE);

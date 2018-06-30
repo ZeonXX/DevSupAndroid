@@ -18,6 +18,7 @@ public class SInterstitialProgress extends Screen {
         super(R.layout.screen_interstitial_progress);
 
         vProgress = findViewById(R.id.progress);
+        backStackAllowed = false;
 
         if (!startNow)
             vProgress.setVisibility(INVISIBLE);

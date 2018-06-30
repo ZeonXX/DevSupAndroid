@@ -189,7 +189,7 @@ public class WidgetField extends Widget {
         ToolsView.setTextOrGone(vCancel, s);
         vCancel.setVisibility(View.VISIBLE);
         vCancel.setOnClickListener(v -> {
-            if (autoHideOnEnter) hide();
+            if (autoHideOnCancel) hide();
             else setEnabled(false);
             if (onCancel != null) onCancel.callback(this);
         });

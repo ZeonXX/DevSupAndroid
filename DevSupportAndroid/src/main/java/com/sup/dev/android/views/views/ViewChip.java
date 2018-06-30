@@ -90,7 +90,7 @@ public class ViewChip extends FrameLayout {
         int textStyle = a.getInteger(R.styleable.ViewChip_ViewChip_textStyle, 0);
         int icon = a.getResourceId(R.styleable.ViewChip_ViewChip_icon, 0);
         float iconPadding = a.getDimension(R.styleable.ViewChip_ViewChip_iconPadding, 0);
-        float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, ToolsView.dpToPx(36));
+        float size = a.getDimension(R.styleable.ViewChip_ViewChip_size, ToolsView.dpToPx(28));
         a.recycle();
 
         animationFocus = new AnimationFocus(this, focusColor);

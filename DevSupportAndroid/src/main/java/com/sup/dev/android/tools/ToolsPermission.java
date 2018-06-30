@@ -28,6 +28,10 @@ public class ToolsPermission {
     public static void requestReadPermission(Callback onGranted) {
         requestPermission(READ_EXTERNAL_STORAGE, onGranted, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
     }
+
+    public static void requestWritePermission(Callback onGranted) {
+        requestPermission(WRITE_EXTERNAL_STORAGE, onGranted, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+    }
     //
     //  Requests
     //

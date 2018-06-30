@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
+import com.sup.dev.android.views.widgets.Widget;
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent;
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle;
 import com.sup.dev.android.views.dialogs.Dialog;
@@ -60,21 +61,21 @@ public class ToolsView {
         return view;
     }
 
-    public static Dialog showProgressDialog() {
-        return new WidgetProgressTransparent()
-                .setCancelable(false)
-                .asDialogShow();
+    public static WidgetProgressTransparent showProgressDialog() {
+        WidgetProgressTransparent widget = new WidgetProgressTransparent().setCancelable(false);
+        widget.asDialogShow();
+        return widget;
+
     }
 
-    public static Dialog showProgressDialog(int title) {
+    public static WidgetProgressWithTitle showProgressDialog(int title) {
         return showProgressDialog(ToolsResources.getString(title));
     }
 
-    public static Dialog showProgressDialog(String title) {
-        return new WidgetProgressWithTitle()
-                .setTitle(title)
-                .setCancelable(false)
-                .asDialogShow();
+    public static WidgetProgressWithTitle showProgressDialog(String title) {
+        WidgetProgressWithTitle widget = new WidgetProgressWithTitle().setTitle(title).setCancelable(false);
+        widget.asDialogShow();
+        return widget;
     }
 
     public static void setImageOrGone(ImageView vImage, Bitmap bitmap) {

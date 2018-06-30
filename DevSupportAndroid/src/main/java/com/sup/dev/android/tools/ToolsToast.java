@@ -15,6 +15,10 @@ public class ToolsToast {
         show(SupAndroid.appContext.getString(textRes));
     }
 
+    public static void show(@StringRes int textRes, Object... args) {
+        show(ToolsResources.getStringFormat(textRes, args));
+    }
+
     public static void show(String text) {
         ToolsThreads.main(() -> showNow(text));
     }

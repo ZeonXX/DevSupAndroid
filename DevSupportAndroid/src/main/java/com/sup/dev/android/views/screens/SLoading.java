@@ -3,6 +3,7 @@ package com.sup.dev.android.views.screens;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public abstract class SLoading extends Screen {
     protected final TextView vAction;
     protected final View vProgress;
     protected final ImageView vEmptyImage;
+    protected final FloatingActionButton vFab;
 
     protected String textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK;
     protected String textRetry = SupAndroid.TEXT_APP_RETRY;
@@ -48,10 +50,12 @@ public abstract class SLoading extends Screen {
         vAction = findViewById(R.id.action);
         vProgress = findViewById(R.id.progress);
         vEmptyImage = findViewById(R.id.empty_image);
+        vFab = findViewById(R.id.fab);
 
         vAction.setVisibility(View.INVISIBLE);
         vMessage.setVisibility(View.INVISIBLE);
         vProgress.setVisibility(View.INVISIBLE);
+        vFab.setVisibility(View.GONE);
         vEmptyImage.setImageDrawable(null);
 
         setState(State.PROGRESS);
@@ -61,7 +65,7 @@ public abstract class SLoading extends Screen {
     public abstract void onReloadClicked();
 
     protected void setContent(@LayoutRes int res) {
-        while (vContainer.getChildCount() != 1) vContainer.removeViewAt(0);
+        while (vContainer.getChildCount() != 2) vContainer.removeViewAt(0);
         vContainer.addView(ToolsView.inflate(getContext(), res), 0);
     }
 
