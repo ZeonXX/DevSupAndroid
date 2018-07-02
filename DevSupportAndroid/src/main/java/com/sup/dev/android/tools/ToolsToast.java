@@ -16,7 +16,7 @@ public class ToolsToast {
     }
 
     public static void show(@StringRes int textRes, Object... args) {
-        show(ToolsResources.getStringFormat(textRes, args));
+        show(ToolsResources.getString(textRes, args));
     }
 
     public static void show(String text) {

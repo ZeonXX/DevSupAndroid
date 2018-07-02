@@ -17,7 +17,7 @@ import com.sup.dev.java.tools.ToolsColor;
 
 public class ToolsResources {
 
-    public static String getStringFormat(@StringRes int r, Object... args) {
+    public static String getString(@StringRes int r, Object... args) {
         return (r < 0) ? null : String.format(getString(r), args);
     }
 
