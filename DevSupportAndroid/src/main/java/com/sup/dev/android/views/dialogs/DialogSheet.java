@@ -3,6 +3,7 @@ package com.sup.dev.android.views.dialogs;
 import android.os.Build;
 import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 
@@ -25,24 +26,22 @@ public class DialogSheet  extends AppCompatDialog {
     }
 
     public DialogSheet(View view) {
-        super(SupAndroid.activity);
+        super(view.getContext());
         this.view = view;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setOnCancelListener(dialogInterface -> onHide());
 
         FrameLayout vRoot = new FrameLayout(view.getContext());
-        FrameLayout vContainer = new FrameLayout(view.getContext());
-        vContainer.addView(ToolsView.removeFromParent(view));
-        vRoot.addView(vContainer);
-        vContainer.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
-        vContainer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        vContainer.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        ((FrameLayout.LayoutParams)vContainer.getLayoutParams()).gravity = Gravity.BOTTOM;
+        vRoot.addView(ToolsView.removeFromParent(view));
+        vRoot.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
         setContentView(vRoot);
+        vRoot.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        ((FrameLayout.LayoutParams)vRoot.getLayoutParams()).gravity = Gravity.BOTTOM;
 
+        getWindow().setWindowAnimations(R.style.DialogSheetAnimation);
         getWindow().setBackgroundDrawable(null);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE );
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

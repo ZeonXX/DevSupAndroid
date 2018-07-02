@@ -2,6 +2,11 @@
 
     <!-- Styles -->
 
+    <style name="DialogSheetAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
+
     <style name="Touchable">
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:focusable">true</item>
