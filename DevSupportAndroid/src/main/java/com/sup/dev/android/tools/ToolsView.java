@@ -16,7 +16,6 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -25,15 +24,12 @@ import android.widget.TextView;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
-import com.sup.dev.android.views.widgets.Widget;
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent;
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle;
-import com.sup.dev.android.views.dialogs.Dialog;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback3;
 import com.sup.dev.java.classes.callbacks.simple.Callback4;
 import com.sup.dev.java.classes.items.Item;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import static android.view.View.GONE;

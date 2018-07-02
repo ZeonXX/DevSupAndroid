@@ -13,7 +13,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class ToolsNotifications {
 
