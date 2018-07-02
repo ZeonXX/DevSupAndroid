@@ -88,7 +88,6 @@ public class ToolsBitmap {
 
                 output.setPixel(xx, yy, Color.argb(aa, r, g, b));
             }
-
         return output;
     }
 

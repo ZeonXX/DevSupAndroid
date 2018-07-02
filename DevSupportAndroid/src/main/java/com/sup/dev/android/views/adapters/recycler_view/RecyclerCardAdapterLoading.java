@@ -105,7 +105,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         }
 
 
-        if (!containsClass(cardClass) && result.length == 0) {
+        if (!contains(cardClass) && result.length == 0) {
             if (bottom) lockBottom();
             else lockTop();
             if (actionEnabled) cardLoading.setState(CardLoading.State.ACTION);

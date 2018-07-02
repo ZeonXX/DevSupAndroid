@@ -168,7 +168,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
     //  Getters
     //
 
-    public boolean containsClass(Class<? extends Card> c) {
+    public boolean contains(Class<? extends Card> c) {
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))
                 return true;
