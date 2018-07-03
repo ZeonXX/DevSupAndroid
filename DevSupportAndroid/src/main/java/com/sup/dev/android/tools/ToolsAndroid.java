@@ -106,22 +106,9 @@ public class ToolsAndroid {
     }
 
     public static int getBottomNavigationBarHeight() {
-        int result = 0;
-        boolean hasMenuKey = ViewConfiguration.get(SupAndroid.appContext).hasPermanentMenuKey();
-        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-        boolean navBarExists = SupAndroid.appContext.getResources().getBoolean(SupAndroid.appContext.getResources().getIdentifier("config_showNavigationBar", "bool", "android"));
-
-        if (!hasMenuKey || !hasBackKey || navBarExists) {
-            Resources resources = SupAndroid.appContext.getResources();
-
-            int orientation = resources.getConfiguration().orientation;
-            int resourceId;
-            if (isTablet()) resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
-            else resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
-
-            if (resourceId > 0) return resources.getDimensionPixelSize(resourceId);
-        }
-        return result;
+        Resources resources = SupAndroid.appContext.getResources();
+        boolean navBarExists = resources.getBoolean(SupAndroid.appContext.getResources().getIdentifier("config_showNavigationBar", "bool", "android"));
+        return navBarExists?resources.getDimensionPixelSize(resources.getIdentifier("navigation_bar_height", "dimen", "android")):0;
     }
 
     public static boolean isTablet() {

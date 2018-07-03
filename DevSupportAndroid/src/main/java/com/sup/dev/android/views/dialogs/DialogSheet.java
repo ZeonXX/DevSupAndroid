@@ -15,6 +15,7 @@ import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class DialogSheet  extends AppCompatDialog {
 
@@ -49,9 +50,7 @@ public class DialogSheet  extends AppCompatDialog {
             getWindow().setStatusBarColor(0x00000000);
         }
 
-        WindowManager.LayoutParams params = this.getWindow().getAttributes();
-        params.y = -ToolsAndroid.getBottomNavigationBarHeight();
-        this.getWindow().setAttributes(params);
+        vRoot.setY(-ToolsAndroid.getBottomNavigationBarHeight());
 
         vRoot.setOnClickListener(v -> {
             if(cancelable && isEnabled()) hide();
