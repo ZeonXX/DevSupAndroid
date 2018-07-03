@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,6 +20,9 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.support.annotation.RequiresPermission;
 import android.support.annotation.WorkerThread;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import com.sup.dev.android.androiddevsup.BuildConfig;
@@ -42,6 +46,28 @@ public class ToolsAndroid {
     //
     //  Device
     //
+    public static int getBottomNavigationBarHeight(Context c) {
+        int result = 0;
+        boolean hasMenuKey = ViewConfiguration.get(c).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if (!hasMenuKey && !hasBackKey) {
+            Resources resources = c.getResources();
+
+            int orientation = resources.getConfiguration().orientation;
+            int resourceId;
+            if (isTablet(c)) resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
+            else resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
+
+
+            if (resourceId > 0) return resources.getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private static boolean isTablet(Context c) {
+        return (c.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static String getNetworkName() {

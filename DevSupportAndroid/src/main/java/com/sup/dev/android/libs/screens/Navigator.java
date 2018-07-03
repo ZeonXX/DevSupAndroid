@@ -4,6 +4,7 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
@@ -91,7 +92,6 @@ public class Navigator {
     }
 
     public static void removeAll(Class<? extends Screen> viewClass) {
-
         Screen current = getCurrent();
         boolean needUpdate = current != null && current.getClass() == viewClass;
 
@@ -104,7 +104,6 @@ public class Navigator {
 
 
     public static boolean back() {
-
         if (!hasBackStack()) return false;
 
         Screen current = getCurrent();
