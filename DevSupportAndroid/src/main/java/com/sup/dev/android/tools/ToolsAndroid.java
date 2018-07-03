@@ -46,27 +46,27 @@ public class ToolsAndroid {
     //
     //  Device
     //
-    public static int getBottomNavigationBarHeight(Context c) {
+    public static int getBottomNavigationBarHeight() {
         int result = 0;
-        boolean hasMenuKey = ViewConfiguration.get(c).hasPermanentMenuKey();
-        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+     //   boolean hasMenuKey = ViewConfiguration.get(SupAndroid.appContext).hasPermanentMenuKey();
+     //   boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean navBarExists = SupAndroid.appContext.getResources().getBoolean(SupAndroid.appContext.getResources().getIdentifier("config_showNavigationBar", "bool", "android"));
 
-        if (!hasMenuKey && !hasBackKey) {
-            Resources resources = c.getResources();
+        if (/*!hasMenuKey || !hasBackKey ||*/ navBarExists) {
+            Resources resources = SupAndroid.appContext.getResources();
 
             int orientation = resources.getConfiguration().orientation;
             int resourceId;
-            if (isTablet(c)) resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
+            if (isTablet()) resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
             else resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
-
 
             if (resourceId > 0) return resources.getDimensionPixelSize(resourceId);
         }
         return result;
     }
 
-    private static boolean isTablet(Context c) {
-        return (c.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    public static boolean isTablet() {
+        return (SupAndroid.appContext.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
