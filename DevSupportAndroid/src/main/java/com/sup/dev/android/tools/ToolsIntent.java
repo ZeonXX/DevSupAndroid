@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
 
@@ -210,17 +211,24 @@ public class ToolsIntent {
     //  Services / Activities
     //
 
-    public static void stopService(Class<? extends Service> serviceClass) {
-        SupAndroid.appContext.stopService(new Intent(SupAndroid.appContext, serviceClass));
+
+    public static void startServiceForeground(Class<? extends Service> serviceClass, Object... extras) {
+        Intent intent = new Intent(SupAndroid.appContext, serviceClass);
+        addExtras(intent, extras);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            SupAndroid.appContext.startForegroundService(intent);
+        else
+            SupAndroid.appContext.startService(intent);
+
     }
 
     public static void startService(Class<? extends Service> serviceClass, Object... extras) {
-        android.content.Intent intent = new android.content.Intent(SupAndroid.appContext, serviceClass);
-
+        Intent intent = new Intent(SupAndroid.appContext, serviceClass);
         addExtras(intent, extras);
-
         SupAndroid.appContext.startService(intent);
     }
+
 
     public static void startActivity(Context viewContext, Class<? extends Activity> activityClass, Object... extras) {
         startActivity(viewContext, activityClass, null, extras);

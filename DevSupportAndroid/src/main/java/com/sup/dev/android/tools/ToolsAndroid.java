@@ -28,12 +28,16 @@ import android.view.WindowManager;
 import com.sup.dev.android.androiddevsup.BuildConfig;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
+import com.sup.dev.android.magic_box.ServiceNetworkCheck;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
@@ -46,13 +50,68 @@ public class ToolsAndroid {
     //
     //  Device
     //
+
+    public static String getProcessName() {
+        String processName = getProcessNameCmdLine();
+        if(processName == null) getProcessNameActivityManager();
+        return processName;
+    }
+
+    private static String getProcessNameCmdLine() {
+        BufferedReader cmdlineReader = null;
+        try {
+            cmdlineReader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/" + android.os.Process.myPid() + "/cmdline"), "iso-8859-1"));
+            int c;
+            StringBuilder processName = new StringBuilder();
+            while ((c = cmdlineReader.read()) > 0) processName.append((char) c);
+            return processName.toString();
+        } catch (Exception ex) {
+            Debug.log(ex);
+        } finally {
+            if (cmdlineReader != null) {
+                try {
+                    cmdlineReader.close();
+                } catch (IOException e) {
+                    Debug.log(e);
+                }
+            }
+        }
+        return null;
+    }
+
+    private static String getProcessNameActivityManager() {
+        int pid = android.os.Process.myPid();
+        ActivityManager manager = (ActivityManager) SupAndroid.appContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
+        if (infos != null) {
+            for (ActivityManager.RunningAppProcessInfo processInfo : infos) {
+                if (processInfo.pid == pid) {
+                    return processInfo.processName;
+                }
+            }
+        }
+        return null;
+    }
+
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    public static String getNetworkName() {
+        ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo n = cm.getActiveNetworkInfo();
+        return (n == null) ? null : n.getExtraInfo();
+    }
+
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    public static void isHasInternetConnection(Callback1<Boolean> onResult) {
+        ServiceNetworkCheck.check(onResult);
+    }
+
     public static int getBottomNavigationBarHeight() {
         int result = 0;
-     //   boolean hasMenuKey = ViewConfiguration.get(SupAndroid.appContext).hasPermanentMenuKey();
-     //   boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasMenuKey = ViewConfiguration.get(SupAndroid.appContext).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
         boolean navBarExists = SupAndroid.appContext.getResources().getBoolean(SupAndroid.appContext.getResources().getIdentifier("config_showNavigationBar", "bool", "android"));
 
-        if (/*!hasMenuKey || !hasBackKey ||*/ navBarExists) {
+        if (!hasMenuKey || !hasBackKey || navBarExists) {
             Resources resources = SupAndroid.appContext.getResources();
 
             int orientation = resources.getConfiguration().orientation;
@@ -67,43 +126,6 @@ public class ToolsAndroid {
 
     public static boolean isTablet() {
         return (SupAndroid.appContext.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
-
-    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    public static String getNetworkName() {
-        ConnectivityManager cm = (ConnectivityManager) SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo n = cm.getActiveNetworkInfo();
-        return (n == null) ? null : n.getExtraInfo();
-    }
-
-    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    public static void isHasInternetConnection(Callback1<Boolean> onResult) {
-        ToolsThreads.thread(() -> {
-            boolean has = isHasInternetConnectionNow();
-            ToolsThreads.main(() -> onResult.callback(has));
-        });
-    }
-
-    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    @WorkerThread
-    public static boolean isHasInternetConnectionNow() {
-        Socket sock = null;
-        try {
-            sock = new Socket();
-            sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
-            sock.close();
-            return true;
-        } catch (IOException e) {
-            return false;
-        } finally {
-            if (sock != null) {
-                try {
-                    sock.close();
-                } catch (IOException e) {
-                    Debug.log(e);
-                }
-            }
-        }
     }
 
     public static String getLanguageCode() {
@@ -164,16 +186,6 @@ public class ToolsAndroid {
     //
     //  Package / Process
     //
-
-    public static String getCurrentProcess() {
-        int pid = android.os.Process.myPid();
-        ActivityManager manager = (ActivityManager) SupAndroid.appContext.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo process : manager.getRunningAppProcesses()) {
-            if (process.pid == pid)
-                return process.processName;
-        }
-        return null;
-    }
 
     public static boolean hasBroadcastReceiver(String process, Intent intent, Context context) {
         PackageManager pm = context.getPackageManager();

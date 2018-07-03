@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess;
 import com.sup.dev.android.libs.screens.activity.SActivity;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
@@ -50,6 +51,8 @@ public class SupAndroid {
         Debug.printer = s -> Log.e("Debug", s);
         Debug.printerInfo = (tag,s) -> Log.i(tag, s);
         Debug.exceptionPrinter = th -> Log.e("Debug", "", th);
+
+        EventBusMultiProcess.init();
 
         TEXT_APP_NAME = ToolsResources.getString("app_name");
         TEXT_APP_WHOOPS = ToolsResources.getString("app_whoops");
