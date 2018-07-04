@@ -77,7 +77,6 @@ public class ServiceNetworkCheck extends Service {
         EventBus.subscribeHard(EventServiceNetworkCheck.class,
                 new SubscribedCallback1<EventServiceNetworkCheck>(
                         e -> {
-                            Debug.log("Asd");
                             if (e.key == key) onResult.callback(e.result);
                         }
                 ).setLifeTime(15000));
