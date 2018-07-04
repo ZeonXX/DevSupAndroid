@@ -55,6 +55,8 @@ public class SCrop extends Screen {
 
     public SCrop setLock(boolean b) {
         locked = b;
+        vFinish.setEnabled(!b);
+        vAll.setEnabled(!b);
         if (b) {
             if (locked) dialogProgress = new WidgetProgressTransparent().asDialogShow();
         } else {

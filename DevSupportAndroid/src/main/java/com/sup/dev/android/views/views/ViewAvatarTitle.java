@@ -62,7 +62,7 @@ public class ViewAvatarTitle extends LayoutChip {
         String mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title);
         String mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle);
         float iconPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0);
-        float chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(24));
+        float chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18));
         a.recycle();
 
         animationFocus = new AnimationFocus(this, focusColor);

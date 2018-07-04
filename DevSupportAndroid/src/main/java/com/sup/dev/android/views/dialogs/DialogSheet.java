@@ -35,11 +35,13 @@ public class DialogSheet  extends AppCompatDialog {
         setOnCancelListener(dialogInterface -> onHide());
 
         FrameLayout vRoot = new FrameLayout(view.getContext());
-        vRoot.addView(ToolsView.removeFromParent(view));
-        vRoot.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
+        FrameLayout vContainer = new FrameLayout(view.getContext());
+        vRoot.addView(vContainer);
+        vContainer.addView(ToolsView.removeFromParent(view));
+        vContainer.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
+        vContainer.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        ((FrameLayout.LayoutParams)vContainer.getLayoutParams()).gravity = Gravity.BOTTOM;
         setContentView(vRoot);
-        vRoot.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        ((FrameLayout.LayoutParams)vRoot.getLayoutParams()).gravity = Gravity.BOTTOM;
 
         getWindow().setWindowAnimations(R.style.DialogSheetAnimation);
         getWindow().setBackgroundDrawable(null);
@@ -91,8 +93,10 @@ public class DialogSheet  extends AppCompatDialog {
 
     @Override
     public void setCancelable(boolean cancelable) {
+        Debug.log("setCancelable " +cancelable);
         this.cancelable = cancelable;
-        super.setCancelable(cancelable);
+        setCanceledOnTouchOutside(cancelable && isEnabled());
+        super.setCancelable(cancelable && isEnabled());
     }
 
     public <K extends DialogSheet> K setDialogCancelable(boolean cancelable) {
@@ -101,8 +105,10 @@ public class DialogSheet  extends AppCompatDialog {
     }
 
     public <K extends DialogSheet> K setEnabled(boolean enabled) {
+        Debug.log("setEnabled " +enabled);
         this.enabled = enabled;
-        setCanceledOnTouchOutside(isCancelable() && isEnabled());
+        setCanceledOnTouchOutside(cancelable && isEnabled());
+        super.setCancelable(cancelable && isEnabled());
         return (K) this;
     }
 

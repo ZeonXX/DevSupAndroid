@@ -77,9 +77,10 @@ public class ServiceNetworkCheck extends Service {
         EventBus.subscribeHard(EventServiceNetworkCheck.class,
                 new SubscribedCallback1<EventServiceNetworkCheck>(
                         e -> {
+                            Debug.log("Asd");
                             if (e.key == key) onResult.callback(e.result);
                         }
-                ).setLifeTime(10000));
+                ).setLifeTime(15000));
         ToolsIntent.startServiceForeground(ServiceNetworkCheck.class,
                 P_KEY, key);
     }

@@ -2,6 +2,8 @@ package com.sup.dev.android.views.widgets;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -82,6 +84,14 @@ public abstract class Widget {
 
     public <K extends Widget> K setTitle(String title) {
         if (vTitle != null) ToolsView.setTextOrGone(vTitle, title);
+        return (K) this;
+    }
+
+    public <K extends Widget> K setTitleBackgroundColorRes(@ColorRes int color) {
+        return setTitleBackgroundColor(ToolsResources.getColor(color));
+    }
+    public <K extends Widget> K setTitleBackgroundColor(@ColorInt int color) {
+        if (vTitle != null) vTitle.setBackgroundColor(color);
         return (K) this;
     }
 

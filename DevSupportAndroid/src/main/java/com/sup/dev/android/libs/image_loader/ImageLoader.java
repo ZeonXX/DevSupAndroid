@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsBitmap;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.collections.CashBytes;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
@@ -62,10 +63,11 @@ public class ImageLoader {
             if (loader.holder > 0) {
                 loader.vImage.setImageResource(loader.holder);
             } else if (loader.w != 0 && loader.h != 0) {
-                Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ALPHA_8);
+                Bitmap bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444);
+                bitmap.eraseColor(ToolsResources.getColor(R.color.focus));
                 loader.vImage.setImageBitmap(bitmap);
             } else {
-                loader.vImage.setImageDrawable(new ColorDrawable(0x00000000));
+                loader.vImage.setImageDrawable(new ColorDrawable(ToolsResources.getColor(R.color.focus)));
             }
 
             unsubscribe(loader.vImage);

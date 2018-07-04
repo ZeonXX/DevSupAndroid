@@ -77,14 +77,25 @@ public class WidgetMenu extends WidgetRecycler {
         this.onGlobalSelected = onGlobalSelected;
     }
 
+    @Override
     public WidgetMenu setTitle(@StringRes int title) {
         return super.setTitle(title);
     }
 
+    @Override
     public WidgetMenu setTitle(String title) {
         return super.setTitle(title);
     }
 
+    @Override
+    public WidgetMenu setTitleBackgroundColor(int color) {
+        return super.setTitleBackgroundColor(color);
+    }
+
+    @Override
+    public WidgetMenu setTitleBackgroundColorRes(int color) {
+        return super.setTitleBackgroundColorRes(color);
+    }
 
     //
     //  Item
