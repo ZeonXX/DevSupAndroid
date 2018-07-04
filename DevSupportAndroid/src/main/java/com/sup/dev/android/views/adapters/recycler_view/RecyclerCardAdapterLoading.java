@@ -79,7 +79,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         cardLoading.setOnRetry(source -> load(bottom));
         cardLoading.setState(CardLoading.State.LOADING);
 
-        ArrayList<K> cards = getByClass(cardClass);
+        ArrayList<K> cards = get(cardClass);
 
         if (isEmpty()) {
             if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty.callback();

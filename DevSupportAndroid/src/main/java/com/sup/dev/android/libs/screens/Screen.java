@@ -10,16 +10,17 @@ import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 
-public class Screen extends FrameLayout{
+public class Screen extends FrameLayout {
 
     private final View view;
     protected boolean backStackAllowed = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
     public Screen(@LayoutRes int layoutRes) {
-        this( ToolsView.inflate(SupAndroid.activity, layoutRes));
+        this(ToolsView.inflate(SupAndroid.activity, layoutRes));
     }
 
     public Screen(View view) {
@@ -36,13 +37,13 @@ public class Screen extends FrameLayout{
     public void onResume() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(Navigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
+            toolbar.setNavigationIcon(Navigator.hasBackStack() ? ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) :ToolsResources.getDrawableFromAttr(R.attr.ic_menu));
             toolbar.setNavigationOnClickListener(v -> SupAndroid.activity.onViewBackPressed());
         } else {
             View v = findViewById(R.id.back);
             if (v != null && v instanceof ImageView) {
                 ImageView vBack = (ImageView) v;
-                vBack.setImageResource(Navigator.hasBackStack() ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_menu_black_24dp);
+                vBack.setImageDrawable(Navigator.hasBackStack() ? ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back): ToolsResources.getDrawableFromAttr(R.attr.ic_menu));
                 v.setOnClickListener(vv -> SupAndroid.activity.onViewBackPressed());
             }
         }
@@ -76,7 +77,7 @@ public class Screen extends FrameLayout{
     //  Getters
     //
 
-    public boolean equalsNView(Screen view){
+    public boolean equalsNView(Screen view) {
         return this == view;
     }
 

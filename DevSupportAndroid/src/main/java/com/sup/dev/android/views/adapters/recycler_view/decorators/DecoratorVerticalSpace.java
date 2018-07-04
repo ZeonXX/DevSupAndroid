@@ -11,6 +11,10 @@ public class DecoratorVerticalSpace extends RecyclerView.ItemDecoration {
 
     private final int space;
 
+    public DecoratorVerticalSpace() {
+        this(4);
+    }
+
     public DecoratorVerticalSpace(int dp) {
         this.space = ToolsView.dpToPx(dp);
     }

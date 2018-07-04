@@ -1,10 +1,12 @@
 package com.sup.dev.android.tools;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.PluralsRes;
@@ -43,6 +45,14 @@ public class ToolsResources {
 
     public static Drawable getDrawable(@DrawableRes int r) {
         return r <= 0 ? null : SupAndroid.appContext.getResources().getDrawable(r);
+    }
+
+    public static Drawable getDrawableFromAttr(@AttrRes int r) {
+        int[] attrs = new int[] { r};
+        TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
+        Drawable drawable= ta.getDrawable(0);
+        ta.recycle();
+        return drawable;
     }
 
     public static int getColorId(String name) {

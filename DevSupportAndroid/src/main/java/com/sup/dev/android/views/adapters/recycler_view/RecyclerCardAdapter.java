@@ -221,7 +221,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
         return list;
     }
 
-    public <K extends Card> ArrayList<K> getByClass(Class<K> c) {
+    public <K extends Card> ArrayList<K> get(Class<K> c) {
         ArrayList<K> list = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))

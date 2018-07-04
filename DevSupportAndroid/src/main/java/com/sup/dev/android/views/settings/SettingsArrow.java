@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.tools.ToolsBitmap;
+import com.sup.dev.android.tools.ToolsResources;
 
 public class SettingsArrow extends SettingsAction {
 
@@ -22,7 +23,7 @@ public class SettingsArrow extends SettingsAction {
         super(context, attrs);
 
         vArrow = new ImageView(context);
-        vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
+        vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back));
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsArrow, 0, 0);
@@ -48,10 +49,6 @@ public class SettingsArrow extends SettingsAction {
 
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        if (enabled)
-            vArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
-        else
-            vArrow.setImageBitmap(ToolsBitmap.filter(R.drawable.ic_keyboard_arrow_right_black_24dp, 0xAFFFFFFF, true));
     }
 
 }
