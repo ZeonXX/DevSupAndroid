@@ -37,6 +37,7 @@ public class DialogSheet  extends AppCompatDialog {
         FrameLayout vRoot = new FrameLayout(view.getContext());
         FrameLayout vContainer = new FrameLayout(view.getContext());
         vRoot.addView(vContainer);
+        vContainer.setClickable(true); // Чтоб не закрывался при нажатии на тело
         vContainer.addView(ToolsView.removeFromParent(view));
         vContainer.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
         vContainer.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.screens.NavigationAction;
 import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.CardWidget;
@@ -21,6 +22,7 @@ import com.sup.dev.android.views.popup.PopupWidget;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.providers.Provider;
+import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class Widget {
 
@@ -47,7 +49,9 @@ public abstract class Widget {
     }
 
     public void hide() {
-        if (viewWrapper != null) viewWrapper.hideWidget();
+        ToolsThreads.main(() -> {
+            if (viewWrapper != null) viewWrapper.hideWidget();
+        });
     }
 
     protected <K extends View> K findViewById(@IdRes int id) {

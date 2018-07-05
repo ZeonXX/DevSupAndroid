@@ -23,7 +23,7 @@ public class SettingsArrow extends SettingsAction {
         super(context, attrs);
 
         vArrow = new ImageView(context);
-        vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back));
+        vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_keyboard_arrow_right));
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SettingsArrow, 0, 0);

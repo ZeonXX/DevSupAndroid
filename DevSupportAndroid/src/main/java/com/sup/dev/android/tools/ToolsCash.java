@@ -21,6 +21,10 @@ public class ToolsCash{
     private static long overClearSize;
     private static int orderClearMaxCount;
 
+    public static void init() {
+        init(1024 * 1024 * 20);
+    }
+
     public static void init(long cashSize) {
         init(cashSize, cashSize / 2);
     }
@@ -37,7 +41,7 @@ public class ToolsCash{
     }
 
     public void cacheData(byte[] data, String name) {
-        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
+        if(cashSize == 0) init();
 
         File cacheDir = SupAndroid.appContext.getCacheDir();
         long size = getDirSize(cacheDir);
@@ -65,7 +69,7 @@ public class ToolsCash{
     }
 
     public byte[] getData(Context context, String name) {
-        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
+        if(cashSize == 0) init();
 
         File cacheDir = context.getCacheDir();
         File file = new File(cacheDir, name);
@@ -91,7 +95,7 @@ public class ToolsCash{
     }
 
     private void cleanDir(File dir, long bytes) {
-        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
+        if(cashSize == 0) init();
 
         long bytesDeleted = 0;
         File[] files = dir.listFiles();
@@ -128,7 +132,7 @@ public class ToolsCash{
     }
 
     private long getDirSize(File dir) {
-        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
+        if(cashSize == 0) init();
 
         long size = 0;
         File[] files = dir.listFiles();
@@ -141,7 +145,7 @@ public class ToolsCash{
     }
 
     private long getDate(String name) {
-        if(cashSize == 0) throw new RuntimeException("You must call ToolsCash.init");
+        if(cashSize == 0) init();
         return Long.parseLong(name.substring(0, name.indexOf(SPLITTER)));
     }
 

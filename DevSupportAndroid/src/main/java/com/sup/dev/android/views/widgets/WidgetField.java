@@ -159,7 +159,7 @@ public class WidgetField extends Widget {
 
     public WidgetField setText(String text) {
         vField.setText(text);
-        if (text != null) vField.setSelection(text.length());
+        vField.setSelection(vField.getText().length());
         return this;
     }
 

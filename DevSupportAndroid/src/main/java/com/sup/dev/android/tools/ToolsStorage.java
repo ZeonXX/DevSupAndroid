@@ -25,6 +25,7 @@ public class ToolsStorage {
     public static void init() {
         init("android_app_pref");
     }
+
     public static void init(String storageKey) {
         preferences = SupAndroid.appContext.getSharedPreferences(storageKey, Activity.MODE_PRIVATE);
     }
@@ -38,27 +39,27 @@ public class ToolsStorage {
     //
 
     public static boolean getBoolean(String key, boolean def) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         return preferences.getBoolean(key, def);
     }
 
     public static int getInt(String key, int def) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         return preferences.getInt(key, def);
     }
 
     public static long getLong(String key, long def) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         return preferences.getLong(key, def);
     }
 
     public static float getFloat(String key, float def) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         return preferences.getFloat(key, def);
     }
 
     public static String getString(String key, String string) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         return preferences.getString(key, string);
     }
 
@@ -79,32 +80,32 @@ public class ToolsStorage {
     //
 
     public static void put(String key, boolean v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putBoolean(key, v).apply();
     }
 
     public static void put(String key, int v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putInt(key, v).apply();
     }
 
     public static void put(String key, long v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putLong(key, v).apply();
     }
 
     public static void put(String key, float v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putFloat(key, v).apply();
     }
 
     public static void put(String key, String v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putString(key, v).apply();
     }
 
     public static void put(String key, byte[] value) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().putString(key, new String(value)).apply();
     }
 
@@ -117,7 +118,7 @@ public class ToolsStorage {
     //
 
     public static void remove(String key) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         preferences.edit().remove(key).apply();
     }
 
@@ -136,7 +137,7 @@ public class ToolsStorage {
 
     @MainThread
     public static void put(String key, String[] v) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         JsonArray json = new JsonArray();
         json.put(v);
         preferences.edit().putString(key, json.toString()).apply();
@@ -186,8 +187,8 @@ public class ToolsStorage {
     //  Files
     //
 
-    public static void saveImageInDownloadFolder(Bitmap bitmap, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) init();
+    public static void saveImageInDownloadFolder(Bitmap bitmap, Callback1<File> onComplete) {
+        if (preferences == null) init();
         ToolsPermission.requestWritePermission(() -> {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
             final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png");
@@ -195,25 +196,27 @@ public class ToolsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
-                ToolsThreads.main(() -> onComplete.callback(f));
+                ToolsThreads.main(() -> {
+                    if (onComplete != null) onComplete.callback(f);
+                });
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }, onPermissionPermissionRestriction);
+        });
     }
 
     public static void saveFileInDownloadFolder(byte[] bytes, String ex, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) init();
+        if (preferences == null) init();
         saveFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).getAbsolutePath(),
                 bytes, onComplete, onPermissionPermissionRestriction);
     }
 
-    public static void saveFile( String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
-        if(preferences == null) init();
+    public static void saveFile(String patch, byte[] bytes, Callback1<File> onComplete, Callback onPermissionPermissionRestriction) {
+        if (preferences == null) init();
         ToolsPermission.requestWritePermission(() -> {
             final File f = new File(patch);
             f.delete();
-            if(f.getParentFile() != null)f.getParentFile().mkdirs();
+            if (f.getParentFile() != null) f.getParentFile().mkdirs();
             try {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);

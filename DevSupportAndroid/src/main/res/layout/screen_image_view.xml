@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/AppBar">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/Toolbar">
+
+            <com.sup.dev.android.views.views.ViewIcon
+                style="@style/Icon"
+                android:id="@+id/download"
+                android:layout_gravity="end"
+                android:src="?ic_file_download"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.sup.dev.android.views.views.layouts.LayoutZoom
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.sup.dev.android.views.views.layouts.LayoutZoom>
+
+</LinearLayout>

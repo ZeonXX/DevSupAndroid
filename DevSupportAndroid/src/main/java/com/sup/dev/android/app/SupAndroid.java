@@ -22,6 +22,8 @@ public class SupAndroid {
     public static String TEXT_APP_BACK;
     public static String TEXT_APP_DONT_SHOW_AGAIN;
     public static String TEXT_APP_ATTENTION;
+    public static String TEXT_APP_DOWNLOADING;
+    public static String TEXT_APP_DOWNLOADED;
 
     public static String TEXT_ERROR_PERMISSION_READ_FILES;
     public static String TEXT_ERROR_CANT_LOAD_IMAGE;
@@ -66,6 +68,8 @@ public class SupAndroid {
         TEXT_ERROR_CANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
         TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");
         TEXT_ERROR_GONE = ToolsResources.getString("error_gone");
+        TEXT_APP_DOWNLOADING = ToolsResources.getString("app_downloading");
+        TEXT_APP_DOWNLOADED = ToolsResources.getString("app_downloaded");
 
         IMG_ERROR_NETWORK = ToolsResources.getDrawableId("error_network");
         IMG_ERROR_GONE = ToolsResources.getDrawableId("error_gone");
