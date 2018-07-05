@@ -94,7 +94,6 @@ public class DialogSheet  extends AppCompatDialog {
 
     @Override
     public void setCancelable(boolean cancelable) {
-        Debug.log("setCancelable " +cancelable);
         this.cancelable = cancelable;
         setCanceledOnTouchOutside(cancelable && isEnabled());
         super.setCancelable(cancelable && isEnabled());
@@ -106,7 +105,6 @@ public class DialogSheet  extends AppCompatDialog {
     }
 
     public <K extends DialogSheet> K setEnabled(boolean enabled) {
-        Debug.log("setEnabled " +enabled);
         this.enabled = enabled;
         setCanceledOnTouchOutside(cancelable && isEnabled());
         super.setCancelable(cancelable && isEnabled());

@@ -39,6 +39,7 @@ public class Navigator {
             else {
                 getCurrent().onPause();
             }
+            if(view.singleInstanceInBackstack)removeAll(view.getClass());
         }
         backStack.add(view);
         setCurrentView();

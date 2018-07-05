@@ -14,6 +14,7 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
+import com.sup.dev.android.views.watchers.TextWatcherRemoveHTML;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
@@ -46,6 +47,7 @@ public class WidgetField extends Widget {
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
 
+        vField.addTextChangedListener(new TextWatcherRemoveHTML());
         vField.addTextChangedListener(new TextWatcherChanged(text -> check()));
     }
 

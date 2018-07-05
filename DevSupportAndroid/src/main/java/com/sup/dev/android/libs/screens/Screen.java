@@ -17,6 +17,7 @@ public class Screen extends FrameLayout {
 
     private final View view;
     protected boolean backStackAllowed = true;
+    protected boolean singleInstanceInBackstack = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
     public Screen(@LayoutRes int layoutRes) {
@@ -85,4 +86,7 @@ public class Screen extends FrameLayout {
         return backStackAllowed;
     }
 
+    public boolean isSingleInstanceInBackstack() {
+        return singleInstanceInBackstack;
+    }
 }

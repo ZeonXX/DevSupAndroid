@@ -200,11 +200,15 @@ public abstract class Widget {
     }
 
     public Widget showPopupWhenClickAndLongClick(View view, Provider<Boolean> willShowClicik) {
+        return showPopupWhenClickAndLongClick(view, willShowClicik, null);
+    }
+
+    public Widget showPopupWhenClickAndLongClick(View view, Provider<Boolean> willShowClick, Provider<Boolean> willShowLongClick) {
         ToolsView.setOnClickAndLongClickCoordinates(view, (view1, x, y, isClick) -> {
             if (isClick) {
-                if (willShowClicik == null || willShowClicik.provide()) asPopup().show(view1, x, y);
+                if (willShowClick == null || willShowClick.provide()) asPopup().show(view1, x, y);
             }else{
-                asPopup().show(view1, x, y);
+                if (willShowLongClick == null || willShowLongClick.provide())  asPopup().show(view1, x, y);
             }
         });
         return this;
