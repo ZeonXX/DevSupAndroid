@@ -56,9 +56,13 @@ public class DialogSheet  extends AppCompatDialog {
         vRoot.setY(-ToolsAndroid.getBottomNavigationBarHeight());
 
         vRoot.setOnClickListener(v -> {
-            if(cancelable && isEnabled()) hide();
+            if(cancelable && isEnabled() && onTryCancelOnTouchOutside()) hide();
         });
 
+    }
+
+    public boolean onTryCancelOnTouchOutside(){
+        return true;
     }
 
     @CallSuper

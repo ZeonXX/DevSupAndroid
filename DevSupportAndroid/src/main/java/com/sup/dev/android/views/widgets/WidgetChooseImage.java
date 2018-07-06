@@ -74,7 +74,10 @@ public class WidgetChooseImage extends WidgetRecycler {
                     MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
 
             while (cursor.moveToNext()) adapter.add(new CardImage(new File(cursor.getString(0))));
-        }, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+        }, () -> {
+            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES);
+            hide();
+        });
 
 
     }

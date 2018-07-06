@@ -7,9 +7,9 @@ import android.text.Html;
 import android.text.InputFilter;
 import android.widget.EditText;
 
-public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
+public class ToolsText extends com.sup.dev.java.tools.ToolsText {
 
-    public static boolean empty(CharSequence s){
+    public static boolean empty(CharSequence s) {
         return s == null || s.length() == 0;
     }
 
@@ -36,6 +36,7 @@ public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
         }
         return true;
     }
+
     public static InputFilter getFilterSpecChars() {
         return (source, start, end, dest, dstart, dend) -> source != null && SPEC.contains(source) ? "" : null;
     }
@@ -55,8 +56,7 @@ public class ToolsText extends com.sup.dev.java.tools.ToolsText  {
 
     public static String htmlFromEditText(EditText editText) {
         String s = Html.toHtml(editText.getText());
-        if (s.length() == 0)
-            return s;
+        if (s.length() == 0) return s;
         return s.substring(13, s.length() - 5);
     }
 

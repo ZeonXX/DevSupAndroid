@@ -15,6 +15,11 @@ public class DialogSheetWidget extends DialogSheet implements WidgetViewWrapper 
     }
 
     @Override
+    public boolean onTryCancelOnTouchOutside(){
+        return widget.onTryCancelOnTouchOutside();
+    }
+
+    @Override
     protected void onShow() {
         super.onShow();
         widget.onShow();

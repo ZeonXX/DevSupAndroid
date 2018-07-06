@@ -62,6 +62,10 @@ public abstract class Widget {
     //  Callbacks
     //
 
+    public boolean onTryCancelOnTouchOutside(){
+        return true;
+    }
+
     @CallSuper
     public void onShow() {
         if (vTitle != null) {
