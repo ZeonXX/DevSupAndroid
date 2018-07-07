@@ -28,6 +28,7 @@ public class SettingsSwitcher extends SettingsAction {
         vSwitcher = new Switch(context);
         vSwitcher.setFocusable(false);
         vSwitcher.setOnCheckedChangeListener((v, b) -> {
+            setEnabledSubSettings(b);
             if (!salient) onClick();
         });
 

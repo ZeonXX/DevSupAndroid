@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewChip extends FrameLayout {
@@ -86,7 +88,6 @@ public class ViewChip extends FrameLayout {
         isChipSelected = a.getBoolean(R.styleable.ViewChip_ViewChip_selected, isChipSelected);
         useIconBackground = a.getBoolean(R.styleable.ViewChip_ViewChip_iconUseBackground, useIconBackground);
         int textColor = a.getColor(R.styleable.ViewChip_ViewChip_textColor, 0);
-        int textGravity = a.getInteger(R.styleable.ViewChip_ViewChip_textGravity, 0);
         int textStyle = a.getInteger(R.styleable.ViewChip_ViewChip_textStyle, 0);
         int icon = a.getResourceId(R.styleable.ViewChip_ViewChip_icon, 0);
         float iconPadding = a.getDimension(R.styleable.ViewChip_ViewChip_iconPadding, 0);
@@ -99,7 +100,6 @@ public class ViewChip extends FrameLayout {
         vTextView.setText(text);
         addView(view);
 
-        setTextGravity(textGravity);
         setSize(ToolsView.pxToDp(size));
         setIconPadding(ToolsView.pxToDp(iconPadding));
         setIcon(icon);
@@ -240,12 +240,6 @@ public class ViewChip extends FrameLayout {
         update();
     }
 
-    public void setTextGravity(int textGravity){
-        if(textGravity == 0) ((LayoutParams)vTextView.getLayoutParams()).gravity = Gravity.LEFT;
-        if(textGravity == 1) ((LayoutParams)vTextView.getLayoutParams()).gravity = Gravity.CENTER;
-        if(textGravity == 2) ((LayoutParams)vTextView.getLayoutParams()).gravity = Gravity.RIGHT;
-    }
-
     public void setSize(int dp) {
         int size = ToolsView.dpToPx(dp);
         vIcon.getLayoutParams().width = size;
@@ -290,6 +284,10 @@ public class ViewChip extends FrameLayout {
     public void setSelectionMode(boolean selectionMode) {
         this.selectionMode = selectionMode;
         setOnClickListener(selectionMode ? vi -> performUserClick() : null);
+    }
+
+    public void setChipBackgroundRes(@ColorRes int background) {
+        setChipBackground(ToolsResources.getColor(background));
     }
 
     public void setChipBackground(@ColorInt int background) {

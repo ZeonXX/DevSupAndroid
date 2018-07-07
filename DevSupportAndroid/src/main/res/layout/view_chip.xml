@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <com.sup.dev.android.views.views.ViewCircleImage
         android:id="@+id/dev_sup_icon"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/image_512x512"
-        android:layout_gravity="center|left"/>
+        android:layout_gravity="center|left"
+        android:src="@drawable/image_512x512"/>
 
     <TextView
         android:id="@+id/dev_sup_text"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:textColor="@color/textLight_87"
-        style="@style/Base.TextAppearance.AppCompat.Body1"
-        android:paddingRight="12dp"
-        android:paddingLeft="12dp"
         android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:singleLine="true"
-        android:text="text text text"/>
+        android:text="text text text"
+        android:textColor="@color/textLight_87"/>
 
 </FrameLayout>
