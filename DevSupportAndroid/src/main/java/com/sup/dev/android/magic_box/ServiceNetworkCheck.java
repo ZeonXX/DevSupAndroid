@@ -48,7 +48,6 @@ public class ServiceNetworkCheck extends Service {
     private static final String P_KEY = "P_KEY";
     private static long globalKey;
     public static final String SERVICE_NETWORK_CHECK_LAST_RESULT = "SERVICE_NETWORK_CHECK_LAST_RESULT";
-    public static final int SERVICE_ID = 2001;
     public static int NOTIFICATION_ICON;
     public static String NOTIFICATION_TITLE;
     public static String NOTIFICATION_TEXT;
@@ -133,7 +132,7 @@ public class ServiceNetworkCheck extends Service {
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public int onStartCommand(Intent intent, int flags, int startId) {
         long key = intent.getLongExtra(P_KEY, -1);
-        startForeground(SERVICE_ID, instanceNotification());
+        startForeground(SupAndroid.SERVICE_NETWORK_CHECK, instanceNotification());
         isHasInternetConnection(has -> {
             EventBusMultiProcess.post(new EventServiceNetworkCheck(key, has));
             stopSelf();
