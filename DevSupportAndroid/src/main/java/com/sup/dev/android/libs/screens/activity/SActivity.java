@@ -122,6 +122,7 @@ public class SActivity extends Activity {
             return;
         }
 
+        ToolsView.hideKeyboard();
         View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
         vContainer.addView(ToolsView.removeFromParent(view), 0);
 

@@ -23,7 +23,7 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="widget_background">@color/grey_50</item>
+        <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="textColorError">@color/red_700</item>
         <item name="android:windowBackground">@color/grey_100</item>
