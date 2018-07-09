@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent;
@@ -38,6 +40,12 @@ import static android.view.View.VISIBLE;
 public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
+
+    public static void makeLinksClickable(TextView vText){
+        vText.setLinkTextColor(ToolsResources.getAccentColor(vText.getContext()));
+        Linkify.addLinks(vText, Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
+        Linkify.addLinks(vText, Linkify.ALL );
+    }
 
     public static void recyclerHideFabWhenScrollEnd(RecyclerView vRecycler, FloatingActionButton vFab){
         vRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
