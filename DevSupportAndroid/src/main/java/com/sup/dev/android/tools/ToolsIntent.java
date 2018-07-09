@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
-import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
 import com.sup.dev.java.tools.ToolsText;
 import com.sup.dev.java.libs.debug.Debug;
@@ -75,7 +75,7 @@ public class ToolsIntent {
 
 
     public static void startWeb(String link, Callback onActivityNotFound) {
-        startIntent(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
+        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
@@ -96,17 +96,17 @@ public class ToolsIntent {
     }
 
     public static void startPlayMarket(String packageName, Callback onActivityNotFound) {
-        startIntent(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName + "&reviewId=0"))
+        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName + "&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
     public static void startMail(String link, Callback onActivityNotFound) {
-        startIntent(new Intent(android.content.Intent.ACTION_SENDTO, Uri.parse("mailto:" + link))
+        startIntent(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + link))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
     public static void startPhone(String phone, Callback onActivityNotFound) {
-        startIntent(new Intent(android.content.Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
+        startIntent(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
@@ -134,7 +134,7 @@ public class ToolsIntent {
         }
 
         try {
-            SupAndroid.activity.startActivity(Intent.createChooser(new Intent(android.content.Intent.ACTION_SEND)
+            SupAndroid.activity.startActivity(Intent.createChooser(new Intent(Intent.ACTION_SEND)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity, providerKey, file))
@@ -181,10 +181,10 @@ public class ToolsIntent {
     }
 
     public static void shareText(String text, Callback onActivityNotFound) {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND)
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND)
                 .setType("text/plain")
-                .putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here")
-                .putExtra(android.content.Intent.EXTRA_TEXT, text);
+                .putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
+                .putExtra(Intent.EXTRA_TEXT, text);
         startIntent(Intent.createChooser(sharingIntent, null), onActivityNotFound);
     }
 
@@ -235,7 +235,7 @@ public class ToolsIntent {
     }
 
     public static void startActivity(Context viewContext, Class<? extends Activity> activityClass, Integer flags, Object... extras) {
-        android.content.Intent intent = new android.content.Intent(viewContext, activityClass);
+        Intent intent = new Intent(viewContext, activityClass);
 
         addExtras(intent, extras);
 
@@ -245,7 +245,7 @@ public class ToolsIntent {
         viewContext.startActivity(intent);
     }
 
-    public static void addExtras(android.content.Intent intent, Object... extras) {
+    public static void addExtras(Intent intent, Object... extras) {
         for (int i = 0; i < extras.length; i += 2) {
             Object extra = extras[i + 1];
             if (extra instanceof Parcelable)

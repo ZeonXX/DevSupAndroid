@@ -16,6 +16,8 @@ import com.sup.dev.java.tools.ToolsThreads;
 
 public class SupAndroid {
 
+    public static int SERVICE_FOREGROUND = 4000;
+
     public static String TEXT_APP_NAME;
     public static String TEXT_APP_WHOOPS;
     public static String TEXT_APP_RETRY;
