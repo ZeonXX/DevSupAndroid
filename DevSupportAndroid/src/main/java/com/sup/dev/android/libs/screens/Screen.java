@@ -17,6 +17,7 @@ public class Screen extends FrameLayout {
 
     private final View view;
     protected boolean backStackAllowed = true;
+    protected boolean hasBackIcon = true;
     protected boolean singleInstanceInBackstack = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
@@ -30,6 +31,15 @@ public class Screen extends FrameLayout {
         addView(view);
     }
 
+    protected void removeAppbar() {
+        findViewById(R.id.app_bar).setVisibility(GONE);
+    }
+
+    protected void removeAppbarNavigation() {
+        hasBackIcon = false;
+        onResume();
+    }
+
     //
     //  LifeCircle
     //
@@ -38,8 +48,12 @@ public class Screen extends FrameLayout {
     public void onResume() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(Navigator.hasBackStack() ? ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) :ToolsResources.getDrawableFromAttr(R.attr.ic_menu));
-            toolbar.setNavigationOnClickListener(v -> SupAndroid.activity.onViewBackPressed());
+            if(hasBackIcon) {
+                toolbar.setNavigationIcon(Navigator.hasBackStack() ? ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) : ToolsResources.getDrawableFromAttr(R.attr.ic_menu));
+                toolbar.setNavigationOnClickListener(v -> SupAndroid.activity.onViewBackPressed());
+            }else{
+                toolbar.setNavigationIcon(null);
+            }
         } else {
             View v = findViewById(R.id.back);
             if (v != null && v instanceof ImageView) {

@@ -18,6 +18,7 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class SLoading extends Screen {
@@ -36,6 +37,9 @@ public abstract class SLoading extends Screen {
     protected String textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK;
     protected String textRetry = SupAndroid.TEXT_APP_RETRY;
     protected String textEmpty;
+    protected String textProgress;
+    protected String textProgressAction;
+    protected Callback onProgressAction;
     protected String textAction;
     protected Callback onAction;
     protected State state;
@@ -77,7 +81,7 @@ public abstract class SLoading extends Screen {
         return viewIcon;
     }
 
-    protected void addToolbarView(View v){
+    protected void addToolbarView(View v) {
         vToolbar.addView(v);
     }
 
@@ -95,6 +99,19 @@ public abstract class SLoading extends Screen {
 
     protected void setAction(@StringRes int textAction, Callback onAction) {
         setAction(ToolsResources.getString(textAction), onAction);
+    }
+
+    public void setTextProgress(String textProgress) {
+        this.textProgress = textProgress;
+    }
+
+    public void setProgressAction(String textProgressAction, Callback onAction) {
+        this.textProgressAction = textProgressAction;
+        this.onProgressAction = onAction;
+    }
+
+    public void setProgressAction(String textProgressAction) {
+        this.textProgressAction = textProgressAction;
     }
 
     protected void setAction(String textAction, Callback onAction) {
@@ -120,31 +137,47 @@ public abstract class SLoading extends Screen {
 
     public void setState(State state) {
         this.state = state;
-        ToolsView.alpha(vAction, state == State.PROGRESS || state == State.NONE);
-        ToolsView.alpha(vMessage, state == State.PROGRESS || state == State.NONE);
 
-        if(state == State.PROGRESS) ToolsThreads.main(1000, () -> ToolsView.alpha(vProgress, this.state != State.PROGRESS));
-        else ToolsView.toAlpha(vProgress);
+        if (state == State.PROGRESS) {
+            ToolsThreads.main(1000, () -> {
+                ToolsView.alpha(vProgress, this.state != State.PROGRESS);
+                ToolsView.alpha(vMessage, this.state != State.PROGRESS && vMessage.getText().length() > 0);
+            });
+        } else ToolsView.toAlpha(vProgress);
 
-        if(vEmptyImage.getDrawable() == null) vEmptyImage.setVisibility(GONE);
+        if (vEmptyImage.getDrawable() == null) vEmptyImage.setVisibility(GONE);
         else ToolsView.alpha(vEmptyImage, state == State.NONE);
 
         if (state == State.ERROR) {
 
-            vMessage.setText(textErrorNetwork);
-            vAction.setText(textRetry);
+            ToolsView.setTextOrGone(vMessage, textErrorNetwork);
+            ToolsView.setTextOrGone(vAction, textRetry);
             vAction.setOnClickListener(v -> onReloadClicked());
-            ToolsView.alpha(vAction, vAction.getText().length() == 0);
         }
 
         if (state == State.EMPTY) {
 
-            vMessage.setText(textEmpty);
-            vAction.setText(textAction);
+            ToolsView.setTextOrGone(vMessage, textEmpty);
+            ToolsView.setTextOrGone(vAction, textAction);
             vAction.setOnClickListener(v -> {
                 if (onAction != null) onAction.callback();
             });
-            ToolsView.alpha(vAction, vAction.getText().length() == 0);
+        }
+
+        if (state == State.PROGRESS) {
+
+            vMessage.setVisibility(GONE);
+            vMessage.setText(textProgress);
+            ToolsView.setTextOrGone(vAction, textProgressAction);
+            vAction.setOnClickListener(v -> {
+                if (onProgressAction != null) onProgressAction.callback();
+            });
+        }
+
+        if (state == State.NONE) {
+
+            ToolsView.toAlpha(vMessage);
+            ToolsView.toAlpha(vAction);
         }
 
     }

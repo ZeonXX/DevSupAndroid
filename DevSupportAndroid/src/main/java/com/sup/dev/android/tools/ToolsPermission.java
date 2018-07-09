@@ -26,11 +26,11 @@ public class ToolsPermission {
     //
 
     public static void requestReadPermission(Callback onGranted) {
-        requestPermission(READ_EXTERNAL_STORAGE, onGranted, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+        requestPermission(READ_EXTERNAL_STORAGE, onGranted);
     }
 
     public static void requestWritePermission(Callback onGranted) {
-        requestPermission(WRITE_EXTERNAL_STORAGE, onGranted, () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
+        requestPermission(WRITE_EXTERNAL_STORAGE, onGranted);
     }
     //
     //  Requests
@@ -87,6 +87,10 @@ public class ToolsPermission {
 
     public static boolean hasPermission(String permission) {
         return ContextCompat.checkSelfPermission(SupAndroid.appContext, permission) == PERMISSION_GRANTED;
+    }
+
+    public static void requestPermission(String permission, Callback onGranted) {
+        requestPermission(permission, onGranted,  () -> ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES));
     }
 
     public static void requestPermission(String permission, Callback onGranted, Callback onPermissionRestriction) {
