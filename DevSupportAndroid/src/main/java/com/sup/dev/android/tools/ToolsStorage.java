@@ -75,6 +75,14 @@ public class ToolsStorage {
         return new Json(s);
     }
 
+    public static JsonArray getJsonArray(String key, JsonArray def) {
+        String string = preferences.getString(key, null);
+        if (string == null || string.isEmpty())
+            return def;
+
+        return new JsonArray(string);
+    }
+
     //
     //  Put
     //
@@ -113,6 +121,11 @@ public class ToolsStorage {
         put(key, v.toString());
     }
 
+    public static void put(String key, JsonArray v){
+        if (preferences == null) init();
+        preferences.edit().putString(key, v.toString()).apply();
+    }
+
     //
     //  Remove
     //
@@ -122,66 +135,6 @@ public class ToolsStorage {
         preferences.edit().remove(key).apply();
     }
 
-    //
-    //  String array
-    //
-
-    @MainThread
-    public static String[] getStringArray(String key, String[] def) {
-        String string = preferences.getString(key, null);
-        if (string == null || string.isEmpty())
-            return def;
-
-        return new JsonArray(string).getStrings();
-    }
-
-    @MainThread
-    public static void put(String key, String[] v) {
-        if (preferences == null) init();
-        JsonArray json = new JsonArray();
-        json.put(v);
-        preferences.edit().putString(key, json.toString()).apply();
-    }
-
-
-    @MainThread
-    public static void addToStringArray(String key, String v) {
-
-        String[] stringArray = getStringArray(key, new String[0]);
-        String[] copy = new String[stringArray.length + 1];
-        System.arraycopy(stringArray, 0, copy, 0, stringArray.length);
-        copy[copy.length - 1] = v;
-
-        put(key, copy);
-    }
-
-    @MainThread
-    public static void removeFromStringArray(String key, String v) {
-
-        String[] stringArray = getStringArray(key, new String[0]);
-        ArrayList<String> copy = new ArrayList<>();
-
-        for (String s : stringArray)
-            if (!s.equals(v))
-                copy.add(s);
-
-        put(key, copy.toArray(new String[0]));
-
-    }
-
-    @MainThread
-    public static void removeFromStringArray(String key, int index) {
-
-        String[] stringArray = getStringArray(key, new String[0]);
-        ArrayList<String> copy = new ArrayList<>();
-
-        for (int i = 0; i < stringArray.length; i++)
-            if (i != index)
-                copy.add(stringArray[i]);
-
-        put(key, copy.toArray(new String[0]));
-
-    }
 
     //
     //  Files
