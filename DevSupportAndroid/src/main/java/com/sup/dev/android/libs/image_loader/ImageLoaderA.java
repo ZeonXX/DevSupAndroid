@@ -20,7 +20,7 @@ public abstract class ImageLoaderA {
     boolean cashScaledBytes;
     boolean noCash;
     boolean noLoadFromCash;
-    String keyPrefix;
+    String keyPrefix = "";
 
     public ImageLoaderA setImage(ImageView vImage) {
         this.vImage = vImage;
