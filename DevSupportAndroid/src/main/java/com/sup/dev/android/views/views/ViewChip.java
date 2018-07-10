@@ -164,7 +164,7 @@ public class ViewChip extends FrameLayout {
     }
 
     private void update() {
-        ((FrameLayout.LayoutParams) vTextView.getLayoutParams()).setMargins(hasIcon ? vIcon.getLayoutParams().width / 3 * 2 : 0, 0, 0, 0);
+        ((FrameLayout.LayoutParams) vTextView.getLayoutParams()).setMargins(hasIcon ? (int) (vIcon.getLayoutParams().width / 5D * 4) : 0, 0, 0, 0);
         vIcon.setVisibility(hasIcon ? VISIBLE : GONE);
         vTextView.setVisibility(vTextView.getText().length() == 0 ? GONE : VISIBLE);
         setVisibility(vIcon.getVisibility() == VISIBLE || vTextView.getVisibility() == VISIBLE ? VISIBLE : GONE);
