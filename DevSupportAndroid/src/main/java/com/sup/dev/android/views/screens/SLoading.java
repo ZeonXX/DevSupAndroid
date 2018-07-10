@@ -141,7 +141,7 @@ public abstract class SLoading extends Screen {
         if (state == State.PROGRESS) {
             ToolsThreads.main(1000, () -> {
                 ToolsView.alpha(vProgress, this.state != State.PROGRESS);
-                ToolsView.alpha(vMessage, this.state != State.PROGRESS && vMessage.getText().length() > 0);
+                if (this.state == State.PROGRESS && vMessage.getText().length() > 0) ToolsView.fromAlpha(vMessage);
             });
         } else ToolsView.toAlpha(vProgress);
 
