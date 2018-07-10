@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.views.widgets.WidgetMenu;
 
 public class SettingsSelection extends SettingsAction{

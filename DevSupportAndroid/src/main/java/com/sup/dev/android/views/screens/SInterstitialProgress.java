@@ -2,7 +2,7 @@ package com.sup.dev.android.views.screens;
 
 import android.widget.ProgressBar;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.java.tools.ToolsThreads;
 

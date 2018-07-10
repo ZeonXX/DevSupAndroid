@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.Switch;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 public class SettingsSwitcher extends SettingsAction {
 

@@ -9,7 +9,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.libs.screens.NavigationAction;
 import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.tools.ToolsAndroid;

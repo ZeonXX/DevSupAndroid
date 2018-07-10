@@ -19,13 +19,9 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.support.annotation.RequiresPermission;
-import android.support.annotation.WorkerThread;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
-import com.sup.dev.android.androiddevsup.BuildConfig;
+import com.sup.dev.android.BuildConfig;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.Miui;
 import com.sup.dev.android.magic_box.ServiceNetworkCheck;
@@ -38,8 +34,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
 

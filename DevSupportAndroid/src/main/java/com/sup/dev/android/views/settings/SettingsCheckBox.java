@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsView;
 
 public class SettingsCheckBox extends SettingsAction {

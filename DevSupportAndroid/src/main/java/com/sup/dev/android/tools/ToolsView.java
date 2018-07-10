@@ -23,7 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround;
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent;

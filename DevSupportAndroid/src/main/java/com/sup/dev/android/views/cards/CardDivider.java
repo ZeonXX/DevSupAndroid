@@ -2,7 +2,7 @@ package com.sup.dev.android.views.cards;
 
 import android.view.View;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 public class CardDivider extends Card {
 

@@ -3,7 +3,7 @@ package com.sup.dev.android.views.screens;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.image_loader.ImageLoaderId;
 import com.sup.dev.android.libs.screens.Screen;

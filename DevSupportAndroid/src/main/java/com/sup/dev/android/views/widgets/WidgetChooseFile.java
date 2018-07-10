@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsPermission;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;

@@ -6,7 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.widget.ImageView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.classes.collections.CashBytes;

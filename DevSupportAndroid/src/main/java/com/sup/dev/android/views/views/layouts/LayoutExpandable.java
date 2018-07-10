@@ -14,7 +14,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 public class LayoutExpandable extends LinearLayout {
 

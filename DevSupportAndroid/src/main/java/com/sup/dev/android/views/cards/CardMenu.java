@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.ViewIcon;

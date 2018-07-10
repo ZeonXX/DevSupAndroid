@@ -13,7 +13,7 @@ import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.tools.ToolsColor;
 

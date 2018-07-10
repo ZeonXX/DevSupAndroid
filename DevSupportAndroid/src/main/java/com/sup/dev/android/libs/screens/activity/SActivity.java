@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;

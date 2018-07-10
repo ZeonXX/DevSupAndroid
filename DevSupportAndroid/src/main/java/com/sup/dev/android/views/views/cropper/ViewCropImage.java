@@ -33,7 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 import java.lang.ref.WeakReference;
 import java.util.UUID;

@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsPaint;

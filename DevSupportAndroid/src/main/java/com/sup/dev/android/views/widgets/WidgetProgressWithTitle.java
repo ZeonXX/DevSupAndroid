@@ -3,7 +3,7 @@ package com.sup.dev.android.views.widgets;
 import android.support.annotation.StringRes;
 import android.widget.TextView;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 

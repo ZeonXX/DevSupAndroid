@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
-import com.sup.dev.android.androiddevsup.R;
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess;
 import com.sup.dev.android.libs.screens.activity.SActivity;
 import com.sup.dev.android.tools.ToolsAndroid;

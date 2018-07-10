@@ -5,7 +5,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 public class LayoutFlow extends ViewGroup {
 

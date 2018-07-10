@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.cards;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 public class CardMenuBig extends CardMenu{
 
