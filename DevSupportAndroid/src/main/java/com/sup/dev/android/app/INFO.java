@@ -12,6 +12,7 @@ public interface INFO {
     //  git submodule add https://github.com/ZeonXX/DevSupJava.git
     //  git submodule add https://github.com/ZeonXX/DevSupJavaPc.git
     //  git submodule add https://github.com/ZeonXX/DevSupAndroid.git
+    //  git submodule add https://github.com/ZeonXX/DevSupEngineering.git
     //  git submodule add https://github.com/ZeonXX/AndroidGE.git
 
 
