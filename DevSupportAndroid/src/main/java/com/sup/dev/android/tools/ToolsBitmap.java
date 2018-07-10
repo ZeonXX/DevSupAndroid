@@ -394,5 +394,9 @@ public class ToolsBitmap {
         return Bitmap.createScaledBitmap(bitmap,w, h, true);
     }
 
+    public static Bitmap resize(Bitmap bitmap, int w) {
+        return Bitmap.createScaledBitmap(bitmap,w, w, true);
+    }
+
 
 }
