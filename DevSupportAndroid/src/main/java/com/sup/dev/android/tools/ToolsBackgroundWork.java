@@ -48,6 +48,8 @@ public class ToolsBackgroundWork {
         builder.setContentIntent(pendingIntent);
 
         notification = builder.build();
+
+        ToolsIntent.startServiceForeground(ForegroundService.class);
     }
 
     public static class ForegroundService extends Service{

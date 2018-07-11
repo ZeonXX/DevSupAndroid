@@ -76,7 +76,7 @@ public class ToolsStorage {
     }
 
     public static JsonArray getJsonArray(String key, JsonArray def) {
-        String string = preferences.getString(key, null);
+        String string = getString(key, null);
         if (string == null || string.isEmpty())
             return def;
 
