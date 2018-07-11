@@ -174,7 +174,6 @@ public class CardSpoiler extends Card {
     //  Getters
     //
 
-
     public ArrayList<Card> getCards() {
         return cards;
     }
