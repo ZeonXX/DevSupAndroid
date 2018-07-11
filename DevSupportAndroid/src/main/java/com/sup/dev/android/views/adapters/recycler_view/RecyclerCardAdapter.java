@@ -168,6 +168,19 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
     //  Getters
     //
 
+    public boolean isScrolledToLastItem(){
+        if(isEmpty())return true;
+        return getView(get(size()-1)) != null;
+    }
+
+    public boolean isScrolledToLastItems(int count){
+        if(size() < count)return true;
+        for(int i = 0; i < count; i++)
+            if(getView(get(size()-count)) != null)
+                return true;
+        return false;
+    }
+
     public boolean contains(Class<? extends Card> c) {
         for (int i = 0; i < getItemCount(); i++)
             if (ToolsClass.instanceOf(get(i).getClass(), c))
