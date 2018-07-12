@@ -119,6 +119,7 @@ public class PagerCardAdapter extends PagerAdapter implements CardAdapter{
         notifyDataSetChanged();
     }
 
+
     public void set(List<Card> items) {
         this.items.clear();
         this.items.addAll(items);
@@ -185,6 +186,11 @@ public class PagerCardAdapter extends PagerAdapter implements CardAdapter{
     //
     //  Getters
     //
+
+    @Override
+    public boolean isVisible(Card card) {
+        return getView(card) != null;
+    }
 
     public ArrayList<View> getViews() {
 

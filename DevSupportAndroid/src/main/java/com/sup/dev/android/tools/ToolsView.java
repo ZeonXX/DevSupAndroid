@@ -34,6 +34,8 @@ import com.sup.dev.java.classes.callbacks.simple.Callback4;
 import com.sup.dev.java.classes.items.Item;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import java.util.regex.Pattern;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -41,13 +43,13 @@ public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
 
-    public static void makeLinksClickable(TextView vText){
+    public static void makeLinksClickable(TextView vText) {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.getContext()));
-        Linkify.addLinks(vText, Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
-        Linkify.addLinks(vText, Linkify.ALL );
+        Pattern httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*");
+        Linkify.addLinks(vText, httpPattern, "");
     }
 
-    public static void recyclerHideFabWhenScrollEnd(RecyclerView vRecycler, FloatingActionButton vFab){
+    public static void recyclerHideFabWhenScrollEnd(RecyclerView vRecycler, FloatingActionButton vFab) {
         vRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -125,6 +127,7 @@ public class ToolsView {
 
 
     }
+
     public static void setOnClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
 
         Item<Integer> clickScreenX = new Item<>();
@@ -140,7 +143,6 @@ public class ToolsView {
         v.setOnClickListener(v1 -> {
             if (onClick != null) onClick.callback(v, clickScreenX.a == null ? 0 : clickScreenX.a, clickScreenY.a == null ? 0 : clickScreenY.a);
         });
-
 
 
     }
