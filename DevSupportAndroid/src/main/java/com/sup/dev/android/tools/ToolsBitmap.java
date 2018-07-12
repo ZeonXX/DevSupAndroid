@@ -384,18 +384,31 @@ public class ToolsBitmap {
     public static Bitmap keepMaxSides(Bitmap bitmap, int maxSideSize) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
-        if (w <= maxSideSize && h <= maxSideSize)
-            return bitmap;
+        if (w <= maxSideSize && h <= maxSideSize) return bitmap;
+
         float arg = ToolsMath.max(w, h) / (float) maxSideSize;
         return Bitmap.createScaledBitmap(bitmap, (int) (w / arg), (int) (h / arg), true);
     }
 
+    public static Bitmap keepMinSides(Bitmap bitmap, int minSideSize) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        if (w >= minSideSize && h >= minSideSize) return bitmap;
+
+        float arg = (float) minSideSize / ToolsMath.max(w, h);
+        return Bitmap.createScaledBitmap(bitmap, (int) (w / arg), (int) (h / arg), true);
+    }
+
+    public static Bitmap keepSides(Bitmap bitmap, int sides) {
+        return keepMaxSides(keepMinSides(bitmap, sides), sides);
+    }
+
     public static Bitmap resize(Bitmap bitmap, int w, int h) {
-        return Bitmap.createScaledBitmap(bitmap,w, h, true);
+        return Bitmap.createScaledBitmap(bitmap, w, h, true);
     }
 
     public static Bitmap resize(Bitmap bitmap, int w) {
-        return Bitmap.createScaledBitmap(bitmap,w, w, true);
+        return Bitmap.createScaledBitmap(bitmap, w, w, true);
     }
 
 
