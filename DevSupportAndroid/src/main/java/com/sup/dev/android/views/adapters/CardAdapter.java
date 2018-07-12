@@ -17,4 +17,6 @@ public interface CardAdapter {
     boolean contains(Card card);
 
     void add(int i, Card card);
+
+    boolean isVisible(Card card);
 }

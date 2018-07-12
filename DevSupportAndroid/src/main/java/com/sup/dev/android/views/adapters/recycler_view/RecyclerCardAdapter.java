@@ -168,15 +168,21 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
     //  Getters
     //
 
+
+    @Override
+    public boolean isVisible(Card card) {
+        return getView(card) != null;
+    }
+
     public boolean isScrolledToLastItem(){
         if(isEmpty())return true;
-        return getView(get(size()-1)) != null;
+        return isVisible(get(size()-1));
     }
 
     public boolean isScrolledToLastItems(int count){
         if(size() < count)return true;
         for(int i = 0; i < count; i++)
-            if(getView(get(size()-count)) != null)
+            if(isVisible(get(size()-count)))
                 return true;
         return false;
     }
