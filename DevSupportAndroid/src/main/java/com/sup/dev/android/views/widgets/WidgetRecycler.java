@@ -16,6 +16,7 @@ import com.sup.dev.java.libs.debug.Debug;
 public class WidgetRecycler extends Widget {
 
     protected final RecyclerView vRecycler;
+    protected final ViewGroup vContainer;
 
     protected RecyclerCardAdapter adapter;
 
@@ -23,6 +24,7 @@ public class WidgetRecycler extends Widget {
         super(R.layout.widget_recycler);
 
         vRecycler = findViewById(R.id.recycler);
+        vContainer = findViewById(R.id.content_container);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.sup.dev.android.views.widgets;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import java.io.IOException;
 public class WidgetChooseImage extends WidgetRecycler {
 
     private final RecyclerCardAdapter adapter;
+    private final FloatingActionButton vFab;
 
     private Callback2<WidgetChooseImage, Bitmap> onSelected;
     private Callback onError;
@@ -40,8 +42,15 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     public WidgetChooseImage() {
         adapter = new RecyclerCardAdapter();
+        vFab = ToolsView.inflate(R.layout.view_fab);
+        vContainer.addView(vFab);
 
         vRecycler.setLayoutManager(new GridLayoutManager(view.getContext(), ToolsAndroid.isScreenPortrait() ? 3 : 6));
+        vFab.setImageResource(R.drawable.ic_landscape_white_24dp);
+        vFab.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> {
+           if(onSelected != null) onSelected.callback(this, b);
+           hide();
+        }));
 
         setAdapter(adapter);
     }
