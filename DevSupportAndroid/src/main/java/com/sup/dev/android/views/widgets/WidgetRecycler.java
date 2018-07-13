@@ -1,17 +1,13 @@
 package com.sup.dev.android.views.widgets;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.sup.dev.android.R;
-import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.popup.PopupWidget;
-import com.sup.dev.android.views.views.layouts.LayoutMaxSizes;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class WidgetRecycler extends Widget {
 
@@ -24,7 +20,7 @@ public class WidgetRecycler extends Widget {
         super(R.layout.widget_recycler);
 
         vRecycler = findViewById(R.id.recycler);
-        vContainer = findViewById(R.id.content_container);
+        vContainer = findViewById(R.id.container);
     }
 
     @Override

@@ -248,10 +248,11 @@ public class ToolsBitmap {
 
     public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
         ToolsIntent.getGalleryImage(uri -> getFromUri(uri, bitmap -> {
-            if (bitmap == null)
-                if(onError != null)onError.callback();
-            else
-                if(onLoad != null)   onLoad.callback(bitmap);
+            if (bitmap == null) {
+                if (onError != null) onError.callback();
+            } else {
+                if (onLoad != null) onLoad.callback(bitmap);
+            }
         }, onPermissionPermissionRestriction), onError);
     }
 

@@ -42,15 +42,13 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     public WidgetChooseImage() {
         adapter = new RecyclerCardAdapter();
-        vFab = ToolsView.inflate(R.layout.view_fab);
-        vContainer.addView(vFab);
+        View vFabContainer = ToolsView.inflate(R.layout.view_fab);
+        vFab = vFabContainer.findViewById(R.id.fab);
+        vContainer.addView(vFabContainer);
 
         vRecycler.setLayoutManager(new GridLayoutManager(view.getContext(), ToolsAndroid.isScreenPortrait() ? 3 : 6));
         vFab.setImageResource(R.drawable.ic_landscape_white_24dp);
-        vFab.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> {
-           if(onSelected != null) onSelected.callback(this, b);
-           hide();
-        }));
+        vFab.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> onSelected(b)));
 
         setAdapter(adapter);
     }
@@ -91,6 +89,11 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     }
 
+    private void onSelected(Bitmap bitmap) {
+        if (onSelected != null) onSelected.callback(WidgetChooseImage.this, bitmap);
+        hide();
+    }
+
     //
     //  Setters
     //
@@ -126,14 +129,12 @@ public class WidgetChooseImage extends WidgetRecycler {
         public void bindView(View view) {
             ImageView vImage = view.findViewById(R.id.image);
             vImage.setOnClickListener(v -> {
-                if (onSelected != null)
-                    try {
-                        onSelected.callback(WidgetChooseImage.this, ToolsBitmap.decode(ToolsFiles.readFile(file)));
-                    } catch (IOException e) {
-                        Debug.log(e);
-                        if (onError != null) onError.callback();
-                    }
-                hide();
+                try {
+                    onSelected(ToolsBitmap.decode(ToolsFiles.readFile(file)));
+                } catch (IOException e) {
+                    Debug.log(e);
+                    if (onError != null) onError.callback();
+                }
             });
 
             ImageLoader.load(new ImageLoaderFile(file)
