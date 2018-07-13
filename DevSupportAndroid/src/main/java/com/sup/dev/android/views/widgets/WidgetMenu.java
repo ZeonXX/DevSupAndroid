@@ -12,6 +12,7 @@ import com.sup.dev.android.views.cards.CardDividerTitle;
 import com.sup.dev.android.views.cards.CardMenu;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.classes.providers.Provider;
 
 public class WidgetMenu extends WidgetRecycler {
 
@@ -38,10 +39,10 @@ public class WidgetMenu extends WidgetRecycler {
         item.card.setText(item.text);
         item.card.setIcon(item.icon);
         item.card.setBackground(item.bg);
-        item.card.setOnClick((v,x,y) -> {
+        item.card.setOnClick((v, x, y) -> {
             hide();
             if (item.onClick != null) item.onClick.callback(this);
-            if(onGlobalSelected != null) onGlobalSelected.callback(this, item.text);
+            if (onGlobalSelected != null) onGlobalSelected.callback(this, item.text);
         });
 
 
@@ -152,6 +153,11 @@ public class WidgetMenu extends WidgetRecycler {
         return background(ToolsResources.getColor(color));
     }
 
+    public WidgetMenu backgroundRes(@ColorRes int color, Provider<Boolean> condition) {
+        if (condition.provide()) return background(ToolsResources.getColor(color));
+        else return this;
+    }
+
     public WidgetMenu background(@ColorInt int color) {
         buildItem.bg = color;
         return this;
@@ -204,7 +210,6 @@ public class WidgetMenu extends WidgetRecycler {
         private boolean preferred;
 
     }
-
 
 
 }
