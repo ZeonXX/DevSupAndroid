@@ -46,6 +46,7 @@ public class ToolsText extends com.sup.dev.java.tools.ToolsText {
             for (int i = start; i < end; i++)
                 if (!Character.isLetterOrDigit(source.charAt(i)) && !source.toString().equals("."))
                     return "";
+
             return null;
         };
     }
