@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.widgets.layouts;
+package com.sup.dev.android.views.views.layouts;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.sup.dev.android.androiddevsup.R;
+import com.sup.dev.android.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
