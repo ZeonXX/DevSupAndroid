@@ -126,11 +126,11 @@ public class SActivity extends Activity {
         View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
         vContainer.addView(ToolsView.removeFromParent(view), 0);
 
-        if (old != null) {
+        if (old != null && old != view) {
             view.setVisibility(View.INVISIBLE);
             vTouchLock.setVisibility(View.VISIBLE);
-            ToolsView.fromAlpha(view);
             ToolsView.toAlpha(old, () -> vContainer.removeView(old));
+            ToolsView.fromAlpha(view);
         }
 
         if(subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();

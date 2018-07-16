@@ -127,6 +127,7 @@ public class Navigator {
     //
 
     public static void setCurrentView() {
+        if(getCurrent() == null)return;
         SupAndroid.activity.setView(getCurrent());
         if (getCurrent() != null) getCurrent().onResume();
     }
@@ -136,7 +137,7 @@ public class Navigator {
     }
 
     public static void onActivityResume() {
-        if (getCurrent() != null) getCurrent().onResume();
+        setCurrentView();
     }
 
     public static void onActivityDestroy() {
