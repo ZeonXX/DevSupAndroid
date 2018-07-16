@@ -217,6 +217,10 @@
         <attr name="LayoutZoom_animateTimeMs" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="LayoutImportance_Layout">
+        <attr name="LayoutImportance_Layout_importance" format="integer"/>
+    </declare-styleable>
+
     <!--            -->
     <!--  Settings  -->
     <!--            -->

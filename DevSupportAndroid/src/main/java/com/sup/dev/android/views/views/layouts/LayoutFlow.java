@@ -27,6 +27,7 @@ public class LayoutFlow extends ViewGroup {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LayoutFlow);
         mHorizontalSpacing = a.getDimensionPixelSize(R.styleable.LayoutFlow_LayoutFlow_horizontal, 0);
         mVerticalSpacing = a.getDimensionPixelSize(R.styleable.LayoutFlow_LayoutFlow_vertical, 0);
+        a.recycle();
 
     }
 
