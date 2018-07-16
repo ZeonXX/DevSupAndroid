@@ -14,6 +14,8 @@ import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
 
+    protected String textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK;
+    protected String textErrorRetry = SupAndroid.TEXT_APP_RETRY;
 
     protected final RecyclerView vRecycler;
     protected final SwipeRefreshLayout vRefresh;
@@ -39,20 +41,13 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
             });
 
         ToolsThreads.main(true, () -> {
-
-            Object textNetworkError = getTextErrorNetwork();
-            if (textNetworkError instanceof Integer) textNetworkError = ToolsResources.getString((int) textNetworkError);
-
-            Object textRetry = getTextRetry();
-            if (textRetry instanceof Integer) textRetry = ToolsResources.getString((int) textRetry);
-
             adapter = instanceAdapter()
                     .setOnEmpty(() -> setState(State.EMPTY))
                     .setOnErrorAndEmpty(() -> setState(State.ERROR))
                     .setOnStartLoadingAndEmpty(() -> setState(State.PROGRESS))
                     .setOnLoadingAndNotEmpty(() -> setState(State.NONE))
                     .setOnLoadedNotEmpty(() -> setState(State.NONE))
-                    .setRetryMessage(textNetworkError.toString(), textRetry.toString())
+                    .setRetryMessage(textErrorNetwork, textErrorRetry)
                     .setNotifyCount(5);
 
             setAdapter(adapter);
@@ -70,16 +65,7 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
         adapter.reloadBottom();
     }
 
-
     protected abstract RecyclerCardAdapterLoading<C, V> instanceAdapter();
-
-    public Object getTextErrorNetwork() {
-        return SupAndroid.TEXT_APP_RETRY;
-    }
-
-    public Object getTextRetry() {
-        return SupAndroid.TEXT_APP_RETRY;
-    }
 
     protected int getNotifyCount() {
         return 5;
