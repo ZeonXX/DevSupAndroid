@@ -18,7 +18,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/grey_850</item>
         <item name="colorPrimary">@color/grey_850</item>
-        <item name="colorAccent">@color/deep_orange_a_400</item>
+        <item name="colorAccent">@color/orange_a_700</item>
         <item name="ic_arrow_back">@drawable/ic_arrow_back_white_24dp</item>
         <item name="ic_menu">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_white_24dp</item>
@@ -35,7 +35,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/grey_100</item>
         <item name="colorPrimary">@color/grey_100</item>
-        <item name="colorAccent">@color/deep_orange_a_400</item>
+        <item name="colorAccent">@color/orange_a_700</item>
         <item name="ic_arrow_back">@drawable/ic_arrow_back_black_24dp</item>
         <item name="ic_menu">@drawable/ic_menu_black_24dp</item>
         <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</item>
