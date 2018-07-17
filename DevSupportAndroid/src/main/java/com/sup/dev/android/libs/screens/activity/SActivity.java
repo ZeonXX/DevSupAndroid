@@ -20,6 +20,7 @@ public class SActivity extends Activity {
 
     public static boolean started;
 
+    protected View vRoot;
     protected ViewGroup vContainer;
     protected View vTouchLock;
 
@@ -31,6 +32,7 @@ public class SActivity extends Activity {
         applyTheme();
 
         setContentView(getLayout());
+        vRoot = findViewById(R.id.screen_activity_root);
         vContainer = findViewById(R.id.screen_activity_view);
         vTouchLock = findViewById(R.id.screen_activity_touch_lock);
 
@@ -82,6 +84,14 @@ public class SActivity extends Activity {
 
     }
 
+    public View getViewRoot() {
+        return vRoot;
+    }
+
+    public View getViewContainer() {
+        return vContainer;
+    }
+
     //
     //  Events
     //
@@ -92,7 +102,7 @@ public class SActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
-    public void onViewBackPressed(){
+    public void onViewBackPressed() {
         onBackPressed();
     }
 
@@ -133,7 +143,7 @@ public class SActivity extends Activity {
             ToolsView.fromAlpha(view);
         }
 
-        if(subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
+        if (subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
         subscriptionTouchLock = ToolsThreads.main(ToolsView.ANIMATION_TIME, () -> vTouchLock.setVisibility(View.GONE));
     }
 

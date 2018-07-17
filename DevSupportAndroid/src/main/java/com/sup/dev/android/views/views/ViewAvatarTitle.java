@@ -63,11 +63,15 @@ public class ViewAvatarTitle extends LayoutChip {
         String mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle);
         float iconPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0);
         float chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18));
+        int roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000);
+        int avatarPadding = (int) a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0);
         a.recycle();
 
         animationFocus = new AnimationFocus(this, focusColor);
 
         vAvatar.setImage(src);
+        vAvatar.setRoundBackgroundColor(roundBackgroundColor);
+        vAvatar.setPadding(avatarPadding,avatarPadding,avatarPadding,avatarPadding);
         vAvatar.getChip().setSize(ToolsView.pxToDp(chipSize));
         vAvatar.getChip().setIconPadding(ToolsView.pxToDp(iconPadding));
         vAvatar.getChip().setIcon(srcIcon);

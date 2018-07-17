@@ -11,6 +11,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback1;
 public class ViewDraw extends View {
 
     private Callback1<Canvas> onDraw;
+    private boolean autoInvalidate = true;
 
     public ViewDraw(Context context) {
         this(context, null);
@@ -30,6 +31,10 @@ public class ViewDraw extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (onDraw != null) onDraw.callback(canvas);
+        if (autoInvalidate) invalidate();
     }
 
+    public void setAutoInvalidate(boolean autoInvalidate) {
+        this.autoInvalidate = autoInvalidate;
+    }
 }
