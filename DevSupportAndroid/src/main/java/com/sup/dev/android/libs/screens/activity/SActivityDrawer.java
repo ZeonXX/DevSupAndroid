@@ -56,8 +56,8 @@ public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerLis
     //
 
     @Override
-    public void setView(Screen view) {
-        super.setView(view);
+    public void setView(Screen view, Navigator.Animation animation) {
+        super.setView(view, animation);
         hideDrawer();
     }
 

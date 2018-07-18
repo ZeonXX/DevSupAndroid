@@ -1,9 +1,12 @@
 package com.sup.dev.android.libs.screens.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,6 +14,7 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
+import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsIntent;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
@@ -125,7 +129,7 @@ public class SActivity extends Activity {
 
     private Subscription subscriptionTouchLock;
 
-    public void setView(Screen view) {
+    public void setView(Screen view, Navigator.Animation animation) {
 
         if (view == null) {
             finish();
@@ -134,13 +138,61 @@ public class SActivity extends Activity {
 
         ToolsView.hideKeyboard();
         View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
-        vContainer.addView(ToolsView.removeFromParent(view), 0);
+        if (animation != Navigator.Animation.IN) vContainer.addView(ToolsView.removeFromParent(view), 0);
+        else vContainer.addView(ToolsView.removeFromParent(view));
 
         if (old != null && old != view) {
-            view.setVisibility(View.INVISIBLE);
+
             vTouchLock.setVisibility(View.VISIBLE);
-            ToolsView.toAlpha(old, () -> vContainer.removeView(old));
-            ToolsView.fromAlpha(view);
+            ToolsView.clearAnimation(old);
+            ToolsView.clearAnimation(view);
+
+            if (animation == Navigator.Animation.NONE) {
+                ToolsView.clearAnimation(old);
+                vContainer.removeView(old);
+            }
+
+            if (animation == Navigator.Animation.OUT) {
+                old.animate()
+                        .alpha(0)
+                        .translationX(ToolsAndroid.getScreenW() / 3)
+                        .setDuration(150)
+                        .setInterpolator(new LinearOutSlowInInterpolator())
+                        .setListener(new AnimatorListenerAdapter() {
+
+                            public void onAnimationEnd(Animator animation) {
+                                old.animate().setListener(null);
+                                old.setAlpha(1);
+                                old.setTranslationX(0);
+                                vContainer.removeView(old);
+                            }
+                        });
+            }
+            if (animation == Navigator.Animation.IN) {
+                view.setAlpha(0);
+                view.setTranslationX(ToolsAndroid.getScreenW() / 3);
+                view.animate()
+                        .alpha(1)
+                        .translationX(0)
+                        .setDuration(150)
+                        .setInterpolator(new LinearOutSlowInInterpolator())
+                        .setListener(new AnimatorListenerAdapter() {
+
+                            public void onAnimationEnd(Animator animation) {
+                                view.animate().setListener(null);
+                                view.setAlpha(1);
+                                view.setTranslationX(0);
+                                vContainer.removeView(old);
+                            }
+                        });
+            }
+
+            if (animation == Navigator.Animation.ALPHA) {
+                view.setVisibility(View.INVISIBLE);
+                ToolsView.toAlpha(old, () -> vContainer.removeView(old));
+                ToolsView.fromAlpha(view);
+            }
+
         }
 
         if (subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();

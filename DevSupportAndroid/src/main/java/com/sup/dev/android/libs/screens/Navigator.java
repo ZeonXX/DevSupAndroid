@@ -1,6 +1,9 @@
 package com.sup.dev.android.libs.screens;
 
+import android.app.Activity;
+
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.android.libs.screens.activity.SActivity;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider;
@@ -9,6 +12,8 @@ import com.sup.dev.java.libs.debug.Debug;
 import java.util.ArrayList;
 
 public class Navigator {
+
+    public enum Animation {IN, OUT, ALPHA, NONE}
 
     public final static NavigationAction TO = NavigationAction.to().immutable();
     public final static NavigationAction SET = NavigationAction.set().immutable();
@@ -34,15 +39,19 @@ public class Navigator {
     }
 
     public static void to(Screen view) {
+        to(view, Animation.IN);
+    }
+
+    public static void to(Screen view, Animation animation) {
         if (!backStack.isEmpty()) {
             if (!getCurrent().isBackStackAllowed()) removeView(getCurrent());
             else {
                 getCurrent().onPause();
             }
-            if(view.singleInstanceInBackstack)removeAll(view.getClass());
+            if (view.singleInstanceInBackstack) removeAll(view.getClass());
         }
         backStack.add(view);
-        setCurrentView();
+        setCurrentView(animation);
     }
 
     public static void replace(Screen screen, Screen newScreen) {
@@ -56,12 +65,15 @@ public class Navigator {
 
     public static void replace(Screen screen) {
         if (!backStack.isEmpty()) removeView(getCurrent());
-        to(screen);
+        to(screen, Animation.ALPHA);
     }
 
     public static void set(Screen screen) {
+        set(screen, Animation.IN);
+    }
+    public static void set(Screen screen, Animation animation) {
         while (backStack.size() != 0) removeView(backStack.get(0));
-        to(screen);
+        to(screen, animation);
     }
 
     public static void reorder(Screen screen) {
@@ -100,7 +112,7 @@ public class Navigator {
             if (backStack.get(i).getClass() == viewClass)
                 remove(backStack.get(i--));
 
-        if (needUpdate) setCurrentView();
+        if (needUpdate) setCurrentView(Animation.OUT);
     }
 
 
@@ -109,7 +121,7 @@ public class Navigator {
 
         Screen current = getCurrent();
         removeView(current);
-        setCurrentView();
+        setCurrentView(Animation.OUT);
 
         onBack.callback(current, getCurrent());
 
@@ -126,9 +138,9 @@ public class Navigator {
     //  Activity Callbacks
     //
 
-    public static void setCurrentView() {
-        if(getCurrent() == null)return;
-        SupAndroid.activity.setView(getCurrent());
+    private static void setCurrentView(Animation animation) {
+        if (getCurrent() == null) return;
+        SupAndroid.activity.setView(getCurrent(), animation);
         if (getCurrent() != null) getCurrent().onResume();
     }
 
@@ -137,7 +149,7 @@ public class Navigator {
     }
 
     public static void onActivityResume() {
-        setCurrentView();
+        setCurrentView(Animation.NONE);
     }
 
     public static void onActivityDestroy() {
