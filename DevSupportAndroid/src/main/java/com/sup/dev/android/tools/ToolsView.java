@@ -346,8 +346,7 @@ public class ToolsView {
                 .setListener(new AnimatorListenerAdapter() {
 
                     public void onAnimationEnd(Animator animation) {
-                        if (onFinish != null)
-                            onFinish.callback();
+                        if (onFinish != null) onFinish.callback();
                     }
                 });
 
