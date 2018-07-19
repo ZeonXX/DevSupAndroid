@@ -69,7 +69,7 @@ public class Navigator {
     }
 
     public static void set(Screen screen) {
-        set(screen, Animation.IN);
+        set(screen, Animation.ALPHA);
     }
     public static void set(Screen screen, Animation animation) {
         while (backStack.size() != 0) removeView(backStack.get(0));
