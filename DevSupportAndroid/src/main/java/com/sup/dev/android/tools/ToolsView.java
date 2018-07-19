@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -42,6 +43,11 @@ import static android.view.View.VISIBLE;
 public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
+
+    public static void setFabEnabled(FloatingActionButton vFab, boolean enabled){
+        vFab.setEnabled(enabled);
+        vFab.setBackgroundTintList(ColorStateList.valueOf(enabled?ToolsResources.getAccentColor(vFab.getContext()):ToolsResources.getColor(R.color.grey_700)));
+    }
 
     public static void makeLinksClickable(TextView vText) {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.getContext()));
