@@ -64,7 +64,7 @@ public class ToolsResources {
     }
 
 
-    public static int getColor(@ColorRes int r) {
+    public static int getColor(int r) {
         return r <= 0 ? 0 : SupAndroid.appContext.getResources().getColor(r);
     }
 
