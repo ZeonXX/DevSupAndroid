@@ -18,9 +18,10 @@ import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsIntent;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
-public class SActivity extends Activity {
+public abstract class SActivity extends Activity {
 
     public static boolean started;
 
@@ -55,6 +56,8 @@ public class SActivity extends Activity {
             onFirstStart();
         }
 
+        if(Navigator.getStackSize() == 0)  toMainScreen();
+
     }
 
     @Override
@@ -87,6 +90,8 @@ public class SActivity extends Activity {
     protected void onFirstStart() {
 
     }
+
+    protected abstract void toMainScreen();
 
     public View getViewRoot() {
         return vRoot;

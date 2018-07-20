@@ -48,7 +48,7 @@ public class Screen extends FrameLayout {
     public void onResume() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setTitleTextColor(ToolsResources.getColor(R.attr.toolbarTitleColor));
+            toolbar.setTitleTextColor(ToolsResources.getColorFromAttr(R.attr.toolbarTitleColor));
             if(hasBackIcon) {
                 toolbar.setNavigationIcon(Navigator.hasBackStack() ? ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) : ToolsResources.getDrawableFromAttr(R.attr.ic_menu));
                 toolbar.setNavigationOnClickListener(v -> SupAndroid.activity.onViewBackPressed());

@@ -55,6 +55,15 @@ public class ToolsResources {
         return drawable;
     }
 
+    public static int getColorFromAttr(@AttrRes int r) {
+        int[] attrs = new int[] { r};
+        TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
+        int color= ta.getColor(0, 0x00000000);
+        ta.recycle();
+        return color;
+    }
+
+
     public static int getColorId(String name) {
         return SupAndroid.appContext.getResources().getIdentifier(name, "color", SupAndroid.appContext.getPackageName());
     }
@@ -64,7 +73,7 @@ public class ToolsResources {
     }
 
 
-    public static int getColor(int r) {
+    public static int getColor(@ColorRes int r) {
         return r <= 0 ? 0 : SupAndroid.appContext.getResources().getColor(r);
     }
 

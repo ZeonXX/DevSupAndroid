@@ -178,6 +178,10 @@ public class Navigator {
         return backStack.size() > 1;
     }
 
+    public static int getStackSize(){
+        return backStack.size();
+    }
+
     public static Screen getCurrent() {
         if (backStack.isEmpty()) return null;
         return backStack.get(backStack.size() - 1);

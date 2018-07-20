@@ -12,7 +12,7 @@ import com.sup.dev.android.libs.screens.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsView;
 
-public class SActivityDrawer extends SActivity implements DrawerLayout.DrawerListener{
+public abstract class SActivityDrawer extends SActivity implements DrawerLayout.DrawerListener{
 
     private static boolean navigationLock;
 

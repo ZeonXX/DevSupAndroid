@@ -11,7 +11,7 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
-public class SActivityBottomNavigation extends SActivity {
+public abstract class SActivityBottomNavigation extends SActivity {
 
     private LinearLayout vContainer;
 
