@@ -29,7 +29,7 @@ import com.sup.dev.java.classes.geometry.Dimensions;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsMath;
-import com.sup.dev.java.tools.ToolsText;
+import com.sup.dev.java.tools.ToolsTextJava;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.ByteArrayOutputStream;
@@ -287,7 +287,7 @@ public class ToolsBitmap {
     }
 
     public static Bitmap getFromURL(final String src) throws IOException {
-        URL url = ToolsText.makeUrl(src);
+        URL url = ToolsTextJava.makeUrl(src);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setReadTimeout(4000);
         connection.setDoInput(true);

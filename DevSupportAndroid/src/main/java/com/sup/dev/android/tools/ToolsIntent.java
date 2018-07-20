@@ -25,7 +25,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
-import com.sup.dev.java.tools.ToolsText;
+import com.sup.dev.java.tools.ToolsTextJava;
 import com.sup.dev.java.libs.debug.Debug;
 
 public class ToolsIntent {
@@ -75,7 +75,7 @@ public class ToolsIntent {
 
 
     public static void startWeb(String link, Callback onActivityNotFound) {
-        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
+        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsTextJava.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 

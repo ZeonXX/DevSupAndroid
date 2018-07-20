@@ -7,7 +7,9 @@ import android.text.Html;
 import android.text.InputFilter;
 import android.widget.EditText;
 
-public class ToolsText extends com.sup.dev.java.tools.ToolsText {
+import com.sup.dev.java.tools.ToolsTextJava;
+
+public class ToolsText extends ToolsTextJava {
 
     public static boolean empty(CharSequence s) {
         return s == null || s.length() == 0;
