@@ -19,6 +19,7 @@
         android:clickable="true"/>
 
     <LinearLayout
+        android:background="?colorPrimary"
         android:id="@+id/screen_activity_bottom_navigation_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
