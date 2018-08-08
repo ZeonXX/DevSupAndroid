@@ -22,6 +22,7 @@ public class SupAndroid {
     public static String TEXT_APP_WHOOPS;
     public static String TEXT_APP_RETRY;
     public static String TEXT_APP_BACK;
+    public static String TEXT_APP_CANCEL;
     public static String TEXT_APP_DONT_SHOW_AGAIN;
     public static String TEXT_APP_ATTENTION;
     public static String TEXT_APP_DOWNLOADING;
@@ -31,6 +32,7 @@ public class SupAndroid {
     public static String TEXT_ERROR_CANT_LOAD_IMAGE;
     public static String TEXT_ERROR_NETWORK;
     public static String TEXT_ERROR_GONE;
+    public static String TEXT_ERROR_ACCOUNT_BANED;
 
     public static int IMG_ERROR_NETWORK;
     public static int IMG_ERROR_GONE;
@@ -60,23 +62,37 @@ public class SupAndroid {
 
         EventBusMultiProcess.init();
 
-        TEXT_APP_NAME = ToolsResources.getString("app_name");
-        TEXT_APP_WHOOPS = ToolsResources.getString("app_whoops");
-        TEXT_APP_RETRY = ToolsResources.getString("app_retry");
-        TEXT_APP_BACK = ToolsResources.getString("app_back");
-        TEXT_APP_DONT_SHOW_AGAIN = ToolsResources.getString("app_dont_show_again");
-        TEXT_APP_ATTENTION = ToolsResources.getString("app_attention");
-        TEXT_ERROR_PERMISSION_READ_FILES = ToolsResources.getString("error_permission_files");
-        TEXT_ERROR_CANT_LOAD_IMAGE = ToolsResources.getString("error_cant_load_image");
-        TEXT_ERROR_NETWORK = ToolsResources.getString("error_network");
-        TEXT_ERROR_GONE = ToolsResources.getString("error_gone");
-        TEXT_APP_DOWNLOADING = ToolsResources.getString("app_downloading");
-        TEXT_APP_DOWNLOADED = ToolsResources.getString("app_downloaded");
+        TEXT_APP_NAME = loadText("app_name");
+        TEXT_APP_WHOOPS = loadText("app_whoops");
+        TEXT_APP_RETRY = loadText("app_retry");
+        TEXT_APP_BACK = loadText("app_back");
+        TEXT_APP_BACK = loadText("app_cancel");
+        TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again");
+        TEXT_APP_ATTENTION = loadText("app_attention");
+        TEXT_ERROR_PERMISSION_READ_FILES = loadText("error_permission_files");
+        TEXT_ERROR_CANT_LOAD_IMAGE = loadText("error_cant_load_image");
+        TEXT_ERROR_NETWORK = loadText("error_network");
+        TEXT_ERROR_GONE = loadText("error_gone");
+        TEXT_ERROR_ACCOUNT_BANED = loadText("error_account_baned");
+        TEXT_APP_DOWNLOADING = loadText("app_downloading");
+        TEXT_APP_DOWNLOADED = loadText("app_downloaded");
 
-        IMG_ERROR_NETWORK = ToolsResources.getDrawableId("error_network");
-        IMG_ERROR_GONE = ToolsResources.getDrawableId("error_gone");
+        IMG_ERROR_NETWORK = loadImage("error_network");
+        IMG_ERROR_GONE = loadImage("error_gone");
 
 
+    }
+
+    private static String loadText(String id){
+        String t = ToolsResources.getString(id);
+        if(t == null) Debug.log("Init warning: can't find text with id ["+id+"]");
+        return t;
+    }
+
+    private static int loadImage(String id){
+        int resId = ToolsResources.getDrawableId("error_network");
+        if(resId < 1) Debug.log("Init warning: can't find image with id ["+id+"]");
+        return resId;
     }
 
 
