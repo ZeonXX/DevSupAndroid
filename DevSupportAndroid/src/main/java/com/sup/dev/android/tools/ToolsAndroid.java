@@ -53,24 +53,14 @@ public class ToolsAndroid {
     public static String getBluetoothMacAddress() {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String bluetoothMacAddress = "";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             try {
                 Field mServiceField = bluetoothAdapter.getClass().getDeclaredField("mService");
                 mServiceField.setAccessible(true);
-
                 Object btManagerService = mServiceField.get(bluetoothAdapter);
-
-                if (btManagerService != null) {
-                    bluetoothMacAddress = (String) btManagerService.getClass().getMethod("getAddress").invoke(btManagerService);
-                }
-            } catch (NoSuchFieldException e) {
-
-            } catch (NoSuchMethodException e) {
-
-            } catch (IllegalAccessException e) {
-
-            } catch (InvocationTargetException e) {
-
+                if (btManagerService != null) bluetoothMacAddress = (String) btManagerService.getClass().getMethod("getAddress").invoke(btManagerService);
+            } catch (NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                Debug.log(e);
             }
         } else {
             bluetoothMacAddress = bluetoothAdapter.getAddress();
@@ -80,7 +70,7 @@ public class ToolsAndroid {
 
     public static String getProcessName() {
         String processName = getProcessNameCmdLine();
-        if(processName == null) getProcessNameActivityManager();
+        if (processName == null) getProcessNameActivityManager();
         return processName;
     }
 
@@ -135,7 +125,7 @@ public class ToolsAndroid {
     public static int getBottomNavigationBarHeight() {
         Resources resources = SupAndroid.appContext.getResources();
         boolean navBarExists = resources.getBoolean(SupAndroid.appContext.getResources().getIdentifier("config_showNavigationBar", "bool", "android"));
-        return navBarExists?resources.getDimensionPixelSize(resources.getIdentifier("navigation_bar_height", "dimen", "android")):0;
+        return navBarExists ? resources.getDimensionPixelSize(resources.getIdentifier("navigation_bar_height", "dimen", "android")) : 0;
     }
 
     public static boolean isTablet() {
