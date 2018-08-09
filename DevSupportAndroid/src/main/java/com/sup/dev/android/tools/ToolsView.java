@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -44,9 +46,25 @@ public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
 
-    public static void setFabEnabled(FloatingActionButton vFab, boolean enabled){
+    public static void setFabEnabled(FloatingActionButton vFab, boolean enabled) {
+        setFabEnabled(vFab, enabled, ToolsResources.getAccentColor(vFab.getContext()));
+    }
+
+    public static void setFabEnabledR(FloatingActionButton vFab, boolean enabled, @ColorRes int colorEnabled) {
+        setFabEnabled(vFab, enabled, ToolsResources.getColor(colorEnabled));
+    }
+
+    public static void setFabEnabled(FloatingActionButton vFab, boolean enabled, @ColorInt int colorEnabled) {
         vFab.setEnabled(enabled);
-        vFab.setBackgroundTintList(ColorStateList.valueOf(enabled?ToolsResources.getAccentColor(vFab.getContext()):ToolsResources.getColor(R.color.grey_700)));
+        setFabColor(vFab, enabled ? colorEnabled : ToolsResources.getColor(R.color.grey_700));
+    }
+
+    public static void setFabColorR(FloatingActionButton vFab, @ColorRes int color) {
+        setFabColor(vFab, ToolsResources.getColor(color));
+    }
+
+    public static void setFabColor(FloatingActionButton vFab, @ColorInt int color) {
+        vFab.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     public static void makeLinksClickable(TextView vText) {

@@ -66,7 +66,7 @@ public class SupAndroid {
         TEXT_APP_WHOOPS = loadText("app_whoops");
         TEXT_APP_RETRY = loadText("app_retry");
         TEXT_APP_BACK = loadText("app_back");
-        TEXT_APP_BACK = loadText("app_cancel");
+        TEXT_APP_CANCEL = loadText("app_cancel");
         TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again");
         TEXT_APP_ATTENTION = loadText("app_attention");
         TEXT_ERROR_PERMISSION_READ_FILES = loadText("error_permission_files");

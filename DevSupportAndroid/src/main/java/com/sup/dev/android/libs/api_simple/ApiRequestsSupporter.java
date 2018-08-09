@@ -21,14 +21,15 @@ import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
 import com.sup.dev.java.libs.api_simple.client.ApiClient;
 import com.sup.dev.java.libs.api_simple.client.Request;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsDate;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class ApiRequestsSupporter {
-    
+
     private static ApiClient api;
-    
-    public static void init(ApiClient api){
+
+    public static void init(ApiClient api) {
         ApiRequestsSupporter.api = api;
     }
 
@@ -149,5 +150,5 @@ public class ApiRequestsSupporter {
                 .asDialogShow();
         return request;
     }
-    
+
 }
