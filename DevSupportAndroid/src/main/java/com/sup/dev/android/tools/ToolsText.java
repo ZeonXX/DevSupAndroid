@@ -57,6 +57,10 @@ public class ToolsText extends ToolsTextJava {
         editText.setFilters(filters);
     }
 
+    public static void setFilters(EditText editText, String allowed){
+        setFilters(editText, (source, start, end, dest, dstart, dend) -> source != null &&allowed.contains(source) ? null : "");
+    }
+
     public static String htmlFromEditText(EditText editText) {
         String s = Html.toHtml(editText.getText());
         if (s.length() == 0) return s;
