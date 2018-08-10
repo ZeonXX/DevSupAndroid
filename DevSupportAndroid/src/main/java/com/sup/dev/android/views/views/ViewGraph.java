@@ -1,4 +1,4 @@
-package ru.beward.intercom.ui.video;
+package com.sup.dev.android.views.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,12 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 
 import java.util.ArrayList;
-
-import ru.beward.intercom.R;
 
 public class ViewGraph extends View {
 
