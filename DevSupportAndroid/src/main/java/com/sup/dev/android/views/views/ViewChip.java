@@ -104,10 +104,10 @@ public class ViewChip extends FrameLayout {
         setIconPadding(ToolsView.pxToDp(iconPadding));
         setIcon(icon);
         setSelectionMode(selectionMode);
-        if(textColor != 0) vTextView.setTextColor(textColor);
-        else if(textStyle == 1) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD);
-        else if(textStyle == 2) vTextView.setTypeface(vTextView.getTypeface(), Typeface.ITALIC);
-        else if(textStyle == 3) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD_ITALIC);
+        if (textColor != 0) vTextView.setTextColor(textColor);
+        else if (textStyle == 1) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD);
+        else if (textStyle == 2) vTextView.setTypeface(vTextView.getTypeface(), Typeface.ITALIC);
+        else if (textStyle == 3) vTextView.setTypeface(vTextView.getTypeface(), Typeface.BOLD_ITALIC);
     }
 
     @Override
@@ -359,7 +359,9 @@ public class ViewChip extends FrameLayout {
     }
 
     public static <K> ViewChip instanceSelection(Context viewContext, String text, K tag, Callback2<Boolean, K> onSelectionChanged) {
-        return instanceSelection(viewContext, text, b -> onSelectionChanged.callback(b, tag));
+        return instanceSelection(viewContext, text, b -> {
+            if (onSelectionChanged != null) onSelectionChanged.callback(b, tag);
+        });
     }
 
     public static ViewChip instanceSelection(Context viewContext, String text, Callback1<Boolean> onSelectionChanged) {

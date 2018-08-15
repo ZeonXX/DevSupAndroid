@@ -182,6 +182,14 @@ public class Navigator {
         return backStack.size();
     }
 
+    public static boolean hasPrevious(){
+        return backStack.size() > 1;
+    }
+
+    public static Screen getPrevious(){
+        return hasPrevious()?backStack.get(backStack.size() - 2):null;
+    }
+
     public static Screen getCurrent() {
         if (backStack.isEmpty()) return null;
         return backStack.get(backStack.size() - 1);
