@@ -19,12 +19,21 @@
         android:clickable="true"/>
 
     <LinearLayout
-        android:background="?colorPrimary"
-        android:id="@+id/screen_activity_bottom_navigation_container"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal"/>
+        android:orientation="vertical">
+
+        <View style="@style/Divider"/>
+
+        <LinearLayout
+            android:id="@+id/screen_activity_bottom_navigation_container"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"/>
+
+
+    </LinearLayout>
 
 
 
