@@ -70,7 +70,7 @@ public class CardSpoiler extends Card {
         vRightText.setTextColor(rightTextColor != 0 ? rightTextColor : rightTextColorOriginal);
         vTitle.setTextColor(titleColor != 0 ? titleColor : titleColorOriginal);
 
-        vIcon.setImageResource(expanded ? R.drawable.ic_keyboard_arrow_up_black_24dp : R.drawable.ic_keyboard_arrow_down_black_24dp);
+        vIcon.setImageResource(expanded ? ToolsResources.getDrawableId("ic_keyboard_arrow_up") :  ToolsResources.getDrawableId("ic_keyboard_arrow_down"));
         vIcon.setAlpha(enabled ? 255 : 106);
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
         vTouch.setOnClickListener(!enabled ? null : v -> setExpanded(!expanded));
