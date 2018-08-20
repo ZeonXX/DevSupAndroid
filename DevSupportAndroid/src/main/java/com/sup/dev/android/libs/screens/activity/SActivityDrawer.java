@@ -56,8 +56,8 @@ public abstract class SActivityDrawer extends SActivity implements DrawerLayout.
     //
 
     @Override
-    public void setView(Screen view, Navigator.Animation animation) {
-        super.setView(view, animation);
+    public void setScreen(Screen screen, Navigator.Animation animation) {
+        super.setScreen(screen, animation);
         hideDrawer();
     }
 
@@ -94,7 +94,7 @@ public abstract class SActivityDrawer extends SActivity implements DrawerLayout.
         TranslateAnimation anim = new TranslateAnimation(lastTranslate, moveFactor, 0.0f, 0.0f);
         anim.setDuration(0);
         anim.setFillAfter(true);
-        vContainer.startAnimation(anim);
+        vActivityContainer.startAnimation(anim);
 
         lastTranslate = moveFactor;
     }

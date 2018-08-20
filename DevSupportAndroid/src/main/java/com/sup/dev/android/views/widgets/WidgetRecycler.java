@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.widgets;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.sup.dev.android.R;
@@ -11,6 +12,7 @@ import com.sup.dev.android.views.popup.PopupWidget;
 
 public class WidgetRecycler extends Widget {
 
+    protected final ViewGroup vRoot;
     protected final RecyclerView vRecycler;
     protected final ViewGroup vContainer;
 
@@ -19,6 +21,7 @@ public class WidgetRecycler extends Widget {
     public WidgetRecycler() {
         super(R.layout.widget_recycler);
 
+        vRoot = findViewById(R.id.root);
         vRecycler = findViewById(R.id.recycler);
         vContainer = findViewById(R.id.container);
     }
@@ -35,6 +38,10 @@ public class WidgetRecycler extends Widget {
         } else if (viewWrapper instanceof PopupWidget) {
             vRecycler.getLayoutParams().width = ToolsView.dpToPx(200);
         }
+    }
+
+    public void addView(View view) {
+        vRoot.addView(view, 0);
     }
 
     //

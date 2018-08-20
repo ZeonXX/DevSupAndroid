@@ -33,6 +33,12 @@ public class WidgetMenu extends WidgetRecycler {
         finishItemBuilding();
     }
 
+    public void clear(){
+        finishItemBuilding();
+        adapter.clear();
+        prefCount = 0;
+    }
+
     private void add(Item item) {
 
         item.card = new CardMenu();

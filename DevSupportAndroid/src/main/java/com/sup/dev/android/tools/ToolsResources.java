@@ -55,6 +55,14 @@ public class ToolsResources {
         return drawable;
     }
 
+    public static int getDrawableFromAttrId(@AttrRes int r) {
+        int[] attrs = new int[] { r};
+        TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
+        int id = ta.getResourceId(0, 0);
+        ta.recycle();
+        return id;
+    }
+
     public static int getColorFromAttr(@AttrRes int r) {
         int[] attrs = new int[] { r};
         TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);

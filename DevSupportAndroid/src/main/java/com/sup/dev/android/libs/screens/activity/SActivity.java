@@ -18,17 +18,15 @@ import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsIntent;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.Subscription;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public abstract class SActivity extends Activity {
 
     public static boolean started;
 
-    protected View vRoot;
-    protected ViewGroup vContainer;
-    protected View vTouchLock;
-
+    protected View vActivityRoot;
+    protected ViewGroup vActivityContainer;
+    protected View vActivityTouchLock;
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -37,11 +35,11 @@ public abstract class SActivity extends Activity {
         applyTheme();
 
         setContentView(getLayout());
-        vRoot = findViewById(R.id.screen_activity_root);
-        vContainer = findViewById(R.id.screen_activity_view);
-        vTouchLock = findViewById(R.id.screen_activity_touch_lock);
+        vActivityRoot = findViewById(R.id.screen_activity_root);
+        vActivityContainer = findViewById(R.id.screen_activity_view);
+        vActivityTouchLock = findViewById(R.id.screen_activity_touch_lock);
 
-        vTouchLock.setVisibility(View.GONE);
+        vActivityTouchLock.setVisibility(View.GONE);
     }
 
     @Override
@@ -94,11 +92,11 @@ public abstract class SActivity extends Activity {
     protected abstract void toMainScreen();
 
     public View getViewRoot() {
-        return vRoot;
+        return vActivityRoot;
     }
 
     public View getViewContainer() {
-        return vContainer;
+        return vActivityContainer;
     }
 
     //
@@ -134,27 +132,27 @@ public abstract class SActivity extends Activity {
 
     private Subscription subscriptionTouchLock;
 
-    public void setView(Screen view, Navigator.Animation animation) {
+    public void setScreen(Screen screen, Navigator.Animation animation) {
 
-        if (view == null) {
+        if (screen == null) {
             finish();
             return;
         }
 
         ToolsView.hideKeyboard();
-        View old = vContainer.getChildCount() == 0 ? null : vContainer.getChildAt(0);
-        if (animation != Navigator.Animation.IN) vContainer.addView(ToolsView.removeFromParent(view), 0);
-        else vContainer.addView(ToolsView.removeFromParent(view));
+        View old = vActivityContainer.getChildCount() == 0 ? null : vActivityContainer.getChildAt(0);
+        if (animation != Navigator.Animation.IN) vActivityContainer.addView(ToolsView.removeFromParent(screen), 0);
+        else vActivityContainer.addView(ToolsView.removeFromParent(screen));
 
-        if (old != null && old != view) {
+        if (old != null && old != screen) {
 
-            vTouchLock.setVisibility(View.VISIBLE);
+            vActivityTouchLock.setVisibility(View.VISIBLE);
             ToolsView.clearAnimation(old);
-            ToolsView.clearAnimation(view);
+            ToolsView.clearAnimation(screen);
 
             if (animation == Navigator.Animation.NONE) {
                 ToolsView.clearAnimation(old);
-                vContainer.removeView(old);
+                vActivityContainer.removeView(old);
             }
 
             if (animation == Navigator.Animation.OUT) {
@@ -169,14 +167,14 @@ public abstract class SActivity extends Activity {
                                 old.animate().setListener(null);
                                 old.setAlpha(1);
                                 old.setTranslationX(0);
-                                vContainer.removeView(old);
+                                vActivityContainer.removeView(old);
                             }
                         });
             }
             if (animation == Navigator.Animation.IN) {
-                view.setAlpha(0);
-                view.setTranslationX(ToolsAndroid.getScreenW() / 3);
-                view.animate()
+                screen.setAlpha(0);
+                screen.setTranslationX(ToolsAndroid.getScreenW() / 3);
+                screen.animate()
                         .alpha(1)
                         .translationX(0)
                         .setDuration(150)
@@ -184,24 +182,24 @@ public abstract class SActivity extends Activity {
                         .setListener(new AnimatorListenerAdapter() {
 
                             public void onAnimationEnd(Animator animation) {
-                                view.animate().setListener(null);
-                                view.setAlpha(1);
-                                view.setTranslationX(0);
-                                vContainer.removeView(old);
+                                screen.animate().setListener(null);
+                                screen.setAlpha(1);
+                                screen.setTranslationX(0);
+                                vActivityContainer.removeView(old);
                             }
                         });
             }
 
             if (animation == Navigator.Animation.ALPHA) {
-                view.setVisibility(View.INVISIBLE);
-                ToolsView.toAlpha(old, () -> vContainer.removeView(old));
-                ToolsView.fromAlpha(view);
+                screen.setVisibility(View.INVISIBLE);
+                ToolsView.toAlpha(old, () -> vActivityContainer.removeView(old));
+                ToolsView.fromAlpha(screen);
             }
 
         }
 
         if (subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
-        subscriptionTouchLock = ToolsThreads.main(ToolsView.ANIMATION_TIME, () -> vTouchLock.setVisibility(View.GONE));
+        subscriptionTouchLock = ToolsThreads.main(ToolsView.ANIMATION_TIME, () -> vActivityTouchLock.setVisibility(View.GONE));
     }
 
 

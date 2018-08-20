@@ -1,13 +1,9 @@
 package com.sup.dev.android.libs.screens;
 
-import android.app.Activity;
-
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.activity.SActivity;
 import com.sup.dev.java.classes.callbacks.list.CallbacksList2;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider;
-import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 
@@ -140,7 +136,7 @@ public class Navigator {
 
     private static void setCurrentView(Animation animation) {
         if (getCurrent() == null) return;
-        SupAndroid.activity.setView(getCurrent(), animation);
+        SupAndroid.activity.setScreen(getCurrent(), animation);
         if (getCurrent() != null) getCurrent().onResume();
     }
 
