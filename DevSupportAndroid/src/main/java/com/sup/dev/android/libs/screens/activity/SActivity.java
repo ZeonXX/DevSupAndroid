@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsIntent;

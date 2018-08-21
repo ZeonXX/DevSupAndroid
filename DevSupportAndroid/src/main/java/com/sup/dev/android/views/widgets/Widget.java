@@ -10,9 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sup.dev.android.R;
-import com.sup.dev.android.libs.screens.NavigationAction;
-import com.sup.dev.android.libs.screens.Navigator;
-import com.sup.dev.android.tools.ToolsAndroid;
+import com.sup.dev.android.libs.screens.navigator.NavigationAction;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.cards.CardWidget;

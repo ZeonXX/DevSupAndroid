@@ -188,7 +188,7 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
 
     public void setFilter(int filter) {
         this.filter = filter;
-        invalidate();
+        updateIcon();
     }
 
     //

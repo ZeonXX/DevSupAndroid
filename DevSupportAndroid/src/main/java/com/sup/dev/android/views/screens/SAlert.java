@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.NavigationAction;
-import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.libs.screens.navigator.NavigationAction;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.views.views.ViewChip;
 import com.sup.dev.java.classes.callbacks.simple.Callback;

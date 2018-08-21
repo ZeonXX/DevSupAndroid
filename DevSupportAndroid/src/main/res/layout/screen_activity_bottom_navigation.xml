@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View style="@style/Divider"/>
+        <View style="@style/Divider"
+            android:id="@+id/screen_activity_bottom_navigation_line"/>
 
         <LinearLayout
             android:id="@+id/screen_activity_bottom_navigation_container"

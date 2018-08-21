@@ -20,7 +20,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.views.screens.SCrop;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;

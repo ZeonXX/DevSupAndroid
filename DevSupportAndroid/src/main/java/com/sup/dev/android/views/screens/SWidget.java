@@ -4,7 +4,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
 import com.sup.dev.android.R;
-import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.widgets.Widget;

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.screens.activity.SActivityDrawer;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 
@@ -21,6 +22,7 @@ public class Screen extends FrameLayout {
     protected boolean backStackAllowed = true;
     protected boolean hasBackIcon = true;
     protected boolean bottomNavigationAllowed = true;
+    protected boolean bottomNavigationLineAllowed = true;
     protected boolean singleInstanceInBackstack = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
@@ -115,5 +117,9 @@ public class Screen extends FrameLayout {
 
     public boolean isBottomNavigationAllowed() {
         return bottomNavigationAllowed;
+    }
+
+    public boolean isBottomNavigationLineAllowed() {
+        return bottomNavigationLineAllowed;
     }
 }

@@ -2,10 +2,9 @@ package com.sup.dev.android.libs.api_simple;
 
 import android.support.annotation.StringRes;
 
-import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
-import com.sup.dev.android.libs.screens.NavigationAction;
-import com.sup.dev.android.libs.screens.Navigator;
+import com.sup.dev.android.libs.screens.navigator.NavigationAction;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.libs.screens.Screen;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsToast;
@@ -21,7 +20,6 @@ import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.providers.Provider1;
 import com.sup.dev.java.libs.api_simple.client.ApiClient;
 import com.sup.dev.java.libs.api_simple.client.Request;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsDate;
 import com.sup.dev.java.tools.ToolsThreads;
 
