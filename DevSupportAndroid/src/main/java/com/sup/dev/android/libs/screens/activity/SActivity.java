@@ -135,7 +135,6 @@ public abstract class SActivity extends Activity {
 
     public void setScreen(Screen screen, Navigator.Animation animation) {
 
-        Debug.log("Activity setScreen "+ screen);
         if (screen == null) {
             finish();
             return;
@@ -147,7 +146,6 @@ public abstract class SActivity extends Activity {
         else vActivityContainer.addView(ToolsView.removeFromParent(screen));
 
         if (old != null && old != screen) {
-            Debug.log("Activity setScreen 1");
 
             vActivityTouchLock.setVisibility(View.VISIBLE);
             ToolsView.clearAnimation(old);
@@ -175,7 +173,6 @@ public abstract class SActivity extends Activity {
                         });
             }
             if (animation == Navigator.Animation.IN) {
-                Debug.log("Activity setScreen 2");
                 screen.setAlpha(0);
                 screen.setTranslationX(ToolsAndroid.getScreenW() / 3);
                 screen.animate()
@@ -195,7 +192,6 @@ public abstract class SActivity extends Activity {
             }
 
             if (animation == Navigator.Animation.ALPHA) {
-                Debug.log("Activity setScreen 3");
                 screen.setVisibility(View.INVISIBLE);
                 ToolsView.toAlpha(old, () -> vActivityContainer.removeView(old));
                 ToolsView.fromAlpha(screen);

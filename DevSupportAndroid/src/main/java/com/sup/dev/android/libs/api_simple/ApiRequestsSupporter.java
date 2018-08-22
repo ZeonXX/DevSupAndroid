@@ -34,33 +34,25 @@ public class ApiRequestsSupporter {
 
 
     public static <K extends Request.Response> Request<K> executeInterstitial(NavigationAction action, Request<K> request, Provider1<K, Screen> onComplete) {
-        Debug.log("ApiRequestsSupporter executeInterstitial");
         SInterstitialProgress sInterstitialProgress = new SInterstitialProgress();
         Navigator.action(action, sInterstitialProgress);
 
         long startTime = System.currentTimeMillis();
         request.onComplete(
                 r -> {
-                    Debug.log("ApiRequestsSupporter r");
                     if (Navigator.getCurrent() == sInterstitialProgress) {
                         long timeLeft = System.currentTimeMillis() - startTime;
                         if (timeLeft >= 300) {
-                            Debug.log("ApiRequestsSupporter timeLeft >= 300");
                             Navigator.replace(onComplete.provide(r));
                         } else ToolsThreads.main(300 - timeLeft, () -> {
-                            Debug.log("ApiRequestsSupporter timeLeft < 300");
                             if (Navigator.getCurrent() == sInterstitialProgress) {
-                                Debug.log("ApiRequestsSupporter x1");
                                 Navigator.replace(onComplete.provide(r));
-                            }else{
-                                Debug.log("ApiRequestsSupporter x2");
                             }
                         });
                     }
 
                 })
                 .onNetworkError(() -> {
-                    Debug.log("ApiRequestsSupporter onNetworkError");
                     if (Navigator.getCurrent() == sInterstitialProgress) {
                         SAlert.showNetwork(Navigator.REPLACE, () -> {
                             Navigator.replace(sInterstitialProgress);

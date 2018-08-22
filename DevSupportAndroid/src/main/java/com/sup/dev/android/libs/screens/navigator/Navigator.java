@@ -25,7 +25,6 @@ public class Navigator {
     //
 
     public static void removeScreen(Screen screen) {
-        Debug.log("Navigator removeScreen 1");
         screen.onDestroy();
         currentStack.backStack.remove(screen);
     }
@@ -43,22 +42,16 @@ public class Navigator {
     }
 
     public static void to(Screen view, Animation animation) {
-        Debug.log("Navigator to 1");
         if (!currentStack.backStack.isEmpty()) {
-            Debug.log("Navigator to 2");
             if (!getCurrent().isBackStackAllowed()) {
-                Debug.log("Navigator to 3");
                 removeScreen(getCurrent());
             }else {
-                Debug.log("Navigator to 4");
                 getCurrent().onPause();
             }
             if (view.isSingleInstanceInBackstack()) {
-                Debug.log("Navigator to 5");
                 removeAll(view.getClass());
             }
         }
-        Debug.log("Navigator to 6");
         currentStack.backStack.add(view);
         setCurrentView(animation);
     }
@@ -73,12 +66,9 @@ public class Navigator {
     }
 
     public static void replace(Screen screen) {
-        Debug.log("Navigator replace " + screen);
         if (!currentStack.backStack.isEmpty()) {
-            Debug.log("Navigator removeView");
             removeScreen(getCurrent());
         }
-        Debug.log("Navigator to");
         to(screen, Animation.ALPHA);
     }
 
@@ -120,29 +110,22 @@ public class Navigator {
     }
 
     public static void removeAll(Class<? extends Screen> viewClass) {
-        Debug.log("Navigator removeAll 1");
         Screen current = getCurrent();
         boolean needUpdate = current != null && current.getClass() == viewClass;
 
-        Debug.log("Navigator removeAll 2");
         for (int i = 0; i < currentStack.backStack.size(); i++) {
-            Debug.log("Navigator removeAll 3 ["+i+"]["+currentStack.backStack.size()+"]");
             if (currentStack.backStack.get(i).getClass() == viewClass) {
-                Debug.log("Navigator removeAll 4");
                 remove(currentStack.backStack.get(i--));
             }
         }
 
-        Debug.log("Navigator removeAll 5");
         if (needUpdate) setCurrentView(Animation.OUT);
     }
 
 
     public static boolean back() {
-        Debug.log("Navigator back 1");
         if (!hasBackStack()) return false;
 
-        Debug.log("Navigator back 2");
         Screen current = getCurrent();
         removeScreen(current);
         setCurrentView(Animation.OUT);
@@ -168,7 +151,6 @@ public class Navigator {
     //
 
     private static void setCurrentView(Animation animation) {
-        Debug.log("Navigator setCurrentView "+getCurrent());
         if (getCurrent() == null) return;
         SupAndroid.activity.setScreen(getCurrent(), animation);
         if (getCurrent() != null) getCurrent().onResume();
