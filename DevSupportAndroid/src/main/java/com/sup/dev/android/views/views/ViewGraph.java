@@ -6,10 +6,15 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsText;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.classes.providers.Provider1;
+import com.sup.dev.java.tools.ToolsMath;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.util.ArrayList;
 
@@ -17,16 +22,27 @@ public class ViewGraph extends View {
 
     private final Paint paint = new Paint();
     private final ArrayList<Float> points = new ArrayList<>();
+    private HorizontalScrollView vScroll;
 
-    private int textSize = ToolsView.spToPx(12);
-    private int greedSize = ToolsView.dpToPx(1);
+    private int offsetViewBottom = ToolsView.dpToPx(24);
+    private int offsetViewLeft = ToolsView.dpToPx(24);
+    private int offsetViewTop = ToolsView.dpToPx(24);
+    private int minPointsCount = 0;
+    private int maxPointsCount = 0;
+    private int minTopY = 0;
+    private int greedYSize = ToolsView.dpToPx(1);
+    private int greedYFrequency = 10;
+    private int greedXSize = ToolsView.dpToPx(1);
+    private int greedXFrequency = 10;
     private int greedColor = ToolsResources.getColor(R.color.grey_400);
-    private int pointSize = ToolsView.dpToPx(4);
+    private int pointSize = ToolsView.dpToPx(2);
     private int pointColor = ToolsResources.getColor(R.color.red_700);
     private int lineSize = ToolsView.dpToPx(1);
     private int lineColor = ToolsResources.getColor(R.color.green_700);
-    private boolean fill;
-    private int fillColor;
+    private int textSize = ToolsView.spToPx(8);
+
+    private Provider1<Float, String> providerMaskX;
+    private Provider1<Float, String> providerMaskY;
 
     public ViewGraph(Context context) {
         this(context, null);
@@ -35,37 +51,64 @@ public class ViewGraph extends View {
     public ViewGraph(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint.setAntiAlias(true);
+        paint.setTextSize(textSize);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int cellSizeW = getWidth() / points.size();
-        float maxY = 0;
-        float minY = 0;
-        for (Float d : points) {
-            maxY = maxY > d ? maxY : d;
-            minY = minY < d ? minY : d;
-        }
-        float h = (maxY - minY) + 1;
-        float cellSizeH = getHeight() / h;
+        if (points.size() == 0) return;
 
-        if (greedSize > 0) {
-            paint.setStrokeWidth(greedSize);
+        float h = 0;
+        float wPoints = points.size() > minPointsCount ? points.size() : minPointsCount;
+        for (Float d : points) h = h > d ? h : d;
+        h = h > minTopY ? h : minTopY;
+        float cellSizeH = (getHeight() - offsetViewBottom - offsetViewTop) / h;
+        float cellSizeW = (getWidth() - offsetViewLeft) / wPoints;
+
+        if (greedXSize > 0 || greedYSize > 0) {
             paint.setColor(greedColor);
-            for (int x = 0; x < points.size() + 1; x++) canvas.drawLine(cellSizeW * x, 0, cellSizeW * x, getHeight(), paint);
-            for (int y = 0; y < h + 1; y++) canvas.drawLine(0, cellSizeH * y, getWidth(), cellSizeH * y, paint);
+            paint.setStrokeWidth(ToolsMath.max(greedXSize, greedYSize));
+            canvas.drawLine(offsetViewLeft, offsetViewTop, getWidth(), offsetViewTop, paint);
+            canvas.drawLine(offsetViewLeft, offsetViewTop, offsetViewLeft, getHeight() - offsetViewBottom, paint);
+            canvas.drawLine(getWidth(), getHeight() - offsetViewBottom, offsetViewLeft, getHeight() - offsetViewBottom, paint);
+            canvas.drawLine(getWidth(), getHeight() - offsetViewBottom, getWidth(), offsetViewTop, paint);
         }
 
-        if (lineSize > 0 && points.size() > 0) {
+        if (greedYSize > 0) {
+            paint.setColor(greedColor);
+            paint.setStrokeWidth(greedYSize);
+            for (int y = 0; y < h + 1; y += greedYFrequency) {
+                canvas.drawLine(offsetViewLeft, cellSizeH * y + offsetViewTop, getWidth(), cellSizeH * y + offsetViewTop, paint);
+                if (y < h) canvas.drawText(providerMaskY.provide(h - y),
+                        offsetViewLeft - ToolsText.getStringWidth(paint.getTypeface(), textSize, providerMaskY.provide(h - y)) - ToolsView.dpToPx(4),
+                        cellSizeH * y + ToolsText.getStringHeight(paint.getTypeface(), textSize) / 2 + offsetViewTop,
+                        paint);
+            }
+
+        }
+
+        if (greedXSize > 0) {
+            paint.setColor(greedColor);
+            paint.setStrokeWidth(greedXSize);
+            for (float x = 0; x < wPoints + 1; x += greedXFrequency) {
+                canvas.drawLine(cellSizeW * x + offsetViewLeft, offsetViewTop, cellSizeW * x + offsetViewLeft, getHeight() - offsetViewBottom, paint);
+                if (x > 0) canvas.drawText(providerMaskX.provide(x),
+                        cellSizeW * x - ToolsText.getStringWidth(paint.getTypeface(), textSize, providerMaskX.provide(x)) / 2 + offsetViewLeft,
+                        getHeight() - offsetViewBottom + ToolsText.getStringHeight(paint.getTypeface(), textSize) + ToolsView.dpToPx(4),
+                        paint);
+            }
+        }
+
+        if (lineSize > 0) {
             paint.setStrokeWidth(lineSize);
             paint.setColor(lineColor);
             for (int i = 1; i < points.size(); i++) {
-                float pX = (i-1) * cellSizeW + (cellSizeW / 2);
-                float pY = (cellSizeH * h) - (points.get(i-1) * cellSizeH) - cellSizeH / 2;
-                float x = i * cellSizeW + (cellSizeW / 2);
-                float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2;
+                float pX = (i - 1) * cellSizeW + (cellSizeW / 2) + offsetViewLeft;
+                float pY = (cellSizeH * h) - (points.get(i - 1) * cellSizeH) - cellSizeH / 2 + offsetViewTop;
+                float x = i * cellSizeW + (cellSizeW / 2) + offsetViewLeft;
+                float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2 + offsetViewTop;
                 canvas.drawLine(pX, pY, x, y, paint);
             }
         }
@@ -73,18 +116,98 @@ public class ViewGraph extends View {
         if (pointSize > 0) {
             paint.setColor(pointColor);
             for (int i = 0; i < points.size(); i++) {
-                float x = i * cellSizeW + (cellSizeW / 2);
-                float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2;
+                float x = i * cellSizeW + (cellSizeW / 2) + offsetViewLeft;
+                float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2 + offsetViewTop;
                 canvas.drawCircle(x, y, pointSize, paint);
             }
-
         }
 
     }
 
-    public void addPoint(float value) {
-        points.add(value);
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int w = MeasureSpec.getSize(widthMeasureSpec);
+
+        float wPoints = points.size() > minPointsCount ? points.size() : minPointsCount;
+        float cellSizeW = (w - offsetViewLeft) / (wPoints < maxPointsCount ? wPoints : maxPointsCount);
+
+        super.onMeasure(MeasureSpec.makeMeasureSpec((int) (cellSizeW * wPoints + offsetViewLeft), MeasureSpec.EXACTLY), heightMeasureSpec);
+
+        ToolsThreads.main(true, () -> {
+            if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < 20)
+                vScroll.smoothScrollTo(getMeasuredWidth(), vScroll.getScrollY());
+        });
     }
 
+    public void clear() {
+        points.clear();
+        requestLayout();
+        invalidate();
+    }
 
+    public void addPoint(float value) {
+        points.add(value);
+        requestLayout();
+        invalidate();
+    }
+
+    //
+    //  Setters
+    //
+
+
+    public void setScroll(HorizontalScrollView vScroll) {
+        this.vScroll = vScroll;
+        requestLayout();
+    }
+
+    public void setMaxPointsCount(int maxPointsCount) {
+        this.maxPointsCount = maxPointsCount;
+        requestLayout();
+    }
+
+    public void setMinTopY(int minTopY) {
+        this.minTopY = minTopY;
+        requestLayout();
+    }
+
+    public void setMinPointsCount(int minPointsCount) {
+        this.minPointsCount = minPointsCount;
+        requestLayout();
+    }
+
+    public void setGreedYFrequency(int greedYFrequency) {
+        this.greedYFrequency = greedYFrequency;
+        requestLayout();
+    }
+
+    public void setGreedYSize(int greedYSize) {
+        this.greedYSize = greedYSize;
+        requestLayout();
+    }
+
+    public void setGreedXFrequency(int greedXFrequency) {
+        this.greedXFrequency = greedXFrequency;
+        requestLayout();
+    }
+
+    public void setGreedXSize(int greedXSize) {
+        this.greedXSize = greedXSize;
+        requestLayout();
+    }
+
+    public void setGreedColor(int greedColor) {
+        this.greedColor = greedColor;
+        requestLayout();
+    }
+
+    public void setProviderMaskY(Provider1<Float, String> providerMaskY) {
+        this.providerMaskY = providerMaskY;
+        requestLayout();
+    }
+
+    public void setProviderMaskX(Provider1<Float, String> providerMaskX) {
+        this.providerMaskX = providerMaskX;
+        requestLayout();
+    }
 }
