@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import static android.Manifest.permission.CALL_PHONE;
@@ -106,6 +107,7 @@ public class ToolsPermission {
                     } else {
                         if (onPermissionRestriction != null)
                             ToolsThreads.main(onPermissionRestriction::callback);
+                        else Debug.log("ToolsPermission xxx");
                     }
                 });
     }
