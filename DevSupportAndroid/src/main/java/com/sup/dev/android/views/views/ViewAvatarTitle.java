@@ -166,6 +166,10 @@ public class ViewAvatarTitle extends LayoutChip {
         return vTitle.getText().toString();
     }
 
+    public TextView getViewSubtitle() {
+        return vSubtitle;
+    }
+
     public String getSubTitle() {
         return vSubtitle.getText().toString();
     }
