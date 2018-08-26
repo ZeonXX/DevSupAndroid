@@ -37,20 +37,9 @@ public class ApiRequestsSupporter {
         SInterstitialProgress sInterstitialProgress = new SInterstitialProgress();
         Navigator.action(action, sInterstitialProgress);
 
-        long startTime = System.currentTimeMillis();
         request.onComplete(
                 r -> {
-                    if (Navigator.getCurrent() == sInterstitialProgress) {
-                        long timeLeft = System.currentTimeMillis() - startTime;
-                        if (timeLeft >= 300) {
-                            Navigator.replace(onComplete.provide(r));
-                        } else ToolsThreads.main(300 - timeLeft, () -> {
-                            if (Navigator.getCurrent() == sInterstitialProgress) {
-                                Navigator.replace(onComplete.provide(r));
-                            }
-                        });
-                    }
-
+                    if (Navigator.getCurrent() == sInterstitialProgress) Navigator.replace(onComplete.provide(r));
                 })
                 .onNetworkError(() -> {
                     if (Navigator.getCurrent() == sInterstitialProgress) {

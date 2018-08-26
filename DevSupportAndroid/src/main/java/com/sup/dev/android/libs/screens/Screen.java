@@ -22,6 +22,7 @@ public class Screen extends FrameLayout {
     protected boolean backStackAllowed = true;
     protected boolean hasBackIcon = true;
     protected boolean bottomNavigationAllowed = true;
+    protected boolean bottomNavigationAnimation = true;
     protected boolean bottomNavigationLineAllowed = true;
     protected boolean singleInstanceInBackstack = true;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
@@ -117,6 +118,10 @@ public class Screen extends FrameLayout {
 
     public boolean isBottomNavigationAllowed() {
         return bottomNavigationAllowed;
+    }
+
+    public boolean isBottomNavigationAnimation() {
+        return bottomNavigationAnimation;
     }
 
     public boolean isBottomNavigationLineAllowed() {

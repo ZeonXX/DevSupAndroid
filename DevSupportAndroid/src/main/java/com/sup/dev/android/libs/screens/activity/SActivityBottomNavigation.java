@@ -6,6 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.sup.dev.android.R;
@@ -23,11 +24,12 @@ public abstract class SActivityBottomNavigation extends SActivity {
 
     private WidgetMenu widgetMenu;
 
-    private LinearLayout vContainerRoot;
+    private ViewGroup vContainerRoot;
     private LinearLayout vContainer;
     private View vLine;
     private boolean navigationVisible = true;
     private boolean screenBottomNavigationAllowed = true;
+    private boolean screenBottomNavigationAnimation = true;
     private boolean screenBottomNavigationLineAllowed = true;
 
     @Override
@@ -58,14 +60,17 @@ public abstract class SActivityBottomNavigation extends SActivity {
     public void setScreen(Screen screen, Navigator.Animation animation) {
         super.setScreen(screen, animation);
         screenBottomNavigationAllowed = screen.isBottomNavigationAllowed();
+        screenBottomNavigationAnimation = screen.isBottomNavigationAnimation();
         screenBottomNavigationLineAllowed = screen.isBottomNavigationLineAllowed();
         updateNavigationVisible();
     }
 
     private void updateNavigationVisible() {
-        boolean b = navigationVisible && screenBottomNavigationAllowed;
-        vContainerRoot.setVisibility(b ? View.VISIBLE : View.GONE);
-        vLine.setVisibility(screenBottomNavigationLineAllowed ? View.VISIBLE : View.GONE);
+        if(navigationVisible && screenBottomNavigationAllowed) ToolsView.fromAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0);
+        else ToolsView.toAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0, () -> vContainerRoot.setVisibility(View.GONE));
+
+        if(screenBottomNavigationLineAllowed) ToolsView.fromAlpha(vLine, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0);
+        else ToolsView.toAlpha(vLine, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0, ()-> vLine.setVisibility(View.GONE));
     }
 
     public NavigationItem addIcon(@DrawableRes int icon, Callback1<View> onClick) {

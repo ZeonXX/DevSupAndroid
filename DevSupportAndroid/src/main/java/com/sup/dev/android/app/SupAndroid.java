@@ -85,13 +85,13 @@ public class SupAndroid {
 
     private static String loadText(String id){
         String t = ToolsResources.getString(id);
-        if(t == null) Debug.log("Init warning: can't find text with id ["+id+"]");
+        if(t == null) Debug.error("Init warning: can't find text with id ["+id+"]");
         return t;
     }
 
     private static int loadImage(String id){
         int resId = ToolsResources.getDrawableId("error_network");
-        if(resId < 1) Debug.log("Init warning: can't find image with id ["+id+"]");
+        if(resId < 1) Debug.error("Init warning: can't find image with id ["+id+"]");
         return resId;
     }
 

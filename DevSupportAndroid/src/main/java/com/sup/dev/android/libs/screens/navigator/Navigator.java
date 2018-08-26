@@ -37,22 +37,22 @@ public class Navigator {
         action.doAction(screen);
     }
 
-    public static void to(Screen view) {
-        to(view, Animation.IN);
+    public static void to(Screen screen) {
+        to(screen, Animation.IN);
     }
 
-    public static void to(Screen view, Animation animation) {
+    public static void to(Screen screen, Animation animation) {
         if (!currentStack.backStack.isEmpty()) {
             if (!getCurrent().isBackStackAllowed()) {
                 removeScreen(getCurrent());
             }else {
                 getCurrent().onPause();
             }
-            if (view.isSingleInstanceInBackstack()) {
-                removeAll(view.getClass());
+            if (screen.isSingleInstanceInBackstack()) {
+                removeAll(screen.getClass());
             }
         }
-        currentStack.backStack.add(view);
+        currentStack.backStack.add(screen);
         setCurrentView(animation);
     }
 
@@ -66,9 +66,7 @@ public class Navigator {
     }
 
     public static void replace(Screen screen) {
-        if (!currentStack.backStack.isEmpty()) {
-            removeScreen(getCurrent());
-        }
+        if (!currentStack.backStack.isEmpty()) removeScreen(getCurrent());
         to(screen, Animation.ALPHA);
     }
 

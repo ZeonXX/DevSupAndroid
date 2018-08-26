@@ -24,11 +24,10 @@
             android:focusable="true"/>
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/screen_activity_bottom_navigation_container_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <View style="@style/Divider"
             android:id="@+id/screen_activity_bottom_navigation_line"/>
@@ -41,7 +40,7 @@
             android:orientation="horizontal"/>
 
 
-    </LinearLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

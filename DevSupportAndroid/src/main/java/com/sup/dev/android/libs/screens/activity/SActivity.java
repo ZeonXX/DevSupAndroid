@@ -21,6 +21,8 @@ import com.sup.dev.java.classes.Subscription;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import java.util.ArrayList;
+
 public abstract class SActivity extends Activity {
 
     public static boolean started;
@@ -28,6 +30,7 @@ public abstract class SActivity extends Activity {
     protected View vActivityRoot;
     protected ViewGroup vActivityContainer;
     protected View vActivityTouchLock;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -55,7 +58,7 @@ public abstract class SActivity extends Activity {
             onFirstStart();
         }
 
-        if(Navigator.getStackSize() == 0)  toMainScreen();
+        if (Navigator.getStackSize() == 0) toMainScreen();
 
     }
 
@@ -141,6 +144,12 @@ public abstract class SActivity extends Activity {
         }
 
         ToolsView.hideKeyboard();
+
+        ArrayList<View> oldViews = new ArrayList<>();
+        for (int i = 0; i < vActivityContainer.getChildCount(); i++) {
+            oldViews.add(vActivityContainer.getChildAt(i));
+        }
+
         View old = vActivityContainer.getChildCount() == 0 ? null : vActivityContainer.getChildAt(0);
         if (animation != Navigator.Animation.IN) vActivityContainer.addView(ToolsView.removeFromParent(screen), 0);
         else vActivityContainer.addView(ToolsView.removeFromParent(screen));
@@ -153,10 +162,11 @@ public abstract class SActivity extends Activity {
 
             if (animation == Navigator.Animation.NONE) {
                 ToolsView.clearAnimation(old);
-                vActivityContainer.removeView(old);
+                for (View v : oldViews) vActivityContainer.removeView(v);
             }
 
             if (animation == Navigator.Animation.OUT) {
+                screen.setVisibility(View.VISIBLE);
                 old.animate()
                         .alpha(0)
                         .translationX(ToolsAndroid.getScreenW() / 3)
@@ -168,7 +178,7 @@ public abstract class SActivity extends Activity {
                                 old.animate().setListener(null);
                                 old.setAlpha(1);
                                 old.setTranslationX(0);
-                                vActivityContainer.removeView(old);
+                                for (View v : oldViews) vActivityContainer.removeView(v);
                             }
                         });
             }
@@ -186,14 +196,16 @@ public abstract class SActivity extends Activity {
                                 screen.animate().setListener(null);
                                 screen.setAlpha(1);
                                 screen.setTranslationX(0);
-                                vActivityContainer.removeView(old);
+                                for (View v : oldViews) vActivityContainer.removeView(v);
                             }
                         });
             }
 
             if (animation == Navigator.Animation.ALPHA) {
                 screen.setVisibility(View.INVISIBLE);
-                ToolsView.toAlpha(old, () -> vActivityContainer.removeView(old));
+                ToolsView.toAlpha(old, () -> {
+                    for (View v : oldViews) vActivityContainer.removeView(v);
+                });
                 ToolsView.fromAlpha(screen);
             }
 
@@ -201,6 +213,7 @@ public abstract class SActivity extends Activity {
 
         if (subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
         subscriptionTouchLock = ToolsThreads.main(ToolsView.ANIMATION_TIME, () -> vActivityTouchLock.setVisibility(View.GONE));
+
     }
 
 
