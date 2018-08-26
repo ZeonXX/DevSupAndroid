@@ -38,9 +38,9 @@ public class ViewGraph extends View {
     private int greedColor = ToolsResources.getColor(R.color.grey_400);
     private int pointSize = ToolsView.dpToPx(2);
     private int pointColor = ToolsResources.getColor(R.color.red_700);
-    private int lineSize = ToolsView.dpToPx(1);
-    private int lineColor = ToolsResources.getColor(R.color.green_700);
-    private int textSize = ToolsView.spToPx(8);
+    private int lineSize = ToolsView.dpToPx(4);
+    private int lineColor = ToolsResources.getColor(R.color.red_700);
+    private int textSize = ToolsView.spToPx(4);
 
     private Provider1<Float, String> providerMaskX;
     private Provider1<Float, String> providerMaskY;
@@ -133,7 +133,7 @@ public class ViewGraph extends View {
         super.onMeasure(MeasureSpec.makeMeasureSpec((int) (cellSizeW * wPoints + offsetViewLeft), MeasureSpec.EXACTLY), heightMeasureSpec);
 
         ToolsThreads.main(true, () -> {
-            if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < 20)
+            if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < ToolsView.dpToPx(15))
                 vScroll.smoothScrollTo(getMeasuredWidth(), vScroll.getScrollY());
         });
     }
