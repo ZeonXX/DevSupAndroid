@@ -125,7 +125,11 @@ public class ViewGraph extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int w = MeasureSpec.getSize(widthMeasureSpec);
+        int w = vScroll.getMeasuredWidth();
+        if(w == 0) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
 
         float wPoints = points.size() > minPointsCount ? points.size() : minPointsCount;
         float cellSizeW = (w - offsetViewLeft) / (wPoints < maxPointsCount ? wPoints : maxPointsCount);
