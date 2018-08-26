@@ -117,7 +117,6 @@ public class ViewGraph extends View {
             for (int i = 0; i < points.size(); i++) {
                 float x = i * cellSizeW + (cellSizeW / 2) + offsetViewLeft;
                 float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2 + offsetViewTop;
-                Debug.log("Draw point: i="+i+" v=" + points.get(i) +" x="+x+" y="+y +" " + (cellSizeH * h) +" " + (points.get(i) * cellSizeH));
                 canvas.drawCircle(x, y, pointSize, paint);
             }
         }
@@ -131,11 +130,14 @@ public class ViewGraph extends View {
         float wPoints = points.size() > minPointsCount ? points.size() : minPointsCount;
         float cellSizeW = (w - offsetViewLeft) / (wPoints < maxPointsCount ? wPoints : maxPointsCount);
 
+        Debug.log("onMeasure sizes    w=" + w +"  wPoints="+wPoints +"  cellSizeW="+cellSizeW +"  result="+(cellSizeW * wPoints + offsetViewLeft));
         super.onMeasure(MeasureSpec.makeMeasureSpec((int) (cellSizeW * wPoints + offsetViewLeft), MeasureSpec.EXACTLY), heightMeasureSpec);
 
         ToolsThreads.main(true, () -> {
-            if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < ToolsView.dpToPx(15))
+            if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < ToolsView.dpToPx(15)) {
+                Debug.log("onMeasure scroll    w=" + getMeasuredWidth() +"  scrollX="+vScroll.getScrollX() +"  scrollW="+vScroll.getWidth() +"  15dp="+ToolsView.dpToPx(15));
                 vScroll.scrollTo(getMeasuredWidth(), vScroll.getScrollY());
+            }
         });
     }
 
