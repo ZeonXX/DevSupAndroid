@@ -13,6 +13,7 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsText;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider1;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsMath;
 import com.sup.dev.java.tools.ToolsThreads;
 
