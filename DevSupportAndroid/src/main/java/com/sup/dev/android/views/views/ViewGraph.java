@@ -59,8 +59,6 @@ public class ViewGraph extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (points.size() == 0) return;
-
         float h = 0;
         float wPoints = points.size() > minPointsCount ? points.size() : minPointsCount;
         for (Float d : points) h = h > d ? h : d;
