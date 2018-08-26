@@ -49,6 +49,7 @@ public class HttpRequest {
     }
 
     public HttpRequest makeGet(Callback1<String> onResult) {
+
         return makeGet(onResult, null);
     }
 
