@@ -40,7 +40,7 @@ public class ViewGraph extends View {
     private int pointColor = ToolsResources.getColor(R.color.red_700);
     private int lineSize = ToolsView.dpToPx(4);
     private int lineColor = ToolsResources.getColor(R.color.red_700);
-    private int textSize = ToolsView.spToPx(4);
+    private int textSize = ToolsView.spToPx(8);
 
     private Provider1<Float, String> providerMaskX;
     private Provider1<Float, String> providerMaskY;
@@ -117,6 +117,7 @@ public class ViewGraph extends View {
             for (int i = 0; i < points.size(); i++) {
                 float x = i * cellSizeW + (cellSizeW / 2) + offsetViewLeft;
                 float y = (cellSizeH * h) - (points.get(i) * cellSizeH) - cellSizeH / 2 + offsetViewTop;
+                Debug.log("Draw point: i="+i+" v=" + points.get(i) +" x="+x+" y="+y +" " + (cellSizeH * h) +" " + (points.get(i) * cellSizeH));
                 canvas.drawCircle(x, y, pointSize, paint);
             }
         }
@@ -134,7 +135,7 @@ public class ViewGraph extends View {
 
         ToolsThreads.main(true, () -> {
             if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < ToolsView.dpToPx(15))
-                vScroll.smoothScrollTo(getMeasuredWidth(), vScroll.getScrollY());
+                vScroll.scrollTo(getMeasuredWidth(), vScroll.getScrollY());
         });
     }
 
