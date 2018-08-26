@@ -160,22 +160,22 @@ public class ViewGraph extends View {
         requestLayout();
     }
 
-    public void setMaxPointsCount(int maxPointsCount) {
+    public void setMaxX(int maxPointsCount) {
         this.maxPointsCount = maxPointsCount;
         requestLayout();
     }
 
-    public void setMinTopY(int minTopY) {
+    public void setMinY(int minTopY) {
         this.minTopY = minTopY;
         requestLayout();
     }
 
-    public void setMinPointsCount(int minPointsCount) {
+    public void setMinX(int minPointsCount) {
         this.minPointsCount = minPointsCount;
         requestLayout();
     }
 
-    public void setGreedYFrequency(int greedYFrequency) {
+    public void setYFrequency(int greedYFrequency) {
         this.greedYFrequency = greedYFrequency;
         requestLayout();
     }
@@ -185,7 +185,7 @@ public class ViewGraph extends View {
         requestLayout();
     }
 
-    public void setGreedXFrequency(int greedXFrequency) {
+    public void setXFrequency(int greedXFrequency) {
         this.greedXFrequency = greedXFrequency;
         requestLayout();
     }
