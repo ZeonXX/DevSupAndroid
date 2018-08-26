@@ -49,7 +49,7 @@ public class HttpRequest {
     }
 
     public HttpRequest makeGet(Callback1<String> onResult) {
-        return make(onResult, null);
+        return makeGet(onResult, null);
     }
 
 
@@ -59,7 +59,7 @@ public class HttpRequest {
     }
 
     public HttpRequest makePost(Callback1<String> onResult) {
-        return make(onResult, null);
+        return makePost(onResult, null);
     }
 
     public HttpRequest makePost(Callback1<String> onResult, Callback1<Exception> onError) {
@@ -69,7 +69,7 @@ public class HttpRequest {
 
     public HttpRequest makePut(Callback1<String> onResult) {
         method = Method.PUT;
-        return make(onResult, null);
+        return makePut(onResult, null);
     }
 
     public HttpRequest makePut(Callback1<String> onResult, Callback1<Exception> onError) {
@@ -83,7 +83,7 @@ public class HttpRequest {
 
     public HttpRequest makeDelete(Callback1<String> onResult, Callback1<Exception> onError) {
         method = Method.DELETE;
-        return make(onResult, onError);
+        return makeDelete(onResult, onError);
     }
 
     public String makeGet() throws Exception {
