@@ -51,7 +51,7 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
                     .setNotifyCount(5);
 
             setAdapter(adapter);
-            reload();
+            ToolsThreads.main(true, () -> reload());
         });
     }
 
