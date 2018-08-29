@@ -101,8 +101,8 @@ public abstract class SActivityBottomNavigation extends SActivity {
         widgetMenu.hide();
     }
 
-    public void addNavigationItem(@StringRes int text, @DrawableRes int icon, Callback onClick) {
-        widgetMenu.add(text, w -> onClick.callback()).icon(icon);
+    public WidgetMenu addNavigationItem(@StringRes int text, @DrawableRes int icon, Callback onClick) {
+        return widgetMenu.add(text, w -> onClick.callback()).icon(icon);
     }
 
     @Override

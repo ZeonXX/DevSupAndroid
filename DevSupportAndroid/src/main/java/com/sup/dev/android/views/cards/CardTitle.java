@@ -19,7 +19,11 @@ public class CardTitle extends Card {
     private int textColor;
 
     public CardTitle(){
+        this(null);
+    }
 
+    public CardTitle(@StringRes int title){
+        this(ToolsResources.getString(title));
     }
 
     public CardTitle(String title){
