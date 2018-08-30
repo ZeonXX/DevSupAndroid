@@ -75,11 +75,8 @@ public class Navigator {
     }
 
     public static void set(Screen screen, Animation animation) {
-        Debug.log("v1");
         while (currentStack.backStack.size() != 0) removeScreen(currentStack.backStack.get(0));
-        Debug.log("v2");
         to(screen, animation);
-        Debug.log("v3");
     }
 
     public static void reorder(Screen screen) {
