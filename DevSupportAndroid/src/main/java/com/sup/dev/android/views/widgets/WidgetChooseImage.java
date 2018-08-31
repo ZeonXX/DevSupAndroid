@@ -36,8 +36,7 @@ public class WidgetChooseImage extends WidgetRecycler {
     private final RecyclerCardAdapter adapter;
     private final FloatingActionButton vFab;
 
-    private Callback2<WidgetChooseImage, Bitmap> onSelected;
-    private Callback onError;
+    private Callback2<WidgetChooseImage, File> onSelected;
     private boolean imagesLoaded;
 
     public WidgetChooseImage() {
@@ -89,8 +88,8 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     }
 
-    private void onSelected(Bitmap bitmap) {
-        if (onSelected != null) onSelected.callback(WidgetChooseImage.this, bitmap);
+    private void onSelected(File file) {
+        if (onSelected != null) onSelected.callback(WidgetChooseImage.this, file);
         hide();
     }
 
@@ -98,13 +97,15 @@ public class WidgetChooseImage extends WidgetRecycler {
     //  Setters
     //
 
-    public WidgetChooseImage setOnSelected(Callback2<WidgetChooseImage, Bitmap> onSelected) {
+    public WidgetChooseImage setOnSelected(Callback2<WidgetChooseImage, File> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
 
-    public WidgetChooseImage setOnError(Callback onError) {
-        this.onError = onError;
+    public WidgetChooseImage setOnSelectedBitmap(Callback2<WidgetChooseImage, Bitmap> callback) {
+        this.onSelected =
+                (widgetChooseImage, file) -> ToolsBitmap.getFromFile(file,
+                        bitmap -> callback.callback(WidgetChooseImage.this, bitmap));
         return this;
     }
 
@@ -128,14 +129,7 @@ public class WidgetChooseImage extends WidgetRecycler {
         @Override
         public void bindView(View view) {
             ImageView vImage = view.findViewById(R.id.image);
-            vImage.setOnClickListener(v -> {
-                try {
-                    onSelected(ToolsBitmap.decode(ToolsFiles.readFile(file)));
-                } catch (IOException e) {
-                    Debug.log(e);
-                    if (onError != null) onError.callback();
-                }
-            });
+            vImage.setOnClickListener(v -> onSelected(file));
 
             ImageLoader.load(new ImageLoaderFile(file)
                     .setImage(vImage)

@@ -33,6 +33,7 @@ import com.sup.dev.java.tools.ToolsTextJava;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -242,17 +243,17 @@ public class ToolsBitmap {
         return bitmap;
     }
 
-    public static void getFromGallery(Callback1<Bitmap> onLoad) {
-        getFromGallery(onLoad, null, null);
+    public static void getFromGallery(Callback1<File> onLoad) {
+        getFromGallery(onLoad, null);
     }
 
-    public static void getFromGallery(Callback1<Bitmap> onLoad, Callback onError, Callback onPermissionPermissionRestriction) {
-        ToolsIntent.getGalleryImage(uri -> getFromUri(uri, bitmap -> {
-            if (bitmap == null)
-                if(onError != null)onError.callback();
-            else
-                if(onLoad != null)   onLoad.callback(bitmap);
-        }, onPermissionPermissionRestriction), onError);
+    public static void getFromGallery(Callback1<File> onLoad, Callback onError) {
+        ToolsIntent.getGalleryImage(uri -> {
+            Debug.log(uri.toString(), new File(uri.toString()).getAbsolutePath());
+            if (uri == null || !new File(uri.toString()).exists())
+                if (onError != null) onError.callback();
+                else if (onLoad != null) onLoad.callback(new File(uri.toString()));
+        }, onError);
     }
 
     public static Bitmap getFromDrawable(Drawable drawable) {
@@ -320,11 +321,22 @@ public class ToolsBitmap {
         }, onPermissionPermissionRestriction);
     }
 
+    public static void getFromFile(File file, Callback1<Bitmap> onComplete) {
+        ToolsPermission.requestReadPermission(() -> {
+            try {
+                onComplete.callback(decode(ToolsFiles.readFile(file)));
+            } catch (IOException e) {
+                Debug.log(e);
+                ToolsToast.show(errorCantLoadImage);
+            }
+        }, () -> ToolsToast.show(errorPermissionFiles));
+    }
+
     public static void getFromGalleryCropped(int ratioW, int ratioH, boolean autoBackOnCrop, Callback2<SCrop, Bitmap> onComplete) {
         if (errorCantLoadImage == null) throw new RuntimeException("You must call ToolsBitmap.init");
-        getFromGallery(bitmap -> Navigator.to(new SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)),
-                () -> ToolsToast.show(errorCantLoadImage),
-                () -> ToolsToast.show(errorPermissionFiles));
+        getFromGallery(
+                file -> getFromFile(file,
+                        bitmap -> Navigator.to(new SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))));
     }
 
     public static void getFromGalleryCroppedAndScaled(int w, int h, boolean autoBackOnCrop, Callback2<SCrop, Bitmap> onComplete) {

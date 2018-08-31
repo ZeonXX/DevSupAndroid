@@ -47,14 +47,14 @@ public class ViewGif extends View {
     //  Methods
     //
 
-    public void resetGif(byte[] gifBytes) {
+    public void setGif(byte[] gifBytes) {
         this.gifBytes = gifBytes;
         movie = Movie.decodeStream(new ByteArrayInputStream(gifBytes));
         requestLayout();
     }
 
 
-    public void resetGif(Uri gifUri) {
+    public void setGif(Uri gifUri) {
         try {
             movie = Movie.decodeStream(SupAndroid.appContext.getContentResolver().openInputStream(gifUri));
         } catch (FileNotFoundException e) {
@@ -63,7 +63,7 @@ public class ViewGif extends View {
         requestLayout();
     }
 
-    public void resetGif(int movieResourceId) {
+    public void setGif(int movieResourceId) {
         movie = Movie.decodeStream(getResources().openRawResource(movieResourceId));
         requestLayout();
     }
