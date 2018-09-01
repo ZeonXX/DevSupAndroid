@@ -19,14 +19,14 @@ public class ViewGif extends View {
     private static final int DEFAULT_MOVIE_VIEW_DURATION = 1000;
 
     private Movie movie;
-    private long mMovieStart;
-    private int mCurrentAnimationTime;
-    private float mLeft;
-    private float mTop;
-    private float mScale;
-    private int mMeasuredMovieWidth;
-    private int mMeasuredMovieHeight;
-    private volatile boolean mPaused;
+    private long movieStart;
+    private int currentAnimationTime;
+    private float left;
+    private float top;
+    private float scale;
+    private int measuredMovieWidth;
+    private int measuredMovieHeight;
+    private volatile boolean paused;
     private byte[] gifBytes;
 
 
@@ -75,18 +75,18 @@ public class ViewGif extends View {
 
 
     public void play() {
-        if (this.mPaused) {
-            this.mPaused = false;
+        if (this.paused) {
+            this.paused = false;
 
-            mMovieStart = android.os.SystemClock.uptimeMillis() - mCurrentAnimationTime;
+            movieStart = android.os.SystemClock.uptimeMillis() - currentAnimationTime;
 
             invalidate();
         }
     }
 
     public void pause() {
-        if (!this.mPaused) {
-            this.mPaused = true;
+        if (!this.paused) {
+            this.paused = true;
 
             invalidate();
         }
@@ -96,8 +96,8 @@ public class ViewGif extends View {
     private void updateAnimationTime() {
         long now = android.os.SystemClock.uptimeMillis();
 
-        if (mMovieStart == 0) {
-            mMovieStart = now;
+        if (movieStart == 0) {
+            movieStart = now;
         }
 
         int dur = movie.duration();
@@ -106,16 +106,16 @@ public class ViewGif extends View {
             dur = DEFAULT_MOVIE_VIEW_DURATION;
         }
 
-        mCurrentAnimationTime = (int) ((now - mMovieStart) % dur);
+        currentAnimationTime = (int) ((now - movieStart) % dur);
     }
 
     private void drawMovieFrame(Canvas canvas) {
 
-        movie.setTime(mCurrentAnimationTime);
+        movie.setTime(currentAnimationTime);
 
         canvas.save();
-        canvas.scale(mScale, mScale);
-        movie.draw(canvas, mLeft / mScale, mTop / mScale);
+        canvas.scale(scale, scale);
+        movie.draw(canvas, left / scale, top / scale);
         canvas.restore();
     }
 
@@ -148,11 +148,11 @@ public class ViewGif extends View {
                     scH = (float) maximumHeight / (float) movieHeight;
             }
 
-            mScale = Math.max(scW, scH);
-            mMeasuredMovieWidth = (int) (movieWidth * mScale);
-            mMeasuredMovieHeight = (int) (movieHeight * mScale);
+            scale = Math.max(scW, scH);
+            measuredMovieWidth = (int) (movieWidth * scale);
+            measuredMovieHeight = (int) (movieHeight * scale);
 
-            setMeasuredDimension(mMeasuredMovieWidth, mMeasuredMovieHeight);
+            setMeasuredDimension(measuredMovieWidth, measuredMovieHeight);
 
         } else {
             setMeasuredDimension(getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
@@ -162,14 +162,14 @@ public class ViewGif extends View {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        mLeft = (getWidth() - mMeasuredMovieWidth) / 2f;
-        mTop = (getHeight() - mMeasuredMovieHeight) / 2f;
+        left = (getWidth() - measuredMovieWidth) / 2f;
+        top = (getHeight() - measuredMovieHeight) / 2f;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         if (movie != null) {
-            if (!mPaused) {
+            if (!paused) {
                 updateAnimationTime();
                 drawMovieFrame(canvas);
                 invalidate();
@@ -207,11 +207,11 @@ public class ViewGif extends View {
     }
 
     public boolean isPaused() {
-        return this.mPaused;
+        return this.paused;
     }
 
     public boolean isPlaying() {
-        return !this.mPaused;
+        return !this.paused;
     }
 
 }

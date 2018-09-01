@@ -29,15 +29,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <View style="@style/Divider"
-            android:id="@+id/screen_activity_bottom_navigation_line"/>
-
         <LinearLayout
             android:id="@+id/screen_activity_bottom_navigation_container"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?colorPrimary"
             android:orientation="horizontal"/>
+
+        <View style="@style/Divider"
+              android:layout_gravity="top"
+              android:id="@+id/screen_activity_bottom_navigation_line"/>
 
 
     </FrameLayout>
