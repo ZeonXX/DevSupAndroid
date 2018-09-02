@@ -3,6 +3,7 @@ package com.sup.dev.android.views.widgets;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,7 +17,6 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsStorage;
 import com.sup.dev.android.tools.ToolsText;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public class WidgetAlert extends Widget {
@@ -107,7 +107,7 @@ public class WidgetAlert extends Widget {
     }
 
 
-    public WidgetAlert setImageBackgroundRes(@ColorRes int res) {
+    public WidgetAlert setTitleImageBackgroundRes(@ColorRes int res) {
         return setImageBackground(ToolsResources.getColor(res));
     }
 
@@ -116,18 +116,18 @@ public class WidgetAlert extends Widget {
         return this;
     }
 
-    public WidgetAlert setImage(int image) {
+    public WidgetAlert setTitleImage(int image) {
         vTopContainer.setVisibility(image > 0 ? View.VISIBLE : View.GONE);
         ToolsView.setImageOrGone(vTopImage, image);
 
         return this;
     }
 
-    public WidgetAlert setTopTitle(@StringRes int topTitle) {
-        return setTopTitle(ToolsResources.getString(topTitle));
+    public WidgetAlert setTitleText(@StringRes int topTitle) {
+        return setTitleText(ToolsResources.getString(topTitle));
     }
 
-    public WidgetAlert setTopTitle(String topTitle) {
+    public WidgetAlert setTitleText(String topTitle) {
         vTopContainer.setVisibility(ToolsText.empty(topTitle) ? View.GONE : View.VISIBLE);
         ToolsView.setTextOrGone(vTopTitle, topTitle);
         return this;
@@ -145,6 +145,11 @@ public class WidgetAlert extends Widget {
 
     public WidgetAlert setText(CharSequence text) {
         ToolsView.setTextOrGone(vText, text);
+        return this;
+    }
+
+    public WidgetAlert setTextGravity(int gravity) {
+        vText.setGravity(gravity);
         return this;
     }
 

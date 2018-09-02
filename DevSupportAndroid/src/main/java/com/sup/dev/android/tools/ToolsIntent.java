@@ -74,7 +74,7 @@ public class ToolsIntent {
     }
 
 
-    public static void startWeb(String link, Callback onActivityNotFound) {
+    public static void openLink(String link, Callback onActivityNotFound) {
         startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsTextJava.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
