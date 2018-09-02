@@ -10,6 +10,9 @@ import android.view.View;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.java.classes.callbacks.simple.Callback;
+import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -28,6 +31,8 @@ public class ViewGif extends View {
     private int measuredMovieHeight;
     private volatile boolean paused;
     private byte[] gifBytes;
+
+    private Callback onGifLoaded;
 
 
     public ViewGif(Context context, AttributeSet attrs) {
@@ -49,23 +54,13 @@ public class ViewGif extends View {
 
     public void setGif(byte[] gifBytes) {
         this.gifBytes = gifBytes;
-        movie = Movie.decodeStream(new ByteArrayInputStream(gifBytes));
-        requestLayout();
-    }
-
-
-    public void setGif(Uri gifUri) {
-        try {
-            movie = Movie.decodeStream(SupAndroid.appContext.getContentResolver().openInputStream(gifUri));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        requestLayout();
-    }
-
-    public void setGif(int movieResourceId) {
-        movie = Movie.decodeStream(getResources().openRawResource(movieResourceId));
-        requestLayout();
+        ToolsThreads.thread(() -> {
+            movie = Movie.decodeStream(new ByteArrayInputStream(gifBytes));
+            ToolsThreads.main(() -> {
+                requestLayout();
+                if (onGifLoaded != null) onGifLoaded.callback();
+            });
+        });
     }
 
     public void clear() {
@@ -77,9 +72,7 @@ public class ViewGif extends View {
     public void play() {
         if (this.paused) {
             this.paused = false;
-
             movieStart = android.os.SystemClock.uptimeMillis() - currentAnimationTime;
-
             invalidate();
         }
     }
@@ -126,37 +119,22 @@ public class ViewGif extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (movie != null) {
-            int movieWidth = movie.width();
-            int movieHeight = movie.height();
 
-            float scW = 1;
-            if (widthMeasureSpec > 0) {
-                int maximumWidth = MeasureSpec.getSize(widthMeasureSpec);
-                if (movieWidth > maximumWidth)
-                    scW = (float) movieWidth / (float) maximumWidth;
-                else
-                    scW = (float) maximumWidth / (float) movieWidth;
-            }
-
-            float scH = 1;
-            if (heightMeasureSpec > 0) {
-                int maximumHeight = MeasureSpec.getSize(heightMeasureSpec);
-                if (movieHeight > maximumHeight)
-                    scH = (float) movieHeight / (float) maximumHeight;
-                else
-                    scH = (float) maximumHeight / (float) movieHeight;
-            }
-
-            scale = Math.max(scW, scH);
-            measuredMovieWidth = (int) (movieWidth * scale);
-            measuredMovieHeight = (int) (movieHeight * scale);
-
-            setMeasuredDimension(measuredMovieWidth, measuredMovieHeight);
-
-        } else {
+        if (movie == null) {
             setMeasuredDimension(getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
+            return;
         }
+
+
+        if(MeasureSpec.getSize(widthMeasureSpec) == 0 || MeasureSpec.getSize(heightMeasureSpec) == 0)
+            scale = Math.max((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());
+        else
+            scale = Math.min((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());
+
+        measuredMovieWidth = (int) (movie.width() * scale);
+        measuredMovieHeight = (int) (movie.height() * scale);
+
+        setMeasuredDimension(measuredMovieWidth, measuredMovieHeight);
     }
 
     @Override
@@ -164,6 +142,7 @@ public class ViewGif extends View {
         super.onLayout(changed, l, t, r, b);
         left = (getWidth() - measuredMovieWidth) / 2f;
         top = (getHeight() - measuredMovieHeight) / 2f;
+        invalidate();
     }
 
     @Override
@@ -195,6 +174,14 @@ public class ViewGif extends View {
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
         invalidate();
+    }
+
+    //
+    //  Setters
+    //
+
+    public void setOnGifLoaded(Callback onGifLoaded) {
+        this.onGifLoaded = onGifLoaded;
     }
 
     //

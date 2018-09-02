@@ -14,8 +14,8 @@ import static android.view.View.MeasureSpec.UNSPECIFIED;
 
 public class LayoutAspectRatio extends FrameLayout {
 
-    private float rw = 1;
-    private float rh = 1;
+    private float rw = 0;
+    private float rh = 0;
 
     public LayoutAspectRatio(@NonNull Context context) {
         this(context, null);
@@ -41,7 +41,7 @@ public class LayoutAspectRatio extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         if (rw <= 0 || rh <= 0) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY));
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
 

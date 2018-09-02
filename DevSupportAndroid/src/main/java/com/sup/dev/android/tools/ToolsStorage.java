@@ -121,7 +121,7 @@ public class ToolsStorage {
         put(key, v.toString());
     }
 
-    public static void put(String key, JsonArray v){
+    public static void put(String key, JsonArray v) {
         if (preferences == null) init();
         preferences.edit().putString(key, v.toString()).apply();
     }
@@ -174,7 +174,9 @@ public class ToolsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);
                 out.close();
-                ToolsThreads.main(() -> onComplete.callback(f));
+                ToolsThreads.main(() -> {
+                    if (onComplete != null) onComplete.callback(f);
+                });
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

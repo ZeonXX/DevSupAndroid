@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.sup.dev.android.R;
+import com.sup.dev.android.libs.image_loader.ImageLoader;
+import com.sup.dev.android.libs.image_loader.ImageLoaderId;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.views.layouts.LayoutAspectRatio;
@@ -31,6 +34,7 @@ public class ViewGifImage extends FrameLayout {
     private byte[] gif;
     private Callback2<ImageView, Callback1<byte[]>> callbackImage;
     private Callback1<Callback1<byte[]>> callbackGif;
+    private OnClickListener onClickListener;
 
     public ViewGifImage(@NonNull Context context) {
         this(context, null);
@@ -47,27 +51,42 @@ public class ViewGifImage extends FrameLayout {
         vIcon = view.findViewById(R.id.view_gif_icon);
         vTouch = view.findViewById(R.id.view_gif_touch);
 
+        vGif.setOnGifLoaded(this::play);
+
         vTouch.setOnClickListener(v -> onClick());
+        vTouch.setOnLongClickListener(v -> {
+            if(onClickListener != null) onClickListener.onClick(v);
+            return onClickListener != null;
+        });
 
         addView(view);
     }
 
+    @Override
+    public void setClickable(boolean clickable) {
+        vTouch.setVisibility(clickable?VISIBLE:GONE);
+    }
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     private void onClick() {
-        if (callbackImage == null) return;
-        if (image == null) {
+
+        if (callbackImage != null && image == null) {
             loadImage();
             return;
         }
 
-        if (callbackGif == null) return;
-
-        if (gif == null) {
-            loadGif();
-            return;
+        if (callbackGif != null) {
+            if (gif == null) loadGif();
+            else if (vGif.isPaused()) play();
+            else pause();
+        }else{
+            if(onClickListener != null) onClickListener.onClick(this);
         }
 
-        if (vGif.isPaused()) play();
-        else pause();
     }
 
     public void pause() {
@@ -78,18 +97,26 @@ public class ViewGifImage extends FrameLayout {
     }
 
     public void play() {
+        vProgress.setVisibility(GONE);
+        vImage.setVisibility(GONE);
         vFade.setVisibility(GONE);
         vIcon.setVisibility(GONE);
+        vGif.setVisibility(VISIBLE);
         vGif.play();
     }
 
-    public void init(Callback2<ImageView, Callback1<byte[]>> callbackImage) {
-        this.init(callbackImage, null);
+    public void setImageBitmap(Bitmap bitmap) {
+        callbackImage = null;
+        callbackGif = null;
+        vProgress.setVisibility(GONE);
+        vFade.setVisibility(GONE);
+        vIcon.setVisibility(GONE);
+        vGif.setVisibility(GONE);
+        vImage.setVisibility(VISIBLE);
+        vImage.setImageBitmap(bitmap);
     }
 
-    public void init(Callback2<ImageView, Callback1<byte[]>> callbackImage, Callback1<Callback1<byte[]>> callbackGif) {
-        this.callbackImage = callbackImage;
-        this.callbackGif = callbackGif;
+    public void clear() {
         image = null;
         gif = null;
         vGif.clear();
@@ -97,8 +124,14 @@ public class ViewGifImage extends FrameLayout {
         vGif.setVisibility(GONE);
         vFade.setVisibility(VISIBLE);
         vIcon.setVisibility(GONE);
+    }
 
-        loadImage();
+    public void setImageLoader(Callback2<ImageView, Callback1<byte[]>> callbackImage) {
+        this.callbackImage = callbackImage;
+    }
+
+    public void setGifLoader(Callback1<Callback1<byte[]>> callbackGif) {
+        this.callbackGif = callbackGif;
     }
 
     public void loadImage() {
@@ -123,7 +156,7 @@ public class ViewGifImage extends FrameLayout {
         });
     }
 
-    private void loadGif() {
+    public void loadGif() {
         if (callbackGif == null) return;
         Callback1<Callback1<byte[]>> callback = this.callbackGif;
         vProgress.setVisibility(VISIBLE);
@@ -135,11 +168,7 @@ public class ViewGifImage extends FrameLayout {
                 vIcon.setVisibility(VISIBLE);
                 vIcon.setImageResource(R.drawable.ic_refresh_white_24dp);
             } else {
-                vImage.setVisibility(GONE);
-                vProgress.setVisibility(GONE);
-                vGif.setVisibility(VISIBLE);
                 vGif.setGif(gif);
-                pause();
             }
         });
     }
@@ -151,4 +180,30 @@ public class ViewGifImage extends FrameLayout {
     public void setCustomImageControl(boolean customImageControl) {
         this.customImageControl = customImageControl;
     }
+
+    //
+    //  Inits
+    //
+
+    public void init(long imageId, long gifId) {
+        init(imageId, gifId, 0, 0);
+    }
+
+    public void init(long imageId, long gifId, int w, int h) {
+        init(imageId, gifId, w, h, false);
+    }
+
+    public void init(long imageId, long gifId, int w, int h, boolean ignoreRation) {
+        clear();
+        setCustomImageControl(true);
+        if (!ignoreRation) setRatio(w, h);
+        setImageLoader(
+                (vImageGif, callbackImage) -> ImageLoader.load(new ImageLoaderId(imageId).sizes(w, h).setImage(vImageGif).onLoaded(callbackImage)));
+        if (gifId != 0) setGifLoader(
+                callbackGif -> ImageLoader.load(new ImageLoaderId(gifId).onLoaded(callbackGif)));
+
+        if (imageId != 0) loadImage();
+        else if (gifId != 0) loadGif();
+    }
+
 }

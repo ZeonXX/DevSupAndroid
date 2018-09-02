@@ -7,6 +7,8 @@ import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.tools.ToolsBytes;
+import com.sup.dev.java.tools.ToolsMapper;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -181,6 +183,10 @@ public class ToolsFiles extends com.sup.dev.java.tools.ToolsFiles{
     //
     //  Getters
     //
+
+    public static boolean isGif(File file){
+        return ToolsBytes.isGif(ToolsFiles.readFileSalient(file, 3));
+    }
 
     public static File getDiskCacheDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
