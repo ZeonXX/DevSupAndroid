@@ -350,7 +350,7 @@ public class ViewChip extends FrameLayout {
             int n = i;
             views[i] = instanceSelection(viewContext, texts[i], b -> {
                 for (ViewChip v : views) if (v != views[n]) v.setChipSelectedAnimated(false);
-                onSelected.callback(tags[n]);
+                if(onSelected != null)onSelected.callback(tags[n]);
             });
             views[i].setCanUnselect(false);
             views[i].setChipSelected(i == 0);

@@ -51,11 +51,9 @@ public class ViewGifImage extends FrameLayout {
         vIcon = view.findViewById(R.id.view_gif_icon);
         vTouch = view.findViewById(R.id.view_gif_touch);
 
-        vGif.setOnGifLoaded(this::play);
-
         vTouch.setOnClickListener(v -> onClick());
         vTouch.setOnLongClickListener(v -> {
-            if(onClickListener != null) onClickListener.onClick(v);
+            if (onClickListener != null) onClickListener.onClick(v);
             return onClickListener != null;
         });
 
@@ -64,7 +62,7 @@ public class ViewGifImage extends FrameLayout {
 
     @Override
     public void setClickable(boolean clickable) {
-        vTouch.setVisibility(clickable?VISIBLE:GONE);
+        vTouch.setVisibility(clickable ? VISIBLE : GONE);
     }
 
     @Override
@@ -83,8 +81,8 @@ public class ViewGifImage extends FrameLayout {
             if (gif == null) loadGif();
             else if (vGif.isPaused()) play();
             else pause();
-        }else{
-            if(onClickListener != null) onClickListener.onClick(this);
+        } else {
+            if (onClickListener != null) onClickListener.onClick(this);
         }
 
     }
@@ -117,6 +115,10 @@ public class ViewGifImage extends FrameLayout {
     }
 
     public void clear() {
+        onClickListener = null;
+        customImageControl = false;
+        callbackImage = null;
+        callbackGif = null;
         image = null;
         gif = null;
         vGif.clear();
@@ -151,8 +153,6 @@ public class ViewGifImage extends FrameLayout {
                 if (!customImageControl) vImage.setImageBitmap(ToolsBitmap.decode(image));
                 loadGif();
             }
-
-
         });
     }
 
@@ -168,6 +168,7 @@ public class ViewGifImage extends FrameLayout {
                 vIcon.setVisibility(VISIBLE);
                 vIcon.setImageResource(R.drawable.ic_refresh_white_24dp);
             } else {
+                vGif.setOnGifLoaded(this::play);
                 vGif.setGif(gif);
             }
         });

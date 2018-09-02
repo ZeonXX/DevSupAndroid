@@ -54,9 +54,11 @@ public class ViewGif extends View {
 
     public void setGif(byte[] gifBytes) {
         this.gifBytes = gifBytes;
+        Callback onGifLoaded = this.onGifLoaded;
         ToolsThreads.thread(() -> {
             movie = Movie.decodeStream(new ByteArrayInputStream(gifBytes));
             ToolsThreads.main(() -> {
+                if(onGifLoaded != this.onGifLoaded)return;
                 requestLayout();
                 if (onGifLoaded != null) onGifLoaded.callback();
             });
@@ -65,6 +67,7 @@ public class ViewGif extends View {
 
     public void clear() {
         movie = null;
+        onGifLoaded = null;
         requestLayout();
     }
 

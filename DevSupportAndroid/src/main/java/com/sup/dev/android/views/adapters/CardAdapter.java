@@ -14,6 +14,10 @@ public interface CardAdapter {
 
     int indexOf(Card card);
 
+    int size();
+
+    Card get(int i);
+
     boolean contains(Card card);
 
     void add(int i, Card card);
