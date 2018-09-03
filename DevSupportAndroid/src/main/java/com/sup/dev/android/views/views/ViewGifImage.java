@@ -140,6 +140,9 @@ public class ViewGifImage extends FrameLayout {
         Callback2<ImageView, Callback1<byte[]>> callback = this.callbackImage;
         vImage.setImageBitmap(null);
         vImage.setVisibility(VISIBLE);
+        vFade.setVisibility(GONE);
+        vProgress.setVisibility(GONE);
+        vIcon.setVisibility(GONE);
         callback.callback(vImage, image -> {
             if (callback != this.callbackImage) return;
             this.image = image;
@@ -159,7 +162,10 @@ public class ViewGifImage extends FrameLayout {
     public void loadGif() {
         if (callbackGif == null) return;
         Callback1<Callback1<byte[]>> callback = this.callbackGif;
+        vImage.setVisibility(VISIBLE);
         vProgress.setVisibility(VISIBLE);
+        vFade.setVisibility(VISIBLE);
+        vIcon.setVisibility(GONE);
         callback.callback(gif -> {
             if (callback != this.callbackGif) return;
             this.gif = gif;

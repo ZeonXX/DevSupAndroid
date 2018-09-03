@@ -28,6 +28,7 @@ public abstract class SActivityBottomNavigation extends SActivity {
     private LinearLayout vContainer;
     private View vLine;
     private boolean navigationVisible = true;
+    private boolean screenBottomNavigationVisible= true;
     private boolean screenBottomNavigationAllowed = true;
     private boolean screenBottomNavigationAnimation = true;
     private boolean screenBottomNavigationLineAllowed = true;
@@ -59,6 +60,7 @@ public abstract class SActivityBottomNavigation extends SActivity {
     @Override
     public void setScreen(Screen screen, Navigator.Animation animation) {
         super.setScreen(screen, animation);
+        screenBottomNavigationVisible = screen.isBottomNavigationVisible();
         screenBottomNavigationAllowed = screen.isBottomNavigationAllowed();
         screenBottomNavigationAnimation = screen.isBottomNavigationAnimation();
         screenBottomNavigationLineAllowed = screen.isBottomNavigationLineAllowed();
@@ -66,8 +68,8 @@ public abstract class SActivityBottomNavigation extends SActivity {
     }
 
     private void updateNavigationVisible() {
-        if(navigationVisible && screenBottomNavigationAllowed) ToolsView.fromAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0);
-        else ToolsView.toAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0, () -> vContainerRoot.setVisibility(View.GONE));
+        if(navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) ToolsView.fromAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0);
+        else ToolsView.toAlpha(vContainerRoot, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0, () -> vContainerRoot.setVisibility(screenBottomNavigationAllowed?View.INVISIBLE:View.GONE));
 
         if(screenBottomNavigationLineAllowed) ToolsView.fromAlpha(vLine, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0);
         else ToolsView.toAlpha(vLine, screenBottomNavigationAnimation?ToolsView.ANIMATION_TIME:0, ()-> vLine.setVisibility(View.GONE));

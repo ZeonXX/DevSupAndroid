@@ -24,6 +24,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +49,10 @@ import static android.view.View.VISIBLE;
 public class ToolsView {
 
     public static final int ANIMATION_TIME = 300;
+
+    public static void dontAutoShowKeyboard(Window window){
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
 
     public static void setFabEnabled(FloatingActionButton vFab, boolean enabled) {
         setFabEnabled(vFab, enabled, ToolsResources.getAccentColor(vFab.getContext()));

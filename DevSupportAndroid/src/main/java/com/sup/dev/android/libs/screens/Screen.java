@@ -21,6 +21,7 @@ public class Screen extends FrameLayout {
     private final View view;
     protected boolean backStackAllowed = true;
     protected boolean hasBackIcon = true;
+    protected boolean bottomNavigationVisible= true;
     protected boolean bottomNavigationAllowed = true;
     protected boolean bottomNavigationAnimation = true;
     protected boolean bottomNavigationLineAllowed = true;
@@ -118,6 +119,10 @@ public class Screen extends FrameLayout {
 
     public boolean isBottomNavigationAllowed() {
         return bottomNavigationAllowed;
+    }
+
+    public boolean isBottomNavigationVisible() {
+        return bottomNavigationVisible;
     }
 
     public boolean isBottomNavigationAnimation() {
