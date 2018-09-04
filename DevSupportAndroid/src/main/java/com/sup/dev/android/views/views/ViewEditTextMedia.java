@@ -11,6 +11,8 @@ import android.view.inputmethod.InputConnection;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 
+import java.io.File;
+
 public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditText {
 
     private Callback1<String> callback;
@@ -38,10 +40,15 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
                 }
             }
 
-            Debug.log(inputContentInfo.getContentUri());
-            if (callback != null) callback.callback(inputContentInfo.getContentUri().getPath());
+            try{
+                if (callback != null) callback.callback(inputContentInfo.getLinkUri().toString());
+                return true;
+            }catch (Exception ex){
+                Debug.log(ex);
+            }
 
-            return true;
+            return false;
+
         });
     }
 

@@ -13,41 +13,47 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
-import com.sup.dev.android.tools.ToolsFiles;
 import com.sup.dev.android.tools.ToolsPermission;
+import com.sup.dev.android.tools.ToolsStorage;
 import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
-import com.sup.dev.android.views.screens.SWidget;
-import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.tools.ToolsBytes;
+import com.sup.dev.java.tools.ToolsNetwork;
 
 import java.io.File;
-import java.io.IOException;
 
 public class WidgetChooseImage extends WidgetRecycler {
 
     private final RecyclerCardAdapter adapter;
-    private final FloatingActionButton vFab;
 
     private Callback2<WidgetChooseImage, File> onSelected;
     private boolean imagesLoaded;
 
     public WidgetChooseImage() {
         adapter = new RecyclerCardAdapter();
-        View vFabContainer = ToolsView.inflate(R.layout.view_fab);
-        vFab = vFabContainer.findViewById(R.id.fab);
-        vContainer.addView(vFabContainer);
+        View vFabGalleryContainer = ToolsView.inflate(R.layout.view_fab);
+        View vFabLinkContainer = ToolsView.inflate(R.layout.view_fab);
+        FloatingActionButton vFabGallery = vFabGalleryContainer.findViewById(R.id.fab);
+        FloatingActionButton vFabLink = vFabLinkContainer.findViewById(R.id.fab);
+        vContainer.addView(vFabGalleryContainer);
+        vContainer.addView(vFabLinkContainer);
+
+        ((ViewGroup.MarginLayoutParams) vFabLinkContainer.getLayoutParams()).rightMargin = ToolsView.dpToPx(72);
 
         vRecycler.setLayoutManager(new GridLayoutManager(view.getContext(), ToolsAndroid.isScreenPortrait() ? 3 : 6));
-        vFab.setImageResource(R.drawable.ic_landscape_white_24dp);
-        vFab.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> onSelected(b)));
+
+        vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp);
+        vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp);
+        vFabGallery.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> onSelected(b)));
+        vFabLink.setOnClickListener(v -> showLink());
 
         setAdapter(adapter);
     }
@@ -86,6 +92,44 @@ public class WidgetChooseImage extends WidgetRecycler {
         });
 
 
+    }
+
+    private void showLink() {
+        new WidgetField()
+                .setHint(SupAndroid.TEXT_APP_LINK)
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE,
+                        (w, s) -> {
+                            WidgetProgressTransparent progress = ToolsView.showProgressDialog();
+                            ToolsNetwork.getBytesFromURL(s, bytes -> {
+                                if (!ToolsBytes.isImage(bytes)) {
+                                    progress.hide();
+                                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
+                                    return;
+                                }
+                                String ex = null;
+                                if (ToolsBytes.isPng(bytes)) ex = "png";
+                                if (ToolsBytes.isJpg(bytes)) ex = "jpg";
+                                if (ToolsBytes.isGif(bytes)) ex = "gif";
+                                if (ex == null) {
+                                    progress.hide();
+                                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
+                                    return;
+                                }
+
+                                ToolsStorage.saveFileInDownloadFolder(bytes, ex,
+                                        file -> {
+                                            progress.hide();
+                                            onSelected(file);
+                                        },
+                                        () -> {
+                                            progress.hide();
+                                            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES);
+                                        });
+
+                            });
+                        })
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .asSheetShow();
     }
 
     private void onSelected(File file) {

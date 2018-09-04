@@ -28,6 +28,8 @@ public class SupAndroid {
     public static String TEXT_APP_DOWNLOADING;
     public static String TEXT_APP_DOWNLOADED;
     public static String TEXT_APP_DONE;
+    public static String TEXT_APP_CHOOSE;
+    public static String TEXT_APP_LINK;
 
     public static String TEXT_ERROR_PERMISSION_READ_FILES;
     public static String TEXT_ERROR_CANT_LOAD_IMAGE;
@@ -78,6 +80,8 @@ public class SupAndroid {
         TEXT_APP_DOWNLOADING = loadText("app_downloading");
         TEXT_APP_DOWNLOADED = loadText("app_downloaded");
         TEXT_APP_DONE = loadText("app_done");
+        TEXT_APP_CHOOSE = loadText("app_choose");
+        TEXT_APP_LINK = loadText("app_link");
 
         IMG_ERROR_NETWORK = loadImage("error_network");
         IMG_ERROR_GONE = loadImage("error_gone");
