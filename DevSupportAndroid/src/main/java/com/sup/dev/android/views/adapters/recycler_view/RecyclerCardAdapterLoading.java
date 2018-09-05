@@ -81,7 +81,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         ArrayList<K> cards = get(cardClass);
 
-        if (isEmpty()) {
+        if (!contains(cardClass)) {
             if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty.callback();
             else if (!contains(cardLoading)) add(bottom ? size() - addBottomPositionOffset : addTopPositionOffset, cardLoading);
         } else {
@@ -98,9 +98,9 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
         inProgress = false;
 
         if (result == null) {
-            if (retryEnabled && (!isEmpty() || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY);
+            if (retryEnabled && (contains(cardClass) || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY);
             else remove(cardLoading);
-            if (isEmpty() && onErrorAndEmpty != null) onErrorAndEmpty.callback();
+            if (!contains(cardClass) && onErrorAndEmpty != null) onErrorAndEmpty.callback();
             return;
         }
 
@@ -125,7 +125,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
             if (bottom) add(size() - addBottomPositionOffset, mapper.provide(result[i]));
             else add(addTopPositionOffset + i, mapper.provide(result[i]));
 
-        if (!isEmpty() || result.length != 0)
+        if (contains(cardClass) || result.length != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty.callback();
 
     }
@@ -163,7 +163,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     @Override
     public void remove(int position) {
         super.remove(position);
-        if (onEmpty != null && isEmpty()) onEmpty.callback();
+        if (onEmpty != null && !contains(cardClass)) onEmpty.callback();
     }
 
     //

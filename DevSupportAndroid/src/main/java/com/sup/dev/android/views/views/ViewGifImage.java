@@ -13,8 +13,10 @@ import android.widget.ProgressBar;
 import com.sup.dev.android.R;
 import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.libs.image_loader.ImageLoaderId;
+import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.android.views.screens.SImageView;
 import com.sup.dev.android.views.views.layouts.LayoutAspectRatio;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
@@ -28,6 +30,9 @@ public class ViewGifImage extends FrameLayout {
     private final View vFade;
     private final View vTouch;
     private final ViewIcon vIcon;
+
+    private long imageId;
+    private long gifId;
 
     private boolean customImageControl;
     private byte[] image;
@@ -54,7 +59,9 @@ public class ViewGifImage extends FrameLayout {
         vTouch.setOnClickListener(v -> onClick());
         vTouch.setOnLongClickListener(v -> {
             if (onClickListener != null) onClickListener.onClick(v);
-            return onClickListener != null;
+            else if (gifId != 0 || imageId != 0) Navigator.to(new SImageView(gifId == 0 ? imageId : gifId, gifId != 0));
+            else return true;
+            return true;
         });
 
         addView(view);
@@ -70,6 +77,11 @@ public class ViewGifImage extends FrameLayout {
         this.onClickListener = onClickListener;
     }
 
+    @Override
+    public void setOnTouchListener(OnTouchListener l) {
+        vTouch.setOnTouchListener(l);
+    }
+
     private void onClick() {
 
         if (callbackImage != null && image == null) {
@@ -82,7 +94,8 @@ public class ViewGifImage extends FrameLayout {
             else if (vGif.isPaused()) play();
             else pause();
         } else {
-            if (onClickListener != null) onClickListener.onClick(this);
+            if(imageId != 0) Navigator.to(new SImageView(imageId));
+            else if (onClickListener != null) onClickListener.onClick(this);
         }
 
     }
@@ -188,6 +201,14 @@ public class ViewGifImage extends FrameLayout {
         this.customImageControl = customImageControl;
     }
 
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
+    }
+
+    public void setGifId(long gifId) {
+        this.gifId = gifId;
+    }
+
     //
     //  Inits
     //
@@ -211,6 +232,9 @@ public class ViewGifImage extends FrameLayout {
 
         if (imageId != 0) loadImage();
         else if (gifId != 0) loadGif();
+
+        setImageId(imageId);
+        setGifId(gifId);
     }
 
 }

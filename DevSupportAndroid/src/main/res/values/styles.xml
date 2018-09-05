@@ -114,7 +114,7 @@
         <item name="android:id">@id/collapsing_toolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="layout_scrollFlags">scroll</item>
+        <item name="layout_scrollFlags">scroll|exitUntilCollapsed|snap</item>
     </style>
 
     <style name="Fab">
@@ -157,12 +157,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
-    </style>
-
-    <style name="Pager">
-        <item name="android:id">@id/pager</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="ChipButton">
