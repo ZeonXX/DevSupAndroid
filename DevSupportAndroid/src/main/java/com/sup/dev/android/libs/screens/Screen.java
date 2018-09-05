@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.screens;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,17 +16,18 @@ import com.sup.dev.android.libs.screens.activity.SActivityDrawer;
 import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
+import com.sup.dev.java.libs.debug.Debug;
 
 public class Screen extends FrameLayout {
 
     private final View view;
     protected boolean backStackAllowed = true;
     protected boolean hasBackIcon = true;
-    protected boolean bottomNavigationVisible= true;
+    protected boolean bottomNavigationVisible = true;
     protected boolean bottomNavigationAllowed = true;
     protected boolean bottomNavigationAnimation = true;
     protected boolean bottomNavigationLineAllowed = true;
-    protected boolean singleInstanceInBackstack = true;
+    protected boolean singleInstanceInBackstack = false;
     protected boolean isAppbarExpanded; /* Обход разворачивания бара при повторном создании вью */
 
     public Screen(@LayoutRes int layoutRes) {
@@ -99,6 +101,14 @@ public class Screen extends FrameLayout {
 
     public boolean onBackPressed() {
         return false;
+    }
+
+    public void setTitle(@StringRes int title) {
+        setTitle(ToolsResources.getString(title));
+    }
+
+    public void setTitle(String title) {
+        ((Toolbar) findViewById(R.id.toolbar)).setTitle(title);
     }
 
     //

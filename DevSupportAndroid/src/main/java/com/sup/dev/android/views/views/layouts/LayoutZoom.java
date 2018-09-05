@@ -184,7 +184,7 @@ public class LayoutZoom extends FrameLayout {
 
     }
 
-    public void clearZoom() {
+    public void reset() {
         zoom = 1;
         translateX = 0;
         translateY = 0;

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sup.dev.android.R;
+import com.sup.dev.java.libs.debug.Debug;
 
 import static android.view.View.MeasureSpec.UNSPECIFIED;
 
@@ -40,6 +41,7 @@ public class LayoutAspectRatio extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+        Debug.log(rw, rh);
         if (rw <= 0 || rh <= 0) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;

@@ -51,7 +51,7 @@ public abstract class SActivity extends Activity {
         super.onStart();
 
         SupAndroid.activityIsVisible = true;
-        Navigator.onActivityResume();
+        Navigator.resetCurrentView();
 
         if (!started) {
             started = true;
@@ -67,12 +67,6 @@ public abstract class SActivity extends Activity {
         super.onStop();
         SupAndroid.activityIsVisible = false;
         Navigator.onActivityStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Navigator.onActivityDestroy();
     }
 
     @Override

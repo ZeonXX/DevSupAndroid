@@ -249,7 +249,6 @@ public class ToolsBitmap {
 
     public static void getFromGallery(Callback1<File> onLoad, Callback onError) {
         ToolsIntent.getGalleryImage(uri -> {
-            Debug.log(uri.toString(), new File(uri.toString()).getAbsolutePath());
             if (uri == null || !new File(uri.toString()).exists())
                 if (onError != null) onError.callback();
                 else if (onLoad != null) onLoad.callback(new File(uri.toString()));

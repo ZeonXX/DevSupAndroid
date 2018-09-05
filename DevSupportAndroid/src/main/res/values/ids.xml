@@ -8,6 +8,7 @@
     <item type="id" name="dim"/>
     <item type="id" name="sheet"/>
     <item type="id" name="recycler"/>
+    <item type="id" name="pager"/>
     <item type="id" name="back"/>
 
     <item type="id" name="dialog_layout_max_sizes"/>

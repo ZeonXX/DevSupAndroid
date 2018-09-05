@@ -45,7 +45,7 @@ public class Navigator {
         if (!currentStack.backStack.isEmpty()) {
             if (!getCurrent().isBackStackAllowed()) {
                 removeScreen(getCurrent());
-            }else {
+            } else {
                 getCurrent().onPause();
             }
             if (screen.isSingleInstanceInBackstack()) {
@@ -148,6 +148,10 @@ public class Navigator {
     //  Activity Callbacks
     //
 
+    public static void resetCurrentView() {
+        setCurrentView(Animation.NONE);
+    }
+
     private static void setCurrentView(Animation animation) {
         if (getCurrent() == null) return;
         SupAndroid.activity.setScreen(getCurrent(), animation);
@@ -156,14 +160,6 @@ public class Navigator {
 
     public static void onActivityStop() {
         if (getCurrent() != null) getCurrent().onPause();
-    }
-
-    public static void onActivityResume() {
-        setCurrentView(Animation.NONE);
-    }
-
-    public static void onActivityDestroy() {
-        currentStack.backStack.clear();
     }
 
     public static void onActivityConfigChanged() {
@@ -207,6 +203,10 @@ public class Navigator {
 
     public static NavigatorStack getCurrentStack() {
         return currentStack;
+    }
+
+    public static boolean isEmpty() {
+        return currentStack.backStack.isEmpty();
     }
 
     //
