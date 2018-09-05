@@ -39,7 +39,6 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
                         return false;
                     }
                 }
-
                 try {
                     if (callback != null) callback.callback(inputContentInfo.getLinkUri().toString());
                     return true;
