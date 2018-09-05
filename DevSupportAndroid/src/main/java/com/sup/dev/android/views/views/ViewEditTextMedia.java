@@ -27,29 +27,32 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-        final InputConnection ic = super.onCreateInputConnection(editorInfo);
-        EditorInfoCompat.setContentMimeTypes(editorInfo, new String[]{"image/*"});
-
-        return InputConnectionCompat.createWrapper(ic, editorInfo, (inputContentInfo, flags, opts) -> {
-            if (BuildCompat.isAtLeastNMR1() && (flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
-                try {
-                    inputContentInfo.requestPermission();
-                } catch (Exception e) {
-                    Debug.log(e);
-                    return false;
+        try {
+            final InputConnection ic = super.onCreateInputConnection(editorInfo);
+            EditorInfoCompat.setContentMimeTypes(editorInfo, new String[]{"image/*"});
+            return InputConnectionCompat.createWrapper(ic, editorInfo, (inputContentInfo, flags, opts) -> {
+                if (BuildCompat.isAtLeastNMR1() && (flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
+                    try {
+                        inputContentInfo.requestPermission();
+                    } catch (Exception e) {
+                        Debug.log(e);
+                        return false;
+                    }
                 }
-            }
 
-            try{
-                if (callback != null) callback.callback(inputContentInfo.getLinkUri().toString());
-                return true;
-            }catch (Exception ex){
-                Debug.log(ex);
-            }
+                try {
+                    if (callback != null) callback.callback(inputContentInfo.getLinkUri().toString());
+                    return true;
+                } catch (Exception ex) {
+                    Debug.log(ex);
+                }
 
-            return false;
+                return false;
 
-        });
+            });
+        }catch (Exception e){
+            return super.onCreateInputConnection(editorInfo);
+        }
     }
 
     public void setCallback(Callback1<String> callback) {
