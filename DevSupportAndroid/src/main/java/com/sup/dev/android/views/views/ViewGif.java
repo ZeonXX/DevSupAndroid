@@ -58,7 +58,7 @@ public class ViewGif extends View {
         ToolsThreads.thread(() -> {
             movie = Movie.decodeStream(new ByteArrayInputStream(gifBytes));
             ToolsThreads.main(() -> {
-                if(onGifLoaded != this.onGifLoaded)return;
+                if (onGifLoaded != this.onGifLoaded) return;
                 requestLayout();
                 if (onGifLoaded != null) onGifLoaded.callback();
             });
@@ -128,10 +128,14 @@ public class ViewGif extends View {
             return;
         }
 
-        if(MeasureSpec.getSize(widthMeasureSpec) == 0 || MeasureSpec.getSize(heightMeasureSpec) == 0)
-            scale = Math.max((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());
+        float arg1 = (float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width();
+        float arg2 = (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height();
+
+        if (MeasureSpec.getSize(widthMeasureSpec) == 0 || MeasureSpec.getSize(heightMeasureSpec) == 0
+                || (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED && movie.height() * Math.max(arg1, arg2) > MeasureSpec.getSize(heightMeasureSpec)))
+            scale = Math.max(arg1, arg2);
         else
-            scale = Math.min((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());
+            scale = Math.min(arg1, arg2);
 
         measuredMovieWidth = (int) (movie.width() * scale);
         measuredMovieHeight = (int) (movie.height() * scale);
