@@ -35,7 +35,7 @@
             app:hintEnabled="false"
             android:padding="6dp">
 
-            <EditText
+            <com.sup.dev.android.views.views.ViewEditTextMedia
                 android:id="@+id/field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

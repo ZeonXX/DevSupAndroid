@@ -128,8 +128,7 @@ public class ViewGif extends View {
             return;
         }
 
-
-        if(MeasureSpec.getSize(widthMeasureSpec) == 0 || MeasureSpec.getSize(heightMeasureSpec) == 0)
+        if(MeasureSpec.getSize(widthMeasureSpec) == 0 || MeasureSpec.getSize(heightMeasureSpec) == 0 || MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED)
             scale = Math.max((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());
         else
             scale = Math.min((float) MeasureSpec.getSize(widthMeasureSpec) / (float) movie.width(), (float) MeasureSpec.getSize(heightMeasureSpec) / (float) movie.height());

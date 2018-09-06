@@ -27,6 +27,7 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
+        if(callback == null)  return super.onCreateInputConnection(editorInfo);
         try {
             final InputConnection ic = super.onCreateInputConnection(editorInfo);
             EditorInfoCompat.setContentMimeTypes(editorInfo, new String[]{"image/*"});
@@ -50,6 +51,7 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
 
             });
         }catch (Exception e){
+            Debug.log(e);
             return super.onCreateInputConnection(editorInfo);
         }
     }

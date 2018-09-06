@@ -13,6 +13,7 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
+import com.sup.dev.android.views.views.ViewEditTextMedia;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.android.views.watchers.TextWatcherRemoveHTML;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class WidgetField extends Widget {
 
-    private final EditText vField;
+    private final ViewEditTextMedia vField;
     private final TextInputLayout vFieldLayout;
     private final Button vCancel;
     private final Button vEnter;
@@ -49,6 +50,8 @@ public class WidgetField extends Widget {
 
         vField.addTextChangedListener(new TextWatcherRemoveHTML());
         vField.addTextChangedListener(new TextWatcherChanged(text -> check()));
+
+        vField.setCallback(vField::setText);
     }
 
     private void check() {
@@ -90,6 +93,11 @@ public class WidgetField extends Widget {
     //
     //  Setters
     //
+
+    public WidgetField setMediaCallback(Callback2<WidgetField, String> callback){
+        vField.setCallback(s -> callback.callback(this, s));
+        return this;
+    }
 
     @Override
     public WidgetField setTitle(int title) {

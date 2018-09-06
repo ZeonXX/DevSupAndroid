@@ -94,40 +94,46 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     }
 
+    private void loadLink(String link) {
+        WidgetProgressTransparent progress = ToolsView.showProgressDialog();
+        ToolsNetwork.getBytesFromURL(link, bytes -> {
+            if (!ToolsBytes.isImage(bytes)) {
+                progress.hide();
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
+                return;
+            }
+            String ex = null;
+            if (ToolsBytes.isPng(bytes)) ex = "png";
+            if (ToolsBytes.isJpg(bytes)) ex = "jpg";
+            if (ToolsBytes.isGif(bytes)) ex = "gif";
+            if (ex == null) {
+                progress.hide();
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
+                return;
+            }
+
+            ToolsStorage.saveFileInDownloadFolder(bytes, ex,
+                    file -> {
+                        progress.hide();
+                        onSelected(file);
+                    },
+                    () -> {
+                        progress.hide();
+                        ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES);
+                    });
+
+        });
+    }
+
     private void showLink() {
         new WidgetField()
+                .setMediaCallback((w, s) -> {
+                    w.hide();
+                    loadLink(s);
+                })
                 .setHint(SupAndroid.TEXT_APP_LINK)
                 .setOnEnter(SupAndroid.TEXT_APP_CHOOSE,
-                        (w, s) -> {
-                            WidgetProgressTransparent progress = ToolsView.showProgressDialog();
-                            ToolsNetwork.getBytesFromURL(s, bytes -> {
-                                if (!ToolsBytes.isImage(bytes)) {
-                                    progress.hide();
-                                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
-                                    return;
-                                }
-                                String ex = null;
-                                if (ToolsBytes.isPng(bytes)) ex = "png";
-                                if (ToolsBytes.isJpg(bytes)) ex = "jpg";
-                                if (ToolsBytes.isGif(bytes)) ex = "gif";
-                                if (ex == null) {
-                                    progress.hide();
-                                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
-                                    return;
-                                }
-
-                                ToolsStorage.saveFileInDownloadFolder(bytes, ex,
-                                        file -> {
-                                            progress.hide();
-                                            onSelected(file);
-                                        },
-                                        () -> {
-                                            progress.hide();
-                                            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES);
-                                        });
-
-                            });
-                        })
+                        (w, s) -> loadLink(s))
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow();
     }

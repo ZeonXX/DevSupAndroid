@@ -41,7 +41,6 @@ public class LayoutAspectRatio extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        Debug.log(rw, rh);
         if (rw <= 0 || rh <= 0) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;

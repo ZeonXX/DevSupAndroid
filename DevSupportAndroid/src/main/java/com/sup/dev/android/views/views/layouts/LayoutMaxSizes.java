@@ -83,7 +83,6 @@ public class LayoutMaxSizes extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int w = useScreenWidthAsParent ? ToolsAndroid.getScreenW() : MeasureSpec.getSize(widthMeasureSpec);
         int h = useScreenHeightAsParent ? ToolsAndroid.getScreenH() : MeasureSpec.getSize(heightMeasureSpec);
 
