@@ -1,1 +1,1 @@
-include ':DevSupportAndroid'
+include ':DevSupportAndroid', ':DevSupJava'

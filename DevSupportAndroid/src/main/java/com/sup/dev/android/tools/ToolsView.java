@@ -139,21 +139,21 @@ public class ToolsView {
 
     public static void setOnClickAndLongClickCoordinates(View v, Callback4<View, Integer, Integer, Boolean> onClick) {
 
-        Item<Integer> clickScreenX = new Item<>();
-        Item<Integer> clickScreenY = new Item<>();
+        Item<Integer> clickScreenX = new Item<>(0);
+        Item<Integer> clickScreenY = new Item<>(0);
 
 
         v.setOnTouchListener((v1, event) -> {
-            clickScreenX.a = (int) event.getX();
-            clickScreenY.a = (int) event.getY();
+            clickScreenX.setA((int) event.getX());
+            clickScreenY.setA((int) event.getY());
             return false;
         });
 
         v.setOnClickListener(v1 -> {
-            if (onClick != null) onClick.callback(v, clickScreenX.a == null ? 0 : clickScreenX.a, clickScreenY.a == null ? 0 : clickScreenY.a, true);
+            if (onClick != null) onClick.callback(v, clickScreenX.getA() == null ? 0 : clickScreenX.getA(), clickScreenY.getA() == null ? 0 : clickScreenY.getA(), true);
         });
         v.setOnLongClickListener(v1 -> {
-            if (onClick != null) onClick.callback(v, clickScreenX.a, clickScreenY.a, false);
+            if (onClick != null) onClick.callback(v, clickScreenX.getA(), clickScreenY.getA(), false);
             return true;
         });
 
@@ -162,18 +162,18 @@ public class ToolsView {
 
     public static void setOnClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
 
-        Item<Integer> clickScreenX = new Item<>();
-        Item<Integer> clickScreenY = new Item<>();
+        Item<Integer> clickScreenX = new Item<>(0);
+        Item<Integer> clickScreenY = new Item<>(0);
 
 
         v.setOnTouchListener((v1, event) -> {
-            clickScreenX.a = (int) event.getX();
-            clickScreenY.a = (int) event.getY();
+            clickScreenX.setA((int) event.getX());
+            clickScreenY.setA((int) event.getY());
             return false;
         });
 
         v.setOnClickListener(v1 -> {
-            if (onClick != null) onClick.callback(v, clickScreenX.a == null ? 0 : clickScreenX.a, clickScreenY.a == null ? 0 : clickScreenY.a);
+            if (onClick != null) onClick.callback(v, clickScreenX.getA() == null ? 0 : clickScreenX.getA(), clickScreenY.getA() == null ? 0 : clickScreenY.getA());
         });
 
 
@@ -181,17 +181,17 @@ public class ToolsView {
 
     public static void setOnLongClickCoordinates(View v, Callback3<View, Integer, Integer> onClick) {
 
-        Item<Integer> clickScreenX = new Item<>();
-        Item<Integer> clickScreenY = new Item<>();
+        Item<Integer> clickScreenX = new Item<>(0);
+        Item<Integer> clickScreenY = new Item<>(0);
 
         v.setOnTouchListener((v1, event) -> {
-            clickScreenX.a = (int) event.getX();
-            clickScreenY.a = (int) (event.getY());
+            clickScreenX.setA((int) event.getX());
+            clickScreenY.setA((int) (event.getY()));
             return false;
         });
 
         v.setOnLongClickListener(v1 -> {
-            if (onClick != null) onClick.callback(v, clickScreenX.a, clickScreenY.a);
+            if (onClick != null) onClick.callback(v, clickScreenX.getA(), clickScreenY.getA());
             return true;
         });
     }

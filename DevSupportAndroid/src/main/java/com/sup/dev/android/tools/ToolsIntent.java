@@ -45,9 +45,9 @@ public class ToolsIntent {
 
     public static void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
         for (Item2<Integer, Callback2<Integer, Intent>> pair : progressIntents)
-            if (requestCode == pair.a1) {
+            if (requestCode == pair.getA1()) {
                 progressIntents.remove(pair);
-                pair.a2.callback(resultCode, resultIntent);
+                pair.getA2().callback(resultCode, resultIntent);
                 return;
             }
 

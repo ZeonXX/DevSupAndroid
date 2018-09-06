@@ -236,8 +236,8 @@ public class ToolsBitmap {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
         if (w != 0 || h != 0) {
             Dimensions inscribe = minSizes ? ToolsMath.inscribeMin(bitmap.getWidth(), bitmap.getHeight(), w, h) : ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), w, h);
-            if (bitmap.getWidth() != inscribe.w || bitmap.getHeight() != inscribe.h)
-                bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.w, (int) inscribe.h, true);
+            if (bitmap.getWidth() != inscribe.getW() || bitmap.getHeight() != inscribe.getH())
+                bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.getW(), (int) inscribe.getH(), true);
         }
 
         return bitmap;

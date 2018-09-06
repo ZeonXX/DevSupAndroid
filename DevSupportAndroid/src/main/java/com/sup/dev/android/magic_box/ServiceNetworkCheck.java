@@ -87,11 +87,11 @@ public class ServiceNetworkCheck extends Service {
     public static void isHasInternetConnection(Callback1<Boolean> onResult) {
         ToolsThreads.thread(() -> {
             Item<Boolean> has = new Item<>(isHasInternetConnectionNow());
-            if (!has.a) {
+            if (!has.getA()) {
                 ToolsThreads.sleep(5000);
-                has.a = isHasInternetConnectionNow();
+                has.setA(isHasInternetConnectionNow());
             }
-            ToolsThreads.main(() -> onResult.callback(has.a));
+            ToolsThreads.main(() -> onResult.callback(has.getA()));
         });
     }
 

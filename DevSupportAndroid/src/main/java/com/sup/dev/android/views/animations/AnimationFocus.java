@@ -7,7 +7,6 @@ import android.view.View;
 import com.sup.dev.java.classes.animation.AnimationPendulum;
 import com.sup.dev.java.classes.animation.AnimationPendulumColor;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class AnimationFocus implements View.OnTouchListener {
 

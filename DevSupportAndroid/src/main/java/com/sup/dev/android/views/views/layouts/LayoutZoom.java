@@ -46,8 +46,8 @@ public class LayoutZoom extends FrameLayout {
         doubleTouchRadius = ToolsView.dpToPx(16);
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutZoom, 0, 0);
-        range.min = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.min);
-        range.max = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_maxZoom, range.max);
+        range.setMin(a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.getMin()));
+        range.setMax(a.getFloat(R.styleable.LayoutZoom_LayoutZoom_maxZoom, range.getMax()));
         doubleTouchRadius = a.getDimension(R.styleable.LayoutZoom_LayoutZoom_doubleTouchRadius, doubleTouchRadius);
         animateTimeMs = a.getInteger(R.styleable.LayoutZoom_LayoutZoom_animateTimeMs, animateTimeMs);
         a.recycle();
@@ -57,7 +57,7 @@ public class LayoutZoom extends FrameLayout {
             return true;
         });
 
-        zoom = range.min;
+        zoom = range.getMin();
         updateParams();
     }
 
@@ -93,7 +93,7 @@ public class LayoutZoom extends FrameLayout {
     private void doubleTouch(float x, float y) {
 
         if (doubleTouchTime > System.currentTimeMillis() - 500 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
-            animateZoom(zoom == 1 ? (range.max - range.min) / 2 + range.min : 1, x, y);
+            animateZoom(zoom == 1 ? (range.getMax() - range.getMin()) / 2 + range.getMin() : 1, x, y);
             doubleTouch.clear();
             doubleTouchTime = 0;
         } else {
@@ -116,8 +116,8 @@ public class LayoutZoom extends FrameLayout {
 
         if (move.isEmpty()) move.set(x, y);
 
-        translateX += (x - move.x);
-        translateY += (y - move.y);
+        translateX += (x - move.getX());
+        translateY += (y - move.getY());
 
         updateParams();
 
@@ -144,7 +144,7 @@ public class LayoutZoom extends FrameLayout {
 
         float zoomChange = ((touchLine.length() / zoomLine.length()) - 1) * zoom;
 
-        zoom(zoomChange, mid.x, mid.y);
+        zoom(zoomChange, mid.getX(), mid.getY());
         zoomLine.set(touchLine);
     }
 
@@ -156,13 +156,13 @@ public class LayoutZoom extends FrameLayout {
     public void zoom(float zoomChange, float midX, float midY) {
         zoom += zoomChange;
 
-        if (zoom < range.min) {
-            zoomChange += range.min - zoom;
-            zoom = range.min;
+        if (zoom < range.getMin()) {
+            zoomChange += range.getMin() - zoom;
+            zoom = range.getMin();
         }
-        if (zoom > range.max) {
-            zoomChange -= zoom - range.max;
-            zoom = range.max;
+        if (zoom > range.getMax()) {
+            zoomChange -= zoom - range.getMax();
+            zoom = range.getMax();
         }
 
         translateX += (getWidth() / 2 - midX) * zoomChange;
@@ -227,8 +227,8 @@ public class LayoutZoom extends FrameLayout {
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState());
-        bundle.putFloat("range_min", range.min);
-        bundle.putFloat("range_max", range.max);
+        bundle.putFloat("range_min", range.getMin());
+        bundle.putFloat("range_max", range.getMax());
         bundle.putInt("animateTimeMs", animateTimeMs);
         bundle.putFloat("doubleTouchRadius", doubleTouchRadius);
         bundle.putFloat("zoom", zoom);
@@ -244,8 +244,8 @@ public class LayoutZoom extends FrameLayout {
     public void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            range.min = bundle.getFloat("range_min");
-            range.max = bundle.getFloat("range_max");
+            range.setMin(bundle.getFloat("range_min"));
+            range.setMax(bundle.getFloat("range_max"));
             animateTimeMs = bundle.getInt("animateTimeMs");
             doubleTouchRadius = bundle.getFloat("doubleTouchRadius");
             zoom = bundle.getFloat("zoom");
@@ -275,7 +275,7 @@ public class LayoutZoom extends FrameLayout {
     }
 
     public void setMaxZoom(float maxZoom) {
-        range.max = maxZoom;
+        range.setMax(maxZoom);
         if (zoom > maxZoom) {
             zoom = maxZoom;
             updateParams();
@@ -283,7 +283,7 @@ public class LayoutZoom extends FrameLayout {
     }
 
     public void setMinZoom(float minZoom) {
-        range.min = minZoom;
+        range.setMin(minZoom);
         if (zoom < minZoom) {
             zoom = minZoom;
             updateParams();

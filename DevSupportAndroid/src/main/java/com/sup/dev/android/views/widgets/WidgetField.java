@@ -60,8 +60,8 @@ public class WidgetField extends Widget {
         String error = null;
 
         for (Item2<String, Provider1<String, Boolean>> pair : checkers)
-            if (!pair.a2.provide(text)) {
-                error = pair.a1;
+            if (!pair.getA2().provide(text)) {
+                error = pair.getA1();
                 break;
             }
 
