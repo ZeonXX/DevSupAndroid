@@ -15,6 +15,7 @@ import android.util.TypedValue;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ToolsResources {
@@ -48,15 +49,15 @@ public class ToolsResources {
     }
 
     public static Drawable getDrawableFromAttr(@AttrRes int r) {
-        int[] attrs = new int[] { r};
+        int[] attrs = new int[]{r};
         TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
-        Drawable drawable= ta.getDrawable(0);
+        Drawable drawable = ta.getDrawable(0);
         ta.recycle();
         return drawable;
     }
 
     public static int getDrawableFromAttrId(@AttrRes int r) {
-        int[] attrs = new int[] { r};
+        int[] attrs = new int[]{r};
         TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
         int id = ta.getResourceId(0, 0);
         ta.recycle();
@@ -64,9 +65,9 @@ public class ToolsResources {
     }
 
     public static int getColorFromAttr(@AttrRes int r) {
-        int[] attrs = new int[] { r};
+        int[] attrs = new int[]{r};
         TypedArray ta = SupAndroid.activity.obtainStyledAttributes(attrs);
-        int color= ta.getColor(0, 0x00000000);
+        int color = ta.getColor(0, 0x00000000);
         ta.recycle();
         return color;
     }
