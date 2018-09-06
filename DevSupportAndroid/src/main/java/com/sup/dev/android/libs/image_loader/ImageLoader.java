@@ -72,6 +72,8 @@ public class ImageLoader {
 
             unsubscribe(loader.vImage);
 
+        }else{
+            if(loader.onSetHolder != null) loader.onSetHolder.callback();
         }
 
         turn.add(loader);

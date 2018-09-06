@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.image_loader;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
+import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
 public abstract class ImageLoaderA {
@@ -11,6 +12,7 @@ public abstract class ImageLoaderA {
 
     ImageView vImage;
     Callback1<byte[]> onLoaded;
+    Callback onSetHolder;
     boolean cropSquareCenter;
     BitmapFactory.Options options;
     int w;
@@ -48,6 +50,11 @@ public abstract class ImageLoaderA {
 
     public ImageLoaderA onLoaded(Callback1<byte[]> onLoaded) {
         this.onLoaded = onLoaded;
+        return this;
+    }
+
+    public ImageLoaderA setOnSetHolder(Callback onSetHolder) {
+        this.onSetHolder = onSetHolder;
         return this;
     }
 
