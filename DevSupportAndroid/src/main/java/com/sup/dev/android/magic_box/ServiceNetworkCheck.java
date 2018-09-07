@@ -85,13 +85,13 @@ public class ServiceNetworkCheck extends Service {
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static void isHasInternetConnection(Callback1<Boolean> onResult) {
-        ToolsThreads.thread(() -> {
+        ToolsThreads.INSTANCE.thread(() -> {
             Item<Boolean> has = new Item<>(isHasInternetConnectionNow());
             if (!has.getA()) {
-                ToolsThreads.sleep(5000);
+                ToolsThreads.INSTANCE.sleep(5000);
                 has.setA(isHasInternetConnectionNow());
             }
-            ToolsThreads.main(() -> onResult.callback(has.getA()));
+            ToolsThreads.INSTANCE.main(() -> onResult.callback(has.getA()));
         });
     }
 

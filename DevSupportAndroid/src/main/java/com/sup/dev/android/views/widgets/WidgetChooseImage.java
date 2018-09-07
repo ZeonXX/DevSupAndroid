@@ -99,7 +99,7 @@ public class WidgetChooseImage extends WidgetRecycler {
     private void loadLink(String link) {
         WidgetProgressTransparent progress = ToolsView.showProgressDialog();
         Debug.log(" > " + link);
-        ToolsNetwork.getBytesFromURL(link, bytes -> {
+        ToolsNetwork.INSTANCE.getBytesFromURL(link, bytes -> {
             progress.hide();
 
             if (!ToolsBytes.INSTANCE.isImage(bytes)) {

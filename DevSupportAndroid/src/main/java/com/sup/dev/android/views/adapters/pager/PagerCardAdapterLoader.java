@@ -40,7 +40,7 @@ public class PagerCardAdapterLoader<X> extends PagerCardAdapter {
 
         if (position >= size() - 1 - startLoadOffset) {
             inProgress = true;
-            ToolsThreads.main(true, this::loadNow);
+            ToolsThreads.INSTANCE.main(true, this::loadNow);
         }
 
         return o;

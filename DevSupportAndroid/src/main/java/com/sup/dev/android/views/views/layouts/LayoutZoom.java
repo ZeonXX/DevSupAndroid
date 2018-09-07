@@ -179,7 +179,7 @@ public class LayoutZoom extends FrameLayout {
         int fameCount = animateTimeMs * 60 / 1000;
         float step = (targetZoom - zoom) / fameCount;
 
-        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs/fameCount, animateTimeMs+100,
+        subscriptionAnimateZoom = ToolsThreads.INSTANCE.timerMain(animateTimeMs/fameCount, animateTimeMs+100,
                 subscription -> zoom(step, midX, midY));
 
     }
@@ -256,7 +256,7 @@ public class LayoutZoom extends FrameLayout {
 
             state = bundle.getParcelable("SUPER_STATE");
 
-            ToolsThreads.main(true, () -> {
+            ToolsThreads.INSTANCE.main(true, () -> {
                 if (w == 0 || h == 0) return;
                 translateX *= getWidth() > w ? getWidth() / w : w / getWidth();
                 translateY *= getHeight() > h ? getHeight() / h : h / getHeight();

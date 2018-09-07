@@ -52,10 +52,10 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         if (!lockBottom && position >= getItemCount() - 1 - startBottomLoadOffset) {
             inProgress = true;
-            ToolsThreads.main(true, () -> loadNow(true));
+            ToolsThreads.INSTANCE.main(true, () -> loadNow(true));
         } else if (!lockTop && topLoader != null && position <= startTopLoadOffset) {
             inProgress = true;
-            ToolsThreads.main(true, () -> loadNow(false));
+            ToolsThreads.INSTANCE.main(true, () -> loadNow(false));
         }
     }
 

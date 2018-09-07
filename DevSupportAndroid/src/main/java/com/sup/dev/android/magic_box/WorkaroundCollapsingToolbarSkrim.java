@@ -17,7 +17,7 @@ public class WorkaroundCollapsingToolbarSkrim {
 
                 long scrimAnimationDuration = bar.getScrimAnimationDuration();
                 bar.setScrimAnimationDuration(0);
-                ToolsThreads.main(scrimAnimationDuration, () -> {
+                ToolsThreads.INSTANCE.main(scrimAnimationDuration, () -> {
                     try {
                         field.set(bar, null);
                     } catch (IllegalAccessException e) {

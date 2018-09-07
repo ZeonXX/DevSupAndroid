@@ -81,7 +81,7 @@ public class AnimationViewHideVertical {
 
         spring.to(b ? 0 : view.getHeight());
 
-        subscriptionAnimation = ToolsThreads.timerMain(17, subscription -> {
+        subscriptionAnimation = ToolsThreads.INSTANCE.timerMain(17, subscription -> {
            spring.update();
             view.setY(spring.getValue());
             if (!spring.isNeedUpdate()) {
@@ -95,7 +95,7 @@ public class AnimationViewHideVertical {
 
         if (subscriptionAutoHide != null) subscriptionAutoHide.unsubscribe();
 
-        if (autoHideMs > 0) subscriptionAutoHide = ToolsThreads.main(autoHideMs, () -> hide());
+        if (autoHideMs > 0) subscriptionAutoHide = ToolsThreads.INSTANCE.main(autoHideMs, () -> hide());
 
     }
 

@@ -20,7 +20,7 @@ public class ToolsToast {
     }
 
     public static void show(String text) {
-        ToolsThreads.main(() -> showNow(text));
+        ToolsThreads.INSTANCE.main(() -> showNow(text));
     }
 
     private static void showNow(String text) {
@@ -33,7 +33,7 @@ public class ToolsToast {
     }
 
     public static void showSnack(String text) {
-        ToolsThreads.main(() -> showSnackNow(SupAndroid.activity.getViewContainer(), text));
+        ToolsThreads.INSTANCE.main(() -> showSnackNow(SupAndroid.activity.getViewContainer(), text));
     }
 
     public static void showSnack(View v, @StringRes int textRes) {
@@ -41,7 +41,7 @@ public class ToolsToast {
     }
 
     public static void showSnack(View v, String text) {
-        ToolsThreads.main(() -> showSnackNow(v, text));
+        ToolsThreads.INSTANCE.main(() -> showSnackNow(v, text));
     }
 
     private static void showSnackNow(View v, String text) {
@@ -58,7 +58,7 @@ public class ToolsToast {
     }
 
     public static void showSnackIfLocked(View v, String text) {
-        ToolsThreads.main(() -> {
+        ToolsThreads.INSTANCE.main(() -> {
             if (ToolsAndroid.isScreenKeyLocked()) showSnackNow(v, text);
             else showNow(text);
         });

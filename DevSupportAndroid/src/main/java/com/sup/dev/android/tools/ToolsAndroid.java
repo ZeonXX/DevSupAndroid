@@ -190,7 +190,6 @@ public class ToolsAndroid {
     public static String getFromClipboard() {
         ClipboardManager clipboard = (ClipboardManager) SupAndroid.appContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData primaryClip = clipboard.getPrimaryClip();
-        Debug.log("------------");
         for(int i =0; i < primaryClip.getItemCount(); i++) Debug.log(i + " : ["+primaryClip.getItemAt(i)+"]");
         if(primaryClip.getItemCount() == 0) return null;
         else return primaryClip.getItemAt(0).getText().toString();
@@ -272,7 +271,7 @@ public class ToolsAndroid {
 
         screenLock.acquire();
         new Thread(() -> {
-            ToolsThreads.sleep(5000);
+            ToolsThreads.INSTANCE.sleep(5000);
             if (screenLock.isHeld())
                 screenLock.release();
         }).start();

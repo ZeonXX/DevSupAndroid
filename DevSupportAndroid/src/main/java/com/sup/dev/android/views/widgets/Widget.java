@@ -48,7 +48,7 @@ public abstract class Widget {
     }
 
     public void hide() {
-        ToolsThreads.main(() -> {
+        ToolsThreads.INSTANCE.main(() -> {
             if (viewWrapper != null) viewWrapper.hideWidget();
         });
     }

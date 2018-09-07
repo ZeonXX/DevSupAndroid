@@ -136,7 +136,7 @@ public class ViewGraph extends View {
 
         super.onMeasure(MeasureSpec.makeMeasureSpec((int) (cellSizeW * wPoints + offsetViewLeft), MeasureSpec.EXACTLY), heightMeasureSpec);
 
-        ToolsThreads.main(true, () -> {
+        ToolsThreads.INSTANCE.main(true, () -> {
             if (vScroll != null && getMeasuredWidth() - (vScroll.getScrollX() + vScroll.getWidth()) < ToolsView.dpToPx(15))
                 vScroll.scrollTo(getMeasuredWidth(), vScroll.getScrollY());
         });

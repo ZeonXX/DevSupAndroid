@@ -206,7 +206,7 @@ public abstract class SActivity extends Activity {
         }
 
         if (subscriptionTouchLock != null) subscriptionTouchLock.unsubscribe();
-        subscriptionTouchLock = ToolsThreads.main(ToolsView.ANIMATION_TIME, () -> vActivityTouchLock.setVisibility(View.GONE));
+        subscriptionTouchLock = ToolsThreads.INSTANCE.main(ToolsView.ANIMATION_TIME, () -> vActivityTouchLock.setVisibility(View.GONE));
 
     }
 

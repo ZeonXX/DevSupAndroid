@@ -47,7 +47,7 @@ public class WidgetProgressTransparent extends Widget {
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
-        ToolsThreads.main(invisibleTime, () -> {
+        ToolsThreads.INSTANCE.main(invisibleTime, () -> {
             ToolsView.fromAlpha(frameLayout);
             if (viewWrapper instanceof DialogWidget) ((DialogWidget) viewWrapper).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         });

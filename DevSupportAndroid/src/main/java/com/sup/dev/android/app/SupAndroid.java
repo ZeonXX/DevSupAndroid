@@ -54,9 +54,12 @@ public class SupAndroid {
 
     public static void init(Context appContext) {
         SupAndroid.appContext = appContext;
-        ToolsThreads.setOnMain((onNextTime, runnable) -> {
-            if (!onNextTime && ToolsAndroid.isMainThread()) runnable.run();
-            else new Handler(Looper.getMainLooper()).post(runnable);
+        ToolsThreads.INSTANCE.setOnMain((onNextTime, runnable) -> {
+            if (!onNextTime && ToolsAndroid.isMainThread()) {
+                runnable.run();
+            } else {
+                new Handler(Looper.getMainLooper()).post(() -> runnable.run());
+            }
         });
 
         Debug.printer = s -> Log.e("Debug", s);

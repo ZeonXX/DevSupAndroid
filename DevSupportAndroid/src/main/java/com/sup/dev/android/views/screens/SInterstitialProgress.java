@@ -22,7 +22,7 @@ public class SInterstitialProgress extends Screen {
 
         if (!startNow)
             vProgress.setVisibility(INVISIBLE);
-        ToolsThreads.main(1000, () -> vProgress.setVisibility(VISIBLE));
+        ToolsThreads.INSTANCE.main(1000, () -> vProgress.setVisibility(VISIBLE));
     }
 }
 

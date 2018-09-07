@@ -95,7 +95,7 @@ public class WidgetField extends Widget {
     @Override
     public void onHide() {
         super.onHide();
-        ToolsThreads.main(500, () -> ToolsView.hideKeyboard()); //  Без задержки будет скрываться под клавиатуру и оставаться посреди экрана
+        ToolsThreads.INSTANCE.main(500, () -> ToolsView.hideKeyboard()); //  Без задержки будет скрываться под клавиатуру и оставаться посреди экрана
     }
 
     public String getText() {

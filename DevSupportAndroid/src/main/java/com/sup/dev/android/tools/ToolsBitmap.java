@@ -298,7 +298,7 @@ public class ToolsBitmap {
     }
 
     public static void getFromURL(final String src, final Callback1<Bitmap> bitmapListener) {
-        ToolsThreads.thread(() -> {
+        ToolsThreads.INSTANCE.thread(() -> {
             Bitmap bitmap = null;
             try {
                 bitmap = getFromURL(src);
@@ -306,7 +306,7 @@ public class ToolsBitmap {
                 Debug.log(ex);
             }
             final Bitmap fBitmap = bitmap;
-            ToolsThreads.main(() -> bitmapListener.callback(fBitmap));
+            ToolsThreads.INSTANCE.main(() -> bitmapListener.callback(fBitmap));
         });
     }
 

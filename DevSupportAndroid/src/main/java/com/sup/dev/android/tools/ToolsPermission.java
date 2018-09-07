@@ -98,14 +98,14 @@ public class ToolsPermission {
             if (onGranted != null) onGranted.callback();
             return;
         }
-        ToolsThreads.thread(
+        ToolsThreads.INSTANCE.thread(
                 () -> {
                     if (requestPermission(SupAndroid.activity, permission)) {
                         if (onGranted != null)
-                            ToolsThreads.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
+                            ToolsThreads.INSTANCE.main(2000, onGranted::callback);    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
                     } else {
                         if (onPermissionRestriction != null)
-                            ToolsThreads.main(onPermissionRestriction::callback);
+                            ToolsThreads.INSTANCE.main(onPermissionRestriction::callback);
                     }
                 });
     }
@@ -123,7 +123,7 @@ public class ToolsPermission {
         long t = System.currentTimeMillis() + MAX_WAIT_TIME;
 
         while (t > System.currentTimeMillis() && !hasPermission(permission))
-            ToolsThreads.sleep(50);
+            ToolsThreads.INSTANCE.sleep(50);
 
         return hasPermission(permission);
     }

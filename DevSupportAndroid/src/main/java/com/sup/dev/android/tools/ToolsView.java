@@ -293,7 +293,7 @@ public class ToolsView {
     }
 
     public static void showKeyboard(final View view) {
-        ToolsThreads.main(350, () -> {
+        ToolsThreads.INSTANCE.main(350, () -> {
             view.requestFocus();
             InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);

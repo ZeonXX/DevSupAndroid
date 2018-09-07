@@ -149,7 +149,7 @@ public class ToolsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
-                ToolsThreads.main(() -> {
+                ToolsThreads.INSTANCE.main(() -> {
                     if (onComplete != null) onComplete.callback(f);
                 });
             } catch (Exception e) {
@@ -174,7 +174,7 @@ public class ToolsStorage {
                 FileOutputStream out = new FileOutputStream(f);
                 out.write(bytes);
                 out.close();
-                ToolsThreads.main(() -> {
+                ToolsThreads.INSTANCE.main(() -> {
                     if (onComplete != null) onComplete.callback(f);
                 });
             } catch (Exception e) {

@@ -109,7 +109,7 @@ public class HttpRequest {
 
 
     private HttpRequest make(Callback1<String> onResult, Callback1<Exception> onError) {
-        ToolsThreads.thread(() -> {
+        ToolsThreads.INSTANCE.thread(() -> {
             try {
                 if (onResult != null) onResult.callback(make());
             } catch (Exception e) {

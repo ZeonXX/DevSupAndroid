@@ -101,7 +101,7 @@ public class ImageLoader {
         Bitmap bitmap = parseImage(loader, loadedBytes);
         byte[] bytes = loader.cashScaledBytes ? ToolsBitmap.toJPGBytes(bitmap, 100) : loadedBytes;
 
-        ToolsThreads.main(() -> {
+        ToolsThreads.INSTANCE.main(() -> {
 
             if (!loader.noCash) bitmapCash.add(loader.getKey(), bytes);
             for (int i = 0; i < turn.size(); i++) {
@@ -124,7 +124,7 @@ public class ImageLoader {
     }
 
     private static void putImage(ImageLoaderA loader, Bitmap bm, boolean animate) {
-        ToolsThreads.main(() -> {
+        ToolsThreads.INSTANCE.main(() -> {
             if (!loader.isKey(loader.vImage.getTag())) return;
             loader.vImage.setImageDrawable(new DrawableImageLoader(loader.vImage.getContext(), bm, animate && loader.fade));
         });

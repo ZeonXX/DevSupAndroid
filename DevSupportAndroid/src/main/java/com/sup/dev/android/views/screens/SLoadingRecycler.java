@@ -40,7 +40,7 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
                 onReloadClicked();
             });
 
-        ToolsThreads.main(true, () -> {
+        ToolsThreads.INSTANCE.main(true, () -> {
             adapter = instanceAdapter()
                     .setOnEmpty(() -> setState(State.EMPTY))
                     .setOnErrorAndEmpty(() -> setState(State.ERROR))
@@ -51,7 +51,7 @@ public abstract class SLoadingRecycler<C extends Card, V> extends SLoading {
                     .setNotifyCount(5);
 
             setAdapter(adapter);
-            ToolsThreads.main(true, () -> reload());
+            ToolsThreads.INSTANCE.main(true, () -> reload());
         });
     }
 

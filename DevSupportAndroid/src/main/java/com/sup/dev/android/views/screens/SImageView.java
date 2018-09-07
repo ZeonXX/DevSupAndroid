@@ -58,7 +58,7 @@ public class SImageView extends Screen {
 
     private void download() {
         Widget dialog = ToolsView.showProgressDialog(SupAndroid.TEXT_APP_DOWNLOADING);
-        ToolsThreads.thread(() -> {
+        ToolsThreads.INSTANCE.thread(() -> {
             if (bitmap != null) ToolsStorage.saveImageInDownloadFolder(bitmap, null);
             else if (id > 0) {
                 ImageLoaderId.load(id, bytes -> {
