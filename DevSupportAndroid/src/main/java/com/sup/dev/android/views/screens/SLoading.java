@@ -74,7 +74,7 @@ public abstract class SLoading extends Screen {
     }
 
     protected ViewIcon addToolbarIcon(@DrawableRes int res, Callback1<View> onClick) {
-        ViewIcon viewIcon = ToolsView.inflate(getContext(), R.layout.view_icon_toolbar);
+        ViewIcon viewIcon = ToolsView.inflate(getContext(), R.layout.view_icon);
         viewIcon.setImageResource(res);
         viewIcon.setOnClickListener(onClick::callback);
         vToolbarContainer.addView(viewIcon);

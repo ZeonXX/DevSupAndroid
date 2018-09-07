@@ -101,9 +101,4 @@ public class SupAndroid {
         return resId;
     }
 
-    public static void main(String[] args) {
-        Debug.log("XXX");
-    }
-
-
 }

@@ -13,28 +13,31 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
-import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
+import com.sup.dev.android.tools.ToolsFiles;
 import com.sup.dev.android.tools.ToolsPermission;
-import com.sup.dev.android.tools.ToolsStorage;
+import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
+import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
+import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsBytes;
 import com.sup.dev.java.tools.ToolsNetwork;
 
 import java.io.File;
+import java.io.IOException;
 
 public class WidgetChooseImage extends WidgetRecycler {
 
     private final RecyclerCardAdapter adapter;
 
-    private Callback2<WidgetChooseImage, File> onSelected;
+    private Callback2<WidgetChooseImage, byte[]> onSelected;
     private boolean imagesLoaded;
 
     public WidgetChooseImage() {
@@ -52,7 +55,7 @@ public class WidgetChooseImage extends WidgetRecycler {
 
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp);
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp);
-        vFabGallery.setOnClickListener(v -> ToolsBitmap.getFromGallery(b -> onSelected(b)));
+        vFabGallery.setOnClickListener(v -> openGallery());
         vFabLink.setOnClickListener(v -> showLink());
 
         setAdapter(adapter);
@@ -96,32 +99,16 @@ public class WidgetChooseImage extends WidgetRecycler {
 
     private void loadLink(String link) {
         WidgetProgressTransparent progress = ToolsView.showProgressDialog();
+        Debug.log(" > " + link);
         ToolsNetwork.getBytesFromURL(link, bytes -> {
+            progress.hide();
+
             if (!ToolsBytes.isImage(bytes)) {
-                progress.hide();
-                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
-                return;
-            }
-            String ex = null;
-            if (ToolsBytes.isPng(bytes)) ex = "png";
-            if (ToolsBytes.isJpg(bytes)) ex = "jpg";
-            if (ToolsBytes.isGif(bytes)) ex = "gif";
-            if (ex == null) {
-                progress.hide();
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
                 return;
             }
 
-            ToolsStorage.saveFileInDownloadFolder(bytes, ex,
-                    file -> {
-                        progress.hide();
-                        onSelected(file);
-                    },
-                    () -> {
-                        progress.hide();
-                        ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES);
-                    });
-
+            onSelected(bytes);
         });
     }
 
@@ -131,15 +118,28 @@ public class WidgetChooseImage extends WidgetRecycler {
                     w.hide();
                     loadLink(s);
                 })
+                .enableFastCopy()
                 .setHint(SupAndroid.TEXT_APP_LINK)
                 .setOnEnter(SupAndroid.TEXT_APP_CHOOSE,
                         (w, s) -> loadLink(s))
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow();
+
     }
 
-    private void onSelected(File file) {
-        if (onSelected != null) onSelected.callback(WidgetChooseImage.this, file);
+    private void openGallery() {
+        ToolsBitmap.getFromGallery(file -> {
+            try {
+                onSelected(ToolsFiles.readFile(file));
+            } catch (IOException e) {
+                Debug.log(e);
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
+            }
+        });
+    }
+
+    private void onSelected(byte[] bytes) {
+        if (onSelected != null) onSelected.callback(WidgetChooseImage.this, bytes);
         hide();
     }
 
@@ -147,15 +147,13 @@ public class WidgetChooseImage extends WidgetRecycler {
     //  Setters
     //
 
-    public WidgetChooseImage setOnSelected(Callback2<WidgetChooseImage, File> onSelected) {
+    public WidgetChooseImage setOnSelected(Callback2<WidgetChooseImage, byte[]> onSelected) {
         this.onSelected = onSelected;
         return this;
     }
 
     public WidgetChooseImage setOnSelectedBitmap(Callback2<WidgetChooseImage, Bitmap> callback) {
-        this.onSelected =
-                (widgetChooseImage, file) -> ToolsBitmap.getFromFile(file,
-                        bitmap -> callback.callback(WidgetChooseImage.this, bitmap));
+        this.onSelected = (widgetChooseImage, bytes) -> callback.callback(WidgetChooseImage.this, ToolsBitmap.decode(bytes));
         return this;
     }
 
@@ -166,6 +164,7 @@ public class WidgetChooseImage extends WidgetRecycler {
     private class CardImage extends Card {
 
         private final File file;
+        private byte[] bytes;
 
         public CardImage(File file) {
             this.file = file;
@@ -179,11 +178,14 @@ public class WidgetChooseImage extends WidgetRecycler {
         @Override
         public void bindView(View view) {
             ImageView vImage = view.findViewById(R.id.image);
-            vImage.setOnClickListener(v -> onSelected(file));
+            vImage.setOnClickListener(v -> {
+                if (bytes != null) onSelected(bytes);
+            });
 
             ImageLoader.load(new ImageLoaderFile(file)
                     .setImage(vImage)
                     .cashScaledBytes()
+                    .onLoaded(bytes -> this.bytes = bytes)
                     .sizes(512, 512)
                     .options(ImageLoader.OPTIONS_RGB_565())
                     .cropSquare());
@@ -191,6 +193,5 @@ public class WidgetChooseImage extends WidgetRecycler {
 
 
     }
-
 
 }

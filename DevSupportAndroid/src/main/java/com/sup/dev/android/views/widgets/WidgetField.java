@@ -4,16 +4,19 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sup.dev.android.R;
+import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.android.views.views.ViewEditTextMedia;
+import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.android.views.watchers.TextWatcherChanged;
 import com.sup.dev.android.views.watchers.TextWatcherRemoveHTML;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 
 public class WidgetField extends Widget {
 
+    private final ViewIcon vCopy;
     private final ViewEditTextMedia vField;
     private final TextInputLayout vFieldLayout;
     private final Button vCancel;
@@ -36,22 +40,30 @@ public class WidgetField extends Widget {
     private int min;
     private boolean autoHideOnEnter = true;
     private boolean autoHideOnCancel = true;
+    private boolean fastCopy;
 
     public WidgetField() {
         super(R.layout.widget_field);
 
         vField = view.findViewById(R.id.field);
         vFieldLayout = view.findViewById(R.id.field_layout);
+        vCopy = view.findViewById(R.id.copy);
         vCancel = view.findViewById(R.id.cancel);
         vEnter = view.findViewById(R.id.enter);
 
         vEnter.setVisibility(View.GONE);
         vCancel.setVisibility(View.GONE);
+        vCopy.setVisibility(View.GONE);
 
         vField.addTextChangedListener(new TextWatcherRemoveHTML());
         vField.addTextChangedListener(new TextWatcherChanged(text -> check()));
 
         vField.setCallback(vField::setText);
+
+        vCopy.setOnClickListener(v -> {
+            if(fastCopy) vEnter.performClick();
+            else setText(ToolsAndroid.getFromClipboard());
+        });
     }
 
     private void check() {
@@ -93,6 +105,17 @@ public class WidgetField extends Widget {
     //
     //  Setters
     //
+
+    public WidgetField enableCopy(){
+        vCopy.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    public WidgetField enableFastCopy(){
+        vCopy.setVisibility(View.VISIBLE);
+        fastCopy = true;
+        return this;
+    }
 
     public WidgetField setMediaCallback(Callback2<WidgetField, String> callback){
         vField.setCallback(s -> callback.callback(this, s));
