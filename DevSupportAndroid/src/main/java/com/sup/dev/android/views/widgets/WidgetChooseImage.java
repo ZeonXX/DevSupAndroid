@@ -15,19 +15,18 @@ import com.sup.dev.android.libs.image_loader.ImageLoader;
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsBitmap;
-import com.sup.dev.android.tools.ToolsFiles;
+import com.sup.dev.android.tools.ToolsFilesAndroid;
 import com.sup.dev.android.tools.ToolsPermission;
-import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsToast;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
 import com.sup.dev.android.views.cards.Card;
 import com.sup.dev.android.views.dialogs.DialogSheetWidget;
 import com.sup.dev.android.views.dialogs.DialogWidget;
-import com.sup.dev.android.views.views.ViewIcon;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsBytes;
+import com.sup.dev.java.tools.ToolsFiles;
 import com.sup.dev.java.tools.ToolsNetwork;
 
 import java.io.File;
@@ -103,7 +102,7 @@ public class WidgetChooseImage extends WidgetRecycler {
         ToolsNetwork.getBytesFromURL(link, bytes -> {
             progress.hide();
 
-            if (!ToolsBytes.isImage(bytes)) {
+            if (!ToolsBytes.INSTANCE.isImage(bytes)) {
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
                 return;
             }
@@ -130,7 +129,7 @@ public class WidgetChooseImage extends WidgetRecycler {
     private void openGallery() {
         ToolsBitmap.getFromGallery(file -> {
             try {
-                onSelected(ToolsFiles.readFile(file));
+                onSelected(ToolsFiles.INSTANCE.readFile(file));
             } catch (IOException e) {
                 Debug.log(e);
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);

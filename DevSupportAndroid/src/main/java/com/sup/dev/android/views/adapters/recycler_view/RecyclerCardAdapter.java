@@ -106,7 +106,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
 
     public void remove(Class<? extends Card> c) {
         for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
+            if (ToolsClass.INSTANCE.instanceOf(get(i).getClass(), c))
                 remove(i--);
     }
 
@@ -189,7 +189,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
 
     public boolean contains(Class<? extends Card> c) {
         for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
+            if (ToolsClass.INSTANCE.instanceOf(get(i).getClass(), c))
                 return true;
         return false;
     }
@@ -197,7 +197,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
     public int size(Class<? extends Card> c) {
         int x = 0;
         for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
+            if (ToolsClass.INSTANCE.instanceOf(get(i).getClass(), c))
                 x++;
         return x;
     }
@@ -243,7 +243,7 @@ public class RecyclerCardAdapter extends RecyclerView.Adapter<RecyclerCardAdapte
     public <K extends Card> ArrayList<K> get(Class<K> c) {
         ArrayList<K> list = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++)
-            if (ToolsClass.instanceOf(get(i).getClass(), c))
+            if (ToolsClass.INSTANCE.instanceOf(get(i).getClass(), c))
                 list.add((K) get(i));
         return list;
     }

@@ -105,7 +105,7 @@ public class ToolsResources {
     }
 
     public static int getAccentAlphaColor(Context context) {
-        return ToolsColor.setAlpha(106, getAccentColor(context));
+        return ToolsColor.INSTANCE.setAlpha(106, getAccentColor(context));
     }
 
     public static int getBackgroundColor(Context context) {

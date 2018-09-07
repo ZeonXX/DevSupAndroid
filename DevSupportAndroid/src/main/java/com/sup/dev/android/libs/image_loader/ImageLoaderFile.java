@@ -2,9 +2,10 @@ package com.sup.dev.android.libs.image_loader;
 
 import android.widget.ImageView;
 
-import com.sup.dev.android.tools.ToolsFiles;
+import com.sup.dev.android.tools.ToolsFilesAndroid;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
+import com.sup.dev.java.tools.ToolsFiles;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ImageLoaderFile extends ImageLoaderA {
 
     byte[] load() {
         try {
-            byte[] bytes = ToolsFiles.readFile(file);
+            byte[] bytes = ToolsFiles.INSTANCE.readFile(file);
             return bytes;
         } catch (IOException e) {
             Debug.log(e);

@@ -59,14 +59,14 @@ public class WidgetChooseTimeRange extends Widget {
     public WidgetChooseTimeRange setTimeStart(int h, int m) {
         h1 = h;
         m1 = m;
-        vStart.setText(ToolsDate.timeToString(h, m));
+        vStart.setText(ToolsDate.INSTANCE.timeToString(h, m));
         return this;
     }
 
     public WidgetChooseTimeRange setTimeEnd(int h, int m) {
         h2 = h;
         m2 = m;
-        vEnd.setText(ToolsDate.timeToString(h, m));
+        vEnd.setText(ToolsDate.INSTANCE.timeToString(h, m));
         return this;
     }
 

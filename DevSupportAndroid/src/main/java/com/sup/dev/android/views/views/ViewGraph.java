@@ -68,7 +68,7 @@ public class ViewGraph extends View {
 
         if (greedXSize > 0 || greedYSize > 0) {
             paint.setColor(greedColor);
-            paint.setStrokeWidth(ToolsMath.max(greedXSize, greedYSize));
+            paint.setStrokeWidth(ToolsMath.INSTANCE.max(greedXSize, greedYSize));
             canvas.drawLine(offsetViewLeft, offsetViewTop, getWidth(), offsetViewTop, paint);
             canvas.drawLine(offsetViewLeft, offsetViewTop, offsetViewLeft, getHeight() - offsetViewBottom, paint);
             canvas.drawLine(getWidth(), getHeight() - offsetViewBottom, offsetViewLeft, getHeight() - offsetViewBottom, paint);

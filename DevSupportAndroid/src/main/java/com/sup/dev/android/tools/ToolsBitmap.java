@@ -28,6 +28,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.geometry.Dimensions;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
+import com.sup.dev.java.tools.ToolsFiles;
 import com.sup.dev.java.tools.ToolsMath;
 import com.sup.dev.java.tools.ToolsTextJava;
 import com.sup.dev.java.tools.ToolsThreads;
@@ -112,8 +113,8 @@ public class ToolsBitmap {
         bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 
         for (int i = 0; i < pixels.length; i++) {
-            int n = (ToolsColor.red(pixels[i]) + ToolsColor.green(pixels[i]) + ToolsColor.blue(pixels[i])) / 3;
-            pixels[i] = ToolsColor.argb(ToolsColor.alpha(pixels[i]), n, n, n);
+            int n = (ToolsColor.INSTANCE.red(pixels[i]) + ToolsColor.INSTANCE.green(pixels[i]) + ToolsColor.INSTANCE.blue(pixels[i])) / 3;
+            pixels[i] = ToolsColor.INSTANCE.argb(ToolsColor.INSTANCE.alpha(pixels[i]), n, n, n);
         }
 
         bitmap.setPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -235,7 +236,7 @@ public class ToolsBitmap {
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
         if (w != 0 || h != 0) {
-            Dimensions inscribe = minSizes ? ToolsMath.inscribeMin(bitmap.getWidth(), bitmap.getHeight(), w, h) : ToolsMath.inscribe(bitmap.getWidth(), bitmap.getHeight(), w, h);
+            Dimensions inscribe = minSizes ? ToolsMath.INSTANCE.inscribeMin(bitmap.getWidth(), bitmap.getHeight(), w, h) : ToolsMath.INSTANCE.inscribe(bitmap.getWidth(), bitmap.getHeight(), w, h);
             if (bitmap.getWidth() != inscribe.getW() || bitmap.getHeight() != inscribe.getH())
                 bitmap = Bitmap.createScaledBitmap(bitmap, (int) inscribe.getW(), (int) inscribe.getH(), true);
         }
@@ -323,7 +324,7 @@ public class ToolsBitmap {
     public static void getFromFile(File file, Callback1<Bitmap> onComplete) {
         ToolsPermission.requestReadPermission(() -> {
             try {
-                onComplete.callback(decode(ToolsFiles.readFile(file)));
+                onComplete.callback(decode(ToolsFiles.INSTANCE.readFile(file)));
             } catch (IOException e) {
                 Debug.log(e);
                 ToolsToast.show(errorCantLoadImage);
@@ -351,7 +352,7 @@ public class ToolsBitmap {
         boolean containsAlpha = false;
         for (int x = 0; x < bitmap.getWidth(); x++)
             for (int y = 0; y < bitmap.getHeight(); y++)
-                if (ToolsColor.alpha(bitmap.getPixel(x, y)) != 255) {
+                if (ToolsColor.INSTANCE.alpha(bitmap.getPixel(x, y)) != 255) {
                     containsAlpha = true;
                     break;
                 }
@@ -401,7 +402,7 @@ public class ToolsBitmap {
         int h = bitmap.getHeight();
         if (w <= maxSideSize && h <= maxSideSize) return bitmap;
 
-        float arg = ToolsMath.max(w, h) / (float) maxSideSize;
+        float arg = ToolsMath.INSTANCE.max(w, h) / (float) maxSideSize;
         return Bitmap.createScaledBitmap(bitmap, (int) (w / arg), (int) (h / arg), true);
     }
 
@@ -410,7 +411,7 @@ public class ToolsBitmap {
         int h = bitmap.getHeight();
         if (w >= minSideSize && h >= minSideSize) return bitmap;
 
-        float arg = (float) minSideSize / ToolsMath.max(w, h);
+        float arg = (float) minSideSize / ToolsMath.INSTANCE.max(w, h);
         return Bitmap.createScaledBitmap(bitmap, (int) (w * arg), (int) (h * arg), true);
     }
 

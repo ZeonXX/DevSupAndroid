@@ -128,15 +128,15 @@ public class ViewPagerIndicatorTitles extends ViewPagerIndicator {
             x += offset + child.getMeasuredWidth();
 
             TextView textView = (views[i].findViewById(R.id.dev_sup_title));
-            textView.setTextColor(ToolsColor.setAlpha(120, textView.getCurrentTextColor()));
+            textView.setTextColor(ToolsColor.INSTANCE.setAlpha(120, textView.getCurrentTextColor()));
         }
 
         if (positionOffset != 0) {
             float arg = Math.abs(positionOffset);
-            selected.setTextColor(ToolsColor.setAlpha(120 + (int) ((255 - 120) * (1 - arg)), selected.getCurrentTextColor()));
-            old.setTextColor(ToolsColor.setAlpha(120 + (int) ((255 - 120) * arg), old.getCurrentTextColor()));
+            selected.setTextColor(ToolsColor.INSTANCE.setAlpha(120 + (int) ((255 - 120) * (1 - arg)), selected.getCurrentTextColor()));
+            old.setTextColor(ToolsColor.INSTANCE.setAlpha(120 + (int) ((255 - 120) * arg), old.getCurrentTextColor()));
         } else {
-            selected.setTextColor(ToolsColor.setAlpha(255, selected.getCurrentTextColor()));
+            selected.setTextColor(ToolsColor.INSTANCE.setAlpha(255, selected.getCurrentTextColor()));
         }
 
 

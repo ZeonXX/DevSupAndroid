@@ -8,7 +8,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsBytes;
-import com.sup.dev.java.tools.ToolsMapper;
+import com.sup.dev.java.tools.ToolsFiles;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,7 +21,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class ToolsFiles extends com.sup.dev.java.tools.ToolsFiles{
+public class ToolsFilesAndroid {
 
     //
     //  Files
@@ -185,7 +185,7 @@ public class ToolsFiles extends com.sup.dev.java.tools.ToolsFiles{
     //
 
     public static boolean isGif(File file){
-        return ToolsBytes.isGif(ToolsFiles.readFileSalient(file, 3));
+        return ToolsBytes.INSTANCE.isGif(ToolsFiles.INSTANCE.readFileSalient(file, 3));
     }
 
     public static File getDiskCacheDir() {

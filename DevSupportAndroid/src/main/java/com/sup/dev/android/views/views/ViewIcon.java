@@ -95,7 +95,7 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
         float r = getWidth() / 2 - p;
 
         if (background != 0) {
-            paint.setColor(isEnabled() ? background : ToolsColor.setAlpha(106, background));
+            paint.setColor(isEnabled() ? background : ToolsColor.INSTANCE.setAlpha(106, background));
             canvas.drawCircle(x, y, r, paint);
         }
 
@@ -107,7 +107,7 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
 
         if (circleSize != 0) {
             paint.setStyle(Paint.Style.STROKE);
-            paint.setColor((transparentOnDisabled && !isEnabled()) ? ToolsColor.setAlpha(106, circleColor) : circleColor);
+            paint.setColor((transparentOnDisabled && !isEnabled()) ? ToolsColor.INSTANCE.setAlpha(106, circleColor) : circleColor);
             paint.setStrokeWidth(circleSize);
             canvas.drawCircle(x, y, r - (circleSize / 2), paint);
             paint.setStyle(Paint.Style.FILL);
@@ -125,7 +125,7 @@ public class ViewIcon extends android.support.v7.widget.AppCompatImageView {
 
     private void updateIcon() {
 
-        animationSelectedBackground.to(selected ? (isEnabled() ? accentColor : ToolsColor.setAlpha(106, accentColor)) : 0x00000000);
+        animationSelectedBackground.to(selected ? (isEnabled() ? accentColor : ToolsColor.INSTANCE.setAlpha(106, accentColor)) : 0x00000000);
 
         super.setImageResource((selected && srcSelect != 0) ? srcSelect : src);
 

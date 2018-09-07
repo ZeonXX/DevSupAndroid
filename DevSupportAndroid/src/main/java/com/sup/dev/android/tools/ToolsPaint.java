@@ -18,7 +18,7 @@ public class ToolsPaint {
     private static void gradientLine(Canvas canvas, int color, int size, GradientDrawable.Orientation orientation) {
         GradientDrawable gradientDrawable = new GradientDrawable(
                 orientation,
-                new int[]{color, ToolsColor.setAlpha(0, color)});
+                new int[]{color, ToolsColor.INSTANCE.setAlpha(0, color)});
         gradientDrawable.setSize(canvas.getWidth(), size);
         gradientDrawable.setBounds(0, canvas.getHeight() - size, canvas.getWidth(), canvas.getHeight());
         gradientDrawable.draw(canvas);

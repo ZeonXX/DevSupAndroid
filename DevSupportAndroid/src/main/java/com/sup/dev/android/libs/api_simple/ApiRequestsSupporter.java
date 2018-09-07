@@ -52,7 +52,7 @@ public class ApiRequestsSupporter {
                 .onApiError(ApiClient.ERROR_GONE, e -> {
                     if (Navigator.getCurrent() == sInterstitialProgress) SAlert.showGone(Navigator.REPLACE);
                 })
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.dateToStringFull(Long.parseLong(ex.params[0])))))
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.INSTANCE.dateToStringFull(Long.parseLong(ex.params[0])))))
                 .send(api);
         return request;
     }
@@ -74,7 +74,7 @@ public class ApiRequestsSupporter {
         request.onComplete(r -> onComplete.callback(r))
                 .onNetworkError(() -> ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK))
                 .onFinish(() -> dialog.hide())
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.dateToStringFull(Long.parseLong(ex.params[0])))))
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.INSTANCE.dateToStringFull(Long.parseLong(ex.params[0])))))
                 .send(api);
         return request;
     }
@@ -95,7 +95,7 @@ public class ApiRequestsSupporter {
                     ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK);
                     w.hide();
                 })
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.dateToStringFull(Long.parseLong(ex.params[0])))))
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.INSTANCE.dateToStringFull(Long.parseLong(ex.params[0])))))
                 .send(api);
         return request;
     }
@@ -106,7 +106,7 @@ public class ApiRequestsSupporter {
                 .onComplete(r -> onComplete.callback(r))
                 .onNetworkError(() -> ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK))
                 .onFinish(() -> enabled.callback(true))
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.dateToStringFull(Long.parseLong(ex.params[0])))))
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED, ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED), ToolsDate.INSTANCE.dateToStringFull(Long.parseLong(ex.params[0])))))
                 .send(api);
 
         return request;

@@ -173,7 +173,7 @@ public class ViewChip extends FrameLayout {
 
     private void updateColors(boolean animated) {
         int bcColor = isChipSelected ? background : unselectedBackground;
-        if (!isEnabled()) bcColor = ToolsColor.setAlpha(ToolsColor.alpha(bcColor) - 80, bcColor);
+        if (!isEnabled()) bcColor = ToolsColor.INSTANCE.setAlpha(ToolsColor.INSTANCE.alpha(bcColor) - 80, bcColor);
         animationBackground.change(animated, bcColor);
         animationFocus.setClickAnimationEnabled(!isChipSelected);
         invalidate();
