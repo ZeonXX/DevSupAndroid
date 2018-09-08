@@ -137,7 +137,7 @@ public class ApiRequestsSupporter {
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .setAutoHideOnEnter(false)
                 .setOnEnter(enter, w -> executeEnabled(w, request, onComplete))
-                .asDialogShow();
+                .asSheetShow();
         return request;
     }
 

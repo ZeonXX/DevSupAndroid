@@ -24,6 +24,11 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <View
+            android:id="@+id/screen_activity_bottom_navigation_line"
+            style="@style/Divider"
+            android:layout_gravity="top"/>
+
     </android.support.design.widget.AppBarLayout>
 
 

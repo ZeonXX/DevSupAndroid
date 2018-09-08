@@ -6,8 +6,8 @@
 
     <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
         android:layout_gravity="center"
         android:padding="18dp"/>
 

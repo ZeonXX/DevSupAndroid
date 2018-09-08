@@ -184,10 +184,6 @@ public class ToolsFilesAndroid {
     //  Getters
     //
 
-    public static boolean isGif(File file){
-        return ToolsBytes.INSTANCE.isGif(ToolsFiles.INSTANCE.readFileSalient(file, 3));
-    }
-
     public static File getDiskCacheDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
             File externalCacheDir = SupAndroid.appContext.getExternalCacheDir();

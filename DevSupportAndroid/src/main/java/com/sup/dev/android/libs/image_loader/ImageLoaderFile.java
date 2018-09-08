@@ -22,7 +22,7 @@ public class ImageLoaderFile extends ImageLoaderA {
     byte[] load() {
         try {
             byte[] bytes = ToolsFiles.INSTANCE.readFile(file);
-            return bytes;
+            return bytes ;
         } catch (IOException e) {
             Debug.log(e);
             return null;

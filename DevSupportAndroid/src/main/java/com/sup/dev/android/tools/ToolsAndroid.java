@@ -190,7 +190,6 @@ public class ToolsAndroid {
     public static String getFromClipboard() {
         ClipboardManager clipboard = (ClipboardManager) SupAndroid.appContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData primaryClip = clipboard.getPrimaryClip();
-        for(int i =0; i < primaryClip.getItemCount(); i++) Debug.log(i + " : ["+primaryClip.getItemAt(i)+"]");
         if(primaryClip.getItemCount() == 0) return null;
         else return primaryClip.getItemAt(0).getText().toString();
     }

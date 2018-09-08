@@ -112,7 +112,7 @@ public class ToolsView {
 
     public static WidgetProgressWithTitle showProgressDialog(String title) {
         WidgetProgressWithTitle widget = new WidgetProgressWithTitle().setTitle(title).setCancelable(false);
-        widget.asDialogShow();
+        widget.asSheetShow();
         return widget;
     }
 

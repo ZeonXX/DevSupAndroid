@@ -61,8 +61,8 @@ public class WidgetField extends Widget {
         vField.setCallback(vField::setText);
 
         vCopy.setOnClickListener(v -> {
+            setText(ToolsAndroid.getFromClipboard());
             if(fastCopy) vEnter.performClick();
-            else setText(ToolsAndroid.getFromClipboard());
         });
     }
 

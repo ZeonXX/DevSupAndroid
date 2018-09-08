@@ -41,12 +41,12 @@ public class WidgetChooseTimeRange extends Widget {
         vStart.setOnClickListener(v -> new WidgetChooseTime()
                 .setOnCancel(vCancel.getText().toString())
                 .setOnEnter(vEnter.getText().toString(), (dialog, h, m) -> setTimeStart(h, m))
-                .asDialogShow());
+                .asSheetShow());
 
         vEnd.setOnClickListener(v -> new WidgetChooseTime()
                 .setOnCancel(vCancel.getText().toString())
                 .setOnEnter(vEnter.getText().toString(), (dialog, h, m) -> setTimeEnd(h, m))
-                .asDialogShow());
+                .asSheetShow());
 
         setTimeStart(12, 0);
         setTimeEnd(24, 0);
