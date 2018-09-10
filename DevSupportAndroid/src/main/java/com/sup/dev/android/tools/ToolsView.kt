@@ -119,7 +119,7 @@ object ToolsView {
         }
     }
 
-    fun setTextOrGone(vText: TextView, text: CharSequence) {
+    fun setTextOrGone(vText: TextView, text: CharSequence?) {
         vText.text = text
         vText.visibility = if (ToolsTextAndroid.empty(text)) GONE else VISIBLE
     }
@@ -263,9 +263,9 @@ object ToolsView {
     //
 
     fun hideKeyboard() {
-        val currentFocus = SupAndroid.activity.currentFocus
+        val currentFocus = SupAndroid.activity?.currentFocus
         if (currentFocus != null) {
-            val imm = SupAndroid.activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = SupAndroid.activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }

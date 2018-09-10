@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
 import com.sup.dev.java.tools.ToolsColor;
 

@@ -16,11 +16,8 @@ import com.sup.dev.android.libs.image_loader.ImageLoaderId;
 import com.sup.dev.android.libs.screens.navigator.Navigator;
 import com.sup.dev.android.tools.ToolsBitmap;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.screens.SImageView;
-import com.sup.dev.android.views.views.layouts.LayoutAspectRatio;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class ViewGifImage extends FrameLayout {
 

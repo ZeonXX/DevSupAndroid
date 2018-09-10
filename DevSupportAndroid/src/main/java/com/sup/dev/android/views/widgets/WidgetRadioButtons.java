@@ -6,16 +6,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.screens.SWidget;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-import com.sup.dev.java.libs.debug.Debug;
 
 import java.util.ArrayList;
 

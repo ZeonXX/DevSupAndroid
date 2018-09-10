@@ -3,7 +3,7 @@ package com.sup.dev.android.views.watchers
 import android.text.Editable
 
 
-class BaseTextWatcher : android.text.TextWatcher {
+open class BaseTextWatcher : android.text.TextWatcher {
 
     override fun afterTextChanged(s: Editable) {
         onTextChanged(s.toString())
@@ -17,7 +17,7 @@ class BaseTextWatcher : android.text.TextWatcher {
 
     }
 
-    protected fun onTextChanged(s: String) {
+    protected open fun onTextChanged(s: String) {
 
     }
 

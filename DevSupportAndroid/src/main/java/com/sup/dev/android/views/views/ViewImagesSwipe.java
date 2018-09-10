@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.sup.dev.android.R;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
-import com.sup.dev.android.views.cards.Card;
 
 public class ViewImagesSwipe extends RecyclerView {
 

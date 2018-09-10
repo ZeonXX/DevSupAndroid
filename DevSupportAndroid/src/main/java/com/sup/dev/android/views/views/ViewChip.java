@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -25,11 +24,9 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.animations.AnimationFocus;
 import com.sup.dev.java.classes.animation.AnimationSpringColor;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 
 public class ViewChip extends FrameLayout {

@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.dialogs.DialogWidget;
 import com.sup.dev.java.tools.ToolsThreads;
 
 public class WidgetProgressTransparent extends Widget {

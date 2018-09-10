@@ -51,7 +51,7 @@ class WidgetField : Widget(R.layout.widget_field) {
         vCopy.visibility = View.GONE
 
         vField.addTextChangedListener(TextWatcherRemoveHTML())
-        vField.addTextChangedListener(TextWatcherChanged({ text -> check() }))
+        vField.addTextChangedListener(TextWatcherChanged { text -> check() })
 
         vField.setCallback { vField.setText(it) }
 
@@ -67,7 +67,7 @@ class WidgetField : Widget(R.layout.widget_field) {
         var error: String? = null
 
         for (pair in checkers)
-            if ((!pair.a2!!.provide(text))!!) {
+            if (!((pair.a2!!.provide(text))!!)) {
                 error = pair.a1
                 break
             }
@@ -106,17 +106,9 @@ class WidgetField : Widget(R.layout.widget_field) {
         return this
     }
 
-    fun setMediaCallback(callback: Callback2<WidgetField, String>): WidgetField {
-        vField.setCallback({ s -> callback.callback(this, s) })
+    fun setMediaCallback(callback: (WidgetField, String) -> Unit): WidgetField {
+        vField.setCallback { s -> callback.invoke(this, s) }
         return this
-    }
-
-    override fun setTitle(title: Int): WidgetField {
-        return super.setTitle(title)
-    }
-
-    override fun setTitle(title: String?): WidgetField {
-        return super.setTitle(title)
     }
 
     fun setMax(max: Int): WidgetField {
@@ -197,53 +189,48 @@ class WidgetField : Widget(R.layout.widget_field) {
         return setOnCancel(ToolsResources.getString(s))
     }
 
-    fun setOnCancel(@StringRes s: Int, onCancel: Callback1<WidgetField>): WidgetField {
+    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetField) -> Unit): WidgetField {
         return setOnCancel(ToolsResources.getString(s), onCancel)
     }
 
     @JvmOverloads
-    fun setOnCancel(s: String?, onCancel: Callback1<WidgetField>? = null): WidgetField {
+    fun setOnCancel(s: String?, onCancel: (WidgetField)->Unit = {}): WidgetField {
         ToolsView.setTextOrGone(vCancel, s!!)
         vCancel.visibility = View.VISIBLE
         vCancel.setOnClickListener { v ->
-            if (autoHideOnCancel)
-                hide()
-            else
-                setEnabled(false)
-            if (onCancel != null) onCancel!!.callback(this)
+            if (autoHideOnCancel) hide()
+            else setEnabled<Widget>(false)
+            onCancel.invoke(this)
         }
         return this
     }
 
-    fun setOnEnter(@StringRes s: Int): WidgetField {
-        return setOnEnter(ToolsResources.getString(s), null)
-    }
 
-    fun setOnEnter(@StringRes s: Int, onEnter: Callback2<WidgetField, String>): WidgetField {
+    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = {w, s ->}): WidgetField {
         return setOnEnter(ToolsResources.getString(s), onEnter)
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: Callback2<WidgetField, String>? = null): WidgetField {
+    fun setOnEnter(s: String?, onEnter: (WidgetField, String) -> Unit ={w, s ->}): WidgetField {
         ToolsView.setTextOrGone(vEnter, s!!)
         vEnter.setOnClickListener { v ->
             if (autoHideOnEnter)
                 hide()
             else
-                setEnabled(false)
-            if (onEnter != null) onEnter!!.callback(this, vField.text.toString())
+                setEnabled<Widget>(false)
+            onEnter.invoke(this, vField.text.toString())
         }
 
         return this
     }
 
-    override fun setEnabled(enabled: Boolean): WidgetField {
-        super.setEnabled(enabled)
+    override fun <K : Widget> setEnabled(enabled: Boolean): K {
+        super.setEnabled<K>(enabled)
         vCancel.isEnabled = enabled
         vFieldLayout.isEnabled = enabled
         vEnter.isEnabled = enabled
-        vField.isEnabled = enabled
-        return this
+        return this as K
     }
+
 
 }

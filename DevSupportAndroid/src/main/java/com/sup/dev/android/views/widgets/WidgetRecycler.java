@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter;
-import com.sup.dev.android.views.dialogs.DialogSheetWidget;
-import com.sup.dev.android.views.popup.PopupWidget;
 
 public class WidgetRecycler extends Widget {
 

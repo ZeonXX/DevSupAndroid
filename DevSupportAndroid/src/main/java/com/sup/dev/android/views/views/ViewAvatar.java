@@ -17,7 +17,6 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.android.views.animations.AnimationFocus;
 
 public class ViewAvatar extends FrameLayout {
 

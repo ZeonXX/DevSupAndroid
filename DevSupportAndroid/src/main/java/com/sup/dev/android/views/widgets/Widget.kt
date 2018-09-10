@@ -21,7 +21,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 abstract class Widget(layoutRes: Int) {
 
-    val view: View?
+    val view: View
     protected val vTitle: TextView?
 
     private var onHide: (Widget)->Unit = {}
@@ -112,7 +112,7 @@ abstract class Widget(layoutRes: Int) {
         return this as K
     }
 
-    fun <K : Widget> setEnabled(enabled: Boolean): K {
+    open fun <K : Widget> setEnabled(enabled: Boolean): K {
         this.isEnabled = enabled
         if (vTitle != null) vTitle.isEnabled = enabled
         if (viewWrapper != null) viewWrapper!!.setWidgetEnabled<WidgetViewWrapper>(enabled)

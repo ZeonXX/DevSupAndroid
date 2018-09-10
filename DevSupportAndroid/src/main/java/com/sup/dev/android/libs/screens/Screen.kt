@@ -17,7 +17,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
+open class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
 
     var isBackStackAllowed = true
         protected set
@@ -61,7 +61,7 @@ class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
     //
 
     @CallSuper
-    fun onResume() {
+    open fun onResume() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         if (toolbar != null) {
             toolbar.setTitleTextColor(ToolsResources.getColorFromAttr(R.attr.toolbarTitleColor))
@@ -89,7 +89,7 @@ class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
     }
 
     @CallSuper
-    fun onDestroy() {
+    open fun onDestroy() {
 
     }
 
@@ -98,15 +98,15 @@ class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
 
     }
 
-    fun onBackPressed(): Boolean {
+    open fun onBackPressed(): Boolean {
         return false
     }
 
-    fun setTitle(@StringRes title: Int) {
+    open fun setTitle(@StringRes title: Int) {
         setTitle(ToolsResources.getString(title))
     }
 
-    fun setTitle(title: String?) {
+    open fun setTitle(title: String?) {
         (findViewById<View>(R.id.toolbar) as Toolbar).title = title
     }
 
