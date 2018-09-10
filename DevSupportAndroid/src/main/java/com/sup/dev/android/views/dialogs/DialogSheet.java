@@ -3,7 +3,6 @@ package com.sup.dev.android.views.dialogs;
 import android.os.Build;
 import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatDialog;
-import android.support.v7.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsView;
-import com.sup.dev.java.libs.debug.Debug;
 
 public class DialogSheet  extends AppCompatDialog {
 
@@ -24,7 +22,7 @@ public class DialogSheet  extends AppCompatDialog {
     private boolean cancelable = true;
 
     public DialogSheet(int layoutRes) {
-        this(ToolsView.inflate(layoutRes));
+        this(ToolsView.INSTANCE.inflate(layoutRes));
     }
 
     public DialogSheet(View view) {
@@ -38,8 +36,8 @@ public class DialogSheet  extends AppCompatDialog {
         FrameLayout vContainer = new FrameLayout(view.getContext());
         vRoot.addView(vContainer);
         vContainer.setClickable(true); // Чтоб не закрывался при нажатии на тело
-        vContainer.addView(ToolsView.removeFromParent(view));
-        vContainer.setBackgroundColor(ToolsResources.getPrimaryColor(view.getContext()));
+        vContainer.addView(ToolsView.INSTANCE.removeFromParent(view));
+        vContainer.setBackgroundColor(ToolsResources.INSTANCE.getPrimaryColor(view.getContext()));
         vContainer.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         ((FrameLayout.LayoutParams)vContainer.getLayoutParams()).gravity = Gravity.BOTTOM;
         setContentView(vRoot);
@@ -53,7 +51,7 @@ public class DialogSheet  extends AppCompatDialog {
             getWindow().setStatusBarColor(0x00000000);
         }
 
-        vRoot.setY(-ToolsAndroid.getBottomNavigationBarHeight());
+        vRoot.setY(-ToolsAndroid.INSTANCE.getBottomNavigationBarHeight());
 
         vRoot.setOnClickListener(v -> {
             if(cancelable && isEnabled() && onTryCancelOnTouchOutside()) hide();

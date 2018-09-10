@@ -20,7 +20,7 @@ public abstract class Dialog extends AppCompatDialog {
     private boolean cancelable;
 
     public Dialog(int layoutRes) {
-        this(ToolsView.inflate(layoutRes));
+        this(ToolsView.INSTANCE.inflate(layoutRes));
     }
 
     public Dialog(View view) {
@@ -32,7 +32,7 @@ public abstract class Dialog extends AppCompatDialog {
 
         LayoutMaxSizes layoutMaxSizes = new LayoutMaxSizes(SupAndroid.activity) {
             protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                setMaxWidthParentPercent(ToolsAndroid.isScreenPortrait() ? 90 : 70);
+                setMaxWidthParentPercent(ToolsAndroid.INSTANCE.isScreenPortrait() ? 90 : 70);
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
         };
@@ -41,7 +41,7 @@ public abstract class Dialog extends AppCompatDialog {
         layoutMaxSizes.setUseScreenWidthAsParent(true);
         layoutMaxSizes.setAlwaysMaxW(true);
         layoutMaxSizes.setChildAlwaysMaxW(true);
-        layoutMaxSizes.addView(ToolsView.removeFromParent(view), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutMaxSizes.addView(ToolsView.INSTANCE.removeFromParent(view), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setContentView(layoutMaxSizes);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT); //  Без этой строки диалог умирает при повороте экрана

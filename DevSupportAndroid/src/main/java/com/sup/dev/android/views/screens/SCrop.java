@@ -12,24 +12,30 @@ import com.sup.dev.android.views.dialogs.DialogWidget;
 import com.sup.dev.android.views.views.cropper.ViewCropImage;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
+
 public class SCrop extends Screen {
 
 
     private final ViewCropImage vCropImageView;
     private final View vFinish;
     private final View vAll;
-    private final Callback2<SCrop, Bitmap> onCrop;
+    private final Function2<? super SCrop, ? super Bitmap, Unit> onCrop;
 
     private boolean autoBackOnCrop = true;
     private boolean locked;
 
     private DialogWidget dialogProgress;
 
-    public SCrop(Bitmap bitmap, Callback2<SCrop, Bitmap> onCrop) {
+    public SCrop(Bitmap bitmap, Function2<? super SCrop, ? super Bitmap, Unit> onCrop) {
         this(bitmap, 0, 0, onCrop);
     }
 
-    public SCrop(Bitmap bitmap, int aw, int ah, Callback2<SCrop, Bitmap> onCrop) {
+    public SCrop(Bitmap bitmap, int aw, int ah, Function2<? super SCrop, ? super Bitmap, Unit> onCrop) {
         super(R.layout.screen_image_crop);
 
         this.onCrop = onCrop;
@@ -48,7 +54,7 @@ public class SCrop extends Screen {
                 if (autoBackOnCrop) Navigator.back();
                 else setLock(false);
 
-                onCrop.callback(this, vCropImageView.getCroppedImage());
+                onCrop.invoke(this, vCropImageView.getCroppedImage());
             }
         });
     }

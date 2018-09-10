@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.android.views.adapters.CardAdapter;
-import com.sup.dev.java.libs.debug.Debug;
 
 public abstract class Card {
 
@@ -41,7 +40,7 @@ public abstract class Card {
 
     public View instanceView(Context context) {
         int layout = getLayout();
-        return (layout > 0)?ToolsView.inflate(context, getLayout()):instanceView();
+        return (layout > 0)?ToolsView.INSTANCE.inflate(context, getLayout()):instanceView();
     }
 
     public void setAdapter(CardAdapter adapter) {

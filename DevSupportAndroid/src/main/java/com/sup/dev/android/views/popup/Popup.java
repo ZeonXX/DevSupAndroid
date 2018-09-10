@@ -19,15 +19,15 @@ public abstract class Popup extends PopupWindow {
     private boolean cancelable;
 
     public Popup(int layoutRes) {
-        this(ToolsView.inflate(layoutRes));
+        this(ToolsView.INSTANCE.inflate(layoutRes));
     }
 
     public Popup(View view) {
         super(SupAndroid.activity);
         this.view = view;
 
-        CardView vCard = ToolsView.inflate(R.layout.view_card_6dp);
-        ToolsView.removeFromParent(view);
+        CardView vCard = ToolsView.INSTANCE.inflate(R.layout.view_card_6dp);
+        ToolsView.INSTANCE.removeFromParent(view);
         vCard.addView(view);
         setBackgroundDrawable(null);
         setContentView(vCard);
@@ -60,13 +60,13 @@ public abstract class Popup extends PopupWindow {
 
         onShow();
 
-        view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenW(), View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenH(), View.MeasureSpec.AT_MOST));
+        view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.INSTANCE.getScreenW(), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(ToolsAndroid.INSTANCE.getScreenH(), View.MeasureSpec.AT_MOST));
         setWidth(view.getMeasuredWidth());
-        if (view.getMeasuredHeight() < ToolsView.dpToPx(240/*Запас, чтоб не обрезать 2 пикселя*/))
+        if (view.getMeasuredHeight() < ToolsView.INSTANCE.dpToPx(240/*Запас, чтоб не обрезать 2 пикселя*/))
             setHeight(Math.min(view.getMeasuredHeight(), view.getMeasuredHeight()));
         else
-            setHeight(Math.min(view.getMeasuredHeight(), ToolsView.dpToPx(200)));
+            setHeight(Math.min(view.getMeasuredHeight(), ToolsView.INSTANCE.dpToPx(200)));
 
         if (x > -1 && y > -1) {
             x -= getWidth() / 2;
@@ -74,7 +74,7 @@ public abstract class Popup extends PopupWindow {
 
             int[] p = new int[2];
             anchor.getLocationOnScreen(p);
-            if (getHeight() + (anchor.getHeight() + y) + p[1] > ToolsAndroid.getScreenH())
+            if (getHeight() + (anchor.getHeight() + y) + p[1] > ToolsAndroid.INSTANCE.getScreenH())
                 y += anchor.getHeight();
 
             showAsDropDown(anchor, x, y);

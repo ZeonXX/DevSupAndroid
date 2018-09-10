@@ -15,6 +15,8 @@ import com.sup.dev.java.tools.ToolsThreads;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+
 public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardAdapter implements CardAdapter {
 
     private Callback2<Callback1<V[]>, ArrayList<K>> bottomLoader;
@@ -52,10 +54,16 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
         if (!lockBottom && position >= getItemCount() - 1 - startBottomLoadOffset) {
             inProgress = true;
-            ToolsThreads.INSTANCE.main(true, () -> loadNow(true));
+            ToolsThreads.INSTANCE.main(true, () -> {
+                loadNow(true);
+                return Unit.INSTANCE;
+            });
         } else if (!lockTop && topLoader != null && position <= startTopLoadOffset) {
             inProgress = true;
-            ToolsThreads.INSTANCE.main(true, () -> loadNow(false));
+            ToolsThreads.INSTANCE.main(true, () -> {
+                loadNow(false);
+                return Unit.INSTANCE;
+            });
         }
     }
 
@@ -211,7 +219,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     }
 
     public RecyclerCardAdapterLoading<K, V> setRetryMessage(@StringRes int message, @StringRes int button) {
-        return setRetryMessage(ToolsResources.getString(message), ToolsResources.getString(button));
+        return setRetryMessage(ToolsResources.INSTANCE.getString(message), ToolsResources.INSTANCE.getString(button));
     }
 
     public RecyclerCardAdapterLoading<K, V> setRetryMessage(String message, String button) {
@@ -223,7 +231,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
 
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(@StringRes int message) {
-        return setEmptyMessage(ToolsResources.getString(message));
+        return setEmptyMessage(ToolsResources.INSTANCE.getString(message));
     }
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(String message) {
@@ -231,7 +239,7 @@ public class RecyclerCardAdapterLoading<K extends Card, V> extends RecyclerCardA
     }
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(@StringRes int message, @StringRes int button, Callback onAction) {
-        return setEmptyMessage(ToolsResources.getString(message), ToolsResources.getString(button), onAction);
+        return setEmptyMessage(ToolsResources.INSTANCE.getString(message), ToolsResources.INSTANCE.getString(button), onAction);
     }
 
     public RecyclerCardAdapterLoading<K, V> setEmptyMessage(String message, String button, Callback onAction) {

@@ -170,7 +170,7 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
     }
 
     public void setCircleBackgroundColorResource(@ColorRes int circleBackgroundRes) {
-        setCircleBackgroundColor(ToolsResources.getColor(circleBackgroundRes));
+        setCircleBackgroundColor(ToolsResources.INSTANCE.getColor(circleBackgroundRes));
     }
 
     @Deprecated

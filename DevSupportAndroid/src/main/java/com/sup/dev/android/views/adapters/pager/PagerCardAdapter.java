@@ -58,7 +58,7 @@ public class PagerCardAdapter extends PagerAdapter implements CardAdapter{
             cardView = card.instanceView(frame.getContext());
 
 
-        frame.addView(ToolsView.removeFromParent(cardView));
+        frame.addView(ToolsView.INSTANCE.removeFromParent(cardView));
         frame.setTag(card.getClass());
         ((FrameLayout.LayoutParams)cardView.getLayoutParams()).gravity = Gravity.CENTER;
 

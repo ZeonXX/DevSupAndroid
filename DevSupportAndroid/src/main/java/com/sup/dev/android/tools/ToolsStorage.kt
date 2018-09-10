@@ -1,0 +1,169 @@
+package com.sup.dev.android.tools
+
+import android.app.Activity
+import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.os.Environment
+import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.java.libs.json.Json
+import com.sup.dev.java.libs.json.JsonArray
+import com.sup.dev.java.tools.ToolsThreads
+import java.io.File
+import java.io.FileOutputStream
+
+
+object ToolsStorage {
+
+    var externalFileNamePrefix = "f"
+    var preferences: SharedPreferences? = null
+
+    @JvmOverloads
+    fun init(storageKey: String = "android_app_pref") {
+        preferences = SupAndroid.appContext.getSharedPreferences(storageKey, Activity.MODE_PRIVATE)
+    }
+
+    operator fun contains(key: String): Boolean {
+        return preferences!!.contains(key)
+    }
+
+    //
+    //  Get
+    //
+
+    fun getBoolean(key: String, def: Boolean): Boolean {
+        if (preferences == null) init()
+        return preferences!!.getBoolean(key, def)
+    }
+
+    fun getInt(key: String, def: Int): Int {
+        if (preferences == null) init()
+        return preferences!!.getInt(key, def)
+    }
+
+    fun getLong(key: String, def: Long): Long {
+        if (preferences == null) init()
+        return preferences!!.getLong(key, def)
+    }
+
+    fun getFloat(key: String, def: Float): Float {
+        if (preferences == null) init()
+        return preferences!!.getFloat(key, def)
+    }
+
+    fun getString(key: String, string: String?): String? {
+        if (preferences == null) init()
+        return preferences!!.getString(key, string)
+    }
+
+    fun getBytes(key: String): ByteArray? {
+        val s = preferences!!.getString(key, null) ?: return null
+        return s.toByteArray()
+    }
+
+    fun getJson(key: String): Json? {
+        val s = getString(key, null) ?: return null
+        return Json(s)
+    }
+
+    fun getJsonArray(key: String, def: JsonArray): JsonArray {
+        val string = getString(key, null)
+        return if (string == null || string.isEmpty()) def else JsonArray(string)
+
+    }
+
+    //
+    //  Put
+    //
+
+    fun put(key: String, v: Boolean) {
+        if (preferences == null) init()
+        preferences!!.edit().putBoolean(key, v).apply()
+    }
+
+    fun put(key: String, v: Int) {
+        if (preferences == null) init()
+        preferences!!.edit().putInt(key, v).apply()
+    }
+
+    fun put(key: String, v: Long) {
+        if (preferences == null) init()
+        preferences!!.edit().putLong(key, v).apply()
+    }
+
+    fun put(key: String, v: Float) {
+        if (preferences == null) init()
+        preferences!!.edit().putFloat(key, v).apply()
+    }
+
+    fun put(key: String, v: String) {
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, v).apply()
+    }
+
+    fun put(key: String, value: ByteArray) {
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, String(value)).apply()
+    }
+
+    fun put(key: String, v: Json) {
+        put(key, v.toString())
+    }
+
+    fun put(key: String, v: JsonArray) {
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, v.toString()).apply()
+    }
+
+    //
+    //  Remove
+    //
+
+    fun remove(key: String) {
+        if (preferences == null) init()
+        preferences!!.edit().remove(key).apply()
+    }
+
+
+    //
+    //  Files
+    //
+
+    fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit) {
+        if (preferences == null) init()
+        ToolsPermission.requestWritePermission {
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()
+            val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png")
+            try {
+                val out = FileOutputStream(f)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                out.close()
+                ToolsThreads.main { onComplete.invoke(f) }
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
+        }
+    }
+
+    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: ()->Unit = {}) {
+        if (preferences == null) init()
+        saveFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).absolutePath,
+                bytes, onComplete, onPermissionPermissionRestriction)
+    }
+
+    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: ()->Unit = {}) {
+        if (preferences == null) init()
+        ToolsPermission.requestWritePermission({
+            val f = File(patch)
+            f.delete()
+            if (f.parentFile != null) f.parentFile.mkdirs()
+            try {
+                val out = FileOutputStream(f)
+                out.write(bytes)
+                out.close()
+                ToolsThreads.main { onComplete.invoke(f) }
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
+        }, onPermissionPermissionRestriction)
+    }
+}

@@ -11,6 +11,8 @@ import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import kotlin.Unit;
+
 public class CardLoading extends Card {
 
     private boolean dividerVisible = false;
@@ -52,9 +54,15 @@ public class CardLoading extends Card {
         if (state == State.LOADING) {
             vContainer.setVisibility(View.GONE);
 
-            if(type == Type.CIRCLE) ToolsThreads.INSTANCE.main(1000, () -> {if(state == State.LOADING)ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE);});
+            if (type == Type.CIRCLE) ToolsThreads.INSTANCE.main(1000, () -> {
+                if (state == State.LOADING) ToolsView.INSTANCE.alpha(vLoadingCircle, type != Type.CIRCLE);
+                return Unit.INSTANCE;
+            });
             else vLoadingCircle.setVisibility(View.GONE);
-            if(type == Type.HORIZONTAL)ToolsThreads.INSTANCE.main(1000, () ->{if(state == State.LOADING)ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL);});
+            if (type == Type.HORIZONTAL) ToolsThreads.INSTANCE.main(1000, () -> {
+                if (state == State.LOADING) ToolsView.INSTANCE.alpha(vLoadingHorizontal, type != Type.HORIZONTAL);
+                return Unit.INSTANCE;
+            });
             else vLoadingHorizontal.setVisibility(View.GONE);
 
             vText.setVisibility(View.GONE);
@@ -64,8 +72,8 @@ public class CardLoading extends Card {
         }
         if (state == State.RETRY) {
             vContainer.setVisibility(View.VISIBLE);
-            ToolsView.toAlpha(vLoadingCircle);
-            ToolsView.toAlpha(vLoadingHorizontal);
+            ToolsView.INSTANCE.toAlpha(vLoadingCircle);
+            ToolsView.INSTANCE.toAlpha(vLoadingHorizontal);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(retryButton == null || retryButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(retryMessage);
@@ -77,8 +85,8 @@ public class CardLoading extends Card {
         }
         if (state == State.ACTION) {
             vContainer.setVisibility(View.VISIBLE);
-            ToolsView.toAlpha(vLoadingCircle);
-            ToolsView.toAlpha(vLoadingHorizontal);
+            ToolsView.INSTANCE.toAlpha(vLoadingCircle);
+            ToolsView.INSTANCE.toAlpha(vLoadingHorizontal);
             vText.setVisibility(View.VISIBLE);
             vAction.setVisibility(actionButton == null || actionButton.isEmpty() ? View.GONE : View.VISIBLE);
             vText.setText(actionMessage);
@@ -119,7 +127,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setActionMessage(@StringRes int text) {
-        return setActionMessage(ToolsResources.getString(text));
+        return setActionMessage(ToolsResources.INSTANCE.getString(text));
     }
 
     public CardLoading setActionMessage(String text) {
@@ -129,7 +137,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setActionButton(@StringRes int text, Callback1<CardLoading> onAction) {
-        return setActionButton(ToolsResources.getString(text), onAction);
+        return setActionButton(ToolsResources.INSTANCE.getString(text), onAction);
     }
 
     public CardLoading setActionButton(String text, Callback1<CardLoading> onAction) {
@@ -140,7 +148,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setRetryMessage(@StringRes int text) {
-        return setRetryMessage(ToolsResources.getString(text));
+        return setRetryMessage(ToolsResources.INSTANCE.getString(text));
     }
 
     public CardLoading setRetryMessage(String text) {
@@ -150,7 +158,7 @@ public class CardLoading extends Card {
     }
 
     public CardLoading setRetryButton(@StringRes int text, Callback1<CardLoading> onRetry) {
-        return setRetryButton(ToolsResources.getString(text), onRetry);
+        return setRetryButton(ToolsResources.INSTANCE.getString(text), onRetry);
     }
 
     public CardLoading setRetryButton(String text, Callback1<CardLoading> onRetry) {
