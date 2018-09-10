@@ -98,7 +98,6 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
             move(motionEvent.x, motionEvent.y)
         else
             clearMove()
-
         if (motionEvent.pointerCount == 2 && (motionEvent.action == MotionEvent.ACTION_MOVE || motionEvent.action == MotionEvent.ACTION_DOWN || motionEvent.action == MotionEvent.ACTION_POINTER_DOWN))
             zoom(Line(motionEvent.x, motionEvent.y, motionEvent.getX(1), motionEvent.getY(1)))
         else
