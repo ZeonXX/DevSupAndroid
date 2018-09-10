@@ -28,13 +28,13 @@ public class Miui {
                     fis = new FileInputStream(BUILD_PROP_FILE);
                     sBuildProperties.load(fis);
                 } catch (IOException e) {
-                    Debug.log(e);
+                    Debug.INSTANCE.log(e);
                 } finally {
                     if (fis != null) {
                         try {
                             fis.close();
                         } catch (IOException e) {
-                            Debug.log(e);
+                            Debug.INSTANCE.log(e);
                         }
                     }
                 }

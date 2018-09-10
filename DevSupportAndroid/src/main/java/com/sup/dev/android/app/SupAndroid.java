@@ -13,6 +13,9 @@ import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsThreads;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 public class SupAndroid {
 
     public static int SERVICE_FOREGROUND = 4000;
@@ -62,9 +65,18 @@ public class SupAndroid {
             }
         });
 
-        Debug.printer = s -> Log.e("Debug", s);
-        Debug.printerInfo = (tag,s) -> Log.i(tag, s);
-        Debug.exceptionPrinter = th -> Log.e("Debug", "", th);
+        Debug.INSTANCE.setPrinter(s -> {
+            Log.e("Debug", s);
+            return Unit.INSTANCE;
+        });
+        Debug.INSTANCE.setPrinterInfo((tag,s) -> {
+            Log.i(tag, s);
+            return Unit.INSTANCE;
+        });
+        Debug.INSTANCE.setExceptionPrinter(th -> {
+            Log.e("Debug", "", th);
+            return Unit.INSTANCE;
+        });
 
         EventBusMultiProcess.init();
 
@@ -94,13 +106,13 @@ public class SupAndroid {
 
     private static String loadText(String id){
         String t = ToolsResources.getString(id);
-        if(t == null) Debug.error("Init warning: can't find text with id ["+id+"]");
+        if(t == null) Debug.INSTANCE.error("Init warning: can't find text with id ["+id+"]");
         return t;
     }
 
     private static int loadImage(String id){
         int resId = ToolsResources.getDrawableId("error_network");
-        if(resId < 1) Debug.error("Init warning: can't find image with id ["+id+"]");
+        if(resId < 1) Debug.INSTANCE.error("Init warning: can't find image with id ["+id+"]");
         return resId;
     }
 

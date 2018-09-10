@@ -260,7 +260,7 @@ public class ViewCircleImage extends android.support.v7.widget.AppCompatImageVie
             drawable.draw(canvas);
             return bitmap;
         } catch (Exception e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
             return null;
         }
     }

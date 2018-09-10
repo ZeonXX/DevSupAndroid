@@ -24,7 +24,7 @@ public class ImageLoaderFile extends ImageLoaderA {
             byte[] bytes = ToolsFiles.INSTANCE.readFile(file);
             return bytes ;
         } catch (IOException e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
             return null;
         }
     }

@@ -84,7 +84,7 @@ public class ImageLoader {
             try {
                 loadNow(loader);
             } catch (Throwable ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
             }
         });
     }

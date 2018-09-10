@@ -10,10 +10,9 @@ import android.widget.HorizontalScrollView;
 
 import com.sup.dev.android.R;
 import com.sup.dev.android.tools.ToolsResources;
-import com.sup.dev.android.tools.ToolsText;
+import com.sup.dev.android.tools.ToolsTextAndroid;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.providers.Provider1;
-import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsMath;
 import com.sup.dev.java.tools.ToolsThreads;
 
@@ -81,8 +80,8 @@ public class ViewGraph extends View {
             for (int y = 0; y < h + 1; y += greedYFrequency) {
                 canvas.drawLine(offsetViewLeft, cellSizeH * y + offsetViewTop, getWidth(), cellSizeH * y + offsetViewTop, paint);
                 if (y < h) canvas.drawText(providerMaskY.provide(h - y),
-                        offsetViewLeft - ToolsText.getStringWidth(paint.getTypeface(), textSize, providerMaskY.provide(h - y)) - ToolsView.dpToPx(4),
-                        cellSizeH * y + ToolsText.getStringHeight(paint.getTypeface(), textSize) / 2 + offsetViewTop,
+                        offsetViewLeft - ToolsTextAndroid.getStringWidth(paint.getTypeface(), textSize, providerMaskY.provide(h - y)) - ToolsView.dpToPx(4),
+                        cellSizeH * y + ToolsTextAndroid.getStringHeight(paint.getTypeface(), textSize) / 2 + offsetViewTop,
                         paint);
             }
 
@@ -94,8 +93,8 @@ public class ViewGraph extends View {
             for (float x = 0; x < wPoints + 1; x += greedXFrequency) {
                 canvas.drawLine(cellSizeW * x + offsetViewLeft, offsetViewTop, cellSizeW * x + offsetViewLeft, getHeight() - offsetViewBottom, paint);
                 if (x > 0) canvas.drawText(providerMaskX.provide(x),
-                        cellSizeW * x - ToolsText.getStringWidth(paint.getTypeface(), textSize, providerMaskX.provide(x)) / 2 + offsetViewLeft,
-                        getHeight() - offsetViewBottom + ToolsText.getStringHeight(paint.getTypeface(), textSize) + ToolsView.dpToPx(4),
+                        cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.getTypeface(), textSize, providerMaskX.provide(x)) / 2 + offsetViewLeft,
+                        getHeight() - offsetViewBottom + ToolsTextAndroid.getStringHeight(paint.getTypeface(), textSize) + ToolsView.dpToPx(4),
                         paint);
             }
         }

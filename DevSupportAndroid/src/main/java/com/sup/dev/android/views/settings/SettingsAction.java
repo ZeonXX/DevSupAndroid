@@ -58,7 +58,7 @@ public class SettingsAction extends Settings {
 
     @Override
     public void setOnTouchListener(OnTouchListener l) {
-        Debug.printStack();
+        Debug.INSTANCE.printStack();
         super.setOnTouchListener(l);
     }
 

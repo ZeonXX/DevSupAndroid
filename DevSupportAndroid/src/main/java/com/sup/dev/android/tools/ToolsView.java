@@ -13,8 +13,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -134,7 +132,7 @@ public class ToolsView {
 
     public static void setTextOrGone(TextView vText, CharSequence text) {
         vText.setText(text);
-        vText.setVisibility(ToolsText.empty(text) ? GONE : VISIBLE);
+        vText.setVisibility(ToolsTextAndroid.empty(text) ? GONE : VISIBLE);
     }
 
     public static void setOnClickAndLongClickCoordinates(View v, Callback4<View, Integer, Integer, Boolean> onClick) {

@@ -30,7 +30,7 @@ import com.sup.dev.java.libs.debug.Debug;
 import com.sup.dev.java.tools.ToolsColor;
 import com.sup.dev.java.tools.ToolsFiles;
 import com.sup.dev.java.tools.ToolsMath;
-import com.sup.dev.java.tools.ToolsTextJava;
+import com.sup.dev.java.tools.ToolsText;
 import com.sup.dev.java.tools.ToolsThreads;
 
 import java.io.ByteArrayOutputStream;
@@ -277,7 +277,7 @@ public class ToolsBitmap {
             drawable.draw(canvas);
             return bitmap;
         } catch (Exception e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
             return null;
         }
 
@@ -288,7 +288,7 @@ public class ToolsBitmap {
     }
 
     public static Bitmap getFromURL(final String src) throws IOException {
-        URL url = ToolsTextJava.makeUrl(src);
+        URL url = ToolsText.makeUrl(src);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setReadTimeout(4000);
         connection.setDoInput(true);
@@ -303,7 +303,7 @@ public class ToolsBitmap {
             try {
                 bitmap = getFromURL(src);
             } catch (IOException ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
             }
             final Bitmap fBitmap = bitmap;
             ToolsThreads.INSTANCE.main(() -> bitmapListener.callback(fBitmap));
@@ -315,7 +315,7 @@ public class ToolsBitmap {
             try {
                 callbackResult.callback(MediaStore.Images.Media.getBitmap(SupAndroid.activity.getContentResolver(), uri));
             } catch (IOException ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
                 callbackResult.callback(null);
             }
         }, onPermissionPermissionRestriction);
@@ -326,7 +326,7 @@ public class ToolsBitmap {
             try {
                 onComplete.callback(decode(ToolsFiles.INSTANCE.readFile(file)));
             } catch (IOException e) {
-                Debug.log(e);
+                Debug.INSTANCE.log(e);
                 ToolsToast.show(errorCantLoadImage);
             }
         }, () -> ToolsToast.show(errorPermissionFiles));

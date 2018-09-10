@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import kotlin.Unit;
+
 
 /*
     Грубое решение проблемы проверки доступа в интернет через DOZE мод.
@@ -73,12 +75,12 @@ public class ServiceNetworkCheck extends Service {
 
     public static void isHasInternetConnectionInService(Callback1<Boolean> onResult) {
         long key = ++globalKey;
-        EventBus.subscribeHard(EventServiceNetworkCheck.class,
-                new SubscribedCallback1<EventServiceNetworkCheck>(
-                        e -> {
-                            if (e.key == key) onResult.callback(e.result);
-                        }
-                ).setLifeTime(15000));
+        long time = System.currentTimeMillis();
+        EventBus.INSTANCE.subscribeHard(EventServiceNetworkCheck.class,
+                e -> {
+                    if (e.key == key && time + 15000 > System.currentTimeMillis()) onResult.callback(e.result);
+                    return Unit.INSTANCE;
+                });
         ToolsIntent.startServiceForeground(ServiceNetworkCheck.class,
                 P_KEY, key);
     }
@@ -111,7 +113,7 @@ public class ServiceNetworkCheck extends Service {
                 try {
                     sock.close();
                 } catch (IOException e) {
-                    Debug.log(e);
+                    Debug.INSTANCE.log(e);
                 }
             }
         }

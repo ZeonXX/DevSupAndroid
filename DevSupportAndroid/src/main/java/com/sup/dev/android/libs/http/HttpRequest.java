@@ -114,7 +114,7 @@ public class HttpRequest {
                 if (onResult != null) onResult.callback(make());
             } catch (Exception e) {
                 if (onError != null) onError.callback(e);
-                else Debug.log(e);
+                else Debug.INSTANCE.log(e);
             }
         });
         return this;
@@ -284,7 +284,7 @@ public class HttpRequest {
         try {
             ctx = SSLContext.getInstance("TLS");
         } catch (NoSuchAlgorithmException e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
         }
         try {
             ctx.init(null, new TrustManager[]{
@@ -301,7 +301,7 @@ public class HttpRequest {
                     }
             }, null);
         } catch (KeyManagementException e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
         }
         HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);

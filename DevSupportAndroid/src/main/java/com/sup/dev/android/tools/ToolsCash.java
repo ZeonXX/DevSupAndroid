@@ -57,13 +57,13 @@ public class ToolsCash{
             os.write(data);
             os.flush();
         } catch (IOException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         } finally {
             if (os != null)
                 try {
                     os.close();
                 } catch (IOException e) {
-                    Debug.log(e);
+                    Debug.INSTANCE.log(e);
                 }
         }
     }
@@ -83,12 +83,12 @@ public class ToolsCash{
             is = new FileInputStream(file);
             is.read(data);
         } catch (IOException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
-                Debug.log(e);
+                Debug.INSTANCE.log(e);
             }
         }
         return data;

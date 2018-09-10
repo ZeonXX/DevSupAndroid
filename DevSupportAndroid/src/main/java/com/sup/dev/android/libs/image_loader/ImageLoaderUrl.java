@@ -21,7 +21,7 @@ public class ImageLoaderUrl extends ImageLoaderA {
         try {
             return ToolsNetwork.INSTANCE.getBytesFromURL(url);
         } catch (IOException e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
             return null;
         }
     }

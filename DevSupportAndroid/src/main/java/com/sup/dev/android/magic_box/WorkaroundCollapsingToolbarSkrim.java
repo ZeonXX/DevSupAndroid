@@ -26,7 +26,7 @@ public class WorkaroundCollapsingToolbarSkrim {
                     bar.setScrimAnimationDuration(scrimAnimationDuration);
                 });
             } catch (Exception e) {
-                Debug.log(e);
+                Debug.INSTANCE.log(e);
             }
 
         }

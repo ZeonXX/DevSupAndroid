@@ -25,7 +25,7 @@ import com.sup.dev.java.classes.callbacks.simple.Callback;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 import com.sup.dev.java.classes.callbacks.simple.Callback2;
 import com.sup.dev.java.classes.items.Item2;
-import com.sup.dev.java.tools.ToolsTextJava;
+import com.sup.dev.java.tools.ToolsText;
 import com.sup.dev.java.libs.debug.Debug;
 
 public class ToolsIntent {
@@ -67,7 +67,7 @@ public class ToolsIntent {
         try {
             SupAndroid.appContext.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
             if (onActivityNotFound != null)
                 onActivityNotFound.callback();
         }
@@ -75,7 +75,7 @@ public class ToolsIntent {
 
 
     public static void openLink(String link, Callback onActivityNotFound) {
-        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsTextJava.castToWebLink(link)))
+        startIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.INSTANCE.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound);
     }
 
@@ -130,7 +130,7 @@ public class ToolsIntent {
             out.flush();
             out.close();
         } catch (Exception e) {
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
         }
 
         try {
@@ -141,7 +141,7 @@ public class ToolsIntent {
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null));
         } catch (ActivityNotFoundException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
             if (onActivityNotFound != null) onActivityNotFound.callback();
         }
 
@@ -175,7 +175,7 @@ public class ToolsIntent {
             if (text == null) i.putExtra(Intent.EXTRA_TEXT, text);
             SupAndroid.activity.startActivity(Intent.createChooser(i, null));
         } catch (ActivityNotFoundException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
             if (onActivityNotFound != null) onActivityNotFound.callback();
         }
     }
@@ -202,7 +202,7 @@ public class ToolsIntent {
                 else if (onError != null) onError.callback();
             });
         } catch (ActivityNotFoundException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
             if (onError != null) onError.callback();
         }
     }
@@ -261,7 +261,7 @@ public class ToolsIntent {
         try {
             intent.send();
         } catch (PendingIntent.CanceledException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         }
     }
 

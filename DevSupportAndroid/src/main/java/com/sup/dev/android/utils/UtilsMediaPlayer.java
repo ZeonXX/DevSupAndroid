@@ -34,7 +34,7 @@ public class UtilsMediaPlayer implements MediaPlayer.OnPreparedListener {
             mediaPlayer.setVolume(1, 1);
 
         } catch (IOException ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         }
     }
 

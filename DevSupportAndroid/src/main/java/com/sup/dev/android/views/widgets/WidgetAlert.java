@@ -3,7 +3,6 @@ package com.sup.dev.android.views.widgets;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,7 +14,7 @@ import com.sup.dev.android.R;
 import com.sup.dev.android.app.SupAndroid;
 import com.sup.dev.android.tools.ToolsResources;
 import com.sup.dev.android.tools.ToolsStorage;
-import com.sup.dev.android.tools.ToolsText;
+import com.sup.dev.android.tools.ToolsTextAndroid;
 import com.sup.dev.android.tools.ToolsView;
 import com.sup.dev.java.classes.callbacks.simple.Callback1;
 
@@ -128,7 +127,7 @@ public class WidgetAlert extends Widget {
     }
 
     public WidgetAlert setTitleText(String topTitle) {
-        vTopContainer.setVisibility(ToolsText.empty(topTitle) ? View.GONE : View.VISIBLE);
+        vTopContainer.setVisibility(ToolsTextAndroid.empty(topTitle) ? View.GONE : View.VISIBLE);
         ToolsView.setTextOrGone(vTopTitle, topTitle);
         return this;
     }

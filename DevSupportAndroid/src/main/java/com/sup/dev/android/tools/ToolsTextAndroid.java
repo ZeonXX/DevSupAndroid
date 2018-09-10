@@ -7,9 +7,9 @@ import android.text.Html;
 import android.text.InputFilter;
 import android.widget.EditText;
 
-import com.sup.dev.java.tools.ToolsTextJava;
+import com.sup.dev.java.tools.ToolsText;
 
-public class ToolsText extends ToolsTextJava {
+public class ToolsTextAndroid{
 
     public static boolean empty(CharSequence s) {
         return s == null || s.length() == 0;
@@ -40,7 +40,7 @@ public class ToolsText extends ToolsTextJava {
     }
 
     public static InputFilter getFilterSpecChars() {
-        return (source, start, end, dest, dstart, dend) -> source != null && SPEC.contains(source) ? "" : null;
+        return (source, start, end, dest, dstart, dend) -> source != null && ToolsText.INSTANCE.SPEC.contains(source) ? "" : null;
     }
 
     public static InputFilter getFilterLetterOrDigit() {

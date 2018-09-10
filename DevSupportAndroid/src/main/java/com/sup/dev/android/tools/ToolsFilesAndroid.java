@@ -43,7 +43,7 @@ public class ToolsFilesAndroid {
             try {
                 if (out != null) out.close();
             } catch (IOException ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
             }
         }
 
@@ -128,12 +128,12 @@ public class ToolsFilesAndroid {
             try {
                 if (is != null) is.close();
             } catch (IOException ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
             }
             try {
                 if (zis != null) zis.close();
             } catch (IOException ex) {
-                Debug.log(ex);
+                Debug.INSTANCE.log(ex);
             }
 
         }
@@ -168,13 +168,13 @@ public class ToolsFilesAndroid {
             out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
         } catch (Exception ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException ex) {
-                    Debug.log(ex);
+                    Debug.INSTANCE.log(ex);
                 }
             }
         }

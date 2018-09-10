@@ -130,7 +130,7 @@ public class WidgetChooseImage extends WidgetRecycler {
             try {
                 onSelected(ToolsFiles.INSTANCE.readFile(file));
             } catch (IOException e) {
-                Debug.log(e);
+                Debug.INSTANCE.log(e);
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
             }
         });

@@ -36,7 +36,7 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
                     try {
                         inputContentInfo.requestPermission();
                     } catch (Exception e) {
-                        Debug.log(e);
+                        Debug.INSTANCE.log(e);
                         return false;
                     }
                 }
@@ -44,14 +44,14 @@ public class ViewEditTextMedia extends android.support.v7.widget.AppCompatEditTe
                     if (callback != null) callback.callback(inputContentInfo.getLinkUri().toString());
                     return true;
                 } catch (Exception ex) {
-                    Debug.log(ex);
+                    Debug.INSTANCE.log(ex);
                 }
 
                 return false;
 
             });
         }catch (Exception e){
-            Debug.log(e);
+            Debug.INSTANCE.log(e);
             return super.onCreateInputConnection(editorInfo);
         }
     }

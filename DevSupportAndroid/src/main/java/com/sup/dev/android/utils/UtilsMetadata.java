@@ -25,34 +25,34 @@ public class UtilsMetadata{
 
         MediaMetadataRetriever retriever = wrap(path);
 
-        Debug.print("getEmbeddedPicture", retriever.getEmbeddedPicture());
-        Debug.print("getFrameAtTime", retriever.getFrameAtTime());
-        Debug.print("CD_TRACK_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER));
-        Debug.print("ALBUM", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
-        Debug.print("ARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
-        Debug.print("AUTHOR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR));
-        Debug.print("COMPOSER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER));
-        Debug.print("DATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE));
-        Debug.print("GENRE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
-        Debug.print("TITLE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
-        Debug.print("YEAR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR));
-        Debug.print("DURATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-        Debug.print("NUM_TRACKS", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS));
-        Debug.print("WRITER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_WRITER));
-        Debug.print("MIMETYPE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE));
-        Debug.print("ALBUMARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST));
-        Debug.print("DISC_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER));
-        Debug.print("COMPILATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPILATION));
-        Debug.print("HAS_AUDIO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO));
-        Debug.print("HAS_VIDEO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO));
-        Debug.print("VIDEO_WIDTH", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-        Debug.print("VIDEO_HEIGHT", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-        Debug.print("BITRATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-        Debug.print("LOCATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_LOCATION));
+        Debug.INSTANCE.print("getEmbeddedPicture", retriever.getEmbeddedPicture());
+        Debug.INSTANCE.print("getFrameAtTime", retriever.getFrameAtTime());
+        Debug.INSTANCE.print("CD_TRACK_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER));
+        Debug.INSTANCE.print("ALBUM", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+        Debug.INSTANCE.print("ARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+        Debug.INSTANCE.print("AUTHOR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR));
+        Debug.INSTANCE.print("COMPOSER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER));
+        Debug.INSTANCE.print("DATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE));
+        Debug.INSTANCE.print("GENRE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
+        Debug.INSTANCE.print("TITLE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+        Debug.INSTANCE.print("YEAR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR));
+        Debug.INSTANCE.print("DURATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+        Debug.INSTANCE.print("NUM_TRACKS", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS));
+        Debug.INSTANCE.print("WRITER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_WRITER));
+        Debug.INSTANCE.print("MIMETYPE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE));
+        Debug.INSTANCE.print("ALBUMARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST));
+        Debug.INSTANCE.print("DISC_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER));
+        Debug.INSTANCE.print("COMPILATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPILATION));
+        Debug.INSTANCE.print("HAS_AUDIO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO));
+        Debug.INSTANCE.print("HAS_VIDEO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO));
+        Debug.INSTANCE.print("VIDEO_WIDTH", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+        Debug.INSTANCE.print("VIDEO_HEIGHT", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+        Debug.INSTANCE.print("BITRATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+        Debug.INSTANCE.print("LOCATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_LOCATION));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            Debug.print("VIDEO_ROTATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));
+            Debug.INSTANCE.print("VIDEO_ROTATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            Debug.print("CAPTURE_FRAMERATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CAPTURE_FRAMERATE));
+            Debug.INSTANCE.print("CAPTURE_FRAMERATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CAPTURE_FRAMERATE));
 
     }
 

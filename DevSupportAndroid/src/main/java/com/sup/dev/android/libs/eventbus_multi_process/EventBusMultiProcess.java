@@ -19,7 +19,7 @@ public class EventBusMultiProcess extends BroadcastReceiver {
 
     public static void init(){
 
-        EventBus.setPostMultiProcessCallback(EventBusMultiProcess::post);
+        EventBus.INSTANCE.setPostMultiProcessCallback(EventBusMultiProcess::post);
 
         if (!isRegisteredInManifest(SupAndroid.appContext)) {
             IntentFilter filter = new IntentFilter(EventBusMultiProcess.MULTI_PROCESS_INTENT_ACTION);
@@ -51,9 +51,9 @@ public class EventBusMultiProcess extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             Object event = intent.getSerializableExtra(EventBusMultiProcess.MULTI_PROCESS_INTENT_EXTRA);
-            EventBus.post(event);
+            EventBus.INSTANCE.post(event);
         } catch (Exception ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         }
     }
 

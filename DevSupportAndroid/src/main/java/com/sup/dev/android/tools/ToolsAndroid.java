@@ -60,7 +60,7 @@ public class ToolsAndroid {
                 Object btManagerService = mServiceField.get(bluetoothAdapter);
                 if (btManagerService != null) bluetoothMacAddress = (String) btManagerService.getClass().getMethod("getAddress").invoke(btManagerService);
             } catch (NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                Debug.log(e);
+                Debug.INSTANCE.log(e);
             }
         } else {
             bluetoothMacAddress = bluetoothAdapter.getAddress();
@@ -83,13 +83,13 @@ public class ToolsAndroid {
             while ((c = cmdlineReader.read()) > 0) processName.append((char) c);
             return processName.toString();
         } catch (Exception ex) {
-            Debug.log(ex);
+            Debug.INSTANCE.log(ex);
         } finally {
             if (cmdlineReader != null) {
                 try {
                     cmdlineReader.close();
                 } catch (IOException e) {
-                    Debug.log(e);
+                    Debug.INSTANCE.log(e);
                 }
             }
         }
