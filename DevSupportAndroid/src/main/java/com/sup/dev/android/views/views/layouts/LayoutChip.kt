@@ -11,7 +11,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 
 
-class LayoutChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+open class LayoutChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var paint: Paint? = null
     private val path: Path

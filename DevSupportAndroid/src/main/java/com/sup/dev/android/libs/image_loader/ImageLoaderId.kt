@@ -14,6 +14,12 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
         return loader!!.provide(imageId)
     }
 
+    override fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderId {
+        super.setOnLoaded(onLoaded)
+        return this
+    }
+
+
     companion object {
 
         var loader: Provider1<Long, ByteArray>? = null
@@ -23,8 +29,8 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
         }
 
         @JvmOverloads
-        fun load(imageId: Long, vImage: ImageView? = null, onLoaded:(ByteArray) -> Unit = {}) {
-            ImageLoader.load(ImageLoaderId(imageId).setImage(vImage).onLoaded(onLoaded))
+        fun load(imageId: Long, vImage: ImageView? = null, onLoaded: (ByteArray) -> Unit = {}) {
+            ImageLoader.load(ImageLoaderId(imageId).setImage(vImage).setOnLoaded(onLoaded))
         }
 
         fun clearCash(imageId: Long) {

@@ -14,7 +14,7 @@ import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.event_bus.EventBus
+import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.IOException
 import java.io.Serializable

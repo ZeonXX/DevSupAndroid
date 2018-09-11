@@ -174,7 +174,7 @@ class WidgetChooseImage : WidgetRecycler() {
             ImageLoader.load(ImageLoaderFile(file)
                     .setImage(vImage)
                     .cashScaledBytes()
-                    .onLoaded { bytes -> this.bytes = bytes }
+                    .setOnLoaded { bytes -> this.bytes = bytes }
                     .sizes(512, 512)
                     .options(ImageLoader.OPTIONS_RGB_565())
                     .cropSquare())

@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.event_bus.EventBus
+import com.sup.dev.java.libs.eventBus.EventBus
 import java.io.Serializable
 
 class EventBusMultiProcess : BroadcastReceiver() {

@@ -24,7 +24,7 @@ abstract class Widget(layoutRes: Int) {
     val view: View
     protected val vTitle: TextView?
 
-    private var onHide: (Widget)->Unit = {}
+    private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
     protected var viewWrapper: WidgetViewWrapper? = null
@@ -37,7 +37,7 @@ abstract class Widget(layoutRes: Int) {
         get() = view!!.context
 
     init {
-        view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()
+        view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
         vTitle = findViewById(R.id.title)
 
         if (vTitle != null) {
@@ -46,7 +46,7 @@ abstract class Widget(layoutRes: Int) {
         }
     }
 
-    protected fun instanceView(): View? {
+    protected open fun instanceView(): View? {
         return null
     }
 
@@ -89,11 +89,11 @@ abstract class Widget(layoutRes: Int) {
     //  Setters
     //
 
-    fun <K : Widget> setTitle(@StringRes title: Int): K {
+    open fun <K : Widget> setTitle(@StringRes title: Int): K {
         return setTitle(ToolsResources.getString(title))
     }
 
-    fun <K : Widget> setTitle(title: String?): K {
+    open fun <K : Widget> setTitle(title: String?): K {
         if (vTitle != null) ToolsView.setTextOrGone(vTitle, title!!)
         return this as K
     }

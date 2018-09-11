@@ -1,0 +1,154 @@
+package com.sup.dev.android.views.views
+
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.support.annotation.StringRes
+import android.util.AttributeSet
+import android.view.View
+import android.widget.TextView
+import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.animations.AnimationFocus
+import com.sup.dev.android.views.views.layouts.LayoutChip
+
+
+class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LayoutChip(context, attrs) {
+
+    private val animationFocus: AnimationFocus
+    private val paint: Paint
+    private val path: Path
+
+    //
+    //  Getters
+    //
+
+    val viewAvatar: ViewAvatar
+    private val vTitle: TextView
+    val viewSubtitle: TextView
+
+    val title: String
+        get() = vTitle.text.toString()
+
+    val subTitle: String
+        get() = viewSubtitle.text.toString()
+
+    init {
+
+        setWillNotDraw(false)
+
+        SupAndroid.initEditMode(this)
+
+        val focusColor = ToolsResources.getColor(R.color.focus)
+
+        path = Path()
+        paint = Paint()
+        paint.isAntiAlias = true
+
+        val view: View = ToolsView.inflate(context, R.layout.view_avatar_title)
+
+        viewAvatar = view.findViewById(R.id.dev_sup_avatar)
+        vTitle = view.findViewById(R.id.dev_sup_title)
+        viewSubtitle = view.findViewById(R.id.dev_sup_subtitle)
+
+        addView(view)
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ViewAvatarTitle, 0, 0)
+        val src = a.getResourceId(R.styleable.ViewAvatarTitle_android_src, R.color.blue_700)
+        val srcIcon = a.getResourceId(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIcon, 0)
+        val chipText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipText)
+        val chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, ToolsResources.getAccentColor(context))
+        val mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title)
+        val mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle)
+        val iconPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0f)
+        val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18f).toFloat())
+        val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
+        val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
+        a.recycle()
+
+        animationFocus = AnimationFocus(this, focusColor)
+
+        viewAvatar.setImage(src)
+        viewAvatar.setRoundBackgroundColor(roundBackgroundColor)
+        viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
+        viewAvatar.chip.setSize(ToolsView.pxToDp(chipSize))
+        viewAvatar.chip.setIconPadding(ToolsView.pxToDp(iconPadding))
+        viewAvatar.chip.setIcon(srcIcon)
+        viewAvatar.chip.setText(chipText!!)
+        viewAvatar.chip.setChipBackground(chipBackground)
+        setTitle(mText)
+        setSubtitle(mSubtitle)
+
+    }
+
+
+    protected override fun onDraw(canvas: Canvas) {
+
+        super.onDraw(canvas)
+
+        animationFocus.update()
+
+        paint.color = animationFocus.update()
+        canvas.drawPath(path, paint)
+    }
+
+    //
+    //  Chip
+    //
+
+    protected override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+
+        val r: Float = height / 2f
+        path.reset()
+
+        if (height < width) {
+            path.addCircle(r, r, r, Path.Direction.CCW)
+            path.addCircle(width - r, r, r, Path.Direction.CCW)
+            path.addRect(r, 0f, width - r, height.toFloat(), Path.Direction.CCW)
+        } else {
+            path.addCircle(width / 2f, height / 2f, width / 2f, Path.Direction.CCW)
+        }
+
+    }
+
+    //
+    //  Setters
+    //
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
+        isClickable = l != null
+    }
+
+    override fun setOnTouchListener(l: OnTouchListener?) {
+        super.setOnTouchListener(l)
+        if (l == null) animationFocus.resetTouchListener()
+    }
+
+    override fun setOnFocusChangeListener(l: OnFocusChangeListener?) {
+        super.setOnFocusChangeListener(l)
+        if (l == null) animationFocus.resetOnFocusChangedListener()
+    }
+
+    fun setTitle(@StringRes text: Int) {
+        vTitle.setText(text)
+    }
+
+    fun setTitle(text: String?) {
+        vTitle.text = text
+    }
+
+    fun setSubtitle(@StringRes text: Int) {
+        viewSubtitle.setText(text)
+    }
+
+    fun setSubtitle(text: String?) {
+        viewSubtitle.visibility = if (text == null || text.isEmpty()) GONE else VISIBLE
+        viewSubtitle.text = text
+    }
+
+}

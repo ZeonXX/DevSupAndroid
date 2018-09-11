@@ -46,7 +46,7 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun onLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
+    open fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
         this.onLoaded = onLoaded
         return this
     }

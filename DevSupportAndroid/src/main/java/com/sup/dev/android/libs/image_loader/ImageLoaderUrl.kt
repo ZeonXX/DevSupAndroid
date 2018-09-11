@@ -30,7 +30,7 @@ class ImageLoaderUrl(private val url: String) : ImageLoaderA() {
 
         @JvmOverloads
         fun load(url: String, vImage: ImageView? = null, onLoaded: (ByteArray) -> Unit = {}) {
-            ImageLoader.load(ImageLoaderUrl(url).setImage(vImage).onLoaded(onLoaded))
+            ImageLoader.load(ImageLoaderUrl(url).setImage(vImage).setOnLoaded(onLoaded))
         }
 
         fun clearCash(url: String) {

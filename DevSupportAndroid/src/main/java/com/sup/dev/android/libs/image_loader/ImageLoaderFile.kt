@@ -31,7 +31,7 @@ class ImageLoaderFile(private val file: File) : ImageLoaderA() {
 
         @JvmOverloads
         fun load(file: File, vImage: ImageView? = null, onLoaded: (ByteArray)->Unit = {}) {
-            ImageLoader.load(ImageLoaderFile(file).setImage(vImage).onLoaded(onLoaded))
+            ImageLoader.load(ImageLoaderFile(file).setImage(vImage).setOnLoaded(onLoaded))
         }
 
         fun clearCash(file: File) {
