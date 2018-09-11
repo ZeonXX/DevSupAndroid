@@ -207,7 +207,7 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
         })
     }
 
-    fun setRatio(w: Int, h: Int) {
+    fun setRatio(w: Float, h: Float) {
         view.setRatio(w, h)
     }
 
@@ -227,7 +227,7 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun init(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, ignoreRation: Boolean = false) {
         clear()
         setCustomImageControl(true)
-        if (!ignoreRation) setRatio(w, h)
+        if (!ignoreRation) setRatio(w.toFloat(), h.toFloat())
         setImageLoader { vImageGif, callbackImage -> ImageLoader.load(ImageLoaderId(imageId).sizes(w, h).setImage(vImageGif).setOnLoaded(callbackImage)) }
         if (gifId != 0L)
             setGifLoader { callbackGif -> ImageLoader.load(ImageLoaderId(gifId).setOnLoaded(callbackGif)) }
