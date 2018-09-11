@@ -34,7 +34,7 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var image: ByteArray? = null
     private var gif: ByteArray? = null
     private var callbackImage: ((ImageView, (ByteArray?)->Unit) -> Unit)? = null
-    private var callbackGif: ((ByteArray?) -> Unit)? = null
+    private var callbackGif:(((ByteArray?)->Unit) -> Unit)? = null
     private var onClickListener: View.OnClickListener? = null
 
     init {
@@ -139,7 +139,7 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.callbackImage = callbackImage
     }
 
-    fun setGifLoader(callbackGif: (ByteArray?) -> Unit) {
+    fun setGifLoader(callbackGif: (((ByteArray?)->Unit) -> Unit)?) {
         this.callbackGif = callbackGif
     }
 
@@ -169,30 +169,13 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun loadGif() {
         if (callbackGif == null) return
-        val callback  : ((ByteArray?) -> Unit)?= this.callbackGif
+        val callback = this.callbackGif
         vImage.visibility = View.VISIBLE
         vProgress.visibility = View.VISIBLE
         vFade.visibility = View.VISIBLE
         vIcon.visibility = View.GONE
 
-
-
-        /*
-        callback.callback(gif -> {
-            if (callback != this.callbackGif) return;
-            this.gif = gif;
-            if (gif == null) {
-                vFade.setVisibility(VISIBLE);
-                vIcon.setVisibility(VISIBLE);
-                vIcon.setImageResource(R.drawable.ic_refresh_white_24dp);
-            } else {
-                vGif.setOnGifLoaded(this::play);
-                vGif.setGif(gif);
-            }
-        });
-         */
-
-        callback!!.invoke({ gif ->
+        callback!!.invoke { gif ->
             if (callback === this.callbackGif) {
                 this.gif = gif
                 if (gif == null) {
@@ -201,10 +184,10 @@ class ViewGifImage @JvmOverloads constructor(context: Context, attrs: AttributeS
                     vIcon.setImageResource(R.drawable.ic_refresh_white_24dp)
                 } else {
                     vGif.setOnGifLoaded { this.play() }
-                    vGif.setGif(gif!!)
+                    vGif.setGif(gif)
                 }
             }
-        })
+        }
     }
 
     fun setRatio(w: Float, h: Float) {
