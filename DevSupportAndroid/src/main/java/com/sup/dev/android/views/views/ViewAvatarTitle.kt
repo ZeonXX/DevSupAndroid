@@ -77,7 +77,7 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         viewAvatar.vChip.setSize(ToolsView.pxToDp(chipSize))
         viewAvatar.vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
         viewAvatar.vChip.setIcon(srcIcon)
-        viewAvatar.vChip.setText(chipText!!)
+        viewAvatar.vChip.setText(chipText)
         viewAvatar.vChip.setChipBackground(chipBackground)
         setTitle(mText)
         setSubtitle(mSubtitle)

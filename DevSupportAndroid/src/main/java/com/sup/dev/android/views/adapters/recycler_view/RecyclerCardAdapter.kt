@@ -46,9 +46,9 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         val card = items[position]
         val frame = holder.itemView as FrameLayout
 
-        val tag = frame.tag as Class<out Card>
+        val tag: Class<out Card>? = frame.tag as Class<out Card>?
 
-        if (frame.childCount != 0)
+        if (frame.childCount != 0 && tag != null)
             viewCash.add(tag, frame.getChildAt(0))
         frame.removeAllViews()
 

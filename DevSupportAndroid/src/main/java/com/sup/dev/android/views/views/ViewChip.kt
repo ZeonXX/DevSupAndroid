@@ -19,7 +19,7 @@ import com.sup.dev.java.classes.animation.AnimationSpringColor
 import com.sup.dev.java.tools.ToolsColor
 
 
-class ViewChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private val animationFocus: AnimationFocus
     private val animationBackground: AnimationSpringColor
