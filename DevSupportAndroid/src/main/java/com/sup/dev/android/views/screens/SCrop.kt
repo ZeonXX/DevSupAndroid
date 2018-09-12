@@ -3,6 +3,7 @@ package com.sup.dev.android.views.screens
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View
+import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.dialogs.DialogWidget
@@ -10,25 +11,21 @@ import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 
 
-class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap, Unit>?) : Screen(R.layout.screen_image_crop) {
+class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap?, Unit>?) : Screen(R.layout.screen_image_crop) {
 
 
-    private val vCropImageView: ViewCropImage
-    private val vFinish: View
-    private val vAll: View
+    private val vCropImageView: ViewCropImage = findViewById(R.id.crop)
+    private val vFinish: View = findViewById(R.id.fab)
+    private val vAll: View = findViewById(R.id.all)
 
     private var autoBackOnCrop = true
     private var locked: Boolean = false
 
     private var dialogProgress: DialogWidget? = null
 
-    constructor(bitmap: Bitmap, onCrop: Function2<SCrop, Bitmap, Unit>) : this(bitmap, 0, 0, onCrop) {}
+    constructor(bitmap: Bitmap, onCrop: Function2<SCrop, Bitmap?, Unit>) : this(bitmap, 0, 0, onCrop) {}
 
     init {
-
-        vCropImageView = findViewById(R.id.crop)
-        vFinish = findViewById(R.id.fab)
-        vAll = findViewById(R.id.all)
 
         if (aw > 0 && ah > 0) vCropImageView.setAspectRatio(aw, ah)
         vCropImageView.setImageBitmap(bitmap)

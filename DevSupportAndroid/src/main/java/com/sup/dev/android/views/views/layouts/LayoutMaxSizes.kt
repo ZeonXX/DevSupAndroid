@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
@@ -13,7 +14,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-class LayoutMaxSizes @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
+open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
     private var maxWidth: Int = 0
     private var maxHeight: Int = 0
@@ -45,8 +46,8 @@ class LayoutMaxSizes @JvmOverloads constructor(context: Context, attrs: Attribut
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutMaxSizes, 0, 0)
         maxWidth = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxWidth, maxWidth.toFloat()).toInt()
         maxHeight = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxHeight, maxHeight.toFloat()).toInt()
-        reserveWidth = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reserveWidth, reserveWidth.toFloat()).toInt()
-        reserveHeight = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reserveHeight, reserveHeight.toFloat()).toInt()
+        reserveWidth = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reserveWidth, 0F).toInt()
+        reserveHeight = a.getDimension(R.styleable.LayoutMaxSizes_LayoutMaxSizes_reserveHeight, 0F).toInt()
         maxWidthPercent = a.getFloat(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxWidthParentPercent, maxWidthPercent)
         maxHeightPercent = a.getFloat(R.styleable.LayoutMaxSizes_LayoutMaxSizes_maxHeightParentPercent, maxHeightPercent)
         alwaysMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_alwaysMaxW, alwaysMaxW)

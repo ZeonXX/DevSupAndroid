@@ -10,6 +10,7 @@ import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
+import com.sup.dev.android.R
 
 
 class LayoutExpandable @MainThread
@@ -42,7 +43,8 @@ constructor(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs
 
         mExpandDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
         mCollapseDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
-        setOnClickListener(if (mIsClickToToggle) { v -> toggle() } as View.OnClickListener else null)
+        if (mIsClickToToggle)  setOnClickListener { v -> toggle() }
+        else setOnClickListener(null)
     }
 
     //

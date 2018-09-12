@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.widget.TextView
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 

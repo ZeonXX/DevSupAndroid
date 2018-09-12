@@ -59,7 +59,7 @@ class ServiceNetworkCheck : Service() {
     }
 
     private fun instanceNotification(): Notification {
-        return NotificationCompat.Builder(SupAndroid.appContext, ToolsNotifications.salientChanelId)
+        return NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.salientChanelId)
                 .setSmallIcon(NOTIFICATION_ICON)
                 .setAutoCancel(false)
                 .setTicker(NOTIFICATION_TITLE)

@@ -10,7 +10,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsTextAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.classes.providers.Provider1
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
@@ -39,8 +38,8 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private val lineColor = ToolsResources.getColor(R.color.red_700)
     private val textSize = ToolsView.spToPx(8f)
 
-    private var providerMaskX: Provider1<Float, String>? = null
-    private var providerMaskY: Provider1<Float, String>? = null
+    private var providerMaskX: ((Float)->String)? = null
+    private var providerMaskY: ((Float)->String)? = null
 
     init {
         paint.isAntiAlias = true
@@ -73,8 +72,8 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             while (y < h + 1) {
                 canvas.drawLine(offsetViewLeft.toFloat(), cellSizeH * y + offsetViewTop, width.toFloat(), cellSizeH * y + offsetViewTop, paint)
                 if (y < h)
-                    canvas.drawText(providerMaskY!!.provide(h - y)!!,
-                            offsetViewLeft.toFloat() - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskY!!.provide(h - y)) - ToolsView.dpToPx(4f).toFloat(),
+                    canvas.drawText(providerMaskY!!.invoke(h - y),
+                            offsetViewLeft.toFloat() - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskY!!.invoke(h - y)) - ToolsView.dpToPx(4f).toFloat(),
                             cellSizeH * y + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) / 2 + offsetViewTop.toFloat(),
                             paint)
                 y += greedYFrequency
@@ -89,8 +88,8 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             while (x < wPoints + 1) {
                 canvas.drawLine(cellSizeW * x + offsetViewLeft, offsetViewTop.toFloat(), cellSizeW * x + offsetViewLeft, (height - offsetViewBottom).toFloat(), paint)
                 if (x > 0)
-                    canvas.drawText(providerMaskX!!.provide(x)!!,
-                            cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskX!!.provide(x)) / 2 + offsetViewLeft,
+                    canvas.drawText(providerMaskX!!.invoke(x),
+                            cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskX!!.invoke(x)) / 2 + offsetViewLeft,
                             (height - offsetViewBottom).toFloat() + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) + ToolsView.dpToPx(4f).toFloat(),
                             paint)
                 x += greedXFrequency
@@ -199,12 +198,12 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         requestLayout()
     }
 
-    fun setProviderMaskY(providerMaskY: Provider1<Float, String>) {
+    fun setProviderMaskY(providerMaskY: (Float) -> String) {
         this.providerMaskY = providerMaskY
         requestLayout()
     }
 
-    fun setProviderMaskX(providerMaskX: Provider1<Float, String>) {
+    fun setProviderMaskX(providerMaskX: (Float) -> String) {
         this.providerMaskX = providerMaskX
         requestLayout()
     }

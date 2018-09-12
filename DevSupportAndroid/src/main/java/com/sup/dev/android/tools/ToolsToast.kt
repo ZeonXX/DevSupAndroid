@@ -12,7 +12,7 @@ import com.sup.dev.java.tools.ToolsThreads
 object ToolsToast {
 
     fun show(@StringRes textRes: Int) {
-        show(SupAndroid.appContext.getString(textRes))
+        show(SupAndroid.appContext!!.getString(textRes))
     }
 
     fun show(@StringRes textRes: Int, vararg args: Any) {
@@ -25,19 +25,19 @@ object ToolsToast {
 
     private fun showNow(text: String?) {
         if (text == null || text.isEmpty()) return
-        Toast.makeText(SupAndroid.appContext, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT).show()
     }
 
     fun showSnack(@StringRes textRes: Int) {
-        showSnack(SupAndroid.appContext.getString(textRes))
+        showSnack(SupAndroid.appContext!!.getString(textRes))
     }
 
     fun showSnack(text: String) {
-        ToolsThreads.main { showSnackNow(SupAndroid.activity.viewContainer, text) }
+        ToolsThreads.main { showSnackNow(SupAndroid.activity!!.getViewContainer()!!, text) }
     }
 
     fun showSnack(v: View, @StringRes textRes: Int) {
-        showSnack(v, SupAndroid.appContext.getString(textRes))
+        showSnack(v, SupAndroid.appContext!!.getString(textRes))
     }
 
     fun showSnack(v: View, text: String) {

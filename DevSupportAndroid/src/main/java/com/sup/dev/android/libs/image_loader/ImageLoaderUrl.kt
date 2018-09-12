@@ -24,12 +24,12 @@ class ImageLoaderUrl(private val url: String) : ImageLoaderA() {
 
     companion object {
 
-        fun load(url: String, onLoaded: (ByteArray) -> Unit) {
+        fun load(url: String, onLoaded: (ByteArray?) -> Unit) {
             load(url, null, onLoaded)
         }
 
         @JvmOverloads
-        fun load(url: String, vImage: ImageView? = null, onLoaded: (ByteArray) -> Unit = {}) {
+        fun load(url: String, vImage: ImageView? = null, onLoaded: (ByteArray?) -> Unit = {}) {
             ImageLoader.load(ImageLoaderUrl(url).setImage(vImage).setOnLoaded(onLoaded))
         }
 

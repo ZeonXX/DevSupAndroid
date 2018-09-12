@@ -10,7 +10,7 @@ class DecoratorVerticalSpace constructor(dp: Int = 4) : RecyclerView.ItemDecorat
 
     private val space: Int = ToolsView.dpToPx(dp.toFloat())
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         outRect.bottom = space
     }
 }

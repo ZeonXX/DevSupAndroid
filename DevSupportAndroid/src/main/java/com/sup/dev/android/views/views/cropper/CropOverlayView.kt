@@ -617,7 +617,7 @@ class CropOverlayView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun onActionDown(x: Float, y: Float) {
-        mMoveHandler = mCropWindowHandler.getMoveHandler(x, y, mTouchRadius, cropShape)
+        mMoveHandler = mCropWindowHandler.getMoveHandler(x, y, mTouchRadius, cropShape!!)
         if (mMoveHandler != null) {
             invalidate()
         }

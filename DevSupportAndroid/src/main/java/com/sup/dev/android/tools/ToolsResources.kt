@@ -18,7 +18,7 @@ object ToolsResources {
     }
 
     fun getStringId(name: String): Int {
-        return SupAndroid.appContext.resources.getIdentifier(name, "string", SupAndroid.appContext.packageName)
+        return SupAndroid.appContext!!.resources.getIdentifier(name, "string", SupAndroid.appContext!!.packageName)
     }
 
     fun getString(name: String): String? {
@@ -26,24 +26,24 @@ object ToolsResources {
     }
 
     fun getString(@StringRes r: Int): String? {
-        return if (r <= 0) null else SupAndroid.appContext.resources.getString(r)
+        return if (r <= 0) null else SupAndroid.appContext!!.resources.getString(r)
     }
 
     fun getPlural(@PluralsRes r: Int, value: Int): String? {
-        return if (r <= 0) null else SupAndroid.appContext.resources.getQuantityString(r, value)
+        return if (r <= 0) null else SupAndroid.appContext!!.resources.getQuantityString(r, value)
     }
 
     fun getStringArray(@ArrayRes r: Int): Array<String>? {
-        return if (r <= 0) null else SupAndroid.appContext.resources.getStringArray(r)
+        return if (r <= 0) null else SupAndroid.appContext!!.resources.getStringArray(r)
     }
 
     fun getDrawable(@DrawableRes r: Int): Drawable? {
-        return if (r <= 0) null else SupAndroid.appContext.resources.getDrawable(r)
+        return if (r <= 0) null else SupAndroid.appContext!!.resources.getDrawable(r)
     }
 
     fun getDrawableFromAttr(@AttrRes r: Int): Drawable? {
         val attrs = intArrayOf(r)
-        val ta = SupAndroid.activity.obtainStyledAttributes(attrs)
+        val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val drawable = ta.getDrawable(0)
         ta.recycle()
         return drawable
@@ -51,7 +51,7 @@ object ToolsResources {
 
     fun getDrawableFromAttrId(@AttrRes r: Int): Int {
         val attrs = intArrayOf(r)
-        val ta = SupAndroid.activity.obtainStyledAttributes(attrs)
+        val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val id = ta.getResourceId(0, 0)
         ta.recycle()
         return id
@@ -59,7 +59,7 @@ object ToolsResources {
 
     fun getColorFromAttr(@AttrRes r: Int): Int {
         val attrs = intArrayOf(r)
-        val ta = SupAndroid.activity.obtainStyledAttributes(attrs)
+        val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val color = ta.getColor(0, 0x00000000)
         ta.recycle()
         return color
@@ -67,7 +67,7 @@ object ToolsResources {
 
 
     fun getColorId(name: String): Int {
-        return SupAndroid.appContext.resources.getIdentifier(name, "color", SupAndroid.appContext.packageName)
+        return SupAndroid.appContext!!.resources.getIdentifier(name, "color", SupAndroid.appContext!!.packageName)
     }
 
     fun getColor(name: String): Int {
@@ -76,7 +76,7 @@ object ToolsResources {
 
 
     fun getColor(@ColorRes r: Int): Int {
-        return if (r <= 0) 0 else SupAndroid.appContext.resources.getColor(r)
+        return if (r <= 0) 0 else SupAndroid.appContext!!.resources.getColor(r)
     }
 
     fun getAccentColor(context: Context): Int {
@@ -110,7 +110,7 @@ object ToolsResources {
     fun getBitmap(@DrawableRes res: Int): Bitmap? {
         val options = BitmapFactory.Options()
         options.inMutable = true
-        val bitmap = BitmapFactory.decodeResource(SupAndroid.appContext.resources, res, options)
+        val bitmap = BitmapFactory.decodeResource(SupAndroid.appContext!!.resources, res, options)
 
         return bitmap ?: ToolsBitmap.getFromDrawable(getDrawable(res))
 
@@ -122,7 +122,7 @@ object ToolsResources {
     }
 
     fun getDrawableId(name: String): Int {
-        return SupAndroid.appContext.resources.getIdentifier(name, "drawable", SupAndroid.appContext.packageName)
+        return SupAndroid.appContext!!.resources.getIdentifier(name, "drawable", SupAndroid.appContext!!.packageName)
     }
 
     fun getBitmap(name: String): Bitmap? {

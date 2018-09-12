@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
+import com.sup.dev.android.R
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -234,12 +235,12 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         options.fixAspectRatio = a.getBoolean(R.styleable.ViewCropImage_cropFixAspectRatio, options.fixAspectRatio)
         options.aspectRatioX = a.getInteger(R.styleable.ViewCropImage_cropAspectRatioX, options.aspectRatioX)
         options.aspectRatioY = a.getInteger(R.styleable.ViewCropImage_cropAspectRatioY, options.aspectRatioY)
-        options.scaleType = ScaleType.values()[a.getInt(R.styleable.ViewCropImage_cropScaleType, options.scaleType.ordinal())]
+        options.scaleType = ScaleType.values()[a.getInt(R.styleable.ViewCropImage_cropScaleType, options.scaleType.ordinal)]
         options.autoZoomEnabled = a.getBoolean(R.styleable.ViewCropImage_cropAutoZoomEnabled, options.autoZoomEnabled)
         options.multiTouchEnabled = a.getBoolean(R.styleable.ViewCropImage_cropMultiTouchEnabled, options.multiTouchEnabled)
         options.maxZoom = a.getInteger(R.styleable.ViewCropImage_cropMaxZoom, options.maxZoom)
-        options.cropShape = CropShape.values()[a.getInt(R.styleable.ViewCropImage_cropShape, options.cropShape.ordinal())]
-        options.guidelines = Guidelines.values()[a.getInt(R.styleable.ViewCropImage_cropGuidelines, options.guidelines.ordinal())]
+        options.cropShape = CropShape.values()[a.getInt(R.styleable.ViewCropImage_cropShape, options.cropShape.ordinal)]
+        options.guidelines = Guidelines.values()[a.getInt(R.styleable.ViewCropImage_cropGuidelines, options.guidelines.ordinal)]
         options.snapRadius = a.getDimension(R.styleable.ViewCropImage_cropSnapRadius, options.snapRadius)
         options.touchRadius = a.getDimension(R.styleable.ViewCropImage_cropTouchRadius, options.touchRadius)
         options.initialCropWindowPaddingRatio = a.getFloat(R.styleable.ViewCropImage_cropInitialCropWindowPaddingRatio, options.initialCropWindowPaddingRatio)

@@ -20,7 +20,6 @@ import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
-import com.sup.dev.java.classes.callbacks.simple.Callback1
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
@@ -94,7 +93,7 @@ object ToolsAndroid {
 
     private fun getProcessNameActivityManager(): String? {
         val pid = android.os.Process.myPid()
-        val manager = SupAndroid.appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val manager = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val infos = manager.runningAppProcesses
         if (infos != null) {
             for (processInfo in infos) {
@@ -108,24 +107,24 @@ object ToolsAndroid {
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     fun getNetworkName(): String? {
-        val cm = SupAndroid.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = SupAndroid.appContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val n = cm.activeNetworkInfo
         return n?.extraInfo
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    fun isHasInternetConnection(onResult: Callback1<Boolean>) {
+    fun isHasInternetConnection(onResult: (Boolean) -> Unit) {
         ServiceNetworkCheck.check(onResult)
     }
 
     fun getBottomNavigationBarHeight(): Int {
-        val resources = SupAndroid.appContext.resources
-        val navBarExists = resources.getBoolean(SupAndroid.appContext.resources.getIdentifier("config_showNavigationBar", "bool", "android"))
+        val resources = SupAndroid.appContext!!.resources
+        val navBarExists = resources.getBoolean(SupAndroid.appContext!!.resources.getIdentifier("config_showNavigationBar", "bool", "android"))
         return if (navBarExists) resources.getDimensionPixelSize(resources.getIdentifier("navigation_bar_height", "dimen", "android")) else 0
     }
 
     fun isTablet(): Boolean {
-        return SupAndroid.appContext.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
+        return SupAndroid.appContext!!.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 
     fun getLanguageCode(): String {
@@ -137,18 +136,18 @@ object ToolsAndroid {
     }
 
     fun isDirectToTV(): Boolean {
-        return (SupAndroid.appContext.packageManager.hasSystemFeature("android.software.leanb‌​ack")
-                || SupAndroid.appContext.packageManager.hasSystemFeature("android.software.live_tv")
-                || (SupAndroid.appContext.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
+        return (SupAndroid.appContext!!.packageManager.hasSystemFeature("android.software.leanb‌​ack")
+                || SupAndroid.appContext!!.packageManager.hasSystemFeature("android.software.live_tv")
+                || (SupAndroid.appContext!!.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
                 || Build.MODEL.toLowerCase().contains("tv box"))
     }
 
     fun appIsVisible(): Boolean {
-        val activityManager = SupAndroid.appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val proc = activityManager.runningAppProcesses
 
         for (info in proc)
-            if (info.processName == SupAndroid.appContext.packageName)
+            if (info.processName == SupAndroid.appContext!!.packageName)
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
                     return true
 
@@ -174,17 +173,17 @@ object ToolsAndroid {
     }
 
     fun isMiui(): Boolean {
-        return Miui.isMiui()
+        return Miui.isMiui
     }
 
     fun setToClipboard(text: String) {
-        val clipboard = SupAndroid.appContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("", text)
         clipboard.primaryClip = clip
     }
 
     fun getFromClipboard(): String? {
-        val clipboard = SupAndroid.appContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val primaryClip = clipboard.primaryClip
         return if (primaryClip.itemCount == 0)
             null
@@ -209,7 +208,7 @@ object ToolsAndroid {
 
     fun checkServiceStarted(appId: String, serviceName: String): Boolean {
 
-        val am = SupAndroid.appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val am = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
         for (rsi in am.getRunningServices(150))
             if (appId == rsi.service.packageName && serviceName.toLowerCase() == rsi.service.className.toLowerCase())
@@ -235,15 +234,15 @@ object ToolsAndroid {
     }
 
     fun getScreenOrientation(): Int {
-        return (SupAndroid.appContext.getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+        return (SupAndroid.appContext!!.getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
     }
 
     fun getScreenW(): Int {
-        return SupAndroid.appContext.resources.displayMetrics.widthPixels
+        return SupAndroid.appContext!!.resources.displayMetrics.widthPixels
     }
 
     fun getScreenH(): Int {
-        return SupAndroid.appContext.resources.displayMetrics.heightPixels
+        return SupAndroid.appContext!!.resources.displayMetrics.heightPixels
     }
 
     fun maxScreenSide(): Int {
@@ -255,15 +254,15 @@ object ToolsAndroid {
     }
 
     fun isScreenKeyLocked(): Boolean {
-        val myKeyManager = SupAndroid.appContext.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val myKeyManager = SupAndroid.appContext!!.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return myKeyManager.inKeyguardRestrictedInputMode()
     }
 
     fun screenOn() {
-        if ((SupAndroid.appContext.getSystemService(Context.POWER_SERVICE) as PowerManager).isScreenOn)
+        if ((SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager).isScreenOn)
             return
 
-        val pm = SupAndroid.appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val pm = SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager
         val screenLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "FULL WAKE LOCK")
 
         screenLock.acquire()

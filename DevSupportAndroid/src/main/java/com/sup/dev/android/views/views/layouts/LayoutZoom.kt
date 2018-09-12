@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
@@ -107,7 +108,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     private fun doubleTouch(x: Float, y: Float) {
 
         if (doubleTouchTime > System.currentTimeMillis() - 500 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
-            animateZoom(if (zoom == 1f) (range.max - range.min) / 2 + range.min else 1, x, y)
+            animateZoom(if (zoom == 1f) (range.max - range.min) / 2 + range.min else 1F, x, y)
             doubleTouch.clear()
             doubleTouchTime = 0
         } else {
@@ -210,7 +211,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
 
         val vBound = boundsView
 
-        if (width > vBound.getWidth() * zoom)
+        if (width > vBound!!.getWidth() * zoom)
             translateX = 0f
         else
             translateX = RangeF((width - vBound.getWidth() * zoom) / 2).toRange(translateX)
@@ -228,7 +229,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
             v.translationY = translateY
         }
 
-        if (onZoom != null) onZoom!!.callback()
+        if (onZoom != null) onZoom!!.invoke()
     }
 
     //

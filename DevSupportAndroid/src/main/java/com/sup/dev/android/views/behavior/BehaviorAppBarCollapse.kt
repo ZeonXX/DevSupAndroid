@@ -8,7 +8,7 @@ import android.view.View
 
 class BehaviorAppBarCollapse<V : View>(context: Context, attrs: AttributeSet) : BehaviorCollapse<V>(context, attrs) {
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: V?, dependency: View?): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         child!!.y = dependency!!.y + dependency.height - child.height / 2
         return super.onDependentViewChanged(parent, child, dependency)
     }

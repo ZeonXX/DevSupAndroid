@@ -69,7 +69,7 @@ abstract class SActivity : Activity() {
         Navigator.onActivityConfigChanged()
     }
 
-    protected fun applyTheme() {
+    protected open fun applyTheme() {
 
     }
 
@@ -77,7 +77,7 @@ abstract class SActivity : Activity() {
         return R.layout.screen_activity
     }
 
-    protected fun onFirstStart() {
+    protected open fun onFirstStart() {
 
     }
 
@@ -111,7 +111,7 @@ abstract class SActivity : Activity() {
         }
     }
 
-    protected fun onLastBackPressed(): Boolean {
+    protected open fun onLastBackPressed(): Boolean {
         return false
     }
 

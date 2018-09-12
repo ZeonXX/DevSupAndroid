@@ -25,7 +25,7 @@ import java.io.IOException
 
 class WidgetChooseImage : WidgetRecycler() {
 
-    private val adapter: RecyclerCardAdapter = RecyclerCardAdapter()
+    private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
 
     private var onSelected: (WidgetChooseImage, ByteArray?) -> Unit = {widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
@@ -47,7 +47,7 @@ class WidgetChooseImage : WidgetRecycler() {
         vFabGallery.setOnClickListener { v -> openGallery() }
         vFabLink.setOnClickListener { v -> showLink() }
 
-        setAdapter<WidgetRecycler>(adapter)
+        setAdapter<WidgetRecycler>(myAdapter)
     }
 
     override fun onShow() {
@@ -74,7 +74,7 @@ class WidgetChooseImage : WidgetRecycler() {
                     projection, null, null,
                     MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC")
 
-            while (cursor!!.moveToNext()) adapter.add(CardImage(File(cursor.getString(0))))
+            while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
         }, {
             ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES)
             hide()

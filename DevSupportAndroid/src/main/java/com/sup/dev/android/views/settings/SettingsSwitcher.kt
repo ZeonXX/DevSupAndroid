@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Switch
+import com.sup.dev.android.R
 
 
 class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {

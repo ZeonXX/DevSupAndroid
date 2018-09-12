@@ -176,7 +176,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     private inner class Item {
 
-        var v: RadioButton = RadioButton(SupAndroid.activity)
+        var v: RadioButton = RadioButton(SupAndroid.activity!!)
 
         var onChange: ((WidgetRadioButtons, Boolean) -> Unit)? = null
         var onSelected: ((WidgetRadioButtons)->Unit)? = null

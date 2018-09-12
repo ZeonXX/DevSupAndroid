@@ -42,9 +42,6 @@ class ViewChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     var onActiveChange: ((Boolean)->Unit)? = null
 
-    val text: String
-        get() = vTextView.text.toString()
-
     init {
 
         SupAndroid.initEditMode(this)
@@ -247,7 +244,7 @@ class ViewChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         update()
     }
 
-    fun setText(text: String) {
+    fun setText(text: String?) {
         vTextView.text = text
         update()
     }
@@ -303,6 +300,10 @@ class ViewChip @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     //
     //  Getters
     //
+
+    fun getText():String{
+        return vTextView.text.toString()
+    }
 
     fun isChipSelected(): Boolean {
         return isChipSelected

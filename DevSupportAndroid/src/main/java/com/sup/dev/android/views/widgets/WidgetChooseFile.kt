@@ -35,7 +35,7 @@ class WidgetChooseFile : WidgetRecycler() {
 
         vRecycler.layoutManager = LinearLayoutManager(view!!.context)
         vRecycler.itemAnimator = null
-        setAdapter<WidgetRecycler>(adapter)
+        setAdapter<WidgetRecycler>(adapter as RecyclerCardAdapter)
         ToolsPermission.requestReadPermission { resetCards(rootFolder!!) }
     }
 
@@ -50,11 +50,11 @@ class WidgetChooseFile : WidgetRecycler() {
 
 
     private fun resetCards(file: File) {
-        adapter.clear()
-        if (file.absolutePath != rootFolder!!.absolutePath) adapter.add(CardBack(file))
+        adapter!!.clear()
+        if (file.absolutePath != rootFolder!!.absolutePath) adapter!!.add(CardBack(file))
         val files = file.listFiles()
-        if (showFolders) for (f in files!!) if (f.isDirectory) adapter.add(CardFile(f))
-        if (showFiles) for (f in files!!) if (!f.isDirectory && checkType(f)) adapter.add(CardFile(f))
+        if (showFolders) for (f in files!!) if (f.isDirectory) adapter!!.add(CardFile(f))
+        if (showFiles) for (f in files!!) if (!f.isDirectory && checkType(f)) adapter!!.add(CardFile(f))
     }
 
 

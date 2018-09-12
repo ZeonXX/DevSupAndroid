@@ -70,8 +70,7 @@ internal class CropWindowHandler {
         return !(mEdges.width() < 100 || mEdges.height() < 100)
     }
 
-    fun getMoveHandler(
-            x: Float, y: Float, targetRadius: Float, cropShape: ViewCropImage.CropShape): CropWindowMoveHandler? {
+    fun getMoveHandler(x: Float, y: Float, targetRadius: Float, cropShape: ViewCropImage.CropShape): CropWindowMoveHandler? {
         val type = if (cropShape == ViewCropImage.CropShape.OVAL)
             getOvalPressedMoveType(x, y)
         else

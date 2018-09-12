@@ -16,7 +16,7 @@ class AnimationViewHideVertical(private val view: View) {
     private var animationTime = ToolsView.ANIMATION_TIME.toLong()
     private var autoHideMs: Long = 0
 
-    private var shoved = true
+    private var shovedM = true
     private var subscriptionAutoHide: Subscription? = null
     private var subscriptionAnimation: Subscription? = null
     private var lastH = 0
@@ -26,7 +26,7 @@ class AnimationViewHideVertical(private val view: View) {
     //
 
     var isShoved: Boolean
-        get() = shoved
+        get() = shovedM
         private set(b) {
 
             if (onVisibleStartChange != null) onVisibleStartChange!!.invoke(b)
@@ -39,7 +39,7 @@ class AnimationViewHideVertical(private val view: View) {
                 view.y = spring.value
                 if (!spring.isNeedUpdate()) {
                     subscription.unsubscribe()
-                    if (onVisibleChange != null) onVisibleChange!!.invoke(shoved)
+                    if (onVisibleChange != null) onVisibleChange!!.invoke(shovedM)
                 }
             }
         }
@@ -51,14 +51,14 @@ class AnimationViewHideVertical(private val view: View) {
         view.addOnLayoutChangeListener { view1, i, i1, i2, i3, i4, i5, i6, i7 ->
             if (lastH != view.height) {
                 lastH = view.height
-                isShoved = shoved
+                isShoved = shovedM
             }
         }
     }
 
     @JvmOverloads
     fun switchShow(animated: Boolean = true) {
-        if (shoved)
+        if (shovedM)
             hide(animated)
         else
             show(animated)
@@ -67,9 +67,9 @@ class AnimationViewHideVertical(private val view: View) {
     @JvmOverloads
     fun show(animated: Boolean = true) {
 
-        if (shoved) return
+        if (shovedM) return
 
-        shoved = true
+        shovedM = true
         spring.setSpeed(AnimationSpring.SpeedType.TIME_MS, (if (animated) animationTime else 0).toFloat())
         updateAutoHide()
         isShoved = true
@@ -78,9 +78,9 @@ class AnimationViewHideVertical(private val view: View) {
     @JvmOverloads
     fun hide(animated: Boolean = true) {
 
-        if (!shoved) return
+        if (!shovedM) return
 
-        shoved = false
+        shovedM = false
         spring.setSpeed(AnimationSpring.SpeedType.TIME_MS, (if (animated) animationTime else 0).toFloat())
         updateAutoHide()
         isShoved = false

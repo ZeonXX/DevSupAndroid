@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import com.sup.dev.android.R
 import com.sup.dev.android.views.views.ViewIcon
 
 

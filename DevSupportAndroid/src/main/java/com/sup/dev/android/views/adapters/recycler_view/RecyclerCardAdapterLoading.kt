@@ -5,14 +5,13 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.adapters.CardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
-import com.sup.dev.java.classes.providers.Provider1
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
 
-class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, private var mapper: Provider1<V, K>?) : RecyclerCardAdapter(), CardAdapter {
+class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
 
-    private var bottomLoader: (((Array<V>) -> Unit, ArrayList<K>)->Unit)? = null
+    private var bottomLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null
     private var topLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null
     private val cardLoading: CardLoading = CardLoading()
 
@@ -32,11 +31,11 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
         private set
     private var retryEnabled: Boolean = false
     private var actionEnabled: Boolean = false
-    private var onErrorAndEmpty: (()->Unit)? = null
-    private var onEmpty: (()->Unit)? = null
-    private var onStartLoadingAndEmpty: (()->Unit)? = null
-    private var onLoadingAndNotEmpty: (()->Unit)? = null
-    private var onLoadedNotEmpty: (()->Unit)? = null
+    private var onErrorAndEmpty: (() -> Unit)? = null
+    private var onEmpty: (() -> Unit)? = null
+    private var onStartLoadingAndEmpty: (() -> Unit)? = null
+    private var onLoadingAndNotEmpty: (() -> Unit)? = null
+    private var onLoadedNotEmpty: (() -> Unit)? = null
 
     override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
@@ -134,9 +133,9 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
 
         for (i in result.indices)
             if (bottom)
-                add(size() - addBottomPositionOffset, mapper!!.provide(result[i])!!)
+                add(size() - addBottomPositionOffset, mapper!!.invoke(result[i])!!)
             else
-                add(addTopPositionOffset + i, mapper!!.provide(result[i])!!)
+                add(addTopPositionOffset + i, mapper!!.invoke(result[i])!!)
 
         if (contains(cardClass) || result.size != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
@@ -192,17 +191,17 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
         return this
     }
 
-    fun setOnLoadedNotEmpty(onLoadedNotEmpty: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setOnLoadedNotEmpty(onLoadedNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onLoadedNotEmpty = onLoadedNotEmpty
         return this
     }
 
-    fun setOnLoadingAndNotEmpty(onLoadingAndNotEmpty: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setOnLoadingAndNotEmpty(onLoadingAndNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onLoadingAndNotEmpty = onLoadingAndNotEmpty
         return this
     }
 
-    fun setOnStartLoadingAndEmpty(onStartLoadingAndEmpty: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setOnStartLoadingAndEmpty(onStartLoadingAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onStartLoadingAndEmpty = onStartLoadingAndEmpty
         return this
     }
@@ -212,12 +211,12 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
         return this
     }
 
-    fun setOnEmpty(onEmpty: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setOnEmpty(onEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onEmpty = onEmpty
         return this
     }
 
-    fun setOnErrorAndEmpty(onErrorAndEmpty: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setOnErrorAndEmpty(onErrorAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onErrorAndEmpty = onErrorAndEmpty
         return this
     }
@@ -238,24 +237,24 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
         return setEmptyMessage(ToolsResources.getString(message))
     }
 
-    fun setEmptyMessage(@StringRes message: Int, @StringRes button: Int, onAction: ()->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setEmptyMessage(@StringRes message: Int, @StringRes button: Int, onAction: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         return setEmptyMessage(ToolsResources.getString(message), ToolsResources.getString(button), onAction)
     }
 
     @JvmOverloads
-    fun setEmptyMessage(message: String?, button: String? = null, onAction: ()->Unit = {}): RecyclerCardAdapterLoading<K, V> {
+    fun setEmptyMessage(message: String?, button: String? = null, onAction: () -> Unit = {}): RecyclerCardAdapterLoading<K, V> {
         actionEnabled = true
         cardLoading.setActionMessage(message)
         cardLoading.setActionButton(button) { card -> onAction.invoke() }
         return this
     }
 
-    fun setTopLoader(topLoader: ((Array<V>)->Unit, ArrayList<K>)->Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setTopLoader(topLoader: ((Array<V>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.topLoader = topLoader
         return this
     }
 
-    fun setBottomLoader(bottomLoader: ((Array<V>)->Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setBottomLoader(bottomLoader: ((Array<V>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.bottomLoader = bottomLoader
         return this
     }
@@ -270,7 +269,7 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, p
         return this
     }
 
-    fun setMapper(mapper: Provider1<V, K>): RecyclerCardAdapterLoading<K, V> {
+    fun setMapper(mapper: (V) -> K): RecyclerCardAdapterLoading<K, V> {
         this.mapper = mapper
         return this
     }

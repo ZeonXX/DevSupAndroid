@@ -3,6 +3,7 @@ package com.sup.dev.android.views.screens
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.cards.Card
@@ -45,7 +46,7 @@ abstract class SLoadingRecycler<C : Card, V> @JvmOverloads constructor(res: Int 
                     .setRetryMessage(textErrorNetwork, textErrorRetry)
                     .setNotifyCount(5)
 
-            setAdapter(adapter)
+            setAdapter(adapter as  RecyclerView.Adapter<RecyclerView.ViewHolder>)
             ToolsThreads.main(true) { reload() }
         }
     }
@@ -56,7 +57,7 @@ abstract class SLoadingRecycler<C : Card, V> @JvmOverloads constructor(res: Int 
 
     private fun reload() {
         if (subscription != null) subscription!!.unsubscribe()
-        adapter.reloadBottom()
+        adapter!!.reloadBottom()
     }
 
     protected abstract fun instanceAdapter(): RecyclerCardAdapterLoading<C, V>
@@ -65,7 +66,7 @@ abstract class SLoadingRecycler<C : Card, V> @JvmOverloads constructor(res: Int 
     //  Setters
     //
 
-    fun setAdapter(adapter: RecyclerView.Adapter<*>) {
+    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
         vRecycler.adapter = adapter
     }
 

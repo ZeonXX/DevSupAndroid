@@ -25,12 +25,12 @@ class ImageLoaderFile(private val file: File) : ImageLoaderA() {
 
     companion object {
 
-        fun load(file: File, onLoaded: (ByteArray)->Unit) {
+        fun load(file: File, onLoaded: (ByteArray?)->Unit) {
             load(file, null, onLoaded)
         }
 
         @JvmOverloads
-        fun load(file: File, vImage: ImageView? = null, onLoaded: (ByteArray)->Unit = {}) {
+        fun load(file: File, vImage: ImageView? = null, onLoaded: (ByteArray?)->Unit = {}) {
             ImageLoader.load(ImageLoaderFile(file).setImage(vImage).setOnLoaded(onLoaded))
         }
 

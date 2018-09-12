@@ -165,7 +165,7 @@ class ViewCircleImage @JvmOverloads constructor(context: Context, attrs: Attribu
         setCircleBackgroundColorResource(fillColorRes)
     }
 
-    override fun setImageBitmap(bm: Bitmap) {
+    override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
         initializeBitmap()
     }

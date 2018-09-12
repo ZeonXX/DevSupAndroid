@@ -12,10 +12,9 @@
     <attr name="ic_keyboard_arrow_down" format="reference"/>
     <attr name="ic_content_copy" format="reference"/>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppThemeDark" parent="android:Theme.Material.NoActionBar">
         <item name="widget_background">@color/grey_750</item>
         <item name="content_background">@color/grey_800</item>
-        <item name="textColorError">@color/red_700</item>
         <item name="android:windowBackground">@color/grey_850</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -32,10 +31,9 @@
         <item name="toolbarTitleColor">@color/white</item>
     </style>
 
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="android:Theme.Material.Light.NoActionBar">
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
-        <item name="textColorError">@color/red_700</item>
         <item name="android:windowBackground">@color/grey_100</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

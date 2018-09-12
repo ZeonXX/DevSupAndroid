@@ -22,18 +22,11 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val paint: Paint
     private val animationFocus: AnimationFocus
 
-    val imageView: ViewCircleImage
-    val chip: ViewChip
+    val vImageView: ViewCircleImage
+    val vChip: ViewChip
     private val vTouch: ViewDraw
 
     private var roundBackgroundColor: Int = 0
-
-    //
-    //  Getters
-    //
-
-    val text: String
-        get() = chip.text
 
     init {
 
@@ -43,12 +36,12 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
         paint = Paint()
         paint.isAntiAlias = true
 
-        val view:View = ToolsView.inflate(context, R.layout.view_avatar)
-        imageView = view.findViewById(R.id.dev_sup_image)
-        chip = view.findViewById(R.id.dev_sup_chip)
+        val view: View = ToolsView.inflate(context, R.layout.view_avatar)
+        vImageView = view.findViewById(R.id.dev_sup_image)
+        vChip = view.findViewById(R.id.dev_sup_chip)
         vTouch = view.findViewById(R.id.dev_sup_avatar_touch)
 
-        chip.visibility = View.GONE
+        vChip.visibility = View.GONE
 
         isEnabled = false
 
@@ -68,12 +61,12 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
         animationFocus = AnimationFocus(vTouch, focusColor)
 
         setImage(src)
-        chip.setSize(ToolsView.pxToDp(chipSize))
-        chip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        chip.setIcon(srcIcon)
-        chip.text = text
-        chip.setUseIconBackground(iconUseBackground)
-        if (chipBackground != 0) chip.setChipBackground(chipBackground)
+        vChip.setSize(ToolsView.pxToDp(chipSize))
+        vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
+        vChip.setIcon(srcIcon)
+        vChip.setText(text)
+        vChip.setUseIconBackground(iconUseBackground)
+        if (chipBackground != 0) vChip.setChipBackground(chipBackground)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
@@ -85,10 +78,10 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     fun updateChipVisible() {
 
-        if (!chip.hasIcon() && chip.text.isEmpty())
-            chip.visibility = View.GONE
+        if (!vChip.hasIcon() && vChip.getText().isEmpty())
+            vChip.visibility = View.GONE
         else
-            chip.visibility = View.VISIBLE
+            vChip.visibility = View.VISIBLE
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -127,12 +120,12 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     fun setChipText(t: String) {
-        chip.text = t
+        vChip.setText(t)
         updateChipVisible()
     }
 
     fun setChipIcon(@DrawableRes icon: Int) {
-        chip.setIcon(icon)
+        vChip.setIcon(icon)
         updateChipVisible()
     }
 
@@ -144,23 +137,31 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
-        imageView.isEnabled = enabled
+        vImageView.isEnabled = enabled
     }
 
     override fun setClickable(clickable: Boolean) {
         super.setClickable(clickable)
-        imageView.isClickable = clickable
+        vImageView.isClickable = clickable
     }
 
     fun setImage(@DrawableRes image: Int) {
         if (image != 0)
-            imageView.setImageResource(image)
+            vImageView.setImageResource(image)
         else
-            imageView.setImageBitmap(null)
+            vImageView.setImageBitmap(null)
 
     }
 
-    fun setImage(bitmap: Bitmap) {
-        imageView.setImageBitmap(bitmap)
+    fun setImage(bitmap: Bitmap?) {
+        vImageView.setImageBitmap(bitmap)
     }
+
+    //
+    //  Getters
+    //
+
+    fun getText() = vChip.getText()
+
+
 }

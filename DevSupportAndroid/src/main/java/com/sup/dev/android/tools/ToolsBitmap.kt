@@ -76,7 +76,7 @@ object ToolsBitmap {
     }
 
     fun filterBlur(bitmap: Bitmap, arg: Float): Bitmap {
-        val rs = RenderScript.create(SupAndroid.appContext)
+        val rs = RenderScript.create(SupAndroid.appContext!!)
         val input = Allocation.createFromBitmap(rs, bitmap)
         val output = Allocation.createTyped(rs, input.type)
         val script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
@@ -313,17 +313,22 @@ object ToolsBitmap {
         }, { ToolsToast.show(errorPermissionFiles) })
     }
 
-    fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop, Bitmap) -> Unit) {
+    fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
         if (errorCantLoadImage == null) throw RuntimeException("You must call ToolsBitmap.init")
 
 
         getFromGallery(
                 onLoad = { file ->
-                    getFromFile(file) { bitmap -> Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop)) }
+                    getFromFile(file) { bitmap ->
+                        run {
+                            if (bitmap == null) onComplete.invoke(null, null)
+                            else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
+                        }
+                    }
                 })
     }
 
-    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete:  (SCrop, Bitmap) -> Unit) {
+    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete:  (SCrop?, Bitmap?) -> Unit) {
         getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap -> onComplete.invoke(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)) }
     }
 

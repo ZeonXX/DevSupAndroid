@@ -31,7 +31,7 @@ class EventBusMultiProcess : BroadcastReceiver() {
 
             EventBus.setPostMultiProcessCallback { post(it) }
 
-            if (!isRegisteredInManifest(SupAndroid.appContext)) {
+            if (!isRegisteredInManifest(SupAndroid.appContext!!)) {
                 val filter = IntentFilter(MULTI_PROCESS_INTENT_ACTION)
                 filter.addCategory(Intent.CATEGORY_DEFAULT)
                 SupAndroid.appContext!!.registerReceiver(EventBusMultiProcess(), filter)

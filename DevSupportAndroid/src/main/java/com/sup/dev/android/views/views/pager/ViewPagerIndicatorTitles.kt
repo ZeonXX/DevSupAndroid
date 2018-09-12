@@ -37,7 +37,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
     fun setTitles(vararg titles: Int) {
         this.titles = arrayOfNulls(titles.size)
         for (i in titles.indices)
-            this.titles[i] = ToolsResources.getString(titles[i])
+            (this.titles as Array<String?>)[i] = ToolsResources.getString(titles[i])
     }
 
     override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
@@ -55,7 +55,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
 
         views = arrayOfNulls(pager!!.adapter!!.count)
         for (i in views!!.indices) {
-            views[i] = ToolsView.inflate(context, R.layout.view_indicator_title)
+            views!![i] = ToolsView.inflate(context, R.layout.view_indicator_title)
             views!![i]!!.text = if (titles!!.size <= i) null else titles!![i]
             views!![i]!!.setOnClickListener { v -> pager!!.currentItem = i }
             addView(views!![i])

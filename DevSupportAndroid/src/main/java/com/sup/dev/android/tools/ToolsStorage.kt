@@ -19,7 +19,7 @@ object ToolsStorage {
 
     @JvmOverloads
     fun init(storageKey: String = "android_app_pref") {
-        preferences = SupAndroid.appContext.getSharedPreferences(storageKey, Activity.MODE_PRIVATE)
+        preferences = SupAndroid.appContext!!.getSharedPreferences(storageKey, Activity.MODE_PRIVATE)
     }
 
     operator fun contains(key: String): Boolean {

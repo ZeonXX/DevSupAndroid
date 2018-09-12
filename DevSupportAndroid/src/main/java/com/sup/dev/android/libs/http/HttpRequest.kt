@@ -1,7 +1,6 @@
 package com.sup.dev.android.libs.http
 
 import android.content.ContentValues
-import com.sup.dev.java.classes.callbacks.simple.Callback1
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
@@ -42,32 +41,32 @@ class HttpRequest(private val url: String) {
 
 
     @JvmOverloads
-    fun makeGet(onResult: Callback1<String>, onError: Callback1<Exception>? = null): HttpRequest {
+    fun makeGet(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
         method = Method.GET
         return make(onResult, onError)
     }
 
     @JvmOverloads
-    fun makePost(onResult: Callback1<String>, onError: Callback1<Exception>? = null): HttpRequest {
+    fun makePost(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
         method = Method.POST
         return make(onResult, onError)
     }
 
-    fun makePut(onResult: Callback1<String>): HttpRequest {
+    fun makePut(onResult: (String)->Unit): HttpRequest {
         method = Method.PUT
         return makePut(onResult, null)
     }
 
-    fun makePut(onResult: Callback1<String>, onError: Callback1<Exception>?): HttpRequest {
+    fun makePut(onResult: (String)->Unit, onError: ((Exception) -> Unit)?): HttpRequest {
         method = Method.PUT
         return make(onResult, onError)
     }
 
-    fun makeDelete(onResult: Callback1<String>): HttpRequest {
+    fun makeDelete(onResult: (String)->Unit): HttpRequest {
         return make(onResult, null)
     }
 
-    fun makeDelete(onResult: Callback1<String>, onError: Callback1<Exception>): HttpRequest {
+    fun makeDelete(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
         method = Method.DELETE
         return makeDelete(onResult, onError)
     }
@@ -97,13 +96,13 @@ class HttpRequest(private val url: String) {
     }
 
 
-    private fun make(onResult: Callback1<String>?, onError: Callback1<Exception>?): HttpRequest {
+    private fun make(onResult: (String)->Unit?, onError: ((Exception) -> Unit)?): HttpRequest {
         ToolsThreads.thread {
             try {
-                onResult?.callback(make())
+                onResult.invoke(make())
             } catch (e: Exception) {
                 if (onError != null)
-                    onError.callback(e)
+                    onError.invoke(e)
                 else
                     Debug.log(e)
             }

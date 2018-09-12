@@ -3,6 +3,7 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 

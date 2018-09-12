@@ -26,8 +26,9 @@ class CardAvatar : Card() {
     private var chipUseIconBackground: Boolean = false
     private var onClickAvatar: (() -> Unit)? = null
 
-    override val layout: Int
-        get() = R.layout.card_avatar
+    override fun getLayout() : Int{
+        return R.layout.card_avatar
+    }
 
     override fun bindView(view: View) {
         val vTouch = view.findViewById<View>(R.id.touch)
@@ -42,17 +43,17 @@ class CardAvatar : Card() {
         else vTouch.setOnClickListener(null)
         if (background != 0) view.setBackgroundColor(background)
         vAvatar.isEnabled = isEnabled()
-        vAvatar.title = title
+        vAvatar.setTitle(title)
         vAvatar.setSubtitle(subtitle)
         vAvatar.isClickable = false
         if (onClickAvatar != null) vAvatar.viewAvatar.setOnClickListener { v -> onClickAvatar!!.invoke() }
         else vAvatar.viewAvatar.setOnClickListener(null)
         vAvatar.viewAvatar.setImage(image)
-        vAvatar.viewAvatar.chip.text = chipText
-        vAvatar.viewAvatar.chip.setIcon(chipIcon)
-        vAvatar.viewAvatar.chip.setIconPadding(chipIconPaddingDp)
-        vAvatar.viewAvatar.chip.setChipBackground(chipBackground)
-        vAvatar.viewAvatar.chip.setUseIconBackground(chipUseIconBackground)
+        vAvatar.viewAvatar.vChip.setText(chipText)
+        vAvatar.viewAvatar.vChip.setIcon(chipIcon)
+        vAvatar.viewAvatar.vChip.setIconPadding(chipIconPaddingDp)
+        vAvatar.viewAvatar.vChip.setChipBackground(chipBackground)
+        vAvatar.viewAvatar.vChip.setUseIconBackground(chipUseIconBackground)
 
         onBind(vAvatar)
     }

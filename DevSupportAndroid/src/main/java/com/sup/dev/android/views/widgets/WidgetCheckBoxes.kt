@@ -176,7 +176,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     private inner class Item {
 
-        val v: CheckBox = CheckBox(SupAndroid.activity)
+        val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
         var onChange: (WidgetCheckBoxes, Boolean) -> Unit = { w, b -> run { } }
         var onSelected: (WidgetCheckBoxes) -> Unit = {}

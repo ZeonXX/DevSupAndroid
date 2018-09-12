@@ -9,34 +9,22 @@ import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.watchers.TextWatcherChanged
-import com.sup.dev.java.classes.providers.Provider1
 
 
 class SettingsField @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_field) {
 
-    private val vIcon: ViewIcon
-    private val vField: EditText
-    private val vInputLayout: TextInputLayout
+    private val vIcon: ViewIcon = findViewById(R.id.dev_sup_icon)
+    private val vField: EditText = findViewById(R.id.dev_sup_field)
+    private val vInputLayout: TextInputLayout = findViewById(R.id.dev_sup_input_layout)
 
     private var isError: Boolean = false
-    private var checker: Provider1<String, Boolean>? = null
-
-    var text: String?
-        get() = vField.text.toString()
-        set(text) {
-            vField.setText(text)
-            if (text != null) vField.setSelection(text.length)
-        }
+    private var checker: ((String) -> Boolean)? = null
 
     init {
-
-        vIcon = findViewById(R.id.dev_sup_icon)
-        vInputLayout = findViewById(R.id.dev_sup_input_layout)
-        vField = findViewById(R.id.dev_sup_field)
-
 
         vField.id = View.NO_ID //   Чтоб система не востонавливала состояние
 
@@ -76,7 +64,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
         var state = state
         if (state is Bundle) {
             val bundle = state as Bundle?
-            text = bundle!!.getString("text")
+            setText(bundle!!.getString("text"))
             state = bundle.getParcelable("SUPER_STATE")
         }
         super.onRestoreInstanceState(state)
@@ -84,19 +72,24 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
 
     private fun checkError() {
         if (checker == null) setError(false)
-        if (checker != null) setError((!checker!!.provide(text))!!)
+        if (checker != null) setError((!checker!!.invoke(getText())))
     }
 
     //
     //  Setters
     //
 
+    fun setText(text: String?) {
+        vField.setText(text)
+        if (text != null) vField.setSelection(text.length)
+    }
+
     fun setError(b: Boolean) {
         isError = b
         vField.error = if (b) "" else null
     }
 
-    fun setErrorChecker(checker: Provider1<String, Boolean>) {
+    fun setErrorChecker(checker: (String) -> Boolean) {
         this.checker = checker
         checkError()
     }
@@ -139,6 +132,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
     //  Getters
     //
 
+    fun getText() = vField.text.toString()
 
     fun isError(): Boolean {
         checkError()

@@ -40,7 +40,7 @@ object ToolsCash{
     fun cacheData(data: ByteArray, name: String) {
         if (cashSize == 0L) init()
 
-        val cacheDir = SupAndroid.appContext.cacheDir
+        val cacheDir = SupAndroid.appContext!!.cacheDir
         val size = getDirSize(cacheDir)
         val newSize = data.size + size
 

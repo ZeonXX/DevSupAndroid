@@ -15,9 +15,7 @@ import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
-import com.sup.dev.java.classes.providers.Provider
 import com.sup.dev.java.tools.ToolsThreads
-
 
 abstract class Widget(layoutRes: Int) {
 
@@ -89,13 +87,13 @@ abstract class Widget(layoutRes: Int) {
     //  Setters
     //
 
-    open fun <K : Widget> setTitle(@StringRes title: Int): K {
+    open fun setTitle(@StringRes title: Int): Widget {
         return setTitle(ToolsResources.getString(title))
     }
 
-    open fun <K : Widget> setTitle(title: String?): K {
+    open fun setTitle(title: String?): Widget {
         if (vTitle != null) ToolsView.setTextOrGone(vTitle, title!!)
-        return this as K
+        return this
     }
 
     fun <K : Widget> setTitleBackgroundColorRes(@ColorRes color: Int): K {
@@ -172,9 +170,9 @@ abstract class Widget(layoutRes: Int) {
     }
 
     @JvmOverloads
-    fun showPopupWhenClick(view: View, willShow: Provider<Boolean>? = null): Widget {
+    fun showPopupWhenClick(view: View, willShow: (()->Boolean)? = null): Widget {
         ToolsView.setOnClickCoordinates(view) { view1, x, y ->
-            if (willShow == null || willShow.provide()!!) asPopup().show<Popup>(view1, x, y)
+            if (willShow == null || willShow.invoke()) asPopup().show<Popup>(view1, x, y)
             Unit
         }
         return this
@@ -188,16 +186,16 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
-    fun showPopupWhenClickAndLongClick(view: View, willShowClicik: Provider<Boolean>): Widget {
-        return showPopupWhenClickAndLongClick(view, willShowClicik, null)
+    fun showPopupWhenClickAndLongClick(view: View, willShowClick: ()->Boolean): Widget {
+        return showPopupWhenClickAndLongClick(view, willShowClick, null)
     }
 
-    fun showPopupWhenClickAndLongClick(view: View, willShowClick: Provider<Boolean>?, willShowLongClick: Provider<Boolean>?): Widget {
+    fun showPopupWhenClickAndLongClick(view: View, willShowClick: (()->Boolean)?, willShowLongClick: (()->Boolean)?): Widget {
         ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
             if (isClick) {
-                if (willShowClick == null || willShowClick.provide()!!) asPopup().show<Popup>(view1, x, y)
+                if (willShowClick == null || willShowClick.invoke()) asPopup().show<Popup>(view1, x, y)
             } else {
-                if (willShowLongClick == null || willShowLongClick.provide()!!) asPopup().show<Popup>(view1, x, y)
+                if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().show<Popup>(view1, x, y)
             }
             Unit
         }

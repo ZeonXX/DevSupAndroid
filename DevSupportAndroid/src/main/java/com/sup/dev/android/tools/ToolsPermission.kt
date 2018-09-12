@@ -80,7 +80,7 @@ object ToolsPermission {
     //
 
     fun hasPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(SupAndroid.appContext, permission) == PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(SupAndroid.appContext!!, permission) == PERMISSION_GRANTED
     }
 
     @JvmOverloads
@@ -90,7 +90,7 @@ object ToolsPermission {
             return
         }
         ToolsThreads.thread {
-            if (requestPermission(SupAndroid.activity, permission)) {
+            if (requestPermission(SupAndroid.activity!!, permission)) {
                 ToolsThreads.main(2000) { onGranted.invoke() }    //  Без задержки приложение ведет себя так, будто разрешение еще не получено
             } else {
                 ToolsThreads.main { onPermissionRestriction.invoke() }

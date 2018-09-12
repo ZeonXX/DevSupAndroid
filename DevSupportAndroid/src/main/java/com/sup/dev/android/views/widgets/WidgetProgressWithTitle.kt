@@ -14,18 +14,4 @@ class WidgetProgressWithTitle : Widget(R.layout.widget_progress_with_title) {
         vLoadTitle = view.findViewById(R.id.load_title)
     }
 
-    //
-    //  Setters
-    //
-
-
-    override fun <K : Widget> setTitle(@StringRes title: Int): K {
-        return setTitle(ToolsResources.getString(title))
-    }
-
-    override fun <K : Widget> setTitle(title: String?): K {
-        ToolsView.setTextOrGone(vLoadTitle, title)
-        return this as K
-    }
-
 }

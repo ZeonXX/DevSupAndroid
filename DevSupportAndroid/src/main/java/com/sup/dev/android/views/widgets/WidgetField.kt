@@ -15,7 +15,6 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.watchers.TextWatcherChanged
 import com.sup.dev.android.views.watchers.TextWatcherRemoveHTML
 import com.sup.dev.java.classes.items.Item2
-import com.sup.dev.java.classes.providers.Provider1
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
@@ -28,7 +27,7 @@ class WidgetField : Widget(R.layout.widget_field) {
     private val vCancel: Button
     private val vEnter: Button
 
-    private val checkers = ArrayList<Item2<String, Provider1<String, Boolean>>>()
+    private val checkers = ArrayList<Item2<String, (String)->Boolean>>()
     private var max: Int = 0
     private var min: Int = 0
     private var autoHideOnEnter = true
@@ -67,7 +66,7 @@ class WidgetField : Widget(R.layout.widget_field) {
         var error: String? = null
 
         for (pair in checkers)
-            if (!((pair.a2!!.provide(text))!!)) {
+            if (!((pair.a2!!.invoke(text)))) {
                 error = pair.a1
                 break
             }
@@ -141,15 +140,15 @@ class WidgetField : Widget(R.layout.widget_field) {
         return this
     }
 
-    fun addChecker(@StringRes errorText: Int, checker: Provider1<String, Boolean>): WidgetField {
+    fun addChecker(@StringRes errorText: Int, checker: (String) -> Boolean): WidgetField {
         return addChecker(ToolsResources.getString(errorText), checker)
     }
 
-    fun addChecker(checker: Provider1<String, Boolean>): WidgetField {
+    fun addChecker(checker: (String) -> Boolean): WidgetField {
         return addChecker(null, checker)
     }
 
-    fun addChecker(errorText: String?, checker: Provider1<String, Boolean>): WidgetField {
+    fun addChecker(errorText: String?, checker: (String) -> Boolean): WidgetField {
         checkers.add(Item2(errorText ?: "", checker))
         check()
         return this
@@ -171,7 +170,7 @@ class WidgetField : Widget(R.layout.widget_field) {
 
     fun setText(text: String?): WidgetField {
         vField.setText(text)
-        vField.setSelection(vField.text.length)
+        vField.setSelection(vField.text!!.length)
         return this
     }
 

@@ -9,12 +9,10 @@ import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.CardDivider
 import com.sup.dev.android.views.cards.CardDividerTitle
 import com.sup.dev.android.views.cards.CardMenu
-import com.sup.dev.java.classes.providers.Provider
-
 
 class WidgetMenu : WidgetRecycler() {
 
-    private val adapter: RecyclerCardAdapter = RecyclerCardAdapter()
+    private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
     private var onGlobalSelected: (WidgetMenu, String?) -> Unit = {w,s -> }
 
     private var prefCount = 0
@@ -29,7 +27,7 @@ class WidgetMenu : WidgetRecycler() {
 
     init {
         vRecycler.layoutManager = LinearLayoutManager(view!!.context)
-        setAdapter<WidgetRecycler>(adapter)
+        setAdapter<WidgetRecycler>(myAdapter)
     }
 
     override fun onShow() {
@@ -39,7 +37,7 @@ class WidgetMenu : WidgetRecycler() {
 
     fun clear() {
         finishItemBuilding()
-        adapter.clear()
+        myAdapter.clear()
         prefCount = 0
     }
 
@@ -57,11 +55,11 @@ class WidgetMenu : WidgetRecycler() {
 
 
         if (item.preferred) {
-            if (prefCount == 0) adapter.add(0, CardDivider())
-            adapter.add(prefCount, item.card)
+            if (prefCount == 0) myAdapter.add(0, CardDivider())
+            myAdapter.add(prefCount, item.card!!)
             prefCount++
         } else {
-            adapter.add(item.card)
+            myAdapter.add(item.card!!)
         }
 
     }
@@ -77,11 +75,11 @@ class WidgetMenu : WidgetRecycler() {
     @JvmOverloads
     fun group(title: String?, divider: Boolean = true): WidgetMenu {
         finishItemBuilding()
-        adapter.add(CardDividerTitle().setText(title).setDivider(divider))
+        myAdapter.add(CardDividerTitle().setText(title).setDivider(divider))
         return this
     }
 
-    fun setOnGlobalSelected(onGlobalSelected: (WidgetMenu, String) -> Unit) {
+    fun setOnGlobalSelected(onGlobalSelected: (WidgetMenu, String?) -> Unit) {
         this.onGlobalSelected = onGlobalSelected
     }
 
@@ -129,8 +127,8 @@ class WidgetMenu : WidgetRecycler() {
         return background(ToolsResources.getColor(color))
     }
 
-    fun backgroundRes(@ColorRes color: Int, condition: Provider<Boolean>): WidgetMenu {
-        return if (condition.provide()!!)
+    fun backgroundRes(@ColorRes color: Int, condition: ()->Boolean): WidgetMenu {
+        return if (condition.invoke())
             background(ToolsResources.getColor(color))
         else
             this

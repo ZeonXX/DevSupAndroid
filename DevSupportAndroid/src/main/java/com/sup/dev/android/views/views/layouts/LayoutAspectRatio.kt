@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.MeasureSpec.UNSPECIFIED
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.sup.dev.android.R
 
 
 class LayoutAspectRatio @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {

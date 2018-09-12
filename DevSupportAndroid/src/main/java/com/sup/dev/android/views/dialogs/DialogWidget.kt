@@ -26,16 +26,16 @@ class DialogWidget(private val widget: Widget) : Dialog(widget.view), WidgetView
     //  Setters
     //
 
-    override fun <K : WidgetViewWrapper?> hideWidget(): K {
+    override fun <K : WidgetViewWrapper> hideWidget(): K {
         hide()
         return this as K
     }
 
-    override fun <K : WidgetViewWrapper?> setWidgetCancelable(cancelable: Boolean): K {
+    override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return setDialogCancelable<Dialog>(cancelable) as K
     }
 
-    override fun <K : WidgetViewWrapper?> setWidgetEnabled(enabled: Boolean): K {
+    override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return setEnabled<Dialog>(enabled) as K
     }
 

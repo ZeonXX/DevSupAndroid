@@ -39,7 +39,7 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
             mediaPlayer = MediaPlayer()
             mediaPlayer!!.setAudioStreamType(streamType)
             mediaPlayer!!.isLooping = looping
-            mediaPlayer!!.setDataSource(SupAndroid.appContext, mediaUri)
+            mediaPlayer!!.setDataSource(SupAndroid.appContext!!, mediaUri)
             mediaPlayer!!.setOnPreparedListener(this)
             mediaPlayer!!.setVolume(1f, 1f)
 

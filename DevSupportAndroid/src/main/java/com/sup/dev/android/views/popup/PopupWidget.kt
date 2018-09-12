@@ -40,15 +40,15 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
         return this as K
     }
 
-    override fun <K : WidgetViewWrapper?> hideWidget(): K {
+    override fun <K : WidgetViewWrapper> hideWidget(): K {
         return hide<Popup>() as K
     }
 
-    override fun <K : WidgetViewWrapper?> setWidgetCancelable(cancelable: Boolean): K {
+    override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return setCancelable<Popup>(cancelable) as K
     }
 
-    override fun <K : WidgetViewWrapper?> setWidgetEnabled(enabled: Boolean): K {
+    override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return setEnabled<Popup>(enabled) as K
     }
 

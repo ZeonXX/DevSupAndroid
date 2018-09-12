@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 
 
-abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity) {
+abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity!!) {
     //
     //  Getters
     //
@@ -28,14 +29,14 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setOnCancelListener { dialogInterface -> onHide() }
 
-        val layoutMaxSizes = object : LayoutMaxSizes(SupAndroid.activity) {
+        val layoutMaxSizes = object : LayoutMaxSizes(SupAndroid.activity!!) {
             override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                 setMaxWidthParentPercent((if (ToolsAndroid.isScreenPortrait()) 90 else 70).toFloat())
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec)
             }
         }
         layoutMaxSizes.id = R.id.dialog_layout_max_sizes
-        layoutMaxSizes.maxWidth = 600
+        layoutMaxSizes.setMaxWidth(600)
         layoutMaxSizes.setUseScreenWidthAsParent(true)
         layoutMaxSizes.setAlwaysMaxW(true)
         layoutMaxSizes.setChildAlwaysMaxW(true)

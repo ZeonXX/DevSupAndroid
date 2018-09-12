@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
@@ -23,14 +24,14 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-    protected val vContainer: ViewGroup
-    protected val vToolbarContainer: ViewGroup
-    protected val vToolbar: Toolbar
-    protected val vMessage: TextView
-    protected val vAction: TextView
-    protected val vProgress: View
-    protected val vEmptyImage: ImageView
-    protected val vFab: FloatingActionButton
+    protected val vContainer: ViewGroup = findViewById(R.id.container)
+    protected val vToolbarContainer: ViewGroup = findViewById(R.id.toolbar_icons_container)
+    protected val vToolbar: Toolbar = findViewById(R.id.toolbar)
+    protected val vMessage: TextView = findViewById(R.id.message)
+    protected val vAction: TextView = findViewById(R.id.action)
+    protected val vProgress: View = findViewById(R.id.progress)
+    protected val vEmptyImage: ImageView = findViewById(R.id.empty_image)
+    protected val vFab: FloatingActionButton = findViewById(R.id.fab)
 
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
@@ -46,19 +47,10 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
     init {
 
-        vContainer = findViewById(R.id.container)
-        vToolbarContainer = findViewById(R.id.toolbar_icons_container)
-        vToolbar = findViewById(R.id.toolbar)
-        vMessage = findViewById(R.id.message)
-        vAction = findViewById(R.id.action)
-        vProgress = findViewById(R.id.progress)
-        vEmptyImage = findViewById(R.id.empty_image)
-        vFab = findViewById(R.id.fab)
-
+        vFab.visibility = View.GONE
         vAction.visibility = View.INVISIBLE
         vMessage.visibility = View.INVISIBLE
         vProgress.visibility = View.INVISIBLE
-        vFab.visibility = View.GONE
         vEmptyImage.setImageDrawable(null)
 
         setState(State.PROGRESS)
@@ -73,9 +65,9 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     protected fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit): ViewIcon {
-        val viewIcon = ToolsView.inflate(context, R.layout.view_icon)
+        val viewIcon:ViewIcon = ToolsView.inflate(context, R.layout.view_icon)
         viewIcon.setImageResource(res)
-        viewIcon.setOnClickListener(OnClickListener { onClick.invoke(viewIcon) })
+        viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
         vToolbarContainer.addView(viewIcon)
         return viewIcon
     }

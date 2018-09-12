@@ -2,12 +2,11 @@ package com.sup.dev.android.views.adapters.pager
 
 import android.view.ViewGroup
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.java.classes.providers.Provider1
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
 
-class PagerCardAdapterLoader<X>(private val loader: ((Array<X>) -> Unit, ArrayList<Card>) -> Unit, private val mapper: Provider1<X, Card>) : PagerCardAdapter() {
+class PagerCardAdapterLoader<X>(private val loader: ((Array<X>) -> Unit, ArrayList<Card>) -> Unit, private val mapper: (X)->Card) : PagerCardAdapter() {
 
     private var startLoadOffset = 0
     //
@@ -74,7 +73,7 @@ class PagerCardAdapterLoader<X>(private val loader: ((Array<X>) -> Unit, ArrayLi
             if (result.isEmpty()) lock()
         }
 
-        for (aResult in result) add(mapper.provide(aResult)!!)
+        for (aResult in result) add(mapper.invoke(aResult))
 
         if (!isEmpty || result.isNotEmpty())
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()

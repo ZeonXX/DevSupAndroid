@@ -3,6 +3,7 @@ package com.sup.dev.android.views.screens
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -26,7 +27,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
 
         vTitle.text = title
         vText.text = text
-        vAction.text = action
+        vAction.setText(action)
 
         if (image > 0) {
             vImage.setImageResource(image)
@@ -44,7 +45,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
             vImageFull.visibility = View.GONE
         }
 
-        vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke() }
+        vAction.setOnClickListener { v -> if (onAction != null) onAction.invoke() }
 
     }
 

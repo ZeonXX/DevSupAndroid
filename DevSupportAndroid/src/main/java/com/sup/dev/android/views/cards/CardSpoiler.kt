@@ -99,7 +99,7 @@ class CardSpoiler : Card() {
         return this
     }
 
-    override fun setCardAdapter(adapter: CardAdapter) {
+    override fun setCardAdapter(adapter: CardAdapter?) {
         super.adapter = adapter
         setExpanded(expanded)
     }

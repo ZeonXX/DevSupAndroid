@@ -14,10 +14,6 @@ import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
-import com.sup.dev.java.classes.callbacks.simple.Callback1
-import com.sup.dev.java.classes.callbacks.simple.Callback1Stub
-import com.sup.dev.java.classes.callbacks.simple.CallbackStub
-import com.sup.dev.java.classes.providers.Provider1
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.tools.ToolsDate
@@ -32,17 +28,17 @@ object ApiRequestsSupporter {
     }
 
 
-    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: Provider1<K, Screen>): Request<K> {
+    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
         val sInterstitialProgress = SInterstitialProgress()
         Navigator.action(action, sInterstitialProgress)
 
-        request.onComplete { r -> if (Navigator.getCurrent() === sInterstitialProgress) Navigator.replace(onComplete.provide(r)) }
+        request.onComplete { r -> if (Navigator.getCurrent() === sInterstitialProgress) Navigator.replace(onComplete.invoke(r)) }
                 .onNetworkError {
                     if (Navigator.getCurrent() === sInterstitialProgress) {
-                        SAlert.showNetwork(Navigator.REPLACE, CallbackStub {
+                        SAlert.showNetwork(Navigator.REPLACE) {
                             Navigator.replace(sInterstitialProgress)
                             request.send(api!!)
-                        })
+                        }
                     }
                 }
                 .onApiError(ApiClient.ERROR_GONE) { e -> if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE) }
@@ -130,7 +126,7 @@ object ApiRequestsSupporter {
                 .setText(text)
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .setAutoHideOnEnter(false)
-                .setOnEnter(enter, Callback1Stub{ w -> executeEnabled(w, request, onComplete) })
+                .setOnEnter(enter) { w -> executeEnabled(w, request, onComplete) }
                 .asSheetShow()
         return request
     }

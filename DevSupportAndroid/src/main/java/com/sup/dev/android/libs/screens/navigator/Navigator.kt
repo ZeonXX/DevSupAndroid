@@ -3,9 +3,7 @@ package com.sup.dev.android.libs.screens.navigator
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.java.classes.callbacks.CallbacksList2
-import com.sup.dev.java.classes.providers.Provider
 import java.util.ArrayList
-
 
 object Navigator {
 
@@ -22,7 +20,7 @@ object Navigator {
     //
 
     private val onBack = CallbacksList2<Screen, Screen>()
-    val onBackCallbacks = ArrayList<Provider<Boolean>>()
+    private val onBackCallbacks = ArrayList<()->Boolean>()
 
     enum class Animation {
         IN, OUT, ALPHA, NONE
@@ -86,7 +84,7 @@ object Navigator {
         to(screen)
     }
 
-    fun reorderOrCreate(viewClass: Class<out Screen>, provider: Provider<Screen>) {
+    fun reorderOrCreate(viewClass: Class<out Screen>, provider: ()->Screen) {
 
         if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
             return
@@ -97,7 +95,7 @@ object Navigator {
                 return
             }
 
-        to(provider.provide())
+        to(provider.invoke())
     }
 
     fun removeAllEqualsAndTo(view: Screen) {
@@ -179,7 +177,7 @@ object Navigator {
 
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
             val onBack = onBackCallbacks.removeAt(i)
-            if (onBack.provide()!!) return true
+            if (onBack.invoke()!!) return true
         }
 
         return getCurrent() != null && getCurrent()!!.onBackPressed() || back()
@@ -225,12 +223,12 @@ object Navigator {
     }
 
 
-    fun addOnBack(onBack: Provider<Boolean>) {
+    fun addOnBack(onBack: ()->Boolean) {
         if (onBackCallbacks.contains(onBack)) onBackCallbacks.remove(onBack)
         onBackCallbacks.add(onBack)
     }
 
-    fun removeOnBack(onBack: Provider<Boolean>) {
+    fun removeOnBack(onBack: ()->Boolean) {
         onBackCallbacks.remove(onBack)
     }
 

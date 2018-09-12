@@ -1,7 +1,6 @@
 package com.sup.dev.android.libs.image_loader
 
 import android.widget.ImageView
-import com.sup.dev.java.classes.providers.Provider1
 
 
 class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
@@ -11,7 +10,7 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
     }
 
     override fun load(): ByteArray? {
-        return loader!!.provide(imageId)
+        return loader!!.invoke(imageId)
     }
 
     override fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderId {
@@ -22,14 +21,14 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
 
     companion object {
 
-        var loader: Provider1<Long, ByteArray>? = null
+        var loader: ((Long)->ByteArray)? = null
 
-        fun load(imageId: Long, onLoaded: (ByteArray) -> Unit) {
+        fun load(imageId: Long, onLoaded: (ByteArray?) -> Unit) {
             load(imageId, null, onLoaded)
         }
 
         @JvmOverloads
-        fun load(imageId: Long, vImage: ImageView? = null, onLoaded: (ByteArray) -> Unit = {}) {
+        fun load(imageId: Long, vImage: ImageView? = null, onLoaded: (ByteArray?) -> Unit = {}) {
             ImageLoader.load(ImageLoaderId(imageId).setImage(vImage).setOnLoaded(onLoaded))
         }
 

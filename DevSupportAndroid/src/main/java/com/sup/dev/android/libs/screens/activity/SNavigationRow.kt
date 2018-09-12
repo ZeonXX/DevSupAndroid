@@ -11,12 +11,12 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChip
 
-class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, onClickListener: View.OnClickListener) {
+class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, onClickListener: (View) -> Unit) {
 
     val view: View?
     private val vChip: ViewChip
 
-    constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: View.OnClickListener) : this(context, icon, ToolsResources.getString(text), onClickListener) {}
+    constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: (View) -> Unit) : this(context, icon, ToolsResources.getString(text), onClickListener) {}
 
     init {
         view = ToolsView.inflate(context, R.layout.screen_activity_navigation_row)
@@ -30,7 +30,7 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
     }
 
     fun setChip(text: String) {
-        vChip.text = text
+        vChip.setText(text)
     }
 
     fun setChipVisible(b: Boolean) {

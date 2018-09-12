@@ -16,11 +16,11 @@ class BehaviorBottomSheet<V : View> : BottomSheetBehavior<V> {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
-    override fun onInterceptTouchEvent(parent: CoordinatorLayout?, child: V, event: MotionEvent?): Boolean {
+    override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         return canCollapse && super.onInterceptTouchEvent(parent, child, event)
     }
 
-    override fun onTouchEvent(parent: CoordinatorLayout?, child: V, event: MotionEvent?): Boolean {
+    override fun onTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         return canCollapse && super.onTouchEvent(parent, child, event)
     }
 

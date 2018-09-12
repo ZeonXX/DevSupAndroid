@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
@@ -47,7 +48,7 @@ class SImageView private constructor(private val bitmap: Bitmap?, private val id
                     if (!isGif)
                         ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
                     else
-                        ToolsStorage.saveFileInDownloadFolder(bytes, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
                 }
             }
             dialog.hide()

@@ -17,7 +17,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-open class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
+open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
 
     var isBackStackAllowed = true
         protected set
@@ -80,7 +80,9 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity) {
         }
 
         val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar)
-        appBarLayout?.addOnOffsetChangedListener { appBarLayout1, verticalOffset -> isAppbarExpanded = verticalOffset == 0 }
+        appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout1, verticalOffset ->
+            isAppbarExpanded = verticalOffset == 0
+        })
     }
 
     @CallSuper

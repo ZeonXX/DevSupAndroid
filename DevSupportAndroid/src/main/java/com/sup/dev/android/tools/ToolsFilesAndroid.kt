@@ -191,11 +191,11 @@ object ToolsFilesAndroid {
 
     fun getDiskCacheDir(): File {
         if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
-            val externalCacheDir = SupAndroid.appContext.externalCacheDir
+            val externalCacheDir = SupAndroid.appContext!!.externalCacheDir
             if (externalCacheDir != null)
-                return File(SupAndroid.appContext.externalCacheDir!!.path)
+                return File(SupAndroid.appContext!!.externalCacheDir!!.path)
         }
 
-        return File(SupAndroid.appContext.cacheDir.path)
+        return File(SupAndroid.appContext!!.cacheDir.path)
     }
 }

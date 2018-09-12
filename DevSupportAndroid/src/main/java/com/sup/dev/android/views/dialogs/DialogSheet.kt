@@ -5,6 +5,7 @@ import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatDialog
 import android.view.*
 import android.widget.FrameLayout
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView

@@ -27,6 +27,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
+import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
@@ -69,7 +70,7 @@ object ToolsView {
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {
         vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (vRecycler.computeVerticalScrollOffset() != 0 && vRecycler.computeVerticalScrollOffset() + 50 >= vRecycler.computeVerticalScrollRange() - vRecycler.computeVerticalScrollExtent())
                     vFab.hide()
                 else
@@ -96,7 +97,7 @@ object ToolsView {
     }
 
     fun showProgressDialog(title: String?): WidgetProgressWithTitle {
-        val widget = WidgetProgressWithTitle().setTitle(title).setCancelable<WidgetProgressWithTitle>(false)
+        val widget:WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
         widget.asSheetShow()
         return widget
     }
@@ -201,7 +202,7 @@ object ToolsView {
     }
 
     fun <K : View> inflate(@LayoutRes res: Int): K {
-        return LayoutInflater.from(SupAndroid.activity).inflate(res, null, false) as K
+        return LayoutInflater.from(SupAndroid.activity!!).inflate(res, null, false) as K
     }
 
     fun <K : View> inflate(viewContext: Context, @LayoutRes res: Int): K {

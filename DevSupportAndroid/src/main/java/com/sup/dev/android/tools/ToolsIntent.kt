@@ -35,14 +35,14 @@ object ToolsIntent {
     //
 
     private val cashRoot: String
-        get() = SupAndroid.appContext.externalCacheDir!!.absolutePath + SHARE_FOLDER
+        get() = SupAndroid.appContext!!.externalCacheDir!!.absolutePath + SHARE_FOLDER
 
     fun startIntentForResult(intent: Intent, onResult: (Int, Intent)->Unit) {
         if (codeCounter == 65000)
             codeCounter = 0
         val code = codeCounter++
         progressIntents.add(Item2(code, onResult))
-        SupAndroid.activity.startActivityForResult(intent, code)
+        SupAndroid.activity!!.startActivityForResult(intent, code)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent) {
@@ -58,7 +58,7 @@ object ToolsIntent {
     fun openApp(stringID: Int) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(ToolsResources.getString(stringID))
-        SupAndroid.appContext.startActivity(intent)
+        SupAndroid.appContext!!.startActivity(intent)
     }
 
     //
@@ -67,7 +67,7 @@ object ToolsIntent {
 
     fun startIntent(intent: Intent, onActivityNotFound: ()->Unit?) {
         try {
-            SupAndroid.appContext.startActivity(intent)
+            SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
             Debug.log(ex)
             onActivityNotFound.invoke()
@@ -86,7 +86,7 @@ object ToolsIntent {
     }
 
     fun startApp(packageName: String, onIntentCreated: (Intent)->Unit?, onActivityNotFound: ()->Unit?) {
-        val manager = SupAndroid.appContext.packageManager
+        val manager = SupAndroid.appContext!!.packageManager
         val intent = manager.getLaunchIntentForPackage(packageName)
         if (intent == null) {
             onActivityNotFound.invoke()
@@ -136,10 +136,10 @@ object ToolsIntent {
         }
 
         try {
-            SupAndroid.activity.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND)
+            SupAndroid.activity!!.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity, providerKey, file))
+                    .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity!!, providerKey, file))
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null))
         } catch (ex: ActivityNotFoundException) {
@@ -150,12 +150,12 @@ object ToolsIntent {
     }
 
     fun shareFile(patch: String, providerKey: String, onActivityNotFound: ()->Unit?) {
-        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext, providerKey, File(patch))
+        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, onActivityNotFound)
     }
 
     fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: ()->Unit?) {
-        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext, providerKey, File(patch))
+        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, type, onActivityNotFound)
     }
 
@@ -175,7 +175,7 @@ object ToolsIntent {
                     .putExtra(Intent.EXTRA_STREAM, uri)
                     .setType(type)
             if (text != null) i.putExtra(Intent.EXTRA_TEXT, text)
-            SupAndroid.activity.startActivity(Intent.createChooser(i, null))
+            SupAndroid.activity!!.startActivity(Intent.createChooser(i, null))
         } catch (ex: ActivityNotFoundException) {
             Debug.log(ex)
             onActivityNotFound.invoke()
@@ -217,22 +217,21 @@ object ToolsIntent {
 
 
     fun startServiceForeground(serviceClass: Class<out Service>, vararg extras: Any) {
-        val intent = Intent(SupAndroid.appContext, serviceClass)
+        val intent = Intent(SupAndroid.appContext!!, serviceClass)
         addExtras(intent, *extras)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            SupAndroid.appContext.startForegroundService(intent)
+            SupAndroid.appContext!!.startForegroundService(intent)
         else
-            SupAndroid.appContext.startService(intent)
+            SupAndroid.appContext!!.startService(intent)
 
     }
 
     fun startService(serviceClass: Class<out Service>, vararg extras: Any) {
-        val intent = Intent(SupAndroid.appContext, serviceClass)
+        val intent = Intent(SupAndroid.appContext!!, serviceClass)
         addExtras(intent, *extras)
-        SupAndroid.appContext.startService(intent)
+        SupAndroid.appContext!!.startService(intent)
     }
-
 
     fun startActivity(viewContext: Context, activityClass: Class<out Activity>, vararg extras: Any) {
         startActivity(viewContext, activityClass, null, *extras)

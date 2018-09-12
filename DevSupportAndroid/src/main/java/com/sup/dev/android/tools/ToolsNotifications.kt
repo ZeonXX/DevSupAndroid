@@ -30,24 +30,24 @@ object ToolsNotifications {
     val defChanelId: String
         get() {
             init()
-            return CHANEL_ID_PREFIX + SupAndroid.appContext.applicationInfo.packageName + CHANEL_ID_DEF
+            return CHANEL_ID_PREFIX + SupAndroid.appContext!!.applicationInfo.packageName + CHANEL_ID_DEF
         }
 
     val highChanelId: String
         get() {
             init()
-            return CHANEL_ID_PREFIX + SupAndroid.appContext.applicationInfo.packageName + CHANEL_ID_HIGH
+            return CHANEL_ID_PREFIX + SupAndroid.appContext!!.applicationInfo.packageName + CHANEL_ID_HIGH
         }
 
     val salientChanelId: String
         get() {
             init()
-            return CHANEL_ID_PREFIX + SupAndroid.appContext.applicationInfo.packageName + CHANEL_ID_SALIENT
+            return CHANEL_ID_PREFIX + SupAndroid.appContext!!.applicationInfo.packageName + CHANEL_ID_SALIENT
         }
 
     private fun init() {
         if (notificationManager != null) return
-        notificationManager = SupAndroid.appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (notificationManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val defChannel = NotificationChannel(defChanelId, chanelNameDef, NotificationManager.IMPORTANCE_DEFAULT)
@@ -84,13 +84,13 @@ object ToolsNotifications {
 
     @JvmOverloads
     fun notification(@DrawableRes icon: Int, title: String?, body: String?, activityClass: Class<out Activity>, sound: Boolean = false) {
-        notification(icon, title, body, Intent(SupAndroid.appContext, activityClass), sound)
+        notification(icon, title, body, Intent(SupAndroid.appContext!!, activityClass), sound)
     }
 
     fun notification(@DrawableRes icon: Int, title: String?, body: String?, intent: Intent, sound: Boolean) {
         init()
 
-        val builder = NotificationCompat.Builder(SupAndroid.appContext, defChanelId)
+        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, defChanelId)
                 .setSmallIcon(icon)
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
@@ -100,7 +100,7 @@ object ToolsNotifications {
         if (sound) builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
 
-        val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)
 
         if (notificationManager != null) notificationManager!!.notify(1, builder.build())
@@ -109,7 +109,7 @@ object ToolsNotifications {
 
     fun hide() {
         init()
-        val mNotificationManager = SupAndroid.appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val mNotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotificationManager.cancel(1)
     }
 }
