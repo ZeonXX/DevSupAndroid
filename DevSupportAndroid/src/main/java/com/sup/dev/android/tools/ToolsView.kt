@@ -27,7 +27,6 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
-import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
@@ -300,8 +299,8 @@ object ToolsView {
     }
 
 
-    fun crossfade(`in`: View, out: View) {
-        fromAlpha(`in`)
+    fun crossfade(inp: View, out: View) {
+        fromAlpha(inp)
         toAlpha(out)
     }
 

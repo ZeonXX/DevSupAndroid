@@ -124,55 +124,55 @@ class CropImageOptions : Parcelable {
         cropMenuCropButtonIcon = 0
     }
 
-    protected constructor(`in`: Parcel) {
-        cropShape = ViewCropImage.CropShape.values()[`in`.readInt()]
-        snapRadius = `in`.readFloat()
-        touchRadius = `in`.readFloat()
-        guidelines = ViewCropImage.Guidelines.values()[`in`.readInt()]
-        scaleType = ViewCropImage.ScaleType.values()[`in`.readInt()]
-        showCropOverlay = `in`.readByte().toInt() != 0
-        showProgressBar = `in`.readByte().toInt() != 0
-        autoZoomEnabled = `in`.readByte().toInt() != 0
-        multiTouchEnabled = `in`.readByte().toInt() != 0
-        maxZoom = `in`.readInt()
-        initialCropWindowPaddingRatio = `in`.readFloat()
-        fixAspectRatio = `in`.readByte().toInt() != 0
-        aspectRatioX = `in`.readInt()
-        aspectRatioY = `in`.readInt()
-        borderLineThickness = `in`.readFloat()
-        borderLineColor = `in`.readInt()
-        borderCornerThickness = `in`.readFloat()
-        borderCornerOffset = `in`.readFloat()
-        borderCornerLength = `in`.readFloat()
-        borderCornerColor = `in`.readInt()
-        guidelinesThickness = `in`.readFloat()
-        guidelinesColor = `in`.readInt()
-        backgroundColor = `in`.readInt()
-        minCropWindowWidth = `in`.readInt()
-        minCropWindowHeight = `in`.readInt()
-        minCropResultWidth = `in`.readInt()
-        minCropResultHeight = `in`.readInt()
-        maxCropResultWidth = `in`.readInt()
-        maxCropResultHeight = `in`.readInt()
-        activityTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(`in`)
-        activityMenuIconColor = `in`.readInt()
-        outputUri = `in`.readParcelable(Uri::class.java.classLoader)
-        outputCompressFormat = Bitmap.CompressFormat.valueOf(`in`.readString())
-        outputCompressQuality = `in`.readInt()
-        outputRequestWidth = `in`.readInt()
-        outputRequestHeight = `in`.readInt()
-        outputRequestSizeOptions = ViewCropImage.RequestSizeOptions.values()[`in`.readInt()]
-        noOutputImage = `in`.readByte().toInt() != 0
-        initialCropWindowRectangle = `in`.readParcelable(Rect::class.java.classLoader)
-        initialRotation = `in`.readInt()
-        allowRotation = `in`.readByte().toInt() != 0
-        allowFlipping = `in`.readByte().toInt() != 0
-        allowCounterRotation = `in`.readByte().toInt() != 0
-        rotationDegrees = `in`.readInt()
-        flipHorizontally = `in`.readByte().toInt() != 0
-        flipVertically = `in`.readByte().toInt() != 0
-        cropMenuCropButtonTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(`in`)
-        cropMenuCropButtonIcon = `in`.readInt()
+    protected constructor(inp: Parcel) {
+        cropShape = ViewCropImage.CropShape.values()[inp.readInt()]
+        snapRadius = inp.readFloat()
+        touchRadius = inp.readFloat()
+        guidelines = ViewCropImage.Guidelines.values()[inp.readInt()]
+        scaleType = ViewCropImage.ScaleType.values()[inp.readInt()]
+        showCropOverlay = inp.readByte().toInt() != 0
+        showProgressBar = inp.readByte().toInt() != 0
+        autoZoomEnabled = inp.readByte().toInt() != 0
+        multiTouchEnabled = inp.readByte().toInt() != 0
+        maxZoom = inp.readInt()
+        initialCropWindowPaddingRatio = inp.readFloat()
+        fixAspectRatio = inp.readByte().toInt() != 0
+        aspectRatioX = inp.readInt()
+        aspectRatioY = inp.readInt()
+        borderLineThickness = inp.readFloat()
+        borderLineColor = inp.readInt()
+        borderCornerThickness = inp.readFloat()
+        borderCornerOffset = inp.readFloat()
+        borderCornerLength = inp.readFloat()
+        borderCornerColor = inp.readInt()
+        guidelinesThickness = inp.readFloat()
+        guidelinesColor = inp.readInt()
+        backgroundColor = inp.readInt()
+        minCropWindowWidth = inp.readInt()
+        minCropWindowHeight = inp.readInt()
+        minCropResultWidth = inp.readInt()
+        minCropResultHeight = inp.readInt()
+        maxCropResultWidth = inp.readInt()
+        maxCropResultHeight = inp.readInt()
+        activityTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(inp)
+        activityMenuIconColor = inp.readInt()
+        outputUri = inp.readParcelable(Uri::class.java.classLoader)
+        outputCompressFormat = Bitmap.CompressFormat.valueOf(inp.readString())
+        outputCompressQuality = inp.readInt()
+        outputRequestWidth = inp.readInt()
+        outputRequestHeight = inp.readInt()
+        outputRequestSizeOptions = ViewCropImage.RequestSizeOptions.values()[inp.readInt()]
+        noOutputImage = inp.readByte().toInt() != 0
+        initialCropWindowRectangle = inp.readParcelable(Rect::class.java.classLoader)
+        initialRotation = inp.readInt()
+        allowRotation = inp.readByte().toInt() != 0
+        allowFlipping = inp.readByte().toInt() != 0
+        allowCounterRotation = inp.readByte().toInt() != 0
+        rotationDegrees = inp.readInt()
+        flipHorizontally = inp.readByte().toInt() != 0
+        flipVertically = inp.readByte().toInt() != 0
+        cropMenuCropButtonTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(inp)
+        cropMenuCropButtonIcon = inp.readInt()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -295,8 +295,8 @@ class CropImageOptions : Parcelable {
     companion object {
 
         val CREATOR: Parcelable.Creator<CropImageOptions> = object : Parcelable.Creator<CropImageOptions> {
-            override fun createFromParcel(`in`: Parcel): CropImageOptions {
-                return CropImageOptions(`in`)
+            override fun createFromParcel(inp: Parcel): CropImageOptions {
+                return CropImageOptions(inp)
             }
 
             override fun newArray(size: Int): Array<CropImageOptions?> {
