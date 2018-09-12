@@ -36,7 +36,7 @@ abstract class Widget(layoutRes: Int) {
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
-        vTitle = findViewById(R.id.title)
+        vTitle = findViewById(R.id.vTitle)
 
         if (vTitle != null) {
             vTitle.text = null

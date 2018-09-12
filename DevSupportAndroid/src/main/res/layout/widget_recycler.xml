@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/root"
+              android:id="@+id/vRoot"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/vTitle"
         style="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,14 +17,12 @@
         android:text="Title"/>
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/vContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        style="@style/Recycler"/>
     </FrameLayout>
 
 </LinearLayout>

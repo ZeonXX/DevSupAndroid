@@ -12,9 +12,9 @@ import com.sup.dev.android.views.popup.PopupWidget
 
 open class WidgetRecycler : Widget(R.layout.widget_recycler) {
 
-    protected val vRoot: ViewGroup = findViewById(R.id.root)
-    protected val vRecycler: RecyclerView = findViewById(R.id.recycler)
-    protected val vContainer: ViewGroup = findViewById(R.id.container)
+    protected val vRoot: ViewGroup = findViewById(R.id.vRoot)
+    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    protected val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var adapter: RecyclerCardAdapter? = null
 

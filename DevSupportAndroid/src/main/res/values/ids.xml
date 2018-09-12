@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="toolbar"/>
-    <item type="id" name="app_bar"/>
-    <item type="id" name="collapsing_toolbar"/>
-    <item type="id" name="mvp_fragment_id"/>
-    <item type="id" name="fab"/>
-    <item type="id" name="dim"/>
-    <item type="id" name="sheet"/>
-    <item type="id" name="recycler"/>
-    <item type="id" name="pager"/>
-    <item type="id" name="back"/>
-
-    <item type="id" name="dialog_layout_max_sizes"/>
+    <item type="id" name="vToolbar"/>
+    <item type="id" name="vAppBar"/>
+    <item type="id" name="vCollapsingToolbar"/>
+    <item type="id" name="vFab"/>
+    <item type="id" name="vDim"/>
+    <item type="id" name="vSheet"/>
+    <item type="id" name="vRecycler"/>
+    <item type="id" name="vPager"/>
+    <item type="id" name="vBack"/>
+    <item type="id" name="vDialogLayoutMaxSizes"/>
 
 </resources>

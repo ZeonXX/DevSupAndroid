@@ -27,7 +27,7 @@ abstract class SLoadingRecycler<C : Card, V> @JvmOverloads constructor(res: Int 
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
-        vRecycler = findViewById(R.id.recycler)
+        vRecycler = findViewById(R.id.vRecycler)
         vRefresh = findViewById(R.id.refresh)
 
         vRecycler.layoutManager = LinearLayoutManager(context)

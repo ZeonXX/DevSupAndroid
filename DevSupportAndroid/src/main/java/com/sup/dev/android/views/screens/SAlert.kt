@@ -19,7 +19,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
 
     init {
 
-        val vTitle = findViewById<TextView>(R.id.title)
+        val vTitle = findViewById<TextView>(R.id.vTitle)
         val vText = findViewById<TextView>(R.id.text)
         val vAction = findViewById<ViewChip>(R.id.action)
         val vImage = findViewById<ImageView>(R.id.image)

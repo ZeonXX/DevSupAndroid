@@ -48,7 +48,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
     }
 
     protected fun removeAppbar() {
-        findViewById<View>(R.id.app_bar).visibility = View.GONE
+        findViewById<View>(R.id.vAppBar).visibility = View.GONE
     }
 
     protected fun removeAppbarNavigation() {
@@ -62,7 +62,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
 
     @CallSuper
     open fun onResume() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.vToolbar)
         if (toolbar != null) {
             toolbar.setTitleTextColor(ToolsResources.getColorFromAttr(R.attr.toolbarTitleColor))
             if (hasBackIcon) {
@@ -72,14 +72,14 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
                 toolbar.navigationIcon = null
             }
         } else {
-            val v = findViewById<View>(R.id.back)
+            val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {
                 v.setImageDrawable(navigationDrawable)
                 v.setOnClickListener { vv -> SupAndroid.activity!!.onViewBackPressed() }
             }
         }
 
-        val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar)
+        val appBarLayout = findViewById<AppBarLayout>(R.id.vAppBar)
         appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout1, verticalOffset ->
             isAppbarExpanded = verticalOffset == 0
         })
@@ -109,7 +109,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
     }
 
     open fun setTitle(title: String?) {
-        (findViewById<View>(R.id.toolbar) as Toolbar).title = title
+        (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
     }
 
     //

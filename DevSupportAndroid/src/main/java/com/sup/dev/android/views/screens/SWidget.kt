@@ -11,14 +11,14 @@ import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
 class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), WidgetViewWrapper {
-    private val vContainer: ViewGroup = findViewById(R.id.container)
+    private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     init {
         vContainer.addView(ToolsView.removeFromParent(widget.view))
     }
 
     override fun setTitle(title: String?) {
-        (findViewById<View>(R.id.toolbar) as Toolbar).title = title
+        (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
     }
 
     override fun onResume() {

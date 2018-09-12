@@ -15,7 +15,7 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
 
 
     private val vCropImageView: ViewCropImage = findViewById(R.id.crop)
-    private val vFinish: View = findViewById(R.id.fab)
+    private val vFinish: View = findViewById(R.id.vFab)
     private val vAll: View = findViewById(R.id.all)
 
     private var autoBackOnCrop = true

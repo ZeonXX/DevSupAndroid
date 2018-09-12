@@ -33,8 +33,8 @@ class WidgetChooseImage : WidgetRecycler() {
     init {
         val vFabGalleryContainer:View = ToolsView.inflate(R.layout.view_fab)
         val vFabLinkContainer:View = ToolsView.inflate(R.layout.view_fab)
-        val vFabGallery:ImageView = vFabGalleryContainer.findViewById(R.id.fab)
-        val vFabLink:ImageView = vFabLinkContainer.findViewById(R.id.fab)
+        val vFabGallery:ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
+        val vFabLink:ImageView = vFabLinkContainer.findViewById(R.id.vFab)
         vContainer.addView(vFabGalleryContainer)
         vContainer.addView(vFabLinkContainer)
 

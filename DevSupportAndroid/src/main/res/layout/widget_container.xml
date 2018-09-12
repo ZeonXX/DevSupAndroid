@@ -9,7 +9,7 @@
               android:paddingBottom="8dp">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/vTitle"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

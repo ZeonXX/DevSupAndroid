@@ -41,7 +41,7 @@ class CardLoading : Card() {
         val vDivider = view.findViewById<View>(R.id.divider)
         val vLoadingCircle = view.findViewById<View>(R.id.loading)
         val vLoadingHorizontal = view.findViewById<View>(R.id.loading_horizontal)
-        val vContainer = view.findViewById<View>(R.id.container)
+        val vContainer = view.findViewById<View>(R.id.vContainer)
         val vAction = view.findViewById<Button>(R.id.action)
         val vText = view.findViewById<TextView>(R.id.text)
 

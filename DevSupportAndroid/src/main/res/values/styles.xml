@@ -95,7 +95,7 @@
     </style>
 
     <style name="Toolbar">
-        <item name="android:id">@id/toolbar</item>
+        <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?colorPrimary</item>
@@ -105,21 +105,21 @@
     </style>
 
     <style name="AppBar">
-        <item name="android:id">@id/app_bar</item>
+        <item name="android:id">@id/vAppBar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="elevation">0dp</item>
     </style>
 
     <style name="CollapsingToolbar">
-        <item name="android:id">@id/collapsing_toolbar</item>
+        <item name="android:id">@id/vCollapsingToolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_scrollFlags">scroll|exitUntilCollapsed|snap</item>
     </style>
 
     <style name="Fab">
-        <item name="android:id">@id/fab</item>
+        <item name="android:id">@id/vFab</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">right|bottom</item>
@@ -154,7 +154,7 @@
     </style>
 
     <style name="Recycler">
-        <item name="android:id">@id/recycler</item>
+        <item name="android:id">@id/vRecycler</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
