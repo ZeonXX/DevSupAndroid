@@ -109,7 +109,7 @@ class ServiceNetworkCheck : Service() {
         fun isHasInternetConnectionInService(onResult: (Boolean) -> Unit) {
             val key = ++globalKey
             val time = System.currentTimeMillis()
-            EventBus.subscribeHard(EventServiceNetworkCheck::class.java
+            EventBus.subscribeHard(EventServiceNetworkCheck::class
             ) { e ->
                 if (e.key == key && time + 15000 > System.currentTimeMillis()) onResult.invoke(e.result)
                 Unit

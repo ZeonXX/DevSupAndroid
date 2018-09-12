@@ -36,7 +36,7 @@ abstract class Widget(layoutRes: Int) {
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
-        vTitle = findViewById(R.id.vTitle)
+        vTitle = findViewByIdNullable(R.id.vTitle)
 
         if (vTitle != null) {
             vTitle.text = null
@@ -56,7 +56,11 @@ abstract class Widget(layoutRes: Int) {
     }
 
     protected fun <K : View> findViewById(@IdRes id: Int): K {
-        return view!!.findViewById(id)
+        return view.findViewById(id)
+    }
+
+    protected fun <K : View> findViewByIdNullable(@IdRes id: Int): K? {
+        return view.findViewById(id)
     }
 
     //
