@@ -13,6 +13,7 @@ interface INFO
 
 
      git submodule init
+     
      git submodule update
 
      git submodule add https://github.com/ZeonXX/DevSupJava.git
