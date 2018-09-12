@@ -38,12 +38,12 @@ class CardLoading : Card() {
     }
 
     override fun bindView(view: View) {
-        val vDivider = view.findViewById<View>(R.id.divider)
-        val vLoadingCircle = view.findViewById<View>(R.id.loading)
-        val vLoadingHorizontal = view.findViewById<View>(R.id.loading_horizontal)
+        val vDivider = view.findViewById<View>(R.id.vDivider)
+        val vLoadingCircle = view.findViewById<View>(R.id.vLoading)
+        val vLoadingHorizontal = view.findViewById<View>(R.id.vLoadingHorizontal)
         val vContainer = view.findViewById<View>(R.id.vContainer)
-        val vAction = view.findViewById<Button>(R.id.action)
-        val vText = view.findViewById<TextView>(R.id.text)
+        val vAction = view.findViewById<Button>(R.id.vAction)
+        val vText = view.findViewById<TextView>(R.id.vText)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         if (background != 0) view.setBackgroundColor(background)

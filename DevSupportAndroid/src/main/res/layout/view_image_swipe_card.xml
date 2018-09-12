@@ -7,7 +7,7 @@
     android:padding="4dp">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/vImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

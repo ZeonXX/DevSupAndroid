@@ -102,7 +102,7 @@ object SupAndroid {
 
     private fun loadText(id: String): String? {
         val t = ToolsResources.getString(id)
-        if (t == null) Debug.error("Init warning: can't find text with id [$id]")
+        if (t == null) Debug.error("Init warning: can't find vText with id [$id]")
         return t
     }
 

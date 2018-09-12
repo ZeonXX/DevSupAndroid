@@ -32,7 +32,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private var autoHideOnEnter = true
 
     init {
-        vText = findViewById(R.id.text)
+        vText = findViewById(R.id.vText)
         vCancel = findViewById(R.id.cancel)
         vEnter = findViewById(R.id.enter)
         vCheck = findViewById(R.id.check_box)

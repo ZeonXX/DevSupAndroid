@@ -16,6 +16,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsThreads
+import kotlinx.android.synthetic.main.screen_loading.view.*
 
 
 abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_loading) {
@@ -24,14 +25,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-    protected val vContainer: ViewGroup = findViewById(R.id.vContainer)
-    protected val vToolbarContainer: ViewGroup = findViewById(R.id.toolbar_icons_container)
-    protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
-    protected val vMessage: TextView = findViewById(R.id.message)
-    protected val vAction: TextView = findViewById(R.id.action)
-    protected val vProgress: View = findViewById(R.id.progress)
-    protected val vEmptyImage: ImageView = findViewById(R.id.empty_image)
-    protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
 
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
@@ -47,7 +40,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
     init {
 
-        vFab.visibility = View.GONE
+        (vFab as View).visibility = View.GONE
         vAction.visibility = View.INVISIBLE
         vMessage.visibility = View.INVISIBLE
         vProgress.visibility = View.INVISIBLE
@@ -68,7 +61,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         val viewIcon:ViewIcon = ToolsView.inflate(context, R.layout.view_icon)
         viewIcon.setImageResource(res)
         viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
-        vToolbarContainer.addView(viewIcon)
+        vToolbarIconsContainer.addView(viewIcon)
         return viewIcon
     }
 

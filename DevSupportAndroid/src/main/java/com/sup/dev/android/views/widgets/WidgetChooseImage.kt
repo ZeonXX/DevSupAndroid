@@ -168,7 +168,7 @@ class WidgetChooseImage : WidgetRecycler() {
         }
 
         override fun bindView(view: View) {
-            val vImage = view.findViewById<ImageView>(R.id.image)
+            val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> if (bytes != null) onSelected(bytes) }
 
             ImageLoader.load(ImageLoaderFile(file)

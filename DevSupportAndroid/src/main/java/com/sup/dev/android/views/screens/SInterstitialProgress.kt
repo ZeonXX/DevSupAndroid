@@ -8,7 +8,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class SInterstitialProgress constructor(startNow: Boolean = false) : Screen(R.layout.screen_interstitial_progress) {
 
-    private val vProgress: ProgressBar = findViewById(R.id.progress)
+    private val vProgress: ProgressBar = findViewById(R.id.vProgress)
 
     init {
 

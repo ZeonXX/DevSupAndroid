@@ -28,8 +28,8 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
     }
 
     override fun bindView(view: View) {
-        val vDivider = view.findViewById<View>(R.id.divider)
-        val textView = view.findViewById<TextView>(R.id.text)
+        val vDivider = view.findViewById<View>(R.id.vDivider)
+        val textView = view.findViewById<TextView>(R.id.vText)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         if (background != 0) view.setBackgroundColor(background)

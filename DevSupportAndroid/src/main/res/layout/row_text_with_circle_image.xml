@@ -15,14 +15,14 @@
         android:padding="8dp">
 
         <com.sup.dev.android.views.views.ViewCircleImage
-            android:id="@+id/image"
+            android:id="@+id/vImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginLeft="8dp"
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/vText"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -38,7 +38,7 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         override fun bindView(view: View) {
-            val vImage = view.findViewById<ImageView>(R.id.image)
+            val vImage = view.findViewById<ImageView>(R.id.vImage)
 
             vImage.setImageBitmap(bitmap)
         }

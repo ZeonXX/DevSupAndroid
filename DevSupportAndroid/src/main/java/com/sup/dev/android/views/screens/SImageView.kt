@@ -24,7 +24,7 @@ class SImageView private constructor(private val bitmap: Bitmap?, private val id
 
     init {
 
-        val vImage = findViewById<ViewGifImage>(R.id.image)
+        val vImage = findViewById<ViewGifImage>(R.id.vImage)
         val vDownload = findViewById<ViewIcon>(R.id.download)
 
         vImage.isClickable = false

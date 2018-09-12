@@ -25,9 +25,9 @@ class CardMessage : Card() {
     }
 
     override fun bindView(view: View) {
-        val vDivider = view.findViewById<View>(R.id.divider)
-        val vText = view.findViewById<TextView>(R.id.text)
-        val vAction = view.findViewById<Button>(R.id.action)
+        val vDivider = view.findViewById<View>(R.id.vDivider)
+        val vText = view.findViewById<TextView>(R.id.vText)
+        val vAction = view.findViewById<Button>(R.id.vAction)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         if (background != 0) view.setBackgroundColor(background)

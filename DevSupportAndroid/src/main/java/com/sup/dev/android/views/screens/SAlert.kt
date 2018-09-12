@@ -1,14 +1,12 @@
 package com.sup.dev.android.views.screens
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.views.views.ViewChip
+import kotlinx.android.synthetic.main.screen_alert.view.*
 
 
 class SAlert(title: String?, text: String?, action: String?, image: Int = 0, imageFul: Int = 0, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
@@ -18,12 +16,6 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
     constructor(title: String?, text: String?, action: String?, image: Int, onAction:  (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
 
     init {
-
-        val vTitle = findViewById<TextView>(R.id.vTitle)
-        val vText = findViewById<TextView>(R.id.text)
-        val vAction = findViewById<ViewChip>(R.id.action)
-        val vImage = findViewById<ImageView>(R.id.image)
-        val vImageFull = findViewById<ImageView>(R.id.image_full)
 
         vTitle.text = title
         vText.text = text

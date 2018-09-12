@@ -32,7 +32,7 @@ class CardAvatar : Card() {
 
     override fun bindView(view: View) {
         val vTouch = view.findViewById<View>(R.id.touch)
-        val vDivider = view.findViewById<View>(R.id.divider)
+        val vDivider = view.findViewById<View>(R.id.vDivider)
         val vAvatar = view.findViewById<ViewAvatarTitle>(R.id.avatar)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE

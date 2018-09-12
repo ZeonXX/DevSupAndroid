@@ -56,7 +56,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
     public override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
         bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState())
-        bundle.putString("text", vField.text.toString())
+        bundle.putString("vText", vField.text.toString())
         return bundle
     }
 
@@ -64,7 +64,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
         var state = state
         if (state is Bundle) {
             val bundle = state as Bundle?
-            setText(bundle!!.getString("text"))
+            setText(bundle!!.getString("vText"))
             state = bundle.getParcelable("SUPER_STATE")
         }
         super.onRestoreInstanceState(state)

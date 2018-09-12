@@ -21,7 +21,7 @@ class CardDividerTitle @JvmOverloads constructor(private var title: String? = nu
     }
 
     override fun bindView(view: View) {
-        val vText = view.findViewById<TextView>(R.id.text)
+        val vText = view.findViewById<TextView>(R.id.vText)
         val vDivider1 = view.findViewById<View>(R.id.divider_d_1)
         val vDivider2 = view.findViewById<View>(R.id.divider_d_2)
 
