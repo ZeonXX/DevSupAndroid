@@ -15,6 +15,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.android.tools.ToolsTextAndroid
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.tools.ToolsText
 
 
 class WidgetAlert : Widget(R.layout.widget_alert) {
@@ -98,7 +99,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setTitleText(topTitle: String?): WidgetAlert {
-        vTopContainer.visibility = if (ToolsTextAndroid.empty(topTitle)) View.GONE else View.VISIBLE
+        vTopContainer.visibility = if (ToolsText.empty(topTitle)) View.GONE else View.VISIBLE
         ToolsView.setTextOrGone(vTopTitle, topTitle!!)
         return this
     }

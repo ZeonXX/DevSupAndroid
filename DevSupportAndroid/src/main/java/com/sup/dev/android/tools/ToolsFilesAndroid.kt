@@ -147,7 +147,7 @@ object ToolsFilesAndroid {
     //  Bitmap
     //
 
-    fun saveImageInCameraFolder(bitmap: Bitmap, onResult: (String)->Unit, onPermissionPermissionRestriction: ()->Unit={}) {
+    fun saveImageInCameraFolder(bitmap: Bitmap, onResult: (String)->Unit, onPermissionPermissionRestriction: (String)->Unit={}) {
         ToolsPermission.requestWritePermission({
             val file = createJpgFileInCameraFolder()
             writeBitmap(bitmap, file)

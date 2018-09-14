@@ -8,11 +8,14 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.LinkOption
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.attribute.BasicFileAttributes
 import java.util.*
 
 object ToolsCash{
-
-    private val SPLITTER = "_"
 
     private var cashSize: Long = 0
     private var overClearSize: Long = 0
@@ -41,12 +44,8 @@ object ToolsCash{
         if (cashSize == 0L) init()
 
         val cacheDir = SupAndroid.appContext!!.cacheDir
-        val size = getDirSize(cacheDir)
-        val newSize = data.size + size
 
-        if (newSize > cashSize) cleanDir(cacheDir, newSize - cashSize + overClearSize)
-
-        val file = File(cacheDir, System.currentTimeMillis().toString() + SPLITTER + name)
+        val file = File(cacheDir, name)
 
         var os: FileOutputStream? = null
         try {
@@ -93,43 +92,6 @@ object ToolsCash{
         return data
     }
 
-    private fun cleanDir(dir: File, bytes: Long) {
-        if (cashSize == 0L) init()
-
-        var bytesDeleted: Long = 0
-        val files = dir.listFiles()
-
-        if (files!!.size <= orderClearMaxCount) {
-
-            val keys = ArrayList<Pair<Long, File>>()
-            val sorted = ArrayList<Long>()
-
-            for (file in files) {
-                val date = getDate(file.name)
-                sorted.add(date)
-                keys.add(Pair(date, file))
-            }
-
-            Collections.sort(sorted)
-
-            for (i in sorted.size - 1 downTo -1 + 1) {
-                for (pair in keys)
-                    if (pair.first.toLong() == sorted[i]) {
-                        keys.remove(pair)
-                        if (pair.second.delete())
-                            bytesDeleted += pair.second.length()
-                        break
-                    }
-                if (bytesDeleted >= bytes) break
-            }
-        } else {
-            for (file in files) {
-                if (file.delete()) bytesDeleted += file.length()
-                if (bytesDeleted >= bytes) break
-            }
-        }
-    }
-
     private fun getDirSize(dir: File): Long {
         if (cashSize == 0L) init()
 
@@ -141,11 +103,6 @@ object ToolsCash{
                 size += file.length()
 
         return size
-    }
-
-    private fun getDate(name: String): Long {
-        if (cashSize == 0L) init()
-        return java.lang.Long.parseLong(name.substring(0, name.indexOf(SPLITTER)))
     }
 
 }

@@ -30,6 +30,7 @@ import com.sup.dev.android.magic_box.AndroidBug5497Workaround
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
+import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
@@ -121,7 +122,7 @@ object ToolsView {
 
     fun setTextOrGone(vText: TextView, text: CharSequence?) {
         vText.text = text
-        vText.visibility = if (ToolsTextAndroid.empty(text)) GONE else VISIBLE
+        vText.visibility = if (ToolsText.empty(text)) GONE else VISIBLE
     }
 
     fun setOnClickAndLongClickCoordinates(v: View, onClick: (View, Int, Int, Boolean) -> Unit) {

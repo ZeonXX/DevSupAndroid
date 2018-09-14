@@ -291,7 +291,7 @@ object ToolsBitmap {
         }
     }
 
-    fun getFromUri(uri: Uri, callbackResult: (Bitmap?) -> Unit, onPermissionPermissionRestriction: () -> Unit) {
+    fun getFromUri(uri: Uri, callbackResult: (Bitmap?) -> Unit, onPermissionPermissionRestriction: (String) -> Unit) {
         ToolsPermission.requestReadPermission({
             try {
                 callbackResult.invoke(MediaStore.Images.Media.getBitmap(SupAndroid.activity!!.contentResolver, uri))
@@ -337,7 +337,7 @@ object ToolsBitmap {
     //  To
     //
 
-    fun toBytes(bitmap: Bitmap, maxBytesSize: Int): ByteArray {
+    fun toBytes(bitmap: Bitmap, maxBytesSize: Int = Integer.MAX_VALUE): ByteArray {
         var containsAlpha = false
         for (x in 0 until bitmap.width)
             for (y in 0 until bitmap.height)

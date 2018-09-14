@@ -144,13 +144,13 @@ object ToolsStorage {
         }
     }
 
-    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: ()->Unit = {}) {
+    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
         if (preferences == null) init()
         saveFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).absolutePath,
                 bytes, onComplete, onPermissionPermissionRestriction)
     }
 
-    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: ()->Unit = {}) {
+    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
         if (preferences == null) init()
         ToolsPermission.requestWritePermission({
             val f = File(patch)

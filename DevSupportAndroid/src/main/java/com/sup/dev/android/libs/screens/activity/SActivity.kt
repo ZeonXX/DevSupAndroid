@@ -15,6 +15,7 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
+import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
@@ -98,6 +99,10 @@ abstract class SActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         ToolsIntent.onActivityResult(requestCode, resultCode, intent)
         super.onActivityResult(requestCode, resultCode, intent)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        ToolsPermission.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     open fun onViewBackPressed() {

@@ -24,40 +24,6 @@ object ToolsTextAndroid {
         }
     }
 
-    //
-    //  Fonts
-    //
-
-    private val SUPPORT_PAINT = Paint()
-
-    fun empty(s: CharSequence?): Boolean {
-        return s == null || s.length == 0
-    }
-
-    fun equalsNoCase(vararg s: String): Boolean {
-        if (s == null) return true
-        val s1 = s[0]
-        for (i in 1 until s.size) {
-            if (s1 == null && s[i] != null) return false
-            if (s1 != null && s[i] == null) return false
-            if (s1 == null && s[i] == null) continue
-            if (s1.toLowerCase() != s[i].toLowerCase()) return false
-        }
-        return true
-    }
-
-    fun equals(vararg s: String): Boolean {
-        if (s == null) return true
-        val s1 = s[0]
-        for (i in 1 until s.size) {
-            if (s1 == null && s[i] != null) return false
-            if (s1 != null && s[i] == null) return false
-            if (s1 == null && s[i] == null) continue
-            if (s1 != s[i]) return false
-        }
-        return true
-    }
-
     fun setFilters(editText: EditText, vararg filters: InputFilter) {
         editText.filters = filters
     }
@@ -70,6 +36,12 @@ object ToolsTextAndroid {
         val s = Html.toHtml(editText.text)
         return if (s.length == 0) s else s.substring(13, s.length - 5)
     }
+
+    //
+    //  Fonts
+    //
+
+    private val SUPPORT_PAINT = Paint()
 
     @Synchronized
     fun getStringWidth(font: Typeface, textSize: Float, string: String?): Float {
