@@ -12,13 +12,14 @@ import com.sup.dev.android.views.adapters.NotifyItem
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.collections.HashList
 import java.util.ArrayList
+import kotlin.reflect.KClass
 
 
 open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     private val holders = ArrayList<Holder>()
     val items: ArrayList<Card> = ArrayList()
-    private val viewCash = HashList<Class<out Card>, View>()
+    private val viewCash = HashList<KClass<out Card>, View>()
 
     private var notifyCount = 0
 
@@ -55,19 +56,19 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         val card = items[position]
         val frame = holder.itemView
 
-        val tag = frame.tag as Class<out Card>
+        val tag: KClass<out Card>? = frame.tag as KClass<out Card>?
 
-        if (frame.childCount != 0)
+        if (frame.childCount != 0  && tag != null)
             viewCash.add(tag, frame.getChildAt(0))
         frame.removeAllViews()
 
-        var cardView = viewCash.removeOne(card::class.java)
+        var cardView = viewCash.removeOne(card::class)
         if (cardView == null)
             cardView = card.instanceView(frame.context)
 
 
         frame.addView(ToolsView.removeFromParent(cardView!!))
-        frame.tag = card::class.java
+        frame.tag = card::class
         (cardView.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER
 
         card.bindView(cardView)
@@ -75,8 +76,8 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         return holder
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return `object` is PagerCardAdapter.Holder && `object`.itemView === view
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
+        return obj is PagerCardAdapter.Holder && obj.itemView === view
     }
 
     override fun destroyItem(parent: ViewGroup, position: Int, `object`: Any) {

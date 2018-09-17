@@ -7,9 +7,10 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
+import kotlin.reflect.KClass
 
 
-class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: Class<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
+class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
 
     private var bottomLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null
     private var topLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null

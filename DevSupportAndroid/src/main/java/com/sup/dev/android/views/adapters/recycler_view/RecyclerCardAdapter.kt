@@ -12,11 +12,12 @@ import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.classes.collections.HashList
 import com.sup.dev.java.tools.ToolsClass
 import java.util.ArrayList
+import kotlin.reflect.KClass
 
 
 open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder>(), CardAdapter {
 
-    private val viewCash = HashList<Class<out Card>, View>()
+    private val viewCash = HashList<KClass<out Card>, View>()
     private val items = ArrayList<Card>()
     protected val holders = ArrayList<Holder>()
     private val onItemsChangeListeners = CallbacksList()
@@ -46,19 +47,19 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         val card = items[position]
         val frame = holder.itemView as FrameLayout
 
-        val tag: Class<out Card>? = frame.tag as Class<out Card>?
+        val tag: KClass<out Card>? = frame.tag as KClass<out Card>?
 
         if (frame.childCount != 0 && tag != null)
             viewCash.add(tag, frame.getChildAt(0))
         frame.removeAllViews()
 
-        var cardView = viewCash.removeOne(card::class.java)
+        var cardView = viewCash.removeOne(card::class)
         if (cardView == null)
             cardView = card.instanceView(frame.context)
 
 
         frame.addView(ToolsView.removeFromParent(cardView!!))
-        frame.tag = card::class.java
+        frame.tag = card::class
 
         card.bindView(cardView)
     }
@@ -104,10 +105,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         remove(position)
     }
 
-    fun remove(c: Class<out Card>) {
+    fun remove(c: KClass<out Card>) {
         var i = 0
         while (i < itemCount) {
-            if (ToolsClass.instanceOf(get(i)::class.java, c))
+            if (ToolsClass.instanceOf(get(i)::class, c))
                 remove(i--)
             i++
         }
@@ -185,17 +186,17 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return false
     }
 
-    operator fun contains(c: Class<out Card>): Boolean {
+    operator fun contains(c: KClass<out Card>): Boolean {
         for (i in 0 until itemCount)
-            if (ToolsClass.instanceOf(get(i)::class.java, c))
+            if (ToolsClass.instanceOf(get(i)::class, c))
                 return true
         return false
     }
 
-    fun size(c: Class<out Card>): Int {
+    fun size(c: KClass<out Card>): Int {
         var x = 0
         for (i in 0 until itemCount)
-            if (ToolsClass.instanceOf(get(i)::class.java, c))
+            if (ToolsClass.instanceOf(get(i)::class, c))
                 x++
         return x
     }
@@ -229,10 +230,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return list
     }
 
-    operator fun <K : Card> get(c: Class<K>): ArrayList<K> {
+    operator fun <K : Card> get(c: KClass<K>): ArrayList<K> {
         val list = ArrayList<K>()
         for (i in 0 until itemCount)
-            if (ToolsClass.instanceOf(get(i)::class.java, c))
+            if (ToolsClass.instanceOf(get(i)::class, c))
                 list.add(get(i) as K)
         return list
     }
