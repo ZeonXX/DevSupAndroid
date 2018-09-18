@@ -12,8 +12,8 @@ import kotlin.reflect.KClass
 
 class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
 
-    private var bottomLoader: (((Array<V?>) -> Unit, ArrayList<K>) -> Unit)? = null
-    private var topLoader: (((Array<V?>) -> Unit, ArrayList<K>) -> Unit)? = null
+    private var bottomLoader: (((Array<V?>?) -> Unit, ArrayList<K>) -> Unit)? = null
+    private var topLoader: (((Array<V?>?) -> Unit, ArrayList<K>) -> Unit)? = null
     private val cardLoading: CardLoading = CardLoading()
 
     private var addBottomPositionOffset = 0
@@ -250,12 +250,12 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, 
         return this
     }
 
-    fun setTopLoader(topLoader: ((Array<V?>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setTopLoader(topLoader: ((Array<V?>?) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.topLoader = topLoader
         return this
     }
 
-    fun setBottomLoader(bottomLoader: ((Array<V?>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setBottomLoader(bottomLoader: ((Array<V?>?) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.bottomLoader = bottomLoader
         return this
     }
