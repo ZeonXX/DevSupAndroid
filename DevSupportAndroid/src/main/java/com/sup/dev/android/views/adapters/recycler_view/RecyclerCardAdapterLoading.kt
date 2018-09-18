@@ -12,8 +12,8 @@ import kotlin.reflect.KClass
 
 class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
 
-    private var bottomLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null
-    private var topLoader: (((Array<V>) -> Unit, ArrayList<K>) -> Unit)? = null
+    private var bottomLoader: (((Array<V?>) -> Unit, ArrayList<K>) -> Unit)? = null
+    private var topLoader: (((Array<V?>) -> Unit, ArrayList<K>) -> Unit)? = null
     private val cardLoading: CardLoading = CardLoading()
 
     private var addBottomPositionOffset = 0
@@ -97,7 +97,7 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, 
             topLoader!!.invoke({ result -> onLoaded(result, bottom) }, cards)
     }
 
-    private fun onLoaded(result: Array<V>?, bottom: Boolean) {
+    private fun onLoaded(result: Array<V?>?, bottom: Boolean) {
 
         isInProgress = false
 
@@ -134,9 +134,9 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, 
 
         for (i in result.indices)
             if (bottom)
-                add(size() - addBottomPositionOffset, mapper!!.invoke(result[i])!!)
+                add(size() - addBottomPositionOffset, mapper!!.invoke(result[i]!!))
             else
-                add(addTopPositionOffset + i, mapper!!.invoke(result[i])!!)
+                add(addTopPositionOffset + i, mapper!!.invoke(result[i]!!))
 
         if (contains(cardClass) || result.size != 0)
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
@@ -250,12 +250,12 @@ class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, 
         return this
     }
 
-    fun setTopLoader(topLoader: ((Array<V>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setTopLoader(topLoader: ((Array<V?>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.topLoader = topLoader
         return this
     }
 
-    fun setBottomLoader(bottomLoader: ((Array<V>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
+    fun setBottomLoader(bottomLoader: ((Array<V?>) -> Unit, ArrayList<K>) -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.bottomLoader = bottomLoader
         return this
     }
