@@ -65,10 +65,10 @@ object ToolsCash{
         }
     }
 
-    fun getData(context: Context, name: String): ByteArray? {
+    fun get(name: String): ByteArray? {
         if (cashSize == 0L) init()
 
-        val cacheDir = context.cacheDir
+        val cacheDir = SupAndroid.appContext!!.cacheDir
         val file = File(cacheDir, name)
 
         if (!file.exists()) return null

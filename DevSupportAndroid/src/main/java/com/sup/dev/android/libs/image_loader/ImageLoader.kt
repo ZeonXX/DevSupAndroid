@@ -95,7 +95,7 @@ object ImageLoader {
 
         if (!turn.contains(loader)) return
 
-        val loadedBytes = loader.load()
+        val loadedBytes = loader.startLoad()
         if(loadedBytes == null)return
         val bitmap = parseImage(loader, loadedBytes)
         val bytes = if (loader.cashScaledBytes) ToolsBitmap.toJPGBytes(bitmap, 100) else loadedBytes

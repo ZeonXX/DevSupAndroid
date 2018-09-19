@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.image_loader
 
 import android.graphics.BitmapFactory
 import android.widget.ImageView
+import com.sup.dev.android.tools.ToolsCash
 
 
 abstract class ImageLoaderA {
@@ -95,6 +96,10 @@ abstract class ImageLoaderA {
         return key === this.key || key != null && key == this.key
     }
 
+    fun startLoad(): ByteArray?{
+        return load()
+    }
+
     abstract fun load(): ByteArray?
 
     fun getKey(): Any {
@@ -108,6 +113,8 @@ abstract class ImageLoaderA {
     fun replace(bytes: ByteArray) {
         ImageLoader.bitmapCash.replace(key, bytes)
     }
+
+
 
 
 }
