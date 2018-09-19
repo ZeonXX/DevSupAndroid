@@ -24,7 +24,7 @@ abstract class ImageLoaderA {
     internal var noLoadFromCash: Boolean = false
     internal var keyPrefix: String? = ""
     internal var autoCash: Boolean = true
-    internal var autoCashMaxSize: Int = 1024 * 2
+    internal var autoCashMaxSize: Int = 1024 * 1024 * 2
 
 
 

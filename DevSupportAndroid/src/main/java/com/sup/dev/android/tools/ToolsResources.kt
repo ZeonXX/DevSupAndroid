@@ -107,12 +107,12 @@ object ToolsResources {
         return value.data
     }
 
-    fun getBitmap(@DrawableRes res: Int): Bitmap? {
+    fun getBitmap(@DrawableRes res: Int): Bitmap {
         val options = BitmapFactory.Options()
         options.inMutable = true
         val bitmap = BitmapFactory.decodeResource(SupAndroid.appContext!!.resources, res, options)
 
-        return bitmap ?: ToolsBitmap.getFromDrawable(getDrawable(res))
+        return bitmap ?: ToolsBitmap.getFromDrawable(getDrawable(res))!!
 
     }
 
