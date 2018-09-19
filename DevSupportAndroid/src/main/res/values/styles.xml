@@ -104,6 +104,10 @@
         <item name="actionMenuTextColor">?toolbarTitleColor</item>
     </style>
 
+    <style name="Toolbar.Scrollable">
+        <item name="layout_scrollFlags">scroll|enterAlways</item>
+    </style>
+
     <style name="AppBar">
         <item name="android:id">@id/vAppBar</item>
         <item name="android:layout_width">match_parent</item>
