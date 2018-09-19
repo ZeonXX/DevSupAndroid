@@ -21,7 +21,7 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
 
     companion object {
 
-        var loader: ((Long)->ByteArray)? = null
+        var loader: ((Long)->ByteArray?)? = null
 
         fun load(imageId: Long, onLoaded: (ByteArray?) -> Unit) {
             load(imageId, null, onLoaded)
