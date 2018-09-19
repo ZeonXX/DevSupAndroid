@@ -15,7 +15,7 @@ import java.nio.file.Paths
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.*
 
-object ToolsCash{
+object ToolsCash {
 
     private var cashSize: Long = 0
     private var overClearSize: Long = 0
@@ -34,13 +34,13 @@ object ToolsCash{
     }
 
     fun init(cashSize: Long, overClearSize: Long, orderClearMaxCount: Int) {
-        if (cashSize != 0L) throw RuntimeException("Already init")
+        if (ToolsCash.cashSize != 0L) throw RuntimeException("Already init")
         ToolsCash.cashSize = cashSize
         ToolsCash.overClearSize = overClearSize
         ToolsCash.orderClearMaxCount = orderClearMaxCount
     }
 
-    fun cacheData(data: ByteArray, name: String) {
+    fun put(data: ByteArray, name: String) {
         if (cashSize == 0L) init()
 
         val cacheDir = SupAndroid.appContext!!.cacheDir
@@ -90,6 +90,10 @@ object ToolsCash{
 
         }
         return data
+    }
+
+    fun clear(name: String) {
+        File(SupAndroid.appContext!!.cacheDir, name).delete()
     }
 
     private fun getDirSize(dir: File): Long {

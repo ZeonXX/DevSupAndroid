@@ -34,8 +34,8 @@ class ImageLoaderFile(private val file: File) : ImageLoaderA() {
             ImageLoader.load(ImageLoaderFile(file).setImage(vImage).setOnLoaded(onLoaded))
         }
 
-        fun clearCash(file: File) {
-            ImageLoader.bitmapCash.remove(asKey(file))
+        fun clear(file: File) {
+            ImageLoader.clear(asKey(file))
         }
 
         private fun asKey(file: File): String {

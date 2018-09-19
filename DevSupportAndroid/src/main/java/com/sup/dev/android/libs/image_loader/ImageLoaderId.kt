@@ -32,8 +32,8 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
             ImageLoader.load(ImageLoaderId(imageId).setImage(vImage).setOnLoaded(onLoaded))
         }
 
-        fun clearCash(imageId: Long) {
-            ImageLoader.bitmapCash.remove(asKey(imageId))
+        fun clear(imageId: Long) {
+            ImageLoader.clear(asKey(imageId))
         }
 
         private fun asKey(imageId: Long): String {

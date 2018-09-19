@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.image_loader
 import android.graphics.BitmapFactory
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
+import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class ImageLoaderA {
@@ -22,6 +23,10 @@ abstract class ImageLoaderA {
     internal var noCash: Boolean = false
     internal var noLoadFromCash: Boolean = false
     internal var keyPrefix: String? = ""
+    internal var autoCash: Boolean = true
+    internal var autoCashMaxSize: Int = 1024 * 2
+
+
 
     fun setImage(vImage: ImageView?): ImageLoaderA {
         this.vImage = vImage
@@ -97,17 +102,21 @@ abstract class ImageLoaderA {
     }
 
     fun startLoad(): ByteArray?{
-        return load()
+        val bytes = ToolsCash.get(key)
+        if(bytes != null)return bytes
+        val data = load()
+        if(data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, key)
+        return data
     }
 
     abstract fun load(): ByteArray?
 
-    fun getKey(): Any {
+    fun getKey(): String{
         return key
     }
 
-    fun clearCash() {
-        ImageLoader.bitmapCash.remove(key)
+    fun clear() {
+        ImageLoader.clear(key)
     }
 
     fun replace(bytes: ByteArray) {

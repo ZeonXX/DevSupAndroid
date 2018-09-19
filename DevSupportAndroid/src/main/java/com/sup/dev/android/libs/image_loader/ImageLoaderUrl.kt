@@ -33,8 +33,8 @@ class ImageLoaderUrl(private val url: String) : ImageLoaderA() {
             ImageLoader.load(ImageLoaderUrl(url).setImage(vImage).setOnLoaded(onLoaded))
         }
 
-        fun clearCash(url: String) {
-            ImageLoader.bitmapCash.remove(asKey(url))
+        fun clear(url: String) {
+            ImageLoader.clear(asKey(url))
         }
 
         fun replace(url: String, bytes: ByteArray) {
