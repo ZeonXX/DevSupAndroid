@@ -42,7 +42,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
 
         setLineVisible(false)
         setIcon(icon)
-        text = text
+        setText(text)
         setHint(hint)
         setInputType(inputType)
         setMaxLength(maxLength)
