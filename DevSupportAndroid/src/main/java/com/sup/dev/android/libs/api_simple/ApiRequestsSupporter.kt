@@ -86,6 +86,7 @@ object ApiRequestsSupporter {
                     w.hide()
                 }
                 .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!)!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onError { w.hide() }
                 .send(api!!)
         return request
     }
