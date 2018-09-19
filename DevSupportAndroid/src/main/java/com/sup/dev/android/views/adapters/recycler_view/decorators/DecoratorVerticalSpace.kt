@@ -8,7 +8,7 @@ import com.sup.dev.android.tools.ToolsView
 
 class DecoratorVerticalSpace constructor(dp: Int = 4) : RecyclerView.ItemDecoration() {
 
-    private val space: Int = ToolsView.dpToPx(dp.toFloat())
+    private val space: Int = ToolsView.dpToPx(dp)
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         outRect.bottom = space

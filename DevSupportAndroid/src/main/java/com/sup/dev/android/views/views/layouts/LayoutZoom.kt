@@ -308,7 +308,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         this.animateTimeMs = animateTimeMs
     }
 
-    fun setDoubleTouchRadius(doubleTouchRadiusDp: Float) {
+    fun setDoubleTouchRadius(doubleTouchRadiusDp: Int) {
         this.doubleTouchRadius = ToolsView.dpToPx(doubleTouchRadiusDp).toFloat()
     }
 }

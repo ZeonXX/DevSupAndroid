@@ -21,22 +21,22 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private val points = ArrayList<Float>()
     private var vScroll: HorizontalScrollView? = null
 
-    private val offsetViewBottom = ToolsView.dpToPx(24f)
-    private val offsetViewLeft = ToolsView.dpToPx(24f)
-    private val offsetViewTop = ToolsView.dpToPx(24f)
+    private val offsetViewBottom = ToolsView.dpToPx(24)
+    private val offsetViewLeft = ToolsView.dpToPx(24)
+    private val offsetViewTop = ToolsView.dpToPx(24)
     private var minPointsCount = 0
     private var maxPointsCount = 0
     private var minTopY = 0
-    private var greedYSize = ToolsView.dpToPx(1f)
+    private var greedYSize = ToolsView.dpToPx(1)
     private var greedYFrequency = 10
-    private var greedXSize = ToolsView.dpToPx(1f)
+    private var greedXSize = ToolsView.dpToPx(1)
     private var greedXFrequency = 10
     private var greedColor = ToolsResources.getColor(R.color.grey_400)
-    private val pointSize = ToolsView.dpToPx(2f)
+    private val pointSize = ToolsView.dpToPx(2)
     private val pointColor = ToolsResources.getColor(R.color.red_700)
-    private val lineSize = ToolsView.dpToPx(4f)
+    private val lineSize = ToolsView.dpToPx(4)
     private val lineColor = ToolsResources.getColor(R.color.red_700)
-    private val textSize = ToolsView.spToPx(8f)
+    private val textSize = ToolsView.spToPx(8)
 
     private var providerMaskX: ((Float)->String)? = null
     private var providerMaskY: ((Float)->String)? = null
@@ -73,7 +73,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 canvas.drawLine(offsetViewLeft.toFloat(), cellSizeH * y + offsetViewTop, width.toFloat(), cellSizeH * y + offsetViewTop, paint)
                 if (y < h)
                     canvas.drawText(providerMaskY!!.invoke(h - y),
-                            offsetViewLeft.toFloat() - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskY!!.invoke(h - y)) - ToolsView.dpToPx(4f).toFloat(),
+                            offsetViewLeft.toFloat() - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskY!!.invoke(h - y)) - ToolsView.dpToPx(4).toFloat(),
                             cellSizeH * y + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) / 2 + offsetViewTop.toFloat(),
                             paint)
                 y += greedYFrequency
@@ -90,7 +90,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 if (x > 0)
                     canvas.drawText(providerMaskX!!.invoke(x),
                             cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskX!!.invoke(x)) / 2 + offsetViewLeft,
-                            (height - offsetViewBottom).toFloat() + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) + ToolsView.dpToPx(4f).toFloat(),
+                            (height - offsetViewBottom).toFloat() + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) + ToolsView.dpToPx(4).toFloat(),
                             paint)
                 x += greedXFrequency
             }
@@ -131,7 +131,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         super.onMeasure(View.MeasureSpec.makeMeasureSpec((cellSizeW * wPoints + offsetViewLeft).toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
 
         ToolsThreads.main(true) {
-            if (vScroll != null && measuredWidth - (vScroll!!.scrollX + vScroll!!.width) < ToolsView.dpToPx(15f))
+            if (vScroll != null && measuredWidth - (vScroll!!.scrollX + vScroll!!.width) < ToolsView.dpToPx(15))
                 vScroll!!.scrollTo(measuredWidth, vScroll!!.scrollY)
         }
     }

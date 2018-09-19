@@ -122,12 +122,12 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
 
 
     fun setFadeHSize(dp: Int) {
-        this.fadeHSize = ToolsView.dpToPx(dp.toFloat())
+        this.fadeHSize = ToolsView.dpToPx(dp)
         invalidate()
     }
 
     fun setFadeWSize(dp: Int) {
-        this.fadeWSize = ToolsView.dpToPx(dp.toFloat())
+        this.fadeWSize = ToolsView.dpToPx(dp)
         invalidate()
     }
 
@@ -137,12 +137,12 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     }
 
     fun setMaxWidth(maxWidthDp: Int) {
-        this.maxWidth = ToolsView.dpToPx(maxWidthDp.toFloat())
+        this.maxWidth = ToolsView.dpToPx(maxWidthDp)
         requestLayout()
     }
 
     fun setMaxHeight(maxHeightDp: Int) {
-        this.maxHeight = ToolsView.dpToPx(maxHeightDp.toFloat())
+        this.maxHeight = ToolsView.dpToPx(maxHeightDp)
         requestLayout()
     }
 

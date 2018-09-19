@@ -45,7 +45,7 @@ class WidgetChooseFile : WidgetRecycler() {
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         if (viewWrapper is DialogSheetWidget)
-            vRecycler.layoutParams.height = ToolsView.dpToPx(320f)
+            vRecycler.layoutParams.height = ToolsView.dpToPx(320)
     }
 
 
@@ -135,7 +135,7 @@ class WidgetChooseFile : WidgetRecycler() {
 
         override fun bindView(view: View) {
             val settingsAction = view as SettingsAction
-            settingsAction.view.setPadding(ToolsView.dpToPx(16f), 0, ToolsView.dpToPx(16f), 0)
+            settingsAction.view.setPadding(ToolsView.dpToPx(16), 0, ToolsView.dpToPx(16), 0)
             settingsAction.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
             settingsAction.setOnClickListener { v -> setFolder(file.parentFile) }
             settingsAction.setTitle(file.name)
@@ -167,7 +167,7 @@ class WidgetChooseFile : WidgetRecycler() {
 
         override fun bindView(view: View) {
             val v = view as SettingsAction
-            v.view.setPadding(ToolsView.dpToPx(16f), 0, ToolsView.dpToPx(16f), 0)
+            v.view.setPadding(ToolsView.dpToPx(16), 0, ToolsView.dpToPx(16), 0)
             v.setTitle(file.name)
             v.setIcon(if (file.isDirectory) R.drawable.ic_folder_black_24dp else R.drawable.ic_insert_drive_file_black_24dp)
             v.setSubView(if (file.isDirectory && canGoInFolder) getViewIcon(view.getContext()) else null)

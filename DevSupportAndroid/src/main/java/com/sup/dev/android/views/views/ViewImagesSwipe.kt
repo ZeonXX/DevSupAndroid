@@ -12,8 +12,10 @@ import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
+import com.sup.dev.android.views.screens.SImageView
 
 
 class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RecyclerView(context, attrs) {
@@ -21,23 +23,27 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
     private val adapter = RecyclerCardAdapter()
 
     init {
-
+        adapter.setCardW(RecyclerView.LayoutParams.WRAP_CONTENT)
         layoutManager = LinearLayoutManager(context, GridLayoutManager.HORIZONTAL, false)
         setAdapter(adapter)
     }
 
-    fun add(id: Long, w: Int = 0, h: Int = 0, onClick: () -> Unit = {}) {
+    fun clear() {
+        adapter.clear()
+    }
+
+    fun add(id: Long, w: Int = 0, h: Int = 0, onClick: (() -> Unit)? = null) {
         adapter.add(CardSwipeId(id, w, h, onClick))
     }
 
-    fun add(bitmap: Bitmap, w: Int = 0, h: Int = 0, onClick: () -> Unit = {}) {
-        adapter.add(CardSwipeBitmap(bitmap, w, h,onClick))
+    fun add(bitmap: Bitmap, w: Int = 0, h: Int = 0, onClick: (() -> Unit)? = null) {
+        adapter.add(CardSwipeBitmap(bitmap, w, h, onClick))
     }
 
     //
     //  Card
     //
-    private abstract inner class CardSwipe(val onClick: () -> Unit = {}) : Card() {
+    private abstract inner class CardSwipe(val onClick: (() -> Unit)?) : Card() {
 
         override fun getLayout(): Int {
             return R.layout.view_image_swipe_card
@@ -45,16 +51,21 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
 
         override fun bindView(view: View) {
             val vImage: ImageView = view.findViewById(R.id.vImage)
-            vImage.setOnClickListener { onClick.invoke() }
+            view.setOnClickListener {
+                if (onClick == null) toImageView()
+                else onClick.invoke()
+            }
             set(view, vImage)
         }
 
         abstract fun set(view: View, vImage: ImageView)
 
+        abstract fun toImageView()
+
     }
 
 
-    private inner class CardSwipeBitmap(val bitmap: Bitmap?, val w: Int = 0, val h: Int = 0, onClick: () -> Unit = {}) : CardSwipe(onClick) {
+    private inner class CardSwipeBitmap(val bitmap: Bitmap, val w: Int = 0, val h: Int = 0, onClick: (() -> Unit)?) : CardSwipe(onClick) {
 
         override fun set(view: View, vImage: ImageView) {
             view.layoutParams.width = if (w > 0) w else ViewGroup.LayoutParams.WRAP_CONTENT
@@ -62,12 +73,20 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
             vImage.setImageBitmap(bitmap)
         }
 
+        override fun toImageView() {
+            Navigator.to(SImageView(bitmap))
+        }
+
     }
 
-    private inner class CardSwipeId(val id: Long, val w: Int = 0, val h: Int = 0, onClick: () -> Unit = {}) : CardSwipe(onClick) {
+    private inner class CardSwipeId(val id: Long, val w: Int = 0, val h: Int = 0, onClick: (() -> Unit)?) : CardSwipe(onClick) {
 
         override fun set(view: View, vImage: ImageView) {
             ImageLoader.load(ImageLoaderId(id).setImage(vImage).sizes(w, h))
+        }
+
+        override fun toImageView() {
+            Navigator.to(SImageView(id))
         }
 
     }

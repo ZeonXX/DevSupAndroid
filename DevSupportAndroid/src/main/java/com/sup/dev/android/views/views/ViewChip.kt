@@ -196,7 +196,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
     }
 
     fun setIconPadding(dp: Int) {
-        val px = ToolsView.dpToPx(dp.toFloat())
+        val px = ToolsView.dpToPx(dp)
         vIcon.isDisableCircle = px > 0
         vIcon.setPadding(px, px, px, px)
         recreateChip()
@@ -221,7 +221,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
     }
 
     fun setSize(dp: Int) {
-        val size = ToolsView.dpToPx(dp.toFloat())
+        val size = ToolsView.dpToPx(dp)
         vIcon.layoutParams.width = size
         vIcon.layoutParams.height = size
         vTextView.layoutParams.height = size

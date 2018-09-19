@@ -54,7 +54,7 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
         val srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0)
         val iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false)
         val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
-        val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18f).toFloat())
+        val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18).toFloat())
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
         a.recycle()
 
@@ -92,8 +92,8 @@ class ViewAvatar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
         if (params.width == FrameLayout.LayoutParams.WRAP_CONTENT && params.height == FrameLayout.LayoutParams.WRAP_CONTENT) {
-            params.width = ToolsView.dpToPx(48f)
-            params.height = ToolsView.dpToPx(48f)
+            params.width = ToolsView.dpToPx(48)
+            params.height = ToolsView.dpToPx(48)
         }
 
         if (params.width > 0 && params.height == FrameLayout.LayoutParams.WRAP_CONTENT)

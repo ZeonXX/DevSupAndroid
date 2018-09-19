@@ -43,7 +43,7 @@ abstract class Settings(context: Context, attrs: AttributeSet?, @LayoutRes layou
         line = View(context)
         addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 1)
         line.setBackgroundColor(ToolsResources.getColor(R.color.grey_600))
-        (line.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8f), 0, ToolsView.dpToPx(8f), 0)
+        (line.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8), 0, ToolsView.dpToPx(8), 0)
         (line.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
     }
 

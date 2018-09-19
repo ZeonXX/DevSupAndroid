@@ -97,7 +97,7 @@ object ToolsView {
     }
 
     fun showProgressDialog(title: String?): WidgetProgressWithTitle {
-        val widget:WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
+        val widget: WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
         widget.asSheetShow()
         return widget
     }
@@ -163,7 +163,7 @@ object ToolsView {
 
     }
 
-    fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int)->Unit) {
+    fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
 
         val clickScreenX = Item(0)
         val clickScreenY = Item(0)
@@ -247,17 +247,18 @@ object ToolsView {
         }
     }
 
-    fun pxToDp(px: Float): Int {
-        return (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().displayMetrics))).toInt()
-    }
+    fun pxToDp(px: Int) = pxToDp(px.toFloat())
 
-    fun dpToPx(dp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics).toInt()
-    }
+    fun dpToPx(dp: Int) = dpToPx(dp.toFloat())
 
-    fun spToPx(sp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().displayMetrics).toInt()
-    }
+    fun spToPx(sp: Int) = spToPx(sp.toFloat())
+
+    fun pxToDp(px: Float) = (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().displayMetrics))).toInt()
+
+    fun dpToPx(dp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics).toInt()
+
+    fun spToPx(sp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().displayMetrics).toInt()
+
 
     //
     //  Keyboard
@@ -285,7 +286,7 @@ object ToolsView {
     }
 
     @JvmOverloads
-    fun setTextAnimate(v: TextView, text: String, onAlpha: ()->Unit={}) {
+    fun setTextAnimate(v: TextView, text: String, onAlpha: () -> Unit = {}) {
 
         if (v.text == text) {
             fromAlpha(v)
@@ -312,19 +313,19 @@ object ToolsView {
     }
 
     @JvmOverloads
-    fun alpha(v: View, toAlpha: Boolean, onAlpha: ()->Unit={}) {
+    fun alpha(v: View, toAlpha: Boolean, onAlpha: () -> Unit = {}) {
         if (toAlpha)
             toAlpha(v, onAlpha)
         else
             fromAlpha(v, onAlpha)
     }
 
-    fun fromAlpha(v: View, onFinish: ()->Unit={}) {
+    fun fromAlpha(v: View, onFinish: () -> Unit = {}) {
         fromAlpha(v, ANIMATION_TIME, onFinish)
     }
 
     @JvmOverloads
-    fun fromAlpha(v: View, time: Int = ANIMATION_TIME, onFinish: ()->Unit={}) {
+    fun fromAlpha(v: View, time: Int = ANIMATION_TIME, onFinish: () -> Unit = {}) {
 
         clearAnimation(v)
 
@@ -346,12 +347,12 @@ object ToolsView {
 
     }
 
-    fun toAlpha(v: View, onFinish: ()->Unit={}) {
+    fun toAlpha(v: View, onFinish: () -> Unit = {}) {
         toAlpha(v, ANIMATION_TIME, onFinish)
     }
 
     @JvmOverloads
-    fun toAlpha(v: View, time: Int = ANIMATION_TIME, onFinish:()->Unit={}) {
+    fun toAlpha(v: View, time: Int = ANIMATION_TIME, onFinish: () -> Unit = {}) {
 
         clearAnimation(v)
 

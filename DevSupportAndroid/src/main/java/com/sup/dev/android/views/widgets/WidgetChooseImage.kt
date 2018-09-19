@@ -38,7 +38,7 @@ class WidgetChooseImage : WidgetRecycler() {
         vContainer.addView(vFabGalleryContainer)
         vContainer.addView(vFabLinkContainer)
 
-        (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72f)
+        (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72)
 
         vRecycler.layoutManager = GridLayoutManager(view!!.context, if (ToolsAndroid.isScreenPortrait()) 3 else 6)
 
@@ -54,13 +54,13 @@ class WidgetChooseImage : WidgetRecycler() {
         super.onShow()
         loadImages()
 
-        (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(0, ToolsView.dpToPx(2f), 0, 0)
+        (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(0, ToolsView.dpToPx(2), 0, 0)
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         if (viewWrapper is DialogWidget)
-            (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8f), ToolsView.dpToPx(2f), ToolsView.dpToPx(8f), 0)
+            (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8), ToolsView.dpToPx(2), ToolsView.dpToPx(8), 0)
         else if (viewWrapper is DialogSheetWidget)
-            vRecycler.layoutParams.height = ToolsView.dpToPx(320f)
+            vRecycler.layoutParams.height = ToolsView.dpToPx(320)
     }
 
     private fun loadImages() {
