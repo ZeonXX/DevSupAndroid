@@ -29,6 +29,14 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     var boundsView: View? = null
         get() = if (field == null) if (childCount == 0) this else getChildAt(0) else field
 
+    
+    @Override
+    public void addView(View child) {
+        super.addView(child);
+        updateParams();
+    }
+
+    
     //
     //  Getters
     //
