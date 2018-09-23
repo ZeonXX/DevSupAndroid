@@ -4,6 +4,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.CardDivider
@@ -16,6 +17,17 @@ class WidgetMenu : WidgetRecycler() {
     private var onGlobalSelected: (WidgetMenu, String?) -> Unit = {w,s -> }
 
     private var prefCount = 0
+    private var autoHide = true
+
+    init {
+        vRecycler.layoutManager = LinearLayoutManager(view!!.context)
+        setAdapter<WidgetRecycler>(myAdapter)
+    }
+
+    fun setAutoHide(b:Boolean):WidgetMenu{
+        autoHide = b
+        return this
+    }
 
     //
     //  Item
@@ -24,11 +36,6 @@ class WidgetMenu : WidgetRecycler() {
     private var buildItem: Item? = null
     private var skipThisItem = false
     private var skipGroup = false
-
-    init {
-        vRecycler.layoutManager = LinearLayoutManager(view!!.context)
-        setAdapter<WidgetRecycler>(myAdapter)
-    }
 
     override fun onShow() {
         super.onShow()
@@ -48,8 +55,8 @@ class WidgetMenu : WidgetRecycler() {
         item.card?.setIcon(item.icon)
         item.card?.setBackground(item.bg)
         item.card?.setOnClick { v, x, y ->
-            hide()
-            item.onClick.invoke(this)
+            if(autoHide)hide()
+            item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
         }
 
@@ -96,12 +103,12 @@ class WidgetMenu : WidgetRecycler() {
         return add(ToolsResources.getString(text))
     }
 
-    fun add(@StringRes text: Int, onClick: (WidgetMenu) -> Unit = {}): WidgetMenu {
+    fun add(@StringRes text: Int, onClick: (WidgetMenu, CardMenu) -> Unit = {w,c->}): WidgetMenu {
         return add(ToolsResources.getString(text), onClick)
     }
 
     @JvmOverloads
-    fun add(text: String?, onClick: (WidgetMenu) -> Unit = {}): WidgetMenu {
+    fun add(text: String?, onClick: (WidgetMenu, CardMenu) -> Unit = {w,c->}): WidgetMenu {
         finishItemBuilding()
         buildItem = Item()
         buildItem!!.text = text
@@ -144,7 +151,7 @@ class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun onClick(onClick: (WidgetMenu) -> Unit): WidgetMenu {
+    fun onClick(onClick: (WidgetMenu, CardMenu) -> Unit): WidgetMenu {
         buildItem!!.onClick = onClick
         return this
     }
@@ -179,7 +186,7 @@ class WidgetMenu : WidgetRecycler() {
     private inner class Item {
 
         var card: CardMenu? = null
-        var onClick: (WidgetMenu) -> Unit = {}
+        var onClick: (WidgetMenu, CardMenu) -> Unit = {w,c->}
         var text: String? = null
         var icon: Int = 0
         var bg: Int = 0

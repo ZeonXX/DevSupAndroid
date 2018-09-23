@@ -68,6 +68,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
 
     override fun hide() {
         super.dismiss()
+        onHide()
     }
 
     override fun show() {

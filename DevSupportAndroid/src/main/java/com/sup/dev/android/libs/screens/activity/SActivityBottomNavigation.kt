@@ -110,7 +110,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     }
 
     fun addNavigationItem(@StringRes text: Int, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {
-        return widgetMenu!!.add(text, { w -> onClick.invoke() }).icon(icon)
+        return widgetMenu!!.add(text, { w,c -> onClick.invoke() }).icon(icon)
     }
 
     override fun getLayout(): Int {
