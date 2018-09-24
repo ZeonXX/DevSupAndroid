@@ -17,6 +17,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.animations.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
 import com.sup.dev.java.tools.ToolsColor
+import com.sup.dev.java.tools.ToolsMapper
 
 
 class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
@@ -319,11 +320,11 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
         //  Static instance
         //
 
-        fun instanceSelectionRadio(viewContext: Context, texts: Array<String>, onSelected: (String) -> Unit): Array<ViewChip?> {
+        fun instanceSelectionRadio(viewContext: Context, texts: Array<String>, onSelected: (String) -> Unit): Array<ViewChip> {
             return instanceSelectionRadio(viewContext, texts, texts, onSelected)
         }
 
-        fun <K> instanceSelectionRadio(viewContext: Context, texts: Array<String>, tags: Array<K>, onSelected: ((K)->Unit)?): Array<ViewChip?> {
+        fun <K> instanceSelectionRadio(viewContext: Context, texts: Array<String>, tags: Array<K>, onSelected: ((K)->Unit)?): Array<ViewChip> {
 
             if (texts.size != tags.size)
                 throw IllegalArgumentException("Texts and Tags lengths must be equals")
@@ -337,7 +338,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
                 views[i]!!.setCanUnselect(false)
                 views[i]!!.setChipSelected(i == 0)
             }
-            return views
+            return ToolsMapper.asNonNull(views)
         }
 
         fun <K> instanceSelection(viewContext: Context, text: String, tag: K, onSelectionChanged: ((Boolean, K)->Unit)?): ViewChip {
