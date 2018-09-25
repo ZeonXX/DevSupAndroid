@@ -100,31 +100,31 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
-    fun <K : Widget> setTitleBackgroundColorRes(@ColorRes color: Int): K {
+    fun setTitleBackgroundColorRes(@ColorRes color: Int): Widget {
         return setTitleBackgroundColor(ToolsResources.getColor(color))
     }
 
-    fun <K : Widget> setTitleBackgroundColor(@ColorInt color: Int): K {
+    fun setTitleBackgroundColor(@ColorInt color: Int): Widget {
         vTitle?.setBackgroundColor(color)
-        return this as K
+        return this
     }
 
-    fun <K : Widget> setOnHide(onHide: (Widget) -> Unit): K {
+    fun setOnHide(onHide: (Widget) -> Unit): Widget {
         this.onHide = onHide
-        return this as K
+        return this
     }
 
-    open fun <K : Widget> setEnabled(enabled: Boolean): K {
+    open fun setEnabled(enabled: Boolean): Widget {
         this.isEnabled = enabled
         if (vTitle != null) vTitle.isEnabled = enabled
         if (viewWrapper != null) viewWrapper!!.setWidgetEnabled<WidgetViewWrapper>(enabled)
-        return this as K
+        return this
     }
 
-    fun <K : Widget> setCancelable(cancelable: Boolean): K {
+    fun setCancelable(cancelable: Boolean): Widget {
         this.isCancelable = cancelable
         if (viewWrapper != null) viewWrapper!!.setWidgetCancelable<WidgetViewWrapper>(cancelable)
-        return this as K
+        return this
     }
 
     //

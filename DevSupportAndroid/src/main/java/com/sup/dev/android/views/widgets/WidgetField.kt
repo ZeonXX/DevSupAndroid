@@ -19,7 +19,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
 
-class WidgetField : Widget(R.layout.widget_field) {
+open class WidgetField : Widget(R.layout.widget_field) {
 
     private val vCopy: ViewIcon
     private val vField: ViewEditTextMedia
@@ -27,7 +27,7 @@ class WidgetField : Widget(R.layout.widget_field) {
     private val vCancel: Button
     private val vEnter: Button
 
-    private val checkers = ArrayList<Item2<String, (String)->Boolean>>()
+    private val checkers = ArrayList<Item2<String, (String) -> Boolean>>()
     private var max: Int = 0
     private var min: Int = 0
     private var autoHideOnEnter = true
@@ -93,6 +93,16 @@ class WidgetField : Widget(R.layout.widget_field) {
     //
     //  Setters
     //
+
+    override fun setTitle(title: String?): WidgetField {
+        super.setTitle(title)
+        return this
+    }
+
+    override fun setTitle(title: Int): WidgetField {
+        super.setTitle(title)
+        return this
+    }
 
     fun enableCopy(): WidgetField {
         vCopy.visibility = View.VISIBLE
@@ -193,42 +203,42 @@ class WidgetField : Widget(R.layout.widget_field) {
     }
 
     @JvmOverloads
-    fun setOnCancel(s: String?, onCancel: (WidgetField)->Unit = {}): WidgetField {
+    fun setOnCancel(s: String?, onCancel: (WidgetField) -> Unit = {}): WidgetField {
         ToolsView.setTextOrGone(vCancel, s!!)
         vCancel.visibility = View.VISIBLE
         vCancel.setOnClickListener { v ->
             if (autoHideOnCancel) hide()
-            else setEnabled<Widget>(false)
+            else setEnabled(false)
             onCancel.invoke(this)
         }
         return this
     }
 
 
-    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = {w, s ->}): WidgetField {
+    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
         return setOnEnter(ToolsResources.getString(s), onEnter)
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: (WidgetField, String) -> Unit ={w, s ->}): WidgetField {
+    fun setOnEnter(s: String?, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
         ToolsView.setTextOrGone(vEnter, s!!)
         vEnter.setOnClickListener { v ->
             if (autoHideOnEnter)
                 hide()
             else
-                setEnabled<Widget>(false)
+                setEnabled(false)
             onEnter.invoke(this, vField.text.toString())
         }
 
         return this
     }
 
-    override fun <K : Widget> setEnabled(enabled: Boolean): K {
-        super.setEnabled<K>(enabled)
+    override fun setEnabled(enabled: Boolean): WidgetField {
+        super.setEnabled(enabled)
         vCancel.isEnabled = enabled
         vFieldLayout.isEnabled = enabled
         vEnter.isEnabled = enabled
-        return this as K
+        return this
     }
 
 

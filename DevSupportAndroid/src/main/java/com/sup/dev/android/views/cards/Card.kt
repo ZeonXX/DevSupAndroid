@@ -30,7 +30,7 @@ abstract class Card {
 
     abstract fun bindView(view: View)
 
-    protected fun instanceView(): View? {
+    protected open fun instanceView(): View? {
         return null
     }
 

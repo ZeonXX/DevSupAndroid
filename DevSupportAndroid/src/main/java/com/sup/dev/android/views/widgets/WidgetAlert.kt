@@ -60,6 +60,21 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     //  Setters
     //
 
+    override fun setEnabled(enabled: Boolean): WidgetAlert {
+        super.setEnabled(enabled)
+        return this
+    }
+
+    override fun setTitle(title: Int): WidgetAlert {
+        super.setTitle(title)
+        return this
+    }
+
+    override fun setTitle(title: String?): WidgetAlert {
+        super.setTitle(title)
+        return this
+    }
+
     fun setLockUntilAccept(lockUntilAccept: Boolean): WidgetAlert {
         this.lockUntilAccept = lockUntilAccept
         return this
@@ -139,7 +154,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
             if (autoHideOnEnter)
                 hide()
             else
-                setEnabled<Widget>(false)
+                setEnabled(false)
             if (key != null) ToolsStorage.put(key!!, vCheck.isChecked)
             onEnter.invoke(this)
         }
@@ -165,7 +180,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetAlert) -> Unit = {}): WidgetAlert {
-        super.setOnHide<Widget> { b -> onCancel.invoke(this) }
+        super.setOnHide{ b -> onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s!!)
         vCancel.setOnClickListener { v ->
             hide()

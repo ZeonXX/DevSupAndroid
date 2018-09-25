@@ -23,11 +23,11 @@ import java.io.File
 import java.io.IOException
 
 
-class WidgetChooseImage : WidgetRecycler() {
+open class WidgetChooseImage : WidgetRecycler() {
 
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
 
-    private var onSelected: (WidgetChooseImage, ByteArray?) -> Unit = {widgetChooseImage, bytes -> }
+    private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = {widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
 
     init {
@@ -137,7 +137,7 @@ class WidgetChooseImage : WidgetRecycler() {
         })
     }
 
-    private fun onSelected(bytes: ByteArray?) {
+    private fun onSelected(bytes: ByteArray) {
         onSelected.invoke(this, bytes)
         hide()
     }
@@ -146,7 +146,7 @@ class WidgetChooseImage : WidgetRecycler() {
     //  Setters
     //
 
-    fun setOnSelected(onSelected: (WidgetChooseImage, ByteArray?) -> Unit): WidgetChooseImage {
+    fun setOnSelected(onSelected: (WidgetChooseImage, ByteArray) -> Unit): WidgetChooseImage {
         this.onSelected = onSelected
         return this
     }
@@ -169,7 +169,7 @@ class WidgetChooseImage : WidgetRecycler() {
 
         override fun bindView(view: View) {
             val vImage = view.findViewById<ImageView>(R.id.vImage)
-            vImage.setOnClickListener { v -> if (bytes != null) onSelected(bytes) }
+            vImage.setOnClickListener { v -> if (bytes != null) onSelected(bytes!!) }
 
             ImageLoader.load(ImageLoaderFile(file)
                     .setImage(vImage)

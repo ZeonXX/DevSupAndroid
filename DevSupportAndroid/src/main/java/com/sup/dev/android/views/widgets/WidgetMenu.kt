@@ -107,7 +107,6 @@ open class WidgetMenu : WidgetRecycler() {
         return add(ToolsResources.getString(text), onClick)
     }
 
-    @JvmOverloads
     fun add(text: String?, onClick: (WidgetMenu, CardMenu) -> Unit = {w,c->}): WidgetMenu {
         finishItemBuilding()
         buildItem = Item()

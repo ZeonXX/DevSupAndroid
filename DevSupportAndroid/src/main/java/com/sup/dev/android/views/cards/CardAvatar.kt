@@ -8,7 +8,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 
-class CardAvatar : Card() {
+open class CardAvatar : Card() {
 
     private var onClick: () -> Unit = {}
     private var dividerVisible = false
@@ -58,7 +58,7 @@ class CardAvatar : Card() {
         onBind(vAvatar)
     }
 
-    protected fun onBind(vAvatar: ViewAvatarTitle) {
+    protected open fun onBind(vAvatar: ViewAvatarTitle) {
 
     }
 

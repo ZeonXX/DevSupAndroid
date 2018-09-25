@@ -12,7 +12,7 @@ import com.sup.dev.android.views.adapters.CardAdapter
 import java.util.ArrayList
 
 
-class CardSpoiler : Card() {
+open class CardSpoiler : Card() {
 
     //
     //  Getters
@@ -89,7 +89,7 @@ class CardSpoiler : Card() {
         return this
     }
 
-    fun setTitle(@StringRes title: Int): CardSpoiler {
+    open fun setTitle(@StringRes title: Int): CardSpoiler {
         return setTitle(ToolsResources.getString(title))
     }
 
