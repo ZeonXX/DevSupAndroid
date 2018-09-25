@@ -11,7 +11,7 @@ import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 
 
-class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap?, Unit>?) : Screen(R.layout.screen_image_crop) {
+class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap, Unit>?) : Screen(R.layout.screen_image_crop) {
 
 
     private val vCropImageView: ViewCropImage = findViewById(R.id.crop)
@@ -23,7 +23,7 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
 
     private var dialogProgress: DialogWidget? = null
 
-    constructor(bitmap: Bitmap, onCrop: Function2<SCrop, Bitmap?, Unit>) : this(bitmap, 0, 0, onCrop) {}
+    constructor(bitmap: Bitmap, onCrop: Function2<SCrop, Bitmap, Unit>) : this(bitmap, 0, 0, onCrop) {}
 
     init {
 
@@ -39,7 +39,7 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
                 else
                     setLock(false)
 
-                onCrop.invoke(this, vCropImageView.croppedImage)
+                onCrop.invoke(this, vCropImageView.croppedImage!!)
             }
         }
     }

@@ -151,8 +151,8 @@ open class WidgetChooseImage : WidgetRecycler() {
         return this
     }
 
-    fun setOnSelectedBitmap(callback: (WidgetChooseImage, Bitmap?) -> Unit): WidgetChooseImage {
-        this.onSelected = { widgetChooseImage, bytes -> callback.invoke(this, ToolsBitmap.decode(bytes)) }
+    fun setOnSelectedBitmap(callback: (WidgetChooseImage, Bitmap) -> Unit): WidgetChooseImage {
+        this.onSelected = { widgetChooseImage, bytes -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
         return this
     }
 
