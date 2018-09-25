@@ -9,11 +9,11 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import kotlinx.android.synthetic.main.screen_alert.view.*
 
 
-class SAlert(title: String?, text: String?, action: String?, image: Int = 0, imageFul: Int = 0, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
+class SAlert(title: String?, text: String?, action: String?, image: Int? = null, imageFul: Int? = null, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
 
     constructor(title: String?, text: String?, action: String?, onAction:  (() -> Unit)?) : this(title, text, action, 0, onAction) {}
 
-    constructor(title: String?, text: String?, action: String?, image: Int, onAction:  (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
+    constructor(title: String?, text: String?, action: String?, image: Int?, onAction:  (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
 
     init {
 
@@ -21,7 +21,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
         vText.text = text
         vAction.setText(action)
 
-        if (image > 0) {
+        if (image != null) {
             vImage.setImageResource(image)
             vImage.visibility = View.VISIBLE
         } else {
@@ -29,7 +29,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
             vImage.visibility = View.GONE
         }
 
-        if (imageFul > 0) {
+        if (imageFul != null) {
             vImageFull.setImageResource(imageFul)
             vImageFull.visibility = View.VISIBLE
         } else {

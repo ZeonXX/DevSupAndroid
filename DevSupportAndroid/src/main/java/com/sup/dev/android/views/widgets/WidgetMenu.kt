@@ -11,9 +11,9 @@ import com.sup.dev.android.views.cards.CardDivider
 import com.sup.dev.android.views.cards.CardDividerTitle
 import com.sup.dev.android.views.cards.CardMenu
 
-class WidgetMenu : WidgetRecycler() {
+open class WidgetMenu : WidgetRecycler() {
 
-    private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
+    val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
     private var onGlobalSelected: (WidgetMenu, String?) -> Unit = {w,s -> }
 
     private var prefCount = 0

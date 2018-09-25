@@ -1,6 +1,7 @@
 package com.sup.dev.android.app
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -37,8 +38,8 @@ object SupAndroid {
     var TEXT_ERROR_GONE: String? = null
     var TEXT_ERROR_ACCOUNT_BANED: String? = null
 
-    var IMG_ERROR_NETWORK: Int = 0
-    var IMG_ERROR_GONE: Int = 0
+    var IMG_ERROR_NETWORK: Int? = null
+    var IMG_ERROR_GONE: Int? = null
 
 
     var editMode: Boolean = false
@@ -101,15 +102,21 @@ object SupAndroid {
     }
 
     private fun loadText(id: String): String? {
-        val t = ToolsResources.getString(id)
-        if (t == null) Debug.error("Init warning: can't find vText with id [$id]")
-        return t
+        try {
+            return ToolsResources.getString(id)
+        } catch (e: Resources.NotFoundException) {
+            Debug.error("Init warning: can't find vText with id [$id]")
+            return null
+        }
     }
 
-    private fun loadImage(id: String): Int {
-        val resId = ToolsResources.getDrawableId("error_network")
-        if (resId < 1) Debug.error("Init warning: can't find image with id [$id]")
-        return resId
+    private fun loadImage(id: String): Int? {
+        try {
+            return ToolsResources.getDrawableId(id)
+        } catch (e: Resources.NotFoundException) {
+            Debug.error("Init warning: can't find image with id [$id]")
+            return null
+        }
     }
 
 }

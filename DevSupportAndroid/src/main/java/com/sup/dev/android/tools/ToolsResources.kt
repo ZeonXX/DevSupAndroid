@@ -13,35 +13,35 @@ import com.sup.dev.java.tools.ToolsColor
 
 object ToolsResources {
 
-    fun getString(@StringRes r: Int, vararg args: Any): String? {
-        return if (r < 0) null else String.format(getString(r)!!, *args)
+    fun getString(@StringRes r: Int, vararg args: Any): String {
+        return String.format(getString(r), *args)
     }
 
     fun getStringId(name: String): Int {
         return SupAndroid.appContext!!.resources.getIdentifier(name, "string", SupAndroid.appContext!!.packageName)
     }
 
-    fun getString(name: String): String? {
+    fun getString(name: String): String {
         return getString(getStringId(name))
     }
 
-    fun getString(@StringRes r: Int): String? {
-        return if (r <= 0) null else SupAndroid.appContext!!.resources.getString(r)
+    fun getString(@StringRes r: Int): String {
+        return SupAndroid.appContext!!.resources.getString(r)
     }
 
-    fun getPlural(@PluralsRes r: Int, value: Int): String? {
-        return if (r <= 0) null else SupAndroid.appContext!!.resources.getQuantityString(r, value)
+    fun getPlural(@PluralsRes r: Int, value: Int): String {
+        return SupAndroid.appContext!!.resources.getQuantityString(r, value)
     }
 
-    fun getStringArray(@ArrayRes r: Int): Array<String>? {
-        return if (r <= 0) null else SupAndroid.appContext!!.resources.getStringArray(r)
+    fun getStringArray(@ArrayRes r: Int): Array<String> {
+        return SupAndroid.appContext!!.resources.getStringArray(r)
     }
 
-    fun getDrawable(@DrawableRes r: Int): Drawable? {
-        return if (r <= 0) null else SupAndroid.appContext!!.resources.getDrawable(r)
+    fun getDrawable(@DrawableRes r: Int): Drawable {
+        return SupAndroid.appContext!!.resources.getDrawable(r)
     }
 
-    fun getDrawableFromAttr(@AttrRes r: Int): Drawable? {
+    fun getDrawableFromAttr(@AttrRes r: Int): Drawable {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val drawable = ta.getDrawable(0)
@@ -76,7 +76,7 @@ object ToolsResources {
 
 
     fun getColor(@ColorRes r: Int): Int {
-        return if (r <= 0) 0 else SupAndroid.appContext!!.resources.getColor(r)
+        return SupAndroid.appContext!!.resources.getColor(r)
     }
 
     fun getAccentColor(context: Context): Int {
@@ -116,8 +116,7 @@ object ToolsResources {
 
     }
 
-
-    fun getDrawable(name: String): Drawable? {
+    fun getDrawable(name: String): Drawable {
         return getDrawable(getDrawableId(name))
     }
 
@@ -125,7 +124,7 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.getIdentifier(name, "drawable", SupAndroid.appContext!!.packageName)
     }
 
-    fun getBitmap(name: String): Bitmap? {
+    fun getBitmap(name: String): Bitmap {
         return getBitmap(getDrawableId(name))
     }
 
