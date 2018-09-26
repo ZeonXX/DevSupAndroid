@@ -51,7 +51,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
             if (autoHideOnEnter)
                 hide()
             else
-                setEnabled<Widget>(false)
+                setEnabled(false)
             onEnter.invoke(this, vTimePicker.currentHour, vTimePicker.currentMinute)
         }
 
@@ -73,7 +73,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetChooseTime) -> Unit = {}): WidgetChooseTime {
-        super.setOnHide <Widget>{ b -> onCancel.invoke(this) }
+        super.setOnHide { b -> onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s!!)
         vCancel.setOnClickListener { v ->
             hide()

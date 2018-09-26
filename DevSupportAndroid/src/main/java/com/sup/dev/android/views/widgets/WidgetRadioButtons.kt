@@ -129,7 +129,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
             if (autoHideOnEnter)
                 hide()
             else
-                setEnabled<Widget>(false)
+                setEnabled(false)
             for (i in 0 until vOptionsContainer.childCount) {
                 val v = vOptionsContainer.getChildAt(i) as RadioButton
                 val item = v.tag as Item
@@ -160,7 +160,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetRadioButtons)->Unit = {}): WidgetRadioButtons {
-        super.setOnHide<Widget>{ b -> onCancel?.invoke(this) }
+        super.setOnHide{ b -> onCancel?.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener { v ->
             hide()

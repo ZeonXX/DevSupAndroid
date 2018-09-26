@@ -121,7 +121,7 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
-    fun setCancelable(cancelable: Boolean): Widget {
+    open fun setCancelable(cancelable: Boolean): Widget {
         this.isCancelable = cancelable
         if (viewWrapper != null) viewWrapper!!.setWidgetCancelable<WidgetViewWrapper>(cancelable)
         return this

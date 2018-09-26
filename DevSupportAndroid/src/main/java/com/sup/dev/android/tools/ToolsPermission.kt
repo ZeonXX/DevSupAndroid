@@ -24,7 +24,6 @@ object ToolsPermission {
     //
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        Debug.log("onRequestPermissionsResult")
         for (r in requests)
             if (r.code == requestCode)
                 for (i in 0 until permissions.size) {

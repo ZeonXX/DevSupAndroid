@@ -105,7 +105,7 @@ object ApiRequestsSupporter {
 
 
     fun <K : Request.Response> executeEnabled(widget: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
-        widget?.setEnabled<Widget>(false)
+        widget?.setEnabled(false)
         request
                 .onComplete { r ->
                     onComplete.invoke(r)
@@ -113,7 +113,7 @@ object ApiRequestsSupporter {
                 }
                 .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
                 .onFinish {
-                    widget?.setEnabled<Widget>(true)
+                    widget?.setEnabled(true)
                     if (widget != null && widget is WidgetProgressTransparent) widget.hide()
                     if (widget != null && widget is WidgetProgressWithTitle) widget.hide()
                 }

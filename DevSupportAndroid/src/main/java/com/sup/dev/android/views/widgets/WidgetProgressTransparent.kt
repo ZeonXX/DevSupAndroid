@@ -47,5 +47,14 @@ class WidgetProgressTransparent : Widget(0) {
         }
     }
 
+    //
+    //  Setters
+    //
+
+    override fun setCancelable(cancelable: Boolean): WidgetProgressTransparent {
+        super.setCancelable(cancelable)
+        return this
+    }
+
 
 }
