@@ -67,7 +67,7 @@ abstract class Widget(layoutRes: Int) {
     //  Callbacks
     //
 
-    fun onTryCancelOnTouchOutside(): Boolean {
+    open fun onTryCancelOnTouchOutside(): Boolean {
         return true
     }
 
@@ -100,16 +100,16 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
-    fun setTitleBackgroundColorRes(@ColorRes color: Int): Widget {
+    open fun setTitleBackgroundColorRes(@ColorRes color: Int): Widget {
         return setTitleBackgroundColor(ToolsResources.getColor(color))
     }
 
-    fun setTitleBackgroundColor(@ColorInt color: Int): Widget {
+    open fun setTitleBackgroundColor(@ColorInt color: Int): Widget {
         vTitle?.setBackgroundColor(color)
         return this
     }
 
-    fun setOnHide(onHide: (Widget) -> Unit): Widget {
+    open fun setOnHide(onHide: (Widget) -> Unit): Widget {
         this.onHide = onHide
         return this
     }

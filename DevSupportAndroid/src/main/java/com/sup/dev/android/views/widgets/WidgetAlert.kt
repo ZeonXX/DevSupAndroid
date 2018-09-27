@@ -60,6 +60,11 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     //  Setters
     //
 
+    override fun setCancelable(cancelable: Boolean): WidgetAlert {
+        super.setCancelable(cancelable)
+        return this
+    }
+
     override fun setEnabled(enabled: Boolean): WidgetAlert {
         super.setEnabled(enabled)
         return this
