@@ -66,7 +66,7 @@ open class CardAvatar : Card() {
     //  Setters
     //
 
-    fun setOnCLickAvatar(onClickAvatar: () -> Unit): CardAvatar {
+    fun setOnCLickAvatar(onClickAvatar: (() -> Unit)?): CardAvatar {
         this.onClickAvatar = onClickAvatar
         update()
         return this
