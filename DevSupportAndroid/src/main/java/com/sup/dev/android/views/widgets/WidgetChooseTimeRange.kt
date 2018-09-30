@@ -79,7 +79,7 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
     @JvmOverloads
     fun setOnEnter(s: String?, onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit = { w, x, y, xx, yy -> }): WidgetChooseTimeRange {
-        ToolsView.setTextOrGone(vEnter, s!!)
+        ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { v ->
             if (autoHideOnEnter)
                 hide()
@@ -106,7 +106,7 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetChooseTimeRange) -> Unit = {}): WidgetChooseTimeRange {
         super.setOnHide { b -> onCancel.invoke(this) }
-        ToolsView.setTextOrGone(vCancel, s!!)
+        ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener { v ->
             hide()
             onCancel.invoke(this)

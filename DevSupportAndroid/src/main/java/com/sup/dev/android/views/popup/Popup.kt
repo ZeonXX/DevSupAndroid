@@ -73,9 +73,9 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
             x -= width / 2
             y -= anchor.height
 
-            val p = IntArray(2)
-            anchor.getLocationOnScreen(p)
-            if (height + (anchor.height + y) + p[1] > ToolsAndroid.getScreenH())
+            val location = IntArray(2)
+            anchor.getLocationOnScreen(location)
+            if (height + (anchor.height + y) + location[1] > ToolsAndroid.getScreenH())
                 y += anchor.height
 
             showAsDropDown(anchor, x, y)

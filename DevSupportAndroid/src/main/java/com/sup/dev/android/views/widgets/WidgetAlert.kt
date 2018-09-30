@@ -120,7 +120,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     fun setTitleText(topTitle: String?): WidgetAlert {
         vTopContainer.visibility = if (ToolsText.empty(topTitle)) View.GONE else View.VISIBLE
-        ToolsView.setTextOrGone(vTopTitle, topTitle!!)
+        ToolsView.setTextOrGone(vTopTitle, topTitle)
         return this
     }
 
@@ -135,7 +135,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setText(text: CharSequence?): WidgetAlert {
-        ToolsView.setTextOrGone(vText, text!!)
+        ToolsView.setTextOrGone(vText, text)
         return this
     }
 
@@ -154,7 +154,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     @JvmOverloads
     fun setOnEnter(s: String?, onEnter: (WidgetAlert) -> Unit = {}): WidgetAlert {
-        ToolsView.setTextOrGone(vEnter, s!!)
+        ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { v ->
             if (autoHideOnEnter)
                 hide()
@@ -186,7 +186,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetAlert) -> Unit = {}): WidgetAlert {
         super.setOnHide{ b -> onCancel.invoke(this) }
-        ToolsView.setTextOrGone(vCancel, s!!)
+        ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener { v ->
             hide()
             onCancel.invoke(this)

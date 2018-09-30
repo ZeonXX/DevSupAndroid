@@ -180,12 +180,12 @@ object ToolsView {
         }
     }
 
-    fun viewPointAsScreenPoint(view: View, x: Int, y: Int): IntArray {
+    fun viewPointAsScreenPoint(view: View, x: Int, y: Int): Array<Int> {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
         location[0] = location[0] + x
         location[1] = location[1] + y
-        return location
+        return location.toTypedArray()
     }
 
     fun checkHit(view: View, x: Float, y: Float): Boolean {

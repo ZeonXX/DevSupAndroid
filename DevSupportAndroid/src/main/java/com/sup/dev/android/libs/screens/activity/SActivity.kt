@@ -102,7 +102,7 @@ abstract class SActivity : Activity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        ToolsPermission.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        ToolsPermission.onRequestPermissionsResult(requestCode, permissions, grantResults.toTypedArray())
     }
 
     open fun onViewBackPressed() {

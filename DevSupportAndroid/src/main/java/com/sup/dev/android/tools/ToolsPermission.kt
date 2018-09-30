@@ -23,7 +23,7 @@ object ToolsPermission {
     //  Result
     //
 
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: Array<Int>) {
         for (r in requests)
             if (r.code == requestCode)
                 for (i in 0 until permissions.size) {

@@ -137,15 +137,15 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
         if (state == State.ERROR) {
 
-            ToolsView.setTextOrGone(vMessage, textErrorNetwork!!)
-            ToolsView.setTextOrGone(vAction, textRetry!!)
+            ToolsView.setTextOrGone(vMessage, textErrorNetwork)
+            ToolsView.setTextOrGone(vAction, textRetry)
             vAction.setOnClickListener { v -> onReloadClicked() }
         }
 
         if (state == State.EMPTY) {
 
-            ToolsView.setTextOrGone(vMessage, textEmptyS!!)
-            ToolsView.setTextOrGone(vAction, textAction!!)
+            ToolsView.setTextOrGone(vMessage, textEmptyS)
+            ToolsView.setTextOrGone(vAction, textAction)
             vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke() }
         }
 

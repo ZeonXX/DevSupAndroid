@@ -96,7 +96,7 @@ abstract class Widget(layoutRes: Int) {
     }
 
     open fun setTitle(title: String?): Widget {
-        if (vTitle != null) ToolsView.setTextOrGone(vTitle, title!!)
+        if (vTitle != null) ToolsView.setTextOrGone(vTitle, title)
         return this
     }
 

@@ -128,7 +128,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     }
 
     fun setOnEnter(s: String?): WidgetCheckBoxes {
-        ToolsView.setTextOrGone(vEnter, s!!)
+        ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { vi ->
             if (autoHideOnEnter)
                 hide()
@@ -161,7 +161,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
         super.setOnHide { b -> onCancel.invoke(this) }
-        ToolsView.setTextOrGone(vCancel, s!!)
+        ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener { v ->
             hide()
             onCancel.invoke(this)

@@ -75,9 +75,9 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setIcon(item.icon)
         item.card?.setBackground(item.bg)
         item.card?.setOnClick { v, x, y ->
-            if (autoHide) hide()
             item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
+            if (autoHide) hide()
         }
 
 
