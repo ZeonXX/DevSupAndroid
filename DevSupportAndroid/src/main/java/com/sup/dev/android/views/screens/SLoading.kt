@@ -3,18 +3,13 @@ package com.sup.dev.android.views.screens
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsThreads
 import kotlinx.android.synthetic.main.screen_loading.view.*
 
@@ -25,7 +20,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
@@ -35,8 +29,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
-
-
 
     init {
 
@@ -53,20 +45,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     abstract fun onReloadClicked()
 
     protected fun setContent(@LayoutRes res: Int) {
-        while (vContainer.childCount != 2) vContainer.removeViewAt(0)
         vContainer.addView(ToolsView.inflate(context, res), 0)
-    }
-
-    protected fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit): ViewIcon {
-        val viewIcon:ViewIcon = ToolsView.inflate(context, R.layout.view_icon)
-        viewIcon.setImageResource(res)
-        viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
-        vToolbarIconsContainer.addView(viewIcon)
-        return viewIcon
-    }
-
-    protected fun addToolbarView(v: View) {
-        vToolbar.addView(v)
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {

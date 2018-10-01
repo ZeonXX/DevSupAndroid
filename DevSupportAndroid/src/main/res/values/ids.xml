@@ -9,6 +9,7 @@
     <item type="id" name="vRecycler"/>
     <item type="id" name="vPager"/>
     <item type="id" name="vBack"/>
+    <item type="id" name="vRefresh"/>
     <item type="id" name="vDialogLayoutMaxSizes"/>
 
 
