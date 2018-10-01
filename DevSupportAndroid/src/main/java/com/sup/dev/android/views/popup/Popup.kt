@@ -30,7 +30,6 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
         vCard.addView(view)
         setBackgroundDrawable(null)
         contentView = vCard
-        isOutsideTouchable = true
         isFocusable = true
 
     }
