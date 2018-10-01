@@ -100,9 +100,9 @@ object ToolsStorage {
         preferences!!.edit().putString(key, v).apply()
     }
 
-    fun put(key: String, value: ByteArray) {
+    fun put(key: String, v: ByteArray) {
         if (preferences == null) init()
-        preferences!!.edit().putString(key, String(value)).apply()
+        preferences!!.edit().putString(key, String(v)).apply()
     }
 
     fun put(key: String, v: Json) {
