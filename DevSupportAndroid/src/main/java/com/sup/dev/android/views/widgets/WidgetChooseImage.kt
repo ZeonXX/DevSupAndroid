@@ -19,6 +19,7 @@ import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsNetwork
+import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.io.IOException
 
@@ -113,14 +114,13 @@ open class WidgetChooseImage : WidgetRecycler() {
 
     private fun showLink() {
         WidgetField()
-                .setMediaCallback({ w, s ->
+                .setMediaCallback { w, s ->
                     w.hide()
                     loadLink(s)
-                })
+                }
                 .enableFastCopy()
                 .setHint(SupAndroid.TEXT_APP_LINK)
-                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE,
-                        { w, s -> loadLink(s) })
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { w, s -> loadLink(s) }
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow()
 
@@ -152,7 +152,7 @@ open class WidgetChooseImage : WidgetRecycler() {
     }
 
     fun setOnSelectedBitmap(callback: (WidgetChooseImage, Bitmap) -> Unit): WidgetChooseImage {
-        this.onSelected = { widgetChooseImage, bytes -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
+        this.onSelected = { w, bytes -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
         return this
     }
 
@@ -161,7 +161,6 @@ open class WidgetChooseImage : WidgetRecycler() {
     //
 
     private inner class CardImage(private val file: File) : Card() {
-        private var bytes: ByteArray? = null
 
         override fun getLayout(): Int {
             return R.layout.sheet_choose_image_card
@@ -169,17 +168,32 @@ open class WidgetChooseImage : WidgetRecycler() {
 
         override fun bindView(view: View) {
             val vImage = view.findViewById<ImageView>(R.id.vImage)
-            vImage.setOnClickListener { v -> if (bytes != null) onSelected(bytes!!) }
+            vImage.setOnClickListener { v -> onClick() }
 
             ImageLoader.load(ImageLoaderFile(file)
                     .setImage(vImage)
                     .cashScaledBytes()
-                    .setOnLoaded { bytes -> this.bytes = bytes }
                     .sizes(512, 512)
                     .options(ImageLoader.OPTIONS_RGB_565())
                     .cropSquare())
         }
 
+        fun onClick(){
+            val d = ToolsView.showProgressDialog()
+            ToolsThreads.thread {
+                try {
+                    val bytes = ToolsFiles.readFile(file)
+                    ToolsThreads.main {
+                        d.hide()
+                        onSelected(bytes)
+                    }
+                }catch (e:Exception){
+                    Debug.log(e)
+                    ToolsThreads.main { d.hide() }
+                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                }
+            }
+        }
 
     }
 
