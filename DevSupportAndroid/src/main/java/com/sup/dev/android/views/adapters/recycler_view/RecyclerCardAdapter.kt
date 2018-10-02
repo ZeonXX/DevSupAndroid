@@ -129,6 +129,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
     fun replace(index: Int, o: Card) {
         removeItemFromHolders(items[index])
         items[index] = o
+        o.setCardAdapter(this)
         notifyItemChanged(index)
     }
 
