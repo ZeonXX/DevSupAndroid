@@ -97,7 +97,7 @@ object ToolsIntent {
         startIntent(intent, onActivityNotFound)
     }
 
-    fun startPlayMarket(packageName: String, onActivityNotFound: ()->Unit?) {
+    fun startPlayMarket(packageName: String, onActivityNotFound: ()->Unit={}) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
