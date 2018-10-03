@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.image_loader.ImageLoader
-import com.sup.dev.android.libs.image_loader.ImageLoaderFile
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
@@ -169,13 +167,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         override fun bindView(view: View) {
             val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> onClick() }
-
-            ImageLoader.load(ImageLoaderFile(file)
-                    .setImage(vImage)
-                    .cashScaledBytes()
-                    .sizes(512, 512)
-                    .options(ImageLoader.OPTIONS_RGB_565())
-                    .cropSquare())
+            ToolsImagesLoader.load(file).override(512, 512).centerCrop().into(vImage)
         }
 
         fun onClick(){

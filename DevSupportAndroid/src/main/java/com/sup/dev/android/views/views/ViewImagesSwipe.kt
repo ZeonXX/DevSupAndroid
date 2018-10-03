@@ -10,9 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.sup.dev.android.R
-import com.sup.dev.android.libs.image_loader.ImageLoader
-import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SImageView
@@ -82,7 +81,7 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
     private inner class CardSwipeId(val id: Long, val w: Int = 0, val h: Int = 0, onClick: (() -> Unit)?) : CardSwipe(onClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            ImageLoader.load(ImageLoaderId(id).setImage(vImage).sizes(w, h))
+            ToolsImagesLoader.load(id).override(w,h).into(vImage)
         }
 
         override fun toImageView() {

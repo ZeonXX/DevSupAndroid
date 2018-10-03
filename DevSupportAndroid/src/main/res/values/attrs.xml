@@ -86,10 +86,6 @@
         <attr name="cropFlipVertically" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="ViewGif">
-        <attr name="android:src"/>
-    </declare-styleable>
-
     <declare-styleable name="ViewProgressLine">
         <attr name="ViewProgressLine_progress" format="integer"/>
         <attr name="ViewProgressLine_color" format="color"/>
