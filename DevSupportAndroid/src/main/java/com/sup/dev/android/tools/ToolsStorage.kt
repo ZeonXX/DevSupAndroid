@@ -128,7 +128,7 @@ object ToolsStorage {
     //  Files
     //
 
-    fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit) {
+    fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit = {}) {
         if (preferences == null) init()
         ToolsPermission.requestWritePermission {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()

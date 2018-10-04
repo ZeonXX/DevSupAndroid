@@ -1,13 +1,8 @@
 package com.sup.dev.android.tools
 
 import android.widget.ImageView
-import com.bumptech.glide.DrawableRequestBuilder
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.glade.GlideCallbackFinish
-import com.sup.dev.android.libs.glade.GlideIdLoader
 import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
@@ -18,10 +13,10 @@ object ToolsImagesLoader {
 
 
     fun init() {
-        Glide.get(SupAndroid.appContext!!).register(GlideIdLoader.GlideId::class.java, InputStream::class.java, GlideIdLoader.Factory())
+    //    Glide.get(SupAndroid.appContext!!).register(GlideIdLoader.GlideId::class.java, InputStream::class.java, GlideIdLoader.Factory())
     }
 
-    fun glide(): RequestManager {
+ /*   fun glide(): RequestManager {
         return Glide.with(SupAndroid.appContext!!)
     }
 
@@ -49,26 +44,26 @@ object ToolsImagesLoader {
     }
 
     fun load(id: Long): DrawableRequestBuilder<GlideIdLoader.GlideId> {
-        return glide().load(GlideIdLoader.GlideId(id))
-                .placeholder(R.color.focus)
-                .crossFade()
+      //  return glide().load(GlideIdLoader.GlideId(id))
+      //          .placeholder(R.color.focus)
+      //          .crossFade()
     }
 
     fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView) {
 
-        load(imageId)
-                .override(w, h)
-                .listener(GlideCallbackFinish {
-                    if (gifId > 0)
-                        ToolsThreads.main(100) {
-                            glide().load(GlideIdLoader.GlideId(gifId))
-                                    .dontAnimate()
-                                    .override(w, h)
-                                    .placeholder(vImage.drawable)
-                                    .into(vImage)
-                        }
-                })
-                .into(vImage)
+        //load(imageId)
+        //        .override(w, h)
+        //        .listener(GlideCallbackFinish {
+        //            if (gifId > 0)
+        //                ToolsThreads.main(100) {
+        //                    glide().load(GlideIdLoader.GlideId(gifId))
+        //                            .dontAnimate()
+        //                            .override(w, h)
+        //                            .placeholder(vImage.drawable)
+        //                            .into(vImage)
+        //                }
+        //        })
+        //        .into(vImage)
     }
 
     fun load(id: Long, callback: (ByteArray?) -> Unit) {
@@ -77,6 +72,6 @@ object ToolsImagesLoader {
             ToolsThreads.main { callback.invoke(bytes) }
         }
     }
-
+*/
 
 }

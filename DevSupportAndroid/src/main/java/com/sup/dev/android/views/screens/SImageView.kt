@@ -28,10 +28,10 @@ class SImageView private constructor(
         vImage.isClickable = false
         vDownload.setOnClickListener { v -> download() }
 
-        if (bitmap != null)
-            vImage.setImageBitmap(bitmap)
-        else if (id > 0)
-            ToolsImagesLoader.load(id).into(vImage)
+       //TODO if (bitmap != null)
+       //     vImage.setImageBitmap(bitmap)
+       // else if (id > 0)
+       //     ToolsImagesLoader.load(id).into(vImage)
 
 
     }
@@ -40,14 +40,15 @@ class SImageView private constructor(
         val dialog = ToolsView.showProgressDialog(SupAndroid.TEXT_APP_DOWNLOADING)
         ToolsThreads.thread {
             if (bitmap != null)
-                ToolsStorage.saveImageInDownloadFolder(bitmap, null!!)
+                ToolsStorage.saveImageInDownloadFolder(bitmap)
             else if (id > 0) {
-                ToolsImagesLoader.load(id) { bytes ->
-                    if (!ToolsBytes.isGif(bytes))
-                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
-                    else
-                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
-                }
+                //  TODO
+                //ToolsImagesLoader.load(id) { bytes ->
+                //    if (!ToolsBytes.isGif(bytes))
+                //        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
+                //    else
+                //        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+                //}
             }
             dialog.hide()
             ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)

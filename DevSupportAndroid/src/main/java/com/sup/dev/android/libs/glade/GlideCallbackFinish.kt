@@ -6,7 +6,7 @@ import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.log
 import java.lang.Exception
 
-
+/*
 class GlideCallbackFinish<T, R>(val callback: () -> Unit) : RequestListener<T, R> {
 
     override fun onResourceReady(resource: R, model: T, target: Target<R>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
@@ -23,4 +23,4 @@ class GlideCallbackFinish<T, R>(val callback: () -> Unit) : RequestListener<T, R
     }
 
 
-}
+}*/

@@ -1,5 +1,5 @@
 package com.sup.dev.android.libs.glade
-
+/*
 import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
@@ -80,4 +80,4 @@ class GlideIdLoader(var mModelCache : ModelCache<GlideId, GlideId>) : ModelLoade
 
     }
 
-}
+}*/
