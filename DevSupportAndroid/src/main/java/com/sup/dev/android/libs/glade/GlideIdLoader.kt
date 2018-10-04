@@ -3,7 +3,6 @@ package com.sup.dev.android.libs.glade
 import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
-import com.bumptech.glide.load.model.GenericLoaderFactory
 import com.bumptech.glide.load.model.ModelCache
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
@@ -11,7 +10,7 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
-class GlideIdLoader(var mModelCache : ModelCache<GlideId, GlideId>) : ModelLoader<GlideIdLoader.GlideId, InputStream?> {
+class GlideIdLoader/*(var mModelCache : ModelCache<GlideId, GlideId>) : ModelLoader<GlideIdLoader.GlideId, InputStream?> {
 
     override fun getResourceFetcher(model: GlideId, width: Int, height: Int): DataFetcher<InputStream?> {
         var imageFid: GlideId? = mModelCache.get(model, 0, 0)
@@ -80,4 +79,4 @@ class GlideIdLoader(var mModelCache : ModelCache<GlideId, GlideId>) : ModelLoade
 
     }
 
-}
+}*/

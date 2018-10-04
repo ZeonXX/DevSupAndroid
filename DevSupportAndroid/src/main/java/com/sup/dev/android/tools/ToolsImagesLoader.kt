@@ -1,31 +1,11 @@
 package com.sup.dev.android.tools
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.target.SimpleTarget
-import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.glade.GlideApp
-import com.sup.dev.android.libs.glade.GlideCallbackFinish
-import com.sup.dev.android.libs.glade.GlideIdLoader
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
-import java.io.InputStream
-
-
 
 
 object ToolsImagesLoader {
-
-
-    fun init() {
-        Glide.get(SupAndroid.appContext!!).register(GlideIdLoader.GlideId::class.java, InputStream::class.java, GlideIdLoader.Factory())
-    }
 
     fun glide()/*: RequestManager*/ {
       //  return Glide.with(SupAndroid.appContext!!)

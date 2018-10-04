@@ -75,7 +75,6 @@ object SupAndroid {
             Unit
         }
 
-        ToolsImagesLoader.init()
         EventBusMultiProcess.init()
 
         TEXT_APP_NAME = loadText("app_name")
