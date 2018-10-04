@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -21,7 +22,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     private val paint: Paint
     private val animationFocus: AnimationFocus
 
-    val vImageView: ViewCircleImage
+    val vImageView: ImageView
     val vChip: ViewChip
     private val vTouch: ViewDraw
 
