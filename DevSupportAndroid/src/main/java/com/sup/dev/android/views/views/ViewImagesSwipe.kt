@@ -81,7 +81,7 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
     private inner class CardSwipeId(val id: Long, val w: Int = 0, val h: Int = 0, onClick: (() -> Unit)?) : CardSwipe(onClick) {
 
         override fun set(view: View, vImage: ImageView) {
-         // TODO   ToolsImagesLoader.load(id).override(w,h).into(vImage)
+            ToolsImagesLoader.load(id).override(w, h).into(vImage)
         }
 
         override fun toImageView() {

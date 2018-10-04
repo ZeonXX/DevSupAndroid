@@ -26,14 +26,14 @@ open class WidgetChooseImage : WidgetRecycler() {
 
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
 
-    private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = {widgetChooseImage, bytes -> }
+    private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
 
     init {
-        val vFabGalleryContainer:View = ToolsView.inflate(R.layout.view_fab)
-        val vFabLinkContainer:View = ToolsView.inflate(R.layout.view_fab)
-        val vFabGallery:ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
-        val vFabLink:ImageView = vFabLinkContainer.findViewById(R.id.vFab)
+        val vFabGalleryContainer: View = ToolsView.inflate(R.layout.view_fab)
+        val vFabLinkContainer: View = ToolsView.inflate(R.layout.view_fab)
+        val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
+        val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
         vContainer.addView(vFabGalleryContainer)
         vContainer.addView(vFabLinkContainer)
 
@@ -102,7 +102,7 @@ open class WidgetChooseImage : WidgetRecycler() {
      */
 
     private fun loadLink(link: String) {
-       var progress = ToolsView.showProgressDialog()
+        var progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
             if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
@@ -167,10 +167,10 @@ open class WidgetChooseImage : WidgetRecycler() {
         override fun bindView(view: View) {
             val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> onClick() }
-         //TODO   ToolsImagesLoader.load(file).override(512, 512).centerCrop().into(vImage)
+            ToolsImagesLoader.load(file).override(512, 512).centerCrop().into(vImage)
         }
 
-        fun onClick(){
+        fun onClick() {
             val d = ToolsView.showProgressDialog()
             ToolsThreads.thread {
                 try {
@@ -179,7 +179,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                         d.hide()
                         onSelected(bytes)
                     }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     Debug.log(e)
                     ToolsThreads.main { d.hide() }
                     ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)

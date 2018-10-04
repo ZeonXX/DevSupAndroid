@@ -22,16 +22,16 @@ class SImageView private constructor(
 
     init {
 
-        val vImage:ImageView = findViewById(R.id.vImage)
-        val vDownload:ViewIcon = findViewById(R.id.download)
+        val vImage: ImageView = findViewById(R.id.vImage)
+        val vDownload: ViewIcon = findViewById(R.id.download)
 
         vImage.isClickable = false
         vDownload.setOnClickListener { v -> download() }
 
-       //TODO if (bitmap != null)
-       //     vImage.setImageBitmap(bitmap)
-       // else if (id > 0)
-       //     ToolsImagesLoader.load(id).into(vImage)
+        if (bitmap != null)
+            vImage.setImageBitmap(bitmap)
+        else if (id > 0)
+            ToolsImagesLoader.load(id).into(vImage)
 
 
     }
@@ -42,13 +42,12 @@ class SImageView private constructor(
             if (bitmap != null)
                 ToolsStorage.saveImageInDownloadFolder(bitmap)
             else if (id > 0) {
-                //  TODO
-                //ToolsImagesLoader.load(id) { bytes ->
-                //    if (!ToolsBytes.isGif(bytes))
-                //        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
-                //    else
-                //        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
-                //}
+                ToolsImagesLoader.load(id) { bytes ->
+                    if (!ToolsBytes.isGif(bytes))
+                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
+                    else
+                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+                }
             }
             dialog.hide()
             ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)
