@@ -1,14 +1,15 @@
 package com.sup.dev.android.libs.image_loader
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.views.drawables.DrawableGif
 import com.sup.dev.java.classes.collections.CashBytes
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
@@ -17,31 +18,22 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-
 object ImageLoader {
 
     internal val bitmapCash = CashBytes<Any>(1024 * 1024 * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 20 else 5)
     internal val turn = ArrayList<ImageLoaderA>()
     internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(2, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
 
-    fun OPTIONS_RGB_565(): BitmapFactory.Options {
-        val opt = BitmapFactory.Options()
-        opt.inPreferredConfig = Bitmap.Config.RGB_565
-        return opt
-    }
-
     //
     //  Public
     //
 
-    fun unsubscribe(vImage: ImageView?) {
-
-        if (vImage == null) return
-
+    fun unsubscribe(vImage: ImageView) {
         var i = 0
         while (i < turn.size) {
-            if (turn[i].vImage === vImage)
+            if (turn[i].vImage === vImage) {
                 turn.removeAt(i--)
+            }
             i++
         }
 
@@ -49,30 +41,33 @@ object ImageLoader {
 
     fun load(loader: ImageLoaderA) {
 
-        val bytes = if (loader.noLoadFromCash) null else bitmapCash[loader.getKey()]
+        var bytes = if (loader.noLoadFromCash) null else bitmapCash[loader.getKey()]
+        if (bytes == null && !loader.noLoadFromCash) bytes = loader.getFromCash()
 
         if (bytes != null) {
-            bitmapCash.reorderTop(loader.getKey()!!)
-            if (loader.onLoaded != null) loader.onLoaded.invoke(bytes)
-            if (loader.vImage != null) putImage(loader, parseImage(loader, bytes), false)
+            bitmapCash.reorderTop(loader.getKey())
+            putImage(loader, parseImage(loader, bytes), false, bytes)
             return
         }
 
         if (loader.vImage != null) {
-            if (loader.holder > 0) {
-                loader.vImage!!.setImageResource(loader.holder)
-            } else if (loader.w != 0 && loader.h != 0) {
-                val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
-                bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
-                loader.vImage!!.setImageBitmap(bitmap)
-            } else {
-                loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
+            if(!loader.noHolder) {
+                if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
+                else if (loader.holder is Drawable) loader.vImage!!.setImageDrawable(loader.holder as Drawable)
+                else if (loader.holder is Bitmap) loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
+                else if (loader.w != 0 && loader.h != 0) {
+                    val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
+                    bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
+                    loader.vImage!!.setImageBitmap(bitmap)
+                } else {
+                    loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
+                }
             }
 
-            unsubscribe(loader.vImage)
+            unsubscribe(loader.vImage!!)
 
         } else {
-            if (loader.onSetHolder != null) loader.onSetHolder.invoke()
+            loader.onSetHolder.invoke()
         }
 
         turn.add(loader)
@@ -88,7 +83,7 @@ object ImageLoader {
         }
     }
 
-    fun clear(key : String){
+    fun clear(key: String) {
         ToolsCash.clear(key)
         bitmapCash.remove(key)
     }
@@ -102,9 +97,14 @@ object ImageLoader {
         if (!turn.contains(loader)) return
 
         val loadedBytes = loader.startLoad()
-        if(loadedBytes == null)return
-        val bitmap = parseImage(loader, loadedBytes)
-        val bytes = if (loader.cashScaledBytes) ToolsBitmap.toJPGBytes(bitmap, 100) else loadedBytes
+        if (loadedBytes == null) return
+        var bytes = loadedBytes
+        var bitmap: Bitmap? = null
+
+        if (!loader.gif) {
+            bitmap = parseImage(loader, loadedBytes)
+            if (loader.cashScaledBytes) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
+        }
 
         ToolsThreads.main {
 
@@ -113,9 +113,8 @@ object ImageLoader {
             while (i < turn.size) {
                 val l = turn[i]
                 if (l.isKey(loader.getKey())) {
-                    if (l.onLoaded != null) l.onLoaded.invoke(bytes)
-                    if (l.vImage != null) putImage(l, bitmap, true)
                     turn.removeAt(i--)
+                     putImage(l, bitmap, true, bytes)
                 }
                 i++
             }
@@ -126,16 +125,22 @@ object ImageLoader {
 
     }
 
-    private fun parseImage(loader: ImageLoaderA, bytes: ByteArray?): Bitmap {
+    private fun parseImage(loader: ImageLoaderA, bytes: ByteArray): Bitmap {
         var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options, loader.cropSquareCenter)!!
         if (loader.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm)
         return bm
     }
 
-    private fun putImage(loader: ImageLoaderA, bm: Bitmap, animate: Boolean) {
+    private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray) {
         ToolsThreads.main {
-            if (loader.isKey(loader.vImage!!.getTag()))
-                loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.getContext(), bm, animate && loader.fade))
+            if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
+                if (loader.gif) {
+                    DrawableGif(bytes, loader.vImage!!)
+                }else {
+                    loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm!!, animate && loader.fade))
+                }
+            }
+            loader.onLoaded.invoke(bytes)
         }
     }
 

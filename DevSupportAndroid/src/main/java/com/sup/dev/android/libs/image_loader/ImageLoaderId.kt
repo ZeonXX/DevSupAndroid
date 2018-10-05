@@ -1,8 +1,5 @@
 package com.sup.dev.android.libs.image_loader
 
-import android.widget.ImageView
-
-
 class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
 
 
@@ -18,9 +15,5 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
         return loader.invoke(imageId)
     }
 
-    override fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderId {
-        super.setOnLoaded(onLoaded)
-        return this
-    }
 
 }

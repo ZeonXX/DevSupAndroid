@@ -57,7 +57,7 @@ object SupAndroid {
     fun init(appContext: Context) {
         SupAndroid.appContext = appContext
 
-        ToolsThreads.setOnMain { onNextTime, runnable ->
+        ToolsThreads.onMain = { onNextTime, runnable ->
             if ((!onNextTime) && ToolsAndroid.isMainThread()) runnable.invoke()
             else Handler(Looper.getMainLooper()).post { runnable.invoke() }
 

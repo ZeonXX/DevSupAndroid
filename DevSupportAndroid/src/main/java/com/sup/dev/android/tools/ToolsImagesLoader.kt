@@ -22,19 +22,11 @@ object ToolsImagesLoader {
     //
 
     fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView) {
-        load(imageId).size(w, h)
-                .into(vImage){
-                   // if (gifId > 0)
-                   //     ToolsThreads.main(100) {
-                   //         glide().load(GlideIdLoader.GlideId(gifId))
-                   //                 .dontAnimate()
-                   //                 .override(w, h)
-                   //                 .placeholder(vImage.drawable)
-                   //                 .into(vImage)
-                   //     }
-                }
+        load(imageId).size(w, h).into(vImage)
+        {
+            if (gifId > 0) load(gifId).asGif().holder(vImage.drawable).into(vImage)
+        }
     }
-
 
 
 }

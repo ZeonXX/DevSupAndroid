@@ -1,9 +1,10 @@
 package com.sup.dev.android.libs.image_loader
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
-import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class ImageLoaderA {
@@ -15,15 +16,17 @@ abstract class ImageLoaderA {
     internal var onSetHolder: () -> Unit = {}
     internal var cropSquareCenter: Boolean = false
     internal var options: BitmapFactory.Options? = null
-    internal var w: Int = 0
-    internal var h: Int = 0
-    internal var holder: Int = 0
+    internal var w = 0
+    internal var h = 0
+    internal var gif = false
+    internal var holder: Any? = null
+    internal var noHolder = false
     internal var fade = true
-    internal var cashScaledBytes: Boolean = false
-    internal var noCash: Boolean = false
-    internal var noLoadFromCash: Boolean = false
+    internal var cashScaledBytes = false
+    internal var noCash = false
+    internal var noLoadFromCash = false
     internal var keyPrefix: String? = ""
-    internal var autoCash: Boolean = true
+    internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
 
 
@@ -43,13 +46,18 @@ abstract class ImageLoaderA {
         into(vImage)
     }
 
-    fun intoCash(){
+    fun intoCash() {
         ImageLoader.load(this)
     }
 
     //
     //  SetUp
     //
+
+    fun asGif(): ImageLoaderA {
+        gif = true
+        return this
+    }
 
     fun keyPrefix(keyPrefix: String): ImageLoaderA {
         if (this.keyPrefix != null) key = key.substring(keyPrefix.length)
@@ -69,7 +77,12 @@ abstract class ImageLoaderA {
         return this
     }
 
-    open fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
+    fun noHolder():ImageLoaderA{
+        noHolder = true;
+        return this;
+    }
+
+    fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
         this.onLoaded = onLoaded
         return this
     }
@@ -99,6 +112,16 @@ abstract class ImageLoaderA {
         return this
     }
 
+    fun holder(holder: Drawable): ImageLoaderA {
+        this.holder = holder
+        return this
+    }
+
+    fun holder(holder: Bitmap): ImageLoaderA {
+        this.holder = holder
+        return this
+    }
+
     fun noFade(): ImageLoaderA {
         this.fade = false
         return this
@@ -118,13 +141,15 @@ abstract class ImageLoaderA {
         return key === this.key || key != null && key == this.key
     }
 
-    fun startLoad(): ByteArray?{
-        val bytes = ToolsCash.get(key)
-        if(bytes != null)return bytes
+    fun startLoad(): ByteArray? {
+        val bytes = if (!noLoadFromCash) getFromCash() else null
+        if (bytes != null) return bytes
         val data = load()
-        if(data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, key)
+        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, key)
         return data
     }
+
+    fun getFromCash() = ToolsCash.get(key)
 
     abstract fun load(): ByteArray?
 
@@ -132,7 +157,7 @@ abstract class ImageLoaderA {
     //  Getters
     //
 
-    fun getKey(): String{
+    fun getKey(): String {
         return key
     }
 
@@ -143,8 +168,6 @@ abstract class ImageLoaderA {
     fun replace(bytes: ByteArray) {
         ImageLoader.bitmapCash.replace(key, bytes)
     }
-
-
 
 
 }
