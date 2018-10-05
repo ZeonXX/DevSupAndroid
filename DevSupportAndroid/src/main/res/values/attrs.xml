@@ -5,6 +5,11 @@
         <attr name="Sheet_dimId" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ViewCircleImage">
+        <attr name="ViewCircleImage_circleBackgroundColor" format="color"/>
+        <attr name="ViewCircleImage_disableCircle" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="ViewPagerIndicator">
         <attr name="ViewPagerIndicator_color" format="color"/>
         <attr name="ViewPagerIndicator_colorSelected" format="color"/>

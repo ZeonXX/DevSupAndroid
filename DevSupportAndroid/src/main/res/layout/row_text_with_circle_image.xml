@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <ImageView
+        <com.sup.dev.android.views.views.ViewCircleImage
             android:id="@+id/vImage"
             android:layout_width="48dp"
             android:layout_height="48dp"

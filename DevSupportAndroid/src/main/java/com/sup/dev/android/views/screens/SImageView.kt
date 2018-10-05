@@ -42,11 +42,13 @@ class SImageView private constructor(
             if (bitmap != null)
                 ToolsStorage.saveImageInDownloadFolder(bitmap)
             else if (id > 0) {
-                ToolsImagesLoader.load(id) { bytes ->
+                ToolsImagesLoader.load(id).into {
+                    bytes ->
                     if (!ToolsBytes.isGif(bytes))
                         ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
                     else
                         ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+
                 }
             }
             dialog.hide()

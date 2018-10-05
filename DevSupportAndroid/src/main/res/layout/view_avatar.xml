@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <ImageView
+    <com.sup.dev.android.views.views.ViewCircleImage
         android:id="@+id/dev_sup_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

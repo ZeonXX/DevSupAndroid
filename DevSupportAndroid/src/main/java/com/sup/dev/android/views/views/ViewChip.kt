@@ -9,7 +9,6 @@ import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -19,6 +18,7 @@ import com.sup.dev.android.views.animations.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMapper
+import java.lang.IllegalArgumentException
 
 
 class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
@@ -30,7 +30,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
 
     private val view: View
     private val vTextView: TextView
-    private val vIcon: ImageView
+    private val vIcon: ViewCircleImage
 
     private var hasIcon = false
     private var selectionMode = false
@@ -39,7 +39,6 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
     private var useIconBackground = false
     private var background: Int = 0
     private var unselectedBackground: Int = 0
-    private var isDisableCircleIcon = false
 
     private var isChipSelected = true
 
@@ -138,12 +137,12 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
         path.reset()
 
         if (height < width) {
-            if (!hasIcon || useIconBackground)
+            if (!hasIcon || useIconBackground || vIcon.isDisableCircle)
                 path.addArc(RectF(0f, 0f, height.toFloat(), height.toFloat()), 90f, 180f)
             path.addArc(RectF((width - height).toFloat(), 0f, width.toFloat(), height.toFloat()), 270f, 180f)
             path.addRect((height / 2).toFloat(), 0f, (width - height / 2).toFloat(), height.toFloat(), Path.Direction.CCW)
         } else {
-            if (!hasIcon || useIconBackground)
+            if (!hasIcon || useIconBackground || vIcon.isDisableCircle)
                 path.addCircle((width / 2).toFloat(), (height / 2).toFloat(), (width / 2).toFloat(), Path.Direction.CCW)
         }
     }
@@ -200,7 +199,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
 
     fun setIconPadding(dp: Int) {
         val px = ToolsView.dpToPx(dp)
-        isDisableCircleIcon = px > 0
+        vIcon.isDisableCircle = px > 0
         vIcon.setPadding(px, px, px, px)
         recreateChip()
     }
