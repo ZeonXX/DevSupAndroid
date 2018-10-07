@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.drawables
+package com.sup.dev.android.views.support
 
 import android.graphics.*
 import android.graphics.drawable.Drawable

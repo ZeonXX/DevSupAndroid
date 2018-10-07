@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.adapters
+package com.sup.dev.android.views.support.adapters
 
 import android.view.View
 import com.sup.dev.android.views.cards.Card

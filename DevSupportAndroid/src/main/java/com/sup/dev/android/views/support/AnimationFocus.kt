@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.animations
+package com.sup.dev.android.views.support
 
 import android.graphics.Color
 import android.view.MotionEvent

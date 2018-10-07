@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.watchers
+package com.sup.dev.android.views.support.watchers
 
 import android.widget.EditText
 

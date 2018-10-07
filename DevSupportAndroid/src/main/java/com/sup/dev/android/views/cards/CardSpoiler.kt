@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.adapters.CardAdapter
+import com.sup.dev.android.views.support.adapters.CardAdapter
 import java.util.ArrayList
 
 

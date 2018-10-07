@@ -12,7 +12,7 @@ import android.widget.EditText
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.android.views.watchers.TextWatcherChanged
+import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 
 
 class SettingsField @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_field) {

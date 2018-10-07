@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.*
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget

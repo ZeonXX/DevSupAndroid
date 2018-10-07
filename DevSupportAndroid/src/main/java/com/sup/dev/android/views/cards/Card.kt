@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.annotation.LayoutRes
 import android.view.View
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.adapters.CardAdapter
+import com.sup.dev.android.views.support.adapters.CardAdapter
 
 
 abstract class Card {

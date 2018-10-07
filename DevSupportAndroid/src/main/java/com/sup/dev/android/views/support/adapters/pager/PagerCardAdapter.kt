@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.adapters.pager
+package com.sup.dev.android.views.support.adapters.pager
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.adapters.CardAdapter
-import com.sup.dev.android.views.adapters.NotifyItem
+import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.collections.HashList
 import java.util.ArrayList

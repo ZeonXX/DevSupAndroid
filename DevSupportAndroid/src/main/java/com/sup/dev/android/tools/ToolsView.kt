@@ -64,7 +64,7 @@ object ToolsView {
     fun makeLinksClickable(vText: TextView) {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
         val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
-        Linkify.addLinks(vText, httpPattern, "")
+        Linkify.addLinks(vText, httpPattern, "").
     }
 
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {

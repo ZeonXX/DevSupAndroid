@@ -1,8 +1,8 @@
-package com.sup.dev.android.views.adapters.recycler_view
+package com.sup.dev.android.views.support.adapters.recycler_view
 
 import android.support.annotation.StringRes
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.adapters.CardAdapter
+import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.java.tools.ToolsThreads

@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.adapters.pager
+package com.sup.dev.android.views.support.adapters.pager
 
 abstract class PagerCardInfinityAdapter : PagerCardAdapter() {
 

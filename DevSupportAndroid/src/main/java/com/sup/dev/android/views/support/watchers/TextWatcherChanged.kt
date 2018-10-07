@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.watchers
+package com.sup.dev.android.views.support.watchers
 
 class TextWatcherChanged(private val callback: (String) -> Unit) : BaseTextWatcher() {
 

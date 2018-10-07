@@ -12,8 +12,8 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.android.views.watchers.TextWatcherChanged
-import com.sup.dev.android.views.watchers.TextWatcherRemoveHTML
+import com.sup.dev.android.views.support.watchers.TextWatcherChanged
+import com.sup.dev.android.views.support.watchers.TextWatcherRemoveHTML
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList

@@ -9,7 +9,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.drawables.DrawableGif
+import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.java.classes.collections.CashBytes
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads

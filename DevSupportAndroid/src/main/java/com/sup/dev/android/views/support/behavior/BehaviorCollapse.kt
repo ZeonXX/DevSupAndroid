@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.behavior
+package com.sup.dev.android.views.support.behavior
 
 import android.content.Context
 import android.support.design.widget.AppBarLayout

@@ -9,7 +9,7 @@ import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapterLoading
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.api_simple.client.Request

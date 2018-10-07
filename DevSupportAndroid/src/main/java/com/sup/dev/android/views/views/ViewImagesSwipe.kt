@@ -12,7 +12,7 @@ import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.views.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SImageView
 

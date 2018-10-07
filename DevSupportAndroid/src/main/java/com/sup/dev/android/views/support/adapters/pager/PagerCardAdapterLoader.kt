@@ -1,4 +1,4 @@
-package com.sup.dev.android.views.adapters.pager
+package com.sup.dev.android.views.support.adapters.pager
 
 import android.view.ViewGroup
 import com.sup.dev.android.views.cards.Card
