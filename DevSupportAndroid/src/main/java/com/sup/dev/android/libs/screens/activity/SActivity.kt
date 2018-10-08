@@ -20,9 +20,15 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
-
+import android.text.TextUtils
+import com.sup.dev.java.libs.debug.Debug
 
 abstract class SActivity : Activity() {
+
+
+    companion object {
+        var onUrlClicked: ((String) -> Unit)? = null
+    }
 
     var started: Boolean = false
 
@@ -90,6 +96,14 @@ abstract class SActivity : Activity() {
 
     fun getViewContainer(): View? {
         return vActivityContainer
+    }
+
+    override fun startActivity(intent: Intent) {
+        if (TextUtils.equals(intent.action, Intent.ACTION_VIEW) && onUrlClicked != null && intent.data != null) {
+            onUrlClicked!!.invoke(intent.data!!.toString())
+        } else {
+            super.startActivity(intent)
+        }
     }
 
     //
