@@ -82,25 +82,6 @@ open class WidgetChooseImage : WidgetRecycler() {
 
     }
 
-    /*
-
-
-    private void loadLink(String link) {
-        WidgetProgressTransparent progress = ToolsView.showProgressDialog();
-        ToolsNetwork.INSTANCE.getBytesFromURL(link, bytes -> {
-            progress.hide();
-
-            if (!ToolsBytes.INSTANCE.isImage(bytes)) {
-                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE);
-                return;
-            }
-
-            onSelected(bytes);
-        });
-    }
-
-     */
-
     private fun loadLink(link: String) {
         var progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {

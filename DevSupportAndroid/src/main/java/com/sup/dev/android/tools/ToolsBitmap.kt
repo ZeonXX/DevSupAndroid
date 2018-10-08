@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.URL
 
 
 object ToolsBitmap {
@@ -268,7 +269,7 @@ object ToolsBitmap {
 
     @Throws(IOException::class)
     fun getFromURL(src: String): Bitmap {
-        val url = ToolsText.makeUrl(src)
+        val url = URL(src)
         val connection = url.openConnection() as HttpURLConnection
         connection.readTimeout = 4000
         connection.doInput = true

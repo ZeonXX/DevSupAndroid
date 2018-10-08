@@ -60,8 +60,8 @@ object SupAndroid {
         ToolsThreads.onMain = { onNextTime, runnable ->
             if ((!onNextTime) && ToolsAndroid.isMainThread()) runnable.invoke()
             else Handler(Looper.getMainLooper()).post { runnable.invoke() }
-
         }
+
         Debug.printer = { s ->
             Log.e("Debug", s)
             Unit
