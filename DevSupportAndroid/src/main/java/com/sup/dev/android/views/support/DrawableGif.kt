@@ -3,6 +3,7 @@ package com.sup.dev.android.views.support
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.ByteArrayInputStream
@@ -10,34 +11,26 @@ import java.io.ByteArrayInputStream
 class DrawableGif : Drawable {
 
     private var movie: Movie? = null
-    private var movieStart: Long = 0
-    private var left: Float = 0.toFloat()
-    private var top: Float = 0.toFloat()
-    private var scale: Float = 0.toFloat()
+    private var movieStart = 0L
+    private var left = 0f
+    private var top = 0f
+    private var scale = 0f
     private var bytes: ByteArray
-    private var lastBounds: Rect = Rect()
+    private var testW = 0
+    private var testH = 0
 
-    constructor(bytes: ByteArray, vImage: ImageView? = null) : super() {
+    constructor(bytes: ByteArray, vImage: ImageView, onReady:(DrawableGif)->Unit={}) : super() {
         this.bytes = bytes
         ToolsThreads.thread {
             movie = Movie.decodeStream(ByteArrayInputStream(bytes))
             ToolsThreads.main {
                 movieStart = System.currentTimeMillis()
-                updateBounds()
-                invalidateSelf()
-                if (vImage != null) vImage.setImageDrawable(this)
+                testW = vImage.width
+                testH = vImage.height
+                onReady.invoke(this)
             }
         }
     }
-
-    constructor(movie: Movie) : super() {
-        this.movie = movie
-        this.bytes = ByteArray(0)
-        movieStart = System.currentTimeMillis()
-        updateBounds()
-        invalidateSelf()
-    }
-
 
     override fun draw(canvas: Canvas) {
 
@@ -50,6 +43,36 @@ class DrawableGif : Drawable {
         invalidateSelf()
     }
 
+    override fun getIntrinsicWidth(): Int {
+        return testW
+    }
+
+    override fun getIntrinsicHeight(): Int {
+        return testH
+    }
+
+    override fun onBoundsChange(bounds: Rect) {
+        if (movie != null) {
+
+            val arg1 = bounds.width().toFloat() / movie!!.width().toFloat()
+            val arg2 = bounds.height().toFloat() / movie!!.height().toFloat()
+
+            if (bounds.width() == 0 || bounds.height() == 0) scale = Math.max(arg1, arg2)
+            else scale = Math.min(arg1, arg2)
+
+            val measuredMovieWidth = (movie!!.width() * scale).toInt()
+            val measuredMovieHeight = (movie!!.height() * scale).toInt()
+
+            left = (bounds.width() - measuredMovieWidth) / 2f
+            top = (bounds.height() - measuredMovieHeight) / 2f
+
+        }
+
+        super.onBoundsChange(bounds)
+
+    }
+
+
     override fun setAlpha(i: Int) {
 
     }
@@ -61,31 +84,5 @@ class DrawableGif : Drawable {
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
     }
-
-    override fun onBoundsChange(bounds: Rect) {
-        lastBounds = bounds
-        super.onBoundsChange(updateBounds())
-
-    }
-
-    fun updateBounds(): Rect {
-
-        if (movie == null) return lastBounds
-
-        val arg1 = bounds.width().toFloat() / movie!!.width().toFloat()
-        val arg2 = bounds.height().toFloat() / movie!!.height().toFloat()
-
-        if (bounds.width() == 0 || bounds.height() == 0) scale = Math.max(arg1, arg2)
-        else scale = Math.min(arg1, arg2)
-
-        val measuredMovieWidth = (movie!!.width() * scale).toInt()
-        val measuredMovieHeight = (movie!!.height() * scale).toInt()
-
-        left = (bounds.width() - measuredMovieWidth) / 2f
-        top = (bounds.height() - measuredMovieHeight) / 2f
-
-        return Rect(0, 0, 50, 50)
-    }
-
 
 }

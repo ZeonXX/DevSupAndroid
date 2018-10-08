@@ -135,7 +135,9 @@ object ImageLoader {
         ToolsThreads.main {
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
                 if (loader.gif) {
-                    DrawableGif(bytes, loader.vImage!!)
+                    DrawableGif(bytes, loader.vImage!!){
+                        if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) loader.vImage!!.setImageDrawable(it)
+                    }
                 }else {
                     loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm!!, animate && loader.fade))
                 }
