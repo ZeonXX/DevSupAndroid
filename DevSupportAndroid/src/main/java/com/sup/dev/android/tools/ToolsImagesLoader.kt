@@ -14,19 +14,23 @@ object ToolsImagesLoader {
         return ImageLoaderFile(file)
     }
 
-    fun load(id: Long): ImageLoaderA {
-        return ImageLoaderId(id)
-    }
 
     //
     //  Loader  Id
     //
 
+    fun load(id: Long): ImageLoaderA {
+        return ImageLoaderId(id)
+    }
+
     fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView, vGifProgressBar: View? = null) {
-        load(imageId).size(w, h).gifProgressBar(vGifProgressBar).into(vImage)
-        {
+        load(imageId).size(w, h).gifProgressBar(vGifProgressBar).into(vImage) {
             if (gifId > 0) load(gifId).asGif().gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
+    }
+
+    fun clear(imageId: Long) {
+        load(imageId).clear()
     }
 
 

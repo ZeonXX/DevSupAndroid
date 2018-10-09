@@ -13,6 +13,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.java.classes.collections.CashBytes
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import java.util.concurrent.LinkedBlockingQueue
@@ -45,9 +46,10 @@ object ImageLoader {
         var bytes = if (loader.noLoadFromCash) null else bitmapCash[loader.getKey()]
         if (bytes == null && !loader.noLoadFromCash) bytes = loader.getFromCash()
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if(loader.isGif) View.VISIBLE else View.INVISIBLE
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
 
         if (bytes != null) {
+            loader.isGif = loader.isGif || ToolsBytes.isGif(bytes)
             bitmapCash.reorderTop(loader.getKey())
             putImage(loader, parseImage(loader, bytes), false, bytes)
             return
@@ -103,6 +105,8 @@ object ImageLoader {
         if (loadedBytes == null) return
         var bytes = loadedBytes
         var bitmap: Bitmap? = null
+
+        loader.isGif = loader.isGif || ToolsBytes.isGif(loadedBytes)
 
         if (!loader.isGif) {
             bitmap = parseImage(loader, loadedBytes)
