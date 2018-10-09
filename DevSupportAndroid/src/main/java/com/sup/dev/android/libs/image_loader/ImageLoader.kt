@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
@@ -44,6 +45,8 @@ object ImageLoader {
         var bytes = if (loader.noLoadFromCash) null else bitmapCash[loader.getKey()]
         if (bytes == null && !loader.noLoadFromCash) bytes = loader.getFromCash()
 
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if(loader.isGif) View.VISIBLE else View.INVISIBLE
+
         if (bytes != null) {
             bitmapCash.reorderTop(loader.getKey())
             putImage(loader, parseImage(loader, bytes), false, bytes)
@@ -51,7 +54,7 @@ object ImageLoader {
         }
 
         if (loader.vImage != null) {
-            if(!loader.noHolder) {
+            if (!loader.noHolder) {
                 if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
                 else if (loader.holder is Drawable) loader.vImage!!.setImageDrawable(loader.holder as Drawable)
                 else if (loader.holder is Bitmap) loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
@@ -101,7 +104,7 @@ object ImageLoader {
         var bytes = loadedBytes
         var bitmap: Bitmap? = null
 
-        if (!loader.gif) {
+        if (!loader.isGif) {
             bitmap = parseImage(loader, loadedBytes)
             if (loader.cashScaledBytes) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
         }
@@ -114,7 +117,7 @@ object ImageLoader {
                 val l = turn[i]
                 if (l.isKey(loader.getKey())) {
                     turn.removeAt(i--)
-                     putImage(l, bitmap, true, bytes)
+                    putImage(l, bitmap, true, bytes)
                 }
                 i++
             }
@@ -134,11 +137,12 @@ object ImageLoader {
     private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray) {
         ToolsThreads.main {
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
-                if (loader.gif) {
-                    DrawableGif(bytes, loader.vImage!!){
+                if (loader.isGif) {
+                    DrawableGif(bytes, loader.vImage!!) {
                         if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) loader.vImage!!.setImageDrawable(it)
+                        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
-                }else {
+                } else {
                     loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm!!, animate && loader.fade))
                 }
             }

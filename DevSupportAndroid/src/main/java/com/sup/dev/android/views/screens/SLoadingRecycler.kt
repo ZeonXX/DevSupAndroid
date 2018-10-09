@@ -5,7 +5,9 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
+import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
@@ -14,14 +16,15 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.tools.ToolsThreads
-import kotlinx.android.synthetic.main.screen_loading_recycler.view.*
 
 abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
     protected var textErrorRetry = SupAndroid.TEXT_APP_RETRY
 
-    protected val vRecycler: RecyclerView
-    protected val vRefresh: SwipeRefreshLayout?
+    protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
+    protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
+    protected val vRecycler: RecyclerView  = findViewById(R.id.vRecycler)
+    protected val vRefresh: SwipeRefreshLayout? = findViewById(R.id.vRefresh)
 
     protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
     protected var subscription: Request<*>? = null
@@ -31,9 +34,6 @@ abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.scr
 
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
-
-        vRecycler = findViewById(R.id.vRecycler)
-        vRefresh = findViewById(R.id.vRefresh)
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         if (vRefresh != null)

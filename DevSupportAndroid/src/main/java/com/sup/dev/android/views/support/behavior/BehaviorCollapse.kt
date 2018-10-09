@@ -13,9 +13,11 @@ open class BehaviorCollapse<V : View>(context: Context, attrs: AttributeSet) : C
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
-        child.scaleX = Math.max(1 - -dependency.y / 255, 0f)
-        child.scaleY = Math.max(1 - -dependency.y / 255, 0f)
-        child.visibility = if (child.scaleX == 0f) View.GONE else View.VISIBLE
+        if(child.visibility != View.GONE) {
+            child.scaleX = Math.max(1 - -dependency.y / child.height, 0f)
+            child.scaleY = Math.max(1 - -dependency.y / child.height, 0f)
+            child.visibility = if (child.scaleX == 0f) View.INVISIBLE else View.VISIBLE
+        }
         return super.onDependentViewChanged(parent, child, dependency)
     }
 }

@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.image_loader
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
 
@@ -12,13 +13,14 @@ abstract class ImageLoaderA {
     private var key: String = "key"
 
     internal var vImage: ImageView? = null
+    internal var vGifProgressBar: View? = null
     internal var onLoaded: (ByteArray?) -> Unit = {}
     internal var onSetHolder: () -> Unit = {}
     internal var cropSquareCenter: Boolean = false
     internal var options: BitmapFactory.Options? = null
     internal var w = 0
     internal var h = 0
-    internal var gif = false
+    internal var isGif = false
     internal var holder: Any? = null
     internal var noHolder = false
     internal var fade = true
@@ -53,9 +55,13 @@ abstract class ImageLoaderA {
     //
     //  SetUp
     //
+    fun gifProgressBar(vGifProgressBar: View?): ImageLoaderA {
+        this.vGifProgressBar = vGifProgressBar
+        return this
+    }
 
     fun asGif(): ImageLoaderA {
-        gif = true
+        isGif = true
         return this
     }
 
@@ -77,7 +83,7 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun noHolder():ImageLoaderA{
+    fun noHolder(): ImageLoaderA {
         noHolder = true;
         return this;
     }

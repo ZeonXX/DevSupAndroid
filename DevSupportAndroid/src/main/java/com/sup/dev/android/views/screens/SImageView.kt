@@ -6,6 +6,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
@@ -31,9 +32,12 @@ class SImageView private constructor(
         if (bitmap != null)
             vImage.setImageBitmap(bitmap)
         else if (id > 0)
-            ToolsImagesLoader.load(id).into(vImage)
-
-
+            ToolsImagesLoader.load(id).into { bytes ->
+                if (bytes != null) {
+                    if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }
+                    else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
+                }
+            }
     }
 
     private fun download() {
@@ -42,8 +46,7 @@ class SImageView private constructor(
             if (bitmap != null)
                 ToolsStorage.saveImageInDownloadFolder(bitmap)
             else if (id > 0) {
-                ToolsImagesLoader.load(id).into {
-                    bytes ->
+                ToolsImagesLoader.load(id).into { bytes ->
                     if (!ToolsBytes.isGif(bytes))
                         ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
                     else

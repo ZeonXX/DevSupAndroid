@@ -3,15 +3,21 @@ package com.sup.dev.android.views.screens
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsThreads
-import kotlinx.android.synthetic.main.screen_loading.view.*
 
 
 abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_loading) {
@@ -19,6 +25,13 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     enum class State {
         NONE, EMPTY, PROGRESS, ERROR
     }
+
+    private val vFab: FloatingActionButton = findViewById(R.id.vFab)
+    private val vAction: Button = findViewById(R.id.vAction)
+    private val vMessage: TextView = findViewById(R.id.vMessage)
+    private val vProgress: ProgressBar = findViewById(R.id.vProgress)
+    private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
+    private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
