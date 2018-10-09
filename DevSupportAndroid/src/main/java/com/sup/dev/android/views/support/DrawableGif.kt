@@ -3,12 +3,15 @@ package com.sup.dev.android.views.support
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.ByteArrayInputStream
 
 class DrawableGif : Drawable {
 
+    private var center:Boolean = false
     private var movie: Movie? = null
     private var movieStart = 0L
     private var left = 0f
@@ -18,8 +21,9 @@ class DrawableGif : Drawable {
     private var testW = 0
     private var testH = 0
 
-    constructor(bytes: ByteArray, vImage: ImageView, onReady:(DrawableGif)->Unit={}) : super() {
+    constructor(bytes: ByteArray, vImage: ImageView, center:Boolean = false, onReady:(DrawableGif)->Unit={}) : super() {
         this.bytes = bytes
+        this.center = center
         ToolsThreads.thread {
             movie = Movie.decodeStream(ByteArrayInputStream(bytes))
             ToolsThreads.main {
@@ -56,8 +60,9 @@ class DrawableGif : Drawable {
             val arg1 = bounds.width().toFloat() / movie!!.width().toFloat()
             val arg2 = bounds.height().toFloat() / movie!!.height().toFloat()
 
-            if (bounds.width() == 0 || bounds.height() == 0) scale = Math.max(arg1, arg2)
-            else scale = Math.min(arg1, arg2)
+            if (bounds.width() == 0 || bounds.height() == 0) scale =  Math.max(arg1, arg2)
+            else scale = if(center) Math.max(arg1, arg2) else Math.min(arg1, arg2)
+
 
             val measuredMovieWidth = (movie!!.width() * scale).toInt()
             val measuredMovieHeight = (movie!!.height() * scale).toInt()

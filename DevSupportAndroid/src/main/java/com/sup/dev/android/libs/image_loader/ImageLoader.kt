@@ -142,7 +142,7 @@ object ImageLoader {
         ToolsThreads.main {
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
                 if (loader.isGif) {
-                    DrawableGif(bytes, loader.vImage!!) {
+                    DrawableGif(bytes, loader.vImage!!, loader.cropSquareCenter) {
                         if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) loader.vImage!!.setImageDrawable(it)
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
