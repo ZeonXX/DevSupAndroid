@@ -151,7 +151,7 @@ abstract class ImageLoaderA {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, key)
+        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, ""+key.replace("/", "_").hashCode())
         return data
     }
 

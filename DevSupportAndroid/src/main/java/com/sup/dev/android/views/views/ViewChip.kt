@@ -140,7 +140,7 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
             if (!hasIcon || useIconBackground || vIcon.isDisableCircle)
                 path.addArc(RectF(0f, 0f, height.toFloat(), height.toFloat()), 90f, 180f)
             path.addArc(RectF((width - height).toFloat(), 0f, width.toFloat(), height.toFloat()), 270f, 180f)
-            path.addRect((height / 2).toFloat(), 0f, (width - height / 2).toFloat(), height.toFloat(), Path.Direction.CCW)
+            path.addRect((height / 2).toFloat()-1, 0f, (width - height / 2).toFloat()+1, height.toFloat(), Path.Direction.CW)
         } else {
             if (!hasIcon || useIconBackground || vIcon.isDisableCircle)
                 path.addCircle((width / 2).toFloat(), (height / 2).toFloat(), (width / 2).toFloat(), Path.Direction.CCW)
