@@ -20,7 +20,7 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import java.io.Serializable
 import java.net.URLConnection
-import java.util.ArrayList
+import java.util.*
 
 
 object ToolsIntent {
@@ -28,7 +28,7 @@ object ToolsIntent {
     private val SHARE_FOLDER = "sup_share_cash"
 
     private var codeCounter = 0
-    private val progressIntents = ArrayList<Item2<Int, (Int, Intent)->Unit>>()
+    private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>>()
 
     //
     //  Support
@@ -37,7 +37,7 @@ object ToolsIntent {
     private val cashRoot: String
         get() = SupAndroid.appContext!!.externalCacheDir!!.absolutePath + SHARE_FOLDER
 
-    fun startIntentForResult(intent: Intent, onResult: (Int, Intent)->Unit) {
+    fun startIntentForResult(intent: Intent, onResult: (Int, Intent?) -> Unit) {
         if (codeCounter == 65000)
             codeCounter = 0
         val code = codeCounter++
@@ -45,7 +45,7 @@ object ToolsIntent {
         SupAndroid.activity!!.startActivityForResult(intent, code)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent?) {
         for (pair in progressIntents)
             if (requestCode == pair.a1) {
                 progressIntents.remove(pair)
@@ -65,7 +65,7 @@ object ToolsIntent {
     //  Intents
     //
 
-    fun startIntent(intent: Intent, onActivityNotFound: ()->Unit={}) {
+    fun startIntent(intent: Intent, onActivityNotFound: () -> Unit = {}) {
         try {
             SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
@@ -76,16 +76,16 @@ object ToolsIntent {
     }
 
 
-    fun openLink(link: String, onActivityNotFound: ()->Unit = {}) {
+    fun openLink(link: String, onActivityNotFound: () -> Unit = {}) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun startApp(packageName: String, onActivityNotFound: ()->Unit={}) {
+    fun startApp(packageName: String, onActivityNotFound: () -> Unit = {}) {
         startApp(packageName, {}, onActivityNotFound)
     }
 
-    fun startApp(packageName: String, onIntentCreated: (Intent)->Unit={}, onActivityNotFound: ()->Unit={}) {
+    fun startApp(packageName: String, onIntentCreated: (Intent) -> Unit = {}, onActivityNotFound: () -> Unit = {}) {
         val manager = SupAndroid.appContext!!.packageManager
         val intent = manager.getLaunchIntentForPackage(packageName)
         if (intent == null) {
@@ -97,22 +97,22 @@ object ToolsIntent {
         startIntent(intent, onActivityNotFound)
     }
 
-    fun startPlayMarket(packageName: String, onActivityNotFound: ()->Unit={}) {
+    fun startPlayMarket(packageName: String, onActivityNotFound: () -> Unit = {}) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun startMail(link: String, onActivityNotFound: ()->Unit={}) {
+    fun startMail(link: String, onActivityNotFound: () -> Unit = {}) {
         startIntent(Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$link"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun startPhone(phone: String, onActivityNotFound: ()->Unit={}) {
+    fun startPhone(phone: String, onActivityNotFound: () -> Unit = {}) {
         startIntent(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun shareImage(bitmap: Bitmap, text: String, providerKey: String, onActivityNotFound: ()->Unit={}) {
+    fun shareImage(bitmap: Bitmap, text: String, providerKey: String, onActivityNotFound: () -> Unit = {}) {
 
         val files = File(cashRoot).listFiles()
         if (files != null)
@@ -149,25 +149,25 @@ object ToolsIntent {
 
     }
 
-    fun shareFile(patch: String, providerKey: String, onActivityNotFound: ()->Unit={}) {
+    fun shareFile(patch: String, providerKey: String, onActivityNotFound: () -> Unit = {}) {
         val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, onActivityNotFound)
     }
 
-    fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: ()->Unit={}) {
+    fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: () -> Unit = {}) {
         val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, type, onActivityNotFound)
     }
 
-    fun shareFile(uri: Uri, onActivityNotFound: ()->Unit={}) {
+    fun shareFile(uri: Uri, onActivityNotFound: () -> Unit = {}) {
         shareFile(uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound)
     }
 
-    fun shareFile(uri: Uri, type: String, onActivityNotFound: ()->Unit={}) {
+    fun shareFile(uri: Uri, type: String, onActivityNotFound: () -> Unit = {}) {
         shareFile(uri, type, null, onActivityNotFound)
     }
 
-    fun shareFile(uri: Uri, type: String, text: String?, onActivityNotFound: ()->Unit={}) {
+    fun shareFile(uri: Uri, type: String, text: String?, onActivityNotFound: () -> Unit = {}) {
         try {
             val i = Intent()
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -183,7 +183,7 @@ object ToolsIntent {
 
     }
 
-    fun shareText(text: String, onActivityNotFound: ()->Unit={}) {
+    fun shareText(text: String, onActivityNotFound: () -> Unit = {}) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
                 .setType("vText/plain")
                 .putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
@@ -195,14 +195,29 @@ object ToolsIntent {
     //  Intents result
     //
 
-    fun getGalleryImage(onResult: (Uri)->Unit, onError: ()->Unit={}) {
+    fun getGalleryImage(onResult: (String)->Unit, onError: ()->Unit={}) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         try {
             startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-                if (resultCode == Activity.RESULT_OK)
-                    onResult.invoke(resultIntent.data)
+
+                var error = false
+                var result = ""
+
+                try{
+                    if (resultCode == Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
+                    if (!File(resultIntent.data.toString()).exists()) throw IllegalAccessException("File don't exist")
+                    result = resultIntent.data.toString()
+                }catch (e:Exception){
+                    error = true
+                    Debug.log(e)
+                }
+
+                if(!error) onResult.invoke(result)
                 else onError.invoke()
+
+
+
             }
         } catch (ex: ActivityNotFoundException) {
             Debug.log(ex)

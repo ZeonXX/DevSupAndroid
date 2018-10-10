@@ -3,8 +3,6 @@ package com.sup.dev.android.views.support
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.ByteArrayInputStream

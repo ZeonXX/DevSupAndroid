@@ -227,10 +227,11 @@ object ToolsBitmap {
     }
 
     @JvmOverloads
-    fun getFromGallery(onLoad: (File) -> Unit, onError: () -> Unit = {}) {
-        ToolsIntent.getGalleryImage({ uri ->
-            if (!File(uri.toString()).exists()) onError.invoke()
-            else onLoad.invoke(File(uri.toString()))
+    fun getFromGallery(onLoad: (File) -> Unit, onError: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)}) {
+        ToolsIntent.getGalleryImage({ patch ->
+
+            if (File(patch).exists()) onLoad.invoke(File(patch))
+            else onError.invoke()
         }, onError)
     }
 

@@ -6,8 +6,6 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.log
-import com.sup.dev.java.tools.ToolsThreads
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.gif.GifDrawableTransformation
 
@@ -25,7 +23,6 @@ object ToolsGlide{
                 .into(700, 700)
                 .get()
 
-        log(">>> " + bytes.size, gifBytes.size)
         callback.invoke(bytes)
 
 

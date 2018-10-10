@@ -21,7 +21,6 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import android.text.TextUtils
-import com.sup.dev.java.libs.debug.Debug
 
 abstract class SActivity : Activity() {
 
@@ -110,7 +109,7 @@ abstract class SActivity : Activity() {
     //  Events
     //
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         ToolsIntent.onActivityResult(requestCode, resultCode, intent)
         super.onActivityResult(requestCode, resultCode, intent)
     }
