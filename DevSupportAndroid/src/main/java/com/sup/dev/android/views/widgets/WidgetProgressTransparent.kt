@@ -16,6 +16,7 @@ class WidgetProgressTransparent : Widget(0) {
 
     private var frameLayout: FrameLayout? = null
     private var progressBar: ProgressBar? = null
+    private var invisibleTime = 1000L
 
     public override fun instanceView(): View? {
         frameLayout = FrameLayout(SupAndroid.activity!!)
@@ -35,16 +36,19 @@ class WidgetProgressTransparent : Widget(0) {
         var invisibleTime = 0L
 
         if (viewWrapper is DialogWidget) {
-            invisibleTime = 1000
+            invisibleTime = this.invisibleTime
             val dialog = viewWrapper as DialogWidget?
-            dialog!!.window.setBackgroundDrawable(ColorDrawable(0x00000000))
-            dialog.window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            if (invisibleTime > 0) {
+                dialog!!.window.setBackgroundDrawable(ColorDrawable(0x00000000))
+                dialog.window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            }
         }
 
-        ToolsThreads.main(invisibleTime) {
-            ToolsView.fromAlpha(frameLayout as View)
-            if (viewWrapper is DialogWidget) (viewWrapper as DialogWidget).window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        }
+        if (invisibleTime > 0)
+            ToolsThreads.main(invisibleTime) {
+                ToolsView.fromAlpha(frameLayout as View)
+                if (viewWrapper is DialogWidget) (viewWrapper as DialogWidget).window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            }
     }
 
     //
@@ -53,6 +57,11 @@ class WidgetProgressTransparent : Widget(0) {
 
     override fun setCancelable(cancelable: Boolean): WidgetProgressTransparent {
         super.setCancelable(cancelable)
+        return this
+    }
+
+    fun setInvisibleTime(invisibleTime: Long): WidgetProgressTransparent {
+        this.invisibleTime = invisibleTime
         return this
     }
 

@@ -321,11 +321,11 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
         //  Static instance
         //
 
-        fun instanceSelectionRadio(viewContext: Context, texts: Array<String>, onSelected: (String) -> Unit): Array<ViewChip> {
+        fun instanceSelectionRadio(viewContext: Context, texts: Array<String>, onSelected: ((String) -> Unit)? = null): Array<ViewChip> {
             return instanceSelectionRadio(viewContext, texts, texts, onSelected)
         }
 
-        fun <K> instanceSelectionRadio(viewContext: Context, texts: Array<String>, tags: Array<K>, onSelected: ((K)->Unit)?): Array<ViewChip> {
+        fun <K> instanceSelectionRadio(viewContext: Context, texts: Array<String>, tags: Array<K>, onSelected: ((K)->Unit)? = null): Array<ViewChip> {
 
             if (texts.size != tags.size)
                 throw IllegalArgumentException("Texts and Tags lengths must be equals")
