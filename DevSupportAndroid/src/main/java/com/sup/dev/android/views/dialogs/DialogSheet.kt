@@ -9,6 +9,8 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
@@ -27,12 +29,11 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setOnCancelListener { dialogInterface -> onHide() }
 
-        val vRoot = FrameLayout(view.context)
-        val vContainer = FrameLayout(view.context)
-        vRoot.addView(vContainer)
+        val vRoot: ViewGroup = ToolsView.inflate(view.context, R.layout.dialog_sheet)
+        val vContainer: ViewGroup = vRoot.findViewById(R.id.vContainer)
+
         vContainer.isClickable = true // Чтоб не закрывался при нажатии на тело
         vContainer.addView(ToolsView.removeFromParent(view))
-        vContainer.setBackgroundColor(ToolsResources.getPrimaryColor(view.context))
         vContainer.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
@@ -52,6 +53,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
 
     }
 
+
     open fun onTryCancelOnTouchOutside(): Boolean {
         return true
     }
@@ -68,6 +70,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
 
     override fun hide() {
         super.dismiss()
+        Debug.printStack()
         onHide()
     }
 

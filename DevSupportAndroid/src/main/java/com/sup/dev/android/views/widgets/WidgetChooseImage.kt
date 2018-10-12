@@ -24,10 +24,12 @@ import java.io.IOException
 
 open class WidgetChooseImage : WidgetRecycler() {
 
+    private val DP = ToolsView.dpToPx(1)
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
 
     private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
+    private var spanCount = 3
 
     init {
         val vFabGalleryContainer: View = ToolsView.inflate(R.layout.view_fab)
@@ -39,7 +41,8 @@ open class WidgetChooseImage : WidgetRecycler() {
 
         (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72)
 
-        vRecycler.layoutManager = GridLayoutManager(view!!.context, if (ToolsAndroid.isScreenPortrait()) 3 else 6)
+        spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
+        vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
 
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)
@@ -53,7 +56,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         super.onShow()
         loadImages()
 
-        (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(0, ToolsView.dpToPx(2), 0, 0)
+        (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(0, 0, 0, 0)
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         if (viewWrapper is DialogWidget)
@@ -121,6 +124,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         hide()
     }
 
+
     //
     //  Setters
     //
@@ -149,6 +153,11 @@ open class WidgetChooseImage : WidgetRecycler() {
             val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> onClick() }
             ToolsImagesLoader.load(file).size(512, 512).cropSquare().into(vImage)
+
+            val index = adapter!!.indexOf(this)
+            val arg = index % spanCount
+            view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount-1) 0 else DP, DP)
+
         }
 
         fun onClick() {
