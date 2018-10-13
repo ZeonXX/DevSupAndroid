@@ -8,6 +8,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsResources
 
 
 class SAlert(title: String?, text: String?, action: String?, image: Int? = null, imageFul: Int? = null, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
@@ -56,9 +57,9 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
 
         fun instanceNetwork(onRetry: () -> Unit): SAlert {
             return SAlert(
-                    SupAndroid.TEXT_APP_WHOOPS,
-                    SupAndroid.TEXT_ERROR_NETWORK,
-                    SupAndroid.TEXT_APP_RETRY,
+                    ToolsResources.getString(R.string.app_whoops),
+                    ToolsResources.getString(R.string.error_network),
+                    ToolsResources.getString(R.string.app_back),
                     SupAndroid.IMG_ERROR_NETWORK,
                     onRetry)
         }
@@ -69,9 +70,9 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
 
         fun instanceGone(): SAlert {
             return SAlert(
-                    SupAndroid.TEXT_APP_WHOOPS,
-                    SupAndroid.TEXT_ERROR_GONE,
-                    SupAndroid.TEXT_APP_BACK,
+                    ToolsResources.getString(R.string.app_whoops),
+                    ToolsResources.getString(R.string.error_gone),
+                    ToolsResources.getString(R.string.app_back),
                     SupAndroid.IMG_ERROR_GONE,
                     { Navigator.back() })
         }

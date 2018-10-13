@@ -12,6 +12,7 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.support.annotation.DrawableRes
 import android.view.ActionMode
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
@@ -25,9 +26,6 @@ import java.net.URL
 
 
 object ToolsBitmap {
-
-    private val errorCantLoadImage = SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE
-    private val errorPermissionFiles = SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES
 
     fun cropCenterSquare(srcBmp: Bitmap): Bitmap {
         if (srcBmp.width == srcBmp.height) return srcBmp
@@ -227,7 +225,7 @@ object ToolsBitmap {
     }
 
     @JvmOverloads
-    fun getFromGallery(onLoad: (File) -> Unit, onError: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)}) {
+    fun getFromGallery(onLoad: (File) -> Unit, onError: () -> Unit = { ToolsToast.show(R.string.error_cant_load_image) }) {
         ToolsIntent.getGalleryImage({ patch ->
 
             if (File(patch).exists()) onLoad.invoke(File(patch))
@@ -310,14 +308,12 @@ object ToolsBitmap {
                 onComplete.invoke(decode(ToolsFiles.readFile(file)))
             } catch (e: IOException) {
                 Debug.log(e)
-                ToolsToast.show(errorCantLoadImage)
+                ToolsToast.show(R.string.error_cant_load_image)
             }
-        }, { ToolsToast.show(errorPermissionFiles) })
+        }, { ToolsToast.show(R.string.error_permission_files) })
     }
 
     fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
-        if (errorCantLoadImage == null) throw RuntimeException("You must call ToolsBitmap.init")
-
 
         getFromGallery(
                 onLoad = { file ->
@@ -330,7 +326,7 @@ object ToolsBitmap {
                 })
     }
 
-    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete:  (SCrop?, Bitmap?) -> Unit) {
+    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
         getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap -> onComplete.invoke(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)) }
     }
 

@@ -1,7 +1,7 @@
 package com.sup.dev.android.libs.api_simple
 
 import android.support.annotation.StringRes
-import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -42,7 +42,7 @@ object ApiRequestsSupporter {
                     }
                 }
                 .onApiError(ApiClient.ERROR_GONE) { e -> if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!)!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
                 .send(api!!)
         return request
     }
@@ -62,9 +62,9 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeProgressDialog(dialog: Widget, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         request.onComplete { r -> onComplete.invoke(r) }
-                .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
+                .onNetworkError { ToolsToast.show(R.string.error_network) }
                 .onFinish { dialog.hide() }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!)!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
                 .send(api!!)
         return request
     }
@@ -82,10 +82,10 @@ object ApiRequestsSupporter {
         val w = if (title == null) ToolsView.showProgressDialog() else ToolsView.showProgressDialog(title)
         request.onComplete { r -> onComplete.invoke(w, r) }
                 .onNetworkError {
-                    ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK)
+                    ToolsToast.show(R.string.error_network)
                     w.hide()
                 }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!)!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
                 .onError { w.hide() }
                 .send(api!!)
         return request
@@ -95,9 +95,9 @@ object ApiRequestsSupporter {
         enabled.invoke(false)
         request
                 .onComplete { r -> onComplete.invoke(r) }
-                .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
+                .onNetworkError { ToolsToast.show(R.string.error_network) }
                 .onFinish { enabled.invoke(true) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!)!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
                 .send(api!!)
 
         return request
@@ -111,7 +111,7 @@ object ApiRequestsSupporter {
                     onComplete.invoke(r)
                     widget?.hide()
                 }
-                .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
+                .onNetworkError { ToolsToast.show(R.string.error_network) }
                 .onFinish {
                     widget?.setEnabled(true)
                     if (widget != null && widget is WidgetProgressTransparent) widget.hide()
@@ -125,7 +125,7 @@ object ApiRequestsSupporter {
     fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K)->Unit): Request<K> {
         WidgetAlert()
                 .setText(text)
-                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .setOnCancel(R.string.app_cancel)
                 .setAutoHideOnEnter(false)
                 .setOnEnter(enter) { w -> executeEnabled(w, request, onComplete) }
                 .asSheetShow()

@@ -1,0 +1,21 @@
+<resources>
+
+    <string name="app_whoops">Уупс!</string>
+    <string name="app_retry">Повторить</string>
+    <string name="app_cancel">Отмена</string>
+    <string name="app_back">Назад</string>
+    <string name="app_dont_show_again">Больше не показывать</string>
+    <string name="app_attention">Внимание</string>
+    <string name="app_downloading">Загрузка</string>
+    <string name="app_downloaded">Загрузка завершена</string>
+    <string name="app_done">Готово</string>
+    <string name="app_choose">Выбрать</string>
+    <string name="app_link">Ссылка</string>
+    <string name="error_permission_files">У приложения нет доступа к файлам, проверьте настройки Android</string>
+    <string name="error_account_baned">Аккаунт заблокирован до %s</string>
+    <string name="error_cant_load_image">Ошибка при загрузке картинки</string>
+    <string name="error_network">Не удалось подключится к серверу</string>
+    <string name="error_gone">Похоже это пропало. \nВозможно кто-то это удалил.</string>
+
+
+</resources>

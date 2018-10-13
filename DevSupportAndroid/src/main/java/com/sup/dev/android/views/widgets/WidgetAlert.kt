@@ -90,7 +90,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     @JvmOverloads
-    fun setChecker(key: String, text: String? = SupAndroid.TEXT_APP_DONT_SHOW_AGAIN): WidgetAlert {
+    fun setChecker(key: String, text: String? = ToolsResources.getString(R.string.app_dont_show_again)): WidgetAlert {
         this.key = key
         vCheck.text = text
         vCheck.visibility = View.VISIBLE

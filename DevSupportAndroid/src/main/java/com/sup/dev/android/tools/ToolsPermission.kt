@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsMapper
@@ -48,15 +49,15 @@ object ToolsPermission {
 
 
     fun requestPermission(permission: String, onGranted: (String) -> Unit) {
-        requestPermissions(arrayOf(permission), onGranted = onGranted, onPermissionRestriction = { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+        requestPermissions(arrayOf(permission), onGranted)
     }
 
     fun requestPermission(permission: String, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermissions(arrayOf(permission), onGranted = onGranted, onPermissionRestriction = onPermissionRestriction)
+        requestPermissions(arrayOf(permission), onGranted,onPermissionRestriction)
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit) {
-        requestPermissions(permissions, onGranted = onGranted, onPermissionRestriction = { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+        requestPermissions(permissions, onGranted)
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {

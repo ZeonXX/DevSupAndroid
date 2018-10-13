@@ -17,9 +17,9 @@ import java.util.ArrayList
 class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     private val items = ArrayList<Item>()
-    private val vOptionsContainer: LinearLayout
-    private val vCancel: Button
-    private val vEnter: Button
+    private val vOptionsContainer: LinearLayout = view.findViewById(R.id.content_container)
+    private val vCancel: Button = view.findViewById(R.id.cancel)
+    private val vEnter: Button = view.findViewById(R.id.enter)
 
     private var autoHideOnEnter = true
 
@@ -32,11 +32,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     private var skipGroup = false
 
     init {
-
-        vOptionsContainer = view!!.findViewById(R.id.content_container)
-        vCancel = view.findViewById(R.id.cancel)
-        vEnter = view.findViewById(R.id.enter)
-
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }
@@ -62,24 +57,32 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return add(ToolsResources.getString(text))
     }
 
-    fun add(text: String?): WidgetCheckBoxes {
+    fun add(@StringRes text: Int, key: Any): WidgetCheckBoxes {
+        return add(ToolsResources.getString(text), key)
+    }
+
+    fun add(text: String): WidgetCheckBoxes {
+        return add(text, text)
+    }
+
+    fun add(text: String, key: Any): WidgetCheckBoxes {
         finishItemBuilding()
-        buildItem = Item()
+        buildItem = Item(key)
         buildItem!!.v.text = text
         return this
     }
 
-    fun onChange(onChange: (WidgetCheckBoxes, Boolean) -> Unit): WidgetCheckBoxes {
+    fun onChange(onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit): WidgetCheckBoxes {
         buildItem!!.onChange = onChange
         return this
     }
 
-    fun onSelected(onSelected: (WidgetCheckBoxes) -> Unit): WidgetCheckBoxes {
+    fun onSelected(onSelected: (WidgetCheckBoxes, Item) -> Unit): WidgetCheckBoxes {
         buildItem!!.onSelected = onSelected
         return this
     }
 
-    fun onNotSelected(onNotSelected: (WidgetCheckBoxes) -> Unit): WidgetCheckBoxes {
+    fun onNotSelected(onNotSelected: (WidgetCheckBoxes, Item) -> Unit): WidgetCheckBoxes {
         buildItem!!.onNotSelected = onNotSelected
         return this
     }
@@ -137,9 +140,9 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
             for (i in 0 until vOptionsContainer.childCount) {
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
                 val item = v.tag as Item
-                item.onChange.invoke(this, v.isChecked)
-                if (v.isChecked) item.onSelected.invoke(this)
-                if (!v.isChecked) item.onNotSelected.invoke(this)
+                item.onChange.invoke(this, item, v.isChecked)
+                if (v.isChecked) item.onSelected.invoke(this, item)
+                if (!v.isChecked) item.onNotSelected.invoke(this, item)
             }
         }
         return this
@@ -174,13 +177,13 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     //  Item
     //
 
-    private inner class Item {
+    public inner class Item(val key: Any) {
 
         val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
-        var onChange: (WidgetCheckBoxes, Boolean) -> Unit = { w, b -> run { } }
-        var onSelected: (WidgetCheckBoxes) -> Unit = {}
-        var onNotSelected: (WidgetCheckBoxes) -> Unit = {}
+        var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { w, i, b -> run { } }
+        var onSelected: (WidgetCheckBoxes, Item) -> Unit = {w,i->}
+        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = {w,i->}
 
         init {
             v.tag = this

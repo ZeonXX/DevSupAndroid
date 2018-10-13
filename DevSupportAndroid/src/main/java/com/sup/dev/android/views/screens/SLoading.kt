@@ -26,15 +26,15 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-    private val vFab: FloatingActionButton = findViewById(R.id.vFab)
+    protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
-    protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
-    protected var textRetry = SupAndroid.TEXT_APP_RETRY
+    protected var textErrorNetwork = ToolsResources.getString(R.string.error_network)
+    protected var textRetry = ToolsResources.getString(R.string.app_retry)
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
     protected var textProgressAction: String? = null
@@ -75,6 +75,11 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
     protected fun setAction(@StringRes textAction: Int, onAction: () -> Unit) {
         setAction(ToolsResources.getString(textAction), onAction)
+    }
+
+    protected fun clearAction(){
+        this.textAction = null
+        this.onAction = null
     }
 
     fun setTextProgress(textProgress: String) {

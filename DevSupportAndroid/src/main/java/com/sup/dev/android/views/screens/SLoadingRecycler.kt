@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.cards.Card
@@ -19,7 +20,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
-    protected var textErrorRetry = SupAndroid.TEXT_APP_RETRY
+    protected var textErrorRetry = ToolsResources.getString(R.string.app_retry)
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
@@ -33,7 +34,7 @@ abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.scr
         get() = 5
 
     init {
-        textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
+        textErrorNetwork = ToolsResources.getString(R.string.error_network)
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         if (vRefresh != null)
@@ -61,7 +62,7 @@ abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.scr
         reload()
     }
 
-    private fun reload() {
+    open fun reload() {
         if (subscription != null) subscription!!.unsubscribe()
         adapter!!.reloadBottom()
     }

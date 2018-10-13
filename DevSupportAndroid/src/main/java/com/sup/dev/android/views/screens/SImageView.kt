@@ -41,21 +41,21 @@ class SImageView private constructor(
     }
 
     private fun download() {
-        val dialog = ToolsView.showProgressDialog(SupAndroid.TEXT_APP_DOWNLOADING)
+        val dialog = ToolsView.showProgressDialog(R.string.app_downloading)
         ToolsThreads.thread {
             if (bitmap != null)
                 ToolsStorage.saveImageInDownloadFolder(bitmap)
             else if (id > 0) {
                 ToolsImagesLoader.load(id).into { bytes ->
                     if (!ToolsBytes.isGif(bytes))
-                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }
+                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(R.string.app_done) }
                     else
-                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(SupAndroid.TEXT_APP_DONE) }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES) })
+                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(R.string.app_done) }, { ToolsToast.show(R.string.error_permission_files) })
 
                 }
             }
             dialog.hide()
-            ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)
+            ToolsToast.show(R.string.app_downloaded)
         }
 
     }

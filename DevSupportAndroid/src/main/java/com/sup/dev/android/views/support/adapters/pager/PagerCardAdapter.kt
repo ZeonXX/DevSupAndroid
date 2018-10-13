@@ -114,11 +114,13 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     fun add(card: Card) {
+        card.setCardAdapter(this)
         items.add(card)
         notifyDataSetChanged()
     }
 
     override fun add(i: Int, card: Card) {
+        card.setCardAdapter(this)
         items.add(i, card)
         notifyDataSetChanged()
     }

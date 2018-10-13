@@ -78,7 +78,7 @@ open class WidgetChooseImage : WidgetRecycler() {
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
         }, {
-            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_READ_FILES)
+            ToolsToast.show(R.string.error_permission_files)
             hide()
         })
 
@@ -89,7 +89,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         var progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
-            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(R.string.error_cant_load_image)
             else onSelected(it)
         })
     }
@@ -101,9 +101,9 @@ open class WidgetChooseImage : WidgetRecycler() {
                     loadLink(s)
                 }
                 .enableFastCopy()
-                .setHint(SupAndroid.TEXT_APP_LINK)
-                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { w, s -> loadLink(s) }
-                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .setHint(R.string.app_link)
+                .setOnEnter(R.string.app_choose) { w, s -> loadLink(s) }
+                .setOnCancel(R.string.app_cancel)
                 .asSheetShow()
 
     }
@@ -114,7 +114,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 onSelected(ToolsFiles.readFile(file))
             } catch (e: IOException) {
                 Debug.log(e)
-                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                ToolsToast.show(R.string.error_cant_load_image)
             }
         })
     }
@@ -172,7 +172,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 } catch (e: Exception) {
                     Debug.log(e)
                     ToolsThreads.main { d.hide() }
-                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                    ToolsToast.show(R.string.error_cant_load_image)
                 }
             }
         }
