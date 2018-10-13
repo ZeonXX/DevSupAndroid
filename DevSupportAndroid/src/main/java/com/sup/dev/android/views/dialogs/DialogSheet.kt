@@ -7,10 +7,7 @@ import android.view.*
 import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {

@@ -52,6 +52,8 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
                 (items[i] as NotifyItem).notifyItem()
             i++
         }
+        removeItemFromHolders(items[position])
+        holder.item = items[position]
 
         val card = items[position]
         val frame = holder.itemView
@@ -164,7 +166,9 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     override fun getView(card: Card): View? {
         val holders = getHolders()
-        for (h in holders) if (h.item === card) return h.itemView
+        for (h in holders) {
+            if (h.item === card) return h.itemView
+        }
         return null
     }
 

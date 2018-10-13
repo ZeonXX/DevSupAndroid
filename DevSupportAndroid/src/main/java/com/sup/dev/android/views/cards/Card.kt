@@ -25,7 +25,9 @@ abstract class Card {
 
         val view = adapter!!.getView(this)
 
-        if (view != null) bindView(view)
+        if (view != null) {
+            bindView(view)
+        }
     }
 
     abstract fun bindView(view: View)
