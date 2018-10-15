@@ -195,7 +195,7 @@ object ToolsIntent {
     //  Intents result
     //
 
-    fun getGalleryImage(onResult: (String)->Unit, onError: ()->Unit={}) {
+    fun getGalleryImage(onResult: (ByteArray)->Unit, onError: ()->Unit={}) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         try {
@@ -205,9 +205,12 @@ object ToolsIntent {
                 var result = ""
 
                 try{
-                    if (resultCode == Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
-                    if (!File(resultIntent.data.toString()).exists()) throw IllegalAccessException("File don't exist")
-                    result = resultIntent.data.toString()
+                    if (resultCode != Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
+                    val inputStream:InputStream = getContentResolver().openInputStream(data.getData())
+                    bytes:ByteArray = ByteArray(inputStream.available())
+                    inputStream.read(bytes)
+                    inputStream.close()
+                    onResult.invoke(bytes)
                 }catch (e:Exception){
                     error = true
                     Debug.log(e)
