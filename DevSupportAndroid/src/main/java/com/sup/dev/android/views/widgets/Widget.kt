@@ -32,7 +32,7 @@ abstract class Widget(layoutRes: Int) {
     //
 
     protected val context: Context
-        get() = view!!.context
+        get() = view.context
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!

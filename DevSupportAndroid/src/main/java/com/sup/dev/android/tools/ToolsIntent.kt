@@ -15,10 +15,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsText
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.io.Serializable
+import java.io.*
 import java.net.URLConnection
 import java.util.*
 
@@ -200,26 +197,17 @@ object ToolsIntent {
         intent.type = "image/*"
         try {
             startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-
-                var error = false
-                var result = ""
-
                 try{
-                    if (resultCode != Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
-                    val inputStream:InputStream = getContentResolver().openInputStream(data.getData())
-                    bytes:ByteArray = ByteArray(inputStream.available())
-                    inputStream.read(bytes)
-                    inputStream.close()
+                    if (resultCode != Activity.RESULT_OK || resultIntent == null || resultIntent.data == null) throw IllegalAccessException("Result is null or not OK")
+                    val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data)
+                    val bytes = ByteArray(inp.available())
+                    inp.read(bytes)
+                    inp.close()
                     onResult.invoke(bytes)
                 }catch (e:Exception){
-                    error = true
                     Debug.log(e)
+                    onError.invoke()
                 }
-
-                if(!error) onResult.invoke(result)
-                else onError.invoke()
-
-
 
             }
         } catch (ex: ActivityNotFoundException) {

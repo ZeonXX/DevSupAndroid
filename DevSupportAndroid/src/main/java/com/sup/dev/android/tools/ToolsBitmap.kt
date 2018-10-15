@@ -225,12 +225,8 @@ object ToolsBitmap {
     }
 
     @JvmOverloads
-    fun getFromGallery(onLoad: (File) -> Unit, onError: () -> Unit = { ToolsToast.show(R.string.error_cant_load_image) }) {
-        ToolsIntent.getGalleryImage({ patch ->
-
-            if (File(patch).exists()) onLoad.invoke(File(patch))
-            else onError.invoke()
-        }, onError)
+    fun getFromGallery(onLoad: (ByteArray) -> Unit, onError: () -> Unit = { ToolsToast.show(R.string.error_cant_load_image) }) {
+        ToolsIntent.getGalleryImage(onLoad, onError)
     }
 
     fun getFromDrawable(drawable: Drawable?): Bitmap? {
@@ -315,14 +311,10 @@ object ToolsBitmap {
 
     fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
 
-        getFromGallery(
-                onLoad = { file ->
-                    getFromFile(file) { bitmap ->
-                        run {
-                            if (bitmap == null) onComplete.invoke(null, null)
-                            else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
-                        }
-                    }
+        getFromGallery({ bytes ->
+                    val bitmap = ToolsBitmap.decode(bytes)
+                    if (bitmap == null) onComplete.invoke(null, null)
+                    else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
                 })
     }
 

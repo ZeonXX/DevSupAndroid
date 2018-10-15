@@ -16,7 +16,9 @@ class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = nul
     private var callback: ((String) -> Unit)? = null
 
     override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection? {
-        if (callback == null) return super.onCreateInputConnection(editorInfo)
+        if (callback == null) {
+            return super.onCreateInputConnection(editorInfo)
+        }
         try {
             val ic: InputConnection? = super.onCreateInputConnection(editorInfo)
             EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
@@ -27,13 +29,13 @@ class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = nul
                         inputContentInfo.requestPermission()
                     } catch (e:Exception) {
                         Debug.log(e)
-                        false
+                        return@createWrapper false
                     }
                 }
 
                 try {
                     if (callback != null) callback!!.invoke(inputContentInfo.linkUri.toString())
-                    true
+                    return@createWrapper true
                 } catch (e:Exception) {
                     Debug.log(e)
                 }

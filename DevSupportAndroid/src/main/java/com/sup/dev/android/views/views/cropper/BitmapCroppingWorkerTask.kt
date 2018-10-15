@@ -148,7 +148,7 @@ internal class BitmapCroppingWorkerTask : AsyncTask<Void, Void, BitmapCroppingWo
                 } else {
                     BitmapUtils.writeBitmapToUri(
                             mContext, bitmap!!, mSaveUri, mSaveCompressFormat, mSaveCompressQuality)
-                    bitmap?.recycle()
+                    bitmap.recycle()
                     return Result(mSaveUri, bitmapSampled.sampleSize)
                 }
             }

@@ -63,10 +63,10 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
         view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenW(), View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenH(), View.MeasureSpec.AT_MOST))
         width = view.measuredWidth
-        if (view.measuredHeight < ToolsView.dpToPx(240/*Запас, чтоб не обрезать 2 пикселя*/))
+        if (view.measuredHeight < ToolsView.dpToPx(340/*Запас, чтоб не обрезать 2 пикселя*/))
             height = view.measuredHeight
         else
-            height = Math.min(view.measuredHeight, ToolsView.dpToPx(200))
+            height = Math.min(view.measuredHeight, ToolsView.dpToPx(300))
 
         if (x > -1 && y > -1) {
             x -= width / 2

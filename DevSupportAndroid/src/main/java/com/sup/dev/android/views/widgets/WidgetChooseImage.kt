@@ -109,9 +109,9 @@ open class WidgetChooseImage : WidgetRecycler() {
     }
 
     private fun openGallery() {
-        ToolsBitmap.getFromGallery(onLoad = { file ->
+        ToolsBitmap.getFromGallery({ bytes ->
             try {
-                onSelected(ToolsFiles.readFile(file))
+                onSelected(bytes)
             } catch (e: IOException) {
                 Debug.log(e)
                 ToolsToast.show(R.string.error_cant_load_image)
