@@ -147,7 +147,7 @@ object ImageLoader {
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
-                    loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm!!, animate && loader.fade))
+                   if(loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
                 }
             }
             loader.onLoaded.invoke(bytes)

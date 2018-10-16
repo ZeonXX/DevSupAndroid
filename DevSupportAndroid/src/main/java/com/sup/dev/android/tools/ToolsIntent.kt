@@ -182,6 +182,7 @@ object ToolsIntent {
 
     fun shareText(text: String, onActivityNotFound: () -> Unit = {}) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .setType("vText/plain")
                 .putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
                 .putExtra(Intent.EXTRA_TEXT, text)

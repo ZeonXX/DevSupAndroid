@@ -57,7 +57,7 @@ object ToolsPermission {
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit) {
-        requestPermissions(permissions, onGranted)
+        requestPermissions(permissions, onGranted, {})
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
