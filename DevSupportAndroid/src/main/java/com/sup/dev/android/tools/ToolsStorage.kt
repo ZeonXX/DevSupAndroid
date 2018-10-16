@@ -75,41 +75,73 @@ object ToolsStorage {
     //  Put
     //
 
-    fun put(key: String, v: Boolean) {
+    fun put(key: String, v: Boolean?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putBoolean(key, v).apply()
     }
 
-    fun put(key: String, v: Int) {
+    fun put(key: String, v: Int?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putInt(key, v).apply()
     }
 
-    fun put(key: String, v: Long) {
+    fun put(key: String, v: Long?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putLong(key, v).apply()
     }
 
-    fun put(key: String, v: Float) {
+    fun put(key: String, v: Float?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putFloat(key, v).apply()
     }
 
-    fun put(key: String, v: String) {
+    fun put(key: String, v: String?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putString(key, v).apply()
     }
 
-    fun put(key: String, v: ByteArray) {
+    fun put(key: String, v: ByteArray?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putString(key, String(v)).apply()
     }
 
-    fun put(key: String, v: Json) {
+    fun put(key: String, v: Json?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         put(key, v.toString())
     }
 
-    fun put(key: String, v: JsonArray) {
+    fun put(key: String, v: JsonArray?) {
+        if(v == null){
+            clear(key)
+            return
+        }
         if (preferences == null) init()
         preferences!!.edit().putString(key, v.toString()).apply()
     }
@@ -118,7 +150,7 @@ object ToolsStorage {
     //  Remove
     //
 
-    fun remove(key: String) {
+    fun clear(key: String) {
         if (preferences == null) init()
         preferences!!.edit().remove(key).apply()
     }

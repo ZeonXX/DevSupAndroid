@@ -10,10 +10,8 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
-import com.sup.dev.android.tools.ToolsTextAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsText
 
@@ -202,7 +200,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         }
 
         fun clear(key: String) {
-            ToolsStorage.remove(key)
+            ToolsStorage.clear(key)
         }
     }
 
