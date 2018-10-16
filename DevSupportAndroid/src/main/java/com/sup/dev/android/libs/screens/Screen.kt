@@ -86,7 +86,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
     }
 
     @CallSuper
-    fun onPause() {
+    open fun onPause() {
 
     }
 

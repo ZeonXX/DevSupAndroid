@@ -44,7 +44,6 @@ class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = nul
             }
 
         } catch (e: Exception) {
-            Debug.log(e)
             return super.onCreateInputConnection(editorInfo)
         }
     }
