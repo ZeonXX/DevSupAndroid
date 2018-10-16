@@ -133,10 +133,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     fun setOnEnter(s: String?): WidgetCheckBoxes {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { vi ->
-            if (autoHideOnEnter)
-                hide()
-            else
-                setEnabled(false)
             for (i in 0 until vOptionsContainer.childCount) {
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
                 val item = v.tag as Item
@@ -144,6 +140,10 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
                 if (v.isChecked) item.onSelected.invoke(this, item)
                 if (!v.isChecked) item.onNotSelected.invoke(this, item)
             }
+            if (autoHideOnEnter)
+                hide()
+            else
+                setEnabled(false)
         }
         return this
     }
