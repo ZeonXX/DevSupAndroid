@@ -16,6 +16,7 @@ import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsDate
 
 object ApiRequestsSupporter {
@@ -32,7 +33,13 @@ object ApiRequestsSupporter {
         val sInterstitialProgress = SInterstitialProgress()
         Navigator.action(action, sInterstitialProgress)
 
-        request.onComplete { r -> if (Navigator.getCurrent() === sInterstitialProgress) Navigator.replace(onComplete.invoke(r)) }
+        request.onComplete { r ->
+            Debug.log("XX  >>>>>>>>>>>>>>>>>>>>>>>  Response " + Navigator.getCurrent())
+            if (Navigator.getCurrent() === sInterstitialProgress) {
+                Debug.log("XX  >>>>>>>>>>>>>>>>>>>>>>>  Replace")
+                Navigator.replace(onComplete.invoke(r))
+            }
+        }
                 .onNetworkError {
                     if (Navigator.getCurrent() === sInterstitialProgress) {
                         SAlert.showNetwork(Navigator.REPLACE) {
@@ -122,7 +129,7 @@ object ApiRequestsSupporter {
         return request
     }
 
-    fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K)->Unit): Request<K> {
+    fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         WidgetAlert()
                 .setText(text)
                 .setOnCancel(R.string.app_cancel)

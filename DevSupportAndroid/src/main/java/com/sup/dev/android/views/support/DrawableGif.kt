@@ -2,6 +2,7 @@ package com.sup.dev.android.views.support
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 
 import com.sup.dev.java.tools.ToolsThreads
@@ -22,6 +23,7 @@ class DrawableGif : Drawable {
     constructor(bytes: ByteArray, vImage: ImageView, center:Boolean = false, onReady:(DrawableGif)->Unit={}) : super() {
         this.bytes = bytes
         this.center = center
+        vImage.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         ToolsThreads.thread {
             movie = Movie.decodeStream(ByteArrayInputStream(bytes))
             ToolsThreads.main {

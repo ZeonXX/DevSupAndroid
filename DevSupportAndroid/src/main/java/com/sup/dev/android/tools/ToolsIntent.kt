@@ -46,7 +46,7 @@ object ToolsIntent {
         for (pair in progressIntents)
             if (requestCode == pair.a1) {
                 progressIntents.remove(pair)
-                pair.a2!!.invoke(resultCode, resultIntent)
+                pair.a2.invoke(resultCode, resultIntent)
                 return
             }
 
@@ -71,7 +71,6 @@ object ToolsIntent {
         }
 
     }
-
 
     fun openLink(link: String, onActivityNotFound: () -> Unit = {}) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
@@ -186,7 +185,7 @@ object ToolsIntent {
                 .setType("vText/plain")
                 .putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
                 .putExtra(Intent.EXTRA_TEXT, text)
-        startIntent(Intent.createChooser(sharingIntent, null), onActivityNotFound)
+        startIntent(Intent.createChooser(sharingIntent, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
     //
