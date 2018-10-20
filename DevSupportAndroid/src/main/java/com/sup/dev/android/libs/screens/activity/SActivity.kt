@@ -22,7 +22,6 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import android.text.TextUtils
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 
 abstract class SActivity : Activity() {
 
@@ -155,8 +154,6 @@ abstract class SActivity : Activity() {
 
         val old = if (vActivityContainer!!.childCount == 0) null else vActivityContainer!!.getChildAt(0)
 
-        log("--------------------------------------------------------")
-        log("screen:$screen old:$old size:${oldViews.size}")
         Debug.printStack()
 
         if (animation !== Navigator.Animation.IN) vActivityContainer!!.addView(ToolsView.removeFromParent(screen), 0)
