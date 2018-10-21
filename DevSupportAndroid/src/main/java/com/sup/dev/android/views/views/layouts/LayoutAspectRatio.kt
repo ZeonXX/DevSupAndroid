@@ -22,6 +22,9 @@ class LayoutAspectRatio @JvmOverloads constructor(context: Context, attrs: Attri
         a.recycle()
 
     }
+    fun setRatio(rw: Int, rh: Int) {
+        setRatio(rw.toFloat(), rh.toFloat())
+    }
 
     fun setRatio(rw: Float, rh: Float) {
         this.rw = rw

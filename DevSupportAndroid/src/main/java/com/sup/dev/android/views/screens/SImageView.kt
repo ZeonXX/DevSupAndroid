@@ -48,14 +48,14 @@ class SImageView private constructor(
             else if (id > 0) {
                 ToolsImagesLoader.load(id).into { bytes ->
                     if (!ToolsBytes.isGif(bytes))
-                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.show(R.string.app_done) }
+                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { f -> ToolsToast.showSnack(R.string.app_done) }
                     else
-                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.show(R.string.app_done) }, { ToolsToast.show(R.string.error_permission_files) })
+                        ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { f -> ToolsToast.showSnack(R.string.app_done) }, { ToolsToast.showSnack(R.string.error_permission_files) })
 
                 }
             }
             dialog.hide()
-            ToolsToast.show(R.string.app_downloaded)
+            ToolsToast.showSnack(R.string.app_downloaded)
         }
 
     }

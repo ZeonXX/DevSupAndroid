@@ -225,7 +225,7 @@ object ToolsBitmap {
     }
 
     @JvmOverloads
-    fun getFromGallery(onLoad: (ByteArray) -> Unit, onError: () -> Unit = { ToolsToast.show(R.string.error_cant_load_image) }) {
+    fun getFromGallery(onLoad: (ByteArray) -> Unit, onError: () -> Unit = { ToolsToast.showSnack(R.string.error_cant_load_image) }) {
         ToolsIntent.getGalleryImage(onLoad, onError)
     }
 
@@ -304,9 +304,9 @@ object ToolsBitmap {
                 onComplete.invoke(decode(ToolsFiles.readFile(file)))
             } catch (e: IOException) {
                 Debug.log(e)
-                ToolsToast.show(R.string.error_cant_load_image)
+                ToolsToast.showSnack(R.string.error_cant_load_image)
             }
-        }, { ToolsToast.show(R.string.error_permission_files) })
+        }, { ToolsToast.showSnack(R.string.error_permission_files) })
     }
 
     fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {

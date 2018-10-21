@@ -19,7 +19,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
 
     init {
 
-        vTimePicker = view!!.findViewById(R.id.time_picker)
+        vTimePicker = view.findViewById(R.id.time_picker)
         vCancel = view.findViewById(R.id.cancel)
         vEnter = view.findViewById(R.id.enter)
 

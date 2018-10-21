@@ -48,7 +48,6 @@ open class SettingsAction @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     override fun setOnTouchListener(l: View.OnTouchListener) {
-        Debug.printStack()
         super.setOnTouchListener(l)
     }
 

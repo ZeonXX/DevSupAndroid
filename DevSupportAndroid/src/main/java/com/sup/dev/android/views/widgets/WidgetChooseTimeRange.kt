@@ -25,7 +25,7 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
     init {
 
-        vStart = view!!.findViewById(R.id.start)
+        vStart = view.findViewById(R.id.start)
         vEnd = view.findViewById(R.id.end)
         vCancel = view.findViewById(R.id.cancel)
         vEnter = view.findViewById(R.id.enter)
@@ -35,16 +35,16 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
         vStart.setOnClickListener { v ->
             WidgetChooseTime()
-                    .setOnCancel(vCancel.text.toString())
-                    .setOnEnter(vEnter.text.toString()) { dialog, h, m -> setTimeStart(h, m) }
-                    .asSheetShow()
+                .setOnCancel(ToolsResources.getString(R.string.app_cancel))
+                .setOnEnter(ToolsResources.getString(R.string.app_choose)) { dialog, h, m -> setTimeStart(h, m) }
+                .asSheetShow()
         }
 
         vEnd.setOnClickListener { v ->
             WidgetChooseTime()
-                    .setOnCancel(vCancel.text.toString())
-                    .setOnEnter(vEnter.text.toString()) { dialog, h, m -> setTimeEnd(h, m) }
-                    .asSheetShow()
+                .setOnCancel(ToolsResources.getString(R.string.app_cancel))
+                .setOnEnter(ToolsResources.getString(R.string.app_choose)) { dialog, h, m -> setTimeEnd(h, m) }
+                .asSheetShow()
         }
 
         setTimeStart(12, 0)
@@ -78,7 +78,10 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit = { w, x, y, xx, yy -> }): WidgetChooseTimeRange {
+    fun setOnEnter(
+        s: String?,
+        onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit = { w, x, y, xx, yy -> }
+    ): WidgetChooseTimeRange {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { v ->
             if (autoHideOnEnter)

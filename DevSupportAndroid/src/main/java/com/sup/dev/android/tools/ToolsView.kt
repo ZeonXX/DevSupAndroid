@@ -91,13 +91,6 @@ object ToolsView {
         return widget
     }
 
-    fun showProgressDialogNow(): WidgetProgressTransparent {
-        val widget = WidgetProgressTransparent().setCancelable(false)
-        widget.asDialogShow()
-        widget.setInvisibleTime(0)
-        return widget
-    }
-
     fun showProgressDialog(title: Int): WidgetProgressWithTitle {
         return showProgressDialog(ToolsResources.getString(title))
     }

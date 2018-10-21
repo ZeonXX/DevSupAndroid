@@ -110,7 +110,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     }
 
     fun addNavigationItem(@StringRes text: Int, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {
-        return widgetMenu!!.add(text, { w,c -> onClick.invoke() }).icon(icon)
+        return widgetMenu!!.add(text) { w, c -> onClick.invoke() }.icon(icon)
     }
 
     override fun getLayout(): Int {
@@ -123,12 +123,11 @@ abstract class SActivityBottomNavigation : SActivity() {
 
     class NavigationItem(context: Context) {
 
-        val view: View
+        val view: View = ToolsView.inflate(context, R.layout.screen_activity_bottom_navigation_item)
         val vIcon: ViewIcon
         val vChip: ViewChip
 
         init {
-            view = ToolsView.inflate(context, R.layout.screen_activity_bottom_navigation_item)
             vIcon = view.findViewById(R.id.icon)
             vChip = view.findViewById(R.id.chip)
         }

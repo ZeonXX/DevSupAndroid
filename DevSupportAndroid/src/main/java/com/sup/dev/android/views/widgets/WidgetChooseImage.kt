@@ -78,7 +78,7 @@ open class WidgetChooseImage : WidgetRecycler() {
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
         }, {
-            ToolsToast.show(R.string.error_permission_files)
+            ToolsToast.showSnack(R.string.error_permission_files)
             hide()
         })
 
@@ -89,7 +89,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         var progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
-            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(R.string.error_cant_load_image)
+            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.showSnack(R.string.error_cant_load_image)
             else onSelected(it)
         })
     }
@@ -114,7 +114,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 onSelected(bytes)
             } catch (e: IOException) {
                 Debug.log(e)
-                ToolsToast.show(R.string.error_cant_load_image)
+                ToolsToast.showSnack(R.string.error_cant_load_image)
             }
         })
     }
@@ -172,7 +172,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 } catch (e: Exception) {
                     Debug.log(e)
                     ToolsThreads.main { d.hide() }
-                    ToolsToast.show(R.string.error_cant_load_image)
+                    ToolsToast.showSnack(R.string.error_cant_load_image)
                 }
             }
         }

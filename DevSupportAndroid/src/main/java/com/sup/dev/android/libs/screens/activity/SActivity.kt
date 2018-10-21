@@ -154,8 +154,6 @@ abstract class SActivity : Activity() {
 
         val old = if (vActivityContainer!!.childCount == 0) null else vActivityContainer!!.getChildAt(0)
 
-        Debug.printStack()
-
         if (animation !== Navigator.Animation.IN) vActivityContainer!!.addView(ToolsView.removeFromParent(screen), 0)
         else vActivityContainer!!.addView(ToolsView.removeFromParent(screen))
 
