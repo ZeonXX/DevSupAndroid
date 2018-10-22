@@ -141,7 +141,7 @@ abstract class SActivity : Activity() {
     private var subscriptionTouchLock: Subscription? = null
 
     open fun setScreen(screen: Screen?, animation: Navigator.Animation) {
-
+        Debug.log("XX setScreen $screen ${Navigator.currentStack}")
         if (screen == null) {
             finish()
             return

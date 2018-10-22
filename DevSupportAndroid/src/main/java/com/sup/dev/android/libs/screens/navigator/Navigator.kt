@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.screens.navigator
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.java.classes.callbacks.CallbacksList2
+import com.sup.dev.java.libs.debug.log
 import java.util.ArrayList
 
 object Navigator {
@@ -147,6 +148,7 @@ object Navigator {
 
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
+        log("XX setStack $stack")
         currentStack = stack
         if (!currentStack.backStack.isEmpty()) setCurrentView(Animation.ALPHA)
     }
