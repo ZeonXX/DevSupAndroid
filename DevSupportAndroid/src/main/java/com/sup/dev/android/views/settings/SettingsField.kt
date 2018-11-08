@@ -13,12 +13,13 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
+import com.sup.dev.android.views.views.ViewErrorEditText
 
 
 class SettingsField @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_field) {
 
     private val vIcon: ViewIcon = findViewById(R.id.dev_sup_icon)
-    private val vField: EditText = findViewById(R.id.dev_sup_field)
+    private val vField: ViewErrorEditText = findViewById(R.id.dev_sup_field)
     private val vInputLayout: TextInputLayout = findViewById(R.id.dev_sup_input_layout)
 
     private var isError: Boolean = false
@@ -84,9 +85,10 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
         if (text != null) vField.setSelection(text.length)
     }
 
+    @Suppress("UsePropertyAccessSyntax")
     fun setError(b: Boolean) {
         isError = b
-        vField.error = if (b) "" else null
+        vField.setError(b)
     }
 
     fun setErrorChecker(checker: (String) -> Boolean) {

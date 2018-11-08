@@ -14,11 +14,15 @@ class ViewErrorEditText : android.support.design.widget.TextInputEditText {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
 
     fun setError(b: Boolean) {
-        error = if (b) "" else null
+        if(!b) setError(null, null)
+        else super.setError("")
     }
 
-    override fun setError(pError: CharSequence, pIcon: Drawable) {
-        setCompoundDrawables(null, null, pIcon, null)
+    override fun setError(pError: CharSequence?, pIcon: Drawable?) {
+        if (pError == null)
+            setCompoundDrawables(null, null, null, null)
+        else
+            setCompoundDrawables(null, null, pIcon, null)
     }
 
 }
