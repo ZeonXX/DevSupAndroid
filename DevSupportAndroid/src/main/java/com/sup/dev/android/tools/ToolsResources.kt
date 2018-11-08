@@ -9,6 +9,7 @@ import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
+import java.io.InputStream
 
 
 object ToolsResources {
@@ -65,6 +66,7 @@ object ToolsResources {
         return color
     }
 
+    fun getStream(r: Int) = SupAndroid.appContext!!.resources.openRawResource(+r)
 
     fun getColorId(name: String): Int {
         return SupAndroid.appContext!!.resources.getIdentifier(name, "color", SupAndroid.appContext!!.packageName)

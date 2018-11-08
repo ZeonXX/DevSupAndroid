@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.dialogs.Dialog
 import com.sup.dev.android.views.dialogs.DialogWidget
 
 
@@ -29,8 +30,10 @@ class WidgetProgressTransparent : Widget(0) {
     override fun onShow() {
         super.onShow()
 
-        val dialog = viewWrapper as DialogWidget?
-        dialog!!.window.setBackgroundDrawable(ColorDrawable(0x00000000))
+        if (viewWrapper is Dialog) {
+            val dialog = viewWrapper as Dialog
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(0x00000000))
+        }
 
     }
 
