@@ -34,9 +34,7 @@ object ApiRequestsSupporter {
         Navigator.action(action, sInterstitialProgress)
 
         request.onComplete { r ->
-            Debug.log("XX  >>>>>>>>>>>>>>>>>>>>>>>  Response " + Navigator.getCurrent())
             if (Navigator.getCurrent() === sInterstitialProgress) {
-                Debug.log("XX  >>>>>>>>>>>>>>>>>>>>>>>  Replace")
                 Navigator.replace(onComplete.invoke(r))
             }
         }

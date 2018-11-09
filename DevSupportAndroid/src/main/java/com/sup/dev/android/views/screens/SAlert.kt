@@ -11,11 +11,11 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 
-class SAlert(title: String?, text: String?, action: String?, image: Int? = null, imageFul: Int? = null, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
+class SAlert(title: String?, text: String?, action: String?, image: Int = 0, imageFul: Int = 0, onAction: (() -> Unit)?) : Screen(R.layout.screen_alert) {
 
     constructor(title: String?, text: String?, action: String?, onAction:  (() -> Unit)?) : this(title, text, action, 0, onAction) {}
 
-    constructor(title: String?, text: String?, action: String?, image: Int?, onAction:  (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
+    constructor(title: String?, text: String?, action: String?, image: Int, onAction:  (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
 
     private val vTitle:TextView = findViewById(R.id.vTitle)
     private val vText:TextView = findViewById(R.id.vText)
@@ -27,9 +27,9 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
 
         vTitle.text = title
         vText.text = text
-        vAction.setText(action)
+        vAction.text = action
 
-        if (image != null) {
+        if (image != 0) {
             vImage.setImageResource(image)
             vImage.visibility = View.VISIBLE
         } else {
@@ -37,7 +37,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
             vImage.visibility = View.GONE
         }
 
-        if (imageFul != null) {
+        if (imageFul != 0) {
             vImageFull.setImageResource(imageFul)
             vImageFull.visibility = View.VISIBLE
         } else {
@@ -45,7 +45,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
             vImageFull.visibility = View.GONE
         }
 
-        vAction.setOnClickListener { v -> if (onAction != null) onAction.invoke() }
+        vAction.setOnClickListener { v -> onAction?.invoke() }
 
     }
 
@@ -73,8 +73,8 @@ class SAlert(title: String?, text: String?, action: String?, image: Int? = null,
                     ToolsResources.getString(R.string.app_whoops),
                     ToolsResources.getString(R.string.error_gone),
                     ToolsResources.getString(R.string.app_back),
-                    SupAndroid.IMG_ERROR_GONE,
-                    { Navigator.back() })
+                    SupAndroid.IMG_ERROR_GONE
+            ) { Navigator.back() }
         }
     }
 

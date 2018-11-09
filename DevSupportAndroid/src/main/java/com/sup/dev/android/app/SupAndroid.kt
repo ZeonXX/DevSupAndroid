@@ -22,8 +22,8 @@ object SupAndroid {
 
     var TEXT_APP_NAME: String? = null
 
-    var IMG_ERROR_NETWORK: Int? = null
-    var IMG_ERROR_GONE: Int? = null
+    var IMG_ERROR_NETWORK: Int = 0
+    var IMG_ERROR_GONE: Int = 0
 
 
     var editMode: Boolean = false
@@ -62,8 +62,8 @@ object SupAndroid {
 
         TEXT_APP_NAME = loadText("app_name")
 
-        IMG_ERROR_NETWORK = loadImage("error_network")
-        IMG_ERROR_GONE = loadImage("error_gone")
+        IMG_ERROR_NETWORK = loadImage("error_network")?:0
+        IMG_ERROR_GONE = loadImage("error_gone")?:0
 
 
     }
