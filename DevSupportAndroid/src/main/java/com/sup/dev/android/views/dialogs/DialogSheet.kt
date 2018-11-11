@@ -28,7 +28,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         setOnCancelListener { dialogInterface -> onHide() }
 
         val vRoot: ViewGroup = ToolsView.inflate(view.context, R.layout.dialog_sheet)
-        val vCorned: LayoutCorned =  vRoot.findViewById(R.id.vCorned)
+        val vCorned: LayoutCorned = vRoot.findViewById(R.id.vCorned)
         val vContainer: ViewGroup = vRoot.findViewById(R.id.vContainer)
 
         vCorned.setCornedBL(false)

@@ -5,31 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        app:LayoutMaxSizes_allowChildMaxW="true"
-        app:LayoutMaxSizes_childAlwaysMaxW="true"
-        app:LayoutMaxSizes_maxHeight="420dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
-
-        <com.sup.dev.android.views.views.layouts.LayoutCorned
-            android:id="@+id/vCorned"
+        <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary">
+            android:layout_height="match_parent"
+            app:LayoutMaxSizes_allowChildMaxW="true"
+            app:LayoutMaxSizes_childAlwaysMaxW="true"
+            app:LayoutMaxSizes_maxHeight="420dp">
 
-            <FrameLayout
-                android:id="@+id/vContainer"
+
+            <com.sup.dev.android.views.views.layouts.LayoutCorned
+                android:id="@+id/vCorned"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </FrameLayout>
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary">
 
-        </com.sup.dev.android.views.views.layouts.LayoutCorned>
+                <FrameLayout
+                    android:id="@+id/vContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </FrameLayout>
+
+            </com.sup.dev.android.views.views.layouts.LayoutCorned>
 
 
-    </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
+        </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 
+    </android.support.v4.widget.NestedScrollView>
 
 </FrameLayout>
