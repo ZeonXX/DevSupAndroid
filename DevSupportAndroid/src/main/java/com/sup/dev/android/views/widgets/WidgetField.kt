@@ -43,7 +43,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
         vCancel.visibility = View.GONE
         vCopy.visibility = View.GONE
 
-        vField.addTextChangedListener(TextWatcherRemoveHTML())
+        vField.addTextChangedListener(TextWatcherRemoveHTML(vField))
         vField.addTextChangedListener(TextWatcherChanged { text -> check() })
 
         vField.setCallback { vField.setText(it) }
