@@ -15,10 +15,19 @@
 
 
         <com.sup.dev.android.views.views.layouts.LayoutCorned
-            android:id="@+id/vContainer"
+            android:id="@+id/vCorned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"/>
+            android:background="?attr/colorPrimary">
+
+            <FrameLayout
+                android:id="@+id/vContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </FrameLayout>
+
+        </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
 
     </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 

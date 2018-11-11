@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
@@ -27,7 +28,11 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         setOnCancelListener { dialogInterface -> onHide() }
 
         val vRoot: ViewGroup = ToolsView.inflate(view.context, R.layout.dialog_sheet)
+        val vCorned: LayoutCorned =  vRoot.findViewById(R.id.vCorned)
         val vContainer: ViewGroup = vRoot.findViewById(R.id.vContainer)
+
+        vCorned.setCornedBL(false)
+        vCorned.setCornedBR(false)
 
         vContainer.isClickable = true // Чтоб не закрывался при нажатии на тело
         vContainer.addView(ToolsView.removeFromParent(view))
