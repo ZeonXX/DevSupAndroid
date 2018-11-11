@@ -21,11 +21,11 @@ import java.util.ArrayList
 
 open class WidgetField : Widget(R.layout.widget_field) {
 
-    private val vCopy: ViewIcon
-    private val vField: ViewEditTextMedia
-    private val vFieldLayout: TextInputLayout
-    private val vCancel: Button
-    private val vEnter: Button
+    private val vCopy: ViewIcon = view.findViewById(R.id.copy)
+    private val vField: ViewEditTextMedia = view.findViewById(R.id.field)
+    private val vFieldLayout: TextInputLayout = view.findViewById(R.id.field_layout)
+    private val vCancel: Button = view.findViewById(R.id.cancel)
+    private val vEnter: Button = view.findViewById(R.id.enter)
 
     private val checkers = ArrayList<Item2<String, (String) -> Boolean>>()
     private var max: Int = 0
@@ -38,12 +38,6 @@ open class WidgetField : Widget(R.layout.widget_field) {
         get() = vField.text.toString()
 
     init {
-
-        vField = view!!.findViewById(R.id.field)
-        vFieldLayout = view.findViewById(R.id.field_layout)
-        vCopy = view.findViewById(R.id.copy)
-        vCancel = view.findViewById(R.id.cancel)
-        vEnter = view.findViewById(R.id.enter)
 
         vEnter.visibility = View.GONE
         vCancel.visibility = View.GONE

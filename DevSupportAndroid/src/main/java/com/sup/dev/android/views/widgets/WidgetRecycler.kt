@@ -18,6 +18,10 @@ open class WidgetRecycler : Widget(R.layout.widget_recycler) {
 
     protected var adapter: RecyclerCardAdapter? = null
 
+    init {
+        vRecycler.isVerticalScrollBarEnabled = false
+    }
+
     override fun onShow() {
         super.onShow()
 

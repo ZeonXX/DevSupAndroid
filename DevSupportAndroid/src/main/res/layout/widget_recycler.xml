@@ -22,6 +22,8 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical"
             style="@style/Recycler"/>
     </FrameLayout>
 

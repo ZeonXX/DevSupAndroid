@@ -19,8 +19,14 @@ open class WidgetMenu : WidgetRecycler() {
     private var autoHide = true
 
     init {
-        vRecycler.layoutManager = LinearLayoutManager(view!!.context)
+        vRecycler.layoutManager = LinearLayoutManager(view.context)
         setAdapter<WidgetRecycler>(myAdapter)
+    }
+
+    override fun onShow() {
+        vRecycler.isVerticalScrollBarEnabled = true
+        super.onShow()
+        finishItemBuilding()
     }
 
     fun setAutoHide(b: Boolean): WidgetMenu {
@@ -56,10 +62,6 @@ open class WidgetMenu : WidgetRecycler() {
     private var skipThisItem = false
     private var skipGroup = false
 
-    override fun onShow() {
-        super.onShow()
-        finishItemBuilding()
-    }
 
     fun clear() {
         finishItemBuilding()

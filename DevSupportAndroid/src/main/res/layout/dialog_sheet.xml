@@ -11,26 +11,14 @@
         android:layout_gravity="bottom"
         app:LayoutMaxSizes_allowChildMaxW="true"
         app:LayoutMaxSizes_childAlwaysMaxW="true"
-        android:layout_margin="6dp"
         app:LayoutMaxSizes_maxHeight="420dp">
 
 
-        <android.support.v7.widget.CardView
+        <com.sup.dev.android.views.views.layouts.LayoutCorned
+            android:id="@+id/vContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardCornerRadius="24dp">
-
-            <FrameLayout
-                android:id="@+id/vContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </FrameLayout>
-
-
-        </android.support.v7.widget.CardView>
-
+            android:background="?attr/colorPrimary"/>
 
     </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 

@@ -19,6 +19,43 @@
         android:layout_height="wrap_content"
         android:text="Please input text"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 1"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 2"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 3"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 4"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 5"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Text 6"
+        style="@style/Base.TextAppearance.AppCompat.Title"/>
+
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
