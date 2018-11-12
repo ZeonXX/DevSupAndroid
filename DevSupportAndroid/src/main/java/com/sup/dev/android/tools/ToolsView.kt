@@ -301,11 +301,11 @@ object ToolsView {
             return
         }
 
-        toAlpha(v, {
+        toAlpha(v) {
             v.text = text
             onAlpha.invoke()
             fromAlpha(v)
-        })
+        }
     }
 
 
