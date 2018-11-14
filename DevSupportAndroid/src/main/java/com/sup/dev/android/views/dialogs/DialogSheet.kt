@@ -12,6 +12,7 @@ import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
+
     //
     //  Getters
     //
