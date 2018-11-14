@@ -39,6 +39,15 @@ object ToolsView {
 
     val ANIMATION_TIME = 300
 
+    fun makeHalfFullscreen(activity: Activity) {
+        activity.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+     //   activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+
+    fun makeFullscreen(activity: Activity) {
+        activity.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
     fun dontAutoShowKeyboard(window: Window) {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }

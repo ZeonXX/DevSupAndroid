@@ -2,11 +2,12 @@ package com.sup.dev.android.libs.screens.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -19,12 +20,9 @@ import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
-import java.util.ArrayList
-import android.text.TextUtils
-import com.sup.dev.java.libs.debug.Debug
+import java.util.*
 
-abstract class SActivity : Activity() {
-
+abstract class SActivity : AppCompatActivity() {
 
     companion object {
         var onUrlClicked: ((String) -> Unit)? = null
@@ -175,11 +173,11 @@ abstract class SActivity : Activity() {
 
     }
 
-    private fun animateNone(oldViews:ArrayList<View>){
+    private fun animateNone(oldViews: ArrayList<View>) {
         for (v in oldViews) vActivityContainer!!.removeView(v)
     }
 
-    private fun animateAlpha(screen:Screen, old:View, oldViews:ArrayList<View>){
+    private fun animateAlpha(screen: Screen, old: View, oldViews: ArrayList<View>) {
         screen.visibility = View.INVISIBLE
         ToolsView.toAlpha(old) {
             for (v in oldViews) vActivityContainer!!.removeView(v)
@@ -187,7 +185,7 @@ abstract class SActivity : Activity() {
         ToolsView.fromAlpha(screen)
     }
 
-    private fun animateOut(screen:Screen, old:View, oldViews:ArrayList<View>){
+    private fun animateOut(screen: Screen, old: View, oldViews: ArrayList<View>) {
         screen.visibility = View.VISIBLE
         old.animate()
                 .alpha(0f)
@@ -205,7 +203,7 @@ abstract class SActivity : Activity() {
                 })
     }
 
-    private fun animateIn(screen:Screen, oldViews:ArrayList<View>){
+    private fun animateIn(screen: Screen, oldViews: ArrayList<View>) {
         screen.alpha = 0f
         screen.translationX = (ToolsAndroid.getScreenW() / 3).toFloat()
         screen.animate()
