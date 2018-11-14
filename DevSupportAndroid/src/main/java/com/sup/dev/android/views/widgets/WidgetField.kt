@@ -76,7 +76,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
 
     override fun onShow() {
         super.onShow()
-        ToolsView.showKeyboard(view!!.findViewById(R.id.field))
+        ToolsView.showKeyboard(view.findViewById(R.id.field))
     }
 
     override fun onHide() {

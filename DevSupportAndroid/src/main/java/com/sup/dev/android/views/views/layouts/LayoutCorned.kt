@@ -38,6 +38,11 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
 
     }
 
+    override fun draw(canvas: Canvas?) {
+        canvas?.clipPath(path)
+        super.draw(canvas)
+    }
+
     override fun onDraw(canvas: Canvas) {
         if (paint != null) canvas.drawPath(path, paint!!)
     }

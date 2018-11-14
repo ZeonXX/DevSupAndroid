@@ -18,26 +18,19 @@ import com.sup.dev.java.tools.ToolsText
 
 class WidgetAlert : Widget(R.layout.widget_alert) {
 
-    private val vCheck: CheckBox
-    private val vEnter: Button
-    private val vCancel: Button
-    private val vText: TextView
-    private val vTopContainer: ViewGroup
-    private val vTopImage: ImageView
-    private val vTopTitle: TextView
+    private val vCheck: CheckBox = findViewById(R.id.check_box)
+    private val vEnter: Button = findViewById(R.id.enter)
+    private val vCancel: Button = findViewById(R.id.cancel)
+    private val vText: TextView = findViewById(R.id.vText)
+    private val vTopContainer: ViewGroup = findViewById(R.id.top_container)
+    private val vTopImage: ImageView = findViewById(R.id.top_image)
+    private val vTopTitle: TextView = findViewById(R.id.top_title)
 
     private var key: String? = null
     private var lockUntilAccept: Boolean = false
     private var autoHideOnEnter = true
 
     init {
-        vText = findViewById(R.id.vText)
-        vCancel = findViewById(R.id.cancel)
-        vEnter = findViewById(R.id.enter)
-        vCheck = findViewById(R.id.check_box)
-        vTopContainer = findViewById(R.id.top_container)
-        vTopImage = findViewById(R.id.top_image)
-        vTopTitle = findViewById(R.id.top_title)
 
         vText.visibility = View.GONE
         vCancel.visibility = View.GONE

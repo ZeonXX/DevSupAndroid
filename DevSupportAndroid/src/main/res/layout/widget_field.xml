@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Please input text"/>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -45,7 +45,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"

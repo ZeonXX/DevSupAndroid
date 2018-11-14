@@ -41,7 +41,7 @@
         android:layout_marginTop="20dp"
         android:text="Title"/>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -57,7 +57,7 @@
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:text="Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time."/>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <CheckBox
         android:id="@+id/check_box"
