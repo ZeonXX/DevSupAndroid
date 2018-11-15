@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatDialog
 import android.view.*
 import android.widget.FrameLayout
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.tools.ToolsThreads
 
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
@@ -41,7 +44,8 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
 
-        window!!.setWindowAnimations(R.style.DialogSheetAnimation)
+       // window!!.setWindowAnimations(R.style.DialogSheetAnimation)
+        window!!.setWindowAnimations(0)
         window!!.setBackgroundDrawable(null)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -53,6 +57,16 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
+
+
+       vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
+           ToolsThreads.main(1000) {
+               val h = SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height-SupAndroid.activity!!.getViewContainer()!!.height)
+               window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, h)
+               log(h, SupAndroid.activity!!.getViewContainer()!!.height, SupAndroid.activity!!.getViewRoot()!!.height)
+           }
+       }
+
 
     }
 

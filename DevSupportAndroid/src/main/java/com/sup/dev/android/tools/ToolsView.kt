@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.support.annotation.ColorInt
@@ -41,7 +42,6 @@ object ToolsView {
 
     fun makeHalfFullscreen(activity: Activity) {
         activity.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-     //   activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     fun makeFullscreen(activity: Activity) {
