@@ -6,45 +6,32 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.support.annotation.AttrRes
+import android.support.annotation.StyleRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.sup.dev.android.tools.ToolsView
 
-open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+open class LayoutCorned @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        @AttrRes defStyleAttr: Int = 0,
+        @StyleRes defStyleRes: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var paint: Paint? = null
-    private val path: Path = Path()
+    private val path = Path()
+    private var paint:Paint? = null
     private var cornedSize = ToolsView.dpToPx(16).toFloat()
     private var cornedTL = true
     private var cornedTR = true
     private var cornedBL = true
     private var cornedBR = true
-
-    init {
-        setWillNotDraw(false)
-    }
-
-    override fun setBackgroundDrawable(background: Drawable?) {
-        super.setBackgroundDrawable(null)
-
-        if (paint == null) {
-            paint = Paint()
-            paint!!.isAntiAlias = true
-            paint!!.color = 0x00000000
-        }
-
-        if (background != null && background is ColorDrawable)
-            paint!!.color = background.color
-
-    }
+    private var chipMode = false
 
     override fun draw(canvas: Canvas?) {
         canvas?.clipPath(path)
+        if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint)
         super.draw(canvas)
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        if (paint != null) canvas.drawPath(path, paint!!)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -55,7 +42,9 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
     private fun update() {
         path.reset()
 
-        val r = Math.min(Math.min(cornedSize, width.toFloat()), height.toFloat())
+        var r = Math.min(Math.min(cornedSize, width.toFloat()), height.toFloat())
+
+        if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
 
         if (cornedTL) path.addCircle(r, r, r, Path.Direction.CCW)
         else path.addRect(0f, 0f, r, r, Path.Direction.CCW)
@@ -64,14 +53,16 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
         else path.addRect(width - r, 0f, width.toFloat(), r, Path.Direction.CCW)
 
         if (cornedBL) path.addCircle(r, height - r, r, Path.Direction.CCW)
-        else path.addRect(0f, height-r, r, height.toFloat(), Path.Direction.CCW)
+        else path.addRect(0f, height - r, r, height.toFloat(), Path.Direction.CCW)
 
         if (cornedBR) path.addCircle(width - r, height - r, r, Path.Direction.CCW)
-        else path.addRect(width - r, height-r, width.toFloat(), height.toFloat(), Path.Direction.CCW)
+        else path.addRect(width - r, height - r, width.toFloat(), height.toFloat(), Path.Direction.CCW)
 
         path.addRect(r, 0f, width - r, r, Path.Direction.CCW)
         path.addRect(r, height.toFloat(), width - r, height - r, Path.Direction.CW)
         path.addRect(0f, r, width.toFloat(), height - r, Path.Direction.CCW)
+
+        invalidate()
     }
 
     fun setCornedTL(cornedTL: Boolean) {
@@ -94,9 +85,31 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
         update()
     }
 
+    fun setChipMode(chipMode: Boolean) {
+        this.chipMode = chipMode
+        update()
+    }
+
     fun setCornedSize(cornedSize: Float) {
         this.cornedSize = cornedSize
         update()
+    }
+
+    override fun setBackgroundDrawable(background: Drawable?) {
+
+        if(paint == null){
+            paint = Paint()
+            paint!!.isAntiAlias = true
+            paint!!.color = 0
+        }
+
+        if (background != null && background is ColorDrawable) {
+            paint!!.color = background.color
+            super.setBackgroundDrawable(null)
+        }else {
+            paint!!.color = 0
+            super.setBackgroundDrawable(background)
+        }
     }
 
 }

@@ -177,7 +177,14 @@
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
     </style>
 
-    <style name="ChipButton">
+    <style name="Chip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="ViewChip_background">?colorAccent</item>
+        <item name="ViewChip_size">28dp</item>
+    </style>
+
+    <style name="Chip.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="ViewChip_size">42dp</item>

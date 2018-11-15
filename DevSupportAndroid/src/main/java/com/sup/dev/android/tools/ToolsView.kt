@@ -257,11 +257,15 @@ object ToolsView {
 
     fun pxToDp(px: Int) = pxToDp(px.toFloat())
 
+    fun pxToSp(px: Int) = pxToSp(px.toFloat())
+
     fun dpToPx(dp: Int) = dpToPx(dp.toFloat())
 
     fun spToPx(sp: Int) = spToPx(sp.toFloat())
 
     fun pxToDp(px: Float) = (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().displayMetrics))).toInt()
+
+    fun pxToSp(px: Float) = (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, px, Resources.getSystem().displayMetrics))).toInt()
 
     fun dpToPx(dp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics).toInt()
 
