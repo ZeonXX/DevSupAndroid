@@ -11,6 +11,7 @@ import android.support.annotation.StyleRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 
 open class LayoutCorned @JvmOverloads constructor(
         context: Context,
@@ -20,7 +21,7 @@ open class LayoutCorned @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val path = Path()
-    private var paint:Paint? = null
+    private var paint: Paint? = null
     private var cornedSize = ToolsView.dpToPx(16).toFloat()
     private var cornedTL = true
     private var cornedTR = true
@@ -28,9 +29,14 @@ open class LayoutCorned @JvmOverloads constructor(
     private var cornedBR = true
     private var chipMode = false
 
+    init {
+        setWillNotDraw(false)
+    }
+
     override fun draw(canvas: Canvas?) {
         canvas?.clipPath(path)
         if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint)
+
         super.draw(canvas)
     }
 
@@ -95,9 +101,9 @@ open class LayoutCorned @JvmOverloads constructor(
         update()
     }
 
-    override fun setBackgroundDrawable(background: Drawable?) {
+    override fun setBackground(background: Drawable?) {
 
-        if(paint == null){
+        if (paint == null) {
             paint = Paint()
             paint!!.isAntiAlias = true
             paint!!.color = 0
@@ -105,10 +111,10 @@ open class LayoutCorned @JvmOverloads constructor(
 
         if (background != null && background is ColorDrawable) {
             paint!!.color = background.color
-            super.setBackgroundDrawable(null)
-        }else {
+            super.setBackground(null)
+        } else {
             paint!!.color = 0
-            super.setBackgroundDrawable(background)
+            super.setBackground(background)
         }
     }
 
