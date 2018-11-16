@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.dialogs
 
+import android.graphics.Rect
 import android.os.Build
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatDialog
@@ -60,6 +61,9 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
         vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
+            val r = Rect()
+            vRoot.getWindowVisibleDisplayFrame(r)
+            log(r.left, r.top, r.right, r.bottom)
             window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height - SupAndroid.activity!!.getViewContainer()!!.height))
         }
 
