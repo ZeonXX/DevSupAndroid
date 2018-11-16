@@ -44,11 +44,13 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
 
+        window!!.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window!!.setWindowAnimations(R.style.DialogSheetAnimation)
-        window!!.setWindowAnimations(0)
         window!!.setBackgroundDrawable(null)
+        window!!.setGravity(Gravity.BOTTOM)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window!!.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window!!.statusBarColor = 0x00000000
@@ -57,15 +59,9 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
-
-
-    //   vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
-    //       ToolsThreads.main(1000) {
-    //           val h = SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height - SupAndroid.activity!!.getViewContainer()!!.height)
-    //           window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, h)
-    //           log(h, SupAndroid.activity!!.getViewContainer()!!.height, SupAndroid.activity!!.getViewRoot()!!.height)
-    //       }
-    //   }
+        vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
+            window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height - SupAndroid.activity!!.getViewContainer()!!.height))
+        }
 
 
     }
