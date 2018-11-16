@@ -53,4 +53,10 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_gravity="top"
+        android:background="@color/focus"/>
+
 </android.support.design.widget.CoordinatorLayout>

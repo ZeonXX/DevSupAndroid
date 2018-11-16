@@ -1,35 +1,34 @@
 package com.sup.dev.android.views.popup
 
+import android.graphics.drawable.ColorDrawable
 import android.support.annotation.CallSuper
-import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.PopupWindow
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
 abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!) {
-    var isEnabled: Boolean = false
-        private set
-    //
-    //  Getters
-    //
 
-
-    var isCancelable: Boolean = false
-        private set
+    private var isEnabled: Boolean = true
 
     constructor(layoutRes: Int) : this(ToolsView.inflate<View>(layoutRes)) {}
 
     init {
 
-        val vCard = ToolsView.inflate<CardView>(R.layout.view_card_6dp)
+        val vCorned = LayoutCorned(view.context)
+        vCorned.setBackgroundColor(ToolsResources.getColorFromAttr(R.attr.widget_background))
         ToolsView.removeFromParent(view)
-        vCard.addView(view)
-        setBackgroundDrawable(null)
-        contentView = vCard
+        vCorned.addView(view)
+        setBackgroundDrawable(ColorDrawable(0x00000000))
+
+        setOutsideTouchable(true)
+
+        contentView = vCorned
         isFocusable = true
 
     }
@@ -90,7 +89,7 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     //
 
     open fun <K : Popup> setCancelable(cancelable: Boolean): K {
-        this.isCancelable = cancelable
+        isOutsideTouchable = !cancelable
         return this as K
     }
 

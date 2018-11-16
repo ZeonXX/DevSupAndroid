@@ -34,23 +34,23 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-            <item name="android:windowTranslucentStatus">true</item>
-            <item name="widget_background">@color/grey_200</item>
-            <item name="content_background">@color/white</item>
-            <item name="android:windowBackground">@color/grey_100</item>
-            <item name="windowActionBar">false</item>
-            <item name="windowNoTitle">true</item>
-            <item name="colorPrimaryDark">@color/grey_100</item>
-            <item name="colorPrimary">@color/grey_100</item>
-            <item name="colorAccent">@color/orange_a_700</item>
-            <item name="ic_arrow_back">@drawable/ic_arrow_back_black_24dp</item>
-            <item name="ic_menu">@drawable/ic_menu_black_24dp</item>
-            <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</item>
-            <item name="ic_file_download">@drawable/ic_file_download_black_24dp</item>
-            <item name="ic_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_black_24dp</item>
-            <item name="ic_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_black_24dp</item>
-            <item name="ic_content_copy">@drawable/ic_content_copy_black_24dp</item>
-            <item name="toolbarTitleColor">@color/black</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="widget_background">@color/grey_200</item>
+        <item name="content_background">@color/white</item>
+        <item name="android:windowBackground">@color/grey_100</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/grey_100</item>
+        <item name="colorPrimary">@color/grey_100</item>
+        <item name="colorAccent">@color/orange_a_700</item>
+        <item name="ic_arrow_back">@drawable/ic_arrow_back_black_24dp</item>
+        <item name="ic_menu">@drawable/ic_menu_black_24dp</item>
+        <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</item>
+        <item name="ic_file_download">@drawable/ic_file_download_black_24dp</item>
+        <item name="ic_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_black_24dp</item>
+        <item name="ic_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_black_24dp</item>
+        <item name="ic_content_copy">@drawable/ic_content_copy_black_24dp</item>
+        <item name="toolbarTitleColor">@color/black</item>
     </style>
 
     <style name="AppThemeLight.Colored">
@@ -105,17 +105,23 @@
     <style name="Root">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:fitsSystemWindows">false</item>
         <item name="android:background">?android:windowBackground</item>
     </style>
 
     <style name="Toolbar">
         <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">80dp</item>
         <item name="android:textColorPrimary">?toolbarTitleColor</item>
         <item name="android:textColorSecondary">?toolbarTitleColor</item>
         <item name="actionMenuTextColor">?toolbarTitleColor</item>
+        <item name="android:gravity">bottom</item>
+        <item name="titleMarginBottom">16dp</item>
+        <item name="buttonGravity">bottom</item>
+    </style>
+
+    <style name="Toolbar.Big">
     </style>
 
     <style name="Toolbar.Scrollable">
@@ -123,7 +129,6 @@
     </style>
 
     <style name="Toolbar.Scrollable.Collapse">
-        <item name="android:layout_marginTop">24dp</item>
         <item name="layout_collapseMode">pin</item>
         <item name="android:background">@null</item>
     </style>

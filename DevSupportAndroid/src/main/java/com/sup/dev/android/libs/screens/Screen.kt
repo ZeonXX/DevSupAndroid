@@ -15,6 +15,8 @@ import com.sup.dev.android.libs.screens.activity.SActivityDrawer
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.tools.ToolsThreads
 
 
 open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
@@ -71,6 +73,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
             } else {
                 toolbar.navigationIcon = null
             }
+
         } else {
             val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {

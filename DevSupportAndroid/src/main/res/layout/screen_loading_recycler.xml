@@ -8,7 +8,7 @@
         style="@style/AppBar">
 
         <android.support.v7.widget.Toolbar
-            style="@style/Toolbar">
+            style="@style/Toolbar.Scrollable">
 
             <LinearLayout
                 android:id="@+id/vToolbarIconsContainer"
