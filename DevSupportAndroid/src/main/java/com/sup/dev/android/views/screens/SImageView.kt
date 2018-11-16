@@ -24,7 +24,7 @@ class SImageView private constructor(
     init {
 
         val vImage: ImageView = findViewById(R.id.vImage)
-        val vDownload: ViewIcon = findViewById(R.id.download)
+        val vDownload: ViewIcon = findViewById(R.id.vDownload)
 
         vImage.isClickable = false
         vDownload.setOnClickListener { v -> download() }

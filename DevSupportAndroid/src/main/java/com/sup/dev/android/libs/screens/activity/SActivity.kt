@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
@@ -76,8 +78,7 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     protected open fun applyTheme() {
-        ToolsView.makeHalfFullscreen(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
     }
 
     protected open fun getLayout(): Int {

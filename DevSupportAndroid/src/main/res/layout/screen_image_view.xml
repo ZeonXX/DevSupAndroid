@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="?android:windowBackground"
-              android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Root"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        style="@style/AppBar">
+        style="@style/AppBar"
+        android:background="@color/focus">
 
         <android.support.v7.widget.Toolbar
-            style="@style/Toolbar">
+            style="@style/Toolbar.Scrollable.Collapse">
 
             <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vDownload"
                 style="@style/Icon"
-                android:id="@+id/download"
                 android:layout_gravity="end"
                 android:src="?ic_file_download"/>
 
         </android.support.v7.widget.Toolbar>
-        <View
-            android:id="@+id/screen_activity_bottom_navigation_line"
-            style="@style/Divider"
-            android:layout_gravity="top"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -36,4 +32,4 @@
 
     </com.sup.dev.android.views.views.layouts.LayoutZoom>
 
-</LinearLayout>
+</FrameLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="id" name="vToolbar"/>
-    <item type="id" name="vAppBar"/>
     <item type="id" name="vCollapsingToolbar"/>
+    <item type="id" name="vAppBar"/>
     <item type="id" name="vFab"/>
     <item type="id" name="vDim"/>
     <item type="id" name="vSheet"/>

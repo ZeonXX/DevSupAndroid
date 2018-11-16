@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root">
 
     <android.support.design.widget.AppBarLayout
         style="@style/AppBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/vToolbar"
             style="@style/Toolbar">
 
             <LinearLayout
@@ -25,17 +21,10 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <View style="@style/Divider"/>
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/vRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:windowBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        style="@style/SwipeRefresh">
 
         <android.support.v7.widget.RecyclerView
             style="@style/Recycler"/>

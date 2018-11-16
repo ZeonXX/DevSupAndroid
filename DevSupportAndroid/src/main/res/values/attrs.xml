@@ -179,6 +179,15 @@
         <attr name="LayoutFlow_vertical" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="LayoutCorned">
+        <attr name="LayoutCorned_cornedTR" format="boolean"/>
+        <attr name="LayoutCorned_cornedTL" format="boolean"/>
+        <attr name="LayoutCorned_cornedBR" format="boolean"/>
+        <attr name="LayoutCorned_cornedBL" format="boolean"/>
+        <attr name="LayoutCorned_chipMode" format="boolean"/>
+        <attr name="LayoutCorned_cornedSize" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="LayoutFlow_LayoutParams">
         <attr name="LayoutFlow_LayoutParams_breakLine" format="boolean"/>
         <attr name="LayoutFlow_LayoutParams_horizontalSpacing" format="dimension"/>

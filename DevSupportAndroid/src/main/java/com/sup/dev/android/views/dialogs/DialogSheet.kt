@@ -44,7 +44,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
 
-       // window!!.setWindowAnimations(R.style.DialogSheetAnimation)
+        window!!.setWindowAnimations(R.style.DialogSheetAnimation)
         window!!.setWindowAnimations(0)
         window!!.setBackgroundDrawable(null)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -59,13 +59,13 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
 
 
-       vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
-           ToolsThreads.main(1000) {
-               val h = SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height-SupAndroid.activity!!.getViewContainer()!!.height)
-               window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, h)
-               log(h, SupAndroid.activity!!.getViewContainer()!!.height, SupAndroid.activity!!.getViewRoot()!!.height)
-           }
-       }
+    //   vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
+    //       ToolsThreads.main(1000) {
+    //           val h = SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height - SupAndroid.activity!!.getViewContainer()!!.height)
+    //           window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, h)
+    //           log(h, SupAndroid.activity!!.getViewContainer()!!.height, SupAndroid.activity!!.getViewRoot()!!.height)
+    //       }
+    //   }
 
 
     }

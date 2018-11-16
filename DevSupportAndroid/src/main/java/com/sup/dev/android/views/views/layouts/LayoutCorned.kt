@@ -10,6 +10,7 @@ import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 
 open class LayoutCorned @JvmOverloads constructor(
@@ -30,6 +31,16 @@ open class LayoutCorned @JvmOverloads constructor(
 
     init {
         setWillNotDraw(false)
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.LayoutCorned)
+        cornedTL = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedTL, true)
+        cornedTR = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedTR, true)
+        cornedBL = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedBL, true)
+        cornedBR = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedBR, true)
+        chipMode = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_chipMode, false)
+        cornedSize = a.getDimension(R.styleable.LayoutCorned_LayoutCorned_cornedSize, cornedSize)
+        a.recycle()
+
     }
 
     override fun draw(canvas: Canvas?) {
