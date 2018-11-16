@@ -11,40 +11,40 @@ import com.sup.dev.java.tools.ToolsThreads
 
 object ToolsToast {
 
-    fun show(@StringRes textRes: Int) {
-        show(SupAndroid.appContext!!.getString(textRes))
+    fun showToast(@StringRes textRes: Int) {
+        showToast(SupAndroid.appContext!!.getString(textRes))
     }
 
-    fun show(@StringRes textRes: Int, vararg args: Any) {
-        show(ToolsResources.getString(textRes, *args))
+    fun showToast(@StringRes textRes: Int, vararg args: Any) {
+        showToast(ToolsResources.getString(textRes, *args))
     }
 
-    fun show(text: String?) {
-        ToolsThreads.main { showNow(text) }
+    fun showToast(text: String?) {
+        ToolsThreads.main { showToastNow(text) }
     }
 
-    private fun showNow(text: String?) {
+    private fun showToastNow(text: String?) {
         if (text == null || text.isEmpty()) return
         Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun showSnack(@StringRes textRes: Int) {
-        showSnack(SupAndroid.appContext!!.getString(textRes))
+    fun show(@StringRes textRes: Int) {
+        show(SupAndroid.appContext!!.getString(textRes))
     }
 
-    fun showSnack(text: String) {
-        ToolsThreads.main { showSnackNow(SupAndroid.activity!!.getViewContainer()!!, text) }
+    fun show(text: String) {
+        ToolsThreads.main { showNow(SupAndroid.activity!!.getViewContainer()!!, text) }
     }
 
-    fun showSnack(v: View, @StringRes textRes: Int) {
-        showSnack(v, SupAndroid.appContext!!.getString(textRes))
+    fun show(v: View, @StringRes textRes: Int) {
+        show(v, SupAndroid.appContext!!.getString(textRes))
     }
 
-    fun showSnack(v: View, text: String) {
-        ToolsThreads.main { showSnackNow(v, text) }
+    fun show(v: View, text: String) {
+        ToolsThreads.main { showNow(v, text) }
     }
 
-    private fun showSnackNow(v: View, text: String?) {
+    private fun showNow(v: View, text: String?) {
         if (text == null || text.isEmpty()) return
         val snack = Snackbar.make(v, text, Snackbar.LENGTH_SHORT)
         val snackbarView = snack.view
@@ -53,16 +53,16 @@ object ToolsToast {
         snack.show()
     }
 
-    fun showSnackIfLocked(v: View, @StringRes textRes: Int) {
-        showSnackIfLocked(v, ToolsResources.getString(textRes))
+    fun showIfLocked(v: View, @StringRes textRes: Int) {
+        showIfLocked(v, ToolsResources.getString(textRes))
     }
 
-    fun showSnackIfLocked(v: View, text: String?) {
+    fun showIfLocked(v: View, text: String?) {
         ToolsThreads.main {
             if (ToolsAndroid.isScreenKeyLocked())
-                showSnackNow(v, text)
+                showNow(v, text)
             else
-                showNow(text)
+                showToastNow(text)
         }
     }
 
