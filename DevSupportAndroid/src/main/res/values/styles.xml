@@ -14,14 +14,14 @@
 
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="widget_background">@color/grey_750</item>
-        <item name="content_background">@color/grey_800</item>
-        <item name="android:windowBackground">@color/grey_850</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="widget_background">@color/grey_800</item>
+        <item name="content_background">@color/grey_750</item>
+        <item name="android:windowBackground">@color/grey_800</item>
         <item name="colorPrimaryDark">@color/grey_850</item>
         <item name="colorPrimary">@color/grey_850</item>
         <item name="colorAccent">@color/orange_a_700</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="ic_arrow_back">@drawable/ic_arrow_back_white_24dp</item>
         <item name="ic_menu">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_white_24dp</item>
@@ -103,7 +103,7 @@
     <style name="Root">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:fitsSystemWindows">false</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:background">?android:windowBackground</item>
     </style>
 
@@ -114,13 +114,10 @@
         <item name="android:textColorPrimary">?toolbarTitleColor</item>
         <item name="android:textColorSecondary">?toolbarTitleColor</item>
         <item name="actionMenuTextColor">?toolbarTitleColor</item>
-    </style>
-
-    <style name="Toolbar.Scrollable">
         <item name="layout_scrollFlags">scroll|enterAlways</item>
     </style>
 
-    <style name="Toolbar.Scrollable.Collapse">
+    <style name="Toolbar.Collapse">
         <item name="layout_collapseMode">pin</item>
         <item name="android:background">@null</item>
     </style>
@@ -179,6 +176,13 @@
 
     <style name="Recycler">
         <item name="android:id">@id/vRecycler</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
+    </style>
+
+    <style name="Pager">
+        <item name="android:id">@id/vPager</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>

@@ -9,7 +9,7 @@
         android:background="@color/focus">
 
         <android.support.v7.widget.Toolbar
-            style="@style/Toolbar.Scrollable.Collapse">
+            style="@style/Toolbar.Collapse">
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vDownload"

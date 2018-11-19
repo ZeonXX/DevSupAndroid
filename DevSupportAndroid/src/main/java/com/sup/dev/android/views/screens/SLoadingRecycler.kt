@@ -67,10 +67,6 @@ abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.scr
         adapter!!.reloadBottom()
     }
 
-    protected fun enableToolbarHide(){
-      (vToolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-    }
-
     protected abstract fun instanceAdapter(): RecyclerCardAdapterLoading<C, V>
 
     protected fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit): ViewIcon {
