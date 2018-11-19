@@ -1,19 +1,13 @@
 package com.sup.dev.android.views.dialogs
 
-import android.graphics.Rect
-import android.os.Build
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatDialog
 import android.view.*
 import android.widget.FrameLayout
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
-import com.sup.dev.java.libs.debug.log
-import com.sup.dev.java.tools.ToolsThreads
-
 
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
 
@@ -36,6 +30,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         val vCorned: LayoutCorned = vRoot.findViewById(R.id.vCorned)
         val vContainer: ViewGroup = vRoot.findViewById(R.id.vContainer)
 
+        vCorned.setCornedSize(8)
         vCorned.setCornedBL(false)
         vCorned.setCornedBR(false)
 
@@ -45,29 +40,14 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
 
-        window!!.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window!!.setWindowAnimations(R.style.DialogSheetAnimation)
         window!!.setBackgroundDrawable(null)
-        window!!.setGravity(Gravity.BOTTOM)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window!!.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window!!.statusBarColor = 0x00000000
-        }
+        window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
         vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
-        vRoot.addOnLayoutChangeListener { v, x1, x2, x3, x4, x5, x6, x7, x8 ->
-            val r = Rect()
-            vRoot.getWindowVisibleDisplayFrame(r)
-            log(r.left, r.top, r.right, r.bottom)
-            window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, SupAndroid.activity!!.getViewRoot()!!.height - (SupAndroid.activity!!.getViewRoot()!!.height - SupAndroid.activity!!.getViewContainer()!!.height))
-        }
-
-
     }
 
 

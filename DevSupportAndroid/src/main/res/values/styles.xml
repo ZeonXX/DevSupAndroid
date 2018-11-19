@@ -14,7 +14,6 @@
 
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="widget_background">@color/grey_750</item>
         <item name="content_background">@color/grey_800</item>
         <item name="android:windowBackground">@color/grey_850</item>
@@ -34,7 +33,6 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="android:windowBackground">@color/grey_100</item>
@@ -58,9 +56,9 @@
         <item name="ic_menu">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_white_24dp</item>
         <item name="ic_file_download">@drawable/ic_file_download_white_24dp</item>
-        <item name="colorPrimaryDark">@color/blue_500</item>
-        <item name="colorAccent">@color/blue_a_400</item>
-        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryDark">@color/red_700</item>
+        <item name="colorAccent">@color/red_a_400</item>
+        <item name="colorPrimary">@color/red_700</item>
         <item name="toolbarTitleColor">@color/white</item>
     </style>
 
@@ -112,16 +110,10 @@
     <style name="Toolbar">
         <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColorPrimary">?toolbarTitleColor</item>
         <item name="android:textColorSecondary">?toolbarTitleColor</item>
         <item name="actionMenuTextColor">?toolbarTitleColor</item>
-        <item name="android:gravity">bottom</item>
-        <item name="titleMarginBottom">16dp</item>
-        <item name="buttonGravity">bottom</item>
-    </style>
-
-    <style name="Toolbar.Big">
     </style>
 
     <style name="Toolbar.Scrollable">
@@ -137,10 +129,6 @@
         <item name="android:id">@id/vAppBar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="AppBar.Collapse">
-        <item name="android:layout_marginTop">-24dp</item>
     </style>
 
     <style name="CollapsingToolbar">
