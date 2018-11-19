@@ -5,6 +5,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import kotlin.reflect.KClass
@@ -77,7 +78,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
             isLockBottom = false
         else
             isLockTop = false
-        cardLoading.setOnRetry({ source -> load(bottom) })
+        cardLoading.setOnRetry { source -> load(bottom) }
         cardLoading.setState(CardLoading.State.LOADING)
 
         val cards = get(cardClass)
@@ -123,7 +124,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
                 if (onEmpty != null) onEmpty!!.invoke()
             }
         } else {
-            if (result.size == 0) {
+            if (result.isEmpty()) {
                 if (bottom)
                     lockBottom()
                 else
@@ -138,7 +139,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
             else
                 add(addTopPositionOffset + i, mapper!!.invoke(result[i]!!))
 
-        if (contains(cardClass) || result.size != 0)
+        if (contains(cardClass) || result.isNotEmpty())
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
 
     }

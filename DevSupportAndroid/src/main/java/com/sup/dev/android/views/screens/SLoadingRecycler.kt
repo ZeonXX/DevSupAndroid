@@ -18,7 +18,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.tools.ToolsThreads
 
-abstract class SLoadingRecycler<C : Card, V> constructor(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
+abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
     protected var textErrorRetry = ToolsResources.getString(R.string.app_retry)
 

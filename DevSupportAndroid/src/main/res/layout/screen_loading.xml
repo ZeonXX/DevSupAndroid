@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/vContainer"
-    style="@style/Root">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/message_container"
@@ -15,14 +15,14 @@
             android:id="@+id/vEmptyImage"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <ProgressBar
             android:id="@+id/vProgress"
             android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:id="@+id/vMessage"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:maxWidth="240dp"
-            android:text="tttttttttttttttttttttttttttttttt"/>
+            android:text="tttttttttttttttttttttttttttttttt" />
 
         <Button
             android:id="@+id/vAction"
@@ -41,12 +41,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="tttttttttttt"/>
+            android:text="tttttttttttt" />
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/vFab"
-        style="@style/Fab"/>
+        style="@style/Fab" />
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
