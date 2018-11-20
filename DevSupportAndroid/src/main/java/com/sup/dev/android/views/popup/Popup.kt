@@ -21,7 +21,7 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     init {
 
         val vCorned = LayoutCorned(view.context)
-        vCorned.setBackgroundColor(ToolsResources.getColorFromAttr(R.attr.widget_background))
+        vCorned.setBackgroundColor(ToolsResources.getColorFromAttr(R.attr.popup_background))
         ToolsView.removeFromParent(view)
         vCorned.addView(view)
         setBackgroundDrawable(ColorDrawable(0x00000000))

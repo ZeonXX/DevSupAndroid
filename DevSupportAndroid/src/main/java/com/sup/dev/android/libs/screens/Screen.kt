@@ -22,18 +22,12 @@ import com.sup.dev.java.tools.ToolsThreads
 open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
 
     var isBackStackAllowed = true
-        protected set
-    protected var hasBackIcon = true
+    var hasBackIcon = true
     var isBottomNavigationVisible = true
-        protected set
     var isBottomNavigationAllowed = true
-        protected set
     var isBottomNavigationAnimation = true
-        protected set
-    var isBottomNavigationLineAllowed = true
-        protected set
+    var bottomNavigationShadowOffsetExtraDp = 0
     var isSingleInstanceInBackstack = false
-        protected set
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 

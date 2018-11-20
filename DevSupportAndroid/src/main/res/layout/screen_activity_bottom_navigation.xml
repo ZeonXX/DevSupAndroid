@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/screen_activity_root"
     android:layout_width="match_parent"
@@ -29,27 +29,21 @@
                 android:focusable="true"/>
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/screen_activity_bottom_navigation_container_root"
+        <LinearLayout
+            android:id="@+id/screen_activity_bottom_navigation_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/screen_activity_bottom_navigation_container"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="?colorPrimary"
-                android:orientation="horizontal"/>
-
-            <View
-                android:id="@+id/screen_activity_bottom_navigation_line"
-                style="@style/Divider"
-                android:layout_gravity="top"/>
-
-
-        </FrameLayout>
-
+            android:layout_height="48dp"
+            android:background="?colorPrimary"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <View
+        android:id="@+id/screen_activity_bottom_navigation_line"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="48dp"/>
+
+
+</FrameLayout>
