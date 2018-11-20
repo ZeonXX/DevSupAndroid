@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/screen_activity_root"
+    android:id="@+id/vActivityRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/screen_drawer"
+        android:id="@+id/vScreenDrawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -17,12 +17,12 @@
             android:layout_weight="1">
 
             <FrameLayout
-                android:id="@+id/screen_activity_view"
+                android:id="@+id/vScreenActivityView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
             <FrameLayout
-                android:id="@+id/screen_activity_touch_lock"
+                android:id="@+id/vScreenActivityTouchLock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
@@ -30,7 +30,7 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/screen_activity_bottom_navigation_container"
+            android:id="@+id/vScreenActivityBottomNavigationContainer"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?colorPrimary"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/screen_activity_bottom_navigation_line"
+        android:id="@+id/vScreenActivityBottomNavigationLine"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_gravity="bottom"

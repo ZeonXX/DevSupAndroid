@@ -45,9 +45,9 @@ abstract class SActivity : AppCompatActivity() {
         applyTheme()
 
         setContentView(getLayout())
-        vActivityRoot = findViewById(R.id.screen_activity_root)
-        vActivityContainer = findViewById(R.id.screen_activity_view)
-        vActivityTouchLock = findViewById(R.id.screen_activity_touch_lock)
+        vActivityRoot = findViewById(R.id.vActivityRoot)
+        vActivityContainer = findViewById(R.id.vScreenActivityView)
+        vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
 
         vActivityTouchLock!!.visibility = View.GONE
     }

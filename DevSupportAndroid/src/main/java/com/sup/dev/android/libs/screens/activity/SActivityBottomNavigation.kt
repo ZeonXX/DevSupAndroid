@@ -36,8 +36,8 @@ abstract class SActivityBottomNavigation : SActivity() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
 
-        vContainer = findViewById(R.id.screen_activity_bottom_navigation_container)
-        vLine = findViewById(R.id.screen_activity_bottom_navigation_line)
+        vContainer = findViewById(R.id.vScreenActivityBottomNavigationContainer)
+        vLine = findViewById(R.id.vScreenActivityBottomNavigationLine)
 
         updateNavigationVisible()
 

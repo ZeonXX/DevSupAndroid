@@ -21,8 +21,8 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
 
-        drawerLayout = findViewById(R.id.screen_drawer)
-        drawerContainer = findViewById(R.id.screen_drawer_container)
+        drawerLayout = findViewById(R.id.vScreenDrawer)
+        drawerContainer = findViewById(R.id.vScreenDrawerContainer)
         drawerLayout!!.setDrawerListener(this)
         drawerLayout!!.drawerElevation = 0f
         drawerLayout!!.setScrimColor(0)
