@@ -26,7 +26,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
     var isBottomNavigationVisible = true
     var isBottomNavigationAllowed = true
     var isBottomNavigationAnimation = true
-    var bottomNavigationShadowOffsetExtraDp = 0
+    var isBottomNavigationShadowAvliable = true
     var isSingleInstanceInBackstack = false
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */

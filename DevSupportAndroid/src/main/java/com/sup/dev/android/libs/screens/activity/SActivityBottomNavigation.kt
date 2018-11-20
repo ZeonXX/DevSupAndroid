@@ -31,7 +31,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     private var screenBottomNavigationVisible = true
     private var screenBottomNavigationAllowed = true
     private var screenBottomNavigationAnimation = true
-    private var screenBottomNavigationShadowOffsetExtraDp = 0
+    private var screenBottomNavigationShadowAvliable = true
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -41,7 +41,7 @@ abstract class SActivityBottomNavigation : SActivity() {
 
         updateNavigationVisible()
 
-        val primary = ToolsResources.getPrimaryColor(vLine!!.context);
+        val primary = ToolsResources.getPrimaryColor(vLine!!.context)
         vLine!!.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(primary, ToolsColor.setAlpha(0, primary))))
    }
 
@@ -62,7 +62,7 @@ abstract class SActivityBottomNavigation : SActivity() {
             screenBottomNavigationVisible = screen.isBottomNavigationVisible
             screenBottomNavigationAllowed = screen.isBottomNavigationAllowed
             screenBottomNavigationAnimation = screen.isBottomNavigationAnimation
-            screenBottomNavigationShadowOffsetExtraDp = screen.bottomNavigationShadowOffsetExtraDp
+            screenBottomNavigationShadowAvliable = screen.isBottomNavigationShadowAvliable
             updateNavigationVisible()
         }
     }
@@ -70,7 +70,14 @@ abstract class SActivityBottomNavigation : SActivity() {
     private fun updateNavigationVisible() {
         if (navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) {
             ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-            ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+            if(screenBottomNavigationShadowAvliable) {
+                ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+            }else{
+                ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                    vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
+                    Unit
+                }
+            }
         } else {
             ToolsView.toAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
                 vContainer!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
@@ -81,9 +88,6 @@ abstract class SActivityBottomNavigation : SActivity() {
                 Unit
             }
         }
-
-        (vLine!!.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = ToolsView.dpToPx(48 + screenBottomNavigationShadowOffsetExtraDp)
-        vLine!!.requestLayout()
     }
 
     fun addIcon(@DrawableRes icon: Int, onClick: (View) -> Unit): NavigationItem {

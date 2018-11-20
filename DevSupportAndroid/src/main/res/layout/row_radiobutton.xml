@@ -23,7 +23,7 @@
             android:text="My text"/>
 
         <RadioButton
-            android:id="@+id/radio_button"
+            android:id="@+id/vRadioButton"
             android:background="@null"
             android:clickable="false"
             android:layout_width="wrap_content"
