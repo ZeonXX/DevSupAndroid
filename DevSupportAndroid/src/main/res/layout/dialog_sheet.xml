@@ -17,21 +17,28 @@
             app:LayoutMaxSizes_childAlwaysMaxW="true"
             app:LayoutMaxSizes_maxHeight="420dp">
 
-
-            <com.sup.dev.android.views.views.layouts.LayoutCorned
-                android:id="@+id/vCorned"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/widget_background">
+                android:layout_gravity="bottom">
 
-                <FrameLayout
-                    android:id="@+id/vContainer"
+
+                <com.sup.dev.android.views.views.layouts.LayoutCorned
+                    android:id="@+id/vCorned"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:background="?attr/widget_background">
 
-            </com.sup.dev.android.views.views.layouts.LayoutCorned>
+                    <FrameLayout
+                        android:id="@+id/vContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </FrameLayout>
 
+                </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+
+            </android.support.v4.widget.NestedScrollView>
 
         </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 
