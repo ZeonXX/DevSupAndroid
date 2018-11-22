@@ -138,7 +138,7 @@ abstract class SActivityBottomNavigation : SActivity() {
 
         init {
             vIcon = view.findViewById(R.id.vIcon)
-            vChip = view.findViewById(R.id.chip)
+            vChip = view.findViewById(R.id.vChip)
         }
 
     }
