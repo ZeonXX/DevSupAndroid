@@ -285,7 +285,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         val inflater = LayoutInflater.from(context)
         val v = inflater.inflate(R.layout.view_crop_image_view, this, true)
 
-        mImageView = v.findViewById(R.id.dev_sup_image)
+        mImageView = v.findViewById(R.id.vDevSupImage)
         mImageView.scaleType = ImageView.ScaleType.MATRIX
 
         mCropOverlayView = v.findViewById(R.id.dev_sup_overlay)

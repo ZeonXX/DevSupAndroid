@@ -17,7 +17,7 @@ class CardSpace : Card {
     }
 
     override fun bindView(view: View) {
-        val space = view.findViewById<View>(R.id.space)
+        val space = view.findViewById<View>(R.id.vSpace)
         space.layoutParams.height = spacePx
     }
 

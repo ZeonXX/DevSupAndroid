@@ -5,14 +5,14 @@
              android:layout_height="match_parent">
 
     <com.sup.dev.android.views.views.ViewCircleImage
-        android:id="@+id/dev_sup_image"
+        android:id="@+id/vDevSupImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?selectableItemBackgroundBorderless"
         android:src="@color/blue_700"/>
 
     <com.sup.dev.android.views.views.ViewChip
-        android:id="@+id/dev_sup_chip"
+        android:id="@+id/vDevSupChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="text"
@@ -21,6 +21,6 @@
     <com.sup.dev.android.views.views.ViewDraw
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dev_sup_avatar_touch"/>
+        android:id="@+id/vDevSupAvatarTouch"/>
 
 </FrameLayout>

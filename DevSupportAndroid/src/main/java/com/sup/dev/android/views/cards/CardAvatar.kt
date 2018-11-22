@@ -31,9 +31,9 @@ open class CardAvatar : Card() {
     }
 
     override fun bindView(view: View) {
-        val vTouch = view.findViewById<View>(R.id.touch)
+        val vTouch = view.findViewById<View>(R.id.vTouch)
         val vDivider = view.findViewById<View>(R.id.vDivider)
-        val vAvatar = view.findViewById<ViewAvatarTitle>(R.id.avatar)
+        val vAvatar = view.findViewById<ViewAvatarTitle>(R.id.vAvatar)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = true && enabled

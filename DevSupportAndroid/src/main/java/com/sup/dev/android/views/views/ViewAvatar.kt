@@ -36,9 +36,9 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         paint.isAntiAlias = true
 
         val view: View = ToolsView.inflate(context, R.layout.view_avatar)
-        vImageView = view.findViewById(R.id.dev_sup_image)
-        vChip = view.findViewById(R.id.dev_sup_chip)
-        vTouch = view.findViewById(R.id.dev_sup_avatar_touch)
+        vImageView = view.findViewById(R.id.vDevSupImage)
+        vChip = view.findViewById(R.id.vDevSupChip)
+        vTouch = view.findViewById(R.id.vDevSupAvatarTouch)
 
         vChip.visibility = View.GONE
 

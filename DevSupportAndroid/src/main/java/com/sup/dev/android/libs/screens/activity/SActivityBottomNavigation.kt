@@ -137,7 +137,7 @@ abstract class SActivityBottomNavigation : SActivity() {
         val vChip: ViewChip
 
         init {
-            vIcon = view.findViewById(R.id.icon)
+            vIcon = view.findViewById(R.id.vIcon)
             vChip = view.findViewById(R.id.chip)
         }
 

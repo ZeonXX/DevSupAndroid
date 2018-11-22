@@ -20,13 +20,13 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
 
     init {
         view = ToolsView.inflate(context, R.layout.screen_activity_navigation_row)
-        vChip = view.findViewById(R.id.navigation_row_chip)
+        vChip = view.findViewById(R.id.vNavigationRowChip)
 
-        (view.findViewById(R.id.navigation_row_icon) as ImageView).setImageResource(icon)
+        (view.findViewById(R.id.vNavigationRowIcon) as ImageView).setImageResource(icon)
         view.setOnClickListener(onClickListener)
 
         setChipVisible(false)
-        (view.findViewById(R.id.navigation_row_text) as TextView).setText(text)
+        (view.findViewById(R.id.vNavigationRowText) as TextView).setText(text)
     }
 
     fun setChip(text: String) {
@@ -34,6 +34,6 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
     }
 
     fun setChipVisible(b: Boolean) {
-        view!!.findViewById<View>(R.id.navigation_row_chip).visibility = if (b) View.VISIBLE else View.GONE
+        view!!.findViewById<View>(R.id.vNavigationRowChip).visibility = if (b) View.VISIBLE else View.GONE
     }
 }

@@ -14,9 +14,9 @@ import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap, Unit>?) : Screen(R.layout.screen_image_crop) {
 
 
-    private val vCropImageView: ViewCropImage = findViewById(R.id.crop)
+    private val vCropImageView: ViewCropImage = findViewById(R.id.vCrop)
     private val vFinish: View = findViewById(R.id.vFab)
-    private val vAll: View = findViewById(R.id.all)
+    private val vAll: View = findViewById(R.id.vAll)
 
     private var autoBackOnCrop = true
     private var locked: Boolean = false

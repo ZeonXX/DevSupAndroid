@@ -40,11 +40,11 @@ open class CardSpoiler : Card() {
     }
 
     override fun bindView(view: View) {
-        val vIcon = view.findViewById<ImageView>(R.id.icon)
+        val vIcon = view.findViewById<ImageView>(R.id.vIcon)
         val vTitle = view.findViewById<TextView>(R.id.vTitle)
         val vText = view.findViewById<TextView>(R.id.vText)
-        val vRightText = view.findViewById<TextView>(R.id.right_text)
-        val vTouch = view.findViewById<View>(R.id.touch)
+        val vRightText = view.findViewById<TextView>(R.id.vRightText)
+        val vTouch = view.findViewById<View>(R.id.vTouch)
         val vDivider = view.findViewById<View>(R.id.vDivider)
 
         if (!originalSeted) {
