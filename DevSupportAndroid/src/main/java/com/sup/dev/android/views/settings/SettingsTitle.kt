@@ -10,12 +10,10 @@ import com.sup.dev.android.tools.ToolsResources
 
 class SettingsTitle @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_title) {
 
-    private val vTitle: TextView
+    private val vTitle: TextView = findViewById(R.id.vDevSupTitle)
 
 
     init {
-
-        vTitle = findViewById(R.id.dev_sup_title)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsTitle, 0, 0)
         val lineVisible = a.getBoolean(R.styleable.SettingsTitle_SettingsTitle_lineVisible, true)

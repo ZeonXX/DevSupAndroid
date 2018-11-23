@@ -97,11 +97,11 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
             xOffset += (child.measuredWidth + offset).toInt()
         }
 
-        val selected = views!![position]!!.findViewById<TextView>(R.id.dev_sup_title)
+        val selected = views!![position]!!.findViewById<TextView>(R.id.vDevSupTitle)
         var old: TextView? = null
         val oldIndex = if (positionOffset > 0) position + 1 else position - 1
         if (positionOffset != 0f && oldIndex > -1 && oldIndex < count) {
-            old = views!![oldIndex]!!.findViewById(R.id.dev_sup_title)
+            old = views!![oldIndex]!!.findViewById(R.id.vDevSupTitle)
             xOffset += (((selected.measuredWidth + old!!.measuredWidth) / 2 + offset) * positionOffset).toInt()
         }
 
@@ -112,7 +112,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
             child.layout(x, y, x + child.measuredWidth, child.measuredHeight + y)
             x += (offset + child.measuredWidth).toInt()
 
-            val textView = views!![i]!!.findViewById<TextView>(R.id.dev_sup_title)
+            val textView = views!![i]!!.findViewById<TextView>(R.id.vDevSupTitle)
             textView.setTextColor(ToolsColor.setAlpha(120, textView.currentTextColor))
         }
 

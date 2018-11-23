@@ -11,10 +11,10 @@ import com.sup.dev.java.tools.ToolsDate
 
 class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
-    private val vStart: Button = view.findViewById(R.id.start)
-    private val vEnd: Button = view.findViewById(R.id.end)
-    private val vCancel: Button = view.findViewById(R.id.cancel)
-    private val vEnter: Button = view.findViewById(R.id.enter)
+    private val vStart: Button = view.findViewById(R.id.vStart)
+    private val vEnd: Button = view.findViewById(R.id.vEnd)
+    private val vCancel: Button = view.findViewById(R.id.vCancel)
+    private val vEnter: Button = view.findViewById(R.id.vEnter)
 
     private var h1: Int = 0
     private var m1: Int = 0

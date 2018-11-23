@@ -51,9 +51,9 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
 
         val view: View = ToolsView.inflate(context, R.layout.view_avatar_title)
 
-        viewAvatar = view.findViewById(R.id.dev_sup_avatar)
-        vTitle = view.findViewById(R.id.dev_sup_title)
-        viewSubtitle = view.findViewById(R.id.dev_sup_subtitle)
+        viewAvatar = view.findViewById(R.id.vDevSupAvatar)
+        vTitle = view.findViewById(R.id.vDevSupTitle)
+        viewSubtitle = view.findViewById(R.id.vDevSupSubtitle)
 
         addView(view)
 

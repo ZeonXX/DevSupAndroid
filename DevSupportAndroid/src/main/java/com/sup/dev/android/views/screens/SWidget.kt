@@ -11,6 +11,7 @@ import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
 class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), WidgetViewWrapper {
+
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     init {

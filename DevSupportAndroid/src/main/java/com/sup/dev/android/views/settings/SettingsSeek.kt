@@ -15,10 +15,10 @@ import com.sup.dev.android.views.views.ViewIcon
 
 class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_seek), SeekBar.OnSeekBarChangeListener {
 
-    private val vIcon: ViewIcon = view.findViewById(R.id.dev_sup_icon)
-    private val vTitle: TextView = view.findViewById(R.id.dev_sup_title)
-    private val vSubtitle: TextView = view.findViewById(R.id.dev_sup_subtitle)
-    private val vSeekBar: SeekBar = view.findViewById(R.id.dev_sup_seek_bar)
+    private val vIcon: ViewIcon = view.findViewById(R.id.vDevSupIcon)
+    private val vTitle: TextView = view.findViewById(R.id.vDevSupTitle)
+    private val vSubtitle: TextView = view.findViewById(R.id.vDevSupSubtitle)
+    private val vSeekBar: SeekBar = view.findViewById(R.id.vDevSupSeekBar)
 
     private var onProgressChanged: ((Int) -> Unit)? = null
 

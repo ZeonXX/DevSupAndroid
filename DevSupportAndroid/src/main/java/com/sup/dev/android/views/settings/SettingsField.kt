@@ -18,9 +18,9 @@ import com.sup.dev.android.views.views.ViewErrorEditText
 
 class SettingsField @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_field) {
 
-    private val vIcon: ViewIcon = findViewById(R.id.dev_sup_icon)
-    private val vField: ViewErrorEditText = findViewById(R.id.dev_sup_field)
-    private val vInputLayout: TextInputLayout = findViewById(R.id.dev_sup_input_layout)
+    private val vIcon: ViewIcon = findViewById(R.id.vDevSupIcon)
+    private val vField: ViewErrorEditText = findViewById(R.id.vDevSupField)
+    private val vInputLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
     private var isError: Boolean = false
     private var checker: ((String) -> Boolean)? = null

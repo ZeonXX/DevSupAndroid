@@ -9,7 +9,7 @@
     android:paddingTop="8dp">
 
     <com.sup.dev.android.views.views.ViewIcon
-        android:id="@+id/dev_sup_icon"
+        android:id="@+id/vDevSupIcon"
         android:layout_width="38dp"
         android:layout_gravity="center"
         android:layout_height="38dp"
@@ -27,13 +27,13 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/dev_sup_input_layout"
+            android:id="@+id/vDevSupInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false">
 
             <com.sup.dev.android.views.views.ViewErrorEditText
-                android:id="@+id/dev_sup_field"
+                android:id="@+id/vDevSupField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"

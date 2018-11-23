@@ -11,7 +11,7 @@
             android:orientation="vertical">
 
         <TimePicker
-                android:id="@+id/time_picker"
+                android:id="@+id/vTimePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
@@ -25,14 +25,14 @@
                 android:orientation="horizontal">
 
             <Button
-                    android:id="@+id/cancel"
+                    android:id="@+id/vCancel"
                     style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancel"/>
 
             <Button
-                    android:id="@+id/enter"
+                    android:id="@+id/vEnter"
                     style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

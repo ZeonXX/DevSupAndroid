@@ -12,10 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
-
         <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/dev_sup_icon"
+            android:id="@+id/vDevSupIcon"
             android:layout_width="38dp"
             android:layout_gravity="center"
             android:layout_height="38dp"
@@ -33,14 +31,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/dev_sup_title"
+                android:id="@+id/vDevSupTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Repat callers"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"/>
 
             <TextView
-                android:id="@+id/dev_sup_subtitle"
+                android:id="@+id/vDevSupSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ring when receiving a second call from the same number within 3 minutes"
@@ -49,7 +47,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/dev_sup_container"
+            android:id="@+id/vDevSupContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

@@ -11,7 +11,7 @@ import com.sup.dev.android.R
 
 class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
 
-    private val vSwitcher: Switch
+    private val vSwitcher: Switch = Switch(context)
 
     private var onClickListener: View.OnClickListener? = null
     private var salient: Boolean = false
@@ -31,7 +31,6 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
 
     init {
 
-        vSwitcher = Switch(context)
         vSwitcher.isFocusable = false
         vSwitcher.setOnCheckedChangeListener { v, b ->
             setEnabledSubSettings(b)

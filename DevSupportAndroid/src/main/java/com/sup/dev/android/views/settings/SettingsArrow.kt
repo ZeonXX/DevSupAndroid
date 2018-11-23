@@ -9,11 +9,10 @@ import com.sup.dev.android.tools.ToolsResources
 
 class SettingsArrow @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
 
-    private val vArrow: ImageView
+    private val vArrow: ImageView = ImageView(context)
 
     init {
 
-        vArrow = ImageView(context)
         vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_keyboard_arrow_right))
 
 

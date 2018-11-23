@@ -18,13 +18,13 @@ import com.sup.dev.java.tools.ToolsText
 
 class WidgetAlert : Widget(R.layout.widget_alert) {
 
-    private val vCheck: CheckBox = findViewById(R.id.check_box)
-    private val vEnter: Button = findViewById(R.id.enter)
-    private val vCancel: Button = findViewById(R.id.cancel)
+    private val vCheck: CheckBox = findViewById(R.id.vCheckBox)
+    private val vEnter: Button = findViewById(R.id.vEnter)
+    private val vCancel: Button = findViewById(R.id.vCancel)
     private val vText: TextView = findViewById(R.id.vText)
-    private val vTopContainer: ViewGroup = findViewById(R.id.top_container)
-    private val vTopImage: ImageView = findViewById(R.id.top_image)
-    private val vTopTitle: TextView = findViewById(R.id.top_title)
+    private val vTopContainer: ViewGroup = findViewById(R.id.vTopContainer)
+    private val vTopImage: ImageView = findViewById(R.id.vTopImage)
+    private val vTopTitle: TextView = findViewById(R.id.vTopTitle)
 
     private var key: String? = null
     private var lockUntilAccept: Boolean = false

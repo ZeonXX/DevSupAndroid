@@ -12,7 +12,7 @@ import com.sup.dev.android.tools.ToolsView
 
 class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
 
-    private val vCheckBox: CheckBox
+    private val vCheckBox: CheckBox = ToolsView.inflate(context, R.layout.view_check_box)
 
     private var onClickListener: View.OnClickListener? = null
     private var salient: Boolean = false
@@ -31,7 +31,6 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
 
     init {
 
-        vCheckBox = ToolsView.inflate(context, R.layout.view_check_box)
         vCheckBox.isFocusable = false
         vCheckBox.setOnCheckedChangeListener { v, b ->
             setEnabledSubSettings(b)

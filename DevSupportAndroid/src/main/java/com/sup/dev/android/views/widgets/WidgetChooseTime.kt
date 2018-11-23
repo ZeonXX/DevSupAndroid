@@ -11,9 +11,9 @@ import com.sup.dev.android.tools.ToolsView
 
 class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
 
-    private val vTimePicker: TimePicker = view.findViewById(R.id.time_picker)
-    private val vCancel: Button = view.findViewById(R.id.cancel)
-    private val vEnter: Button = view.findViewById(R.id.enter)
+    private val vTimePicker: TimePicker = view.findViewById(R.id.vTimePicker)
+    private val vCancel: Button = view.findViewById(R.id.vCancel)
+    private val vEnter: Button = view.findViewById(R.id.vEnter)
 
     private var autoHideOnEnter = true
 

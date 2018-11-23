@@ -58,8 +58,8 @@ class ViewChip constructor(context: Context, attrs: AttributeSet? = null) : Fram
         paint.isAntiAlias = true
 
         view = ToolsView.inflate(context, R.layout.view_chip)
-        vTextView = view.findViewById(R.id.dev_sup_text)
-        vIcon = view.findViewById(R.id.dev_sup_icon)
+        vTextView = view.findViewById(R.id.vDevSupText)
+        vIcon = view.findViewById(R.id.vDevSupIcon)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewChip, 0, 0)
         val text = a.getString(R.styleable.ViewChip_android_text)

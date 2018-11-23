@@ -14,17 +14,12 @@ import com.sup.dev.java.libs.debug.Debug
 
 open class SettingsAction @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_action) {
 
-    private val vIcon: ViewIcon
-    private val vTitle: TextView
-    private val vSubtitle: TextView
-    private val vSubViewContainer: ViewGroup
+    private val vIcon: ViewIcon = findViewById(R.id.vDevSupIcon)
+    private val vTitle: TextView = findViewById(R.id.vDevSupTitle)
+    private val vSubtitle: TextView = findViewById(R.id.vDevSupSubtitle)
+    private val vSubViewContainer: ViewGroup = findViewById(R.id.vDevSupContainer)
 
     init {
-
-        vIcon = findViewById(R.id.dev_sup_icon)
-        vTitle = findViewById(R.id.dev_sup_title)
-        vSubtitle = findViewById(R.id.dev_sup_subtitle)
-        vSubViewContainer = findViewById(R.id.dev_sup_container)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsAction, 0, 0)
         val lineVisible = a.getBoolean(R.styleable.SettingsAction_SettingsAction_lineVisible, true)

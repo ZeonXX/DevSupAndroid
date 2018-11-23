@@ -20,7 +20,7 @@
         android:text="Please input text"/>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll"
+        android:id="@+id/vScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -29,14 +29,14 @@
         android:background="@drawable/shape_text_area">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/field_layout"
+            android:id="@+id/vFieldLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
             app:hintEnabled="false">
 
             <com.sup.dev.android.views.views.ViewEditTextMedia
-                android:id="@+id/field"
+                android:id="@+id/vField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -52,7 +52,7 @@
         android:layout_height="match_parent">
 
         <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/copy"
+            android:id="@+id/vCopy"
             style="@style/Icon"
             android:layout_gravity="center|start"
             android:src="@drawable/ic_content_copy_white_24dp"/>
@@ -64,14 +64,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/vCancel"
                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"/>
 
             <Button
-                android:id="@+id/enter"
+                android:id="@+id/vEnter"
                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -7,11 +7,10 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 
 class SettingsSelection @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
 
-    val menu: WidgetMenu
+    val menu: WidgetMenu = WidgetMenu()
 
     init {
 
-        menu = WidgetMenu()
         menu.showPopupWhenClick(view)
         menu.setOnGlobalSelected { w, t -> setSubtitle(t) }
 

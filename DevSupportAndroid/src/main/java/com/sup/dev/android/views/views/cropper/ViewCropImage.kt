@@ -288,7 +288,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         mImageView = v.findViewById(R.id.vDevSupImage)
         mImageView.scaleType = ImageView.ScaleType.MATRIX
 
-        mCropOverlayView = v.findViewById(R.id.dev_sup_overlay)
+        mCropOverlayView = v.findViewById(R.id.vDevSupOverlay)
         mCropOverlayView!!.setCropWindowChangeListener(
                 object : CropOverlayView.CropWindowChangeListener {
                     override fun onCropWindowChanged(inProgress: Boolean) {
@@ -305,7 +305,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                 })
         mCropOverlayView!!.setInitialAttributeValues(options)
 
-        mProgressBar = v.findViewById(R.id.dev_sup_progress)
+        mProgressBar = v.findViewById(R.id.vDevSupProgress)
         setProgressBarVisibility()
     }
 

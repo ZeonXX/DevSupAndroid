@@ -16,9 +16,9 @@ import java.util.ArrayList
 class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     private val items = ArrayList<Item?>()
-    private val vOptionsContainer: LinearLayout = view.findViewById(R.id.content_container)
-    private val vCancel: Button = view.findViewById(R.id.cancel)
-    private val vEnter: Button = view.findViewById(R.id.enter)
+    private val vOptionsContainer: LinearLayout = view.findViewById(R.id.vContentContainer)
+    private val vCancel: Button = view.findViewById(R.id.vCancel)
+    private val vEnter: Button = view.findViewById(R.id.vEnter)
 
     private var autoHideOnEnter = true
 
