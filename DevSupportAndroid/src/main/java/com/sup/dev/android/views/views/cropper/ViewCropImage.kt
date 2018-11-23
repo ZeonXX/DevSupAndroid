@@ -295,15 +295,15 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                         handleCropWindowChanged(inProgress, true)
                         val listener = mOnCropOverlayReleasedListener
                         if (listener != null && !inProgress) {
-                            listener!!.onCropOverlayReleased(cropRect)
+                            listener.onCropOverlayReleased(cropRect)
                         }
                         val movedListener = mOnSetCropOverlayMovedListener
                         if (movedListener != null && inProgress) {
-                            movedListener!!.onCropOverlayMoved(cropRect)
+                            movedListener.onCropOverlayMoved(cropRect)
                         }
                     }
                 })
-        mCropOverlayView!!.setInitialAttributeValues(options)
+        mCropOverlayView.setInitialAttributeValues(options)
 
         mProgressBar = v.findViewById(R.id.vDevSupProgress)
         setProgressBarVisibility()
@@ -312,7 +312,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
     fun setMultiTouchEnabled(multiTouchEnabled: Boolean) {
         if (mCropOverlayView!!.setMultiTouchEnabled(multiTouchEnabled)) {
             handleCropWindowChanged(false, false)
-            mCropOverlayView!!.invalidate()
+            mCropOverlayView.invalidate()
         }
     }
 
@@ -330,13 +330,13 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
 
     fun setAspectRatio(aspectRatioX: Int, aspectRatioY: Int) {
         mCropOverlayView!!.aspectRatioX = aspectRatioX
-        mCropOverlayView!!.aspectRatioY = aspectRatioY
+        mCropOverlayView.aspectRatioY = aspectRatioY
         setFixedAspectRatio(true)
     }
 
     fun clearAspectRatio() {
         mCropOverlayView!!.aspectRatioX = 1
-        mCropOverlayView!!.aspectRatioY = 1
+        mCropOverlayView.aspectRatioY = 1
         setFixedAspectRatio(false)
     }
 
@@ -379,8 +379,8 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                         orgWidth,
                         orgHeight,
                         mCropOverlayView!!.isFixAspectRatio,
-                        mCropOverlayView!!.aspectRatioX,
-                        mCropOverlayView!!.aspectRatioY,
+                        mCropOverlayView.aspectRatioX,
+                        mCropOverlayView.aspectRatioY,
                         reqWidth,
                         reqHeight,
                         mFlipHorizontally,
@@ -392,8 +392,8 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                         cropPoints,
                         mDegreesRotated,
                         mCropOverlayView!!.isFixAspectRatio,
-                        mCropOverlayView!!.aspectRatioX,
-                        mCropOverlayView!!.aspectRatioY,
+                        mCropOverlayView.aspectRatioX,
+                        mCropOverlayView.aspectRatioY,
                         mFlipHorizontally,
                         mFlipVertically)
                         .bitmap
@@ -471,7 +471,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         val setBitmap: Bitmap?
         var degreesRotated = 0
         if (bitmap != null && exif != null) {
-            val result = BitmapUtils.rotateBitmapByExif(bitmap!!, exif!!)
+            val result = BitmapUtils.rotateBitmapByExif(bitmap, exif)
             setBitmap = result.bitmap
             degreesRotated = result.degrees
             mInitialDegreesRotated = result.degrees
@@ -486,14 +486,14 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         if (uri != null) {
             val currentTask = if (mBitmapLoadingWorkerTask != null) mBitmapLoadingWorkerTask!!.get() else null
             if (currentTask != null) {
-                currentTask!!.cancel(true)
+                currentTask.cancel(true)
             }
 
             clearImageInt()
             mRestoreCropWindowRect = null
             mRestoreDegreesRotated = 0
             mCropOverlayView!!.initialCropWindowRect = null
-            mBitmapLoadingWorkerTask = WeakReference(BitmapLoadingWorkerTask(this, uri!!))
+            mBitmapLoadingWorkerTask = WeakReference(BitmapLoadingWorkerTask(this, uri))
             mBitmapLoadingWorkerTask!!.get()!!.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
             setProgressBarVisibility()
         }
@@ -515,7 +515,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
             }
 
             val flipAxes = !mCropOverlayView!!.isFixAspectRatio && (degrees > 45 && degrees < 135 || degrees > 215 && degrees < 305)
-            BitmapUtils.RECT.set(mCropOverlayView!!.cropWindowRect)
+            BitmapUtils.RECT.set(mCropOverlayView.cropWindowRect)
             var halfWidth = (if (flipAxes) BitmapUtils.RECT.height() else BitmapUtils.RECT.width()) / 2f
             var halfHeight = (if (flipAxes) BitmapUtils.RECT.width() else BitmapUtils.RECT.height()) / 2f
             if (flipAxes) {
@@ -558,12 +558,12 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                     BitmapUtils.POINTS2[0] + halfWidth,
                     BitmapUtils.POINTS2[1] + halfHeight)
 
-            mCropOverlayView!!.resetCropOverlayView()
-            mCropOverlayView!!.cropWindowRect = BitmapUtils.RECT
+            mCropOverlayView.resetCropOverlayView()
+            mCropOverlayView.cropWindowRect = BitmapUtils.RECT
             applyImageMatrix(width.toFloat(), height.toFloat(), true, false)
             handleCropWindowChanged(false, false)
 
-            mCropOverlayView!!.fixCurrentCropWindowRect()
+            mCropOverlayView.fixCurrentCropWindowRect()
         }
     }
 
@@ -589,7 +589,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
 
         val listener = mOnSetImageUriCompleteListener
         if (listener != null) {
-            listener!!.onSetImageUriComplete(this, result.uri, result.error)
+            listener.onSetImageUriComplete(this, result.uri, result.error)
         }
     }
 
@@ -612,7 +612,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                     wholeImageRect,
                     rotatedDegrees,
                     result.sampleSize)
-            listener!!.onCropImageComplete(this, cropResult)
+            listener.onCropImageComplete(this, cropResult)
         }
     }
 
@@ -634,7 +634,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
             applyImageMatrix(width.toFloat(), height.toFloat(), true, false)
 
             if (mCropOverlayView != null) {
-                mCropOverlayView!!.resetCropOverlayView()
+                mCropOverlayView.resetCropOverlayView()
                 setCropOverlayVisibility()
             }
         }
@@ -712,12 +712,12 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                 mBitmapCroppingWorkerTask = WeakReference(
                         BitmapCroppingWorkerTask(
                                 this,
-                                bitmap!!,
+                                bitmap,
                                 cropPoints,
                                 mDegreesRotated,
                                 mCropOverlayView!!.isFixAspectRatio,
-                                mCropOverlayView!!.aspectRatioX,
-                                mCropOverlayView!!.aspectRatioY,
+                                mCropOverlayView.aspectRatioX,
+                                mCropOverlayView.aspectRatioY,
                                 reqWidth,
                                 reqHeight,
                                 mFlipHorizontally,
@@ -752,7 +752,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         if (mBitmapLoadingWorkerTask != null) {
             val task = mBitmapLoadingWorkerTask!!.get()
             if (task != null) {
-                bundle.putParcelable("LOADING_IMAGE_URI", task!!.uri)
+                bundle.putParcelable("LOADING_IMAGE_URI", task.uri)
             }
         }
         bundle.putParcelable("instanceState", super.onSaveInstanceState())
@@ -762,13 +762,13 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
         bundle.putInt("DEGREES_ROTATED", mDegreesRotated)
         bundle.putParcelable("INITIAL_CROP_RECT", mCropOverlayView!!.initialCropWindowRect)
 
-        BitmapUtils.RECT.set(mCropOverlayView!!.cropWindowRect)
+        BitmapUtils.RECT.set(mCropOverlayView.cropWindowRect)
 
         mImageMatrix.invert(mImageInverseMatrix)
         mImageInverseMatrix.mapRect(BitmapUtils.RECT)
 
         bundle.putParcelable("CROP_WINDOW_RECT", BitmapUtils.RECT)
-        bundle.putString("CROP_SHAPE", mCropOverlayView!!.cropShape!!.name)
+        bundle.putString("CROP_SHAPE", mCropOverlayView.cropShape!!.name)
         bundle.putBoolean("CROP_AUTO_ZOOM_ENABLED", mAutoZoomEnabled)
         bundle.putInt("CROP_MAX_ZOOM", mMaxZoom)
         bundle.putBoolean("CROP_FLIP_HORIZONTALLY", mFlipHorizontally)
@@ -797,7 +797,7 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                         else
                             null
                         BitmapUtils.mStateBitmap = null
-                        if (stateBitmap != null && !stateBitmap!!.isRecycled) {
+                        if (stateBitmap != null && !stateBitmap.isRecycled) {
                             setBitmap(stateBitmap, 0, uri, bundle.getInt("LOADED_SAMPLE_SIZE"), 0)
                         }
                     }
@@ -820,12 +820,12 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                 mDegreesRotated = mRestoreDegreesRotated
 
                 val initialCropRect = bundle.getParcelable<Rect>("INITIAL_CROP_RECT")
-                if (initialCropRect != null && (initialCropRect!!.width() > 0 || initialCropRect!!.height() > 0)) {
+                if (initialCropRect != null && (initialCropRect.width() > 0 || initialCropRect.height() > 0)) {
                     mCropOverlayView!!.initialCropWindowRect = initialCropRect
                 }
 
                 val cropWindowRect = bundle.getParcelable<RectF>("CROP_WINDOW_RECT")
-                if (cropWindowRect != null && (cropWindowRect!!.width() > 0 || cropWindowRect!!.height() > 0)) {
+                if (cropWindowRect != null && (cropWindowRect.width() > 0 || cropWindowRect.height() > 0)) {
                     mRestoreCropWindowRect = cropWindowRect
                 }
 

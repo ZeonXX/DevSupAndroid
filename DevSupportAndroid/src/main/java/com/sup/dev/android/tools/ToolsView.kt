@@ -23,6 +23,7 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
@@ -39,6 +40,16 @@ import java.util.regex.Pattern
 object ToolsView {
 
     val ANIMATION_TIME = 300
+
+    fun onFieldEnterKey(vFiled:EditText, callback:()->Unit){
+        vFiled.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode==KeyEvent.KEYCODE_ENTER)) {
+                callback.invoke()
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
 
     fun makeHalfFullscreen(activity: Activity) {
         activity.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
