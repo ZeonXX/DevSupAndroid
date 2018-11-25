@@ -15,7 +15,7 @@ import com.sup.dev.android.libs.screens.activity.SActivityDrawer
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
+
 import com.sup.dev.java.tools.ToolsThreads
 
 

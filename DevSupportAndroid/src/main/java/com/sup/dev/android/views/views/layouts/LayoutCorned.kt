@@ -13,7 +13,7 @@ import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+
 
 open class LayoutCorned @JvmOverloads constructor(
         context: Context,

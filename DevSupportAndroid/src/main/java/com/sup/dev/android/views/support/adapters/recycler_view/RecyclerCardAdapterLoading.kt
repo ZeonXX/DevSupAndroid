@@ -5,7 +5,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
-import com.sup.dev.java.libs.debug.log
+
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import kotlin.reflect.KClass

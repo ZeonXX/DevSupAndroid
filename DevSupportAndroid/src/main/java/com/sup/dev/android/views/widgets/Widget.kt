@@ -15,7 +15,7 @@ import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
-import com.sup.dev.java.libs.debug.log
+
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class Widget(layoutRes: Int) {
@@ -97,7 +97,6 @@ abstract class Widget(layoutRes: Int) {
     }
 
     open fun setTitle(title: String?): Widget {
-        log("> setTitle $title")
         if (vTitle != null) ToolsView.setTextOrGone(vTitle, title)
         return this
     }
