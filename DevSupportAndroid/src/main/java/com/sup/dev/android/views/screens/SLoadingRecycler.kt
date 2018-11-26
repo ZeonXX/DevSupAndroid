@@ -53,9 +53,14 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
                     .setRetryMessage(textErrorNetwork, textErrorRetry)
                     .setNotifyCount(5)
 
+            prepareAdapter()
             setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
             ToolsThreads.main(true) { reload() }
         }
+    }
+
+    open fun prepareAdapter(){
+
     }
 
     override fun onReloadClicked() {

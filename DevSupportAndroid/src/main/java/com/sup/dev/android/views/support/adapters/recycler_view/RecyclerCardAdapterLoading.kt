@@ -21,16 +21,9 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     private var addTopPositionOffset = 0
     private var startBottomLoadOffset = 0
     private var startTopLoadOffset = 0
-    var isLockTop: Boolean = false
-        private set
-    //
-    //  Getters
-    //
-
-    var isLockBottom: Boolean = false
-        private set
-    var isInProgress: Boolean = false
-        private set
+    private var isLockTop: Boolean = false
+    private var isLockBottom: Boolean = false
+    private var isInProgress: Boolean = false
     private var retryEnabled: Boolean = false
     private var actionEnabled: Boolean = false
     private var onErrorAndEmpty: (() -> Unit)? = null
@@ -38,6 +31,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     private var onStartLoadingAndEmpty: (() -> Unit)? = null
     private var onLoadingAndNotEmpty: (() -> Unit)? = null
     private var onLoadedNotEmpty: (() -> Unit)? = null
+    private var loadingTag = 0L
 
     override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
@@ -59,6 +53,71 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         }
     }
 
+
+    private fun loadNow(bottom: Boolean) {
+        if (bottom) isLockBottom = false
+        else isLockTop = false
+
+        loadingTag = System.currentTimeMillis()
+        var loadingTagLocal = loadingTag
+
+        cardLoading.setOnRetry { source -> load(bottom) }
+        cardLoading.setState(CardLoading.State.LOADING)
+
+        val cards = get(cardClass)
+
+        if (!contains(cardClass)) {
+            if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty!!.invoke()
+            else if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+        } else {
+            if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty!!.invoke()
+            if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+        }
+
+        if (bottom) bottomLoader!!.invoke({ result -> onLoaded(result, bottom, loadingTagLocal) }, cards)
+        else topLoader!!.invoke({ result -> onLoaded(result, bottom, loadingTagLocal) }, cards)
+    }
+
+    private fun onLoaded(result: Array<V>?, bottom: Boolean, loadingTagLocal: Long) {
+
+        isInProgress = false
+        if (loadingTagLocal != loadingTag) return
+
+        if (result == null) {
+            if (retryEnabled && (contains(cardClass) || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY)
+            else remove(cardLoading)
+
+            if (!contains(cardClass) && onErrorAndEmpty != null) onErrorAndEmpty!!.invoke()
+            return
+        }
+
+
+        if (!contains(cardClass) && result.isEmpty()) {
+            if (bottom) lockBottom()
+            else lockTop()
+
+            if (actionEnabled) cardLoading.setState(CardLoading.State.ACTION)
+            else {
+                remove(cardLoading)
+                if (onEmpty != null) onEmpty!!.invoke()
+            }
+        } else {
+            if (result.isEmpty()) {
+                if (bottom) lockBottom()
+                else lockTop()
+            }
+            remove(cardLoading)
+        }
+
+        for (i in result.indices)
+            if (bottom) add(size() - addBottomPositionOffset, mapper!!.invoke(result[i]!!))
+            else add(addTopPositionOffset + i, mapper!!.invoke(result[i]!!))
+
+        if (contains(cardClass) || result.isNotEmpty())
+            if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
+
+    }
+
     fun loadTop() {
         load(false)
     }
@@ -73,77 +132,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         loadNow(bottom)
     }
 
-    private fun loadNow(bottom: Boolean) {
-        if (bottom)
-            isLockBottom = false
-        else
-            isLockTop = false
-        cardLoading.setOnRetry { source -> load(bottom) }
-        cardLoading.setState(CardLoading.State.LOADING)
-
-        val cards = get(cardClass)
-
-        if (!contains(cardClass)) {
-            if (onStartLoadingAndEmpty != null)
-                onStartLoadingAndEmpty!!.invoke()
-            else if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
-        } else {
-            if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty!!.invoke()
-            if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
-        }
-
-        if (bottom)
-            bottomLoader!!.invoke({ result -> onLoaded(result, bottom) }, cards)
-        else
-            topLoader!!.invoke({ result -> onLoaded(result, bottom) }, cards)
-    }
-
-    private fun onLoaded(result: Array<V>?, bottom: Boolean) {
-
-        isInProgress = false
-
-        if (result == null) {
-            if (retryEnabled && (contains(cardClass) || onErrorAndEmpty == null))
-                cardLoading.setState(CardLoading.State.RETRY)
-            else
-                remove(cardLoading)
-            if (!contains(cardClass) && onErrorAndEmpty != null) onErrorAndEmpty!!.invoke()
-            return
-        }
-
-
-        if (!contains(cardClass) && result.size == 0) {
-            if (bottom)
-                lockBottom()
-            else
-                lockTop()
-            if (actionEnabled)
-                cardLoading.setState(CardLoading.State.ACTION)
-            else {
-                remove(cardLoading)
-                if (onEmpty != null) onEmpty!!.invoke()
-            }
-        } else {
-            if (result.isEmpty()) {
-                if (bottom)
-                    lockBottom()
-                else
-                    lockTop()
-            }
-            remove(cardLoading)
-        }
-
-        for (i in result.indices)
-            if (bottom)
-                add(size() - addBottomPositionOffset, mapper!!.invoke(result[i]!!))
-            else
-                add(addTopPositionOffset + i, mapper!!.invoke(result[i]!!))
-
-        if (contains(cardClass) || result.isNotEmpty())
-            if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
-
-    }
-
     fun reloadTop() {
         reload(false)
     }
@@ -153,7 +141,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     }
 
     fun reload(bottom: Boolean) {
+        loadingTag = 0
+        isInProgress = false
         remove(cardClass)
+        remove(cardLoading)
         load(bottom)
     }
 
@@ -284,5 +275,15 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     override fun setNotifyCount(notifyCount: Int): RecyclerCardAdapterLoading<K, V> {
         return super.setNotifyCount(notifyCount) as RecyclerCardAdapterLoading<K, V>
     }
+
+    //
+    //  Getters
+    //
+
+    fun isTopLock() = isLockTop
+
+    fun isLockBottom() = isLockBottom
+
+    fun isInProgress() = isInProgress
 
 }
