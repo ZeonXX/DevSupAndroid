@@ -15,8 +15,8 @@
 
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/grey_900</item>
-        <item name="content_background">@color/grey_850</item>
+        <item name="android:windowBackground">@color/grey_850</item>
+        <item name="content_background">@color/grey_800</item>
         <item name="widget_background">@color/grey_825</item>
         <item name="colorPrimaryDark">@color/grey_825</item>
         <item name="colorPrimary">@color/grey_825</item>
