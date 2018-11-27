@@ -32,6 +32,8 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     init {
 
+        vText.text = ""
+
         vText.visibility = View.GONE
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE

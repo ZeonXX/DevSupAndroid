@@ -1,13 +1,12 @@
 package com.sup.dev.android.libs.screens.activity
 
 import android.content.Context
-import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
@@ -17,11 +16,17 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetMenu
-import android.graphics.drawable.GradientDrawable
-import com.sup.dev.java.tools.ToolsColor
 
 
 abstract class SActivityBottomNavigation : SActivity() {
+
+    companion object {
+
+        fun setShadow(view :View){
+            view.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x30000000, 0x00000000)))
+        }
+
+    }
 
     private var widgetMenu: WidgetMenu? = null
 
@@ -40,10 +45,8 @@ abstract class SActivityBottomNavigation : SActivity() {
         vLine = findViewById(R.id.vScreenActivityBottomNavigationLine)
 
         updateNavigationVisible()
-
-        val primary = ToolsResources.getPrimaryColor(vLine!!.context)
-        vLine!!.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(primary, ToolsColor.setAlpha(0, primary))))
-   }
+        setShadow(vLine!!)
+    }
 
     fun addExtra(): NavigationItem {
         widgetMenu = WidgetMenu()
@@ -70,9 +73,9 @@ abstract class SActivityBottomNavigation : SActivity() {
     private fun updateNavigationVisible() {
         if (navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) {
             ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-            if(screenBottomNavigationShadowAvliable) {
+            if (screenBottomNavigationShadowAvliable) {
                 ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-            }else{
+            } else {
                 ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
                     vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
                     Unit
