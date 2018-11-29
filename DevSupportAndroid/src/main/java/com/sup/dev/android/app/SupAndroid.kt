@@ -1,5 +1,6 @@
 package com.sup.dev.android.app
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
@@ -10,11 +11,13 @@ import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
 
 
+@SuppressLint("StaticFieldLeak")
 object SupAndroid {
 
     var SERVICE_FOREGROUND = 4000
@@ -24,7 +27,6 @@ object SupAndroid {
 
     var IMG_ERROR_NETWORK: Int = 0
     var IMG_ERROR_GONE: Int = 0
-
 
     var editMode: Boolean = false
     var appContext: Context? = null
@@ -58,14 +60,14 @@ object SupAndroid {
             Unit
         }
 
-        EventBusMultiProcess.init()
-
         TEXT_APP_NAME = loadText("app_name")
 
         IMG_ERROR_NETWORK = loadImage("error_network")?:0
         IMG_ERROR_GONE = loadImage("error_gone")?:0
 
 
+        EventBusMultiProcess.init()
+        ToolsNotifications.init()
     }
 
     private fun loadText(id: String): String? {

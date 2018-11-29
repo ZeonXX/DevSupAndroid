@@ -39,7 +39,7 @@ object ToolsBackgroundWork {
     private var index: Int = 0
 
     fun startForegroundService(activityClass: Class<out Activity>, @DrawableRes icon: Int, title: String?, body: String) {
-        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.defChanelId)
+        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getDefChanelId())
                 .setSmallIcon(icon)
                 .setContentText(body)
                 .setOngoing(true)

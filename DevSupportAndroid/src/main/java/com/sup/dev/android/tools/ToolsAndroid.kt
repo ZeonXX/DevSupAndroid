@@ -31,7 +31,7 @@ object ToolsAndroid {
 
     //
     //  Device
-    //
+    //getFromClipboard
 
     @RequiresPermission(Manifest.permission.BLUETOOTH)
     fun getBluetoothMacAddress(): String {
@@ -186,6 +186,7 @@ object ToolsAndroid {
     fun getFromClipboard(): String? {
         val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val primaryClip = clipboard.primaryClip
+        if(primaryClip == null) return null
         return if (primaryClip.itemCount == 0)
             null
         else
