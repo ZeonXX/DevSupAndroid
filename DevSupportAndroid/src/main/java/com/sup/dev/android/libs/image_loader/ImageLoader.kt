@@ -102,7 +102,10 @@ object ImageLoader {
         if (!turn.contains(loader)) return
 
         val loadedBytes = loader.startLoad()
-        if (loadedBytes == null) return
+        if (loadedBytes == null) {
+            ToolsThreads.main { loader.onError.invoke() }
+            return
+        }
         var bytes = loadedBytes
         var bitmap: Bitmap? = null
 

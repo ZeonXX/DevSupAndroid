@@ -23,8 +23,8 @@ object ToolsImagesLoader {
         return ImageLoaderId(id)
     }
 
-    fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView, vGifProgressBar: View? = null) {
-        load(imageId).size(w, h).gifProgressBar(vGifProgressBar).into(vImage) {
+    fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView, vGifProgressBar: View? = null, onError:()->Unit={}) {
+        load(imageId).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
             if (gifId > 0) load(gifId).asGif().gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
     }

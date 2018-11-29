@@ -15,6 +15,7 @@ abstract class ImageLoaderA {
     internal var vImage: ImageView? = null
     internal var vGifProgressBar: View? = null
     internal var onLoaded: (ByteArray?) -> Unit = {}
+    internal var onError: () -> Unit = {}
     internal var onSetHolder: () -> Unit = {}
     internal var cropSquareCenter: Boolean = false
     internal var options: BitmapFactory.Options? = null
@@ -90,6 +91,10 @@ abstract class ImageLoaderA {
 
     fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
         this.onLoaded = onLoaded
+        return this
+    }
+    fun setOnError(onError: () -> Unit): ImageLoaderA {
+        this.onError = onError
         return this
     }
 
