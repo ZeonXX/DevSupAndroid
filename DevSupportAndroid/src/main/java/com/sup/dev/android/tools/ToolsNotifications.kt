@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.java.classes.collections.ArrayListTemporary
 
 
 object ToolsNotifications {
@@ -20,6 +21,8 @@ object ToolsNotifications {
     var chanelNameDef = SupAndroid.TEXT_APP_NAME
     var chanelNameHigh = SupAndroid.TEXT_APP_NAME
     var chanelNameSalient = SupAndroid.TEXT_APP_NAME
+    var soundLimit = 2
+    val spundCounterList = ArrayListTemporary<Int>(1000L * 10)
 
     private var notificationManager: NotificationManager? = null
 
@@ -97,8 +100,13 @@ object ToolsNotifications {
                 .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
                 .setContentText(body)
         if (title != null) builder.setContentTitle(title)
-        if (sound) builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
+        if (sound) {
+            if(spundCounterList.size() < soundLimit) {
+                spundCounterList.add(0)
+                builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            }
+        }
 
         val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)
