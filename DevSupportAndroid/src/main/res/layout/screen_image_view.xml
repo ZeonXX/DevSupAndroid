@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Root">
 
-    <android.support.design.widget.AppBarLayout
-        style="@style/AppBar"
-        android:background="@color/focus">
-
-        <android.support.v7.widget.Toolbar
-            style="@style/Toolbar.Collapse">
-
-            <com.sup.dev.android.views.views.ViewIcon
-                android:id="@+id/vDownload"
-                style="@style/Icon"
-                android:layout_gravity="end"
-                android:src="?ic_file_download"/>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <com.sup.dev.android.views.views.layouts.LayoutZoom
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/vImage"
+        <com.sup.dev.android.views.views.layouts.LayoutZoom
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-    </com.sup.dev.android.views.views.layouts.LayoutZoom>
+            <ImageView
+                android:id="@+id/vImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-</FrameLayout>
+        </com.sup.dev.android.views.views.layouts.LayoutZoom>
+
+
+        <com.sup.dev.android.views.views.ViewIcon
+            android:id="@+id/vDownload"
+            style="@style/Icon.Shadow"
+            android:src="?ic_file_download"/>
+
+        <com.sup.dev.android.views.views.ViewIcon
+            style="@style/Icon.Shadow.Back"/>
+
+    </FrameLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

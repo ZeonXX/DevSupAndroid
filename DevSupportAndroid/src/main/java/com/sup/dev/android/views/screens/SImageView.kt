@@ -23,6 +23,10 @@ class SImageView private constructor(
 
     init {
 
+        isBottomNavigationVisible = false
+        isBottomNavigationAllowed = false
+        isBottomNavigationAnimation = false
+
         val vImage: ImageView = findViewById(R.id.vImage)
         val vDownload: ViewIcon = findViewById(R.id.vDownload)
 

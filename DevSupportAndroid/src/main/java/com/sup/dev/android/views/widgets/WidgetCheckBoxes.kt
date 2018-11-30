@@ -136,7 +136,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
             for (i in 0 until vOptionsContainer.childCount) {
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
                 val item = v.tag as Item
-                item.onChange.invoke(this, item, v.isChecked)
                 if (v.isChecked) item.onSelected.invoke(this, item)
                 if (!v.isChecked) item.onNotSelected.invoke(this, item)
             }
@@ -187,6 +186,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
         init {
             v.tag = this
+            v.setOnCheckedChangeListener { w, b -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked)}
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
                 (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(16f)

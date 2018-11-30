@@ -27,6 +27,10 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
 
     init {
 
+        isBottomNavigationVisible = false
+        isBottomNavigationAllowed = false
+        isBottomNavigationAnimation = false
+
         if (aw > 0 && ah > 0) vCropImageView.setAspectRatio(aw, ah)
         vCropImageView.setImageBitmap(bitmap)
 
