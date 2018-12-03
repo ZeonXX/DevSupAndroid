@@ -74,7 +74,7 @@ open class WidgetChooseImage : WidgetRecycler() {
             val cursor = SupAndroid.appContext!!.contentResolver.query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     projection, null, null,
-                    MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC")
+                    MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC")
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
         }, {
