@@ -7,9 +7,19 @@
         style="@style/AppBar">
 
         <android.support.v7.widget.Toolbar
-            style="@style/Toolbar"/>
+            style="@style/Toolbar">
+
+            <LinearLayout
+                android:id="@+id/vToolbarContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal"/>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.widget.NestedScrollView
         style="@style/Scroll">
