@@ -14,6 +14,7 @@ import android.support.v4.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import java.io.*
 import java.net.URLConnection
@@ -66,7 +67,7 @@ object ToolsIntent {
         try {
             SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
-            Debug.log(ex)
+            log(ex)
             onActivityNotFound.invoke()
         }
 
@@ -128,7 +129,7 @@ object ToolsIntent {
             out.flush()
             out.close()
         } catch (e: Exception) {
-            Debug.log(e)
+            log(e)
         }
 
         try {
@@ -139,7 +140,7 @@ object ToolsIntent {
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null))
         } catch (ex: ActivityNotFoundException) {
-            Debug.log(ex)
+            log(ex)
             onActivityNotFound.invoke()
         }
 
@@ -173,7 +174,7 @@ object ToolsIntent {
             if (text != null) i.putExtra(Intent.EXTRA_TEXT, text)
             SupAndroid.activity!!.startActivity(Intent.createChooser(i, null))
         } catch (ex: ActivityNotFoundException) {
-            Debug.log(ex)
+            log(ex)
             onActivityNotFound.invoke()
         }
 
@@ -205,13 +206,13 @@ object ToolsIntent {
                     inp.close()
                     onResult.invoke(bytes)
                 }catch (e:Exception){
-                    Debug.log(e)
+                    log(e)
                     onError.invoke()
                 }
 
             }
         } catch (ex: ActivityNotFoundException) {
-            Debug.log(ex)
+            log(ex)
             onError.invoke()
         }
 
@@ -272,7 +273,7 @@ object ToolsIntent {
         try {
             intent.send()
         } catch (ex: PendingIntent.CanceledException) {
-            Debug.log(ex)
+            log(ex)
         }
 
     }

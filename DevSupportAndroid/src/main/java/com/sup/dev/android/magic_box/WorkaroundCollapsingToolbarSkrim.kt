@@ -1,7 +1,7 @@
 package com.sup.dev.android.magic_box
 
 import android.support.design.widget.CollapsingToolbarLayout
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 object WorkaroundCollapsingToolbarSkrim {
@@ -24,7 +24,7 @@ object WorkaroundCollapsingToolbarSkrim {
                     bar.scrimAnimationDuration = scrimAnimationDuration
                 }
             } catch (e: Exception) {
-                Debug.log(e)
+                log(e)
             }
 
         }

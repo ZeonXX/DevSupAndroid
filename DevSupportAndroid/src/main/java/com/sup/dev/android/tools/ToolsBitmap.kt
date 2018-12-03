@@ -17,6 +17,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -252,7 +253,7 @@ object ToolsBitmap {
             drawable.draw(canvas)
             return bitmap
         } catch (e: Exception) {
-            Debug.log(e)
+            log(e)
             return null
         }
 
@@ -279,7 +280,7 @@ object ToolsBitmap {
             try {
                 bitmap = getFromURL(src)
             } catch (ex: IOException) {
-                Debug.log(ex)
+                log(ex)
             }
 
             val fBitmap = bitmap
@@ -292,7 +293,7 @@ object ToolsBitmap {
             try {
                 callbackResult.invoke(MediaStore.Images.Media.getBitmap(SupAndroid.activity!!.contentResolver, uri))
             } catch (ex: IOException) {
-                Debug.log(ex)
+                log(ex)
                 callbackResult.invoke(null)
             }
         }, onPermissionPermissionRestriction)
@@ -303,7 +304,7 @@ object ToolsBitmap {
             try {
                 onComplete.invoke(decode(ToolsFiles.readFile(file)))
             } catch (e: IOException) {
-                Debug.log(e)
+                log(e)
                 ToolsToast.show(R.string.error_cant_load_image)
             }
         }, { ToolsToast.show(R.string.error_permission_files) })

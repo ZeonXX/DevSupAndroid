@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Pair
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -53,13 +54,13 @@ object ToolsCash {
             os.write(data)
             os.flush()
         } catch (ex: IOException) {
-            Debug.log(ex)
+            log(ex)
         } finally {
             if (os != null)
                 try {
                     os.close()
                 } catch (e: IOException) {
-                    Debug.log(e)
+                    log(e)
                 }
 
         }
@@ -80,12 +81,12 @@ object ToolsCash {
             inputStream = FileInputStream(file)
             inputStream.read(data)
         } catch (ex: IOException) {
-            Debug.log(ex)
+            log(ex)
         } finally {
             try {
                 inputStream!!.close()
             } catch (e: IOException) {
-                Debug.log(e)
+                log(e)
             }
 
         }

@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.image_loader
 
 import android.widget.ImageView
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsNetwork
 import java.io.IOException
 
@@ -16,7 +17,7 @@ class ImageLoaderUrl(private val url: String) : ImageLoaderA() {
         try {
             return ToolsNetwork.getBytesFromURL(url)
         } catch (e: IOException) {
-            Debug.log(e)
+            log(e)
             return null
         }
 

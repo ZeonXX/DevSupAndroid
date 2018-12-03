@@ -5,44 +5,44 @@ import android.media.MediaMetadataRetriever
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.info
 
 class UtilsMetadata(var retriever: MediaMetadataRetriever? = null) {
 
-    constructor (path: String): this(wrap(path))
+    constructor (path: String) : this(wrap(path))
 
     fun parse(path: String) {
 
         val retriever = wrap(path)
 
-        Debug.print("getEmbeddedPicture", retriever.getEmbeddedPicture())
-        Debug.print("getFrameAtTime", retriever.getFrameAtTime())
-        Debug.print("CD_TRACK_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER))
-        Debug.print("ALBUM", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM))
-        Debug.print("ARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST))
-        Debug.print("AUTHOR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR))
-        Debug.print("COMPOSER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER))
-        Debug.print("DATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE))
-        Debug.print("GENRE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE))
-        Debug.print("TITLE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE))
-        Debug.print("YEAR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR))
-        Debug.print("DURATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
-        Debug.print("NUM_TRACKS", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS))
-        Debug.print("WRITER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_WRITER))
-        Debug.print("MIMETYPE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE))
-        Debug.print("ALBUMARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST))
-        Debug.print("DISC_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER))
-        Debug.print("COMPILATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPILATION))
-        Debug.print("HAS_AUDIO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO))
-        Debug.print("HAS_VIDEO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO))
-        Debug.print("VIDEO_WIDTH", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH))
-        Debug.print("VIDEO_HEIGHT", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT))
-        Debug.print("BITRATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE))
-        Debug.print("LOCATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_LOCATION))
+        info("getEmbeddedPicture", retriever.getEmbeddedPicture())
+        info("getFrameAtTime", retriever.getFrameAtTime())
+        info("CD_TRACK_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER))
+        info("ALBUM", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM))
+        info("ARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST))
+        info("AUTHOR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR))
+        info("COMPOSER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER))
+        info("DATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE))
+        info("GENRE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE))
+        info("TITLE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE))
+        info("YEAR", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR))
+        info("DURATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
+        info("NUM_TRACKS", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS))
+        info("WRITER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_WRITER))
+        info("MIMETYPE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE))
+        info("ALBUMARTIST", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST))
+        info("DISC_NUMBER", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER))
+        info("COMPILATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPILATION))
+        info("HAS_AUDIO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO))
+        info("HAS_VIDEO", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO))
+        info("VIDEO_WIDTH", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH))
+        info("VIDEO_HEIGHT", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT))
+        info("BITRATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE))
+        info("LOCATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_LOCATION))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            Debug.print("VIDEO_ROTATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION))
+            info("VIDEO_ROTATION", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            Debug.print("CAPTURE_FRAMERATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CAPTURE_FRAMERATE))
+            info("CAPTURE_FRAMERATE", retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CAPTURE_FRAMERATE))
 
     }
 
@@ -141,7 +141,6 @@ class UtilsMetadata(var retriever: MediaMetadataRetriever? = null) {
         }
 
     }
-
 
 
 }

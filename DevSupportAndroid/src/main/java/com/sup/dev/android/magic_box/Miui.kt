@@ -2,6 +2,7 @@ package com.sup.dev.android.magic_box
 
 import android.os.Environment
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -27,13 +28,13 @@ object Miui {
                         fis = FileInputStream(BUILD_PROP_FILE)
                         sBuildProperties!!.load(fis)
                     } catch (e: IOException) {
-                        Debug.log(e)
+                        log(e)
                     } finally {
                         if (fis != null) {
                             try {
                                 fis.close()
                             } catch (e: IOException) {
-                                Debug.log(e)
+                                log(e)
                             }
 
                         }

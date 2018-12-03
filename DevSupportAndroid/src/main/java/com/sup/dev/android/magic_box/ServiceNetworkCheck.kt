@@ -14,6 +14,7 @@ import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.IOException
@@ -151,7 +152,7 @@ class ServiceNetworkCheck : Service() {
                         try {
                             sock.close()
                         } catch (e: IOException) {
-                            Debug.log(e)
+                            log(e)
                         }
 
                     }

@@ -51,8 +51,8 @@ object SupAndroid {
             Log.e("Debug", s)
             Unit
         }
-        Debug.printerInfo = { tag, s ->
-            Log.i(tag, s)
+        Debug.printerInfo = { s ->
+            Log.i("Debug", s)
             Unit
         }
         Debug.exceptionPrinter = { th ->
@@ -74,7 +74,7 @@ object SupAndroid {
         try {
             return ToolsResources.getString(id)
         } catch (e: Resources.NotFoundException) {
-            Debug.error("Init warning: can't find vText with id [$id]")
+            error("Init warning: can't find vText with id [$id]")
             return null
         }
     }
@@ -83,7 +83,7 @@ object SupAndroid {
         try {
             return ToolsResources.getDrawableId(id)
         } catch (e: Resources.NotFoundException) {
-            Debug.error("Init warning: can't find image with id [$id]")
+            error("Init warning: can't find image with id [$id]")
             return null
         }
     }

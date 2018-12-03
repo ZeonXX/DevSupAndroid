@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import java.io.Serializable
 
@@ -17,7 +18,7 @@ class EventBusMultiProcess : BroadcastReceiver() {
             val event = intent.getSerializableExtra(EventBusMultiProcess.MULTI_PROCESS_INTENT_EXTRA)
             EventBus.post(event)
         } catch (ex: Exception) {
-            Debug.log(ex)
+            log(ex)
         }
 
     }

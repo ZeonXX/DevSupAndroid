@@ -14,14 +14,13 @@ import android.content.res.Configuration
 import android.media.audiofx.AcousticEchoCanceler
 import android.net.ConnectivityManager
 import android.os.*
-import android.provider.Settings
 import android.support.annotation.RequiresPermission
 import android.view.WindowManager
 import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
@@ -44,13 +43,13 @@ object ToolsAndroid {
                 val btManagerService = mServiceField.get(bluetoothAdapter)
                 if (btManagerService != null) bluetoothMacAddress = btManagerService.javaClass.getMethod("getAddress").invoke(btManagerService) as String
             } catch (e: NoSuchFieldException) {
-                Debug.log(e)
+                log(e)
             } catch (e: NoSuchMethodException) {
-                Debug.log(e)
+                log(e)
             } catch (e: IllegalAccessException) {
-                Debug.log(e)
+                log(e)
             } catch (e: InvocationTargetException) {
-                Debug.log(e)
+                log(e)
             }
 
         } else {
@@ -78,13 +77,13 @@ object ToolsAndroid {
             }
             return processName.toString()
         } catch (ex: Exception) {
-            Debug.log(ex)
+            log(ex)
         } finally {
             if (cmdlineReader != null) {
                 try {
                     cmdlineReader.close()
                 } catch (e: IOException) {
-                    Debug.log(e)
+                    log(e)
                 }
 
             }
