@@ -19,6 +19,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.IOException
 import java.io.Serializable
+import java.lang.RuntimeException
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -60,6 +61,8 @@ class ServiceNetworkCheck : Service() {
     }
 
     private fun instanceNotification(): Notification {
+        throw RuntimeException("Fix me")
+        /*
         return NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getSalientChanelId())
                 .setSmallIcon(NOTIFICATION_ICON)
                 .setAutoCancel(false)
@@ -70,6 +73,7 @@ class ServiceNetworkCheck : Service() {
                 .setVibrate(longArrayOf(0L))
                 .setOngoing(true)
                 .build()
+        */
     }
 
     //

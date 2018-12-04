@@ -21,6 +21,7 @@ import android.support.annotation.RequiresApi
 import android.support.annotation.RequiresPermission
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
+import java.lang.RuntimeException
 import java.util.HashMap
 
 object ToolsBackgroundWork {
@@ -39,6 +40,8 @@ object ToolsBackgroundWork {
     private var index: Int = 0
 
     fun startForegroundService(activityClass: Class<out Activity>, @DrawableRes icon: Int, title: String?, body: String) {
+        throw RuntimeException("Fix me")
+        /*
         val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getDefChanelId())
                 .setSmallIcon(icon)
                 .setContentText(body)
@@ -54,6 +57,7 @@ object ToolsBackgroundWork {
         notification = builder.build()
 
         ToolsIntent.startServiceForeground(ForegroundService::class.java)
+        */
     }
 
     class ForegroundService : Service() {
