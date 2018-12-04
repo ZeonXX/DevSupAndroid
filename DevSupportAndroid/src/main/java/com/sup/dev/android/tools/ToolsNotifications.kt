@@ -6,6 +6,8 @@ import android.content.Intent
 import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.java.classes.collections.HashList
+import com.sup.dev.java.libs.debug.log
 
 
 object ToolsNotifications {
@@ -18,8 +20,7 @@ object ToolsNotifications {
         SINGLE, GROUP
     }
 
-    private var groupingPoolSize = 100
-    private var groupingPoolCounter = 0
+    private var notificationIdCounter = 0
 
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -41,11 +42,8 @@ object ToolsNotifications {
 
     class Chanel {
 
-
         private val id: Int
         private val idS: String
-        private val groupingPoolStart: Int
-        private val groupingPoolEnd: Int
         private var name: String = ""
         private var description: String = ""
         private var groupId: String = ""
@@ -54,22 +52,15 @@ object ToolsNotifications {
         private var importance: Importance = Importance.DEFAULT
         private var groupingType = GroupingType.GROUP
 
-        private var groupingPoolIndex: Int
+        private var showedNotifications = HashList<String, Int>()
+
 
         constructor(id: Int) {
             this.id = id
             this.idS = "chanel_$id"
-            groupingPoolStart = groupingPoolCounter
-            groupingPoolCounter += groupingPoolSize
-            groupingPoolEnd = groupingPoolStart + groupingPoolSize
-            groupingPoolIndex = groupingPoolStart
         }
 
-        fun post(
-                @DrawableRes icon: Int,
-                title: String?,
-                body: String?,
-                intent: Intent) {
+        fun post(@DrawableRes icon: Int, title: String?, body: String?, intent: Intent, tag: String = "tag") {
 
             val builder = NotificationCompat.Builder(SupAndroid.appContext!!, idS)
                     .setSmallIcon(icon)
@@ -89,16 +80,12 @@ object ToolsNotifications {
             val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             builder.setContentIntent(pendingIntent)
 
-            if (groupingType == GroupingType.GROUP) {
-                groupingPoolIndex++
-                if (groupingPoolIndex == groupingPoolEnd) groupingPoolIndex = groupingPoolStart
-            } else {
-                groupingPoolIndex = groupingPoolStart
-            }
+            val notificationId = notificationIdCounter++
+            showedNotifications.add(tag, notificationId)
 
             val notification = builder.build()
 
-            notificationManager.notify(groupingPoolIndex, notification)
+            notificationManager.notify(notificationId, notification)
 
         }
 
@@ -107,8 +94,15 @@ object ToolsNotifications {
             return this
         }
 
-        fun cancel(){
-            for(i in groupingPoolStart until groupingPoolEnd) notificationManager.cancel(i)
+        fun cancel() {
+            val keys = showedNotifications.getKeys()
+            for (tag in keys) cancel(tag)
+        }
+
+        fun cancel(tag:String) {
+            val ids = showedNotifications.getAll(tag)
+            for (id in ids) notificationManager.cancel(id)
+            showedNotifications.remove(tag)
         }
 
         private fun init(sound: Boolean) {
