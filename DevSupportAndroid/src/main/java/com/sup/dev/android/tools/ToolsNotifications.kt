@@ -21,19 +21,14 @@ object ToolsNotifications {
     private var groupingPoolSize = 100
     private var groupingPoolCounter = 0
 
-    private var notificationManager: NotificationManager? = null
-
-    fun init() {
-        if (notificationManager != null) return
-        notificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun instanceGroup(groupId: Int, name: Int) = instanceGroup(groupId, ToolsResources.getString(name))
 
     fun instanceGroup(groupId: Int, name: String): String {
         val id = "group_$groupId"
-        if (ToolsNotifications.notificationManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-            notificationManager!!.createNotificationChannelGroup(NotificationChannelGroup(id, name))
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+            notificationManager.createNotificationChannelGroup(NotificationChannelGroup(id, name))
 
         return id
     }
@@ -103,7 +98,7 @@ object ToolsNotifications {
 
             val notification = builder.build()
 
-            if (notificationManager != null) notificationManager!!.notify(groupingPoolIndex, notification)
+            notificationManager.notify(groupingPoolIndex, notification)
 
         }
 
@@ -112,11 +107,15 @@ object ToolsNotifications {
             return this
         }
 
+        fun cancel(){
+            for(i in groupingPoolStart until groupingPoolEnd) notificationManager.cancel(i)
+        }
+
         private fun init(sound: Boolean) {
 
             if (name.isEmpty()) name = SupAndroid.TEXT_APP_NAME ?: ""
 
-            if (ToolsNotifications.notificationManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
                 val imp = when (importance) {
                     Importance.HIGH -> NotificationManager.IMPORTANCE_HIGH
@@ -132,7 +131,7 @@ object ToolsNotifications {
                 if (!sound) channel.setSound(null, null)
                 if (!vibration) channel.vibrationPattern = longArrayOf(0)
 
-                notificationManager!!.createNotificationChannel(channel)
+                notificationManager.createNotificationChannel(channel)
             }
         }
 

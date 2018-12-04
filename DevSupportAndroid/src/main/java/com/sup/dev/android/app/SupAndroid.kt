@@ -67,7 +67,6 @@ object SupAndroid {
 
 
         EventBusMultiProcess.init()
-        ToolsNotifications.init()
     }
 
     private fun loadText(id: String): String? {
