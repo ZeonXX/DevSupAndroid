@@ -62,6 +62,8 @@ object ToolsNotifications {
 
         fun post(@DrawableRes icon: Int, title: String?, body: String?, intent: Intent, tag: String = "tag") {
 
+            if(groupingType == GroupingType.SINGLE) cancel(tag)
+
             val builder = NotificationCompat.Builder(SupAndroid.appContext!!, idS)
                     .setSmallIcon(icon)
                     .setAutoCancel(true)
@@ -103,6 +105,11 @@ object ToolsNotifications {
             val ids = showedNotifications.getAll(tag)
             for (id in ids) notificationManager.cancel(id)
             showedNotifications.remove(tag)
+        }
+
+        fun cancelAllOrByTagIfNotEmpty(tag:String) {
+            if(tag.isEmpty()) cancel()
+            else cancel(tag)
         }
 
         private fun init(sound: Boolean) {

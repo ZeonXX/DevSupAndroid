@@ -42,6 +42,8 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         vTopImage.visibility = View.GONE
         vTopTitle.visibility = View.GONE
 
+        vText.setTextIsSelectable(true)
+
         vCheck.setOnCheckedChangeListener { compoundButton, b -> updateLock(vEnter, vCheck) }
     }
 
