@@ -22,6 +22,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
     private val holders = ArrayList<Holder>()
     private val onItemsChangeListeners = CallbacksList()
     private var cardW = RecyclerView.LayoutParams.MATCH_PARENT
+    private var cardH = RecyclerView.LayoutParams.WRAP_CONTENT
 
     private var notifyCount = 0
 
@@ -67,7 +68,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = FrameLayout(parent.context)
-        view.layoutParams = RecyclerView.LayoutParams(cardW, RecyclerView.LayoutParams.WRAP_CONTENT)
+        view.layoutParams = RecyclerView.LayoutParams(cardW, cardH)
         val holder = Holder(view)
         holders.add(holder)
         return holder
@@ -174,6 +175,12 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
     fun setCardW(cardW:Int){
         this.cardW = cardW
     }
+
+    fun setCardH(cardH:Int){
+        this.cardH = cardH
+    }
+
+
 
     //
     //  Getters

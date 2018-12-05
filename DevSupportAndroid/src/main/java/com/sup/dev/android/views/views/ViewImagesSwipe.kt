@@ -17,12 +17,16 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SImageView
 
 
-class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RecyclerView(context, attrs) {
+class ViewImagesSwipe constructor(
+        context: Context,
+        attrs: AttributeSet? = null
+) : RecyclerView(context, attrs) {
 
     private val adapter = RecyclerCardAdapter()
 
     init {
-        adapter.setCardW(RecyclerView.LayoutParams.WRAP_CONTENT)
+        adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
+        adapter.setCardH(ViewGroup.LayoutParams.MATCH_PARENT)
         layoutManager = LinearLayoutManager(context, GridLayoutManager.HORIZONTAL, false)
         setAdapter(adapter)
     }
@@ -35,8 +39,8 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
         adapter.add(CardSwipeId(id, w, h, onClick))
     }
 
-    fun add(bitmap: Bitmap, w: Int = 0, h: Int = 0, onClick: (() -> Unit)? = null) {
-        adapter.add(CardSwipeBitmap(bitmap, w, h, onClick))
+    fun add(bitmap: Bitmap, onClick: (() -> Unit)? = null) {
+        adapter.add(CardSwipeBitmap(bitmap, onClick))
     }
 
     //
@@ -64,11 +68,9 @@ class ViewImagesSwipe @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
 
-    private inner class CardSwipeBitmap(val bitmap: Bitmap, val w: Int = 0, val h: Int = 0, onClick: (() -> Unit)?) : CardSwipe(onClick) {
+    private inner class CardSwipeBitmap(val bitmap: Bitmap, onClick: (() -> Unit)?) : CardSwipe(onClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            view.layoutParams.width = if (w > 0) w else ViewGroup.LayoutParams.WRAP_CONTENT
-            view.layoutParams.height = if (h > 0) h else ViewGroup.LayoutParams.WRAP_CONTENT
             vImage.setImageBitmap(bitmap)
         }
 
