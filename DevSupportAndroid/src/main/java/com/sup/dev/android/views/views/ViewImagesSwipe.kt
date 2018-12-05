@@ -37,20 +37,23 @@ class ViewImagesSwipe constructor(
         adapter.clear()
     }
 
-    fun add(id: Long, w: Int = 0, h: Int = 0, onClick: (Long -> Unit)? = null, onLongClick: (Long -> Unit)? = null) {
+    fun add(id: Long, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
         if(!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
-        adapter.add(CardSwipeId(id, w, h, onClick))
+        adapter.add(CardSwipeId(id, w, h, onClick, onLongClick))
     }
 
-    fun add(bitmap: Bitmap, onClick: (() -> Unit)? = null) {
+    fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
         if(!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
-        adapter.add(CardSwipeBitmap(bitmap, onClick))
+        adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
     }
 
     //
     //  Card
     //
-    private abstract inner class CardSwipe<K>(val onClick: ((K) -> Unit)?) : Card() {
+    private abstract inner class CardSwipe<K>(
+            val onClick: ((K) -> Unit)?,
+            val onLongClick: ((K) -> Unit)?
+    ) : Card() {
 
         override fun getLayout(): Int {
             return R.layout.view_image_swipe_card
@@ -62,6 +65,11 @@ class ViewImagesSwipe constructor(
                 if (onClick == null) toImageView()
                 else onClick.invoke(getSource())
             }
+            if(onLongClick != null)
+                view.setOnLongClickListener {
+                    onLongClick.invoke(getSource())
+                    true
+                }
             set(view, vImage)
         }
 
@@ -76,8 +84,9 @@ class ViewImagesSwipe constructor(
 
     private inner class CardSwipeBitmap(
             val bitmap: Bitmap,
-            onClick: ((Bitmap) -> Unit)?
-    ) : CardSwipe<Bitmap>(onClick) {
+            onClick: ((Bitmap) -> Unit)?,
+            onLongClick: ((Bitmap) -> Unit)? = null
+    ) : CardSwipe<Bitmap>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
             vImage.setImageBitmap(bitmap)
@@ -95,8 +104,9 @@ class ViewImagesSwipe constructor(
             val id: Long,
             val w: Int = 0,
             val h: Int = 0,
-            onClick: ((Long) -> Unit)?
-    ) : CardSwipe<Long>(onClick) {
+            onClick: ((Long) -> Unit)?,
+            onLongClick: ((Long) -> Unit)? = null
+    ) : CardSwipe<Long>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
             ToolsImagesLoader.load(id).size(w, h).into(vImage)
