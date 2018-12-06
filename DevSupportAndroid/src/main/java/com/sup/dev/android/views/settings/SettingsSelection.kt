@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.sup.dev.android.R
 import com.sup.dev.android.views.widgets.WidgetMenu
 
-class SettingsSelection @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
+class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
 
     val menu: WidgetMenu = WidgetMenu()
 

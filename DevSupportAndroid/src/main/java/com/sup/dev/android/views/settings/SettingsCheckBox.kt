@@ -21,14 +21,6 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     //  Getters
     //
 
-    var isChecked: Boolean
-        get() = vCheckBox.isChecked
-        set(checked) {
-            salient = true
-            vCheckBox.isChecked = checked
-            salient = false
-        }
-
     init {
 
         vCheckBox.isFocusable = false
@@ -50,7 +42,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         setTitle(title)
         setSubtitle(subtitle)
         setIcon(icon)
-        isChecked = checked
+        setChecked(checked)
         setSubView(vCheckBox)
         setIconBackground(iconBackground)
 
@@ -74,7 +66,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     public override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
         bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState())
-        bundle.putBoolean("checked", isChecked)
+        bundle.putBoolean("checked", isChecked())
         return bundle
     }
 
@@ -83,7 +75,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         if (state is Bundle) {
             val bundle = state as Bundle?
             salient = true
-            isChecked = bundle!!.getBoolean("checked")
+            setChecked(bundle!!.getBoolean("checked"))
             salient = false
             state = bundle.getParcelable("SUPER_STATE")
         }
@@ -94,6 +86,12 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     //  Setters
     //
 
+    fun setChecked(checked:Boolean) {
+        salient = true
+        vCheckBox.isChecked = checked
+        salient = false
+    }
+
     override fun setOnClickListener(onClickListener: View.OnClickListener?) {
         this.onClickListener = onClickListener
     }
@@ -102,5 +100,11 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         super.setEnabled(enabled)
         vCheckBox.isEnabled = enabled
     }
+
+    //
+    //  Getters
+    //
+
+    fun isChecked() = vCheckBox.isChecked
 
 }
