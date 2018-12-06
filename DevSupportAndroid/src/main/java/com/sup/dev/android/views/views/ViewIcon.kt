@@ -50,6 +50,7 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         var focusColor = ToolsResources.getColor(R.color.focus)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewIcon, 0, 0)
+
         src = a.getResourceId(R.styleable.ViewIcon_android_src, src)
         val enabled = a.getBoolean(R.styleable.ViewIcon_android_enabled, true)
         srcSelect = a.getResourceId(R.styleable.ViewIcon_ViewIcon_srcSelect, srcSelect)
