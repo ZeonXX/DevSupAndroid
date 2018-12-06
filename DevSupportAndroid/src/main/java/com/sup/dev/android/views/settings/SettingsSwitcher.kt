@@ -20,15 +20,6 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
     //  Getters
     //
 
-    var isChecked: Boolean
-        get() = vSwitcher.isChecked
-        set(checked) {
-            salient = true
-            vSwitcher.isChecked = checked
-            salient = false
-            setEnabledSubSettings(checked)
-        }
-
     init {
 
         vSwitcher.isFocusable = false
@@ -50,12 +41,12 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         setTitle(title)
         setSubtitle(subtitle)
         setIcon(icon)
-        isChecked = checked
+        setChecked(checked)
         setSubView(vSwitcher)
         setIconBackground(iconBackground)
 
         super.setOnClickListener { v ->
-            isChecked = !vSwitcher.isChecked
+            setChecked(!vSwitcher.isChecked)
             onClick()
         }
     }
@@ -68,10 +59,17 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
     //  State
     //
 
+    public fun setChecked(checked:Boolean){
+        salient = true
+        vSwitcher.isChecked = checked
+        salient = false
+        setEnabledSubSettings(checked)
+    }
+
     public override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
         bundle.putParcelable("SUPER_STATE", super.onSaveInstanceState())
-        bundle.putBoolean("checked", isChecked)
+        bundle.putBoolean("checked", isChecked())
         return bundle
     }
 
@@ -80,7 +78,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         if (state is Bundle) {
             val bundle = state as Bundle?
             salient = true
-            isChecked = bundle!!.getBoolean("checked")
+            setChecked(bundle!!.getBoolean("checked"))
             salient = false
             state = bundle.getParcelable("SUPER_STATE")
         }
@@ -99,6 +97,12 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         super.setEnabled(enabled)
         vSwitcher.isEnabled = enabled
     }
+
+    //
+    //  Getters
+    //
+
+    fun isChecked() = vSwitcher.isChecked
 
 
 }

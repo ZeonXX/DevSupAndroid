@@ -59,7 +59,7 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
             return SAlert(
                     ToolsResources.getString(R.string.app_whoops),
                     ToolsResources.getString(R.string.error_network),
-                    ToolsResources.getString(R.string.app_back),
+                    ToolsResources.getString(R.string.app_retry),
                     SupAndroid.IMG_ERROR_NETWORK,
                     onRetry)
         }
