@@ -3,6 +3,7 @@ package com.sup.dev.android.tools
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
@@ -62,7 +63,7 @@ object ToolsNotifications {
 
         fun post(@DrawableRes icon: Int, title: String?, body: String?, intent: Intent, tag: String = "tag") {
 
-            if(groupingType == GroupingType.SINGLE) cancel(tag)
+            if (groupingType == GroupingType.SINGLE) cancel(tag)
 
             val builder = NotificationCompat.Builder(SupAndroid.appContext!!, idS)
                     .setSmallIcon(icon)
@@ -87,7 +88,7 @@ object ToolsNotifications {
 
             val notification = builder.build()
 
-            notificationManager.notify(notificationId, notification)
+            notificationManager.notify(idS, notificationId, notification)
 
         }
 
@@ -99,16 +100,21 @@ object ToolsNotifications {
         fun cancel() {
             val keys = showedNotifications.getKeys()
             for (tag in keys) cancel(tag)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val activeNotifications = notificationManager.activeNotifications
+                for (n in activeNotifications) if (n.tag == idS) notificationManager.cancel(n.id)
+            }
         }
 
-        fun cancel(tag:String) {
+        fun cancel(tag: String) {
             val ids = showedNotifications.getAll(tag)
             for (id in ids) notificationManager.cancel(id)
             showedNotifications.remove(tag)
         }
 
-        fun cancelAllOrByTagIfNotEmpty(tag:String) {
-            if(tag.isEmpty()) cancel()
+        fun cancelAllOrByTagIfNotEmpty(tag: String) {
+            if (tag.isEmpty()) cancel()
             else cancel(tag)
         }
 

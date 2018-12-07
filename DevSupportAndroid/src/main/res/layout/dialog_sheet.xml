@@ -5,43 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        app:LayoutMaxSizes_allowChildMaxW="true"
+        app:LayoutMaxSizes_childAlwaysMaxW="true"
+        app:LayoutMaxSizes_maxHeight="480dp"
         android:layout_gravity="bottom">
 
-        <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+        <com.sup.dev.android.views.views.layouts.LayoutCorned
+            android:id="@+id/vCorned"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:LayoutMaxSizes_allowChildMaxW="true"
-            app:LayoutMaxSizes_childAlwaysMaxW="true"
-            app:LayoutMaxSizes_maxHeight="420dp">
+            android:layout_height="wrap_content"
+            android:background="?attr/widget_background"
+            android:layout_gravity="bottom">
 
-            <android.support.v4.widget.NestedScrollView
+            <FrameLayout
+                android:id="@+id/vContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
+                android:layout_height="wrap_content">
+            </FrameLayout>
 
+        </com.sup.dev.android.views.views.layouts.LayoutCorned>
 
-                <com.sup.dev.android.views.views.layouts.LayoutCorned
-                    android:id="@+id/vCorned"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/widget_background">
-
-                    <FrameLayout
-                        android:id="@+id/vContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </FrameLayout>
-
-                </com.sup.dev.android.views.views.layouts.LayoutCorned>
-
-
-            </android.support.v4.widget.NestedScrollView>
-
-        </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
-
-    </android.support.v4.widget.NestedScrollView>
+    </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 
 </FrameLayout>

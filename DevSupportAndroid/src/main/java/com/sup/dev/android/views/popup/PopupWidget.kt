@@ -1,5 +1,7 @@
 package com.sup.dev.android.views.popup
 
+import android.view.View
+import com.sup.dev.android.R
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
@@ -9,6 +11,8 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
     init {
         setCancelable<Popup>(widget.isCancelable)
         setEnabled<Popup>(widget.isEnabled)
+        val divider: View? = widget.view.findViewById(R.id.vDivider)
+        if(divider != null) divider.visibility = View.GONE
     }
 
     override fun onShow() {

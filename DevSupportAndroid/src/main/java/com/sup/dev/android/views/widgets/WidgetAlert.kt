@@ -119,6 +119,8 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
+    fun addLine(text: Int) = addLine(ToolsResources.getString(text))
+
     fun addLine(text: String): WidgetAlert {
         vText.text = vText.text.toString() + "\n" + text
         vText.visibility = View.VISIBLE

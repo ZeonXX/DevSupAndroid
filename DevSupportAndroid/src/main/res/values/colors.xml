@@ -19,6 +19,7 @@
     <color name="black">#000000</color>
     <color name="focus">#50606060</color>
     <color name="focus_dark">#AA606060</color>
+    <color name="focus_revers">#50FFFFFF</color>
 
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>

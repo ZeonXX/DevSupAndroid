@@ -6,18 +6,7 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
-
-    <TextView
-        android:id="@+id/vTitle"
-        style="@style/Base.TextAppearance.AppCompat.Subhead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please input text"/>
+    android:orientation="vertical">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/vScroll"
@@ -26,26 +15,47 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:background="@drawable/shape_text_area">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/vFieldLayout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            app:hintEnabled="false">
+            android:orientation="vertical">
 
-            <com.sup.dev.android.views.views.ViewEditTextMedia
-                android:id="@+id/vField"
+            <TextView
+                android:id="@+id/vTitle"
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please input text"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/vFieldLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                android:gravity="top"/>
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                app:hintEnabled="false">
 
-        </android.support.design.widget.TextInputLayout>
+                <com.sup.dev.android.views.views.ViewEditTextMedia
+                    android:id="@+id/vField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                    android:gravity="top"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
 
     </android.support.v4.widget.NestedScrollView>
+
+    <View style="@style/Divider"/>
 
     <FrameLayout
         android:layout_width="match_parent"

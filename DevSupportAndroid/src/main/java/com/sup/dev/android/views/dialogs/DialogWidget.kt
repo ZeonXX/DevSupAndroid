@@ -1,5 +1,8 @@
 package com.sup.dev.android.views.dialogs
 
+import android.view.View
+import android.view.View.GONE
+import com.sup.dev.android.R
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
@@ -10,6 +13,8 @@ class DialogWidget(private val widget: Widget) : Dialog(widget.view), WidgetView
     init {
         setCancelable(widget.isCancelable)
         setEnabled<DialogWidget>(widget.isEnabled)
+        val divider: View? = widget.view.findViewById(R.id.vDivider)
+        if(divider != null) divider.visibility = GONE
     }
 
     override fun onShow() {
