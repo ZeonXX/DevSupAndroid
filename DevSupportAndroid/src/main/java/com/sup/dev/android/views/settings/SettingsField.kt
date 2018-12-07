@@ -8,19 +8,22 @@ import android.support.annotation.StringRes
 import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
-import android.widget.EditText
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
-import com.sup.dev.android.views.views.ViewErrorEditText
+import com.sup.dev.android.views.support.watchers.TextWatcherRemoveHTML
+import com.sup.dev.android.views.views.ViewEditTextMedia
+import com.sup.dev.android.views.views.ViewIcon
 
 
-class SettingsField @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_field) {
+class SettingsField constructor(
+        context: Context,
+        attrs: AttributeSet? = null
+) : Settings(context, attrs, R.layout.settings_field) {
 
-    private val vIcon: ViewIcon = findViewById(R.id.vDevSupIcon)
-    private val vField: ViewErrorEditText = findViewById(R.id.vDevSupField)
-    private val vInputLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
+    val vIcon: ViewIcon = findViewById(R.id.vDevSupIcon)
+    val vField: ViewEditTextMedia = findViewById(R.id.vDevSupField)
+    val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
     private var isError: Boolean = false
     private var checker: ((String) -> Boolean)? = null
@@ -30,16 +33,19 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
         vField.id = View.NO_ID //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0)
-        val hint = a.getString(R.styleable.SettingsField_SettingsField_hint)
+        val hint = a.getString(R.styleable.SettingsField_android_hint)
         var text = a.getString(R.styleable.SettingsField_SettingsField_text)
         val inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.inputType)
+        val singleLine = a.getBoolean(R.styleable.SettingsField_android_singleLine, false)
         val icon = a.getResourceId(R.styleable.SettingsField_SettingsField_icon, 0)
         val maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0)
         val iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0)
         setIconBackground(iconBackground)
         a.recycle()
 
+        if (singleLine) vField.setSingleLine()
         vField.addTextChangedListener(TextWatcherChanged { s -> checkError() })
+        vField.addTextChangedListener(TextWatcherRemoveHTML(vField))
 
         setLineVisible(false)
         setIcon(icon)
@@ -72,7 +78,6 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     private fun checkError() {
-        if (checker == null) setError(false)
         if (checker != null) setError((!checker!!.invoke(getText())))
     }
 
@@ -87,8 +92,20 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
 
     @Suppress("UsePropertyAccessSyntax")
     fun setError(b: Boolean) {
-        isError = b
-        vField.setError(b)
+        setError(if (b) "" else null)
+    }
+
+    fun setError(error: Int) {
+        setError(ToolsResources.getString(error))
+    }
+
+    fun setError(error: String?) {
+        isError = error != null
+        vField.setError(error)
+    }
+
+    fun clearError() {
+        setError(false)
     }
 
     fun setErrorChecker(checker: (String) -> Boolean) {
@@ -113,7 +130,7 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun setHint(hint: String?) {
-        vInputLayout.hint = hint
+        vFieldLayout.hint = hint
     }
 
     fun setInputType(inputType: Int) {
@@ -121,13 +138,17 @@ class SettingsField @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun setMaxLength(max: Int) {
-        vInputLayout.counterMaxLength = max
+        vFieldLayout.counterMaxLength = max
+    }
+
+    fun addOnTextChanged(callback: (String) -> Unit) {
+        vField.addTextChangedListener(TextWatcherChanged(callback))
     }
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         vField.isEnabled = enabled
-        vInputLayout.isEnabled = enabled
+        vFieldLayout.isEnabled = enabled
     }
 
     //

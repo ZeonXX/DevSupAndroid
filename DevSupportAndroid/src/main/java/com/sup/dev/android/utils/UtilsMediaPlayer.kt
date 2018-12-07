@@ -3,8 +3,7 @@ package com.sup.dev.android.utils
 import android.media.MediaPlayer
 import android.net.Uri
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import java.io.IOException
 
 
@@ -45,7 +44,7 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
             mediaPlayer!!.setVolume(1f, 1f)
 
         } catch (ex: IOException) {
-            log(ex)
+            error(ex)
         }
 
     }

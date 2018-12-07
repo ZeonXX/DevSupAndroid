@@ -1,20 +1,11 @@
 package com.sup.dev.android.tools
 
-import android.content.Context
-import android.util.Pair
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.LinkOption
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.attribute.BasicFileAttributes
-import java.util.*
 
 object ToolsCash {
 
@@ -54,13 +45,13 @@ object ToolsCash {
             os.write(data)
             os.flush()
         } catch (ex: IOException) {
-            log(ex)
+            error(ex)
         } finally {
             if (os != null)
                 try {
                     os.close()
                 } catch (e: IOException) {
-                    log(e)
+                    error(e)
                 }
 
         }
@@ -81,12 +72,12 @@ object ToolsCash {
             inputStream = FileInputStream(file)
             inputStream.read(data)
         } catch (ex: IOException) {
-            log(ex)
+            error(ex)
         } finally {
             try {
                 inputStream!!.close()
             } catch (e: IOException) {
-                log(e)
+                error(e)
             }
 
         }

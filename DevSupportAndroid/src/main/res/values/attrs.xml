@@ -276,8 +276,9 @@
 
     <declare-styleable name="SettingsField">
         <attr name="android:inputType"/>
+        <attr name="android:singleLine"/>
+        <attr name="android:hint"/>
         <attr name="SettingsField_lineVisible" format="boolean"/>
-        <attr name="SettingsField_hint" format="string"/>
         <attr name="SettingsField_text" format="string"/>
         <attr name="SettingsField_maxLength" format="integer"/>
         <attr name="SettingsField_icon" format="reference"/>

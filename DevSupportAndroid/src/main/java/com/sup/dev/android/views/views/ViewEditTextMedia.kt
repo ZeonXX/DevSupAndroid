@@ -7,10 +7,13 @@ import android.support.v4.os.BuildCompat
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 
 
-class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = null) : android.support.v7.widget.AppCompatEditText(context, attrs) {
+class ViewEditTextMedia constructor(
+        context: Context,
+        attrs: AttributeSet? = null
+) : ViewErrorEditText(context, attrs) {
 
 
     private var callback: ((String) -> Unit)? = null
@@ -28,7 +31,7 @@ class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = nul
                     try {
                         inputContentInfo.requestPermission()
                     } catch (e:Exception) {
-                        log(e)
+                        error(e)
                         return@createWrapper false
                     }
                 }
@@ -37,7 +40,7 @@ class ViewEditTextMedia constructor(context: Context, attrs: AttributeSet? = nul
                     if (callback != null) callback!!.invoke(inputContentInfo.linkUri.toString())
                     return@createWrapper true
                 } catch (e:Exception) {
-                    log(e)
+                    error(e)
                 }
 
                 false

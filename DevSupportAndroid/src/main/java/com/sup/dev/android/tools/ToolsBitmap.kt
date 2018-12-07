@@ -11,13 +11,11 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.support.annotation.DrawableRes
-import android.view.ActionMode
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -253,7 +251,7 @@ object ToolsBitmap {
             drawable.draw(canvas)
             return bitmap
         } catch (e: Exception) {
-            log(e)
+            error(e)
             return null
         }
 
@@ -280,7 +278,7 @@ object ToolsBitmap {
             try {
                 bitmap = getFromURL(src)
             } catch (ex: IOException) {
-                log(ex)
+                error(ex)
             }
 
             val fBitmap = bitmap
@@ -293,7 +291,7 @@ object ToolsBitmap {
             try {
                 callbackResult.invoke(MediaStore.Images.Media.getBitmap(SupAndroid.activity!!.contentResolver, uri))
             } catch (ex: IOException) {
-                log(ex)
+                error(ex)
                 callbackResult.invoke(null)
             }
         }, onPermissionPermissionRestriction)
@@ -304,7 +302,7 @@ object ToolsBitmap {
             try {
                 onComplete.invoke(decode(ToolsFiles.readFile(file)))
             } catch (e: IOException) {
-                log(e)
+                error(e)
                 ToolsToast.show(R.string.error_cant_load_image)
             }
         }, { ToolsToast.show(R.string.error_permission_files) })

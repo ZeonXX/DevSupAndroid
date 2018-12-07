@@ -20,7 +20,7 @@ import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
@@ -43,13 +43,13 @@ object ToolsAndroid {
                 val btManagerService = mServiceField.get(bluetoothAdapter)
                 if (btManagerService != null) bluetoothMacAddress = btManagerService.javaClass.getMethod("getAddress").invoke(btManagerService) as String
             } catch (e: NoSuchFieldException) {
-                log(e)
+                error(e)
             } catch (e: NoSuchMethodException) {
-                log(e)
+                error(e)
             } catch (e: IllegalAccessException) {
-                log(e)
+                error(e)
             } catch (e: InvocationTargetException) {
-                log(e)
+                error(e)
             }
 
         } else {
@@ -77,13 +77,13 @@ object ToolsAndroid {
             }
             return processName.toString()
         } catch (ex: Exception) {
-            log(ex)
+            error(ex)
         } finally {
             if (cmdlineReader != null) {
                 try {
                     cmdlineReader.close()
                 } catch (e: IOException) {
-                    log(e)
+                    error(e)
                 }
 
             }

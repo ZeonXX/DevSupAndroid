@@ -3,7 +3,7 @@ package com.sup.dev.android.tools
 import android.graphics.Bitmap
 import android.os.Environment
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import java.io.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -33,7 +33,7 @@ object ToolsFilesAndroid {
             try {
                 out?.close()
             } catch (ex: IOException) {
-                log(ex)
+                error(ex)
             }
 
         }
@@ -131,13 +131,13 @@ object ToolsFilesAndroid {
             try {
                 `is`?.close()
             } catch (ex: IOException) {
-                log(ex)
+                error(ex)
             }
 
             try {
                 zis?.close()
             } catch (ex: IOException) {
-                log(ex)
+                error(ex)
             }
 
         }
@@ -172,13 +172,13 @@ object ToolsFilesAndroid {
             out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
         } catch (ex: Exception) {
-            log(ex)
+            error(ex)
         } finally {
             if (out != null) {
                 try {
                     out.close()
                 } catch (ex: IOException) {
-                    log(ex)
+                    error(ex)
                 }
 
             }

@@ -1,7 +1,6 @@
 package com.sup.dev.android.views.widgets
 
 import android.support.annotation.StringRes
-import android.support.design.widget.TextInputLayout
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,10 +9,9 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewEditTextMedia
+import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
-import com.sup.dev.android.views.support.watchers.TextWatcherRemoveHTML
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
@@ -22,8 +20,7 @@ import java.util.ArrayList
 open class WidgetField : Widget(R.layout.widget_field) {
 
     private val vCopy: ViewIcon = view.findViewById(R.id.vCopy)
-    private val vField: ViewEditTextMedia = view.findViewById(R.id.vField)
-    private val vFieldLayout: TextInputLayout = view.findViewById(R.id.vFieldLayout)
+    private val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
 
@@ -34,19 +31,15 @@ open class WidgetField : Widget(R.layout.widget_field) {
     private var autoHideOnCancel = true
     private var fastCopy: Boolean = false
 
-    val text: String
-        get() = vField.text.toString()
-
     init {
 
         vEnter.visibility = View.GONE
         vCancel.visibility = View.GONE
         vCopy.visibility = View.GONE
 
-        vField.addTextChangedListener(TextWatcherRemoveHTML(vField))
-        vField.addTextChangedListener(TextWatcherChanged { text -> check() })
+        vFieldWidget.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
 
-        vField.setCallback { vField.setText(it) }
+        vFieldWidget.vField.setCallback { vFieldWidget.setText(it) }
 
         vCopy.setOnClickListener { v ->
             setText(ToolsAndroid.getFromClipboard())
@@ -56,27 +49,27 @@ open class WidgetField : Widget(R.layout.widget_field) {
 
     private fun check() {
 
-        val text = text
+        val text = getText()
         var error: String? = null
 
         for (pair in checkers)
-            if (!((pair.a2!!.invoke(text)))) {
+            if (!((pair.a2.invoke(text)))) {
                 error = pair.a1
                 break
             }
 
         if (error != null) {
-            vFieldLayout.error = if (error.isEmpty()) null else error
+            vFieldWidget.vFieldLayout.error = if (error.isEmpty()) null else error
             vEnter.isEnabled = false
         } else {
-            vFieldLayout.error = null
+            vFieldWidget.vFieldLayout.error = null
             vEnter.isEnabled = text.length >= min && (max == 0 || text.length <= max)
         }
     }
 
     override fun onShow() {
         super.onShow()
-        ToolsView.showKeyboard(view.findViewById(R.id.vField))
+        ToolsView.showKeyboard(vFieldWidget.vField)
     }
 
     override fun onHide() {
@@ -110,13 +103,13 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun setMediaCallback(callback: (WidgetField, String) -> Unit): WidgetField {
-        vField.setCallback { s -> callback.invoke(this, s) }
+        vFieldWidget.vField.setCallback { s -> callback.invoke(this, s) }
         return this
     }
 
     fun setMax(max: Int): WidgetField {
         this.max = max
-        vFieldLayout.counterMaxLength = max
+        vFieldWidget.vFieldLayout.counterMaxLength = max
         return this
     }
 
@@ -127,20 +120,20 @@ open class WidgetField : Widget(R.layout.widget_field) {
 
     fun setLinesCount(linesCount: Int): WidgetField {
         if (linesCount == 1) {
-            vField.setSingleLine(true)
-            vField.gravity = Gravity.CENTER or Gravity.LEFT
-            vField.setLines(linesCount)
+            vFieldWidget.vField.setSingleLine(true)
+            vFieldWidget.vField.gravity = Gravity.CENTER or Gravity.LEFT
+            vFieldWidget.vField.setLines(linesCount)
         } else {
             setMultiLine()
-            vField.setLines(linesCount)
+            vFieldWidget.vField.setLines(linesCount)
         }
         return this
     }
 
     fun setMultiLine(): WidgetField {
-        vField.setSingleLine(false)
-        vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vField.gravity = Gravity.TOP
+        vFieldWidget.vField.setSingleLine(false)
+        vFieldWidget.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
+        vFieldWidget.vField.gravity = Gravity.TOP
         return this
     }
 
@@ -163,18 +156,18 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun setHint(hint: String?): WidgetField {
-        vFieldLayout.hint = hint
+        vFieldWidget.vFieldLayout.hint = hint
         return this
     }
 
     fun setInputType(type: Int): WidgetField {
-        vField.inputType = type
+        vFieldWidget.vField.inputType = type
         return this
     }
 
     fun setText(text: String?): WidgetField {
-        vField.setText(text)
-        vField.setSelection(vField.text!!.length)
+        vFieldWidget.setText(text)
+        vFieldWidget.vField.setSelection(getText().length)
         return this
     }
 
@@ -221,7 +214,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
                 hide()
             else
                 setEnabled(false)
-            onEnter.invoke(this, vField.text.toString())
+            onEnter.invoke(this, getText())
         }
 
         return this
@@ -230,10 +223,18 @@ open class WidgetField : Widget(R.layout.widget_field) {
     override fun setEnabled(enabled: Boolean): WidgetField {
         super.setEnabled(enabled)
         vCancel.isEnabled = enabled
-        vFieldLayout.isEnabled = enabled
+        vFieldWidget.vFieldLayout.isEnabled = enabled
         vEnter.isEnabled = enabled
         return this
     }
+
+    //
+    //  Getters
+    //
+
+    fun getText() = vFieldWidget.getText()
+
+
 
 
 }

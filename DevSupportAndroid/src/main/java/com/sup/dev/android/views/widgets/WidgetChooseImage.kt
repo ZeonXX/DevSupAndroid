@@ -13,8 +13,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsNetwork
@@ -114,7 +113,7 @@ open class WidgetChooseImage : WidgetRecycler() {
             try {
                 onSelected(bytes)
             } catch (e: IOException) {
-                log(e)
+                error(e)
                 ToolsToast.show(R.string.error_cant_load_image)
             }
         })
@@ -171,7 +170,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                         onSelected(bytes)
                     }
                 } catch (e: Exception) {
-                    log(e)
+                    error(e)
                     ToolsThreads.main { d.hide() }
                     ToolsToast.show(R.string.error_cant_load_image)
                 }

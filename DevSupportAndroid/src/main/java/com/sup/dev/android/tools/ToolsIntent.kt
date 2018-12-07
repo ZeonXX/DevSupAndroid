@@ -13,8 +13,7 @@ import android.os.Parcelable
 import android.support.v4.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.ToolsText
 import java.io.*
 import java.net.URLConnection
@@ -67,7 +66,7 @@ object ToolsIntent {
         try {
             SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
-            log(ex)
+            error(ex)
             onActivityNotFound.invoke()
         }
 
@@ -129,7 +128,7 @@ object ToolsIntent {
             out.flush()
             out.close()
         } catch (e: Exception) {
-            log(e)
+            error(e)
         }
 
         try {
@@ -140,7 +139,7 @@ object ToolsIntent {
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null))
         } catch (ex: ActivityNotFoundException) {
-            log(ex)
+            error(ex)
             onActivityNotFound.invoke()
         }
 
@@ -174,7 +173,7 @@ object ToolsIntent {
             if (text != null) i.putExtra(Intent.EXTRA_TEXT, text)
             SupAndroid.activity!!.startActivity(Intent.createChooser(i, null))
         } catch (ex: ActivityNotFoundException) {
-            log(ex)
+            error(ex)
             onActivityNotFound.invoke()
         }
 
@@ -206,13 +205,13 @@ object ToolsIntent {
                     inp.close()
                     onResult.invoke(bytes)
                 }catch (e:Exception){
-                    log(e)
+                    error(e)
                     onError.invoke()
                 }
 
             }
         } catch (ex: ActivityNotFoundException) {
-            log(ex)
+            error(ex)
             onError.invoke()
         }
 
@@ -273,7 +272,7 @@ object ToolsIntent {
         try {
             intent.send()
         } catch (ex: PendingIntent.CanceledException) {
-            log(ex)
+            error(ex)
         }
 
     }

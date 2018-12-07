@@ -12,8 +12,7 @@ import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.java.classes.collections.CashBytes
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
@@ -84,7 +83,7 @@ object ImageLoader {
             try {
                 loadNow(loader)
             } catch (ex: Throwable) {
-                log(ex)
+                error(ex)
             }
         }
     }

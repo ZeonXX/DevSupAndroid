@@ -6,15 +6,12 @@ import android.content.Intent
 import android.os.IBinder
 import android.support.annotation.RequiresPermission
 import android.support.annotation.WorkerThread
-import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.tools.ToolsIntent
-import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.IOException
@@ -156,7 +153,7 @@ class ServiceNetworkCheck : Service() {
                         try {
                             sock.close()
                         } catch (e: IOException) {
-                            log(e)
+                            error(e)
                         }
 
                     }
