@@ -8,25 +8,17 @@
     <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         app:LayoutMaxSizes_allowChildMaxW="true"
         app:LayoutMaxSizes_childAlwaysMaxW="true"
-        app:LayoutMaxSizes_maxHeight="480dp"
-        android:layout_gravity="bottom">
+        app:LayoutMaxSizes_useScreenHeightAsParent="true"
+        app:LayoutMaxSizes_maxHeightParentPercent="50">
 
         <com.sup.dev.android.views.views.layouts.LayoutCorned
-            android:id="@+id/vCorned"
+            android:id="@+id/vContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/widget_background"
-            android:layout_gravity="bottom">
-
-            <FrameLayout
-                android:id="@+id/vContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </FrameLayout>
-
-        </com.sup.dev.android.views.views.layouts.LayoutCorned>
+            android:background="?attr/widget_background"/>
 
     </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 

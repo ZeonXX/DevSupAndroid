@@ -213,6 +213,11 @@
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
     </style>
 
+    <style name="Scroll.Widget">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
     <style name="SwipeRefresh">
         <item name="android:id">@id/vRefresh</item>
         <item name="android:layout_width">match_parent</item>

@@ -22,19 +22,9 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
     private val paint: Paint
     private val path: Path
 
-    //
-    //  Getters
-    //
-
     val viewAvatar: ViewAvatar
-    private val vTitle: TextView
+    val vTitle: TextView
     val viewSubtitle: TextView
-
-    val title: String
-        get() = vTitle.text.toString()
-
-    val subTitle: String
-        get() = viewSubtitle.text.toString()
 
     init {
 
@@ -151,5 +141,14 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         viewSubtitle.visibility = if (text == null || text.isEmpty()) GONE else VISIBLE
         viewSubtitle.text = text
     }
+
+    //
+    //  Getters
+    //
+
+
+    fun getTitle() = vTitle.text.toString()
+
+    fun getSubTitle() = viewSubtitle.text.toString()
 
 }

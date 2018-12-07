@@ -27,17 +27,14 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         setOnCancelListener { dialogInterface -> onHide() }
 
         val vRoot: ViewGroup = ToolsView.inflate(view.context, R.layout.dialog_sheet)
-        val vCorned: LayoutCorned = vRoot.findViewById(R.id.vCorned)
-        val vContainer: ViewGroup = vRoot.findViewById(R.id.vContainer)
+        val vContainer: LayoutCorned = vRoot.findViewById(R.id.vContainer)
 
-        vCorned.setCornedSize(8)
-        vCorned.setCornedBL(false)
-        vCorned.setCornedBR(false)
+        vContainer.setCornedSize(8)
+        vContainer.setCornedBL(false)
+        vContainer.setCornedBR(false)
 
         vContainer.isClickable = true // Чтоб не закрывался при нажатии на тело
         vContainer.addView(ToolsView.removeFromParent(view))
-        vContainer.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        (vContainer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
         setContentView(vRoot)
 
         window!!.setWindowAnimations(R.style.DialogSheetAnimation)

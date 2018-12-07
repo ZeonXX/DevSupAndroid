@@ -163,7 +163,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun setHint(hint: String?): WidgetField {
-        vField.hint = hint
+        vFieldLayout.hint = hint
         return this
     }
 

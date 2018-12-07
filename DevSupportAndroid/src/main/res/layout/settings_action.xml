@@ -21,7 +21,7 @@
             android:src="@drawable/ic_clear_black_24dp"
             android:clickable="false"
             android:focusable="false"
-            android:padding="6dp"/>
+            android:padding="4dp"/>
 
         <LinearLayout
             android:layout_weight="1"
