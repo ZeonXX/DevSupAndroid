@@ -19,6 +19,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
 
     init {
 
+        isUseMoreScreenSpace = true
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
 

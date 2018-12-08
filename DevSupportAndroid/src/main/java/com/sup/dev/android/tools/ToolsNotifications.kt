@@ -12,6 +12,8 @@ import com.sup.dev.java.classes.collections.HashList
 
 object ToolsNotifications {
 
+    private val SPLITER = "-FS2ААА67миО-"
+
     enum class Importance {
         DEFAULT, HIGH, MIN
     }
@@ -20,7 +22,7 @@ object ToolsNotifications {
         SINGLE, GROUP
     }
 
-    private var notificationIdCounter = 0
+    private var notificationIdCounter = 1
 
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -87,7 +89,7 @@ object ToolsNotifications {
 
             val notification = builder.build()
 
-            notificationManager.notify(idS, notificationId, notification)
+            notificationManager.notify(idS + SPLITER + tag, notificationId, notification)
 
         }
 
@@ -100,16 +102,18 @@ object ToolsNotifications {
             val keys = showedNotifications.getKeys()
             for (tag in keys) cancel(tag)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val activeNotifications = notificationManager.activeNotifications
-                for (n in activeNotifications) if (n.tag == idS) notificationManager.cancel(n.id)
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                for (n in notificationManager.activeNotifications) if (n.tag.split(SPLITER)[0] == idS) notificationManager.cancel(n.tag, n.id)
+
         }
 
         fun cancel(tag: String) {
             val ids = showedNotifications.getAll(tag)
-            for (id in ids) notificationManager.cancel(id)
+            for (id in ids) notificationManager.cancel(idS + SPLITER + tag, id)
             showedNotifications.remove(tag)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                for (n in notificationManager.activeNotifications) if (n.tag.split(SPLITER)[1] == tag) notificationManager.cancel(n.tag, n.id)
         }
 
         fun cancelAllOrByTagIfNotEmpty(tag: String) {

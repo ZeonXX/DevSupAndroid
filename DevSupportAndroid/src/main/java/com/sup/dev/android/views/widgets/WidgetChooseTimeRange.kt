@@ -25,6 +25,7 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
     init {
 
+        isUseMoreScreenSpace = true
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
 

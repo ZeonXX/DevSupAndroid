@@ -32,6 +32,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     init {
 
+        isUseMoreScreenSpace = true
         vText.text = ""
 
         vText.visibility = View.GONE

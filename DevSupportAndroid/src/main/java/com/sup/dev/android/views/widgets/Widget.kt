@@ -15,6 +15,8 @@ import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
+import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -26,6 +28,7 @@ abstract class Widget(layoutRes: Int) {
     private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
+    var isUseMoreScreenSpace = false
     protected var viewWrapper: WidgetViewWrapper? = null
 
     //
@@ -80,6 +83,11 @@ abstract class Widget(layoutRes: Int) {
                 vTitle.visibility = View.GONE
                 (viewWrapper as SWidget).setTitle(vTitle.text.toString())
             }
+        }
+
+        if (viewWrapper is DialogSheetWidget && isUseMoreScreenSpace) {
+            val layoutMaxSizes:LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
+            layoutMaxSizes.setMaxHeightParentPercent(90f)
         }
     }
 
