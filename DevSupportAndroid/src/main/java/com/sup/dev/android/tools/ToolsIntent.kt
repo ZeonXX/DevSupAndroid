@@ -13,7 +13,7 @@ import android.os.Parcelable
 import android.support.v4.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsText
 import java.io.*
 import java.net.URLConnection

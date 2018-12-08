@@ -3,7 +3,7 @@ package com.sup.dev.android.utils
 import android.media.MediaPlayer
 import android.net.Uri
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import java.io.IOException
 
 

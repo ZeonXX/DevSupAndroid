@@ -7,7 +7,7 @@ import android.support.v4.os.BuildCompat
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 
 
 class ViewEditTextMedia constructor(

@@ -3,7 +3,7 @@ package com.sup.dev.android.tools
 import android.graphics.Bitmap
 import android.os.Environment
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import java.io.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream

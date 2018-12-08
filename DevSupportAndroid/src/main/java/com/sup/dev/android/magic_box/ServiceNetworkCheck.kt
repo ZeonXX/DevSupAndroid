@@ -11,7 +11,7 @@ import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.IOException

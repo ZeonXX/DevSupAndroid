@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import java.io.Serializable
 

@@ -1,6 +1,6 @@
 package com.sup.dev.android.libs.image_loader
 
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsFiles
 import java.io.File
 import java.io.IOException

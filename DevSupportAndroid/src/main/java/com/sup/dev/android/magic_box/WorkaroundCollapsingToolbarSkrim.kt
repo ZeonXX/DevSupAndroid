@@ -1,7 +1,7 @@
 package com.sup.dev.android.magic_box
 
 import android.support.design.widget.CollapsingToolbarLayout
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 
 object WorkaroundCollapsingToolbarSkrim {

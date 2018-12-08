@@ -1,7 +1,7 @@
 package com.sup.dev.android.magic_box
 
 import android.os.Environment
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException

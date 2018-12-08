@@ -1,7 +1,6 @@
 package com.sup.dev.android.libs.http
 
 import android.content.ContentValues
-import com.sup.dev.java.libs.debug.error
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.net.HttpURLConnection

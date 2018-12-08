@@ -128,6 +128,9 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
+        return executeEnabledConfirm(ToolsResources.getString(text), ToolsResources.getString(enter), request, onComplete)
+    }
+    fun <K : Request.Response> executeEnabledConfirm(text: String, enter: String, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         WidgetAlert()
                 .setText(text)
                 .setOnCancel(R.string.app_cancel)

@@ -1,7 +1,7 @@
 package com.sup.dev.android.tools
 
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.error
+import com.sup.dev.java.libs.debug.err
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
