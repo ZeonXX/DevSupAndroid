@@ -32,7 +32,7 @@
         android:layout_marginBottom="8dp">
 
         <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/vCopy"
+            android:id="@+id/vIcon"
             style="@style/Icon"
             android:layout_gravity="center|start"
             android:src="@drawable/ic_content_copy_white_24dp"/>

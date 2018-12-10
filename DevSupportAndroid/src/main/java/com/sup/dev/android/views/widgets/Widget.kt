@@ -16,7 +16,6 @@ import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
-import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.tools.ToolsThreads
 

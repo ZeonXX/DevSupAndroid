@@ -19,7 +19,7 @@ import java.util.ArrayList
 
 open class WidgetField : Widget(R.layout.widget_field) {
 
-    private val vCopy: ViewIcon = view.findViewById(R.id.vCopy)
+    private val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
     private val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
@@ -29,22 +29,16 @@ open class WidgetField : Widget(R.layout.widget_field) {
     private var min: Int = 0
     private var autoHideOnEnter = true
     private var autoHideOnCancel = true
-    private var fastCopy: Boolean = false
 
     init {
 
         vEnter.visibility = View.GONE
         vCancel.visibility = View.GONE
-        vCopy.visibility = View.GONE
+        vIcon.visibility = View.GONE
 
         vFieldWidget.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
 
         vFieldWidget.vField.setCallback { vFieldWidget.setText(it) }
-
-        vCopy.setOnClickListener { v ->
-            setText(ToolsAndroid.getFromClipboard())
-            if (fastCopy) vEnter.performClick()
-        }
     }
 
     private fun check() {
@@ -92,14 +86,22 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun enableCopy(): WidgetField {
-        vCopy.visibility = View.VISIBLE
+        setIcon(R.drawable.ic_content_copy_white_24dp) { setText(ToolsAndroid.getFromClipboard()) }
         return this
     }
 
     fun enableFastCopy(): WidgetField {
-        vCopy.visibility = View.VISIBLE
-        fastCopy = true
+        setIcon(R.drawable.ic_content_copy_white_24dp) {
+            setText(ToolsAndroid.getFromClipboard())
+            vEnter.performClick()
+        }
         return this
+    }
+
+    fun setIcon(icon: Int, onClick: (WidgetField) -> Unit) {
+        vIcon.visibility = View.VISIBLE
+        vIcon.setImageResource(icon)
+        vIcon.setOnClickListener { v -> onClick.invoke(this) }
     }
 
     fun setMediaCallback(callback: (WidgetField, String) -> Unit): WidgetField {
@@ -233,8 +235,6 @@ open class WidgetField : Widget(R.layout.widget_field) {
     //
 
     fun getText() = vFieldWidget.getText()
-
-
 
 
 }

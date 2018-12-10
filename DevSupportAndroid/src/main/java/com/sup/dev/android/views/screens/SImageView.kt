@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
@@ -24,12 +23,22 @@ class SImageView private constructor()
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
-    constructor(vararg bitmaps: Bitmap) : this() {
+    constructor(scrollTo:Int, bitmaps: Array<Bitmap>) : this() {
         for (b in bitmaps) adapterIn.add(Page(b, 0L))
+        vPager.setCurrentItem(scrollTo, false)
     }
 
-    constructor(vararg ids: Long) : this() {
+    constructor(scrollTo:Int, ids: Array<Long>) : this() {
         for (id in ids) adapterIn.add(Page(null, id))
+        vPager.setCurrentItem(scrollTo, false)
+    }
+
+    constructor(bitmap: Bitmap) : this() {
+        adapterIn.add(Page(bitmap, 0L))
+    }
+
+    constructor(id: Long) : this() {
+        adapterIn.add(Page(null, id))
     }
 
     init {
@@ -42,13 +51,15 @@ class SImageView private constructor()
         vPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(p0: Int) {
-                for (i in 0 until adapterIn.size()) (adapterIn[i] as Page).update()
+
             }
 
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+
             }
 
             override fun onPageSelected(p0: Int) {
+                for (i in 0 until adapterIn.size()) (adapterIn[i] as Page).update()
             }
 
         })

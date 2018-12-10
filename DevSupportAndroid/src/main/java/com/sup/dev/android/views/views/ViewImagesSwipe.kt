@@ -38,18 +38,29 @@ class ViewImagesSwipe constructor(
     }
 
     fun add(id: Long, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
-        if(!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
+        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
         adapter.add(CardSwipeId(id, w, h, onClick, onLongClick))
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
-        if(!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
+        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
+    }
+
+    fun getArrayIds(): Array<Long> {
+        val array = adapter[CardSwipeId::class]
+        return Array(array.size) { array[it].id }
+    }
+
+    fun getArrayBitmaps(): Array<Bitmap> {
+        val array = adapter[CardSwipeBitmap::class]
+        return Array(array.size) { array[it].bitmap }
     }
 
     //
     //  Card
     //
+
     private abstract inner class CardSwipe<K>(
             val onClick: ((K) -> Unit)?,
             val onLongClick: ((K) -> Unit)?
@@ -65,7 +76,7 @@ class ViewImagesSwipe constructor(
                 if (onClick == null) toImageView()
                 else onClick.invoke(getSource())
             }
-            if(onLongClick != null)
+            if (onLongClick != null)
                 view.setOnLongClickListener {
                     onLongClick.invoke(getSource())
                     true
@@ -77,7 +88,7 @@ class ViewImagesSwipe constructor(
 
         abstract fun toImageView()
 
-        abstract fun getSource():K
+        abstract fun getSource(): K
 
     }
 
@@ -93,7 +104,10 @@ class ViewImagesSwipe constructor(
         }
 
         override fun toImageView() {
-            Navigator.to(SImageView(bitmap))
+            val array = getArrayBitmaps()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] == bitmap) index = i
+            Navigator.to(SImageView(index, array))
         }
 
         override fun getSource() = bitmap
@@ -113,7 +127,10 @@ class ViewImagesSwipe constructor(
         }
 
         override fun toImageView() {
-            Navigator.to(SImageView(id))
+            val array = getArrayIds()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] == id) index = i
+            Navigator.to(SImageView(index, array))
         }
 
         override fun getSource() = id
