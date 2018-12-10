@@ -36,6 +36,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         val icon = a.getResourceId(R.styleable.SettingsCheckBox_SettingsCheckBox_icon, 0)
         val checked = a.getBoolean(R.styleable.SettingsCheckBox_SettingsCheckBox_checked, false)
         val iconBackground = a.getColor(R.styleable.SettingsCheckBox_SettingsCheckBox_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsCheckBox_SettingsCheckBox_icon_padding, ToolsView.dpToPx(6).toFloat())
         a.recycle()
 
         setLineVisible(lineVisible)
@@ -45,6 +46,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         setChecked(checked)
         setSubView(vCheckBox)
         setIconBackground(iconBackground)
+        setIconPaddingPx(iconPadding)
 
         super.setOnClickListener { v ->
             salient = true

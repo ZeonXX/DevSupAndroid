@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.support.watchers.TextWatcherRemoveHTML
 import com.sup.dev.android.views.views.ViewEditTextMedia
@@ -40,6 +41,7 @@ class SettingsField constructor(
         val icon = a.getResourceId(R.styleable.SettingsField_SettingsField_icon, 0)
         val maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0)
         val iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsField_SettingsField_icon_padding, ToolsView.dpToPx(6).toFloat())
         setIconBackground(iconBackground)
         a.recycle()
 
@@ -53,6 +55,7 @@ class SettingsField constructor(
         setHint(hint)
         setInputType(inputType)
         setMaxLength(maxLength)
+        setIconPaddingPx(iconPadding)
         vField.clearFocus()
     }
 
@@ -149,6 +152,14 @@ class SettingsField constructor(
         super.setEnabled(enabled)
         vField.isEnabled = enabled
         vFieldLayout.isEnabled = enabled
+    }
+
+    fun setIconPadding(dp: Int) {
+        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
+    }
+
+    fun setIconPaddingPx(px: Float) {
+        vIcon.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
     }
 
     //

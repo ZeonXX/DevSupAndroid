@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
 
 
@@ -51,6 +52,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         val maxProgress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_maxProgress, 100)
         var progress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_progress, 70)
         val iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsAction_SettingsAction_icon_padding, ToolsView.dpToPx(6).toFloat())
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)
@@ -61,6 +63,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         setIcon(icon)
         setMaxProgress(maxProgress)
         setIconBackground(iconBackground)
+        setIconPaddingPx(iconPadding)
     }
 
     //
@@ -132,6 +135,14 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun setOnProgressChanged(onProgressChanged: (Int) -> Unit) {
         this.onProgressChanged = onProgressChanged
+    }
+
+    fun setIconPadding(dp: Int) {
+        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
+    }
+
+    fun setIconPaddingPx(px: Float) {
+        vIcon.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
     }
 
     //

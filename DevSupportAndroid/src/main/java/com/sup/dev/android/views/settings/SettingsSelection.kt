@@ -3,6 +3,7 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.util.AttributeSet
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.WidgetMenu
 
 class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
@@ -20,6 +21,7 @@ class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = nu
         val subtitle = a.getString(R.styleable.SettingsSelection_SettingsSelection_subtitle)
         val icon = a.getResourceId(R.styleable.SettingsSelection_SettingsSelection_icon, 0)
         val iconBackground = a.getColor(R.styleable.SettingsSelection_SettingsSelection_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsSelection_SettingsSelection_icon_padding, ToolsView.dpToPx(6).toFloat())
         setIconBackground(iconBackground)
         a.recycle()
 
@@ -27,6 +29,7 @@ class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = nu
         setTitle(title)
         setSubtitle(subtitle ?: "-")
         setIcon(icon)
+        setIconPaddingPx(iconPadding)
     }
 
 }

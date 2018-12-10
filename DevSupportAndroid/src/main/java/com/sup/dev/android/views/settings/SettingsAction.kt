@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.Debug
 
 
 open class SettingsAction @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_action) {
@@ -27,6 +27,7 @@ open class SettingsAction @JvmOverloads constructor(context: Context, attrs: Att
         val subtitle = a.getString(R.styleable.SettingsAction_SettingsAction_subtitle)
         val icon = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon, 0)
         val iconBackground = a.getColor(R.styleable.SettingsAction_SettingsAction_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsAction_SettingsAction_icon_padding, ToolsView.dpToPx(6).toFloat())
         a.recycle()
 
         setLineVisible(lineVisible)
@@ -34,6 +35,7 @@ open class SettingsAction @JvmOverloads constructor(context: Context, attrs: Att
         setSubtitle(subtitle)
         setIcon(icon)
         setIconBackground(iconBackground)
+        setIconPaddingPx(iconPadding)
     }
 
     fun setSubView(view: View?) {
@@ -74,6 +76,14 @@ open class SettingsAction @JvmOverloads constructor(context: Context, attrs: Att
         else
             vIcon.setImageResource(icon)
         vIcon.visibility = if (icon == 0) View.GONE else View.VISIBLE
+    }
+
+    fun setIconPadding(dp: Int) {
+        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
+    }
+
+    fun setIconPaddingPx(px: Float) {
+        vIcon.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
     }
 
     fun setIconBackground(color: Int) {

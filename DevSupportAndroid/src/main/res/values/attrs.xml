@@ -238,6 +238,7 @@
         <attr name="SettingsAction_subtitle" format="string"/>
         <attr name="SettingsAction_icon" format="reference"/>
         <attr name="SettingsAction_icon_background" format="color"/>
+        <attr name="SettingsAction_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsSelection">
@@ -246,6 +247,7 @@
         <attr name="SettingsSelection_subtitle" format="string"/>
         <attr name="SettingsSelection_icon" format="reference"/>
         <attr name="SettingsSelection_icon_background" format="color"/>
+        <attr name="SettingsSelection_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsArrow">
@@ -254,6 +256,7 @@
         <attr name="SettingsArrow_subtitle" format="string"/>
         <attr name="SettingsArrow_icon" format="reference"/>
         <attr name="SettingsArrow_icon_background" format="color"/>
+        <attr name="SettingsArrow_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsCheckBox">
@@ -263,6 +266,7 @@
         <attr name="SettingsCheckBox_icon" format="reference"/>
         <attr name="SettingsCheckBox_checked" format="boolean"/>
         <attr name="SettingsCheckBox_icon_background" format="color"/>
+        <attr name="SettingsCheckBox_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsSwitcher">
@@ -272,6 +276,7 @@
         <attr name="SettingsSwitcher_icon" format="reference"/>
         <attr name="SettingsSwitcher_checked" format="boolean"/>
         <attr name="SettingsSwitcher_icon_background" format="color"/>
+        <attr name="SettingsSwitcher_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsField">
@@ -283,6 +288,7 @@
         <attr name="SettingsField_maxLength" format="integer"/>
         <attr name="SettingsField_icon" format="reference"/>
         <attr name="SettingsField_icon_background" format="color"/>
+        <attr name="SettingsField_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsSeek">
@@ -294,6 +300,7 @@
         <attr name="SettingsSeek_dpad_step" format="integer"/>
         <attr name="SettingsSeek_icon" format="reference"/>
         <attr name="SettingsSeek_icon_background" format="color"/>
+        <attr name="SettingsSeek__icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsTitle">

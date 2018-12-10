@@ -30,7 +30,9 @@ object ToolsAndroid {
 
     //
     //  Device
-    //getFromClipboard
+    //
+
+    fun getVersion() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionName
 
     @RequiresPermission(Manifest.permission.BLUETOOTH)
     fun getBluetoothMacAddress(): String {

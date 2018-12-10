@@ -14,8 +14,9 @@
     <string name="error_permission_files">У приложения нет доступа к файлам, проверьте настройки Android</string>
     <string name="error_account_baned">Аккаунт заблокирован до %s</string>
     <string name="error_cant_load_image">Ошибка при загрузке картинки</string>
+    <string name="error_app_not_found">Не найдено приложение, для выполнения этого действия</string>
     <string name="error_network">Не удалось подключится к серверу</string>
-    <string name="error_gone">Похоже это пропало. \nВозможно кто-то это удалил.</string>
+    <string name="error_gone">Похоже это пропало. \nВозможно кто-то это удалил</string>
 
 
 </resources>

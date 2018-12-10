@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 
 
 class SettingsArrow @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
@@ -22,6 +23,7 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
         val subtitle = a.getString(R.styleable.SettingsArrow_SettingsArrow_subtitle)
         val icon = a.getResourceId(R.styleable.SettingsArrow_SettingsArrow_icon, 0)
         val iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsArrow_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsArrow_SettingsArrow_icon_padding, ToolsView.dpToPx(6).toFloat())
         setIconBackground(iconBackground)
         a.recycle()
 
@@ -29,6 +31,7 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
         setTitle(title)
         setSubtitle(subtitle)
         setIcon(icon)
+        setIconPaddingPx(iconPadding)
 
         setSubView(vArrow)
     }

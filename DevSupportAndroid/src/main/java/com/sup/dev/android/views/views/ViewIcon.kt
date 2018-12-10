@@ -24,7 +24,7 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var srcSelect = 0
     private var filterSelect = 0
     private var accentColor: Int = 0
-    private var padding: Float = 0.toFloat()
+    private var paddingCircle: Float = 0.toFloat()
     private var background = 0
     private var useActiveBackground = true
     private var circleColor = -0x1
@@ -58,7 +58,7 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         filterSelect = a.getColor(R.styleable.ViewIcon_ViewIcon_filterSelect, filterSelect)
         accentColor = a.getColor(R.styleable.ViewIcon_ViewIcon_accentColor, accentColor)
         focusColor = a.getColor(R.styleable.ViewIcon_ViewIcon_focusColor, focusColor)
-        padding = a.getDimension(R.styleable.ViewIcon_ViewIcon_padding, padding)
+        paddingCircle = a.getDimension(R.styleable.ViewIcon_ViewIcon_padding, paddingCircle)
         background = a.getColor(R.styleable.ViewIcon_ViewIcon_background, background)
         useActiveBackground = a.getBoolean(R.styleable.ViewIcon_ViewIcon_useActiveBackground, useActiveBackground)
         circleColor = a.getColor(R.styleable.ViewIcon_ViewIcon_circleColor, circleColor)
@@ -90,7 +90,7 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         animationSelectedBackground.update()
 
-        val p = padding
+        val p = paddingCircle
         val x = (width / 2).toFloat()
         val y = (height / 2).toFloat()
         val r = width / 2 - p
@@ -172,8 +172,8 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         updateIcon()
     }
 
-    fun setPadding(padding: Float) {
-        this.padding = padding
+    fun setPaddingCircle(padding: Float) {
+        this.paddingCircle = padding
         invalidate()
     }
 

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Switch
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 
 
 class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
@@ -35,6 +36,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         val icon = a.getResourceId(R.styleable.SettingsSwitcher_SettingsSwitcher_icon, 0)
         val checked = a.getBoolean(R.styleable.SettingsSwitcher_SettingsSwitcher_checked, false)
         val iconBackground = a.getColor(R.styleable.SettingsSwitcher_SettingsSwitcher_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsSwitcher_SettingsSwitcher_icon_padding, ToolsView.dpToPx(6).toFloat())
         a.recycle()
 
         setLineVisible(lineVisible)
@@ -44,6 +46,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         setChecked(checked)
         setSubView(vSwitcher)
         setIconBackground(iconBackground)
+        setIconPaddingPx(iconPadding)
 
         super.setOnClickListener { v ->
             setChecked(!vSwitcher.isChecked)

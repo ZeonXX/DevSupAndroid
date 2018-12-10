@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Parcelable
 import android.support.v4.content.FileProvider
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.err
@@ -26,6 +27,7 @@ object ToolsIntent {
 
     private var codeCounter = 0
     private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>>()
+    private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(R.string.error_app_not_found)}
 
     //
     //  Support
@@ -62,7 +64,7 @@ object ToolsIntent {
     //  Intents
     //
 
-    fun startIntent(intent: Intent, onActivityNotFound: () -> Unit = {}) {
+    fun startIntent(intent: Intent, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         try {
             SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
@@ -72,7 +74,7 @@ object ToolsIntent {
 
     }
 
-    fun openLink(link: String, onActivityNotFound: () -> Unit = {}) {
+    fun openLink(link: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
@@ -81,7 +83,7 @@ object ToolsIntent {
         startApp(packageName, {}, onActivityNotFound)
     }
 
-    fun startApp(packageName: String, onIntentCreated: (Intent) -> Unit = {}, onActivityNotFound: () -> Unit = {}) {
+    fun startApp(packageName: String, onIntentCreated: (Intent) -> Unit = {}, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         val manager = SupAndroid.appContext!!.packageManager
         val intent = manager.getLaunchIntentForPackage(packageName)
         if (intent == null) {
@@ -93,22 +95,22 @@ object ToolsIntent {
         startIntent(intent, onActivityNotFound)
     }
 
-    fun startPlayMarket(packageName: String, onActivityNotFound: () -> Unit = {}) {
+    fun startPlayMarket(packageName: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName&reviewId=0"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun startMail(link: String, onActivityNotFound: () -> Unit = {}) {
-        startIntent(Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$link"))
+    fun startMail(mail: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
+        startIntent(Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$mail"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun startPhone(phone: String, onActivityNotFound: () -> Unit = {}) {
+    fun startPhone(phone: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun shareImage(bitmap: Bitmap, text: String, providerKey: String, onActivityNotFound: () -> Unit = {}) {
+    fun shareImage(bitmap: Bitmap, text: String, providerKey: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
 
         val files = File(cashRoot).listFiles()
         if (files != null)
@@ -145,17 +147,17 @@ object ToolsIntent {
 
     }
 
-    fun shareFile(patch: String, providerKey: String, onActivityNotFound: () -> Unit = {}) {
+    fun shareFile(patch: String, providerKey: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, onActivityNotFound)
     }
 
-    fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: () -> Unit = {}) {
+    fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
         shareFile(fileUti, type, onActivityNotFound)
     }
 
-    fun shareFile(uri: Uri, onActivityNotFound: () -> Unit = {}) {
+    fun shareFile(uri: Uri, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         shareFile(uri, URLConnection.guessContentTypeFromName(uri.toString()), onActivityNotFound)
     }
 
@@ -163,7 +165,7 @@ object ToolsIntent {
         shareFile(uri, type, null, onActivityNotFound)
     }
 
-    fun shareFile(uri: Uri, type: String, text: String?, onActivityNotFound: () -> Unit = {}) {
+    fun shareFile(uri: Uri, type: String, text: String?, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         try {
             val i = Intent()
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -179,7 +181,7 @@ object ToolsIntent {
 
     }
 
-    fun shareText(text: String, onActivityNotFound: () -> Unit = {}) {
+    fun shareText(text: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .setType("vText/plain")
