@@ -29,8 +29,8 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
         (view.findViewById(R.id.vNavigationRowText) as TextView).setText(text)
     }
 
-    fun setChip(text: String) {
-        vChip.setText(text)
+    fun setChipText(text: String) {
+        vChip.text = text
     }
 
     fun setChipVisible(b: Boolean) {

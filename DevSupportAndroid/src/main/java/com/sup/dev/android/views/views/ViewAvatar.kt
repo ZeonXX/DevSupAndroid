@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -8,6 +9,7 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.design.chip.Chip
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -16,6 +18,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.AnimationFocus
+import com.sup.dev.android.views.support.DrawableBitmapCircle
 
 open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
@@ -27,6 +30,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     private val vTouch: ViewDraw
 
     private var roundBackgroundColor: Int = 0
+    private var chipIconPadding: Int = 0
 
     init {
 
@@ -42,6 +46,10 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vTouch = view.findViewById(R.id.vDevSupAvatarTouch)
 
         vChip.visibility = View.GONE
+        vChip.chipEndPadding = 0f
+        vChip.chipStartPadding = ToolsView.dpToPx(3).toFloat()
+        vChip.gravity = Gravity.CENTER
+        vChip.textAlignment = View.TEXT_ALIGNMENT_GRAVITY
 
         isEnabled = false
 
@@ -52,7 +60,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val text = a.getString(R.styleable.ViewAvatar_ViewAvatar_chipText)
         val chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0)
-        val iconUseBackground = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_chipIconUseBackground, false)
         val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
         val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18).toFloat())
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
@@ -61,12 +68,11 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         animationFocus = AnimationFocus(vTouch, focusColor)
 
         setImage(src)
-        //vChip.setSize(ToolsView.pxToDp(chipSize))
-        //vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        //vChip.setIcon(srcIcon)
+        setChipSizePx(chipSize.toInt())
+        setChipIconPaddingPx(iconPadding.toInt())
         vChip.text = text
-        //vChip.setUseIconBackground(iconUseBackground)
-        //if (chipBackground != 0) vChip.setChipBackground(chipBackground)
+        if (srcIcon != 0) vChip.chipIcon = DrawableBitmapCircle(ToolsResources.getBitmap(srcIcon))
+        if (chipBackground != 0) vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
@@ -77,8 +83,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     fun updateChipVisible() {
-
-        if (vChip.chipIcon != null && vChip.text.isEmpty())
+        if (vChip.chipIcon == null && vChip.text.isEmpty())
             vChip.visibility = View.GONE
         else
             vChip.visibility = View.VISIBLE
@@ -108,6 +113,13 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     //  Setters
     //
 
+    fun setChipSizePx(size: Int) {
+        vChip.layoutParams.height = size
+        vChip.textSize = size / 6f
+        vChip.textEndPadding = size / 6f
+        vChip.textStartPadding = size / 6f
+        vChip.chipIconSize = size/1.2f - chipIconPadding
+    }
 
     fun setCircleBackgroundColorResource(@ColorRes roundBackgroundColorRes: Int) {
         setRoundBackgroundColor(ToolsResources.getColor(roundBackgroundColorRes))
@@ -124,11 +136,19 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         updateChipVisible()
     }
 
-    fun setChipIcon(@DrawableRes icon: Int) {
-        vChip.chipIcon = ToolsResources.getDrawable(icon)
+    fun setChipIcon(icon: Int) {
+        vChip.chipIcon = if (icon > 0) ToolsResources.getDrawable(icon) else null
         updateChipVisible()
     }
 
+    fun setChipIconPadding(dp:Int){
+        setChipIconPaddingPx(ToolsView.dpToPx(dp))
+    }
+
+    fun setChipIconPaddingPx(chipIconPadding:Int){
+        this.chipIconPadding = chipIconPadding
+        setChipSizePx(vChip.layoutParams.height)
+    }
 
     override fun setOnClickListener(l: View.OnClickListener?) {
         vTouch.setOnClickListener(l)

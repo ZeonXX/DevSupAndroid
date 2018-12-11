@@ -3,6 +3,8 @@
     <!-- Styles -->
     <attr name="widget_background" format="color"/>
     <attr name="content_background" format="color"/>
+    <attr name="color_stroke" format="color"/>
+    <attr name="color_stroke_selected" format="color"/>
     <attr name="popup_background" format="color"/>
     <attr name="toolbarTitleColor" format="color"/>
     <attr name="ic_arrow_back" format="reference"/>
@@ -20,6 +22,8 @@
         <item name="widget_background">@color/grey_825</item>
         <item name="colorPrimaryDark">@color/grey_825</item>
         <item name="colorPrimary">@color/grey_825</item>
+        <item name="color_stroke">@color/grey_500</item>
+        <item name="color_stroke_selected">@color/grey_200</item>
         <item name="popup_background">@color/grey_700</item>
         <item name="colorAccent">@color/orange_a_700</item>
         <item name="windowActionBar">false</item>
@@ -37,6 +41,7 @@
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
+        <item name="color_stroke">@color/grey_600</item>
         <item name="popup_background">@color/white</item>
         <item name="android:windowBackground">@color/grey_100</item>
         <item name="windowActionBar">false</item>
@@ -280,7 +285,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

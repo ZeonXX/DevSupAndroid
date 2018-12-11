@@ -16,6 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_gravity="right|bottom"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="?colorAccent"
         android:layout_margin="6dp"/>
 
 </FrameLayout>

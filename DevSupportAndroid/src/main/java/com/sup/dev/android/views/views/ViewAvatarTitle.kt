@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
@@ -13,6 +14,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.AnimationFocus
+import com.sup.dev.android.views.support.DrawableBitmapCircle
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
@@ -65,11 +67,11 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         viewAvatar.setImage(src)
         viewAvatar.setRoundBackgroundColor(roundBackgroundColor)
         viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
+        viewAvatar.setChipSizePx(chipSize.toInt())
         viewAvatar.vChip.text = chipText
-        //viewAvatar.vChip.setSize(ToolsView.pxToDp(chipSize))
         //viewAvatar.vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        //viewAvatar.vChip.setIcon(srcIcon)
-        //viewAvatar.vChip.setChipBackground(chipBackground)
+        if(srcIcon > 0)viewAvatar.vChip.chipIcon = DrawableBitmapCircle(srcIcon)
+        if(chipBackground > 0) viewAvatar.vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
         setTitle(mText)
         setSubtitle(mSubtitle)
 

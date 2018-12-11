@@ -1,10 +1,13 @@
 package com.sup.dev.android.views.cards
 
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.views.support.DrawableBitmapCircle
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 
@@ -26,7 +29,7 @@ open class CardAvatar : Card() {
     private var chipUseIconBackground: Boolean = false
     private var onClickAvatar: (() -> Unit)? = null
 
-    override fun getLayout() : Int{
+    override fun getLayout(): Int {
         return R.layout.card_avatar
     }
 
@@ -49,11 +52,11 @@ open class CardAvatar : Card() {
         if (onClickAvatar != null) vAvatar.viewAvatar.setOnClickListener { v -> onClickAvatar!!.invoke() }
         else vAvatar.viewAvatar.setOnClickListener(null)
         vAvatar.viewAvatar.setImage(image)
-        vAvatar.viewAvatar.vChip.setText(chipText)
-        //vAvatar.viewAvatar.vChip.setIcon(chipIcon)
-        //vAvatar.viewAvatar.vChip.setIconPadding(chipIconPaddingDp)
-        //vAvatar.viewAvatar.vChip.setChipBackground(chipBackground)
-        //vAvatar.viewAvatar.vChip.setUseIconBackground(chipUseIconBackground)
+        vAvatar.viewAvatar.setChipIcon(chipIcon)
+        vAvatar.viewAvatar.setChipIconPadding(chipIconPaddingDp)
+        vAvatar.viewAvatar.vChip.text = chipText
+        vAvatar.viewAvatar.vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
+        //vAvatar.viewAvatar.vChip.setIconPadding()
 
         onBind(vAvatar)
     }
