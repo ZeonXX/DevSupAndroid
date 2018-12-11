@@ -14,7 +14,7 @@
     <attr name="ic_content_copy" format="reference"/>
 
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@color/grey_850</item>
         <item name="content_background">@color/grey_800</item>
         <item name="widget_background">@color/grey_825</item>
@@ -34,7 +34,7 @@
         <item name="toolbarTitleColor">@color/white</item>
     </style>
 
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="popup_background">@color/white</item>
@@ -238,6 +238,30 @@
         <item name="ViewChip_size">42dp</item>
         <item name="ViewChip_textColor">@color/white</item>
         <item name="ViewChip_textStyle">bold</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="Field">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

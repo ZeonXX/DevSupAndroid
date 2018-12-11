@@ -51,8 +51,8 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         val icon = a.getResourceId(R.styleable.SettingsSeek_SettingsSeek_icon, 0)
         val maxProgress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_maxProgress, 100)
         var progress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_progress, 70)
-        val iconBackground = a.getResourceId(R.styleable.SettingsAction_SettingsAction_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsAction_SettingsAction_icon_padding, ToolsView.dpToPx(6).toFloat())
+        val iconBackground = a.getResourceId(R.styleable.SettingsSeek_SettingsSeek_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.SettingsSeek_SettingsSeek_icon_padding, ToolsView.dpToPx(6).toFloat())
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)

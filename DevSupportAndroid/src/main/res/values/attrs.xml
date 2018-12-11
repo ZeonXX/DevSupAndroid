@@ -300,7 +300,7 @@
         <attr name="SettingsSeek_dpad_step" format="integer"/>
         <attr name="SettingsSeek_icon" format="reference"/>
         <attr name="SettingsSeek_icon_background" format="color"/>
-        <attr name="SettingsSeek__icon_padding" format="dimension"/>
+        <attr name="SettingsSeek_icon_padding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsTitle">

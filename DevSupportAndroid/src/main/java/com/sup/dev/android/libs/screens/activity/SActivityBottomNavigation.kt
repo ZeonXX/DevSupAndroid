@@ -122,6 +122,10 @@ abstract class SActivityBottomNavigation : SActivity() {
     }
 
     fun addNavigationItem(@StringRes text: Int, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {
+        return addNavigationItem(ToolsResources.getString(text), icon, onClick)
+    }
+
+    fun addNavigationItem(text: String, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {
         return widgetMenu!!.add(text) { w, c -> onClick.invoke() }.icon(icon)
     }
 

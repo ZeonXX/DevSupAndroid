@@ -13,7 +13,7 @@ import com.sup.dev.java.libs.debug.err
 class ViewEditTextMedia constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : ViewErrorEditText(context, attrs) {
+) : android.support.v7.widget.AppCompatEditText(context, attrs) {
 
 
     private var callback: ((String) -> Unit)? = null
