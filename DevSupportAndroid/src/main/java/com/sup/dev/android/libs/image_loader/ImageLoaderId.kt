@@ -4,7 +4,7 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
 
 
     companion object {
-        var loader:(Long) -> ByteArray? = { throw RuntimeException("You must set your own loader!") }
+        var loader: (Long) -> ByteArray? = { throw RuntimeException("You must set your own loader!") }
     }
 
     init {
@@ -12,6 +12,7 @@ class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
     }
 
     override fun load(): ByteArray? {
+        if (imageId < 1) return null
         return loader.invoke(imageId)
     }
 
