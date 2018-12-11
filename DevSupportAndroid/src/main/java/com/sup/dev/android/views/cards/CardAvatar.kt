@@ -50,10 +50,10 @@ open class CardAvatar : Card() {
         else vAvatar.viewAvatar.setOnClickListener(null)
         vAvatar.viewAvatar.setImage(image)
         vAvatar.viewAvatar.vChip.setText(chipText)
-        vAvatar.viewAvatar.vChip.setIcon(chipIcon)
-        vAvatar.viewAvatar.vChip.setIconPadding(chipIconPaddingDp)
-        vAvatar.viewAvatar.vChip.setChipBackground(chipBackground)
-        vAvatar.viewAvatar.vChip.setUseIconBackground(chipUseIconBackground)
+        //vAvatar.viewAvatar.vChip.setIcon(chipIcon)
+        //vAvatar.viewAvatar.vChip.setIconPadding(chipIconPaddingDp)
+        //vAvatar.viewAvatar.vChip.setChipBackground(chipBackground)
+        //vAvatar.viewAvatar.vChip.setUseIconBackground(chipUseIconBackground)
 
         onBind(vAvatar)
     }

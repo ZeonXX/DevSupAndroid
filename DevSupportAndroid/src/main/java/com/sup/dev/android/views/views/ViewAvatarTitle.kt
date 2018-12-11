@@ -65,11 +65,11 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         viewAvatar.setImage(src)
         viewAvatar.setRoundBackgroundColor(roundBackgroundColor)
         viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
-        viewAvatar.vChip.setSize(ToolsView.pxToDp(chipSize))
-        viewAvatar.vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        viewAvatar.vChip.setIcon(srcIcon)
-        viewAvatar.vChip.setText(chipText)
-        viewAvatar.vChip.setChipBackground(chipBackground)
+        viewAvatar.vChip.text = chipText
+        //viewAvatar.vChip.setSize(ToolsView.pxToDp(chipSize))
+        //viewAvatar.vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
+        //viewAvatar.vChip.setIcon(srcIcon)
+        //viewAvatar.vChip.setChipBackground(chipBackground)
         setTitle(mText)
         setSubtitle(mSubtitle)
 

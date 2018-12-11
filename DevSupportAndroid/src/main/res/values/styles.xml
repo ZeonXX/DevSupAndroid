@@ -228,16 +228,41 @@
     <style name="Chip">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="ViewChip_background">?colorAccent</item>
-        <item name="ViewChip_size">28dp</item>
+        <item name="rippleColor">?colorAccent</item>
     </style>
 
-    <style name="Chip.Button">
+    <style name="Chip.Outline">
+        <item name="chipStrokeWidth">1.5dp</item>
+        <item name="chipStrokeColor">@color/focus_dark</item>
+    </style>
+
+    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="ViewChip_size">42dp</item>
-        <item name="ViewChip_textColor">@color/white</item>
-        <item name="ViewChip_textStyle">bold</item>
+        <item name="rippleColor">?colorAccent</item>
+    </style>
+
+    <style name="Chip.Choice.Outline">
+        <item name="chipStrokeWidth">1.5dp</item>
+        <item name="chipStrokeColor">@color/focus_dark</item>
+    </style>
+
+    <style name="Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rippleColor">?colorAccent</item>
+    </style>
+
+    <style name="Chip.Filter.Outline">
+        <item name="chipBackgroundColor">#00000000</item>
+        <item name="chipStrokeWidth">1.5dp</item>
+        <item name="chipStrokeColor">@color/focus_dark</item>
+    </style>
+
+    <style name="ChipGroup">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="chipSpacing">8dp</item>
     </style>
 
     <style name="Button">

@@ -11,11 +11,9 @@
         android:background="?selectableItemBackgroundBorderless"
         android:src="@color/blue_700"/>
 
-    <com.sup.dev.android.views.views.ViewChip
+    <android.support.design.chip.Chip
         android:id="@+id/vDevSupChip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="text"
+        style="@style/Chip"
         android:layout_gravity="right|bottom"/>
 
     <com.sup.dev.android.views.views.ViewDraw

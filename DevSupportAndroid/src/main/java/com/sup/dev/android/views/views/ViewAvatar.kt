@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
+import android.support.design.chip.Chip
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     private val animationFocus: AnimationFocus
 
     val vImageView: ViewCircleImage
-    val vChip: ViewChip
+    val vChip: Chip
     private val vTouch: ViewDraw
 
     private var roundBackgroundColor: Int = 0
@@ -60,12 +61,12 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         animationFocus = AnimationFocus(vTouch, focusColor)
 
         setImage(src)
-        vChip.setSize(ToolsView.pxToDp(chipSize))
-        vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        vChip.setIcon(srcIcon)
-        vChip.setText(text)
-        vChip.setUseIconBackground(iconUseBackground)
-        if (chipBackground != 0) vChip.setChipBackground(chipBackground)
+        //vChip.setSize(ToolsView.pxToDp(chipSize))
+        //vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
+        //vChip.setIcon(srcIcon)
+        vChip.text = text
+        //vChip.setUseIconBackground(iconUseBackground)
+        //if (chipBackground != 0) vChip.setChipBackground(chipBackground)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
@@ -77,7 +78,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
 
     fun updateChipVisible() {
 
-        if (!vChip.hasIcon() && vChip.getText().isEmpty())
+        if (vChip.chipIcon != null && vChip.text.isEmpty())
             vChip.visibility = View.GONE
         else
             vChip.visibility = View.VISIBLE
@@ -124,7 +125,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     fun setChipIcon(@DrawableRes icon: Int) {
-        vChip.setIcon(icon)
+        vChip.chipIcon = ToolsResources.getDrawable(icon)
         updateChipVisible()
     }
 
