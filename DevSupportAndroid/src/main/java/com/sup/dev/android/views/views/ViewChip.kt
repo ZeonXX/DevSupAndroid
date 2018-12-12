@@ -88,11 +88,11 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         textAlignment = View.TEXT_ALIGNMENT_GRAVITY
         textSize = size / 6f
         chipEndPadding = 0f
-        updateTextPadding()
+        updatePadding()
         chipIconSize = size.toFloat() - chipIconPadding
     }
 
-    private fun updateTextPadding() {
+    private fun updatePadding() {
         if (text.isEmpty() || layoutParams == null) {
             textEndPadding = 0f
             textStartPadding = 0f
@@ -104,8 +104,11 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
                 else -> layoutParams.height / 4f
             }
             textEndPadding = layoutParams.height / 6f
-            chipStartPadding = ToolsView.dpToPx(4f).toFloat()
+
+            if(chipIcon != null) chipStartPadding = 0f
+            else chipStartPadding = ToolsView.dpToPx(4f).toFloat()
         }
+
     }
 
     fun updateChipVisible() {
@@ -131,7 +134,7 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         if (bitmap != null) chipIcon = DrawableBitmapCircle(bitmap)
         else chipIcon = null
         updateChipVisible()
-        updateTextPadding()
+        updatePadding()
     }
 
     fun setBackgroundRes(res: Int) {
@@ -145,7 +148,7 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
     override fun setText(text: CharSequence?, type: BufferType?) {
         super.setText(text, type)
         updateChipVisible()
-        updateTextPadding()
+        updatePadding()
     }
 
 
