@@ -34,7 +34,6 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/vText"
                 android:layout_width="match_parent"

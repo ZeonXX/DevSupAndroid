@@ -1,13 +1,11 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
-import android.support.design.chip.Chip
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -18,7 +16,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.AnimationFocus
-import com.sup.dev.android.views.support.DrawableBitmapCircle
 
 open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
@@ -26,11 +23,10 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     private val animationFocus: AnimationFocus
 
     val vImageView: ViewCircleImage
-    val vChip: Chip
+    val vChip: ViewChip
     private val vTouch: ViewDraw
 
     private var roundBackgroundColor: Int = 0
-    private var chipIconPadding: Int = 0
 
     init {
 
@@ -44,12 +40,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vImageView = view.findViewById(R.id.vDevSupImage)
         vChip = view.findViewById(R.id.vDevSupChip)
         vTouch = view.findViewById(R.id.vDevSupAvatarTouch)
-
-        vChip.visibility = View.GONE
-        vChip.chipEndPadding = 0f
-        vChip.chipStartPadding = ToolsView.dpToPx(3).toFloat()
-        vChip.gravity = Gravity.CENTER
-        vChip.textAlignment = View.TEXT_ALIGNMENT_GRAVITY
 
         isEnabled = false
 
@@ -69,10 +59,10 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
 
         setImage(src)
         setChipSizePx(chipSize.toInt())
-        setChipIconPaddingPx(iconPadding.toInt())
-        vChip.text = text
-        if (srcIcon != 0) vChip.chipIcon = DrawableBitmapCircle(ToolsResources.getBitmap(srcIcon))
-        if (chipBackground != 0) vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
+        setChipIconPadding(iconPadding.toInt())
+        setChipText(text)
+        setChipIcon(srcIcon)
+        setChipBackground(chipBackground)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
@@ -80,13 +70,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         }
 
         setRoundBackgroundColor(roundBackgroundColor)
-    }
-
-    fun updateChipVisible() {
-        if (vChip.chipIcon == null && vChip.text.isEmpty())
-            vChip.visibility = View.GONE
-        else
-            vChip.visibility = View.VISIBLE
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -114,11 +97,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     //
 
     fun setChipSizePx(size: Int) {
-        vChip.layoutParams.height = size
-        vChip.textSize = size / 6f
-        vChip.textEndPadding = size / 6f
-        vChip.textStartPadding = size / 6f
-        vChip.chipIconSize = size/1.2f - chipIconPadding
+        vChip.setChipSizePx(size)
     }
 
     fun setCircleBackgroundColorResource(@ColorRes roundBackgroundColorRes: Int) {
@@ -131,23 +110,24 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         invalidate()
     }
 
-    fun setChipText(t: String) {
-        vChip.setText(t)
-        updateChipVisible()
+    fun setChipText(t: String?) {
+        vChip.text = t
     }
 
     fun setChipIcon(icon: Int) {
-        vChip.chipIcon = if (icon > 0) ToolsResources.getDrawable(icon) else null
-        updateChipVisible()
+        vChip.setIcon(icon)
     }
 
-    fun setChipIconPadding(dp:Int){
-        setChipIconPaddingPx(ToolsView.dpToPx(dp))
+    fun setChipIconPadding(chipIconPadding:Int){
+        vChip.setChipIconPadding(chipIconPadding)
     }
 
-    fun setChipIconPaddingPx(chipIconPadding:Int){
-        this.chipIconPadding = chipIconPadding
-        setChipSizePx(vChip.layoutParams.height)
+    fun setChipBackgroundRes(src:Int){
+        vChip.setBackgroundRes(src)
+    }
+
+    fun setChipBackground(color:Int){
+        vChip.setBackground(color)
     }
 
     override fun setOnClickListener(l: View.OnClickListener?) {

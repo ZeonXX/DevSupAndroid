@@ -14,11 +14,10 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.AnimationFocus
-import com.sup.dev.android.views.support.DrawableBitmapCircle
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
-class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
+class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
     private val animationFocus: AnimationFocus
     private val paint: Paint
@@ -31,7 +30,6 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
     init {
 
         setWillNotDraw(false)
-        setChipMode(true)
 
         SupAndroid.initEditMode(this)
 
@@ -60,7 +58,14 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18).toFloat())
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
+        val corned = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_cornedEnabled, true)
         a.recycle()
+
+        setChipMode(corned)
+        setCornedBL(corned)
+        setCornedBR(corned)
+        setCornedTL(corned)
+        setCornedTR(corned)
 
         animationFocus = AnimationFocus(this, focusColor)
 
@@ -68,10 +73,11 @@ class ViewAvatarTitle @JvmOverloads constructor(context: Context, attrs: Attribu
         viewAvatar.setRoundBackgroundColor(roundBackgroundColor)
         viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
         viewAvatar.setChipSizePx(chipSize.toInt())
-        viewAvatar.vChip.text = chipText
-        //viewAvatar.vChip.setIconPadding(ToolsView.pxToDp(iconPadding))
-        if(srcIcon > 0)viewAvatar.vChip.chipIcon = DrawableBitmapCircle(srcIcon)
-        if(chipBackground > 0) viewAvatar.vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
+        viewAvatar.setChipText(chipText)
+        viewAvatar.setChipIconPadding(iconPadding.toInt())
+        viewAvatar.setChipIcon(srcIcon)
+        viewAvatar.setChipBackground(chipBackground)
+
         setTitle(mText)
         setSubtitle(mSubtitle)
 

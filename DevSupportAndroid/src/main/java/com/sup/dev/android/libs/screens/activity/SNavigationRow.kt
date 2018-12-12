@@ -9,12 +9,12 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import android.support.design.chip.Chip
+import com.sup.dev.android.views.views.ViewChip
 
 class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, onClickListener: (View) -> Unit) {
 
     val view: View?
-    private val vChip: Chip
+    private val vChip: ViewChip
 
     constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: (View) -> Unit) : this(context, icon, ToolsResources.getString(text), onClickListener) {}
 
@@ -27,10 +27,6 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
 
         setChipVisible(false)
         (view.findViewById(R.id.vNavigationRowText) as TextView).setText(text)
-    }
-
-    fun setChipText(text: String) {
-        vChip.text = text
     }
 
     fun setChipVisible(b: Boolean) {

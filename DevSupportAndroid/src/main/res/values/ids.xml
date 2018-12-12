@@ -12,9 +12,8 @@
     <item type="id" name="vBack"/>
     <item type="id" name="vRefresh"/>
     <item type="id" name="vDialogLayoutMaxSizes"/>
+    <item type="id" name="vChipGroup"/>
 
-
-    
     <item type="id" name="image"/>
 
 </resources>

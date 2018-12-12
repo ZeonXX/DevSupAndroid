@@ -4,7 +4,6 @@
     <attr name="widget_background" format="color"/>
     <attr name="content_background" format="color"/>
     <attr name="color_stroke" format="color"/>
-    <attr name="color_stroke_selected" format="color"/>
     <attr name="popup_background" format="color"/>
     <attr name="toolbarTitleColor" format="color"/>
     <attr name="ic_arrow_back" format="reference"/>
@@ -14,6 +13,8 @@
     <attr name="ic_keyboard_arrow_up" format="reference"/>
     <attr name="ic_keyboard_arrow_down" format="reference"/>
     <attr name="ic_content_copy" format="reference"/>
+    <attr name="selector_chip" format="reference"/>
+    <attr name="selector_chip_outline" format="reference"/>
 
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -22,10 +23,11 @@
         <item name="widget_background">@color/grey_825</item>
         <item name="colorPrimaryDark">@color/grey_825</item>
         <item name="colorPrimary">@color/grey_825</item>
-        <item name="color_stroke">@color/grey_500</item>
-        <item name="color_stroke_selected">@color/grey_200</item>
+        <item name="color_stroke">@color/grey_400</item>
         <item name="popup_background">@color/grey_700</item>
         <item name="colorAccent">@color/orange_a_700</item>
+        <item name="selector_chip">@drawable/selector_style_dark_chip</item>
+        <item name="selector_chip_outline">@drawable/selector_style_dark_chip_outline</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="ic_arrow_back">@drawable/ic_arrow_back_white_24dp</item>
@@ -49,6 +51,8 @@
         <item name="colorPrimaryDark">@color/grey_100</item>
         <item name="colorPrimary">@color/grey_100</item>
         <item name="colorAccent">@color/orange_a_700</item>
+        <item name="selector_chip">@drawable/selector_style_light_chip</item>
+        <item name="selector_chip_outline">@drawable/selector_style_light_chip_outline</item>
         <item name="ic_arrow_back">@drawable/ic_arrow_back_black_24dp</item>
         <item name="ic_menu">@drawable/ic_menu_black_24dp</item>
         <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</item>
@@ -232,39 +236,53 @@
 
     <style name="Chip">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">32dp</item>
         <item name="rippleColor">?colorAccent</item>
+        <item name="chipBackgroundColor">?selector_chip</item>
+        <item name="chipStrokeColor">?color_stroke</item>
+        <item name="chipStrokeWidth">0dp</item>
     </style>
 
     <style name="Chip.Outline">
-        <item name="chipStrokeWidth">1.5dp</item>
-        <item name="chipStrokeColor">@color/focus_dark</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">?selector_chip_outline</item>
     </style>
 
-    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="rippleColor">?colorAccent</item>
+    <style name="Chip.Mini">
+        <item name="android:layout_height">24dp</item>
+    </style>
+
+    <style name="Chip.Mini.Outline">
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">?selector_chip_outline</item>
+    </style>
+
+    <style name="Chip.Choice">
+        <item name="android:checkable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="checkedIcon">@drawable/ic_mtrl_chip_checked_black</item>
     </style>
 
     <style name="Chip.Choice.Outline">
-        <item name="chipStrokeWidth">1.5dp</item>
-        <item name="chipStrokeColor">@color/focus_dark</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">?selector_chip_outline</item>
     </style>
 
-    <style name="Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="rippleColor">?colorAccent</item>
+    <style name="Chip.Filter">
+        <item name="android:checkable">true</item>
+        <item name="closeIconVisible">false</item>
+        <item name="checkedIcon">@drawable/ic_mtrl_chip_checked_black</item>
     </style>
 
     <style name="Chip.Filter.Outline">
-        <item name="chipBackgroundColor">#00000000</item>
-        <item name="chipStrokeWidth">1.5dp</item>
-        <item name="chipStrokeColor">@color/focus_dark</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">?selector_chip_outline</item>
     </style>
 
     <style name="ChipGroup">
+        <item name="android:id">@id/vChipGroup</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="chipSpacing">8dp</item>

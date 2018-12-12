@@ -6,8 +6,6 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.support.DrawableBitmapCircle
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 

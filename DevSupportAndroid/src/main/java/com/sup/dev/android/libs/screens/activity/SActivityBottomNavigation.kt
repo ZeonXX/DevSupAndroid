@@ -5,7 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import android.support.design.chip.Chip
+import com.sup.dev.android.views.views.ViewChip
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -141,17 +141,11 @@ abstract class SActivityBottomNavigation : SActivity() {
 
         val view: View = ToolsView.inflate(context, R.layout.screen_activity_bottom_navigation_item)
         val vIcon: ViewIcon
-        val vChip: Chip
+        val vChip: ViewChip
 
         init {
             vIcon = view.findViewById(R.id.vIcon)
             vChip = view.findViewById(R.id.vChip)
-            setChipText("")
-        }
-
-        fun setChipText(text: String) {
-            vChip.visibility = if (text.isEmpty()) View.INVISIBLE else View.VISIBLE
-            vChip.text = text
         }
 
     }

@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:padding="18dp"/>
 
-    <android.support.design.chip.Chip
+    <com.sup.dev.android.views.views.ViewChip
         android:id="@+id/vChip"
         android:layout_width="wrap_content"
         android:layout_height="18dp"

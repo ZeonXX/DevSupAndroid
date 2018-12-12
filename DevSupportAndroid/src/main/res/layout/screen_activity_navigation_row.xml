@@ -27,7 +27,7 @@
         android:layout_weight="1"
         android:text="tttttttttt"/>
 
-    <android.support.design.chip.Chip
+    <com.sup.dev.android.views.views.ViewChip
         android:id="@+id/vNavigationRowChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
