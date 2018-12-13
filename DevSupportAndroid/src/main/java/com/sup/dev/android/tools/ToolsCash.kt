@@ -45,13 +45,13 @@ object ToolsCash {
             os.write(data)
             os.flush()
         } catch (ex: IOException) {
-            error(ex)
+            err(ex)
         } finally {
             if (os != null)
                 try {
                     os.close()
                 } catch (e: IOException) {
-                    error(e)
+                    err(e)
                 }
 
         }
@@ -72,12 +72,12 @@ object ToolsCash {
             inputStream = FileInputStream(file)
             inputStream.read(data)
         } catch (ex: IOException) {
-            error(ex)
+            err(ex)
         } finally {
             try {
                 inputStream!!.close()
             } catch (e: IOException) {
-                error(e)
+                err(e)
             }
 
         }

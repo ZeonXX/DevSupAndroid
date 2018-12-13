@@ -24,7 +24,7 @@ object WorkaroundCollapsingToolbarSkrim {
                     bar.scrimAnimationDuration = scrimAnimationDuration
                 }
             } catch (e: Exception) {
-                error(e)
+                err(e)
             }
 
         }

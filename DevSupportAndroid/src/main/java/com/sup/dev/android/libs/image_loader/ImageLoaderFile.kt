@@ -15,7 +15,7 @@ class ImageLoaderFile(val file: File) : ImageLoaderA() {
         try {
             return ToolsFiles.readFile(file)
         } catch (e: IOException) {
-            error(e)
+            err(e)
             return null
         }
 

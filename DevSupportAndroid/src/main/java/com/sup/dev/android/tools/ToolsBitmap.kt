@@ -251,7 +251,7 @@ object ToolsBitmap {
             drawable.draw(canvas)
             return bitmap
         } catch (e: Exception) {
-            error(e)
+            err(e)
             return null
         }
 
@@ -278,7 +278,7 @@ object ToolsBitmap {
             try {
                 bitmap = getFromURL(src)
             } catch (ex: IOException) {
-                error(ex)
+                err(ex)
             }
 
             val fBitmap = bitmap
@@ -291,7 +291,7 @@ object ToolsBitmap {
             try {
                 callbackResult.invoke(MediaStore.Images.Media.getBitmap(SupAndroid.activity!!.contentResolver, uri))
             } catch (ex: IOException) {
-                error(ex)
+                err(ex)
                 callbackResult.invoke(null)
             }
         }, onPermissionPermissionRestriction)
@@ -302,7 +302,7 @@ object ToolsBitmap {
             try {
                 onComplete.invoke(decode(ToolsFiles.readFile(file)))
             } catch (e: IOException) {
-                error(e)
+                err(e)
                 ToolsToast.show(R.string.error_cant_load_image)
             }
         }, { ToolsToast.show(R.string.error_permission_files) })

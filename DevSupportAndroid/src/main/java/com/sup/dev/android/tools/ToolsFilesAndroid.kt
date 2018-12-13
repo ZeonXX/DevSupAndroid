@@ -33,7 +33,7 @@ object ToolsFilesAndroid {
             try {
                 out?.close()
             } catch (ex: IOException) {
-                error(ex)
+                err(ex)
             }
 
         }
@@ -131,13 +131,13 @@ object ToolsFilesAndroid {
             try {
                 `is`?.close()
             } catch (ex: IOException) {
-                error(ex)
+                err(ex)
             }
 
             try {
                 zis?.close()
             } catch (ex: IOException) {
-                error(ex)
+                err(ex)
             }
 
         }
@@ -172,13 +172,13 @@ object ToolsFilesAndroid {
             out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
         } catch (ex: Exception) {
-            error(ex)
+            err(ex)
         } finally {
             if (out != null) {
                 try {
                     out.close()
                 } catch (ex: IOException) {
-                    error(ex)
+                    err(ex)
                 }
 
             }

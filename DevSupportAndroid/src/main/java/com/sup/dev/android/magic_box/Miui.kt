@@ -27,13 +27,13 @@ object Miui {
                         fis = FileInputStream(BUILD_PROP_FILE)
                         sBuildProperties!!.load(fis)
                     } catch (e: IOException) {
-                        error(e)
+                        err(e)
                     } finally {
                         if (fis != null) {
                             try {
                                 fis.close()
                             } catch (e: IOException) {
-                                error(e)
+                                err(e)
                             }
 
                         }

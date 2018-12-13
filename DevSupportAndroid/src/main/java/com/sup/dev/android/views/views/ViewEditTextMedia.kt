@@ -31,7 +31,7 @@ class ViewEditTextMedia constructor(
                     try {
                         inputContentInfo.requestPermission()
                     } catch (e:Exception) {
-                        error(e)
+                        err(e)
                         return@createWrapper false
                     }
                 }
@@ -40,7 +40,7 @@ class ViewEditTextMedia constructor(
                     if (callback != null) callback!!.invoke(inputContentInfo.linkUri.toString())
                     return@createWrapper true
                 } catch (e:Exception) {
-                    error(e)
+                    err(e)
                 }
 
                 false

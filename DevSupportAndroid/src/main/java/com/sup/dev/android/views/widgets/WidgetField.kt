@@ -16,7 +16,6 @@ import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
-
 open class WidgetField : Widget(R.layout.widget_field) {
 
     private val vIcon: ViewIcon = view.findViewById(R.id.vIcon)

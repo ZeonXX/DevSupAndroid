@@ -12,14 +12,23 @@
         style="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="24dp"
         android:layout_marginBottom="16dp"
         android:text="Please input text"/>
 
     <com.sup.dev.android.views.settings.SettingsField
-        android:id="@+id/vField"
+        android:id="@+id/vField_1"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
+
+    <com.sup.dev.android.views.settings.SettingsField
+        android:id="@+id/vField_2"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         android:layout_weight="1"

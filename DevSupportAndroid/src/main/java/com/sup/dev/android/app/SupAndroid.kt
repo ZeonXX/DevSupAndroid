@@ -14,6 +14,7 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -73,7 +74,7 @@ object SupAndroid {
         try {
             return ToolsResources.getString(id)
         } catch (e: Resources.NotFoundException) {
-            error("Init warning: can't find vText with id [$id]")
+            err("Init warning: can't find vText with id [$id]")
             return null
         }
     }
@@ -82,7 +83,7 @@ object SupAndroid {
         try {
             return ToolsResources.getDrawableId(id)
         } catch (e: Resources.NotFoundException) {
-            error("Init warning: can't find image with id [$id]")
+            err("Init warning: can't find image with id [$id]")
             return null
         }
     }

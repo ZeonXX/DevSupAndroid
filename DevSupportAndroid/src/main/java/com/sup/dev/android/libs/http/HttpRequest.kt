@@ -1,6 +1,7 @@
 package com.sup.dev.android.libs.http
 
 import android.content.ContentValues
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.net.HttpURLConnection
@@ -103,7 +104,7 @@ class HttpRequest(private val url: String) {
                 if (onError != null)
                     onError.invoke(e)
                 else
-                    error(e)
+                    err(e)
             }
         }
         return this
@@ -273,7 +274,7 @@ class HttpRequest(private val url: String) {
         try {
             ctx = SSLContext.getInstance("TLS")
         } catch (e: NoSuchAlgorithmException) {
-            error(e)
+            err(e)
         }
 
         try {
@@ -287,7 +288,7 @@ class HttpRequest(private val url: String) {
                 }
             }), null)
         } catch (e: KeyManagementException) {
-            error(e)
+            err(e)
         }
 
         HttpsURLConnection.setDefaultSSLSocketFactory(ctx!!.socketFactory)

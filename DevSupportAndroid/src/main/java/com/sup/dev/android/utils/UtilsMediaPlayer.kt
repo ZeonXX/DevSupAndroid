@@ -44,7 +44,7 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
             mediaPlayer!!.setVolume(1f, 1f)
 
         } catch (ex: IOException) {
-            error(ex)
+            err(ex)
         }
 
     }

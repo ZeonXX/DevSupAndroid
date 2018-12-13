@@ -68,7 +68,7 @@ object ToolsIntent {
         try {
             SupAndroid.appContext!!.startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
-            error(ex)
+            err(ex)
             onActivityNotFound.invoke()
         }
 
@@ -130,7 +130,7 @@ object ToolsIntent {
             out.flush()
             out.close()
         } catch (e: Exception) {
-            error(e)
+            err(e)
         }
 
         try {
@@ -141,7 +141,7 @@ object ToolsIntent {
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null))
         } catch (ex: ActivityNotFoundException) {
-            error(ex)
+            err(ex)
             onActivityNotFound.invoke()
         }
 
@@ -175,7 +175,7 @@ object ToolsIntent {
             if (text != null) i.putExtra(Intent.EXTRA_TEXT, text)
             SupAndroid.activity!!.startActivity(Intent.createChooser(i, null))
         } catch (ex: ActivityNotFoundException) {
-            error(ex)
+            err(ex)
             onActivityNotFound.invoke()
         }
 
@@ -207,13 +207,13 @@ object ToolsIntent {
                     inp.close()
                     onResult.invoke(bytes)
                 }catch (e:Exception){
-                    error(e)
+                    err(e)
                     onError.invoke()
                 }
 
             }
         } catch (ex: ActivityNotFoundException) {
-            error(ex)
+            err(ex)
             onError.invoke()
         }
 
@@ -274,7 +274,7 @@ object ToolsIntent {
         try {
             intent.send()
         } catch (ex: PendingIntent.CanceledException) {
-            error(ex)
+            err(ex)
         }
 
     }

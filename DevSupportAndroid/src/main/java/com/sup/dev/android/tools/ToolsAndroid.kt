@@ -45,13 +45,13 @@ object ToolsAndroid {
                 val btManagerService = mServiceField.get(bluetoothAdapter)
                 if (btManagerService != null) bluetoothMacAddress = btManagerService.javaClass.getMethod("getAddress").invoke(btManagerService) as String
             } catch (e: NoSuchFieldException) {
-                error(e)
+                err(e)
             } catch (e: NoSuchMethodException) {
-                error(e)
+                err(e)
             } catch (e: IllegalAccessException) {
-                error(e)
+                err(e)
             } catch (e: InvocationTargetException) {
-                error(e)
+                err(e)
             }
 
         } else {
@@ -79,13 +79,13 @@ object ToolsAndroid {
             }
             return processName.toString()
         } catch (ex: Exception) {
-            error(ex)
+            err(ex)
         } finally {
             if (cmdlineReader != null) {
                 try {
                     cmdlineReader.close()
                 } catch (e: IOException) {
-                    error(e)
+                    err(e)
                 }
 
             }

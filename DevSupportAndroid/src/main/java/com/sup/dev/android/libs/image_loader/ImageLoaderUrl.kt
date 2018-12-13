@@ -15,7 +15,7 @@ class ImageLoaderUrl(private val url: String) : ImageLoaderA() {
         try {
             return ToolsNetwork.getBytesFromURL(url)
         } catch (e: IOException) {
-            error(e)
+            err(e)
             return null
         }
 

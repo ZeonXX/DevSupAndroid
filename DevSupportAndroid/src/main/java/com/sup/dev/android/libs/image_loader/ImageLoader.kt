@@ -83,7 +83,7 @@ object ImageLoader {
             try {
                 loadNow(loader)
             } catch (ex: Throwable) {
-                error(ex)
+                err(ex)
             }
         }
     }

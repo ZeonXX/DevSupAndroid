@@ -153,7 +153,7 @@ class ServiceNetworkCheck : Service() {
                         try {
                             sock.close()
                         } catch (e: IOException) {
-                            error(e)
+                            err(e)
                         }
 
                     }
