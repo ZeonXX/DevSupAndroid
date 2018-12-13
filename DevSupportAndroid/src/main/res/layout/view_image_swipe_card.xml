@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:LayoutMaxSizes_allowChildMaxW="true"
-    app:LayoutMaxSizes_maxWidthParentPercent="60"
     style="@style/TouchableForeground">
 
     <ImageView
         android:id="@+id/vImage"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
+</FrameLayout>
