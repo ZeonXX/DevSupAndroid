@@ -8,8 +8,8 @@ import com.sup.dev.android.tools.ToolsView
 
 class ViewSpace(context: Context, wDP: Int, hDP: Int) : View(context) {
 
-    private val w: Int = ToolsView.dpToPx(wDP)
-    private val h: Int = ToolsView.dpToPx(hDP)
+    private val w: Int = ToolsView.dpToPx(wDP).toInt()
+    private val h: Int = ToolsView.dpToPx(hDP).toInt()
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
         params.width = w

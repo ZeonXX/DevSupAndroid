@@ -63,6 +63,13 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     override fun setEnabled(enabled: Boolean): WidgetAlert {
         super.setEnabled(enabled)
+        vCheck.isEnabled = false
+        vEnter.isEnabled = false
+        vCancel.isEnabled = false
+        vText.isEnabled = false
+        vTopContainer.isEnabled = false
+        vTopImage.isEnabled = false
+        vTopTitle.isEnabled = false
         return this
     }
 

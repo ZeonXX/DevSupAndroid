@@ -274,13 +274,13 @@ object ToolsView {
 
     fun spToPx(sp: Int) = spToPx(sp.toFloat())
 
-    fun pxToDp(px: Float) = (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().displayMetrics))).toInt()
+    fun pxToDp(px: Float) = px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, Resources.getSystem().displayMetrics))
 
-    fun pxToSp(px: Float) = (px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, px, Resources.getSystem().displayMetrics))).toInt()
+    fun pxToSp(px: Float) = px * (px / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, px, Resources.getSystem().displayMetrics))
 
-    fun dpToPx(dp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics).toInt()
+    fun dpToPx(dp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics)
 
-    fun spToPx(sp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().displayMetrics).toInt()
+    fun spToPx(sp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().displayMetrics)
 
 
     //

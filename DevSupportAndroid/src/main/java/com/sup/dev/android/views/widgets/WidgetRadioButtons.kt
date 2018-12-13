@@ -193,7 +193,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
             }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
-                (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(16f)
+                (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(16f).toInt()
 
         }
 

@@ -1,7 +1,6 @@
 package com.sup.dev.android.views.screens
 
 import android.support.annotation.DrawableRes
-import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -9,7 +8,6 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -75,7 +73,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected abstract fun instanceAdapter(): RecyclerCardAdapterLoading<C, V>
 
     protected fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit): ViewIcon {
-        val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.view_icon)
+        val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.z_icon)
         viewIcon.setImageResource(res)
         viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
         vToolbarIconsContainer.addView(viewIcon)

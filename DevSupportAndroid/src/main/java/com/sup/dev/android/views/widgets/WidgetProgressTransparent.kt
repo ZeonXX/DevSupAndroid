@@ -22,7 +22,7 @@ class WidgetProgressTransparent : Widget(0) {
 
         frameLayout!!.addView(progressBar)
 
-        (progressBar!!.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(24), ToolsView.dpToPx(24), ToolsView.dpToPx(24), ToolsView.dpToPx(23))
+        (progressBar!!.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(23).toInt())
 
         return frameLayout
     }

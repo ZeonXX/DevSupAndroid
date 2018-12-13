@@ -59,7 +59,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
 
         setImage(src)
         setChipSizePx(chipSize.toInt())
-        setChipIconPadding(iconPadding.toInt())
+        setChipIconPadding(iconPadding)
         setChipText(text)
         setChipIcon(srcIcon)
         setChipBackground(chipBackground)
@@ -80,8 +80,8 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
         if (params.width == FrameLayout.LayoutParams.WRAP_CONTENT && params.height == FrameLayout.LayoutParams.WRAP_CONTENT) {
-            params.width = ToolsView.dpToPx(48)
-            params.height = ToolsView.dpToPx(48)
+            params.width = ToolsView.dpToPx(48).toInt()
+            params.height = ToolsView.dpToPx(48).toInt()
         }
 
         if (params.width > 0 && params.height == FrameLayout.LayoutParams.WRAP_CONTENT)
@@ -118,7 +118,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vChip.setIcon(icon)
     }
 
-    fun setChipIconPadding(chipIconPadding:Int){
+    fun setChipIconPadding(chipIconPadding:Float){
         vChip.setChipIconPadding(chipIconPadding)
     }
 

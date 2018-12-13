@@ -5,22 +5,16 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.support.design.chip.Chip
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.DrawableBitmapCircle
+import com.sup.dev.java.libs.debug.log
 
 
 class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : Chip(context, attributeSet, defStyleAttr) {
-
-    var autoControlVisibility = true
-
-    constructor(context: Context) : this(context, null, 0)
-
-    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
     companion object {
 
@@ -68,7 +62,12 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
 
     }
 
-    private var chipIconPadding: Int = 0
+    private var chipIconPadding = 0f
+    var autoControlVisibility = true
+
+    constructor(context: Context) : this(context, null, 0)
+
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
     init {
         updateChipVisible()
@@ -77,36 +76,54 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
     override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
         super.setLayoutParams(params)
         if (params != null) {
-            if (params.height < 0) params.height = ToolsView.dpToPx(32)
+            if (params.height < 0) params.height = ToolsView.dpToPx(32).toInt()
             setChipSizePx(params.height)
         }
     }
 
     fun setChipSizePx(size: Int) {
         layoutParams.height = size
-        gravity = Gravity.CENTER
-        textAlignment = View.TEXT_ALIGNMENT_GRAVITY
-        textSize = size / 6f
+        chipIconSize = size.toFloat() - chipIconPadding
+        closeIconStartPadding = 0f
+        closeIconEndPadding = 0f
+        chipStartPadding = 0f
         chipEndPadding = 0f
         updatePadding()
-        chipIconSize = size.toFloat() - chipIconPadding
     }
 
     private fun updatePadding() {
         if (text.isEmpty() || layoutParams == null) {
             textEndPadding = 0f
             textStartPadding = 0f
-            chipStartPadding = 0f
+
+            if(chipIcon != null){
+                chipStartPadding = (layoutParams.height-chipIconSize)/2
+                chipEndPadding = chipStartPadding
+            }else{
+                chipStartPadding = 0f
+                chipEndPadding = 0f
+            }
         } else {
+            textEndPadding = layoutParams.height / 5f
+            textSize = ToolsView.pxToSp(layoutParams.height / 2.3f)
+
             textStartPadding = when {
                 layoutParams == null -> 0f
-                chipIcon == null -> layoutParams.height / 6f
-                else -> layoutParams.height / 4f
+                chipIcon == null -> textEndPadding
+                else -> ToolsView.dpToPx(4)
             }
-            textEndPadding = layoutParams.height / 6f
 
-            if(chipIcon != null) chipStartPadding = 0f
-            else chipStartPadding = ToolsView.dpToPx(4f).toFloat()
+            if (layoutParams.height < 60) {
+                textSize = ToolsView.pxToSp(layoutParams.height / 2f)
+                textStartPadding += ToolsView.dpToPx(1)
+                textEndPadding = ToolsView.dpToPx(1f)
+
+                if (text.length == 1) {
+                    textStartPadding += ToolsView.dpToPx(1)
+                    textEndPadding += ToolsView.dpToPx(2)
+                }
+
+            }
         }
 
     }
@@ -121,7 +138,7 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             visibility = View.VISIBLE
     }
 
-    fun setChipIconPadding(chipIconPadding: Int) {
+    fun setChipIconPadding(chipIconPadding: Float) {
         this.chipIconPadding = chipIconPadding
         setChipSizePx(layoutParams.height)
     }

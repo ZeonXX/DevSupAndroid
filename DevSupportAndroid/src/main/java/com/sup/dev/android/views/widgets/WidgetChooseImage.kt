@@ -13,7 +13,6 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
-import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsNetwork
@@ -24,7 +23,7 @@ import java.io.IOException
 
 open class WidgetChooseImage : WidgetRecycler() {
 
-    private val DP = ToolsView.dpToPx(1)
+    private val DP = ToolsView.dpToPx(1).toInt()
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
 
     private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
@@ -32,14 +31,14 @@ open class WidgetChooseImage : WidgetRecycler() {
     private var spanCount = 3
 
     init {
-        val vFabGalleryContainer: View = ToolsView.inflate(R.layout.view_fab)
-        val vFabLinkContainer: View = ToolsView.inflate(R.layout.view_fab)
+        val vFabGalleryContainer: View = ToolsView.inflate(R.layout.z_fab)
+        val vFabLinkContainer: View = ToolsView.inflate(R.layout.z_fab)
         val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
         val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
         vContainer.addView(vFabGalleryContainer)
         vContainer.addView(vFabLinkContainer)
 
-        (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72)
+        (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72).toInt()
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
@@ -60,9 +59,9 @@ open class WidgetChooseImage : WidgetRecycler() {
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         if (viewWrapper is DialogWidget)
-            (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8), ToolsView.dpToPx(2), ToolsView.dpToPx(8), 0)
+            (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(2).toInt(), ToolsView.dpToPx(8).toInt(), 0)
         else if (viewWrapper is DialogSheetWidget)
-            vRecycler.layoutParams.height = ToolsView.dpToPx(320)
+            vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()
     }
 
     private fun loadImages() {

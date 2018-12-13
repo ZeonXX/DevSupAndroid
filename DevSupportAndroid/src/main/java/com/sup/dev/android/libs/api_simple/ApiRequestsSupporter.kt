@@ -28,28 +28,30 @@ object ApiRequestsSupporter {
         ApiRequestsSupporter.api = api
     }
 
+    fun <K : Request.Response> execute(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
+        request.onComplete { r -> onComplete.invoke(r) }
+                .onNetworkError { ToolsToast.show(R.string.error_network) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .send(api!!)
+        return request
+    }
 
     fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
         val sInterstitialProgress = SInterstitialProgress()
         Navigator.action(action, sInterstitialProgress)
 
-        request.onComplete { r ->
+        return execute(request) { r ->
             if (Navigator.getCurrent() === sInterstitialProgress) {
                 Navigator.replace(onComplete.invoke(r))
             }
-        }
-                .onNetworkError {
-                    if (Navigator.getCurrent() === sInterstitialProgress) {
-                        SAlert.showNetwork(Navigator.REPLACE) {
-                            Navigator.replace(sInterstitialProgress)
-                            request.send(api!!)
-                        }
-                    }
+        }.onNetworkError {
+            if (Navigator.getCurrent() === sInterstitialProgress) {
+                SAlert.showNetwork(Navigator.REPLACE) {
+                    Navigator.replace(sInterstitialProgress)
+                    request.send(api!!)
                 }
-                .onApiError(ApiClient.ERROR_GONE) { e -> if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .send(api!!)
-        return request
+            }
+        }
     }
 
     fun <K : Request.Response> executeProgressDialog(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
@@ -66,14 +68,9 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeProgressDialog(dialog: Widget, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
-        request.onComplete { r -> onComplete.invoke(r) }
-                .onNetworkError { ToolsToast.show(R.string.error_network) }
+        return execute(request, onComplete)
                 .onFinish { dialog.hide() }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .send(api!!)
-        return request
     }
-
 
     fun <K : Request.Response> executeProgressDialog(request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
         return executeProgressDialog<K>(null, request, onComplete)
@@ -85,51 +82,36 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeProgressDialog(title: String?, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
         val w = if (title == null) ToolsView.showProgressDialog() else ToolsView.showProgressDialog(title)
-        request.onComplete { r -> onComplete.invoke(w, r) }
+        return execute(request) { r -> onComplete.invoke(w, r) }
                 .onNetworkError {
                     ToolsToast.show(R.string.error_network)
                     w.hide()
                 }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .onError { w.hide() }
-                .send(api!!)
-        return request
     }
 
     fun <K : Request.Response> executeEnabledCallback(request: Request<K>, onComplete: (K) -> Unit, enabled: (Boolean) -> Unit): Request<K> {
         enabled.invoke(false)
-        request
-                .onComplete { r -> onComplete.invoke(r) }
-                .onNetworkError { ToolsToast.show(R.string.error_network) }
+        return execute(request, onComplete)
                 .onFinish { enabled.invoke(true) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .send(api!!)
-
-        return request
     }
 
 
     fun <K : Request.Response> executeEnabled(widget: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         widget?.setEnabled(false)
-        request
-                .onComplete { r ->
-                    onComplete.invoke(r)
-                    widget?.hide()
-                }
-                .onNetworkError { ToolsToast.show(R.string.error_network) }
-                .onFinish {
-                    widget?.setEnabled(true)
-                    if (widget != null && widget is WidgetProgressTransparent) widget.hide()
-                    if (widget != null && widget is WidgetProgressWithTitle) widget.hide()
-                }
-                .send(api!!)
-
-        return request
+        return execute(request) { r ->
+            onComplete.invoke(r)
+            widget?.hide()
+        }.onFinish {
+            widget?.setEnabled(true)
+            if (widget != null && widget is WidgetProgressTransparent) widget.hide()
+            if (widget != null && widget is WidgetProgressWithTitle) widget.hide()
+        }
     }
 
     fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         return executeEnabledConfirm(ToolsResources.getString(text), ToolsResources.getString(enter), request, onComplete)
     }
+
     fun <K : Request.Response> executeEnabledConfirm(text: String, enter: String, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         WidgetAlert()
                 .setText(text)

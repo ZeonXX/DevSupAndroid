@@ -179,7 +179,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     fun setGreedYSize(greedYSize: Int) {
-        this.greedYSize = greedYSize
+        this.greedYSize = greedYSize.toFloat()
         requestLayout()
     }
 
@@ -189,7 +189,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     fun setGreedXSize(greedXSize: Int) {
-        this.greedXSize = greedXSize
+        this.greedXSize = greedXSize.toFloat()
         requestLayout()
     }
 

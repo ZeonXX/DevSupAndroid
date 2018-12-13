@@ -6,7 +6,7 @@ import com.sup.dev.android.tools.ToolsView
 
 class CardSpace : Card {
 
-    private var spacePx = ToolsView.dpToPx(2)
+    private var spacePx = ToolsView.dpToPx(2).toInt()
 
     constructor(spaceDp: Int) {
         setSpace(spaceDp)
@@ -26,7 +26,7 @@ class CardSpace : Card {
     //
 
     fun setSpace(dp: Int): CardSpace {
-        this.spacePx = ToolsView.dpToPx(dp)
+        this.spacePx = ToolsView.dpToPx(dp).toInt()
         return this
     }
 }

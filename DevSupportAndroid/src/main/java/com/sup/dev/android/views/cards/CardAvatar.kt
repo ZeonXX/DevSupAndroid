@@ -20,11 +20,11 @@ open class CardAvatar : Card() {
     private var chipText: String? = null
     private var image: Bitmap? = null
     @DrawableRes
-    private var chipIcon: Int = 0
-    private var chipIconPaddingDp: Int = 0
+    private var chipIcon = 0
+    private var chipIconPadding = 0f
     @ColorInt
-    private var chipBackground: Int = 0
-    private var chipUseIconBackground: Boolean = false
+    private var chipBackground = 0
+    private var chipUseIconBackground = false
     private var onClickAvatar: (() -> Unit)? = null
 
     override fun getLayout(): Int {
@@ -32,9 +32,9 @@ open class CardAvatar : Card() {
     }
 
     override fun bindView(view: View) {
-        val vTouch = view.findViewById<View>(R.id.vTouch)
-        val vDivider = view.findViewById<View>(R.id.vDivider)
-        val vAvatar = view.findViewById<ViewAvatarTitle>(R.id.vAvatar)
+        val vTouch:View = view.findViewById(R.id.vTouch)
+        val vDivider:View = view.findViewById(R.id.vDivider)
+        val vAvatar:ViewAvatarTitle = view.findViewById(R.id.vAvatar)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = true && enabled
@@ -51,10 +51,9 @@ open class CardAvatar : Card() {
         else vAvatar.viewAvatar.setOnClickListener(null)
         vAvatar.viewAvatar.setImage(image)
         vAvatar.viewAvatar.setChipIcon(chipIcon)
-        vAvatar.viewAvatar.setChipIconPadding(chipIconPaddingDp)
+        vAvatar.viewAvatar.setChipIconPadding(chipIconPadding)
         vAvatar.viewAvatar.vChip.text = chipText
         vAvatar.viewAvatar.vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
-        //vAvatar.viewAvatar.vChip.setIconPadding()
 
         onBind(vAvatar)
     }
@@ -97,8 +96,8 @@ open class CardAvatar : Card() {
         return this
     }
 
-    fun setChipIconPadding(dp: Int): CardAvatar {
-        chipIconPaddingDp = dp
+    fun setChipIconPadding(dp: Float): CardAvatar {
+        chipIconPadding = dp
         update()
         return this
     }

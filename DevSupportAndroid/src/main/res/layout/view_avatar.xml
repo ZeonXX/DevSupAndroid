@@ -17,7 +17,12 @@
         style="@style/Chip"
         app:chipBackgroundColor="?colorAccent"
         android:textColor="@color/white"
-        android:layout_gravity="right|bottom"/>
+        android:layout_gravity="end|bottom"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:enabled="false"
+        />
 
     <com.sup.dev.android.views.views.ViewDraw
         android:layout_width="match_parent"

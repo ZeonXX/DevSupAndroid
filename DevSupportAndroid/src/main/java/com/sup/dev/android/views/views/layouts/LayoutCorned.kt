@@ -109,7 +109,7 @@ open class LayoutCorned @JvmOverloads constructor(
     }
 
     fun setCornedSize(dp: Int) {
-        setCornedSizePx(ToolsView.dpToPx(dp))
+        setCornedSizePx(ToolsView.dpToPx(dp).toInt())
     }
 
     fun setCornedSizePx(cornedSize: Int) {

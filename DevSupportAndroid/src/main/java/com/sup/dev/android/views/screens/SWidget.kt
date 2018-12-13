@@ -23,7 +23,7 @@ class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), Widg
 
 
     fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit): ViewIcon {
-        val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.view_icon)
+        val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.z_icon)
         viewIcon.setImageResource(res)
         viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
         vToolbarContainer.addView(viewIcon)

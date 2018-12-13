@@ -38,12 +38,12 @@ class ViewImagesSwipe constructor(
     }
 
     fun add(id: Long, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
+        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
         adapter.add(CardSwipeId(id, w, h, onClick, onLongClick))
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4)))
+        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
     }
 

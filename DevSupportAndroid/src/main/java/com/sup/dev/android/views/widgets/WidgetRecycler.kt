@@ -32,7 +32,7 @@ open class WidgetRecycler : Widget(R.layout.widget_recycler) {
         if (viewWrapper is DialogSheetWidget) {
             vRecycler.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         } else if (viewWrapper is PopupWidget) {
-            vRecycler.layoutParams.width = ToolsView.dpToPx(200)
+            vRecycler.layoutParams.width = ToolsView.dpToPx(200).toInt()
         }
     }
 

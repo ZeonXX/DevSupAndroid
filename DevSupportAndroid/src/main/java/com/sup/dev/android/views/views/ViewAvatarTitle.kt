@@ -74,7 +74,7 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
         viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
         viewAvatar.setChipSizePx(chipSize.toInt())
         viewAvatar.setChipText(chipText)
-        viewAvatar.setChipIconPadding(iconPadding.toInt())
+        viewAvatar.setChipIconPadding(iconPadding)
         viewAvatar.setChipIcon(srcIcon)
         viewAvatar.setChipBackground(chipBackground)
 

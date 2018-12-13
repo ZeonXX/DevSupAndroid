@@ -4,15 +4,12 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
@@ -22,7 +19,6 @@ import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
-
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
@@ -142,6 +138,7 @@ abstract class SActivity : AppCompatActivity() {
     private var subscriptionTouchLock: Subscription? = null
 
     open fun setScreen(screen: Screen?, animation: Navigator.Animation) {
+
         if (screen == null) {
             finish()
             return
@@ -150,7 +147,11 @@ abstract class SActivity : AppCompatActivity() {
         ToolsView.hideKeyboard()
 
         val oldViews = ArrayList<View>()
-        for (i in 0 until vActivityContainer!!.childCount) oldViews.add(vActivityContainer!!.getChildAt(i))
+        for (i in 0 until vActivityContainer!!.childCount) {
+            if (vActivityContainer!!.getChildAt(i) != screen) {
+                oldViews.add(vActivityContainer!!.getChildAt(i))
+            }
+        }
 
         val old = if (vActivityContainer!!.childCount == 0) null else vActivityContainer!!.getChildAt(0)
 
