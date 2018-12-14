@@ -14,10 +14,10 @@
 
     <com.sup.dev.android.views.views.ViewChip
         android:id="@+id/vDevSupChip"
-        style="@style/Chip"
+        style="@style/Chip.Mini"
         app:chipBackgroundColor="?colorAccent"
-        android:textColor="@color/white"
         android:layout_gravity="end|bottom"
+        android:textColor="@color/white"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"

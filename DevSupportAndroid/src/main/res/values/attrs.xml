@@ -98,7 +98,7 @@
         <attr name="ViewAvatar_chipBackground" format="color"/>
         <attr name="ViewAvatar_chipSize" format="dimension"/>
         <attr name="ViewAvatar_chipIcon" format="reference"/>
-        <attr name="ViewAvatar_chipIconPadding" format="dimension"/>
+        <attr name="ViewAvatar_chipIconSizePadding" format="dimension"/>
         <attr name="ViewAvatar_avatarBackground" format="color"/>
     </declare-styleable>
 
@@ -110,7 +110,7 @@
         <attr name="ViewAvatarTitle_chipSize" format="dimension"/>
         <attr name="ViewAvatarTitle_chipText" format="string"/>
         <attr name="ViewAvatarTitle_chipIcon" format="reference"/>
-        <attr name="ViewAvatarTitle_chipIconPadding"  format="dimension"/>
+        <attr name="ViewAvatarTitle_chipIconSizePadding"  format="dimension"/>
         <attr name="ViewAvatarTitle_avatarBackground" format="color"/>
         <attr name="ViewAvatarTitle_avatarPadding" format="dimension"/>
         <attr name="ViewAvatarTitle_cornedEnabled" format="boolean"/>

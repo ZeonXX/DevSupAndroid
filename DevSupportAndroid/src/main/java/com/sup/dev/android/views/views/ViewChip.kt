@@ -3,6 +3,7 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.support.design.chip.Chip
 import android.util.AttributeSet
 import android.view.View
@@ -62,7 +63,9 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
 
     }
 
-    private var chipIconPadding = 0f
+    private var chipIconSizePadding = 0f
+    private var textEndPaddingLocal = 0f
+    private var textStartPaddingLocal = 0f
     var autoControlVisibility = true
 
     constructor(context: Context) : this(context, null, 0)
@@ -83,48 +86,30 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
 
     fun setChipSizePx(size: Int) {
         layoutParams.height = size
-        chipIconSize = size.toFloat() - chipIconPadding
-        closeIconStartPadding = 0f
-        closeIconEndPadding = 0f
-        chipStartPadding = 0f
-        chipEndPadding = 0f
+        chipIconSize = size.toFloat() - chipIconSizePadding
         updatePadding()
     }
 
     private fun updatePadding() {
-        if (text.isEmpty() || layoutParams == null) {
+        if (textEndPaddingLocal == 0f) textEndPaddingLocal = textEndPadding
+        if (textStartPaddingLocal == 0f) textStartPaddingLocal = textStartPadding
+
+        if (text.isEmpty()) {
             textEndPadding = 0f
             textStartPadding = 0f
-
-            if(chipIcon != null){
-                chipStartPadding = (layoutParams.height-chipIconSize)/2
-                chipEndPadding = chipStartPadding
-            }else{
-                chipStartPadding = 0f
-                chipEndPadding = 0f
-            }
         } else {
-            textEndPadding = layoutParams.height / 5f
-            textSize = ToolsView.pxToSp(layoutParams.height / 2.3f)
-
-            textStartPadding = when {
-                layoutParams == null -> 0f
-                chipIcon == null -> textEndPadding
-                else -> ToolsView.dpToPx(4)
-            }
-
-            if (layoutParams.height < 60) {
-                textSize = ToolsView.pxToSp(layoutParams.height / 2f)
-                textStartPadding += ToolsView.dpToPx(1)
-                textEndPadding = ToolsView.dpToPx(1f)
-
-                if (text.length == 1) {
-                    textStartPadding += ToolsView.dpToPx(1)
-                    textEndPadding += ToolsView.dpToPx(2)
-                }
-
-            }
+            textEndPadding = textEndPaddingLocal
+            textStartPadding = textStartPaddingLocal
+            if (chipIcon != null) textStartPadding /= 2
         }
+
+        if (layoutParams != null && layoutParams.height > 0) {
+            var arg = layoutParams.height / 96f
+            arg += (1 - arg) / 1.6f
+            textStartPadding += 42 - (42 * (arg/0.9f))
+            textSize = ToolsView.pxToSp(42 * arg)
+        }
+
 
     }
 
@@ -138,9 +123,14 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             visibility = View.VISIBLE
     }
 
-    fun setChipIconPadding(chipIconPadding: Float) {
-        this.chipIconPadding = chipIconPadding
+    fun setChipIconSizePadding(p: Float) {
+        this.chipIconSizePadding = p
         setChipSizePx(layoutParams.height)
+    }
+
+    fun setChipIconPadding(p: Float) {
+        iconEndPadding = p
+        iconStartPadding = p
     }
 
     fun setIcon(src: Int) {
@@ -160,6 +150,11 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
 
     fun setBackground(color: Int) {
         chipBackgroundColor = ColorStateList.valueOf(color)
+    }
+
+    fun setIocnPadings(p: Float) {
+        iconStartPadding = p
+        iconEndPadding = p
     }
 
     override fun setText(text: CharSequence?, type: BufferType?) {

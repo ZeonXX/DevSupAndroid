@@ -30,7 +30,6 @@
             android:layout_gravity="start"
             android:background="?colorPrimaryDark"/>
 
-
     </android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>

@@ -21,6 +21,7 @@ open class CardAvatar : Card() {
     private var image: Bitmap? = null
     @DrawableRes
     private var chipIcon = 0
+    private var chipIconSizePadding = 0f
     private var chipIconPadding = 0f
     @ColorInt
     private var chipBackground = 0
@@ -51,6 +52,7 @@ open class CardAvatar : Card() {
         else vAvatar.viewAvatar.setOnClickListener(null)
         vAvatar.viewAvatar.setImage(image)
         vAvatar.viewAvatar.setChipIcon(chipIcon)
+        vAvatar.viewAvatar.setChipIconSizePadding(chipIconSizePadding)
         vAvatar.viewAvatar.setChipIconPadding(chipIconPadding)
         vAvatar.viewAvatar.vChip.text = chipText
         vAvatar.viewAvatar.vChip.chipBackgroundColor = ColorStateList.valueOf(chipBackground)
@@ -96,8 +98,14 @@ open class CardAvatar : Card() {
         return this
     }
 
-    fun setChipIconPadding(dp: Float): CardAvatar {
-        chipIconPadding = dp
+    fun setChipIconSizePadding(p: Float): CardAvatar {
+        chipIconSizePadding = p
+        update()
+        return this
+    }
+
+    fun setChipIconPadding(p: Float): CardAvatar {
+        chipIconPadding = p
         update()
         return this
     }

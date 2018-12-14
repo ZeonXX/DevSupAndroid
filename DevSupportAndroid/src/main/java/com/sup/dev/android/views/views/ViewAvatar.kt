@@ -50,7 +50,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val text = a.getString(R.styleable.ViewAvatar_ViewAvatar_chipText)
         val chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0)
-        val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
+        val iconSizePadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconSizePadding, 0f)
         val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18).toFloat())
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
         a.recycle()
@@ -59,7 +59,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
 
         setImage(src)
         setChipSizePx(chipSize.toInt())
-        setChipIconPadding(iconPadding)
+        setChipIconSizePadding(iconSizePadding)
         setChipText(text)
         setChipIcon(srcIcon)
         setChipBackground(chipBackground)
@@ -118,8 +118,12 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vChip.setIcon(icon)
     }
 
-    fun setChipIconPadding(chipIconPadding:Float){
-        vChip.setChipIconPadding(chipIconPadding)
+    fun setChipIconSizePadding(p:Float){
+        vChip.setChipIconSizePadding(p)
+    }
+
+    fun setChipIconPadding(p:Float){
+        vChip.setChipIconPadding(p)
     }
 
     fun setChipBackgroundRes(src:Int){

@@ -5,6 +5,8 @@ interface INFO
 
     /*
 
+
+
      Фикс для тестов:
      -noverify
 

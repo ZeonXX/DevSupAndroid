@@ -17,6 +17,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     private var topLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
     private val cardLoading: CardLoading = CardLoading()
 
+    private var removeSame = true
     private var addBottomPositionOffset = 0
     private var addTopPositionOffset = 0
     private var startBottomLoadOffset = 0
@@ -32,6 +33,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     private var onLoadingAndNotEmpty: (() -> Unit)? = null
     private var onLoadedNotEmpty: (() -> Unit)? = null
     private var loadingTag = 0L
+    private var sameRemovedCount = 0
 
     override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
@@ -59,7 +61,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         else isLockTop = false
 
         loadingTag = System.currentTimeMillis()
-        var loadingTagLocal = loadingTag
+        val loadingTagLocal = loadingTag
 
         cardLoading.setOnRetry { source -> load(bottom) }
         cardLoading.setState(CardLoading.State.LOADING)
@@ -109,9 +111,23 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
             remove(cardLoading)
         }
 
-        for (i in result.indices)
-            if (bottom) add(size() - addBottomPositionOffset, mapper!!.invoke(result[i]!!))
-            else add(addTopPositionOffset + i, mapper!!.invoke(result[i]!!))
+        for (i in result.indices) {
+            val card = mapper!!.invoke(result[i]!!)
+            if(removeSame){
+                val cards = get(cardClass)
+                var b = false
+                for(c in cards) if(card == c) {
+                    b = true
+                    break
+                }
+                if(b) {
+                    sameRemovedCount++
+                    break
+                }
+            }
+            if (bottom) add(size() - addBottomPositionOffset, card)
+            else add(addTopPositionOffset + i, card)
+        }
 
         if (contains(cardClass) || result.isNotEmpty())
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
@@ -141,6 +157,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     }
 
     fun reload(bottom: Boolean) {
+        sameRemovedCount = 0
         loadingTag = 0
         isInProgress = false
         remove(cardClass)
@@ -225,6 +242,9 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         return this
     }
 
+    fun setRemoveSame(b:Boolean){
+        removeSame = b
+    }
 
     fun setEmptyMessage(@StringRes message: Int): RecyclerCardAdapterLoading<K, V> {
         return setEmptyMessage(ToolsResources.getString(message))
@@ -285,5 +305,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     fun isLockBottom() = isLockBottom
 
     fun isInProgress() = isInProgress
+
+    fun getSAmeRemovedCount() = sameRemovedCount
 
 }

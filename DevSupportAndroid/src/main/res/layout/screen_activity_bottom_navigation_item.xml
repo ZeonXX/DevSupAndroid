@@ -13,10 +13,8 @@
 
     <com.sup.dev.android.views.views.ViewChip
         android:id="@+id/vChip"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_gravity="right|bottom"
-        android:textColor="@color/white"
+        style="@style/Chip.Mini"
+        android:layout_gravity="end|bottom"
         app:chipBackgroundColor="?colorAccent"
         android:layout_margin="6dp"/>
 
