@@ -116,16 +116,11 @@
     </style>
 
     <style name="Icon.18">
-        <item name="android:padding">9dp</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:padding">8dp</item>
     </style>
-
-    <style name="Icon.24">
-        <item name="android:padding">12dp</item>
-    </style>
-
-    <style name="Icon.36">
-        <item name="android:padding">18dp</item>
-    </style>
+>
 
     <style name="Root">
         <item name="android:layout_width">match_parent</item>
