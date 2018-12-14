@@ -14,6 +14,7 @@ import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap, Unit>?) : Screen(R.layout.screen_image_crop) {
 
 
+    private var onHide: () -> Unit = {}
     private val vCropImageView: ViewCropImage = findViewById(R.id.vCrop)
     private val vFinish: View = findViewById(R.id.vFab)
     private val vAll: View = findViewById(R.id.vAll)
@@ -63,6 +64,11 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
         return this
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        onHide.invoke()
+    }
+
     fun setAutoBackOnCrop(autoBackOnCrop: Boolean): SCrop {
         this.autoBackOnCrop = autoBackOnCrop
         return this
@@ -74,6 +80,11 @@ class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCro
 
     fun back() {
         Navigator.back()
+    }
+
+    fun setOnHide(onHide:()->Unit):SCrop{
+        this.onHide = onHide
+        return this
     }
 
 }
