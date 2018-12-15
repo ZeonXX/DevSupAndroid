@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -23,7 +22,8 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     private val animationFocus: AnimationFocus
 
     val vImageView: ViewCircleImage
-    val vChip: ViewChip
+    val vChip: ViewChipMini
+    val vChipIcon: ViewCircleImage
     private val vTouch: ViewDraw
 
     private var roundBackgroundColor: Int = 0
@@ -39,6 +39,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val view: View = ToolsView.inflate(context, R.layout.view_avatar)
         vImageView = view.findViewById(R.id.vDevSupImage)
         vChip = view.findViewById(R.id.vDevSupChip)
+        vChipIcon = view.findViewById(R.id.vDevSupChipIcon)
         vTouch = view.findViewById(R.id.vDevSupAvatarTouch)
 
         isEnabled = false
@@ -50,16 +51,16 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val text = a.getString(R.styleable.ViewAvatar_ViewAvatar_chipText)
         val chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0)
-        val iconSizePadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconSizePadding, 0f)
-        val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18).toFloat())
+        val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
+        val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
         a.recycle()
 
         animationFocus = AnimationFocus(vTouch, focusColor)
 
         setImage(src)
-        setChipSizePx(chipSize.toInt())
-        setChipIconSizePadding(iconSizePadding)
+        setChipSize(chipSize.toInt())
+        setChipIconPadding(iconPadding.toInt())
         setChipText(text)
         setChipIcon(srcIcon)
         setChipBackground(chipBackground)
@@ -96,8 +97,10 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     //  Setters
     //
 
-    fun setChipSizePx(size: Int) {
-        vChip.setChipSizePx(size)
+    fun setChipSize(size: Int) {
+        vChipIcon.layoutParams.width = size
+        vChipIcon.layoutParams.height = size
+        vChip.layoutParams.height = size
     }
 
     fun setCircleBackgroundColorResource(@ColorRes roundBackgroundColorRes: Int) {
@@ -111,27 +114,20 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     fun setChipText(t: String?) {
-        vChip.text = t
+        vChip.setText(t)
     }
 
     fun setChipIcon(icon: Int) {
-        vChip.setIcon(icon)
+        vChipIcon.setImageResource(icon)
+        vChipIcon.visibility = if (icon == 0) View.GONE else View.VISIBLE
     }
 
-    fun setChipIconSizePadding(p:Float){
-        vChip.setChipIconSizePadding(p)
+    fun setChipIconPadding(p: Int) {
+        vChipIcon.setPadding(p, p, p, p)
     }
 
-    fun setChipIconPadding(p:Float){
-        vChip.setChipIconPadding(p)
-    }
-
-    fun setChipBackgroundRes(src:Int){
-        vChip.setBackgroundRes(src)
-    }
-
-    fun setChipBackground(color:Int){
-        vChip.setBackground(color)
+    fun setChipBackground(color: Int) {
+        vChip.setBackgroundColor(color)
     }
 
     override fun setOnClickListener(l: View.OnClickListener?) {

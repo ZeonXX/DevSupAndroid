@@ -45,20 +45,6 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             return v
         }
 
-        fun instanceMini(context: Context, name: String? = null, tag: Any? = null): ViewChip {
-            val v: ViewChip = ToolsView.inflate(context, R.layout.z_chip_mini)
-            v.text = name
-            v.tag = tag
-            return v
-        }
-
-        fun instanceMiniOutline(context: Context, name: String? = null, tag: Any? = null): ViewChip {
-            val v: ViewChip = ToolsView.inflate(context, R.layout.z_chip_mini_outline)
-            v.text = name
-            v.tag = tag
-            return v
-        }
-
     }
 
     private var chipIconSizePadding = 0f
@@ -100,14 +86,6 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             textStartPadding = textStartPaddingLocal
             if (chipIcon != null) textStartPadding /= 2
         }
-
-        if (layoutParams != null && layoutParams.height > 0) {
-            var arg = layoutParams.height / 96f
-            arg += (1 - arg) / 1.6f
-            textStartPadding += 42 - (42 * (arg/0.9f))
-            textSize = ToolsView.pxToSp(42 * arg)
-        }
-
 
     }
 

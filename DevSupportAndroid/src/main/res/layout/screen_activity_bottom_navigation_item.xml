@@ -11,9 +11,9 @@
         android:layout_gravity="center"
         android:padding="18dp"/>
 
-    <com.sup.dev.android.views.views.ViewChip
+    <com.sup.dev.android.views.views.ViewChipMini
         android:id="@+id/vChip"
-        style="@style/Chip.Mini"
+        style="@style/ChipMini"
         android:layout_gravity="end|bottom"
         app:chipBackgroundColor="?colorAccent"
         android:layout_margin="6dp"/>

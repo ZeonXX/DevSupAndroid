@@ -14,6 +14,7 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetMenu
 
@@ -141,7 +142,7 @@ abstract class SActivityBottomNavigation : SActivity() {
 
         val view: View = ToolsView.inflate(context, R.layout.screen_activity_bottom_navigation_item)
         val vIcon: ViewIcon
-        val vChip: ViewChip
+        val vChip: ViewChipMini
 
         init {
             vIcon = view.findViewById(R.id.vIcon)

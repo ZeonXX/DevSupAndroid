@@ -11,8 +11,9 @@ import android.support.annotation.StyleRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 
 
 open class LayoutCorned @JvmOverloads constructor(
@@ -24,12 +25,13 @@ open class LayoutCorned @JvmOverloads constructor(
 
     private val path = Path()
     private var paint: Paint? = null
-    private var cornedSize = ToolsView.dpToPx(16).toFloat()
+    private var cornedSize = ToolsView.dpToPx(16)
     private var cornedTL = true
     private var cornedTR = true
     private var cornedBL = true
     private var cornedBR = true
     private var chipMode = false
+    private var circleMode = false
 
     init {
         setWillNotDraw(false)
@@ -55,6 +57,13 @@ open class LayoutCorned @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         update()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        if (circleMode && measuredWidth < measuredHeight)
+            super.onMeasure(heightMeasureSpec, heightMeasureSpec)
     }
 
     private fun update() {
@@ -108,6 +117,11 @@ open class LayoutCorned @JvmOverloads constructor(
         update()
     }
 
+    fun setCircleMode(circleMode: Boolean) {
+        this.circleMode = circleMode
+        requestLayout()
+    }
+
     fun setCornedSize(dp: Int) {
         setCornedSizePx(ToolsView.dpToPx(dp).toInt())
     }
@@ -116,6 +130,12 @@ open class LayoutCorned @JvmOverloads constructor(
         this.cornedSize = cornedSize.toFloat()
         update()
     }
+
+
+    fun setBackgroundRes(r: Int) {
+        setBackgroundColor(ToolsResources.getColor(r))
+    }
+
 
     override fun setBackground(background: Drawable?) {
 

@@ -232,6 +232,13 @@
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
     </style>
 
+    <style name="ChipMini">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:background">?colorAccent</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Chip">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">32dp</item>
@@ -247,18 +254,6 @@
     </style>
 
     <style name="Chip.Outline">
-        <item name="chipStrokeWidth">1dp</item>
-        <item name="chipBackgroundColor">?selector_chip_outline</item>
-    </style>
-
-    <style name="Chip.Mini">
-        <item name="android:layout_height">18dp</item>
-        <item name="chipEndPadding">0dp</item>
-        <item name="textEndPadding">5dp</item>
-        <item name="textStartPadding">5dp</item>
-    </style>
-
-    <style name="Chip.Mini.Outline">
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipBackgroundColor">?selector_chip_outline</item>
     </style>

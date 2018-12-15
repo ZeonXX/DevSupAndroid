@@ -113,7 +113,11 @@ object ToolsNotifications {
             showedNotifications.remove(tag)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                for (n in notificationManager.activeNotifications) if (n.tag.split(SPLITER)[1] == tag) notificationManager.cancel(n.tag, n.id)
+                for (n in notificationManager.activeNotifications) {
+                    val split = n.tag.split(SPLITER)
+                    if (split.size < 2)
+                        if (split[1] == tag) notificationManager.cancel(n.tag, n.id)
+                }
         }
 
         fun cancelAllOrByTagIfNotEmpty(tag: String) {
