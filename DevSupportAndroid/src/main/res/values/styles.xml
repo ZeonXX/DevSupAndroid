@@ -302,6 +302,7 @@
     <style name="Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="strokeColor">?color_stroke</item>
     </style>
 
     <style name="TextInputLayout">
