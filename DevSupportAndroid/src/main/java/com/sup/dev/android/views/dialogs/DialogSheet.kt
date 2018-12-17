@@ -47,6 +47,9 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
     }
 
+    override fun onBackPressed() {
+        if(onTryCancelOnTouchOutside()) super.onBackPressed()
+    }
 
     open fun onTryCancelOnTouchOutside(): Boolean {
         return true

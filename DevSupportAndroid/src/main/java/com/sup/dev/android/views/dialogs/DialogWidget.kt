@@ -27,6 +27,10 @@ class DialogWidget(private val widget: Widget) : Dialog(widget.view), WidgetView
         widget.onHide()
     }
 
+    override fun onTryCancelOnTouchOutside(): Boolean {
+        return widget.onTryCancelOnTouchOutside()
+    }
+
     //
     //  Setters
     //

@@ -47,6 +47,14 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
 
     }
 
+    override fun onBackPressed() {
+        if(onTryCancelOnTouchOutside()) super.onBackPressed()
+    }
+
+    open fun onTryCancelOnTouchOutside(): Boolean {
+        return true
+    }
+
     @CallSuper
     protected open fun onShow() {
 

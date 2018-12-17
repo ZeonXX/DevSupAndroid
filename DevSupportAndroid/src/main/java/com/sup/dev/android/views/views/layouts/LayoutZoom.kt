@@ -15,6 +15,7 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.geometry.Line
 import com.sup.dev.java.classes.geometry.Point
 import com.sup.dev.java.classes.items.RangeF
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -67,12 +68,12 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     private val zoomLine = Line()
     private var mid = Point()
 
-    constructor(context: Context) : this(context, null) {}
+    constructor(context: Context) : this(context, null)
 
     init {
 
         SupAndroid.initEditMode(this)
-        doubleTouchRadius = ToolsView.dpToPx(16f).toFloat()
+        doubleTouchRadius = ToolsView.dpToPx(16f)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutZoom, 0, 0)
         range.min = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.min)
@@ -98,8 +99,9 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
 
         if (motionEvent.pointerCount == 1 && motionEvent.action == MotionEvent.ACTION_DOWN)
             doubleTouch(motionEvent.x, motionEvent.y)
-        if (motionEvent.action == MotionEvent.ACTION_MOVE)
+        if (motionEvent.action == MotionEvent.ACTION_MOVE) {
             clearDoubleTouch()
+        }
 
         if (motionEvent.pointerCount == 1 && (motionEvent.action == MotionEvent.ACTION_MOVE || motionEvent.action == MotionEvent.ACTION_DOWN))
             move(motionEvent.x, motionEvent.y)
@@ -214,6 +216,8 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     //
 
     private fun updateParams() {
+
+        parent?.requestDisallowInterceptTouchEvent(zoom > 1.2)
 
         val vBound = boundsView
 
