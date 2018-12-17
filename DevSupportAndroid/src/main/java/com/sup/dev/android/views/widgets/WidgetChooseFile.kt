@@ -33,7 +33,7 @@ class WidgetChooseFile : WidgetRecycler() {
         rootFolder = Environment.getExternalStorageDirectory()
         currentFolder = rootFolder
 
-        vRecycler.layoutManager = LinearLayoutManager(view!!.context)
+        vRecycler.layoutManager = LinearLayoutManager(view.context)
         vRecycler.itemAnimator = null
         setAdapter<WidgetRecycler>(adapter as RecyclerCardAdapter)
         ToolsPermission.requestReadPermission { resetCards(rootFolder!!) }
@@ -59,8 +59,7 @@ class WidgetChooseFile : WidgetRecycler() {
 
 
     private fun checkType(f: File): Boolean {
-        if (fileTypes == null) return true
-        for (type in fileTypes!!) {
+        for (type in fileTypes) {
             val name = f.name.toLowerCase()
             val t = "$type."
             if (name.length > -t.length && name.substring(name.length - t.length) == t) return true

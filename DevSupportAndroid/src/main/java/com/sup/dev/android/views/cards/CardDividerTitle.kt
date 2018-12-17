@@ -1,36 +1,38 @@
 package com.sup.dev.android.views.cards
 
 import android.support.annotation.StringRes
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 
-class CardDividerTitle @JvmOverloads constructor(private var title: String? = null) : Card() {
+class CardDividerTitle constructor(private var title: String? = null) : Card() {
 
     private var background: Int = 0
-    private var divider = true
     private var enabled = true
+    private var dividerBottom = true
+    private var dividerTop = false
+    private var gravity = Gravity.LEFT
 
     constructor(@StringRes title: Int) : this(ToolsResources.getString(title)) {}
 
-
-    override fun getLayout(): Int {
-        return R.layout.card_divider_title
-    }
+    override fun getLayout() = R.layout.card_divider_title
 
     override fun bindView(view: View) {
         val vText = view.findViewById<TextView>(R.id.vText)
-        val vDivider1 = view.findViewById<View>(R.id.vDividerD1)
-        val vDivider2 = view.findViewById<View>(R.id.vDividerD2)
+        val vDividerTop = view.findViewById<View>(R.id.vDividerTop)
+        val vDividerBottom = view.findViewById<View>(R.id.vDividerBottom)
 
-        vDivider1.visibility = if (divider) View.VISIBLE else View.INVISIBLE
-        vDivider2.visibility = if (divider) View.VISIBLE else View.INVISIBLE
+        vDividerTop.visibility = if (dividerTop) View.VISIBLE else View.INVISIBLE
+        vDividerBottom.visibility = if (dividerBottom) View.VISIBLE else View.INVISIBLE
         if (background != 0) view.setBackgroundColor(background)
 
         vText.text = title
         vText.isEnabled = isEnabled()
+        (vText.layoutParams as FrameLayout.LayoutParams).gravity = gravity
     }
 
     //
@@ -59,8 +61,20 @@ class CardDividerTitle @JvmOverloads constructor(private var title: String? = nu
         return this
     }
 
-    fun setDivider(divider: Boolean): CardDividerTitle {
-        this.divider = divider
+    fun setDividerBottom(divider: Boolean): CardDividerTitle {
+        this.dividerBottom = divider
+        update()
+        return this
+    }
+
+    fun setDividerTop(divider: Boolean): CardDividerTitle {
+        this.dividerTop = divider
+        update()
+        return this
+    }
+
+    fun toCenter(): CardDividerTitle {
+        this.gravity = Gravity.CENTER
         update()
         return this
     }

@@ -103,7 +103,7 @@ open class WidgetMenu : WidgetRecycler() {
     @JvmOverloads
     fun group(title: String?, divider: Boolean = true): WidgetMenu {
         finishItemBuilding()
-        myAdapter.add(CardDividerTitle().setText(title).setDivider(divider))
+        myAdapter.add(CardDividerTitle().setText(title).setDividerBottom(divider))
         return this
     }
 
