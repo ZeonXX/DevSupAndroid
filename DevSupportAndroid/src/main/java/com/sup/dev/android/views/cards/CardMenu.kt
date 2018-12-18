@@ -17,8 +17,8 @@ open class CardMenu : Card() {
     var enabled = true
     var background: Int = 0
 
-    var text: String? = null
-    var description: String? = null
+    var text: String = ""
+    var description: String = ""
     var customColor: Boolean = false
     var textColor: Int = 0
     var icon: Int = 0
@@ -48,7 +48,7 @@ open class CardMenu : Card() {
 
         vDescription.text = description
         vDescription.isEnabled = enabled
-        vDescription.visibility = if (description != null && !description!!.isEmpty()) View.VISIBLE else View.GONE
+        vDescription.visibility = if (description.isNotEmpty()) View.VISIBLE else View.GONE
         vText.text = text
         vText.isEnabled = enabled
         if (customColor) vText.setTextColor(textColor)
@@ -97,17 +97,17 @@ open class CardMenu : Card() {
     }
 
     fun setText(text: String?): CardMenu {
-        this.text = text
+        this.text = text?:""
         update()
         return this
     }
 
     fun setDescription(@StringRes desc: Int): CardMenu {
-        return setDescription(ToolsResources.getString(text!!))
+        return setDescription(ToolsResources.getString(text))
     }
 
     fun setDescription(desc: String?): CardMenu {
-        this.description = desc
+        this.description = desc?:""
         update()
         return this
     }

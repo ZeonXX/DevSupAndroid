@@ -128,7 +128,7 @@ open class WidgetMenu : WidgetRecycler() {
         return add(ToolsResources.getString(text), onClick)
     }
 
-    fun add(text: String?, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
+    fun add(text: String, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
         finishItemBuilding()
         buildItem = Item()
         buildItem!!.text = text
@@ -140,7 +140,7 @@ open class WidgetMenu : WidgetRecycler() {
         return text(ToolsResources.getString(text))
     }
 
-    fun text(text: String?): WidgetMenu {
+    fun text(text: String): WidgetMenu {
         buildItem!!.text = text
         return this
     }
@@ -207,7 +207,7 @@ open class WidgetMenu : WidgetRecycler() {
 
         var card: CardMenu? = null
         var onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }
-        var text: String? = null
+        var text: String = ""
         var icon: Int = 0
         var bg: Int = 0
         var preferred: Boolean = false
