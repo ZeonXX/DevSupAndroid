@@ -5,6 +5,7 @@
     <attr name="content_background" format="color"/>
     <attr name="color_stroke" format="color"/>
     <attr name="color_interface_text" format="color"/>
+    <attr name="color_divider" format="color"/>
     <attr name="popup_background" format="color"/>
     <attr name="toolbarTitleColor" format="color"/>
     <attr name="ic_arrow_back" format="reference"/>
@@ -25,6 +26,7 @@
         <item name="colorPrimaryDark">@color/grey_825</item>
         <item name="colorPrimary">@color/grey_825</item>
         <item name="color_stroke">@color/grey_400</item>
+        <item name="color_divider">@color/focus</item>
         <item name="color_interface_text">@color/white</item>
         <item name="popup_background">@color/grey_700</item>
         <item name="colorAccent">@color/orange_a_700</item>
@@ -46,6 +48,7 @@
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>
+        <item name="color_divider">@color/focus</item>
         <item name="popup_background">@color/white</item>
         <item name="android:windowBackground">@color/grey_100</item>
         <item name="windowActionBar">false</item>
@@ -180,7 +183,7 @@
         <item name="android:id">@id/vDivider</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/focus</item>
+        <item name="android:background">?color_divider</item>
         <item name="android:layout_gravity">bottom</item>
     </style>
 

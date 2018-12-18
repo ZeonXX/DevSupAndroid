@@ -32,6 +32,7 @@ object ApiRequestsSupporter {
         request.onComplete { r -> onComplete.invoke(r) }
                 .onNetworkError { ToolsToast.show(R.string.error_network) }
                 .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_gone))) }
                 .send(api!!)
         return request
     }

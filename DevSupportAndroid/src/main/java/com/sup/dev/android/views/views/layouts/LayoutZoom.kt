@@ -15,7 +15,6 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.geometry.Line
 import com.sup.dev.java.classes.geometry.Point
 import com.sup.dev.java.classes.items.RangeF
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
