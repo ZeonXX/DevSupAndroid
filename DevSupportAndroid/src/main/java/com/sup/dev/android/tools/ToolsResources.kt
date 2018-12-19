@@ -8,18 +8,16 @@ import android.support.annotation.*
 import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 
 
 object ToolsResources {
 
-    fun sex(sex: Long, @StringRes m: Int, @StringRes w: Int): String {
-        if (sex == 0L) return s(m)
-        return s(w)
-    }
+    fun sex(sex: Long, @StringRes m: Int, @StringRes w: Int) = if (sex == 0L) s(m) else s(w)
 
     fun sCap(@StringRes r: Int, vararg args: Any): String {
-        return s(r, args).capitalize()
+        return s(r, *args).capitalize()
     }
 
     fun s(@StringRes r: Int, vararg args: Any): String {
