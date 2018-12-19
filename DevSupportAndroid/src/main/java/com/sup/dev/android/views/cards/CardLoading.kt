@@ -128,7 +128,7 @@ class CardLoading : Card() {
     }
 
     fun setActionMessage(@StringRes text: Int): CardLoading {
-        return setActionMessage(ToolsResources.getString(text))
+        return setActionMessage(ToolsResources.s(text))
     }
 
     fun setActionMessage(text: String?): CardLoading {
@@ -138,7 +138,7 @@ class CardLoading : Card() {
     }
 
     fun setActionButton(@StringRes text: Int, onAction: (CardLoading)->Unit): CardLoading {
-        return setActionButton(ToolsResources.getString(text), onAction)
+        return setActionButton(ToolsResources.s(text), onAction)
     }
 
     fun setActionButton(text: String?, onAction: (CardLoading)->Unit): CardLoading {
@@ -149,7 +149,7 @@ class CardLoading : Card() {
     }
 
     fun setRetryMessage(@StringRes text: Int): CardLoading {
-        return setRetryMessage(ToolsResources.getString(text))
+        return setRetryMessage(ToolsResources.s(text))
     }
 
     fun setRetryMessage(text: String?): CardLoading {
@@ -159,7 +159,7 @@ class CardLoading : Card() {
     }
 
     fun setRetryButton(@StringRes text: Int, onRetry: (CardLoading)->Unit): CardLoading {
-        return setRetryButton(ToolsResources.getString(text), onRetry)
+        return setRetryButton(ToolsResources.s(text), onRetry)
     }
 
     fun setRetryButton(text: String?, onRetry: (CardLoading)->Unit): CardLoading {

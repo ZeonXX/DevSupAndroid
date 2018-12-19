@@ -10,8 +10,6 @@ import android.view.View
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
@@ -72,7 +70,7 @@ object SupAndroid {
 
     private fun loadText(id: String): String? {
         try {
-            return ToolsResources.getString(id)
+            return ToolsResources.s(id)
         } catch (e: Resources.NotFoundException) {
             err("Init warning: can't find vText with id [$id]")
             return null

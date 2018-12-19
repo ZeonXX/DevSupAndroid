@@ -17,7 +17,7 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     private var dividerTop = false
     private var gravity = Gravity.LEFT
 
-    constructor(@StringRes title: Int) : this(ToolsResources.getString(title)) {}
+    constructor(@StringRes title: Int) : this(ToolsResources.s(title)) {}
 
     override fun getLayout() = R.layout.card_divider_title
 
@@ -52,7 +52,7 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     }
 
     fun setText(@StringRes title: Int): CardDividerTitle {
-        return setText(ToolsResources.getString(title))
+        return setText(ToolsResources.s(title))
     }
 
     fun setText(title: String?): CardDividerTitle {

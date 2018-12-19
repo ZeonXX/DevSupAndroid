@@ -89,11 +89,11 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setChecker(key: String, @StringRes text: Int): WidgetAlert {
-        return setChecker(key, ToolsResources.getString(text))
+        return setChecker(key, ToolsResources.s(text))
     }
 
     @JvmOverloads
-    fun setChecker(key: String, text: String? = ToolsResources.getString(R.string.app_dont_show_again)): WidgetAlert {
+    fun setChecker(key: String, text: String? = ToolsResources.s(R.string.app_dont_show_again)): WidgetAlert {
         this.key = key
         vCheck.text = text
         vCheck.visibility = View.VISIBLE
@@ -118,7 +118,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setTitleText(@StringRes topTitle: Int): WidgetAlert {
-        return setTitleText(ToolsResources.getString(topTitle))
+        return setTitleText(ToolsResources.s(topTitle))
     }
 
     fun setTitleText(topTitle: String?): WidgetAlert {
@@ -127,7 +127,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
-    fun addLine(text: Int) = addLine(ToolsResources.getString(text))
+    fun addLine(text: Int) = addLine(ToolsResources.s(text))
 
     fun addLine(text: String): WidgetAlert {
         vText.text = vText.text.toString() + "\n" + text
@@ -136,7 +136,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setText(@StringRes text: Int): WidgetAlert {
-        return setText(ToolsResources.getString(text))
+        return setText(ToolsResources.s(text))
     }
 
     fun setText(text: CharSequence?): WidgetAlert {
@@ -150,11 +150,11 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setOnEnter(@StringRes s: Int): WidgetAlert {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetAlert) -> Unit): WidgetAlert {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads
@@ -177,7 +177,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setOnCancel(@StringRes s: Int): WidgetAlert {
-        return setOnCancel(ToolsResources.getString(s), {})
+        return setOnCancel(ToolsResources.s(s), {})
     }
 
     fun setOnCancel(onCancel: (WidgetAlert) -> Unit): WidgetAlert {
@@ -185,7 +185,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetAlert) -> Unit): WidgetAlert {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads

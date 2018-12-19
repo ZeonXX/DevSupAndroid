@@ -56,7 +56,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     }
 
     fun add(@StringRes text: Int): WidgetRadioButtons {
-        return add(ToolsResources.getString(text))
+        return add(ToolsResources.s(text))
     }
 
     fun add(text: String?): WidgetRadioButtons {
@@ -82,7 +82,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     }
 
     fun text(@StringRes text: Int): WidgetRadioButtons {
-        return text(ToolsResources.getString(text))
+        return text(ToolsResources.s(text))
     }
 
     fun text(text: String?): WidgetRadioButtons {
@@ -121,7 +121,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     //
 
     fun setOnEnter(@StringRes s: Int): WidgetRadioButtons {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(s: String?): WidgetRadioButtons {
@@ -148,7 +148,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     }
 
     fun setOnCancel(@StringRes s: Int): WidgetRadioButtons {
-        return setOnCancel(ToolsResources.getString(s))
+        return setOnCancel(ToolsResources.s(s))
     }
 
     fun setOnCancel(onCancel: (WidgetRadioButtons) -> Unit): WidgetRadioButtons {
@@ -156,7 +156,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel:  (WidgetRadioButtons)->Unit = {}): WidgetRadioButtons {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads

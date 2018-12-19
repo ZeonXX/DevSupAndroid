@@ -25,11 +25,11 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
     }
 
     fun setOnEnter(@StringRes s: Int): WidgetChooseDate {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetChooseDate, Long) -> Unit): WidgetChooseDate {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads
@@ -62,7 +62,7 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetChooseDate) -> Unit): WidgetChooseDate {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     fun setOnCancel(s: String?, onCancel: (WidgetChooseDate) -> Unit = {}): WidgetChooseDate {

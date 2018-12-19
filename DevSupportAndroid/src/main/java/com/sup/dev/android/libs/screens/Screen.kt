@@ -16,8 +16,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
-import com.sup.dev.java.tools.ToolsThreads
-
 
 open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
 
@@ -102,7 +100,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
     }
 
     open fun setTitle(@StringRes title: Int) {
-        setTitle(ToolsResources.getString(title))
+        setTitle(ToolsResources.s(title))
     }
 
     open fun setTitle(title: String?) {

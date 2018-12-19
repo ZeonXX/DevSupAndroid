@@ -100,7 +100,7 @@ abstract class Widget(layoutRes: Int) {
     //
 
     open fun setTitle(@StringRes title: Int): Widget {
-        return setTitle(ToolsResources.getString(title))
+        return setTitle(ToolsResources.s(title))
     }
 
     open fun setTitle(title: String?): Widget {

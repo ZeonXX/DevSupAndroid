@@ -16,7 +16,7 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
     val view: View?
     private val vChip: ViewChip
 
-    constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: (View) -> Unit) : this(context, icon, ToolsResources.getString(text), onClickListener) {}
+    constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: (View) -> Unit) : this(context, icon, ToolsResources.s(text), onClickListener) {}
 
     init {
         view = ToolsView.inflate(context, R.layout.screen_activity_navigation_row)

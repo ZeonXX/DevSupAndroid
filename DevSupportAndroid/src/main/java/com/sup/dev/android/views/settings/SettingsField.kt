@@ -99,7 +99,7 @@ class SettingsField constructor(
     }
 
     fun setError(error: Int) {
-        setError(ToolsResources.getString(error))
+        setError(ToolsResources.s(error))
     }
 
     fun setError(error: String?) {
@@ -129,7 +129,7 @@ class SettingsField constructor(
     }
 
     fun setHint(@StringRes hintRes: Int) {
-        setHint(ToolsResources.getString(hintRes))
+        setHint(ToolsResources.s(hintRes))
     }
 
     fun setHint(hint: String?) {

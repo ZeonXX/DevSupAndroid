@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.support.annotation.ColorInt
@@ -112,7 +111,7 @@ object ToolsView {
     }
 
     fun showProgressDialog(title: Int): WidgetProgressWithTitle {
-        return showProgressDialog(ToolsResources.getString(title))
+        return showProgressDialog(ToolsResources.s(title))
     }
 
     fun showProgressDialog(title: String?): WidgetProgressWithTitle {

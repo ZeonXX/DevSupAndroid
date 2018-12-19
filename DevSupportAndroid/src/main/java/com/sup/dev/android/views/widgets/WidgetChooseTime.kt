@@ -33,11 +33,11 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
     }
 
     fun setOnEnter(@StringRes s: Int): WidgetChooseTime {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetChooseTime, Int, Int) -> Unit): WidgetChooseTime {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads
@@ -64,7 +64,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetChooseTime) -> Unit): WidgetChooseTime {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads

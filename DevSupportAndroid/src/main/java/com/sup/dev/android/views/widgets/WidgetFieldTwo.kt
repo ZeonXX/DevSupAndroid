@@ -189,7 +189,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
     fun addChecker_1(@StringRes errorText: Int, checker: (String) -> Boolean): WidgetFieldTwo {
-        return addChecker_1(ToolsResources.getString(errorText), checker)
+        return addChecker_1(ToolsResources.s(errorText), checker)
     }
 
     fun addChecker_1(checker: (String) -> Boolean): WidgetFieldTwo {
@@ -203,7 +203,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
     fun addChecker_2(@StringRes errorText: Int, checker: (String) -> Boolean): WidgetFieldTwo {
-        return addChecker_2(ToolsResources.getString(errorText), checker)
+        return addChecker_2(ToolsResources.s(errorText), checker)
     }
 
     fun addChecker_2(checker: (String) -> Boolean): WidgetFieldTwo {
@@ -217,7 +217,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
     fun setHint_1(@StringRes hint: Int): WidgetFieldTwo {
-        return setHint_1(ToolsResources.getString(hint))
+        return setHint_1(ToolsResources.s(hint))
     }
 
     fun setHint_1(hint: String?): WidgetFieldTwo {
@@ -226,7 +226,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
     fun setHint_2(@StringRes hint: Int): WidgetFieldTwo {
-        return setHint_2(ToolsResources.getString(hint))
+        return setHint_2(ToolsResources.s(hint))
     }
 
     fun setHint_2(hint: String?): WidgetFieldTwo {
@@ -267,11 +267,11 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
     fun setOnCancel(@StringRes s: Int): WidgetFieldTwo {
-        return setOnCancel(ToolsResources.getString(s))
+        return setOnCancel(ToolsResources.s(s))
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetFieldTwo) -> Unit): WidgetFieldTwo {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads
@@ -288,7 +288,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
 
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetFieldTwo, String, String) -> Unit = { w, s1, s2 -> }): WidgetFieldTwo {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads

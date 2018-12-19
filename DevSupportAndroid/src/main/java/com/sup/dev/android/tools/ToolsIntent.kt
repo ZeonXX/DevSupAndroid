@@ -56,7 +56,7 @@ object ToolsIntent {
 
     fun openApp(stringID: Int) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(ToolsResources.getString(stringID))
+        intent.data = Uri.parse(ToolsResources.s(stringID))
         SupAndroid.appContext!!.startActivity(intent)
     }
 

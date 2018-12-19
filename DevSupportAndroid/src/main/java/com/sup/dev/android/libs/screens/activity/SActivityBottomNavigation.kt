@@ -5,7 +5,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import com.sup.dev.android.views.views.ViewChip
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -123,7 +122,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     }
 
     fun addNavigationItem(@StringRes text: Int, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {
-        return addNavigationItem(ToolsResources.getString(text), icon, onClick)
+        return addNavigationItem(ToolsResources.s(text), icon, onClick)
     }
 
     fun addNavigationItem(text: String, @DrawableRes icon: Int, onClick: () -> Unit): WidgetMenu {

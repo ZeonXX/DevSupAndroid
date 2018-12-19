@@ -8,26 +8,33 @@ import android.support.annotation.*
 import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsColor
-import java.io.InputStream
 
 
 object ToolsResources {
 
-    fun getString(@StringRes r: Int, vararg args: Any): String {
-        return String.format(getString(r), *args)
+    fun sex(sex: Long, @StringRes m: Int, @StringRes w: Int): String {
+        if (sex == 0L) return s(m)
+        return s(w)
+    }
+
+    fun sCap(@StringRes r: Int, vararg args: Any): String {
+        return s(r, args).capitalize()
+    }
+
+    fun s(@StringRes r: Int, vararg args: Any): String {
+        return String.format(s(r), *args)
     }
 
     fun getStringId(name: String): Int {
         return SupAndroid.appContext!!.resources.getIdentifier(name, "string", SupAndroid.appContext!!.packageName)
     }
 
-    fun getString(name: String): String {
-        return getString(getStringId(name))
+    fun s(name: String): String {
+        return s(getStringId(name))
     }
 
-    fun getString(@StringRes r: Int): String {
+    fun s(@StringRes r: Int): String {
         return SupAndroid.appContext!!.resources.getString(r)
     }
 

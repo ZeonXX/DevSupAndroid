@@ -69,7 +69,7 @@ class CardMessage : Card() {
     }
 
     fun setText(@StringRes text: Int): CardMessage {
-        return setText(ToolsResources.getString(text))
+        return setText(ToolsResources.s(text))
     }
 
     fun setText(text: String?): CardMessage {
@@ -79,7 +79,7 @@ class CardMessage : Card() {
     }
 
     fun setAction(@StringRes text: Int, onActionClicked: ()->Unit): CardMessage {
-        return setAction(ToolsResources.getString(text), onActionClicked)
+        return setAction(ToolsResources.s(text), onActionClicked)
     }
 
     fun setAction(actionText: String?, onActionClicked: ()->Unit): CardMessage {

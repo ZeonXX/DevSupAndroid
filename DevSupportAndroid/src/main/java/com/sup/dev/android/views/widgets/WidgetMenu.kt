@@ -93,11 +93,11 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     fun group(@StringRes title: Int): WidgetMenu {
-        return group(ToolsResources.getString(title))
+        return group(ToolsResources.s(title))
     }
 
     fun group(@StringRes title: Int, divider: Boolean): WidgetMenu {
-        return group(ToolsResources.getString(title), divider)
+        return group(ToolsResources.s(title), divider)
     }
 
     @JvmOverloads
@@ -121,11 +121,11 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     fun add(@StringRes text: Int): WidgetMenu {
-        return add(ToolsResources.getString(text))
+        return add(ToolsResources.s(text))
     }
 
     fun add(@StringRes text: Int, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
-        return add(ToolsResources.getString(text), onClick)
+        return add(ToolsResources.s(text), onClick)
     }
 
     fun add(text: String, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
@@ -137,7 +137,7 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     fun text(@StringRes text: Int): WidgetMenu {
-        return text(ToolsResources.getString(text))
+        return text(ToolsResources.s(text))
     }
 
     fun text(text: String): WidgetMenu {

@@ -16,7 +16,7 @@ object ToolsToast {
     }
 
     fun show(@StringRes textRes: Int, vararg args: Any) {
-        show(ToolsResources.getString(textRes, *args))
+        show(ToolsResources.s(textRes, *args))
     }
 
     fun show(text: String?) {
@@ -54,7 +54,7 @@ object ToolsToast {
     }
 
     fun showIfLocked(v: View, @StringRes textRes: Int) {
-        showIfLocked(v, ToolsResources.getString(textRes))
+        showIfLocked(v, ToolsResources.s(textRes))
     }
 
     fun showIfLocked(v: View, text: String?) {

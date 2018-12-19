@@ -139,7 +139,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun addChecker(@StringRes errorText: Int, checker: (String) -> Boolean): WidgetField {
-        return addChecker(ToolsResources.getString(errorText), checker)
+        return addChecker(ToolsResources.s(errorText), checker)
     }
 
     fun addChecker(checker: (String) -> Boolean): WidgetField {
@@ -153,7 +153,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun setHint(@StringRes hint: Int): WidgetField {
-        return setHint(ToolsResources.getString(hint))
+        return setHint(ToolsResources.s(hint))
     }
 
     fun setHint(hint: String?): WidgetField {
@@ -183,11 +183,11 @@ open class WidgetField : Widget(R.layout.widget_field) {
     }
 
     fun setOnCancel(@StringRes s: Int): WidgetField {
-        return setOnCancel(ToolsResources.getString(s))
+        return setOnCancel(ToolsResources.s(s))
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetField) -> Unit): WidgetField {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads
@@ -204,7 +204,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
 
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads

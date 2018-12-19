@@ -232,7 +232,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     }
 
     fun setRetryMessage(@StringRes message: Int, @StringRes button: Int): RecyclerCardAdapterLoading<K, V> {
-        return setRetryMessage(ToolsResources.getString(message), ToolsResources.getString(button))
+        return setRetryMessage(ToolsResources.s(message), ToolsResources.s(button))
     }
 
     fun setRetryMessage(message: String?, button: String?): RecyclerCardAdapterLoading<K, V> {
@@ -247,11 +247,11 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     }
 
     fun setEmptyMessage(@StringRes message: Int): RecyclerCardAdapterLoading<K, V> {
-        return setEmptyMessage(ToolsResources.getString(message))
+        return setEmptyMessage(ToolsResources.s(message))
     }
 
     fun setEmptyMessage(@StringRes message: Int, @StringRes button: Int, onAction: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        return setEmptyMessage(ToolsResources.getString(message), ToolsResources.getString(button), onAction)
+        return setEmptyMessage(ToolsResources.s(message), ToolsResources.s(button), onAction)
     }
 
     @JvmOverloads

@@ -93,7 +93,7 @@ open class CardMenu : Card() {
     }
 
     fun setText(@StringRes text: Int): CardMenu {
-        return setText(ToolsResources.getString(text))
+        return setText(ToolsResources.s(text))
     }
 
     fun setText(text: String?): CardMenu {
@@ -103,7 +103,7 @@ open class CardMenu : Card() {
     }
 
     fun setDescription(@StringRes desc: Int): CardMenu {
-        return setDescription(ToolsResources.getString(text))
+        return setDescription(ToolsResources.s(text))
     }
 
     fun setDescription(desc: String?): CardMenu {

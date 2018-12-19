@@ -90,7 +90,7 @@ open class CardSpoiler : Card() {
     }
 
     open fun setTitle(@StringRes title: Int): CardSpoiler {
-        return setTitle(ToolsResources.getString(title))
+        return setTitle(ToolsResources.s(title))
     }
 
     fun setTitle(title: String?): CardSpoiler {

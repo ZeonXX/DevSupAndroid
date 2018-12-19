@@ -29,7 +29,7 @@ class SettingsTitle @JvmOverloads constructor(context: Context, attrs: Attribute
     //
 
     fun setTitle(@StringRes title: Int) {
-        setTitle(ToolsResources.getString(title))
+        setTitle(ToolsResources.s(title))
     }
 
     fun setTitle(title: String?) {

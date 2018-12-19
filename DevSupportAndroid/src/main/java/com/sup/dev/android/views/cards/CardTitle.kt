@@ -17,7 +17,7 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
     private var customColor: Boolean = false
     private var textColor: Int = 0
 
-    constructor(@StringRes title: Int) : this(ToolsResources.getString(title)) {}
+    constructor(@StringRes title: Int) : this(ToolsResources.s(title)) {}
 
     init {
         setTitle(title)
@@ -62,7 +62,7 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
     }
 
     fun setTitle(@StringRes title: Int): CardTitle {
-        return setTitle(ToolsResources.getString(title))
+        return setTitle(ToolsResources.s(title))
     }
 
     fun setTitle(title: String?): CardTitle {

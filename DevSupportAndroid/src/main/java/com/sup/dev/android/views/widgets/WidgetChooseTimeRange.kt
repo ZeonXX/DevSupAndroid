@@ -31,15 +31,15 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
         vStart.setOnClickListener { v ->
             WidgetChooseTime()
-                .setOnCancel(ToolsResources.getString(R.string.app_cancel))
-                .setOnEnter(ToolsResources.getString(R.string.app_choose)) { dialog, h, m -> setTimeStart(h, m) }
+                .setOnCancel(ToolsResources.s(R.string.app_cancel))
+                .setOnEnter(ToolsResources.s(R.string.app_choose)) { dialog, h, m -> setTimeStart(h, m) }
                 .asSheetShow()
         }
 
         vEnd.setOnClickListener { v ->
             WidgetChooseTime()
-                .setOnCancel(ToolsResources.getString(R.string.app_cancel))
-                .setOnEnter(ToolsResources.getString(R.string.app_choose)) { dialog, h, m -> setTimeEnd(h, m) }
+                .setOnCancel(ToolsResources.s(R.string.app_cancel))
+                .setOnEnter(ToolsResources.s(R.string.app_choose)) { dialog, h, m -> setTimeEnd(h, m) }
                 .asSheetShow()
         }
 
@@ -66,11 +66,11 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     }
 
     fun setOnEnter(@StringRes s: Int): WidgetChooseTimeRange {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit): WidgetChooseTimeRange {
-        return setOnEnter(ToolsResources.getString(s), onEnter)
+        return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads
@@ -99,7 +99,7 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetChooseTimeRange) -> Unit): WidgetChooseTimeRange {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads

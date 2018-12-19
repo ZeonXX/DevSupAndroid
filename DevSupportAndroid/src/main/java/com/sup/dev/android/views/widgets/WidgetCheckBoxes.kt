@@ -10,7 +10,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
 
@@ -55,11 +54,11 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     }
 
     fun add(@StringRes text: Int): WidgetCheckBoxes {
-        return add(ToolsResources.getString(text))
+        return add(ToolsResources.s(text))
     }
 
     fun add(@StringRes text: Int, key: Any): WidgetCheckBoxes {
-        return add(ToolsResources.getString(text), key)
+        return add(ToolsResources.s(text), key)
     }
 
     fun add(text: String): WidgetCheckBoxes {
@@ -89,7 +88,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     }
 
     fun text(@StringRes text: Int): WidgetCheckBoxes {
-        return text(ToolsResources.getString(text))
+        return text(ToolsResources.s(text))
     }
 
     fun text(text: String?): WidgetCheckBoxes {
@@ -128,7 +127,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     //
 
     fun setOnEnter(@StringRes s: Int): WidgetCheckBoxes {
-        return setOnEnter(ToolsResources.getString(s))
+        return setOnEnter(ToolsResources.s(s))
     }
 
     fun setOnEnter(s: String?): WidgetCheckBoxes {
@@ -158,7 +157,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     }
 
     fun setOnCancel(@StringRes s: Int, onCancel: (WidgetCheckBoxes) -> Unit): WidgetCheckBoxes {
-        return setOnCancel(ToolsResources.getString(s), onCancel)
+        return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads

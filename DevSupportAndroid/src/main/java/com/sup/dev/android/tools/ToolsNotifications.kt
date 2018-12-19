@@ -26,7 +26,7 @@ object ToolsNotifications {
 
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    fun instanceGroup(groupId: Int, name: Int) = instanceGroup(groupId, ToolsResources.getString(name))
+    fun instanceGroup(groupId: Int, name: Int) = instanceGroup(groupId, ToolsResources.s(name))
 
     fun instanceGroup(groupId: Int, name: String): String {
         val id = "group_$groupId"
@@ -154,11 +154,11 @@ object ToolsNotifications {
         //
 
         fun setName(name: Int): Chanel {
-            return setName(ToolsResources.getString(name))
+            return setName(ToolsResources.s(name))
         }
 
         fun setDescription(description: Int): Chanel {
-            return setName(ToolsResources.getString(description))
+            return setName(ToolsResources.s(description))
         }
 
         fun setDescription(description: String): Chanel {

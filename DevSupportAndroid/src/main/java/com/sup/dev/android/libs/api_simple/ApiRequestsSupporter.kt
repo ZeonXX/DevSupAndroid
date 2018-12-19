@@ -16,7 +16,6 @@ import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsDate
 
 object ApiRequestsSupporter {
@@ -31,8 +30,8 @@ object ApiRequestsSupporter {
     fun <K : Request.Response> execute(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         request.onComplete { r -> onComplete.invoke(r) }
                 .onNetworkError { ToolsToast.show(R.string.error_network) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(String.format(ToolsResources.getString(R.string.error_gone))) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.s(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(String.format(ToolsResources.s(R.string.error_gone))) }
                 .send(api!!)
         return request
     }
@@ -60,7 +59,7 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeProgressDialog(@StringRes title: Int, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
-        return executeProgressDialog(ToolsResources.getString(title), request, onComplete)
+        return executeProgressDialog(ToolsResources.s(title), request, onComplete)
     }
 
     fun <K : Request.Response> executeProgressDialog(title: String?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
@@ -78,7 +77,7 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeProgressDialog(@StringRes title: Int, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
-        return executeProgressDialog(ToolsResources.getString(title), request, onComplete)
+        return executeProgressDialog(ToolsResources.s(title), request, onComplete)
     }
 
     fun <K : Request.Response> executeProgressDialog(title: String?, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
@@ -110,7 +109,7 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeEnabledConfirm(@StringRes text: Int, @StringRes enter: Int, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
-        return executeEnabledConfirm(ToolsResources.getString(text), ToolsResources.getString(enter), request, onComplete)
+        return executeEnabledConfirm(ToolsResources.s(text), ToolsResources.s(enter), request, onComplete)
     }
 
     fun <K : Request.Response> executeEnabledConfirm(text: String, enter: String, request: Request<K>, onComplete: (K) -> Unit): Request<K> {

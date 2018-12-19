@@ -18,7 +18,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
-    protected var textErrorRetry = ToolsResources.getString(R.string.app_retry)
+    protected var textErrorRetry = ToolsResources.s(R.string.app_retry)
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
@@ -32,7 +32,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         get() = 5
 
     init {
-        textErrorNetwork = ToolsResources.getString(R.string.error_network)
+        textErrorNetwork = ToolsResources.s(R.string.error_network)
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         if (vRefresh != null)

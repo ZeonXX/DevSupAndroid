@@ -12,11 +12,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -33,8 +31,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
-    protected var textErrorNetwork = ToolsResources.getString(R.string.error_network)
-    protected var textRetry = ToolsResources.getString(R.string.app_retry)
+    protected var textErrorNetwork = ToolsResources.s(R.string.error_network)
+    protected var textRetry = ToolsResources.s(R.string.app_retry)
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
     protected var textProgressAction: String? = null
@@ -62,19 +60,19 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {
-        textErrorNetwork = ToolsResources.getString(t)
+        textErrorNetwork = ToolsResources.s(t)
     }
 
     protected fun setTextRetry(@StringRes t: Int) {
-        textRetry = ToolsResources.getString(t)
+        textRetry = ToolsResources.s(t)
     }
 
     protected fun setTextEmpty(@StringRes t: Int) {
-        setTextEmpty(ToolsResources.getString(t))
+        setTextEmpty(ToolsResources.s(t))
     }
 
     protected fun setAction(@StringRes textAction: Int, onAction: () -> Unit) {
-        setAction(ToolsResources.getString(textAction), onAction)
+        setAction(ToolsResources.s(textAction), onAction)
     }
 
     protected fun clearAction(){
@@ -109,7 +107,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     override fun setTitle(@StringRes title: Int) {
-        setTitle(ToolsResources.getString(title))
+        setTitle(ToolsResources.s(title))
     }
 
     override fun setTitle(title: String?) {
