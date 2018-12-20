@@ -29,6 +29,7 @@ abstract class Widget(layoutRes: Int) {
     var isCancelable = true
     var isUseMoreScreenSpace = false
     protected var viewWrapper: WidgetViewWrapper? = null
+    private var hideCalled = false
 
     //
     //  Getters
@@ -51,8 +52,14 @@ abstract class Widget(layoutRes: Int) {
         return null
     }
 
+    fun hideCancel() {
+        hideCalled = false
+    }
+
     fun hide() {
-        ToolsThreads.main {
+        hideCalled = true
+        ToolsThreads.main(true) {
+            if (!hideCalled) return@main
             if (viewWrapper != null) viewWrapper!!.hideWidget<WidgetViewWrapper>()
             Unit
         }
@@ -85,7 +92,7 @@ abstract class Widget(layoutRes: Int) {
         }
 
         if (viewWrapper is DialogSheetWidget && isUseMoreScreenSpace) {
-            val layoutMaxSizes:LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
+            val layoutMaxSizes: LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
             layoutMaxSizes.setMaxHeightParentPercent(90f)
         }
     }
@@ -182,7 +189,7 @@ abstract class Widget(layoutRes: Int) {
     }
 
     @JvmOverloads
-    fun showPopupWhenClick(view: View, willShow: (()->Boolean)? = null): Widget {
+    fun showPopupWhenClick(view: View, willShow: (() -> Boolean)? = null): Widget {
         ToolsView.setOnClickCoordinates(view) { view1, x, y ->
             if (willShow == null || willShow.invoke()) asPopup().show<Popup>(view1, x, y)
             Unit
@@ -198,11 +205,11 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
-    fun showPopupWhenClickAndLongClick(view: View, willShowClick: ()->Boolean): Widget {
+    fun showPopupWhenClickAndLongClick(view: View, willShowClick: () -> Boolean): Widget {
         return showPopupWhenClickAndLongClick(view, willShowClick, null)
     }
 
-    fun showPopupWhenClickAndLongClick(view: View, willShowClick: (()->Boolean)?, willShowLongClick: (()->Boolean)?): Widget {
+    fun showPopupWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
         ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
             if (isClick) {
                 if (willShowClick == null || willShowClick.invoke()) asPopup().show<Popup>(view1, x, y)

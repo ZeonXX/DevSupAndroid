@@ -111,6 +111,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
     fun setMax(max: Int): WidgetField {
         this.max = max
         vFieldWidget.vFieldLayout.counterMaxLength = max
+        vFieldWidget.vFieldLayout.isCounterEnabled = true
         return this
     }
 

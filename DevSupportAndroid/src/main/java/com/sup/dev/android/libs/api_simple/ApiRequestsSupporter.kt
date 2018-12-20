@@ -98,6 +98,7 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeEnabled(widget: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         widget?.setEnabled(false)
+        widget?.hideCancel()
         return execute(request) { r ->
             onComplete.invoke(r)
             widget?.hide()

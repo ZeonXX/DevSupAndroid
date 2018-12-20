@@ -274,7 +274,6 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
-    @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetFieldTwo) -> Unit = {}): WidgetFieldTwo {
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.visibility = View.VISIBLE
@@ -291,7 +290,6 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
-    @JvmOverloads
     fun setOnEnter(s: String?, onEnter: (WidgetFieldTwo, String, String) -> Unit = { w, s1, s2 -> }): WidgetFieldTwo {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { v ->

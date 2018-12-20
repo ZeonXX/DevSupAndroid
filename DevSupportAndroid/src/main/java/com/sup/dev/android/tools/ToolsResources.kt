@@ -8,7 +8,6 @@ import android.support.annotation.*
 import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 
 
