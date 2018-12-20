@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.PopupWindow
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
