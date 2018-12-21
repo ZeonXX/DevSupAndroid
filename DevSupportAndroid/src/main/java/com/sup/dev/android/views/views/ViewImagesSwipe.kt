@@ -25,7 +25,7 @@ class ViewImagesSwipe constructor(
 ) : RecyclerView(context, attrs) {
 
     private val adapter = RecyclerCardAdapter()
-    private var onClickGlobal:(CardSwipe<Any>) -> Boolean = {false}
+    private var onClickGlobal: (CardSwipe<Any>) -> Boolean = { false }
 
     init {
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -38,9 +38,9 @@ class ViewImagesSwipe constructor(
         adapter.clear()
     }
 
-    fun add(id: Long, fullId:Long = id, w:Int=0, h:Int=0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
         if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
-        adapter.add(CardSwipeId(id, fullId, onClick, onLongClick))
+        adapter.add(CardSwipeId(id, fullId, w, h, onClick, onLongClick))
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
@@ -48,19 +48,19 @@ class ViewImagesSwipe constructor(
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
     }
 
-    fun remove(index:Int){
+    fun remove(index: Int) {
         adapter.remove(adapter[CardSwipe::class][index])
     }
 
-    fun scrollToEnd(){
-        scrollToPosition(adapter.size()-1)
+    fun scrollToEnd() {
+        scrollToPosition(adapter.size() - 1)
     }
 
     //
     //  Setters
     //
 
-    fun setOnClickGlobal(onClickGlobal:(CardSwipe<Any>) -> Boolean){
+    fun setOnClickGlobal(onClickGlobal: (CardSwipe<Any>) -> Boolean) {
         this.onClickGlobal = onClickGlobal
     }
 
@@ -96,7 +96,7 @@ class ViewImagesSwipe constructor(
         override fun bindView(view: View) {
             val vImage: ImageView = view.findViewById(R.id.vImage)
             view.setOnClickListener {
-                if(onClickGlobal(this as CardSwipe<Any>)) return@setOnClickListener
+                if (onClickGlobal(this as CardSwipe<Any>)) return@setOnClickListener
                 else if (onClick == null) toImageView()
                 else onClick.invoke(getSource())
             }
@@ -141,12 +141,14 @@ class ViewImagesSwipe constructor(
     inner class CardSwipeId(
             val id: Long,
             val fullId: Long,
+            val w: Int,
+            val h: Int,
             onClick: ((Long) -> Unit)?,
             onLongClick: ((Long) -> Unit)? = null
     ) : CardSwipe<Long>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            ToolsImagesLoader.load(id).into(vImage)
+            ToolsImagesLoader.load(id).size(w, h).into(vImage)
         }
 
         override fun toImageView() {
