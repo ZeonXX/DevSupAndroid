@@ -38,7 +38,7 @@ class ViewImagesSwipe constructor(
         adapter.clear()
     }
 
-    fun add(id: Long, fullId:Long = id, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
+    fun add(id: Long, fullId:Long = id, w:Int=0, h:Int=0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
         if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
         adapter.add(CardSwipeId(id, fullId, onClick, onLongClick))
     }
