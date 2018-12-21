@@ -115,7 +115,7 @@ object ToolsNotifications {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 for (n in notificationManager.activeNotifications) {
                     val split = n.tag.split(SPLITER)
-                    if (split.size < 2)
+                    if (split.size > 1)
                         if (split[1] == tag) notificationManager.cancel(n.tag, n.id)
                 }
         }
