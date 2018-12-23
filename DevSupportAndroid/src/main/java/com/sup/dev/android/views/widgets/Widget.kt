@@ -227,6 +227,12 @@ abstract class Widget(layoutRes: Int) {
         return screen
     }
 
+    fun asScreenTo(): SWidget {
+        val screen = asScreen()
+        Navigator.to(screen)
+        return screen
+    }
+
     fun asScreen(action: NavigationAction): SWidget {
         val screen = asScreen()
         Navigator.action(action, screen)
