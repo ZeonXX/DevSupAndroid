@@ -73,7 +73,6 @@ object Navigator {
         to(screen, Animation.ALPHA)
     }
 
-    @JvmOverloads
     fun set(screen: Screen, animation: Animation = Animation.ALPHA) {
         while (currentStack.backStack.size != 0) removeScreen(currentStack.backStack[0])
         to(screen, animation)
@@ -177,7 +176,7 @@ object Navigator {
 
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
             val onBack = onBackCallbacks.removeAt(i)
-            if (onBack.invoke()!!) return true
+            if (onBack.invoke()) return true
         }
 
         return getCurrent() != null && getCurrent()!!.onBackPressed() || back()
@@ -221,7 +220,6 @@ object Navigator {
     fun removeOnBackScreenListener(onBack: (Screen?, Screen?) -> Unit) {
         Navigator.onBack.remove(onBack)
     }
-
 
     fun addOnBack(onBack: ()->Boolean) {
         if (onBackCallbacks.contains(onBack)) onBackCallbacks.remove(onBack)
