@@ -6,32 +6,68 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SImageView
+import com.sup.dev.java.libs.debug.log
 
 
 class ViewImagesSwipe constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : RecyclerView(context, attrs) {
+) : FrameLayout(context, attrs) {
 
+    private val vRecycler = RecyclerView(context)
+    private val vNext:ViewIcon = ToolsView.inflate(R.layout.z_icon)
+    private val vBack:ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val adapter = RecyclerCardAdapter()
     private var onClickGlobal: (CardSwipe<Any>) -> Boolean = { false }
 
     init {
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
         adapter.setCardH(ViewGroup.LayoutParams.MATCH_PARENT)
-        layoutManager = LinearLayoutManager(context, GridLayoutManager.HORIZONTAL, false)
-        setAdapter(adapter)
+        vRecycler.layoutManager = LinearLayoutManager(context, GridLayoutManager.HORIZONTAL, false)
+        vRecycler.adapter = adapter
+
+        vNext.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
+        vBack.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
+        vNext.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp)
+        vBack.setImageResource(R.drawable.ic_keyboard_arrow_left_white_24dp)
+
+        addView(vRecycler)
+        addView(vNext)
+        addView(vBack)
+        vNext.layoutParams.width = ToolsView.dpToPx(48).toInt()
+        vNext.layoutParams.height = ToolsView.dpToPx(48).toInt()
+        (vNext.layoutParams as LayoutParams).gravity = Gravity.RIGHT or Gravity.CENTER
+        (vNext.layoutParams as LayoutParams).rightMargin = ToolsView.dpToPx(8).toInt()
+        vBack.layoutParams.width = ToolsView.dpToPx(48).toInt()
+        vBack.layoutParams.height = ToolsView.dpToPx(48).toInt()
+        (vBack.layoutParams as LayoutParams).gravity = Gravity.LEFT or Gravity.CENTER
+        (vBack.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(8).toInt()
+
+        vNext.setOnClickListener {
+            log("vNext")
+        }
+        vBack.setOnClickListener {
+            log("vBack")
+        }
+        vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                log("onScrollStateChanged $newState")
+            }
+        })
     }
 
     fun clear() {
@@ -53,7 +89,7 @@ class ViewImagesSwipe constructor(
     }
 
     fun scrollToEnd() {
-        scrollToPosition(adapter.size() - 1)
+        vRecycler.scrollToPosition(adapter.size() - 1)
     }
 
     //

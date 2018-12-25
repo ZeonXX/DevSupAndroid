@@ -188,13 +188,13 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     //  Getters
     //
 
-    fun getMaxWidth(): Int {
-        return maxWidth
-    }
+    fun isCroppedW() = isCroppedW
 
-    fun getMaxHeight(): Int {
-        return maxHeight
-    }
+    fun isCroppedH() = isCroppedH
+
+    fun getMaxWidth() = maxWidth
+
+    fun getMaxHeight() = maxHeight
 
 
 }
