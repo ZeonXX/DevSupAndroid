@@ -60,9 +60,13 @@ abstract class Widget(layoutRes: Int) {
         hideCalled = true
         ToolsThreads.main(true) {
             if (!hideCalled) return@main
-            if (viewWrapper != null) viewWrapper!!.hideWidget<WidgetViewWrapper>()
-            Unit
+            hideForce()
         }
+    }
+
+    fun hideForce(){
+        hideCalled = true
+        if (viewWrapper != null) viewWrapper!!.hideWidget<WidgetViewWrapper>()
     }
 
     protected fun <K : View> findViewById(@IdRes id: Int): K {

@@ -19,6 +19,7 @@ import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 

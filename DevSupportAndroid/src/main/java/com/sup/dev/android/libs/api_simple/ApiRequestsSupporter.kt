@@ -16,6 +16,7 @@ import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsDate
 
 object ApiRequestsSupporter {
@@ -44,14 +45,17 @@ object ApiRequestsSupporter {
             if (Navigator.getCurrent() === sInterstitialProgress) {
                 Navigator.replace(onComplete.invoke(r))
             }
-        }.onNetworkError {
-            if (Navigator.getCurrent() === sInterstitialProgress) {
-                SAlert.showNetwork(Navigator.REPLACE) {
-                    Navigator.replace(sInterstitialProgress)
-                    request.send(api!!)
-                }
-            }
         }
+                .onApiError(ApiClient.ERROR_GONE) {
+                    if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE)
+                }
+                .onNetworkError {
+                    if (Navigator.getCurrent() === sInterstitialProgress)
+                        SAlert.showNetwork(Navigator.REPLACE) {
+                            Navigator.replace(sInterstitialProgress)
+                            request.send(api!!)
+                        }
+                }
     }
 
     fun <K : Request.Response> executeProgressDialog(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
@@ -101,11 +105,11 @@ object ApiRequestsSupporter {
         widget?.hideCancel()
         return execute(request) { r ->
             onComplete.invoke(r)
-            widget?.hide()
+            widget?.hideForce()
         }.onFinish {
             widget?.setEnabled(true)
-            if (widget != null && widget is WidgetProgressTransparent) widget.hide()
-            if (widget != null && widget is WidgetProgressWithTitle) widget.hide()
+            if (widget != null && widget is WidgetProgressTransparent) widget.hideForce()
+            if (widget != null && widget is WidgetProgressWithTitle) widget.hideForce()
         }
     }
 

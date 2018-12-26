@@ -19,6 +19,8 @@ import com.sup.dev.java.tools.ToolsThreads
 class SImageView private constructor()
     : Screen(R.layout.screen_image_view) {
 
+    //  Запрещено необосновано выставлять отрицательные оценки всем публикациям подряд.
+
     private val vPager: ViewPager = findViewById(R.id.vPager)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
