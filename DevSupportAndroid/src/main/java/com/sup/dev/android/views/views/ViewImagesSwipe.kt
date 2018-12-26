@@ -20,7 +20,6 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SImageView
-import com.sup.dev.java.libs.debug.log
 
 
 class ViewImagesSwipe constructor(
@@ -29,8 +28,8 @@ class ViewImagesSwipe constructor(
 ) : FrameLayout(context, attrs) {
 
     private val vRecycler = RecyclerView(context)
-    private val vNext:ViewIcon = ToolsView.inflate(R.layout.z_icon)
-    private val vBack:ViewIcon = ToolsView.inflate(R.layout.z_icon)
+    private val vNext: ViewIcon = ToolsView.inflate(R.layout.z_icon)
+    private val vBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val adapter = RecyclerCardAdapter()
     private var onClickGlobal: (CardSwipe<Any>) -> Boolean = { false }
 
@@ -58,34 +57,53 @@ class ViewImagesSwipe constructor(
         (vBack.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(8).toInt()
 
         vNext.setOnClickListener {
-            log("vNext")
+            if (lastItem() < adapter.size() - 1) {
+                if (adapter.get(lastItem()) is CardSpace) vRecycler.smoothScrollToPosition(lastItem() + 1)
+                else vRecycler.smoothScrollToPosition(lastItem() + 2)
+            }
         }
         vBack.setOnClickListener {
-            log("vBack")
+            if (firstItem() > 0) {
+                if (adapter.get(firstItem()) is CardSpace) vRecycler.smoothScrollToPosition(firstItem() - 1)
+                else vRecycler.smoothScrollToPosition(firstItem() - 2)
+            }
         }
         vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                log("onScrollStateChanged $newState")
+                if (newState == 0) updateVisibility()
             }
         })
     }
 
+    private fun updateVisibility() {
+        vNext.visibility = if (lastItem() < adapter.size() - 1) View.VISIBLE else View.INVISIBLE
+        vBack.visibility = if (firstItem() > 0) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun lastItem() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+    private fun firstItem() = (vRecycler.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+
     fun clear() {
         adapter.clear()
+        updateVisibility()
     }
 
     fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
+        if (!adapter.isEmpty) adapter.add(CardSpace(0,4))
         adapter.add(CardSwipeId(id, fullId, w, h, onClick, onLongClick))
+        updateVisibility()
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(ToolsView.dpToPx(4).toInt()))
+        if (!adapter.isEmpty) adapter.add(CardSpace(0,4))
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
+        updateVisibility()
     }
 
     fun remove(index: Int) {
         adapter.remove(adapter[CardSwipe::class][index])
+        updateVisibility()
     }
 
     fun scrollToEnd() {

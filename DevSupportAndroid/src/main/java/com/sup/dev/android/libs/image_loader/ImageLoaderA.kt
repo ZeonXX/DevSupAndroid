@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
+import com.sup.dev.java.libs.debug.log
 
 
 abstract class ImageLoaderA {
@@ -156,11 +157,11 @@ abstract class ImageLoaderA {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, ""+key.replace("/", "_").hashCode())
+        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, "" + key.replace("/", "_").hashCode())
         return data
     }
 
-    fun getFromCash() = ToolsCash.get(key)
+    fun getFromCash() = ToolsCash.get("" + key.replace("/", "_").hashCode())
 
     abstract fun load(): ByteArray?
 

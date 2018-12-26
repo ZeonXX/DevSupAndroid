@@ -6,10 +6,11 @@ import com.sup.dev.android.tools.ToolsView
 
 class CardSpace : Card {
 
-    private var spacePx = ToolsView.dpToPx(2).toInt()
+    private var spaceHPx = ToolsView.dpToPx(2).toInt()
+    private var spaceWPx = ToolsView.dpToPx(2).toInt()
 
-    constructor(spaceDp: Int) {
-        setSpace(spaceDp)
+    constructor(spaceHDp: Int, spaceWDp: Int = 0) {
+        setSpace(spaceHDp, spaceWDp)
     }
 
     override fun getLayout(): Int {
@@ -18,15 +19,17 @@ class CardSpace : Card {
 
     override fun bindView(view: View) {
         val space = view.findViewById<View>(R.id.vSpace)
-        space.layoutParams.height = spacePx
+        space.layoutParams.height = spaceHPx
+        space.layoutParams.width = spaceWPx
     }
 
     //
     //  Setters
     //
 
-    fun setSpace(dp: Int): CardSpace {
-        this.spacePx = ToolsView.dpToPx(dp).toInt()
+    fun setSpace(spaceHDp: Int, spaceWDp: Int = 0): CardSpace {
+        this.spaceHPx = ToolsView.dpToPx(spaceHDp).toInt()
+        this.spaceWPx = ToolsView.dpToPx(spaceWDp).toInt()
         return this
     }
 }
