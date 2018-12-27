@@ -53,7 +53,10 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
             prepareAdapter()
             setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
-            ToolsThreads.main(true) { reload() }
+
+            ToolsThreads.main(true) {
+                reload()
+            }
         }
     }
 

@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
-import com.sup.dev.java.libs.debug.log
 
 
 abstract class ImageLoaderA {

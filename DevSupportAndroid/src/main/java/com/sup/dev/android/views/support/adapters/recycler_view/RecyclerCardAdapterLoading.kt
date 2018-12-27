@@ -2,12 +2,12 @@ package com.sup.dev.android.views.support.adapters.recycler_view
 
 import android.support.annotation.StringRes
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
-
+import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
-import java.util.ArrayList
+import java.util.*
 import kotlin.reflect.KClass
 
 
@@ -38,16 +38,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
 
-        if (isInProgress) return
 
         if (!isLockBottom && position >= getItemCount() - 1 - startBottomLoadOffset) {
-            isInProgress = true
             ToolsThreads.main(true) {
                 loadNow(true)
                 Unit
             }
         } else if (!isLockTop && topLoader != null && position <= startTopLoadOffset) {
-            isInProgress = true
             ToolsThreads.main(true) {
                 loadNow(false)
                 Unit
@@ -57,6 +54,8 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
 
 
     private fun loadNow(bottom: Boolean) {
+        if (isInProgress) return
+        isInProgress = true
         if (bottom) isLockBottom = false
         else isLockTop = false
 
@@ -113,14 +112,14 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
 
         for (i in result.indices) {
             val card = mapper!!.invoke(result[i]!!)
-            if(removeSame){
+            if (removeSame) {
                 val cards = get(cardClass)
                 var b = false
-                for(c in cards) if(card == c) {
+                for (c in cards) if (card == c) {
                     b = true
                     break
                 }
-                if(b) {
+                if (b) {
                     sameRemovedCount++
                     break
                 }
@@ -143,8 +142,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
     }
 
     fun load(bottom: Boolean) {
-        if (isInProgress) return
-        isInProgress = true
         loadNow(bottom)
     }
 
@@ -242,7 +239,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         return this
     }
 
-    fun setRemoveSame(b:Boolean){
+    fun setRemoveSame(b: Boolean) {
         removeSame = b
     }
 

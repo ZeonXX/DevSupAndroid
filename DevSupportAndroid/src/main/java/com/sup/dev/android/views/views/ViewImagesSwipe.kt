@@ -16,11 +16,10 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SImageView
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -79,7 +78,6 @@ class ViewImagesSwipe constructor(
     }
 
     private fun updateVisibility() {
-        log(lastItem(), firstItem(), adapter.size())
         ToolsView.alpha(vNext, lastItem() == -1 || lastItem() >= adapter.size() - 1)
         ToolsView.alpha(vBack, firstItem() < 1)
     }
@@ -94,12 +92,13 @@ class ViewImagesSwipe constructor(
     }
 
     fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(0,4))
+        if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
+
         adapter.add(CardSwipeId(id, fullId, w, h, onClick, onLongClick))
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
-        if (!adapter.isEmpty) adapter.add(CardSpace(0,4))
+        if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
     }
 
