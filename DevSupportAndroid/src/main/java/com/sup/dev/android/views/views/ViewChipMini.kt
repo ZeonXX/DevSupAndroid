@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
@@ -41,7 +42,6 @@ class ViewChipMini @JvmOverloads constructor(
         (vText.layoutParams as LayoutParams).marginStart = ToolsView.dpToPx(4).toInt()
         (vText.layoutParams as LayoutParams).marginEnd = ToolsView.dpToPx(4).toInt()
         (vText.layoutParams as LayoutParams).gravity = Gravity.CENTER
-        vText.gravity = Gravity.CENTER
         vText.textSize = 9f
     }
 
