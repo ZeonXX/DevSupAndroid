@@ -30,6 +30,7 @@ abstract class Widget(layoutRes: Int) {
     var isUseMoreScreenSpace = false
     protected var viewWrapper: WidgetViewWrapper? = null
     private var hideCalled = false
+    private var autoShowKeyboard = true
 
     //
     //  Getters
@@ -95,15 +96,22 @@ abstract class Widget(layoutRes: Int) {
             }
         }
 
-        if (viewWrapper is DialogSheetWidget && isUseMoreScreenSpace) {
-            val layoutMaxSizes: LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
-            layoutMaxSizes.setMaxHeightParentPercent(90f)
+        if (viewWrapper is DialogSheetWidget) {
+            if(isUseMoreScreenSpace) {
+                val layoutMaxSizes: LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
+                layoutMaxSizes.setMaxHeightParentPercent(90f)
+            }
+            if(!autoShowKeyboard) ToolsView.dontAutoShowKeyboard((viewWrapper as DialogSheetWidget).window!!)
         }
     }
 
     @CallSuper
     open fun onHide() {
         onHide.invoke(this)
+    }
+
+    fun dontAutoShowKeyboard(){
+        autoShowKeyboard = false
     }
 
     //

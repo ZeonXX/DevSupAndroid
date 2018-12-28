@@ -4,6 +4,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import com.sup.dev.android.tools.ToolsResources
 
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.ByteArrayInputStream
@@ -38,6 +39,28 @@ class DrawableGif : Drawable {
             }
         }
     }
+
+    constructor(gifRes: Int,
+                vImage: ImageView,
+                center: Boolean = false,
+                w: Int = 0,
+                h: Int = 0,
+                onReady: ((DrawableGif) -> Unit)? = null) : super() {
+        this.center = center
+        vImage.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        ToolsThreads.thread {
+            val stream = ToolsResources.getStream(gifRes)
+            movie = Movie.decodeStream(stream)
+            ToolsThreads.main {
+                movieStart = System.currentTimeMillis()
+                imageW = if (w > 0) w else vImage.width
+                imageH = if (h > 0) h else vImage.height
+                if (onReady == null) vImage.setImageDrawable(this)
+                else onReady.invoke(this)
+            }
+        }
+    }
+
 
     override fun draw(canvas: Canvas) {
 
