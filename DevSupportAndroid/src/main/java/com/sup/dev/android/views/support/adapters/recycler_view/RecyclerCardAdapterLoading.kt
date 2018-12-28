@@ -11,7 +11,10 @@ import java.util.*
 import kotlin.reflect.KClass
 
 
-open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass<K>, private var mapper: ((V) -> K)?) : RecyclerCardAdapter(), CardAdapter {
+open class RecyclerCardAdapterLoading<K : Card, V>(
+        private val cardClass: KClass<K>,
+        private var mapper: ((V) -> K)?
+) : RecyclerCardAdapter(), CardAdapter, RecyclerCardAdapterLoadingInterface {
 
     private var bottomLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
     private var topLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
@@ -137,7 +140,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(private val cardClass: KClass
         load(false)
     }
 
-    fun loadBottom() {
+    override fun loadBottom() {
         load(true)
     }
 

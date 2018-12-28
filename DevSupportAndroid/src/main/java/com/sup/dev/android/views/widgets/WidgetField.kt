@@ -203,6 +203,10 @@ open class WidgetField : Widget(R.layout.widget_field) {
         return this
     }
 
+    fun setCounter(counter:Boolean){
+        vFieldWidget.vFieldLayout.isCounterEnabled = counter
+    }
+
 
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
         return setOnEnter(ToolsResources.s(s), onEnter)

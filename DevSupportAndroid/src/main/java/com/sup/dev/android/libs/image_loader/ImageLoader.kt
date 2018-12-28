@@ -98,7 +98,6 @@ object ImageLoader {
     //
 
     private fun loadNow(loader: ImageLoaderA) {
-
         if (!turn.contains(loader)) return
 
         val loadedBytes = loader.startLoad()
@@ -145,12 +144,18 @@ object ImageLoader {
         ToolsThreads.main {
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
                 if (loader.isGif) {
-                    DrawableGif(bytes, loader.vImage!!, loader.cropSquareCenter) {
+                    DrawableGif(
+                            bytes,
+                            loader.vImage!!,
+                            loader.cropSquareCenter,
+                            loader.w,
+                            loader.h
+                    ) {
                         if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) loader.vImage!!.setImageDrawable(it)
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
-                   if(loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
+                    if (loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
                 }
             }
             loader.onLoaded.invoke(bytes)

@@ -118,17 +118,17 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun holder(holder: Int): ImageLoaderA {
+    fun holder(holder: Int?): ImageLoaderA {
         this.holder = holder
         return this
     }
 
-    fun holder(holder: Drawable): ImageLoaderA {
+    fun holder(holder: Drawable?): ImageLoaderA {
         this.holder = holder
         return this
     }
 
-    fun holder(holder: Bitmap): ImageLoaderA {
+    fun holder(holder: Bitmap?): ImageLoaderA {
         this.holder = holder
         return this
     }

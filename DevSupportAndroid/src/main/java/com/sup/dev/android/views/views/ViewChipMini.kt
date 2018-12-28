@@ -39,10 +39,10 @@ class ViewChipMini @JvmOverloads constructor(
 
         vText.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         vText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        vText.textSize = 9f
         (vText.layoutParams as LayoutParams).marginStart = ToolsView.dpToPx(4).toInt()
         (vText.layoutParams as LayoutParams).marginEnd = ToolsView.dpToPx(4).toInt()
         (vText.layoutParams as LayoutParams).gravity = Gravity.CENTER
-        vText.textSize = 9f
     }
 
     //
