@@ -1,13 +1,11 @@
 package com.sup.dev.android.views.cards
 
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.views.views.ViewAvatarTitle
-
 
 open class CardAvatar : Card() {
 
