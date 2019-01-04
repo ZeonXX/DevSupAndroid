@@ -17,7 +17,9 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
+open class Screen(
+        private val view: View
+) : FrameLayout(SupAndroid.activity!!) {
 
     var isBackStackAllowed = true
     var hasBackIcon = true
@@ -35,7 +37,7 @@ open class Screen(private val view: View) : FrameLayout(SupAndroid.activity!!) {
             return if (Navigator.hasBackStack()) ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) else ToolsResources.getDrawableFromAttr(R.attr.ic_menu)
         }
 
-    constructor(@LayoutRes layoutRes: Int) : this(ToolsView.inflate<View>(SupAndroid.activity!!, layoutRes)) {}
+    constructor(@LayoutRes layoutRes: Int) : this(ToolsView.inflate<View>(SupAndroid.activity!!, layoutRes))
 
     init {
         addView(view)
