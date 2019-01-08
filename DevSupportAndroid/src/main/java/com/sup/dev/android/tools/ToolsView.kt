@@ -155,9 +155,9 @@ object ToolsView {
             false
         }
 
-        v.setOnClickListener { v1 -> onClick.invoke(v, (if (clickScreenX.a == null) 0 else clickScreenX.a)!!, (if (clickScreenY.a == null) 0 else clickScreenY.a)!!, true) }
+        v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a, true) }
         v.setOnLongClickListener { v1 ->
-            onClick.invoke(v, clickScreenX.a!!, clickScreenY.a!!, false)
+            onClick.invoke(v, clickScreenX.a, clickScreenY.a, false)
             true
         }
 

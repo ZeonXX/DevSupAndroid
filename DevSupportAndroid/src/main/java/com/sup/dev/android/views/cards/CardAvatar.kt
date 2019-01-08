@@ -5,11 +5,13 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 open class CardAvatar : Card() {
 
     private var onClick: () -> Unit = {}
+    private var onLongClick: (CardAvatar, View, Int, Int) -> Unit = { card, view, x, y -> }
     private var dividerVisible = false
     private var enabled = true
     private var background = 0
@@ -30,9 +32,9 @@ open class CardAvatar : Card() {
     }
 
     override fun bindView(view: View) {
-        val vTouch:View = view.findViewById(R.id.vTouch)
-        val vDivider:View = view.findViewById(R.id.vDivider)
-        val vAvatar:ViewAvatarTitle = view.findViewById(R.id.vAvatar)
+        val vTouch: View = view.findViewById(R.id.vTouch)
+        val vDivider: View = view.findViewById(R.id.vDivider)
+        val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = true && enabled
@@ -40,6 +42,8 @@ open class CardAvatar : Card() {
         vTouch.isEnabled = true && enabled
         if (enabled) vTouch.setOnClickListener { v -> onClick.invoke() }
         else vTouch.setOnClickListener(null)
+        if (enabled) ToolsView.setOnLongClickCoordinates(vTouch) { v, x, y -> onLongClick.invoke(this, v, x, y) }
+        else vTouch.setOnLongClickListener(null)
         if (background != 0) view.setBackgroundColor(background)
         vAvatar.isEnabled = isEnabled()
         vAvatar.setTitle(title)
@@ -120,6 +124,12 @@ open class CardAvatar : Card() {
 
     fun setOnClick(onClick: () -> Unit): CardAvatar {
         this.onClick = onClick
+        update()
+        return this
+    }
+
+    fun setOnLongClick(onLongClick: (CardAvatar, View, Int, Int) -> Unit): CardAvatar {
+        this.onLongClick = onLongClick
         update()
         return this
     }
