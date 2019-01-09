@@ -18,7 +18,7 @@ import com.sup.dev.android.tools.ToolsView
 
 
 open class Screen(
-        private val view: View
+        protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
 
     var isBackStackAllowed = true
@@ -40,7 +40,7 @@ open class Screen(
     constructor(@LayoutRes layoutRes: Int) : this(ToolsView.inflate<View>(SupAndroid.activity!!, layoutRes))
 
     init {
-        addView(view)
+        addView(viewScreen)
     }
 
     protected fun removeAppbar() {

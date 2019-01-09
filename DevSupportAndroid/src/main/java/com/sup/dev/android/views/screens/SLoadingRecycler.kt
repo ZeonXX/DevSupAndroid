@@ -51,7 +51,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
                     .setRetryMessage(textErrorNetwork, textErrorRetry)
                     .setNotifyCount(5)
 
-            prepareAdapter()
+            prepareAdapter(adapter!!)
             setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
 
             ToolsThreads.main(true) {
@@ -60,7 +60,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         }
     }
 
-    open fun prepareAdapter(){
+    open fun prepareAdapter(adapter:RecyclerCardAdapterLoading<C, V>){
 
     }
 

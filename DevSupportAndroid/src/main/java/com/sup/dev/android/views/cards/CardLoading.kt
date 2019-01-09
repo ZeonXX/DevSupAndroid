@@ -9,7 +9,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
 
-
 class CardLoading : Card() {
 
     private var dividerVisible = false
@@ -54,14 +53,14 @@ class CardLoading : Card() {
             vContainer.visibility = View.GONE
 
             if (type == Type.CIRCLE)
-                ToolsThreads.main(1000) {
+                ToolsThreads.main(100) {
                     if (state == State.LOADING) ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE)
                     Unit
                 }
             else
                 vLoadingCircle.visibility = View.GONE
             if (type == Type.HORIZONTAL)
-                ToolsThreads.main(1000) {
+                ToolsThreads.main(100) {
                     if (state == State.LOADING) ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL)
                     Unit
                 }
