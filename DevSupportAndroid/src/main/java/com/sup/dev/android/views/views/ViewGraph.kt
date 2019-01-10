@@ -43,7 +43,7 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     init {
         paint.isAntiAlias = true
-        paint.textSize = textSize.toFloat()
+        paint.textSize = textSize
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -58,23 +58,23 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         if (greedXSize > 0 || greedYSize > 0) {
             paint.color = greedColor
-            paint.strokeWidth = ToolsMath.max(greedXSize, greedYSize).toFloat()
-            canvas.drawLine(offsetViewLeft.toFloat(), offsetViewTop.toFloat(), width.toFloat(), offsetViewTop.toFloat(), paint)
-            canvas.drawLine(offsetViewLeft.toFloat(), offsetViewTop.toFloat(), offsetViewLeft.toFloat(), (height - offsetViewBottom).toFloat(), paint)
-            canvas.drawLine(width.toFloat(), (height - offsetViewBottom).toFloat(), offsetViewLeft.toFloat(), (height - offsetViewBottom).toFloat(), paint)
-            canvas.drawLine(width.toFloat(), (height - offsetViewBottom).toFloat(), width.toFloat(), offsetViewTop.toFloat(), paint)
+            paint.strokeWidth = ToolsMath.max(greedXSize, greedYSize)
+            canvas.drawLine(offsetViewLeft, offsetViewTop, width.toFloat(), offsetViewTop, paint)
+            canvas.drawLine(offsetViewLeft, offsetViewTop, offsetViewLeft, (height - offsetViewBottom), paint)
+            canvas.drawLine(width.toFloat(), (height - offsetViewBottom), offsetViewLeft, (height - offsetViewBottom), paint)
+            canvas.drawLine(width.toFloat(), (height - offsetViewBottom), width.toFloat(), offsetViewTop, paint)
         }
 
         if (greedYSize > 0) {
             paint.color = greedColor
-            paint.strokeWidth = greedYSize.toFloat()
+            paint.strokeWidth = greedYSize
             var y = 0f
             while (y < h + 1) {
-                canvas.drawLine(offsetViewLeft.toFloat(), cellSizeH * y + offsetViewTop, width.toFloat(), cellSizeH * y + offsetViewTop, paint)
+                canvas.drawLine(offsetViewLeft, cellSizeH * y + offsetViewTop, width.toFloat(), cellSizeH * y + offsetViewTop, paint)
                 if (y < h)
                     canvas.drawText(providerMaskY!!.invoke(h - y),
-                            offsetViewLeft.toFloat() - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskY!!.invoke(h - y)) - ToolsView.dpToPx(4).toFloat(),
-                            cellSizeH * y + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) / 2 + offsetViewTop.toFloat(),
+                            offsetViewLeft - ToolsTextAndroid.getStringWidth(paint.typeface, textSize, providerMaskY!!.invoke(h - y)) - ToolsView.dpToPx(4).toFloat(),
+                            cellSizeH * y + ToolsTextAndroid.getStringHeight(paint.typeface, textSize) / 2 + offsetViewTop,
                             paint)
                 y += greedYFrequency
             }
@@ -83,26 +83,26 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         if (greedXSize > 0) {
             paint.color = greedColor
-            paint.strokeWidth = greedXSize.toFloat()
+            paint.strokeWidth = greedXSize
             var x = 0f
             while (x < wPoints + 1) {
-                canvas.drawLine(cellSizeW * x + offsetViewLeft, offsetViewTop.toFloat(), cellSizeW * x + offsetViewLeft, (height - offsetViewBottom).toFloat(), paint)
+                canvas.drawLine(cellSizeW * x + offsetViewLeft, offsetViewTop, cellSizeW * x + offsetViewLeft, (height - offsetViewBottom), paint)
                 if (x > 0)
                     canvas.drawText(providerMaskX!!.invoke(x),
-                            cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.typeface, textSize.toFloat(), providerMaskX!!.invoke(x)) / 2 + offsetViewLeft,
-                            (height - offsetViewBottom).toFloat() + ToolsTextAndroid.getStringHeight(paint.typeface, textSize.toFloat()) + ToolsView.dpToPx(4).toFloat(),
+                            cellSizeW * x - ToolsTextAndroid.getStringWidth(paint.typeface, textSize, providerMaskX!!.invoke(x)) / 2 + offsetViewLeft,
+                            (height - offsetViewBottom) + ToolsTextAndroid.getStringHeight(paint.typeface, textSize) + ToolsView.dpToPx(4),
                             paint)
                 x += greedXFrequency
             }
         }
 
         if (lineSize > 0) {
-            paint.strokeWidth = lineSize.toFloat()
+            paint.strokeWidth = lineSize
             paint.color = lineColor
             for (i in 1 until points.size) {
-                val pX = (i - 1) * cellSizeW + cellSizeW / 2 + offsetViewLeft.toFloat()
+                val pX = (i - 1) * cellSizeW + cellSizeW / 2 + offsetViewLeft
                 val pY = cellSizeH * h - points[i - 1] * cellSizeH - cellSizeH / 2 + offsetViewTop
-                val x = i * cellSizeW + cellSizeW / 2 + offsetViewLeft.toFloat()
+                val x = i * cellSizeW + cellSizeW / 2 + offsetViewLeft
                 val y = cellSizeH * h - points[i] * cellSizeH - cellSizeH / 2 + offsetViewTop
                 canvas.drawLine(pX, pY, x, y, paint)
             }
@@ -111,9 +111,9 @@ class ViewGraph @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         if (pointSize > 0) {
             paint.color = pointColor
             for (i in points.indices) {
-                val x = i * cellSizeW + cellSizeW / 2 + offsetViewLeft.toFloat()
+                val x = i * cellSizeW + cellSizeW / 2 + offsetViewLeft
                 val y = cellSizeH * h - points[i] * cellSizeH - cellSizeH / 2 + offsetViewTop
-                canvas.drawCircle(x, y, pointSize.toFloat(), paint)
+                canvas.drawCircle(x, y, pointSize, paint)
             }
         }
 

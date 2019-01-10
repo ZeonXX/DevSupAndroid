@@ -122,7 +122,7 @@ open class CardAvatar : Card() {
         return this
     }
 
-    fun setOnClick(onClick: () -> Unit): CardAvatar {
+    open fun setOnClick(onClick: () -> Unit): CardAvatar {
         this.onClick = onClick
         update()
         return this
