@@ -48,10 +48,12 @@
                 android:paddingLeft="24dp"
                 android:paddingTop="24dp"
                 android:paddingRight="24dp"
+                android:textSize="20sp"
                 android:text="Title"/>
 
             <TextView
                 android:id="@+id/vText"
+                android:textSize="16sp"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

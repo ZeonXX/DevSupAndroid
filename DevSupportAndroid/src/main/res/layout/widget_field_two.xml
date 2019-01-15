@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:paddingTop="8dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical"
+              android:paddingTop="8dp">
 
     <TextView
         android:id="@+id/vTitle"
         style="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
         android:layout_marginBottom="16dp"
-        android:text="Please input text"/>
+        android:text="Please input text"
+        android:textSize="20sp"/>
 
     <com.sup.dev.android.views.settings.SettingsField
         android:id="@+id/vField_1"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
         android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
 
     <com.sup.dev.android.views.settings.SettingsField
         android:id="@+id/vField_2"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
         android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
 
     <FrameLayout
@@ -56,8 +57,8 @@
             <Button
                 android:id="@+id/vCancel"
                 style="@style/Button.Text"
-                android:text="Cancel"
-                android:layout_marginRight="8dp"/>
+                android:layout_marginRight="8dp"
+                android:text="Cancel"/>
 
             <Button
                 android:id="@+id/vEnter"
