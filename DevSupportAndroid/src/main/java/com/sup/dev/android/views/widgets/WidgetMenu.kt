@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.CardDivider
-import com.sup.dev.android.views.cards.CardDividerTitle
+import com.sup.dev.android.views.cards.CardDividerTitleMini
 import com.sup.dev.android.views.cards.CardMenu
 
 open class WidgetMenu : WidgetRecycler() {
@@ -103,7 +103,7 @@ open class WidgetMenu : WidgetRecycler() {
     @JvmOverloads
     fun group(title: String?, divider: Boolean = true): WidgetMenu {
         finishItemBuilding()
-        myAdapter.add(CardDividerTitle().setText(title).setDividerBottom(divider))
+        myAdapter.add(CardDividerTitleMini().setText(title).setDividerBottom(divider))
         return this
     }
 

@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
-class CardDividerTitle constructor(private var title: String? = null) : Card() {
+class CardDividerTitleMini constructor(private var title: String? = null) : Card() {
 
     private var background: Int = 0
     private var enabled = true
@@ -16,9 +16,9 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     private var dividerTop = false
     private var gravity = Gravity.LEFT
 
-    constructor(@StringRes title: Int) : this(ToolsResources.s(title)) {}
+    constructor(@StringRes title: Int) : this(ToolsResources.s(title))
 
-    override fun getLayout() = R.layout.card_divider_title
+    override fun getLayout() = R.layout.card_divider_title_mini
 
     override fun bindView(view: View) {
         val vText = view.findViewById<TextView>(R.id.vText)
@@ -38,41 +38,41 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     //  Setters
     //
 
-    fun setEnabled(enabled: Boolean): CardDividerTitle {
+    fun setEnabled(enabled: Boolean): CardDividerTitleMini {
         this.enabled = enabled
         update()
         return this
     }
 
-    fun setBackground(background: Int): CardDividerTitle {
+    fun setBackground(background: Int): CardDividerTitleMini {
         this.background = background
         update()
         return this
     }
 
-    fun setText(@StringRes title: Int): CardDividerTitle {
+    fun setText(@StringRes title: Int): CardDividerTitleMini {
         return setText(ToolsResources.s(title))
     }
 
-    fun setText(title: String?): CardDividerTitle {
+    fun setText(title: String?): CardDividerTitleMini {
         this.title = title
         update()
         return this
     }
 
-    fun setDividerBottom(divider: Boolean): CardDividerTitle {
+    fun setDividerBottom(divider: Boolean): CardDividerTitleMini {
         this.dividerBottom = divider
         update()
         return this
     }
 
-    fun setDividerTop(divider: Boolean): CardDividerTitle {
+    fun setDividerTop(divider: Boolean): CardDividerTitleMini {
         this.dividerTop = divider
         update()
         return this
     }
 
-    fun toCenter(): CardDividerTitle {
+    fun toCenter(): CardDividerTitleMini {
         this.gravity = Gravity.CENTER
         update()
         return this

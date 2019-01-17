@@ -14,6 +14,7 @@ import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 
 
 abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity!!) {
+
     //
     //  Getters
     //
