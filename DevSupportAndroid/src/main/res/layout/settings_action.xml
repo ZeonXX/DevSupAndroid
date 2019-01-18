@@ -1,6 +1,5 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vTouch"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,8 +20,7 @@
             android:src="@drawable/ic_clear_black_24dp"
             android:clickable="false"
             android:focusable="false"
-            android:padding="6dp"
-            />
+            android:padding="6dp"/>
 
         <LinearLayout
             android:layout_weight="1"

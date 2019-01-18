@@ -21,6 +21,8 @@ open class Screen(
         protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
 
+    private var onBackPressed: () -> Boolean = { false }
+
     var isBackStackAllowed = true
     var hasBackIcon = true
     var isBottomNavigationVisible = true
@@ -98,8 +100,12 @@ open class Screen(
     }
 
     open fun onBackPressed(): Boolean {
-        return false
+        return onBackPressed.invoke()
     }
+
+    //
+    //  Setters
+    //
 
     open fun setTitle(@StringRes title: Int) {
         setTitle(ToolsResources.s(title))
@@ -107,6 +113,10 @@ open class Screen(
 
     open fun setTitle(title: String?) {
         (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
+    }
+
+    fun setOnBackPressed(onBackPressed:() -> Boolean){
+        this.onBackPressed = onBackPressed
     }
 
     //
