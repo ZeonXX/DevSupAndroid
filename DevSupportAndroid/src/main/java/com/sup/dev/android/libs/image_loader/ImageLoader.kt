@@ -88,11 +88,6 @@ object ImageLoader {
         }
     }
 
-    fun clear(key: String) {
-        ToolsCash.clear(key)
-        bitmapCash.remove(key)
-    }
-
     //
     //  Methods
     //
