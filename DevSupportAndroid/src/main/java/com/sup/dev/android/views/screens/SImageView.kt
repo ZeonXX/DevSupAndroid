@@ -23,12 +23,12 @@ class SImageView private constructor()
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
-    constructor(scrollTo:Int, bitmaps: Array<Bitmap>) : this() {
+    constructor(scrollTo: Int, bitmaps: Array<Bitmap>) : this() {
         for (b in bitmaps) adapterIn.add(Page(b, 0L))
         vPager.setCurrentItem(scrollTo, false)
     }
 
-    constructor(scrollTo:Int, ids: Array<Long>) : this() {
+    constructor(scrollTo: Int, ids: Array<Long>) : this() {
         for (id in ids) adapterIn.add(Page(null, id))
         vPager.setCurrentItem(scrollTo, false)
     }

@@ -20,6 +20,7 @@ open class CardSpoiler : Card() {
 
     val cards = ArrayList<Card>()
     private var title: String? = null
+    private var titleExpanded: String? = null
     private var text: String? = null
     private var rightText: String? = null
     private var titleColor = 0
@@ -56,7 +57,11 @@ open class CardSpoiler : Card() {
 
         vText.text = if (text == null) null else Html.fromHtml(text)
         vRightText.text = if (rightText == null) null else Html.fromHtml(rightText)
-        vTitle.text = if (title == null) null else Html.fromHtml(title)
+
+        if (expanded && titleExpanded != null)
+            vTitle.text = Html.fromHtml(titleExpanded)
+        else
+            vTitle.text = if (title == null) null else Html.fromHtml(title)
 
         vText.visibility = if (text == null) View.GONE else View.VISIBLE
         vRightText.visibility = if (rightText == null) View.GONE else View.VISIBLE
@@ -74,7 +79,7 @@ open class CardSpoiler : Card() {
         vIcon.setImageResource(if (expanded) ToolsResources.getDrawableId("ic_keyboard_arrow_up") else ToolsResources.getDrawableId("ic_keyboard_arrow_down"))
         vIcon.setAlpha(if (enabled) 255 else 106)
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
-        if (enabled) vTouch.setOnClickListener{ v -> setExpanded(!expanded) }
+        if (enabled) vTouch.setOnClickListener { v -> setExpanded(!expanded) }
         else vTouch.setOnClickListener(null)
         vTouch.isClickable = enabled
     }
@@ -95,6 +100,12 @@ open class CardSpoiler : Card() {
 
     fun setTitle(title: String?): CardSpoiler {
         this.title = title
+        update()
+        return this
+    }
+
+    fun setTitleExpanded(title: String?): CardSpoiler {
+        this.titleExpanded = title
         update()
         return this
     }
