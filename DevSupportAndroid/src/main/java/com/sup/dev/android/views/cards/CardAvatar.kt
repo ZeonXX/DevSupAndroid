@@ -27,9 +27,7 @@ open class CardAvatar : Card() {
     private var chipUseIconBackground = false
     private var onClickAvatar: (() -> Unit)? = null
 
-    override fun getLayout(): Int {
-        return R.layout.card_avatar
-    }
+    override fun getLayout() = R.layout.card_avatar
 
     override fun bindView(view: View) {
         val vTouch: View = view.findViewById(R.id.vTouch)

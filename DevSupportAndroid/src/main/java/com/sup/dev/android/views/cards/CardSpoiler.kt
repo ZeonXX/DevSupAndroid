@@ -3,8 +3,10 @@ package com.sup.dev.android.views.cards
 import android.graphics.PorterDuff
 import android.support.annotation.StringRes
 import android.text.Html
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
@@ -19,6 +21,7 @@ open class CardSpoiler : Card() {
     //
 
     val cards = ArrayList<Card>()
+    private var titleGravity = Gravity.LEFT
     private var title: String? = null
     private var titleExpanded: String? = null
     private var text: String? = null
@@ -28,25 +31,28 @@ open class CardSpoiler : Card() {
     private var textColor = 0
     private var originalSeted = false
     private var dividerVisible = true
-    private var titleColorOriginal: Int = 0
-    private var rightTextColorOriginal: Int = 0
-    private var textColorOriginal: Int = 0
+    private var titleColorOriginal = 0
+    private var rightTextColorOriginal = 0
+    private var textColorOriginal = 0
     private var iconColor = 0
+    private var useExpandedArrow = true
+    private var useExpandedTitleArrow = false
 
     internal var expanded: Boolean = false
     internal var enabled = true
 
-    override fun getLayout(): Int {
-        return R.layout.card_spoiler
-    }
+    override fun getLayout() =  R.layout.card_spoiler
 
     override fun bindView(view: View) {
-        val vIcon = view.findViewById<ImageView>(R.id.vIcon)
-        val vTitle = view.findViewById<TextView>(R.id.vTitle)
-        val vText = view.findViewById<TextView>(R.id.vText)
-        val vRightText = view.findViewById<TextView>(R.id.vRightText)
-        val vTouch = view.findViewById<View>(R.id.vTouch)
-        val vDivider = view.findViewById<View>(R.id.vDivider)
+        val vIcon:ImageView = view.findViewById(R.id.vIcon)
+        val vTitle:TextView = view.findViewById(R.id.vTitle)
+        val vText:TextView = view.findViewById(R.id.vText)
+        val vRightText:TextView = view.findViewById(R.id.vRightText)
+        val vTouch:View = view.findViewById(R.id.vTouch)
+        val vDivider:View = view.findViewById(R.id.vDivider)
+
+        val iconDown = ToolsResources.getDrawableFromAttrId(R.attr.ic_keyboard_arrow_down)
+        val iconUp = ToolsResources.getDrawableFromAttrId(R.attr.ic_keyboard_arrow_up)
 
         if (!originalSeted) {
             originalSeted = true
@@ -66,17 +72,26 @@ open class CardSpoiler : Card() {
         vText.visibility = if (text == null) View.GONE else View.VISIBLE
         vRightText.visibility = if (rightText == null) View.GONE else View.VISIBLE
         vTitle.visibility = if (title == null) View.GONE else View.VISIBLE
+        vIcon.visibility = if (useExpandedArrow) View.VISIBLE else View.GONE
+
+
+
+       if(useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
+       else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
 
         vText.isEnabled = enabled
         vRightText.isEnabled = enabled
         vTitle.isEnabled = enabled
+
+        (vTitle.layoutParams as LinearLayout.LayoutParams).gravity = titleGravity
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vText.setTextColor(if (textColor != 0) textColor else textColorOriginal)
         vRightText.setTextColor(if (rightTextColor != 0) rightTextColor else rightTextColorOriginal)
         vTitle.setTextColor(if (titleColor != 0) titleColor else titleColorOriginal)
 
-        vIcon.setImageResource(if (expanded) ToolsResources.getDrawableId("ic_keyboard_arrow_up") else ToolsResources.getDrawableId("ic_keyboard_arrow_down"))
+        vIcon.setImageResource(if (expanded) iconUp else iconDown)
         vIcon.setAlpha(if (enabled) 255 else 106)
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
         if (enabled) vTouch.setOnClickListener { v -> setExpanded(!expanded) }
@@ -87,6 +102,18 @@ open class CardSpoiler : Card() {
     //
     //  Setters
     //
+
+    fun setUseExpandedArrow(useExpandedArrow:Boolean): CardSpoiler {
+        this.useExpandedArrow = useExpandedArrow
+        update()
+        return this
+    }
+
+    fun setUseExpandedTitleArrow(useExpandedArrow:Boolean): CardSpoiler {
+        this.useExpandedTitleArrow = useExpandedArrow
+        update()
+        return this
+    }
 
     fun add(card: Card): CardSpoiler {
         cards.add(card)
@@ -104,8 +131,18 @@ open class CardSpoiler : Card() {
         return this
     }
 
+    open fun setTitleExpanded(@StringRes title: Int): CardSpoiler {
+        return setTitleExpanded(ToolsResources.s(title))
+    }
+
     fun setTitleExpanded(title: String?): CardSpoiler {
         this.titleExpanded = title
+        update()
+        return this
+    }
+
+    fun setTitleGravity(gravity: Int): CardSpoiler {
+        this.titleGravity = gravity
         update()
         return this
     }
