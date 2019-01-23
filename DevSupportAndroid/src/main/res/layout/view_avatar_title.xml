@@ -17,7 +17,7 @@
         android:paddingRight="16dp"
         android:orientation="vertical">
 
-        <TextView
+        <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vDevSupTitle"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_gravity="left"
             android:text="Title"/>
 
-        <TextView
+        <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vDevSupSubtitle"
             style="@style/Base.TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"

@@ -15,8 +15,8 @@ import com.sup.dev.android.views.views.layouts.LayoutCorned
 class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
     val vAvatar: ViewAvatar
-    val vTitle: TextView
-    val vSubtitle: TextView
+    val vTitle: ViewTextLinkable
+    val vSubtitle: ViewTextLinkable
 
     init {
 

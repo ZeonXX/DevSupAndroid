@@ -32,6 +32,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
+import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
@@ -84,47 +85,10 @@ object ToolsView {
         vFab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
-    fun makeLinksClickable(vText: TextView) {
+    fun makeLinksClickable(vText: ViewTextLinkable) {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
         val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
         Linkify.addLinks(vText, httpPattern, "")
-
-        vText.setOnTouchListener { view, e ->
-
-            if (vText.text is Spanned) {
-                val buffer = vText.text as Spannable
-
-                if (e.action == MotionEvent.ACTION_UP || e.action == MotionEvent.ACTION_DOWN) {
-                    var x = e.getX()
-                    var y = e.getY()
-
-                    x -= vText.totalPaddingLeft
-                    y -= vText.totalPaddingTop
-
-                    x += vText.scrollX
-                    y += vText.scrollY
-
-                    val off = vText.layout.getOffsetForHorizontal( vText.layout.getLineForVertical(y.toInt()), x)
-
-                    val link = buffer.getSpans(off, off, ClickableSpan::class.java)
-
-                    if (link.isNotEmpty()) {
-                        if (e.action  == MotionEvent.ACTION_UP) {
-                            link[0].onClick(vText)
-                        } else if (e.action  == MotionEvent.ACTION_DOWN) {
-                            Selection.setSelection(buffer, buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]))
-                        }
-                        true
-                    }
-                }
-
-            }
-
-            if (vText.parent is View) (vText.parent!! as View).onTouchEvent(MotionEvent.obtain(e.downTime, e.eventTime, e.action, e.x + vText.x, e.y + vText.y, e.metaState))
-            true
-
-
-        }
     }
 
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {
