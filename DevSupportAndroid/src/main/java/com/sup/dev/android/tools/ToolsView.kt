@@ -16,6 +16,10 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.animation.FastOutLinearInInterpolator
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.widget.RecyclerView
+import android.text.Selection
+import android.text.Spannable
+import android.text.Spanned
+import android.text.style.ClickableSpan
 import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.*
@@ -84,6 +88,43 @@ object ToolsView {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
         val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
         Linkify.addLinks(vText, httpPattern, "")
+
+        vText.setOnTouchListener { view, e ->
+
+            if (vText.text is Spanned) {
+                val buffer = vText.text as Spannable
+
+                if (e.action == MotionEvent.ACTION_UP || e.action == MotionEvent.ACTION_DOWN) {
+                    var x = e.getX()
+                    var y = e.getY()
+
+                    x -= vText.totalPaddingLeft
+                    y -= vText.totalPaddingTop
+
+                    x += vText.scrollX
+                    y += vText.scrollY
+
+                    val off = vText.layout.getOffsetForHorizontal( vText.layout.getLineForVertical(y.toInt()), x)
+
+                    val link = buffer.getSpans(off, off, ClickableSpan::class.java)
+
+                    if (link.isNotEmpty()) {
+                        if (e.action  == MotionEvent.ACTION_UP) {
+                            link[0].onClick(vText)
+                        } else if (e.action  == MotionEvent.ACTION_DOWN) {
+                            Selection.setSelection(buffer, buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]))
+                        }
+                        true
+                    }
+                }
+
+            }
+
+            if (vText.parent is View) (vText.parent!! as View).onTouchEvent(MotionEvent.obtain(e.downTime, e.eventTime, e.action, e.x + vText.x, e.y + vText.y, e.metaState))
+            true
+
+
+        }
     }
 
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {

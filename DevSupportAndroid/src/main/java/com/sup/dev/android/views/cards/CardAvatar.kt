@@ -47,13 +47,13 @@ open class CardAvatar : Card() {
         vAvatar.setTitle(title)
         vAvatar.setSubtitle(subtitle)
         vAvatar.isClickable = false
-        if (onClickAvatar != null) vAvatar.viewAvatar.setOnClickListener { v -> onClickAvatar!!.invoke() }
-        else vAvatar.viewAvatar.setOnClickListener(null)
-        vAvatar.viewAvatar.setImage(image)
-        vAvatar.viewAvatar.setChipIcon(chipIcon)
-        vAvatar.viewAvatar.setChipIconPadding(chipIconPadding)
-        vAvatar.viewAvatar.setChipText(chipText)
-        vAvatar.viewAvatar.setChipBackground(chipBackground)
+        if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { v -> onClickAvatar!!.invoke() }
+        else vAvatar.vAvatar.setOnClickListener(null)
+        vAvatar.vAvatar.setImage(image)
+        vAvatar.vAvatar.setChipIcon(chipIcon)
+        vAvatar.vAvatar.setChipIconPadding(chipIconPadding)
+        vAvatar.vAvatar.setChipText(chipText)
+        vAvatar.vAvatar.setChipBackground(chipBackground)
 
         onBind(vAvatar)
     }

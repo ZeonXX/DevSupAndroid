@@ -1,10 +1,6 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
@@ -13,19 +9,14 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
 class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
-    private val animationFocus: AnimationFocus
-    private val paint: Paint
-    private val path: Path
-
-    val viewAvatar: ViewAvatar
+    val vAvatar: ViewAvatar
     val vTitle: TextView
-    val viewSubtitle: TextView
+    val vSubtitle: TextView
 
     init {
 
@@ -33,17 +24,11 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
 
         SupAndroid.initEditMode(this)
 
-        val focusColor = ToolsResources.getColor(R.color.focus)
-
-        path = Path()
-        paint = Paint()
-        paint.isAntiAlias = true
-
         val view: View = ToolsView.inflate(context, R.layout.view_avatar_title)
 
-        viewAvatar = view.findViewById(R.id.vDevSupAvatar)
+        vAvatar = view.findViewById(R.id.vDevSupAvatar)
         vTitle = view.findViewById(R.id.vDevSupTitle)
-        viewSubtitle = view.findViewById(R.id.vDevSupSubtitle)
+        vSubtitle = view.findViewById(R.id.vDevSupSubtitle)
 
         addView(view)
 
@@ -58,60 +43,30 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
-        val corned = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_cornedEnabled, true)
         a.recycle()
 
-        setChipMode(corned)
-        setCornedBL(corned)
-        setCornedBR(corned)
-        setCornedTL(corned)
-        setCornedTR(corned)
 
-        animationFocus = AnimationFocus(this, focusColor)
-
-        viewAvatar.setImage(src)
-        viewAvatar.setRoundBackgroundColor(roundBackgroundColor)
-        viewAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
-        viewAvatar.setChipSize(chipSize.toInt())
-        viewAvatar.setChipText(chipText)
-        viewAvatar.setChipIconPadding(iconSizePadding.toInt())
-        viewAvatar.setChipIcon(srcIcon)
-        viewAvatar.setChipBackground(chipBackground)
+        vAvatar.setImage(src)
+        vAvatar.setRoundBackgroundColor(roundBackgroundColor)
+        vAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
+        vAvatar.setChipSize(chipSize.toInt())
+        vAvatar.setChipText(chipText)
+        vAvatar.setChipIconPadding(iconSizePadding.toInt())
+        vAvatar.setChipIcon(srcIcon)
+        vAvatar.setChipBackground(chipBackground)
 
         setTitle(mText)
         setSubtitle(mSubtitle)
-
+        updateCorned()
     }
 
-
-    protected override fun onDraw(canvas: Canvas) {
-
-        super.onDraw(canvas)
-
-        animationFocus.update()
-
-        paint.color = animationFocus.update()
-        canvas.drawPath(path, paint)
-    }
-
-    //
-    //  Chip
-    //
-
-    protected override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-
-        val r: Float = height / 2f
-        path.reset()
-
-        if (height < width) {
-            path.addCircle(r, r, r, Path.Direction.CCW)
-            path.addCircle(width - r, r, r, Path.Direction.CCW)
-            path.addRect(r, 0f, width - r, height.toFloat(), Path.Direction.CCW)
-        } else {
-            path.addCircle(width / 2f, height / 2f, width / 2f, Path.Direction.CCW)
-        }
-
+    fun updateCorned() {
+        setChipMode(hasOnClickListeners())
+        setCornedBL(hasOnClickListeners())
+        setCornedBR(hasOnClickListeners())
+        setCornedTL(hasOnClickListeners())
+        setCornedTR(hasOnClickListeners())
+        vSubtitle.maxLines = if(hasOnClickListeners()) 2 else 10000
     }
 
     //
@@ -121,16 +76,7 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
         isClickable = l != null
-    }
-
-    override fun setOnTouchListener(l: OnTouchListener?) {
-        super.setOnTouchListener(l)
-        if (l == null) animationFocus.resetTouchListener()
-    }
-
-    override fun setOnFocusChangeListener(l: OnFocusChangeListener?) {
-        super.setOnFocusChangeListener(l)
-        if (l == null) animationFocus.resetOnFocusChangedListener()
+        updateCorned()
     }
 
     fun setTitle(@StringRes text: Int) {
@@ -142,12 +88,12 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     fun setSubtitle(@StringRes text: Int) {
-        viewSubtitle.setText(text)
+        vSubtitle.setText(text)
     }
 
     fun setSubtitle(text: String?) {
-        viewSubtitle.visibility = if (text == null || text.isEmpty()) GONE else VISIBLE
-        viewSubtitle.text = text
+        vSubtitle.visibility = if (text == null || text.isEmpty()) GONE else VISIBLE
+        vSubtitle.text = text
     }
 
     //
@@ -157,6 +103,6 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
 
     fun getTitle() = vTitle.text.toString()
 
-    fun getSubTitle() = viewSubtitle.text.toString()
+    fun getSubTitle() = vSubtitle.text.toString()
 
 }
