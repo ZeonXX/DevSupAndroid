@@ -59,6 +59,10 @@ class SettingsField constructor(
         vField.clearFocus()
     }
 
+    fun showKeyboard(){
+        ToolsView.showKeyboard(vField)
+    }
+
     //
     //  State
     //
