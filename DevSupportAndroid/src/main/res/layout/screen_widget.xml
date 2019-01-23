@@ -22,12 +22,13 @@
 
 
     <android.support.v4.widget.NestedScrollView
-        style="@style/Scroll">
+        style="@style/Scroll"
+        android:fillViewport="true">
 
         <FrameLayout
             android:id="@+id/vContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
     </android.support.v4.widget.NestedScrollView>
 
