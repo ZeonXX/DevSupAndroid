@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -11,15 +12,20 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 
-class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : android.support.v7.widget.AppCompatImageView(context, attrs) {
+class ViewIcon @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null
+) : android.support.v7.widget.AppCompatImageView(context, attrs) {
 
     private val paint: Paint
     private val animationFocus: AnimationFocus
     private val animationSelectedBackground: AnimationSpringColor
 
     private var src = 0
+    private var bitmap: Bitmap? = null
     private var filter = 0
     private var srcSelect = 0
     private var filterSelect = 0
@@ -30,6 +36,7 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var circleColor = -0x1
     private var circleSize = 0f
     private var transparentOnDisabled = true
+    private var startPadding = -1
 
     //
     //  Getters
@@ -128,7 +135,8 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         animationSelectedBackground.to(if (isIconSelected) if (isEnabled) accentColor else ToolsColor.setAlpha(106, accentColor) else 0x00000000)
 
-        super.setImageResource(if (isIconSelected && srcSelect != 0) srcSelect else src)
+        if (src > 0)
+            super.setImageResource(if (isIconSelected && srcSelect != 0) srcSelect else src)
 
         val myFilter = if (isIconSelected && filterSelect != 0) filterSelect else filter
         if (myFilter != 0) setColorFilter(myFilter, PorterDuff.Mode.SRC_ATOP)
@@ -163,6 +171,18 @@ class ViewIcon @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun setImageResource(resId: Int) {
         this.src = resId
+        if(startPadding == -1)startPadding = paddingLeft
+        setPadding(startPadding, startPadding, startPadding, startPadding)
+        scaleType = ScaleType.FIT_CENTER
+        updateIcon()
+    }
+
+    override fun setImageBitmap(bm: Bitmap?) {
+        this.src = 0
+        if(startPadding == -1)startPadding = paddingLeft
+        setPadding(0, 0, 0, 0)
+        scaleType = ScaleType.CENTER_CROP
+        super.setImageBitmap(bm)
         updateIcon()
     }
 

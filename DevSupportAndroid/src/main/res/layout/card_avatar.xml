@@ -24,7 +24,7 @@
         app:ViewAvatarTitle_title="Campfire"
         app:ViewAvatar_chipText="EN"/>
 
-    <View style="@style/Divider.8"/>
+    <View style="@style/Divider"/>
 
 
 </LinearLayout>

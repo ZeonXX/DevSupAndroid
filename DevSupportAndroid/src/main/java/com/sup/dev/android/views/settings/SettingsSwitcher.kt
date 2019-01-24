@@ -10,7 +10,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 
 
-class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
+class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vSwitcher: Switch = Switch(context)
 
@@ -29,24 +29,12 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
             if (!salient) onClick()
         }
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSwitcher, 0, 0)
-        val lineVisible = a.getBoolean(R.styleable.SettingsSwitcher_SettingsSwitcher_lineVisible, true)
-        val title = a.getString(R.styleable.SettingsSwitcher_SettingsSwitcher_title)
-        val subtitle = a.getString(R.styleable.SettingsSwitcher_SettingsSwitcher_subtitle)
-        val icon = a.getResourceId(R.styleable.SettingsSwitcher_SettingsSwitcher_icon, 0)
-        val checked = a.getBoolean(R.styleable.SettingsSwitcher_SettingsSwitcher_checked, false)
-        val iconBackground = a.getColor(R.styleable.SettingsSwitcher_SettingsSwitcher_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsSwitcher_SettingsSwitcher_icon_padding, ToolsView.dpToPx(6).toFloat())
+        val a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0)
+        val checked = a.getBoolean(R.styleable.Settings_Settings_checked, false)
         a.recycle()
 
-        setLineVisible(lineVisible)
-        setTitle(title)
-        setSubtitle(subtitle)
-        setIcon(icon)
         setChecked(checked)
         setSubView(vSwitcher)
-        setIconBackground(iconBackground)
-        setIconPaddingPx(iconPadding)
 
         super.setOnClickListener { v ->
             setChecked(!vSwitcher.isChecked)

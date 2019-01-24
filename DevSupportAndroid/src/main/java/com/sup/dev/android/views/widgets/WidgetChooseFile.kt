@@ -11,7 +11,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
-import com.sup.dev.android.views.settings.SettingsAction
+import com.sup.dev.android.views.settings.Settings
 import com.sup.dev.android.views.views.ViewIcon
 import java.io.File
 
@@ -129,15 +129,15 @@ class WidgetChooseFile : WidgetRecycler() {
         }
 
         override fun instanceView(context: Context): View {
-            return SettingsAction(context)
+            return Settings(context)
         }
 
         override fun bindView(view: View) {
-            val settingsAction = view as SettingsAction
-            settingsAction.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
-            settingsAction.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
-            settingsAction.setOnClickListener { v -> setFolder(file.parentFile) }
-            settingsAction.setTitle(file.name)
+            val Settings = view as Settings
+            Settings.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
+            Settings.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
+            Settings.setOnClickListener { v -> setFolder(file.parentFile) }
+            Settings.setTitle(file.name)
         }
     }
 
@@ -149,7 +149,7 @@ class WidgetChooseFile : WidgetRecycler() {
         }
 
         override fun instanceView(context: Context): View {
-            return SettingsAction(context)
+            return Settings(context)
         }
 
         private fun getViewIcon(context: Context): ViewIcon {
@@ -165,7 +165,7 @@ class WidgetChooseFile : WidgetRecycler() {
         }
 
         override fun bindView(view: View) {
-            val v = view as SettingsAction
+            val v = view as Settings
             v.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
             v.setTitle(file.name)
             v.setIcon(if (file.isDirectory) R.drawable.ic_folder_black_24dp else R.drawable.ic_insert_drive_file_black_24dp)

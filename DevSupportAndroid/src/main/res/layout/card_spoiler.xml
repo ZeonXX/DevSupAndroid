@@ -57,6 +57,6 @@
     </LinearLayout>
 
     <View
-        style="@style/Divider.8"/>
+        style="@style/Divider"/>
 
 </FrameLayout>

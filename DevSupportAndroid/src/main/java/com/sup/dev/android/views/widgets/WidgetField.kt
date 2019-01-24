@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.widgets
 
+import android.graphics.Bitmap
 import android.support.annotation.StringRes
 import android.view.Gravity
 import android.view.View
@@ -18,7 +19,7 @@ import java.util.ArrayList
 
 open class WidgetField : Widget(R.layout.widget_field) {
 
-    private val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
+    val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
     private val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
@@ -28,6 +29,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
     private var min: Int = 0
     private var autoHideOnEnter = true
     private var autoHideOnCancel = true
+    private var autoDisableOnCancel = true
 
     init {
 
@@ -100,6 +102,12 @@ open class WidgetField : Widget(R.layout.widget_field) {
     fun setIcon(icon: Int, onClick: (WidgetField) -> Unit) {
         vIcon.visibility = View.VISIBLE
         vIcon.setImageResource(icon)
+        vIcon.setOnClickListener { v -> onClick.invoke(this) }
+    }
+
+    fun setIcon(icon: Bitmap, onClick: (WidgetField) -> Unit) {
+        vIcon.visibility = View.VISIBLE
+        vIcon.setImageBitmap(icon)
         vIcon.setOnClickListener { v -> onClick.invoke(this) }
     }
 
@@ -183,6 +191,11 @@ open class WidgetField : Widget(R.layout.widget_field) {
         return this
     }
 
+    fun setAutoDisableOnCancel(autoDisableOnCancel: Boolean): WidgetField {
+        this.autoDisableOnCancel = autoDisableOnCancel
+        return this
+    }
+
     fun setOnCancel(@StringRes s: Int): WidgetField {
         return setOnCancel(ToolsResources.s(s))
     }
@@ -197,13 +210,13 @@ open class WidgetField : Widget(R.layout.widget_field) {
         vCancel.visibility = View.VISIBLE
         vCancel.setOnClickListener { v ->
             if (autoHideOnCancel) hide()
-            else setEnabled(false)
+            else if (autoDisableOnCancel) setEnabled(false)
             onCancel.invoke(this)
         }
         return this
     }
 
-    fun setCounter(counter:Boolean){
+    fun setCounter(counter: Boolean) {
         vFieldWidget.vFieldLayout.isCounterEnabled = counter
     }
 

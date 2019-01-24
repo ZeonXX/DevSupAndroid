@@ -16,7 +16,7 @@ class ViewTextLinkable constructor(context: Context, attrs: AttributeSet) : View
 
     override fun onTouchEvent(e: MotionEvent?): Boolean {
         if(e == null) return false
-        if (text is Spanned) {
+        if (text is Spanned && text is Spannable) {
             val buffer = text as Spannable
 
             if (e.action == MotionEvent.ACTION_UP || e.action == MotionEvent.ACTION_DOWN) {

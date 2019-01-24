@@ -16,10 +16,7 @@ import com.sup.dev.android.views.views.ViewIcon
 
 class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs, R.layout.settings_seek), SeekBar.OnSeekBarChangeListener {
 
-    private val vIcon: ViewIcon = view.findViewById(R.id.vDevSupIcon)
-    private val vTitle: TextView = view.findViewById(R.id.vDevSupTitle)
-    private val vSubtitle: TextView = view.findViewById(R.id.vDevSupSubtitle)
-    private val vSeekBar: SeekBar = view.findViewById(R.id.vDevSupSeekBar)
+    private val vSeekBar: SeekBar = findViewById(R.id.vDevSupSeekBar)
 
     private var onProgressChanged: ((Int) -> Unit)? = null
 
@@ -45,25 +42,14 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         vSeekBar.id = View.NO_ID  //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSeek, 0, 0)
-        val lineVisible = a.getBoolean(R.styleable.SettingsSeek_SettingsSeek_lineVisible, true)
-        val title = a.getString(R.styleable.SettingsSeek_SettingsSeek_title)
-        val subtitle = a.getString(R.styleable.SettingsSeek_SettingsSeek_subtitle)
-        val icon = a.getResourceId(R.styleable.SettingsSeek_SettingsSeek_icon, 0)
-        val maxProgress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_maxProgress, 100)
-        var progress = a.getInteger(R.styleable.SettingsSeek_SettingsSeek_progress, 70)
-        val iconBackground = a.getResourceId(R.styleable.SettingsSeek_SettingsSeek_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsSeek_SettingsSeek_icon_padding, ToolsView.dpToPx(6).toFloat())
+        val maxProgress = a.getInteger(R.styleable.SettingsSeek_Settings_maxProgress, 100)
+        var progress = a.getInteger(R.styleable.SettingsSeek_Settings_progress, 70)
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)
 
-        setLineVisible(lineVisible)
-        setTitle(title)
-        setSubtitle(subtitle)
-        setIcon(icon)
         setMaxProgress(maxProgress)
-        setIconBackground(iconBackground)
-        setIconPaddingPx(iconPadding)
+        vSeekBar.setProgress(progress, false)
     }
 
     //
@@ -91,36 +77,6 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //  Setters
     //
 
-    fun setTitle(@StringRes titleRes: Int) {
-        setTitle(context.getString(titleRes))
-    }
-
-    fun setTitle(title: String?) {
-        vTitle.text = title
-        vTitle.visibility = if (title != null && !title.isEmpty()) View.VISIBLE else View.GONE
-    }
-
-    fun setSubtitle(@StringRes subtitleRes: Int) {
-        setSubtitle(context.getString(subtitleRes))
-    }
-
-    fun setSubtitle(subtitle: String?) {
-        vSubtitle.text = subtitle
-        vSubtitle.visibility = if (subtitle != null && !subtitle.isEmpty()) View.VISIBLE else View.GONE
-    }
-
-    fun setIcon(@DrawableRes icon: Int) {
-        if (icon == 0)
-            vIcon.setImageBitmap(null)
-        else
-            vIcon.setImageResource(icon)
-        vIcon.visibility = if (icon == 0) View.GONE else View.VISIBLE
-    }
-
-    fun setIconBackground(color: Int) {
-        vIcon.setIconBackgroundColor(color)
-    }
-
     fun setMaxProgress(max: Int) {
 
         vSeekBar.max = max
@@ -129,20 +85,10 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         vSeekBar.isEnabled = enabled
-        vTitle.isEnabled = enabled
-        vSubtitle.isEnabled = enabled
     }
 
     fun setOnProgressChanged(onProgressChanged: (Int) -> Unit) {
         this.onProgressChanged = onProgressChanged
-    }
-
-    fun setIconPadding(dp: Int) {
-        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
-    }
-
-    fun setIconPaddingPx(px: Float) {
-        vIcon.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
     }
 
     //

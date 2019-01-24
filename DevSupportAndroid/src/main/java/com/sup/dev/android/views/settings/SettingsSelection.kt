@@ -6,7 +6,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.WidgetMenu
 
-class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
+class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     val menu: WidgetMenu = WidgetMenu()
 
@@ -15,21 +15,6 @@ class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = nu
         menu.showPopupWhenClick(view)
         menu.setOnGlobalSelected { w, t -> setSubtitle(t) }
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSelection, 0, 0)
-        val lineVisible = a.getBoolean(R.styleable.SettingsSelection_SettingsSelection_lineVisible, true)
-        val title = a.getString(R.styleable.SettingsSelection_SettingsSelection_title)
-        val subtitle = a.getString(R.styleable.SettingsSelection_SettingsSelection_subtitle)
-        val icon = a.getResourceId(R.styleable.SettingsSelection_SettingsSelection_icon, 0)
-        val iconBackground = a.getColor(R.styleable.SettingsSelection_SettingsSelection_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsSelection_SettingsSelection_icon_padding, ToolsView.dpToPx(6).toFloat())
-        setIconBackground(iconBackground)
-        a.recycle()
-
-        setLineVisible(lineVisible)
-        setTitle(title)
-        setSubtitle(subtitle ?: "-")
-        setIcon(icon)
-        setIconPaddingPx(iconPadding)
     }
 
 }

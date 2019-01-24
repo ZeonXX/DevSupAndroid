@@ -14,12 +14,12 @@
 
     <View
         android:id="@+id/vDividerTop"
-        style="@style/Divider.8"
+        style="@style/Divider"
         android:layout_gravity="top"/>
 
     <View
         android:id="@+id/vDividerBottom"
-        style="@style/Divider.8"
+        style="@style/Divider"
         android:layout_gravity="bottom"/>
 
 </FrameLayout>

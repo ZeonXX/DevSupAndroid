@@ -2,54 +2,124 @@ package com.sup.dev.android.views.settings
 
 import android.content.Context
 import android.support.annotation.CallSuper
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
+import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewIcon
 import java.util.ArrayList
 
 
-abstract class Settings(context: Context, attrs: AttributeSet?, @LayoutRes layoutRes: Int) : FrameLayout(context, attrs) {
+open class Settings @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        @LayoutRes layoutRes: Int = R.layout.settings_action
+) : FrameLayout(context, attrs) {
 
-    private val line: View
     val view: View
+    private val line: View
+    private val vIcon: ViewIcon?
+    private val vTitle: TextView?
+    private val vSubtitle: TextView?
+    private val vSubViewContainer: ViewGroup?
 
     private var subSettings: ArrayList<Settings>? = null
-    //
-    //  Getters
-    //
-
-    var isSubSettingsEnabled = true
-        private set
-
 
     init {
 
         SupAndroid.initEditMode(this)
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0)
-        isFocusable = a.getBoolean(R.styleable.Settings_android_focusable, true)
-        a.recycle()
-
         view = ToolsView.inflate(this, layoutRes)
         addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        vIcon = findViewById(R.id.vDevSupIcon)
+        vTitle = findViewById(R.id.vDevSupTitle)
+        vSubtitle = findViewById(R.id.vDevSupSubtitle)
+        vSubViewContainer = findViewById(R.id.vDevSupContainer)
 
         line = View(context)
         addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 1)
         line.setBackgroundColor(ToolsResources.getColor(R.color.grey_600))
         (line.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), 0, ToolsView.dpToPx(8).toInt(), 0)
         (line.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0)
+        isFocusable = a.getBoolean(R.styleable.Settings_android_focusable, true)
+        val lineVisible = a.getBoolean(R.styleable.Settings_Settings_lineVisible, false)
+        val title = a.getString(R.styleable.Settings_Settings_title)
+        val subtitle = a.getString(R.styleable.Settings_Settings_subtitle)
+        val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
+        val iconBackground = a.getColor(R.styleable.Settings_Settings_icon_background, 0)
+        val iconPadding = a.getDimension(R.styleable.Settings_Settings_icon_padding, ToolsView.dpToPx(6))
+        a.recycle()
+
+        setLineVisible(lineVisible)
+        setTitle(title)
+        setSubtitle(subtitle)
+        setIcon(icon)
+        setIconBackground(iconBackground)
+        setIconPaddingPx(iconPadding)
     }
 
     //
     //  Setters
     //
+
+    override fun setOnTouchListener(l: View.OnTouchListener) {
+        super.setOnTouchListener(l)
+    }
+
+    fun setSubView(view: View?) {
+        vSubViewContainer?.removeAllViews()
+        if (view != null)
+            vSubViewContainer?.addView(view)
+    }
+
+    fun setTitle(@StringRes titleRes: Int) {
+        setTitle(context.getString(titleRes))
+    }
+
+    fun setTitle(title: String?) {
+        vTitle?.text = title
+        vTitle?.visibility = if (title != null && !title.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    fun setSubtitle(@StringRes subtitleRes: Int) {
+        setSubtitle(context.getString(subtitleRes))
+    }
+
+    fun setSubtitle(subtitle: String?) {
+        vSubtitle?.text = subtitle
+        vSubtitle?.visibility = if (subtitle != null && !subtitle.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    fun setIcon(@DrawableRes icon: Int) {
+        if (icon == 0)
+            vIcon?.setImageBitmap(null)
+        else
+            vIcon?.setImageResource(icon)
+        vIcon?.visibility = if (icon == 0) View.GONE else View.VISIBLE
+    }
+
+    fun setIconPadding(dp: Int) {
+        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
+    }
+
+    fun setIconPaddingPx(px: Float) {
+        vIcon?.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
+    }
+
+    fun setIconBackground(color: Int) {
+        vIcon?.setIconBackgroundColor(color)
+    }
 
     fun addSubSettings(settings: Settings) {
         if (subSettings == null) subSettings = ArrayList()
@@ -72,6 +142,8 @@ abstract class Settings(context: Context, attrs: AttributeSet?, @LayoutRes layou
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         view.isEnabled = enabled
+        vTitle?.isEnabled = enabled
+        vSubtitle?.isEnabled = enabled
         setEnabledSubSettings(enabled)
         if (subSettings != null)
             for (settings in subSettings!!)
@@ -82,4 +154,13 @@ abstract class Settings(context: Context, attrs: AttributeSet?, @LayoutRes layou
         view.setOnClickListener(l)
         view.isFocusable = l != null
     }
+
+
+    //
+    //  Getters
+    //
+
+    var isSubSettingsEnabled = true
+        private set
+
 }

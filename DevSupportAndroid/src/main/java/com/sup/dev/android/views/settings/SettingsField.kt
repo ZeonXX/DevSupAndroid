@@ -35,14 +35,10 @@ class SettingsField constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0)
         val hint = a.getString(R.styleable.SettingsField_android_hint)
-        var text = a.getString(R.styleable.SettingsField_SettingsField_text)
+        var text = a.getString(R.styleable.SettingsField_Settings_text)
         val inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.inputType)
         val singleLine = a.getBoolean(R.styleable.SettingsField_android_singleLine, false)
-        val icon = a.getResourceId(R.styleable.SettingsField_SettingsField_icon, 0)
-        val maxLength = a.getInteger(R.styleable.SettingsField_SettingsField_maxLength, 0)
-        val iconBackground = a.getResourceId(R.styleable.SettingsField_SettingsField_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsField_SettingsField_icon_padding, ToolsView.dpToPx(6).toFloat())
-        setIconBackground(iconBackground)
+        val maxLength = a.getInteger(R.styleable.SettingsField_Settings_maxLength, 0)
         a.recycle()
 
         if (singleLine) vField.setSingleLine()
@@ -50,12 +46,10 @@ class SettingsField constructor(
         vField.addTextChangedListener(TextWatcherRemoveHTML(vField))
 
         setLineVisible(false)
-        setIcon(icon)
         setText(text)
         setHint(hint)
         setInputType(inputType)
         setMaxLength(maxLength)
-        setIconPaddingPx(iconPadding)
         vField.clearFocus()
     }
 
@@ -120,18 +114,6 @@ class SettingsField constructor(
         checkError()
     }
 
-    fun setIcon(@DrawableRes icon: Int) {
-        if (icon == 0)
-            vIcon.setImageBitmap(null)
-        else
-            vIcon.setImageResource(icon)
-        vIcon.visibility = if (icon == 0) View.GONE else View.VISIBLE
-    }
-
-    fun setIconBackground(color: Int) {
-        vIcon.setIconBackgroundColor(color)
-    }
-
     fun setHint(@StringRes hintRes: Int) {
         setHint(ToolsResources.s(hintRes))
     }
@@ -156,14 +138,6 @@ class SettingsField constructor(
         super.setEnabled(enabled)
         vField.isEnabled = enabled
         vFieldLayout.isEnabled = enabled
-    }
-
-    fun setIconPadding(dp: Int) {
-        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
-    }
-
-    fun setIconPaddingPx(px: Float) {
-        vIcon.setPadding(px.toInt(), px.toInt(), px.toInt(), px.toInt())
     }
 
     //

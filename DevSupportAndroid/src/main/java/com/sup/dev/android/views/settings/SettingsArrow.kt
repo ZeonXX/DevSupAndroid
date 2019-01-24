@@ -8,7 +8,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-class SettingsArrow @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : SettingsAction(context, attrs) {
+class SettingsArrow @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vArrow: ImageView = ImageView(context)
 
@@ -16,32 +16,7 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
 
         vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_keyboard_arrow_right))
 
-
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsArrow, 0, 0)
-        val lineVisible = a.getBoolean(R.styleable.SettingsArrow_SettingsArrow_lineVisible, true)
-        val title = a.getString(R.styleable.SettingsArrow_SettingsArrow_title)
-        val subtitle = a.getString(R.styleable.SettingsArrow_SettingsArrow_subtitle)
-        val icon = a.getResourceId(R.styleable.SettingsArrow_SettingsArrow_icon, 0)
-        val iconBackground = a.getColor(R.styleable.SettingsArrow_SettingsArrow_icon_background, 0)
-        val iconPadding = a.getDimension(R.styleable.SettingsArrow_SettingsArrow_icon_padding, ToolsView.dpToPx(6).toFloat())
-        setIconBackground(iconBackground)
-        a.recycle()
-
-        setLineVisible(lineVisible)
-        setTitle(title)
-        setSubtitle(subtitle)
-        setIcon(icon)
-        setIconPaddingPx(iconPadding)
-
         setSubView(vArrow)
-    }
-
-    //
-    //  Setters
-    //
-
-    override fun setEnabled(enabled: Boolean) {
-        super.setEnabled(enabled)
     }
 
 }
