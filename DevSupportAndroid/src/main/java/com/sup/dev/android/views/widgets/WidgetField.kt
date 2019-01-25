@@ -20,7 +20,7 @@ import java.util.ArrayList
 open class WidgetField : Widget(R.layout.widget_field) {
 
     val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
-    private val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
+    val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
 
