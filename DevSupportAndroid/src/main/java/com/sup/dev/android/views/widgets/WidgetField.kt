@@ -42,7 +42,7 @@ open class WidgetField : Widget(R.layout.widget_field) {
         vFieldWidget.vField.setCallback { vFieldWidget.setText(it) }
     }
 
-    private fun check() {
+    fun check() {
 
         val text = getText()
         var error: String? = null
