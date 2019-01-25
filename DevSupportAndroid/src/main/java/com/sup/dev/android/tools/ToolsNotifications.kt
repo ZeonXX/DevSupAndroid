@@ -81,11 +81,11 @@ object ToolsNotifications {
                 builder.setVibrate(LongArray(0))
             }
 
-            val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            builder.setContentIntent(pendingIntent)
-
             val notificationId = notificationIdCounter++
             showedNotifications.add(tag, notificationId)
+
+            val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            builder.setContentIntent(pendingIntent)
 
             val notification = builder.build()
 
