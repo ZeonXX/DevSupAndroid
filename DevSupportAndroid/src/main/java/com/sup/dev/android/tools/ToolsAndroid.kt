@@ -157,9 +157,7 @@ object ToolsAndroid {
 
     }
 
-    fun isDebug(): Boolean {
-        return BuildConfig.DEBUG
-    }
+    fun isDebug() = BuildConfig.DEBUG
 
     fun isMainThread(): Boolean {
         return Looper.getMainLooper().thread === Thread.currentThread()
