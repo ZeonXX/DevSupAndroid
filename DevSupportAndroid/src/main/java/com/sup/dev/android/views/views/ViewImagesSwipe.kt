@@ -78,8 +78,8 @@ class ViewImagesSwipe constructor(
     }
 
     private fun updateVisibility() {
-        ToolsView.alpha(vNext, lastItem() == -1 || lastItem() >= adapter.size() - 1)
-        ToolsView.alpha(vBack, firstItem() < 1)
+        vNext.visibility = if (lastItem() == -1 || lastItem() >= adapter.size() - 1) View.INVISIBLE else View.VISIBLE
+        vBack.visibility = if (firstItem() < 1) View.INVISIBLE else View.VISIBLE
     }
 
     private fun lastItem() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
