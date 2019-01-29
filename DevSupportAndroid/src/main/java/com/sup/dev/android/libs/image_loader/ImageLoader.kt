@@ -46,7 +46,7 @@ object ImageLoader {
         var bytes = if (loader.noLoadFromCash) null else bitmapCash[loader.getKey()]
         if (bytes == null && !loader.noLoadFromCash) bytes = loader.getFromCash()
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
 
         if (bytes != null) {
             loader.isGif = loader.isGif || ToolsBytes.isGif(bytes)
@@ -54,6 +54,8 @@ object ImageLoader {
             putImage(loader, parseImage(loader, bytes), false, bytes)
             return
         }
+
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
 
         if (loader.vImage != null) {
             if (!loader.noHolder) {

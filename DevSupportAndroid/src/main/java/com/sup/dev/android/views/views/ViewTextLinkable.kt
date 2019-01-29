@@ -45,7 +45,7 @@ class ViewTextLinkable constructor(context: Context, attrs: AttributeSet) : View
 
         }
 
-        return false
+        return super.onTouchEvent(e)
 
 
     }
