@@ -33,8 +33,11 @@ object ApiRequestsSupporter {
         return request
     }
 
-    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
+    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> = executeInterstitial(action, null, request,onComplete)
+
+    fun <K : Request.Response> executeInterstitial(action: NavigationAction, tag:Any?, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
         val sInterstitialProgress = SInterstitialProgress()
+        sInterstitialProgress.tag = tag
         Navigator.action(action, sInterstitialProgress)
 
         return execute(request) { r ->
