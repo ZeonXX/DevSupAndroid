@@ -53,7 +53,7 @@ open class Settings @JvmOverloads constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0)
         isFocusable = a.getBoolean(R.styleable.Settings_android_focusable, true)
-        val lineVisible = a.getBoolean(R.styleable.Settings_Settings_lineVisible, false)
+        val lineVisible = a.getBoolean(R.styleable.Settings_Settings_lineVisible, true)
         val title = a.getString(R.styleable.Settings_Settings_title)
         val subtitle = a.getString(R.styleable.Settings_Settings_subtitle)
         val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
