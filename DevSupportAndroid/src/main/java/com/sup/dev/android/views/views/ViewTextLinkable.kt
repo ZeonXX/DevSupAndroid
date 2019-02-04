@@ -7,11 +7,7 @@ import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.widget.TextView
 
-/*
-    Если обычный текст делать кликаемым то сквозь него нельзя кликать
- */
 class ViewTextLinkable constructor(context: Context, attrs: AttributeSet) : ViewTextRounded(context, attrs) {
 
     override fun onTouchEvent(e: MotionEvent?): Boolean {
@@ -33,6 +29,7 @@ class ViewTextLinkable constructor(context: Context, attrs: AttributeSet) : View
 
                 val link = buffer.getSpans(off, off, ClickableSpan::class.java)
 
+
                 if (link.isNotEmpty()) {
                     if (e.action  == MotionEvent.ACTION_UP) {
                         link[0].onClick(this)
@@ -40,14 +37,14 @@ class ViewTextLinkable constructor(context: Context, attrs: AttributeSet) : View
                         Selection.setSelection(buffer, buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]))
                     }
                     return true
+                }else{
+                    return false
                 }
             }
 
         }
 
         return super.onTouchEvent(e)
-
-
     }
 
 }

@@ -28,15 +28,18 @@ class SwipeView(private val view: ViewGroup,
 
     private var swipeEnabled = true
     private var swiped = false
+    private var swipeStarted = false
     private var startX = -1f
     private var firstX = -1f
     private var firstY = -1f
     private var firstClickTime: Long = -1
     private var lastX = -1f
+    private var lastY = -1f
     private var focusAlpha = 0f
 
     private var subscriptionBack: Subscription? = null
     private var subscriptionFocus: Subscription? = null
+    private var subscriptionLongClick: Subscription? = null
 
     init {
 
@@ -50,11 +53,12 @@ class SwipeView(private val view: ViewGroup,
 
     override fun onTouch(view: View, e: MotionEvent): Boolean {
         if (subscriptionBack != null) subscriptionBack!!.unsubscribe()
-        if (subscriptionFocus != null) subscriptionFocus!!.unsubscribe()
+        if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
 
         if (e.action == MotionEvent.ACTION_DOWN) {
             startX = view.x
             lastX = e.x
+            lastY = e.y
             firstX = e.x
             firstY = e.y
             firstClickTime = System.currentTimeMillis()
@@ -68,11 +72,23 @@ class SwipeView(private val view: ViewGroup,
                 view.setBackgroundColor(colorFocus)
             })
 
+            subscriptionLongClick = ToolsThreads.main(longClickTime) {
+                clear()
+                onLongClick.invoke(e.x, e.y)
+            }
+
             return true
         }
         if (e.action == MotionEvent.ACTION_MOVE && lastX > -1 && swipeEnabled) {
-            this.view.requestDisallowInterceptTouchEvent(true)
             val mx = e.x - (startX - view.x)
+
+            if (!swipeStarted && Math.abs(lastX - mx) <= Math.abs(lastY - e.y))
+                return false
+            else {
+                this.view.requestDisallowInterceptTouchEvent(true)
+                swipeStarted = true
+            }
+
             view.x = view.x - (lastX - mx)
             if (view.x < startX - maxOffset) {
                 view.x = startX - maxOffset
@@ -85,6 +101,7 @@ class SwipeView(private val view: ViewGroup,
             }
             vIcon.alpha = (startX - view.x) / maxOffset
             lastX = mx
+            lastY = e.y
             return true
         }
         if (e.action == MotionEvent.ACTION_UP && firstX == e.x && firstY == e.y) {
@@ -107,9 +124,15 @@ class SwipeView(private val view: ViewGroup,
     private fun clear() {
         startX = -1f
         lastX = -1f
+        lastY = -1f
         firstX = -1f
         firstY = -1f
         firstClickTime = -1
+        swipeStarted = false
+        if (subscriptionBack != null) subscriptionBack!!.unsubscribe()
+        if (subscriptionFocus != null) subscriptionFocus!!.unsubscribe()
+        if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
+
         subscriptionBack = ToolsThreads.timerMain(10, 150, { sub ->
             view.x = view.x + (startX - view.x) / (150 / 10f)
             vIcon.alpha = (startX - view.x) / maxOffset

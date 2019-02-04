@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.animation.FastOutLinearInInterpolator
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.text.Selection
 import android.text.Spannable
 import android.text.Spanned

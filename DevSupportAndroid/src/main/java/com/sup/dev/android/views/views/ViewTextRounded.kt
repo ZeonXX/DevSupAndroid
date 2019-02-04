@@ -3,6 +3,7 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.text.Layout
 import android.util.AttributeSet
+import android.view.ViewGroup
 
 
 open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : android.support.v7.widget.AppCompatTextView(context, attrs) {
@@ -10,9 +11,11 @@ open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        val width = Math.ceil(getMaxLineWidth(layout).toDouble()).toInt()
-        val height = measuredHeight
-        setMeasuredDimension(width, height)
+        if(layoutParams.width != ViewGroup.LayoutParams.MATCH_PARENT) {
+            val width = Math.ceil(getMaxLineWidth(layout).toDouble()).toInt()
+            val height = measuredHeight
+            setMeasuredDimension(width, height)
+        }
     }
 
     private fun getMaxLineWidth(layout: Layout): Float {

@@ -102,7 +102,7 @@ object ToolsNotifications {
             val keys = showedNotifications.getKeys()
             for (tag in keys) cancel(tag)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
                 for (n in notificationManager.activeNotifications) if (n.tag.split(SPLITER)[0] == idS) notificationManager.cancel(n.tag, n.id)
 
         }
@@ -112,7 +112,7 @@ object ToolsNotifications {
             for (id in ids) notificationManager.cancel(idS + SPLITER + tag, id)
             showedNotifications.remove(tag)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
                 for (n in notificationManager.activeNotifications) {
                     val split = n.tag.split(SPLITER)
                     if (split.size > 1)
