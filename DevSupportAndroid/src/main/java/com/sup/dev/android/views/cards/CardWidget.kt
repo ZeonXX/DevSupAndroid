@@ -11,7 +11,7 @@ class CardWidget(private val widget: Widget) : Card(), WidgetViewWrapper {
         return 0
     }
 
-    override fun instanceView(context: Context): View? {
+    override fun instanceView(context: Context): View {
         return widget.view
     }
 

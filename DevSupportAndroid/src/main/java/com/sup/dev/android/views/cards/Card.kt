@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
 import android.view.View
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
 
@@ -38,8 +39,8 @@ abstract class Card {
         view.tag = this
     }
 
-    protected open fun instanceView(): View? {
-        return null
+    protected open fun instanceView(): View {
+        return View(SupAndroid.appContext)
     }
 
     protected fun getView():View?{
@@ -55,7 +56,7 @@ abstract class Card {
     //  Adapter
     //
 
-    open fun instanceView(context: Context): View? {
+    open fun instanceView(context: Context): View {
         val layout = getLayout()
         return if (layout > 0) ToolsView.inflate(context, getLayout()) else instanceView()
     }
