@@ -190,12 +190,16 @@ object ToolsBitmap {
     //  Get
     //
 
-    fun decode(bytes: ByteArray?): Bitmap? {
+    fun decodeFull(bytes: ByteArray?): Bitmap? {
         return if (bytes == null) null else BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 
+    fun decode(bytes: ByteArray?): Bitmap? {
+        return if (bytes == null) null else decode(bytes, 1920, 1080, null, true)
+    }
+
     fun decode(bytes: ByteArray?, opts: BitmapFactory.Options): Bitmap? {
-        return if (bytes == null) null else BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
+        return if (bytes == null) null else decode(bytes, 1920, 1080, opts, true)
     }
 
     fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, minSizes: Boolean): Bitmap? {
@@ -311,10 +315,10 @@ object ToolsBitmap {
     fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
 
         getFromGallery({ bytes ->
-                    val bitmap = ToolsBitmap.decode(bytes)
-                    if (bitmap == null) onComplete.invoke(null, null)
-                    else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
-                })
+            val bitmap = ToolsBitmap.decode(bytes)
+            if (bitmap == null) onComplete.invoke(null, null)
+            else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
+        })
     }
 
     fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {

@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.cards
 
 import android.content.Context
+import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
 import android.view.View
 import com.sup.dev.android.tools.ToolsView
@@ -10,6 +11,7 @@ import com.sup.dev.android.views.support.adapters.CardAdapter
 abstract class Card {
 
     var adapter: CardAdapter? = null
+    private var view: View? = null
 
     var tag: Any? = null
 
@@ -30,10 +32,23 @@ abstract class Card {
         }
     }
 
-    abstract fun bindView(view: View)
+    @CallSuper
+    open fun bindView(view: View) {
+        this.view = view
+        view.tag = this
+    }
 
     protected open fun instanceView(): View? {
         return null
+    }
+
+    protected fun getView():View?{
+        if(view == null || view!!.tag != this){
+            view = null
+            return null
+        }else{
+            return view
+        }
     }
 
     //

@@ -24,13 +24,13 @@ object SupAndroid {
 
     var TEXT_APP_NAME: String? = null
 
-    var IMG_ERROR_NETWORK: Int = 0
-    var IMG_ERROR_GONE: Int = 0
+    var IMG_ERROR_NETWORK = 0
+    var IMG_ERROR_GONE = 0
 
-    var editMode: Boolean = false
+    var editMode = false
     var appContext: Context? = null
     var activity: SActivity? = null
-    var activityIsVisible: Boolean = false
+    var activityIsVisible = false
 
     fun initEditMode(view: View) {
         if (!view.isInEditMode) return
@@ -46,18 +46,9 @@ object SupAndroid {
             else Handler(Looper.getMainLooper()).post { runnable.invoke() }
         }
 
-        Debug.printer = { s ->
-            Log.e("Debug", s)
-            Unit
-        }
-        Debug.printerInfo = { s ->
-            Log.i("Debug", s)
-            Unit
-        }
-        Debug.exceptionPrinter = { th ->
-            Log.e("Debug", "", th)
-            Unit
-        }
+        Debug.printer = { s -> Log.e("Debug", s) }
+        Debug.printerInfo = { s -> Log.i("Debug", s) }
+        Debug.exceptionPrinter = { th -> Log.e("Debug", "", th) }
 
         TEXT_APP_NAME = loadText("app_name")
 
