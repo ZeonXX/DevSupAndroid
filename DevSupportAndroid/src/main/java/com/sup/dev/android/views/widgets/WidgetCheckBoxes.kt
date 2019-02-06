@@ -10,12 +10,12 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.cards.CardDividerTitleMini
 import java.util.ArrayList
 
 
 class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
-    private val items = ArrayList<Item>()
     private val vOptionsContainer: LinearLayout = view.findViewById(R.id.vContentContainer)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
@@ -41,15 +41,10 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         finishItemBuilding()
     }
 
-    private fun add(item: Item) {
-        items.add(item)
-    }
-
     private fun finishItemBuilding() {
         if (buildItem != null) {
             val i = buildItem
             buildItem = null
-            if (!skipThisItem && !skipGroup) add(i!!)
         }
     }
 
@@ -122,6 +117,27 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return this
     }
 
+    fun group(@StringRes title: Int): WidgetCheckBoxes {
+        return group(ToolsResources.s(title))
+    }
+
+    fun group(@StringRes title: Int, divider: Boolean): WidgetCheckBoxes {
+        return group(ToolsResources.s(title), divider)
+    }
+
+    @JvmOverloads
+    fun group(title: String?, divider: Boolean = false): WidgetCheckBoxes {
+        finishItemBuilding()
+        val card = CardDividerTitleMini().setText(title).setDividerBottom(divider)
+        val v = card.instanceView(context)
+        card.bindView(v)
+        vOptionsContainer.addView(v)
+        if (vOptionsContainer.childCount > 1)
+            (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()
+        return this
+    }
+
+
     //
     //  Setters
     //
@@ -134,6 +150,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener { vi ->
             for (i in 0 until vOptionsContainer.childCount) {
+                if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
                 val item = v.tag as Item
                 if (v.isChecked) item.onSelected.invoke(this, item)
@@ -181,15 +198,15 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
         var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { w, i, b -> run { } }
-        var onSelected: (WidgetCheckBoxes, Item) -> Unit = {w,i->}
-        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = {w,i->}
+        var onSelected: (WidgetCheckBoxes, Item) -> Unit = { w, i -> }
+        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = { w, i -> }
 
         init {
             v.tag = this
-            v.setOnCheckedChangeListener { w, b -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked)}
+            v.setOnCheckedChangeListener { w, b -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked) }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
-                (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(16f).toInt()
+                (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()
 
         }
 

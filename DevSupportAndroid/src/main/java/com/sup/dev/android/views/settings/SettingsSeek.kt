@@ -43,13 +43,13 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSeek, 0, 0)
         val maxProgress = a.getInteger(R.styleable.SettingsSeek_Settings_maxProgress, 100)
-        var progress = a.getInteger(R.styleable.SettingsSeek_Settings_progress, 70)
+        val progress = a.getInteger(R.styleable.SettingsSeek_Settings_progress, 70)
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)
 
         setMaxProgress(maxProgress)
-        vSeekBar.setProgress(progress, false)
+        vSeekBar.progress = progress
     }
 
     //

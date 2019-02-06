@@ -101,7 +101,7 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     @JvmOverloads
-    fun group(title: String?, divider: Boolean = true): WidgetMenu {
+    fun group(title: String?, divider: Boolean = false): WidgetMenu {
         finishItemBuilding()
         myAdapter.add(CardDividerTitleMini().setText(title).setDividerBottom(divider))
         return this

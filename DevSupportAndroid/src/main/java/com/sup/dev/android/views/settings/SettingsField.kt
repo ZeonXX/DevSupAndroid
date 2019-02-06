@@ -35,7 +35,7 @@ class SettingsField constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0)
         val hint = a.getString(R.styleable.SettingsField_android_hint)
-        var text = a.getString(R.styleable.SettingsField_Settings_text)
+        val text = a.getString(R.styleable.SettingsField_Settings_text)
         val inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.inputType)
         val singleLine = a.getBoolean(R.styleable.SettingsField_android_singleLine, false)
         val maxLength = a.getInteger(R.styleable.SettingsField_Settings_maxLength, 0)
