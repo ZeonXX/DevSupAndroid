@@ -24,7 +24,6 @@ class ViewIcon @JvmOverloads constructor(
     private val animationSelectedBackground: AnimationSpringColor
 
     private var src = 0
-    private var bitmap: Bitmap? = null
     private var filter = 0
     private var srcSelect = 0
     private var filterSelect = 0
