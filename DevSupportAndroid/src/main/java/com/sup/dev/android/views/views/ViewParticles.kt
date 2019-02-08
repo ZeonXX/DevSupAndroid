@@ -22,7 +22,7 @@ class ViewParticles @JvmOverloads constructor(context: Context, attrs: Attribute
 
     var squareMode = true
     var colors = intArrayOf(ToolsResources.getColor(R.color.red_700), ToolsResources.getColor(R.color.green_700), ToolsResources.getColor(R.color.blue_700))
-    var patchProvider: (() -> Path)? = null
+    var patch: Path? = null
     var minSize = ToolsView.dpToPx(2)
     var maxSize = ToolsView.dpToPx(8)
     var createXMin = -1f
@@ -64,6 +64,7 @@ class ViewParticles @JvmOverloads constructor(context: Context, attrs: Attribute
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if(!isEnabled) return
 
         time += stepTime.toLong()
 
@@ -105,7 +106,7 @@ class ViewParticles @JvmOverloads constructor(context: Context, attrs: Attribute
         private val alphaChange = ToolsMath.randomFloat(alphaChangeMin, alphaChangeMax)
         private val color: Int = colors[ToolsMath.randomInt(0, colors.size - 1)]
         private var timeToLife = ToolsMath.randomLong(timeToLifeMin, timeToLifeMax)
-        private val path = if (patchProvider != null) patchProvider!!.invoke() else null
+        private val path = patch
 
         init {
             x = if (createXMin > -1) ToolsMath.randomFloat(createXMin, createXMax)
