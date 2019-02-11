@@ -82,7 +82,7 @@ class SwipeView(private val view: ViewGroup,
         if (e.action == MotionEvent.ACTION_MOVE && lastX > -1 && swipeEnabled) {
             val mx = e.x - (startX - view.x)
 
-            if (!swipeStarted && Math.abs(lastX - mx) <= Math.abs(lastY - e.y))
+            if (!swipeStarted && Math.abs(lastX - mx)/4 <= Math.abs(lastY - e.y))
                 return false
             else {
                 this.view.requestDisallowInterceptTouchEvent(true)

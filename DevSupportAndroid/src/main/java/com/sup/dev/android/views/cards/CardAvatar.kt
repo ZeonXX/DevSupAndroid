@@ -30,6 +30,7 @@ open class CardAvatar : Card() {
     override fun getLayout() = R.layout.card_avatar
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vTouch: View = view.findViewById(R.id.vTouch)
         val vDivider: View = view.findViewById(R.id.vDivider)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)

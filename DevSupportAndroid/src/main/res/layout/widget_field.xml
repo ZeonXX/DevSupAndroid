@@ -43,13 +43,13 @@
             android:layout_gravity="end"
             android:orientation="horizontal">
 
-            <Button
+            <com.sup.dev.android.views.views.ViewButton
                 android:id="@+id/vCancel"
                 style="@style/Button.Text"
                 android:layout_marginRight="8dp"
                 android:text="Cancel"/>
 
-            <Button
+            <com.sup.dev.android.views.views.ViewButton
                 android:id="@+id/vEnter"
                 style="@style/Button.Text"
                 android:text="Action"/>

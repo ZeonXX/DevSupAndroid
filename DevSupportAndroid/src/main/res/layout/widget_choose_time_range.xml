@@ -31,7 +31,7 @@
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.sup.dev.android.views.views.ViewButton
                     android:id="@+id/vStart"
                     style="@style/Button.Outlined"
                     android:layout_gravity="center"
@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:text=" - "/>
 
-                <Button
+                <com.sup.dev.android.views.views.ViewButton
                     android:id="@+id/vEnd"
                     style="@style/Button.Outlined"
                     android:layout_gravity="center"
@@ -64,13 +64,13 @@
         android:layout_margin="8dp"
         android:orientation="horizontal">
 
-        <Button
+        <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vCancel"
             style="@style/Button.Text"
             android:text="Cancel"
             android:layout_marginRight="8dp"/>
 
-        <Button
+        <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vEnter"
             style="@style/Button.Text"
             android:text="Action"/>

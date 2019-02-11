@@ -159,7 +159,7 @@ object ImageLoader {
 
         if (!loader.isGif) {
             bitmap = parseImage(loader, loadedBytes)
-            if (loader.cashScaledBytes) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
+            if (loader.cashScaledBytes && bitmap != null) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
         }
 
         ToolsThreads.main {
@@ -180,9 +180,9 @@ object ImageLoader {
 
     }
 
-    private fun parseImage(loader: ImageLoaderA, bytes: ByteArray): Bitmap {
-        var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options, loader.cropSquareCenter)!!
-        if (loader.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm)
+    private fun parseImage(loader: ImageLoaderA, bytes: ByteArray): Bitmap? {
+        var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options, loader.cropSquareCenter)
+        if (loader.cropSquareCenter && bm != null) bm = ToolsBitmap.cropCenterSquare(bm)
         return bm
     }
 

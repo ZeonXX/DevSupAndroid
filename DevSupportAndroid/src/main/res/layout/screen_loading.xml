@@ -34,7 +34,7 @@
             android:maxWidth="240dp"
             android:text="tttttttttttttttttttttttttttttttt" />
 
-        <Button
+        <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vAction"
             style="@style/Button.Text"
             android:layout_width="wrap_content"

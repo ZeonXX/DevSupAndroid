@@ -20,7 +20,7 @@
             android:gravity="center"
             android:text="My own message text. And more text.To the Nex text line."/>
 
-        <Button
+        <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vAction"
             style="@style/Button.Text"
             android:layout_width="wrap_content"

@@ -177,6 +177,10 @@
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
+    <style name="Fab.Mini">
+        <item name="fabCustomSize">42dp</item>
+    </style>
+
     <style name="Widget.GifView" parent="@android:style/Widget"/>
 
     <style name="Divider">
