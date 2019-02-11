@@ -174,12 +174,7 @@ abstract class ImageLoaderA {
 
     fun clear() {
         ToolsCash.clear("" + key.replace("/", "_").hashCode())
-        ImageLoader.bitmapCash.remove(key)
+        ImageLoader.removeFromCash(key)
     }
-
-    fun replace(bytes: ByteArray) {
-        ImageLoader.bitmapCash.replace(key, bytes)
-    }
-
 
 }

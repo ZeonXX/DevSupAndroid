@@ -15,6 +15,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.*
 import java.io.ByteArrayOutputStream
@@ -195,26 +196,31 @@ object ToolsBitmap {
     }
 
     fun decode(bytes: ByteArray?): Bitmap? {
-        return if (bytes == null) null else decode(bytes, 1920, 1080, null, true)
+        return if (bytes == null) null else decode(bytes, 0, 0, null, false)
     }
 
     fun decode(bytes: ByteArray?, opts: BitmapFactory.Options): Bitmap? {
-        return if (bytes == null) null else decode(bytes, 1920, 1080, opts, true)
+        return if (bytes == null) null else decode(bytes, 0, 0, opts, false)
     }
 
-    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, minSizes: Boolean): Bitmap? {
+    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, minSizes: Boolean, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
         var options = options
 
         if (bytes == null) return null
         if (options == null) options = BitmapFactory.Options()
 
-        if (w != 0 || h != 0) {
+        if (w != 0 || h != 0 || maxW != 0 || maxH != 0) {
+            var ww = maxW
+            var hh = maxH
+            if(w in 1..(ww - 1)) ww = w
+            if(h in 1..(hh - 1)) hh = h
             options.inJustDecodeBounds = true
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
             options.inSampleSize = 1
-            while (options.outHeight / options.inSampleSize > h || options.outWidth / options.inSampleSize > w)
+            while (options.outHeight / options.inSampleSize > hh || options.outWidth / options.inSampleSize > ww)
                 options.inSampleSize *= 2
         }
+
 
         options.inJustDecodeBounds = false
         var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
@@ -223,6 +229,7 @@ object ToolsBitmap {
             if (bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
         }
+
 
         return bitmap
     }

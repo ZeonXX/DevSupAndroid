@@ -19,7 +19,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     private val holders = ArrayList<Holder>()
     val items: ArrayList<Card> = ArrayList()
-    private val viewCash = HashList<KClass<out Card>, View>()
+    private val viewCash = HashList<Any, View>()
 
     private var notifyCount = 0
 
@@ -58,7 +58,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         val card = items[position]
         val frame = holder.itemView
 
-        val tag: KClass<out Card>? = frame.tag as KClass<out Card>?
+        val tag = frame.tag
 
         if (frame.childCount != 0  && tag != null)
             viewCash.add(tag, frame.getChildAt(0))
@@ -69,7 +69,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
             cardView = card.instanceView(frame.context)
 
 
-        frame.addView(ToolsView.removeFromParent(cardView!!))
+        frame.addView(ToolsView.removeFromParent(cardView))
         frame.tag = card::class
         (cardView.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER
 

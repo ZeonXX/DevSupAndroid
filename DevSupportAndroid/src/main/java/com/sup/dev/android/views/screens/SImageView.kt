@@ -12,6 +12,7 @@ import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -78,6 +79,7 @@ class SImageView private constructor()
         override fun getLayout() = R.layout.screen_image_view_page
 
         override fun bindView(view: View) {
+            super.bindView(view)
             val vImage: ImageView = view.findViewById(R.id.vImage)
             val vZoom: LayoutZoom = view.findViewById(R.id.vZoom)
 

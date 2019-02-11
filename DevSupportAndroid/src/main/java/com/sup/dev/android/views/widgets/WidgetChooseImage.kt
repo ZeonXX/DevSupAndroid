@@ -150,6 +150,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         }
 
         override fun bindView(view: View) {
+            super.bindView(view)
             val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> onClick() }
             ToolsImagesLoader.load(file).size(512, 512).cropSquare().into(vImage)

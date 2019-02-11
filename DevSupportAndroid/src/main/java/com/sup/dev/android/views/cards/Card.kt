@@ -24,13 +24,14 @@ abstract class Card {
     abstract fun getLayout(): Int
 
     fun update() {
-        if (adapter == null) return
 
-        val view = adapter!!.getView(this)
-
-        if (view != null) {
-            bindView(view)
+        if(view == null) {
+            if (adapter == null) return
+            view = adapter!!.getView(this)
         }
+
+        if (view != null) bindView(view!!)
+
     }
 
     @CallSuper
