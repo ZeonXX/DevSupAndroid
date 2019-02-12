@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
-import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -21,6 +20,9 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
+import android.os.Build
+import com.sup.dev.android.R
+
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -100,6 +102,15 @@ abstract class SActivity : AppCompatActivity() {
             onUrlClicked!!.invoke(intent.data!!.toString())
         } else {
             super.startActivity(intent)
+        }
+    }
+
+    fun restart() {
+        if (Build.VERSION.SDK_INT >= 11) {
+            recreate()
+        } else {
+            finish()
+            startActivity(intent)
         }
     }
 

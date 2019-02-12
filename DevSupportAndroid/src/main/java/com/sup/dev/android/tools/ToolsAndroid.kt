@@ -20,17 +20,26 @@ import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.util.*
+
 
 object ToolsAndroid {
 
     //
     //  Device
     //
+
+    fun setLanguage(context:Context, lang: String) {
+        val res = context.resources
+        res.configuration.locale = Locale(lang)
+        res.updateConfiguration(res.configuration, res.displayMetrics)
+    }
 
     fun getVersion() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionName
 
@@ -185,7 +194,7 @@ object ToolsAndroid {
     fun getFromClipboard(): String? {
         val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val primaryClip = clipboard.primaryClip
-        if(primaryClip == null) return null
+        if (primaryClip == null) return null
         return if (primaryClip.itemCount == 0)
             null
         else

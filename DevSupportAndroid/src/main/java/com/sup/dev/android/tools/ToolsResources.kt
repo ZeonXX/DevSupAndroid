@@ -9,6 +9,7 @@ import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
+import java.util.*
 
 
 object ToolsResources {
@@ -33,6 +34,21 @@ object ToolsResources {
 
     fun s(@StringRes r: Int): String {
         return SupAndroid.appContext!!.resources.getString(r)
+    }
+
+    fun sLang(languageCode:String, @StringRes r: Int): String {
+        val res = SupAndroid.appContext!!.getResources()
+        val conf = res.getConfiguration()
+        val savedLocale = conf.locale
+        conf.locale = Locale(languageCode)
+        res.updateConfiguration(conf, null)
+
+        val str = res.getString(r)
+
+        conf.locale = savedLocale
+        res.updateConfiguration(conf, null)
+
+        return str
     }
 
     fun getPlural(@PluralsRes r: Int, value: Int): String {

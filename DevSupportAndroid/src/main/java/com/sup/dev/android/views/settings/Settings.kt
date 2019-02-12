@@ -84,7 +84,7 @@ open class Settings @JvmOverloads constructor(
     }
 
     fun setTitle(@StringRes titleRes: Int) {
-        setTitle(context.getString(titleRes))
+        setTitle(ToolsResources.s(titleRes))
     }
 
     fun setTitle(title: String?) {
@@ -93,7 +93,7 @@ open class Settings @JvmOverloads constructor(
     }
 
     fun setSubtitle(@StringRes subtitleRes: Int) {
-        setSubtitle(context.getString(subtitleRes))
+        setSubtitle(ToolsResources.s(subtitleRes))
     }
 
     fun setSubtitle(subtitle: String?) {
