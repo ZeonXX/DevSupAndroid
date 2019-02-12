@@ -10,9 +10,18 @@ class ViewButton @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : android.support.design.button.MaterialButton(context, attrs) {
 
+    private var color:Int? = null
+
+    init {
+        if(isEnabled){
+            color = currentTextColor
+        }
+    }
+
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         if(!enabled) setTextColor(ToolsResources.getColor(R.color.focus_dark))
+        else if(color != null) setTextColor(color!!)
     }
 
 }

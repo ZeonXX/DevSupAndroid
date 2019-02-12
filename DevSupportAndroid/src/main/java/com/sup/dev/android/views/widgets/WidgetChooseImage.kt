@@ -86,7 +86,7 @@ open class WidgetChooseImage : WidgetRecycler() {
     }
 
     private fun loadLink(link: String) {
-        var progress = ToolsView.showProgressDialog()
+        val progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
             if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(R.string.error_cant_load_image)
