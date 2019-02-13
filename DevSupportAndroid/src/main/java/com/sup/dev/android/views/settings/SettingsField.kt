@@ -3,7 +3,6 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
@@ -12,7 +11,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
-import com.sup.dev.android.views.support.watchers.TextWatcherRemoveHTML
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 
@@ -43,7 +41,6 @@ class SettingsField constructor(
 
         if (singleLine) vField.setSingleLine()
         vField.addTextChangedListener(TextWatcherChanged { s -> checkError() })
-        vField.addTextChangedListener(TextWatcherRemoveHTML(vField))
 
         setLineVisible(false)
         setText(text)
