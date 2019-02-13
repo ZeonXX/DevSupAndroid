@@ -28,9 +28,10 @@ abstract class Card {
         if(view == null) {
             if (adapter == null) return
             view = adapter!!.getView(this)
+            view!!.tag = this
         }
 
-        if (view != null) bindView(view!!)
+        if (view != null && view!!.tag == this) bindView(view!!)
 
     }
 
