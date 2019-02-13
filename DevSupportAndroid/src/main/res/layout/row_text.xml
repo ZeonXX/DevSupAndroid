@@ -8,11 +8,6 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"></ScrollView>
-
     <TextView
         android:id="@+id/vText"
         style="@style/Base.TextAppearance.AppCompat.Subhead"
@@ -21,7 +16,6 @@
         android:layout_gravity="center"
         android:padding="16dp"
         android:text="My text"/>
-
 
     <View
         android:id="@+id/vDivider"
