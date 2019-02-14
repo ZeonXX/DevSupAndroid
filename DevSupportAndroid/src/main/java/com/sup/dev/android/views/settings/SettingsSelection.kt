@@ -2,8 +2,6 @@ package com.sup.dev.android.views.settings
 
 import android.content.Context
 import android.util.AttributeSet
-import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.WidgetMenu
 
 class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
@@ -12,7 +10,7 @@ class SettingsSelection  constructor(context: Context, attrs: AttributeSet? = nu
 
     init {
 
-        menu.showPopupWhenClick(view)
+        view.setOnClickListener{ menu.asSheetShow()}
         menu.setOnGlobalSelected { w, t -> setSubtitle(t) }
 
     }
