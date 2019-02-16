@@ -12,6 +12,7 @@ import com.sup.dev.android.views.support.adapters.CardAdapter
 abstract class Card {
 
     var adapter: CardAdapter? = null
+    private var view:View? = null
 
     var tag: Any? = null
 
@@ -27,7 +28,10 @@ abstract class Card {
         if (view != null) bindView(view)
     }
 
+    @CallSuper
     open fun bindView(view: View) {
+        this.view = view
+        view.tag = this
     }
 
     protected open fun instanceView(): View {
@@ -35,8 +39,15 @@ abstract class Card {
     }
 
     protected fun getView(): View? {
-        if(adapter == null) return null
-        return adapter!!.getView(this)
+        val view = if(adapter == null)  null else adapter!!.getView(this)
+        if(view != null){
+            this.view = view
+            view.tag = this
+        }
+
+        if(this.view != null && this.view!!.tag != this) this.view = null
+
+        return this.view
     }
 
     //

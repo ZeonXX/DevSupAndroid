@@ -224,7 +224,7 @@ object ToolsBitmap {
 
         options.inJustDecodeBounds = false
         var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
-        if (w != 0 || h != 0) {
+        if (bitmap != null && w != 0 || h != 0) {
             val inscribe = if (minSizes) ToolsMath.inscribeMin(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat()) else ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
             if (bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
@@ -273,14 +273,18 @@ object ToolsBitmap {
     }
 
     @Throws(IOException::class)
-    fun getFromURL(src: String): Bitmap {
+    fun getFromURL(src: String): Bitmap? {
         val url = URL(src)
         val connection = url.openConnection() as HttpURLConnection
         connection.readTimeout = 4000
         connection.doInput = true
         connection.connect()
         val input = connection.inputStream
-        return BitmapFactory.decodeStream(input)
+        try {
+            return BitmapFactory.decodeStream(input)
+        }catch (e:Exception){
+            return null
+        }
     }
 
     fun getFromURL(src: String, bitmapListener: (Bitmap?) -> Unit) {
@@ -337,7 +341,7 @@ object ToolsBitmap {
     //  To
     //
 
-    fun toBytes(bitmap: Bitmap, maxBytesSize: Int = Integer.MAX_VALUE): ByteArray {
+    fun toBytes(bitmap: Bitmap, maxBytesSize: Int = Integer.MAX_VALUE): ByteArray? {
         var containsAlpha = false
         for (x in 0 until bitmap.width)
             for (y in 0 until bitmap.height)
@@ -355,7 +359,7 @@ object ToolsBitmap {
         var q = 100
         var bytes = toJPGBytes(bitmap, 100)
         while (bytes.size > maxBytesSize) {
-            if (q == 2) throw IllegalArgumentException("Can't convert to JPG")
+            if (q == 2) return null
             q -= 2
             bytes = toJPGBytes(bitmap, q)
         }
