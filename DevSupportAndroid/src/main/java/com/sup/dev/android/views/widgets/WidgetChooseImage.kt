@@ -78,7 +78,7 @@ open class WidgetChooseImage : WidgetRecycler() {
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
         }, {
-            ToolsToast.show(R.string.error_permission_files)
+            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)
             hide()
         })
 
@@ -89,7 +89,7 @@ open class WidgetChooseImage : WidgetRecycler() {
         val progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
-            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(R.string.error_cant_load_image)
+            if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
             else onSelected(it)
         })
     }
@@ -114,7 +114,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 onSelected(bytes)
             } catch (e: IOException) {
                 err(e)
-                ToolsToast.show(R.string.error_cant_load_image)
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
             }
         })
     }
@@ -173,7 +173,7 @@ open class WidgetChooseImage : WidgetRecycler() {
                 } catch (e: Exception) {
                     err(e)
                     ToolsThreads.main { d.hide() }
-                    ToolsToast.show(R.string.error_cant_load_image)
+                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
                 }
             }
         }

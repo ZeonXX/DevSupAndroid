@@ -27,9 +27,9 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> execute(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         request.onComplete { r -> onComplete.invoke(r) }
-                .onNetworkError { ToolsToast.show(R.string.error_network) }
-                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(ToolsResources.s(R.string.error_account_baned), ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(String.format(ToolsResources.s(R.string.error_gone))) }
+                .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
+                .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
+                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(SupAndroid.TEXT_ERROR_GONE) }
                 .send(api!!)
         return request
     }
@@ -88,7 +88,7 @@ object ApiRequestsSupporter {
         val w = if (title == null) ToolsView.showProgressDialog() else ToolsView.showProgressDialog(title)
         return execute(request) { r -> onComplete.invoke(w, r) }
                 .onNetworkError {
-                    ToolsToast.show(R.string.error_network)
+                    ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK)
                     w.hide()
                 }
     }

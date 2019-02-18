@@ -27,7 +27,7 @@ object ToolsIntent {
 
     private var codeCounter = 0
     private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>>()
-    private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(R.string.error_app_not_found)}
+    private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND)}
 
     //
     //  Support

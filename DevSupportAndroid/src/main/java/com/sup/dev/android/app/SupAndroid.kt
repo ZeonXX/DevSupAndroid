@@ -32,6 +32,12 @@ object SupAndroid {
     var TEXT_APP_DONT_SHOW_AGAIN: String? = null
     var TEXT_APP_LINK: String? = null
     var TEXT_APP_CHOOSE: String? = null
+    var TEXT_ERROR_NETWORK: String? = null
+    var TEXT_ERROR_ACCOUNT_BANED: String? = null
+    var TEXT_ERROR_GONE: String? = null
+    var TEXT_ERROR_CANT_LOAD_IMAGE: String? = null
+    var TEXT_ERROR_PERMISSION_FILES: String? = null
+    var TEXT_ERROR_APP_NOT_FOUND: String? = null
 
     var IMG_ERROR_NETWORK = 0
     var IMG_ERROR_GONE = 0
@@ -69,6 +75,12 @@ object SupAndroid {
         TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again")
         TEXT_APP_LINK = loadText("app_link")
         TEXT_APP_CHOOSE = loadText("app_choose")
+        TEXT_ERROR_NETWORK = loadText("error_network")
+        TEXT_ERROR_ACCOUNT_BANED = loadText("error_account_baned")
+        TEXT_ERROR_GONE = loadText("error_gone")
+        TEXT_ERROR_CANT_LOAD_IMAGE = loadText("error_cant_load_image")
+        TEXT_ERROR_PERMISSION_FILES = loadText("error_permission_files")
+        TEXT_ERROR_APP_NOT_FOUND = loadText("error_app_not_found")
 
         IMG_ERROR_NETWORK = loadImage("error_network")?:0
         IMG_ERROR_GONE = loadImage("error_gone")?:0

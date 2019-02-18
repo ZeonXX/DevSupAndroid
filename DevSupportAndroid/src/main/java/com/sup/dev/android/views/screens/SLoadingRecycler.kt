@@ -33,7 +33,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         get() = 5
 
     init {
-        textErrorNetwork = ToolsResources.s(R.string.error_network)
+        textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         if (vRefresh != null)

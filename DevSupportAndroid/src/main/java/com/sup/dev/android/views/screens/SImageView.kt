@@ -108,7 +108,7 @@ class SImageView private constructor()
                         if (!ToolsBytes.isGif(bytes))
                             ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { }
                         else
-                            ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { }, { ToolsToast.show(R.string.error_permission_files) })
+                            ToolsStorage.saveFileInDownloadFolder(bytes!!, ".gif", { }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES) })
 
                     }
                 }

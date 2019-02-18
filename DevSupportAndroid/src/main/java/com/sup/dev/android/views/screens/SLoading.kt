@@ -32,7 +32,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
-    protected var textErrorNetwork = ToolsResources.s(R.string.error_network)
+    protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
