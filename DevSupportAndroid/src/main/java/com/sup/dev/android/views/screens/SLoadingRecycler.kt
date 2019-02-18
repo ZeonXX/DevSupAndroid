@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -18,7 +19,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
-    protected var textErrorRetry = ToolsResources.s(R.string.app_retry)
+    protected var textErrorRetry = SupAndroid.TEXT_APP_RETRY
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)

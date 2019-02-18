@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
@@ -98,7 +99,7 @@ class SImageView private constructor()
         }
 
         fun download() {
-            val dialog = ToolsView.showProgressDialog(R.string.app_downloading)
+            val dialog = ToolsView.showProgressDialog(SupAndroid.TEXT_APP_DOWNLOADING)
             ToolsThreads.thread {
                 if (bitmap != null)
                     ToolsStorage.saveImageInDownloadFolder(bitmap)
@@ -112,7 +113,7 @@ class SImageView private constructor()
                     }
                 }
                 dialog.hide()
-                ToolsToast.show(R.string.app_downloaded)
+                ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)
             }
 
         }

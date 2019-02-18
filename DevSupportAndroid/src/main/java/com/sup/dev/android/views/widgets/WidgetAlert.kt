@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.android.tools.ToolsView
@@ -93,7 +94,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     }
 
     @JvmOverloads
-    fun setChecker(key: String, text: String? = ToolsResources.s(R.string.app_dont_show_again)): WidgetAlert {
+    fun setChecker(key: String, text: String? = SupAndroid.TEXT_APP_DONT_SHOW_AGAIN): WidgetAlert {
         this.key = key
         vCheck.text = text
         vCheck.visibility = View.VISIBLE

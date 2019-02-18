@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.api_simple
 
 import android.support.annotation.StringRes
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -119,7 +120,7 @@ object ApiRequestsSupporter {
     fun <K : Request.Response> executeEnabledConfirm(text: String, enter: String, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         WidgetAlert()
                 .setText(text)
-                .setOnCancel(R.string.app_cancel)
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .setAutoHideOnEnter(false)
                 .setOnEnter(enter) { w -> executeEnabled(w, request, onComplete) }
                 .asSheetShow()

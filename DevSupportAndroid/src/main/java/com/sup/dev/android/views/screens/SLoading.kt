@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -32,7 +33,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var textErrorNetwork = ToolsResources.s(R.string.error_network)
-    protected var textRetry = ToolsResources.s(R.string.app_retry)
+    protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
     protected var textProgressAction: String? = null

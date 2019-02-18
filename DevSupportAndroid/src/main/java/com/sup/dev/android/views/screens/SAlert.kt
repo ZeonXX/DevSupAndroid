@@ -57,9 +57,9 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
 
         fun instanceNetwork(onRetry: () -> Unit): SAlert {
             return SAlert(
-                    ToolsResources.s(R.string.app_whoops),
+                    SupAndroid.TEXT_APP_WHOOPS,
                     ToolsResources.s(R.string.error_network),
-                    ToolsResources.s(R.string.app_retry),
+                    SupAndroid.TEXT_APP_RETRY,
                     SupAndroid.IMG_ERROR_NETWORK,
                     onRetry)
         }
@@ -70,9 +70,9 @@ class SAlert(title: String?, text: String?, action: String?, image: Int = 0, ima
 
         fun instanceGone(): SAlert {
             return SAlert(
-                    ToolsResources.s(R.string.app_whoops),
+                    SupAndroid.TEXT_APP_WHOOPS,
                     ToolsResources.s(R.string.error_gone),
-                    ToolsResources.s(R.string.app_back),
+                    SupAndroid.TEXT_APP_BACK,
                     SupAndroid.IMG_ERROR_GONE
             ) { Navigator.back() }
         }

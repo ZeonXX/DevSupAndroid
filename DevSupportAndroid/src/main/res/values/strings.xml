@@ -1,16 +1,6 @@
 <resources>
 
-    <string name="app_whoops">Whoops!</string>
-    <string name="app_retry">Retry</string>
-    <string name="app_cancel">Cancel</string>
-    <string name="app_back">Back</string>
-    <string name="app_dont_show_again">Don\'t show again</string>
-    <string name="app_attention">Attention</string>
-    <string name="app_downloading">Downloading</string>
-    <string name="app_downloaded">Downloading finished</string>
-    <string name="app_done">Done</string>
-    <string name="app_choose">Choose</string>
-    <string name="app_link">Link</string>
+
     <string name="error_permission_files">The app does not have permission to access files, check Android settings</string>
     <string name="error_account_baned">Account baned until %s</string>
     <string name="error_cant_load_image">Failed to load image</string>

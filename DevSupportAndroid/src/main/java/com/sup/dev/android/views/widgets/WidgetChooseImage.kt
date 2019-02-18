@@ -101,9 +101,9 @@ open class WidgetChooseImage : WidgetRecycler() {
                     loadLink(s)
                 }
                 .enableFastCopy()
-                .setHint(R.string.app_link)
-                .setOnEnter(R.string.app_choose) { w, s -> loadLink(s) }
-                .setOnCancel(R.string.app_cancel)
+                .setHint(SupAndroid.TEXT_APP_LINK)
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { w, s -> loadLink(s) }
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow()
 
     }

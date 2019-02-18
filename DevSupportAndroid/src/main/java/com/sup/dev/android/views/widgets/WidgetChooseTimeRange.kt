@@ -4,6 +4,7 @@ import android.support.annotation.StringRes
 import android.view.View
 import android.widget.Button
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsDate
@@ -31,15 +32,15 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
         vStart.setOnClickListener { v ->
             WidgetChooseTime()
-                .setOnCancel(ToolsResources.s(R.string.app_cancel))
-                .setOnEnter(ToolsResources.s(R.string.app_choose)) { dialog, h, m -> setTimeStart(h, m) }
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { dialog, h, m -> setTimeStart(h, m) }
                 .asSheetShow()
         }
 
         vEnd.setOnClickListener { v ->
             WidgetChooseTime()
-                .setOnCancel(ToolsResources.s(R.string.app_cancel))
-                .setOnEnter(ToolsResources.s(R.string.app_choose)) { dialog, h, m -> setTimeEnd(h, m) }
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { dialog, h, m -> setTimeEnd(h, m) }
                 .asSheetShow()
         }
 
