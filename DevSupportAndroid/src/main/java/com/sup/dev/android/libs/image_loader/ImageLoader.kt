@@ -81,25 +81,27 @@ object ImageLoader {
 
         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
 
-        if (loader.vImage != null) {
-            if (!loader.noHolder) {
-                if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
-                else if (loader.holder is Drawable) loader.vImage!!.setImageDrawable(loader.holder as Drawable)
-                else if (loader.holder is Bitmap) loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
-                else if (loader.w != 0 && loader.h != 0) {
-                    val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
-                    bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
-                    loader.vImage!!.setImageBitmap(bitmap)
-                } else {
-                    loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
+        if(loader.customSetHolder != null){
+            loader.customSetHolder!!.invoke()
+        }else {
+            if (loader.vImage != null) {
+                if (!loader.noHolder) {
+                    if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
+                    else if (loader.holder is Drawable) loader.vImage!!.setImageDrawable(loader.holder as Drawable)
+                    else if (loader.holder is Bitmap) loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
+                    else if (loader.w != 0 && loader.h != 0) {
+                        val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
+                        bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
+                        loader.vImage!!.setImageBitmap(bitmap)
+                    } else {
+                        loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
+                    }
                 }
+                unsubscribe(loader.vImage!!)
             }
-
-            unsubscribe(loader.vImage!!)
-
-        } else {
-            loader.onSetHolder.invoke()
         }
+
+        loader.onSetHolder.invoke()
     }
 
     //

@@ -17,6 +17,7 @@ abstract class ImageLoaderA {
     internal var onLoaded: (ByteArray?) -> Unit = {}
     internal var onError: () -> Unit = {}
     internal var onSetHolder: () -> Unit = {}
+    internal var customSetHolder: (() -> Unit)? = null
     internal var cropSquareCenter: Boolean = false
     internal var options: BitmapFactory.Options? = null
     internal var w = 0
@@ -93,8 +94,14 @@ abstract class ImageLoaderA {
         this.onLoaded = onLoaded
         return this
     }
+
     fun setOnError(onError: () -> Unit): ImageLoaderA {
         this.onError = onError
+        return this
+    }
+
+    fun setCustomSetHolder(customSetHolder: (() -> Unit)?): ImageLoaderA {
+        this.customSetHolder = customSetHolder
         return this
     }
 

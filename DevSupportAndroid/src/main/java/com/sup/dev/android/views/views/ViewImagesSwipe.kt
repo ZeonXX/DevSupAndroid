@@ -20,6 +20,7 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -149,6 +150,7 @@ class ViewImagesSwipe constructor(
         }
 
         override fun bindView(view: View) {
+            super.bindView(view)
             val vImage: ImageView = view.findViewById(R.id.vImage)
             view.setOnClickListener {
                 if (onClickGlobal(this as CardSwipe<Any>)) return@setOnClickListener
@@ -181,6 +183,7 @@ class ViewImagesSwipe constructor(
 
         override fun set(view: View, vImage: ImageView) {
             vImage.setImageBitmap(bitmap)
+            updateVisibility()
         }
 
         override fun toImageView() {
@@ -204,7 +207,7 @@ class ViewImagesSwipe constructor(
     ) : CardSwipe<Long>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            ToolsImagesLoader.load(id).size(w, h).into(vImage)
+            ToolsImagesLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoaded { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
         }
 
         override fun toImageView() {
