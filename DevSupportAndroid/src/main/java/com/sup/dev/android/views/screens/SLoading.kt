@@ -36,6 +36,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
+    protected var image: Int? = null
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
@@ -48,7 +49,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         vAction.visibility = View.INVISIBLE
         vMessage.visibility = View.INVISIBLE
         vProgress.visibility = View.INVISIBLE
-        vEmptyImage.setImageDrawable(null)
+        vEmptyImage.visibility = View.GONE
 
         setState(State.PROGRESS)
         setContent(layoutRes)
@@ -104,7 +105,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     fun setBackgroundImage(@DrawableRes res: Int) {
-        vEmptyImage.setImageResource(res)
+        this.image = res
     }
 
     override fun setTitle(@StringRes title: Int) {
@@ -126,10 +127,13 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         } else
             ToolsView.toAlpha(vProgress)
 
-        if (vEmptyImage.drawable == null)
+        if (image == null || state != State.EMPTY) {
+            vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
-        else
-            ToolsView.alpha(vEmptyImage, state == State.NONE)
+        }else {
+            vEmptyImage.setImageResource(image!!)
+            ToolsView.alpha(vEmptyImage, false)
+        }
 
         if (state == State.ERROR) {
 

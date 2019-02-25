@@ -33,14 +33,12 @@
                 android:id="@+id/vDevSupTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Repat callers"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"/>
 
             <TextView
                 android:id="@+id/vDevSupSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ring when receiving a second call from the same number within 3 minutes"
                 style="@style/Base.TextAppearance.AppCompat.Caption"/>
 
         </LinearLayout>

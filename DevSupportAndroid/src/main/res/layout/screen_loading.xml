@@ -4,6 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ProgressBar
+        android:id="@+id/vProgress"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
     <LinearLayout
         android:id="@+id/vMessageContainer"
         android:layout_width="wrap_content"
@@ -13,16 +21,10 @@
 
         <ImageView
             android:id="@+id/vEmptyImage"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_gravity="center" />
-
-        <ProgressBar
-            android:id="@+id/vProgress"
-            android:layout_width="128dp"
-            android:layout_height="wrap_content"
+            android:layout_width="168dp"
+            android:layout_height="168dp"
             android:layout_gravity="center"
-            android:indeterminate="true" />
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/vMessage"
