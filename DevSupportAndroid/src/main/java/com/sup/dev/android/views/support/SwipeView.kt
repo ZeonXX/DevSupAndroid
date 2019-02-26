@@ -7,7 +7,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads

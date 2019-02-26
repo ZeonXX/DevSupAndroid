@@ -20,7 +20,6 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 

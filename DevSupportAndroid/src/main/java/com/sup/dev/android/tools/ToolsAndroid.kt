@@ -22,7 +22,6 @@ import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException

@@ -13,7 +13,6 @@ import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
