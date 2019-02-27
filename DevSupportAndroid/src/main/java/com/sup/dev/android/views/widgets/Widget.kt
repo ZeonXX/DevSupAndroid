@@ -103,6 +103,7 @@ abstract class Widget(layoutRes: Int) {
             }
             if(!autoShowKeyboard) ToolsView.dontAutoShowKeyboard((viewWrapper as DialogSheetWidget).window!!)
         }
+
     }
 
     @CallSuper

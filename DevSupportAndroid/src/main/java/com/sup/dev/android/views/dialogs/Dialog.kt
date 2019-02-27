@@ -8,6 +8,7 @@ import android.view.Window
 import android.view.WindowManager
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
@@ -46,6 +47,10 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT) //  Без этой строки диалог умирает при повороте экрана
 
+        Navigator.addOnScreenChanged {
+            hide()
+            true
+        }
     }
 
     override fun onBackPressed() {

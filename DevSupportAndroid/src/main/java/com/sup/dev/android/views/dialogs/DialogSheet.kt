@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatDialog
 import android.view.*
 import android.widget.FrameLayout
 import com.sup.dev.android.R
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
@@ -45,6 +46,11 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
+
+        Navigator.addOnScreenChanged {
+            hide()
+            true
+        }
     }
 
     override fun onBackPressed() {

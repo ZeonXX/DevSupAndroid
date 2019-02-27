@@ -21,6 +21,7 @@ object Navigator {
 
     private val onBack = CallbacksList2<Screen, Screen>()
     private val onBackCallbacks = ArrayList<()->Boolean>()
+    private val onScreenChangedCallbacks = ArrayList<()->Boolean>()
 
     enum class Animation {
         IN, OUT, ALPHA, NONE
@@ -160,6 +161,10 @@ object Navigator {
 
     private fun setCurrentView(animation: Animation) {
         if (getCurrent() == null) return
+
+        val array = Array(onScreenChangedCallbacks.size){onScreenChangedCallbacks[it]}
+        for(i in array) if(i.invoke()) onScreenChangedCallbacks.remove(i)
+
         SupAndroid.activity!!.setScreen(getCurrent(), animation)
         if (getCurrent() != null) getCurrent()!!.onResume()
     }
@@ -175,9 +180,8 @@ object Navigator {
     fun onBackPressed(): Boolean {
 
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
-            val x = onBackCallbacks[i]
-            if (x.invoke()) {
-                onBackCallbacks.remove(x)
+            if (onBackCallbacks[i].invoke()) {
+                onBackCallbacks.remove(onBackCallbacks[i])
                 return true
             }
         }
@@ -231,6 +235,15 @@ object Navigator {
 
     fun removeOnBack(onBack: ()->Boolean) {
         onBackCallbacks.remove(onBack)
+    }
+
+    fun addOnScreenChanged(onScreenChanged: ()->Boolean) {
+        if (onScreenChangedCallbacks.contains(onScreenChanged)) onScreenChangedCallbacks.remove(onScreenChanged)
+        onScreenChangedCallbacks.add(onScreenChanged)
+    }
+
+    fun removeOnScreenChanged(onScreenChanged: ()->Boolean) {
+        onScreenChangedCallbacks.remove(onScreenChanged)
     }
 
 }
