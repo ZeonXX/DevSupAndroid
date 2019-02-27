@@ -29,6 +29,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
     private var vAppBar: View? = null
+    private var vToolbar: View? = null
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
@@ -63,6 +64,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected fun setContent(@LayoutRes res: Int) {
         vContainer.addView(ToolsView.inflate(context, res), 0)
         vAppBar = vContainer.findViewById(R.id.vAppBar)
+        vToolbar = vContainer.findViewById(R.id.vToolbar)
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {
@@ -123,8 +125,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     fun setState(state: State) {
         this.stateS = state
 
-        if (vAppBar != null) {
-            vMessageContainer.setPadding(0, vAppBar!!.height, 0, 0)
+        if (vAppBar != null && vToolbar != null) {
+            vMessageContainer.setPadding(0, vAppBar!!.height - vToolbar!!.height, 0, 0)
         }
 
         if (state == State.PROGRESS) {
