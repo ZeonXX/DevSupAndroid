@@ -126,7 +126,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         this.stateS = state
 
         if (vAppBar != null && vToolbar != null) {
-            vMessageContainer.setPadding(0, vAppBar!!.height - vToolbar!!.height, 0, 0)
+            vMessageContainer.setPadding(0, vAppBar!!.height - vToolbar!!.height + ToolsView.dpToPx(24).toInt(), 0, 0)
         }
 
         if (state == State.PROGRESS) {
