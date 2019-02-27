@@ -40,14 +40,18 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         vCancel.visibility = View.GONE
         vIcon.visibility = View.GONE
 
-        vFieldWidget_1.vField.addTextChangedListener(TextWatcherChanged { text -> check_1() })
+        vFieldWidget_1.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
         vFieldWidget_1.vField.setCallback { vFieldWidget_1.setText(it) }
 
-        vFieldWidget_2.vField.addTextChangedListener(TextWatcherChanged { text -> check_2() })
+        vFieldWidget_2.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
         vFieldWidget_2.vField.setCallback { vFieldWidget_2.setText(it) }
     }
 
-    private fun check_1() {
+    private fun check(){
+        vEnter.isEnabled = check_1() && check_2()
+    }
+
+    private fun check_1():Boolean {
 
         val text = getText_1()
         var error: String? = null
@@ -60,14 +64,14 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
 
         if (error != null) {
             vFieldWidget_1.vFieldLayout.error = if (error.isEmpty()) null else error
-            vEnter.isEnabled = false
+            return false
         } else {
             vFieldWidget_1.vFieldLayout.error = null
-            vEnter.isEnabled = text.length >= min_1 && (max_1 == 0 || text.length <= max_1)
+            return text.length >= min_1 && (max_1 == 0 || text.length <= max_1)
         }
     }
 
-    private fun check_2() {
+    private fun check_2():Boolean {
 
         val text = getText_2()
         var error: String? = null
@@ -80,10 +84,10 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
 
         if (error != null) {
             vFieldWidget_2.vFieldLayout.error = if (error.isEmpty()) null else error
-            vEnter.isEnabled = false
+            return false
         } else {
             vFieldWidget_2.vFieldLayout.error = null
-            vEnter.isEnabled = text.length >= min_2 && (max_2 == 0 || text.length <= max_2)
+            return text.length >= min_2 && (max_2 == 0 || text.length <= max_2)
         }
     }
 

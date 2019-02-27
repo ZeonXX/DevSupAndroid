@@ -16,6 +16,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -27,10 +28,12 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
     protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
+    private var vAppBar: View? = null
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
+    private val vMessageContainer: ViewGroup = findViewById(R.id.vMessageContainer)
 
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
@@ -59,6 +62,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
     protected fun setContent(@LayoutRes res: Int) {
         vContainer.addView(ToolsView.inflate(context, res), 0)
+        vAppBar = vContainer.findViewById(R.id.vAppBar)
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {
@@ -77,7 +81,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         setAction(ToolsResources.s(textAction), onAction)
     }
 
-    protected fun clearAction(){
+    protected fun clearAction() {
         this.textAction = null
         this.onAction = null
     }
@@ -119,10 +123,14 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     fun setState(state: State) {
         this.stateS = state
 
+        if (vAppBar != null) {
+            vMessageContainer.setPadding(0, vAppBar!!.height, 0, 0)
+        }
+
         if (state == State.PROGRESS) {
             ToolsThreads.main(600) {
                 ToolsView.alpha(vProgress, this.stateS != State.PROGRESS)
-                if (this.stateS == State.PROGRESS && vMessage.text.length > 0) ToolsView.fromAlpha(vMessage)
+                if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) ToolsView.fromAlpha(vMessage)
             }
         } else
             ToolsView.toAlpha(vProgress)
@@ -130,7 +138,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         if (image == null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
-        }else {
+        } else {
             vEmptyImage.setImageResource(image!!)
             ToolsView.alpha(vEmptyImage, false)
         }

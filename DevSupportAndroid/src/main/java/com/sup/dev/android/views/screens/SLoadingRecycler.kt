@@ -22,7 +22,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected var textErrorRetry = SupAndroid.TEXT_APP_RETRY
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
-    protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
+    protected val vToolbarIconsContainer: ViewGroup? = findViewById(R.id.vToolbarIconsContainer)
     protected val vRecycler: RecyclerView  = findViewById(R.id.vRecycler)
     protected val vRefresh: SwipeRefreshLayout? = findViewById(R.id.vRefresh)
 
@@ -80,7 +80,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.z_icon)
         viewIcon.setImageResource(res)
         viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
-        vToolbarIconsContainer.addView(viewIcon)
+        if(vToolbarIconsContainer != null) vToolbarIconsContainer.addView(viewIcon)
         return viewIcon
     }
 
