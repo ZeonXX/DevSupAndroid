@@ -37,8 +37,8 @@ object ToolsResources {
     }
 
     fun sLang(languageCode:String, @StringRes r: Int): String {
-        val res = SupAndroid.appContext!!.getResources()
-        val conf = res.getConfiguration()
+        val res = SupAndroid.appContext!!.resources
+        val conf = res.configuration
         val savedLocale = conf.locale
         conf.locale = Locale(languageCode)
         res.updateConfiguration(conf, null)
