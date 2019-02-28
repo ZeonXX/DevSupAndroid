@@ -57,7 +57,7 @@ object Navigator {
             }
         }
         currentStack.backStack.add(screen)
-        setCurrentView(animation)
+        setCurrentViewNew(animation)
     }
 
     fun replace(screen: Screen, newScreen: Screen) {
@@ -122,7 +122,7 @@ object Navigator {
             i++
         }
 
-        if (needUpdate) setCurrentView(Animation.OUT)
+        if (needUpdate) setCurrentViewNew(Animation.OUT)
     }
 
 
@@ -131,7 +131,7 @@ object Navigator {
 
         val current = getCurrent()
         removeScreen(current!!)
-        setCurrentView(Animation.OUT)
+        setCurrentViewNew(Animation.OUT)
 
         onBack.callback(current, current)
 
@@ -148,12 +148,19 @@ object Navigator {
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
         currentStack = stack
-        if (!currentStack.backStack.isEmpty()) setCurrentView(Animation.ALPHA)
+        if (!currentStack.backStack.isEmpty()) setCurrentViewNew(Animation.ALPHA)
     }
 
     //
     //  Activity Callbacks
     //
+
+    private fun setCurrentViewNew(animation: Animation){
+        setCurrentView(animation)
+
+        val array = Array(onScreenChangedCallbacks.size){onScreenChangedCallbacks[it]}
+        for(i in array) if(i.invoke()) onScreenChangedCallbacks.remove(i)
+    }
 
     fun resetCurrentView() {
         setCurrentView(Animation.NONE)
@@ -161,9 +168,6 @@ object Navigator {
 
     private fun setCurrentView(animation: Animation) {
         if (getCurrent() == null) return
-
-        val array = Array(onScreenChangedCallbacks.size){onScreenChangedCallbacks[it]}
-        for(i in array) if(i.invoke()) onScreenChangedCallbacks.remove(i)
 
         SupAndroid.activity!!.setScreen(getCurrent(), animation)
         if (getCurrent() != null) getCurrent()!!.onResume()

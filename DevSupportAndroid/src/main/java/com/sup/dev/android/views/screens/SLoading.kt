@@ -7,15 +7,13 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -28,7 +26,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
     private var vAppBar: View? = null
-    private var vToolbar: View? = null
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
@@ -63,7 +60,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected fun setContent(@LayoutRes res: Int) {
         vContainer.addView(ToolsView.inflate(context, res), 0)
         vAppBar = vContainer.findViewById(R.id.vAppBar)
-        vToolbar = vContainer.findViewById(R.id.vToolbar)
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {
@@ -124,8 +120,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     fun setState(state: State) {
         this.stateS = state
 
-        if (vAppBar != null && vToolbar != null) {
-            vMessageContainer.setPadding(0, vAppBar!!.height - vToolbar!!.height + ToolsView.dpToPx(24).toInt(), 0, 0)
+        if (vAppBar != null) {
+            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).topMargin = (vAppBar!!.height/1.8f).toInt()
         }
 
         if (state == State.PROGRESS) {
