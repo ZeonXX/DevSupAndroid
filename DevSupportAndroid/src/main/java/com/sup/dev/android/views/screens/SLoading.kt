@@ -13,7 +13,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -42,6 +41,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
+
+    protected var imageBottomMarginDp = 0
 
     init {
 
@@ -121,7 +122,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         this.stateS = state
 
         if (vAppBar != null) {
-            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).topMargin = (vAppBar!!.height/1.8f).toInt()
+            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).topMargin = (vAppBar!!.height / 1.8f).toInt()
+            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).bottomMargin = ToolsView.dpToPx(imageBottomMarginDp).toInt()
         }
 
         if (state == State.PROGRESS) {

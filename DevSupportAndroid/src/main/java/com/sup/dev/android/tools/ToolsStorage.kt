@@ -10,6 +10,8 @@ import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.io.FileOutputStream
+import android.content.Intent
+import android.net.Uri
 
 
 object ToolsStorage {
@@ -173,7 +175,18 @@ object ToolsStorage {
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
+
+            //  Without this, the picture will be hidden until open gallery.
+            if(SupAndroid.activity != null) {
+                val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                mediaScanIntent.data = Uri.fromFile(f)
+                SupAndroid.activity!!.sendBroadcast(mediaScanIntent)
+            }
+
         }
+
+
+
     }
 
     fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
