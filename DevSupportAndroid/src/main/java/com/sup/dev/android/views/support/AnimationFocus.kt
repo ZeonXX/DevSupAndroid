@@ -41,7 +41,6 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
             return view.onTouchEvent(event)
         }
 
-
         if (event.action == MotionEvent.ACTION_DOWN) {
             touched = true
             updateFocusColor()

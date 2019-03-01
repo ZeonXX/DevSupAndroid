@@ -13,6 +13,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.Debug
 
 
 class SettingsField constructor(
