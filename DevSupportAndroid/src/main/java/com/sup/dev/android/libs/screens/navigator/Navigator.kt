@@ -184,8 +184,9 @@ object Navigator {
     fun onBackPressed(): Boolean {
 
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
-            if (onBackCallbacks[i].invoke()) {
-                onBackCallbacks.remove(onBackCallbacks[i])
+            val c = onBackCallbacks[i]
+            if (c.invoke()) {
+                onBackCallbacks.remove(c)
                 return true
             }
         }
