@@ -11,7 +11,12 @@ import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 
 
-class SCrop(bitmap: Bitmap, aw: Int, ah: Int, private val onCrop: Function2<SCrop, Bitmap, Unit>?) : Screen(R.layout.screen_image_crop) {
+class SCrop(
+        bitmap: Bitmap,
+        aw: Int,
+        ah: Int,
+        private val onCrop: Function2<SCrop, Bitmap, Unit>?
+) : Screen(R.layout.screen_image_crop) {
 
 
     private var onHide: () -> Unit = {}

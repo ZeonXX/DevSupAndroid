@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.screens.navigator
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.java.classes.callbacks.CallbacksList2
 import java.util.ArrayList
 
@@ -149,6 +150,12 @@ object Navigator {
         if (currentStack == stack) return
         currentStack = stack
         if (!currentStack.backStack.isEmpty()) setCurrentViewNew(Animation.ALPHA)
+    }
+
+    fun closeProtected(onClose:()->Unit){
+        val current = getCurrent()
+        if(current is ScreenProtected) current.onProtectedClose(onClose)
+        else onClose.invoke()
     }
 
     //

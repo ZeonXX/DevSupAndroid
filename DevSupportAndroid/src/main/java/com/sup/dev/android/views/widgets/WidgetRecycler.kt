@@ -10,7 +10,9 @@ import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.popup.PopupWidget
 
 
-open class WidgetRecycler : Widget(R.layout.widget_recycler) {
+open class WidgetRecycler(
+        r:Int = R.layout.widget_recycler
+) : Widget(r) {
 
     protected val vRoot: ViewGroup = findViewById(R.id.vRoot)
     protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)

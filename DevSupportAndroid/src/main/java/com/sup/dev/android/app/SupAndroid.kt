@@ -38,6 +38,7 @@ object SupAndroid {
     var TEXT_ERROR_CANT_LOAD_IMAGE: String? = null
     var TEXT_ERROR_PERMISSION_FILES: String? = null
     var TEXT_ERROR_APP_NOT_FOUND: String? = null
+    var TEXT_ERROR_CANT_FIND_IMAGES: String? = null
 
     var IMG_ERROR_NETWORK = 0
     var IMG_ERROR_GONE = 0
@@ -81,6 +82,7 @@ object SupAndroid {
         TEXT_ERROR_CANT_LOAD_IMAGE = loadText("error_cant_load_image")
         TEXT_ERROR_PERMISSION_FILES = loadText("error_permission_files")
         TEXT_ERROR_APP_NOT_FOUND = loadText("error_app_not_found")
+        TEXT_ERROR_CANT_FIND_IMAGES = loadText("error_cant_find_images")
 
         IMG_ERROR_NETWORK = loadImage("error_network")?:0
         IMG_ERROR_GONE = loadImage("error_gone")?:0

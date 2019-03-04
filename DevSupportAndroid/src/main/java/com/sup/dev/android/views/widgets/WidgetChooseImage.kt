@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.*
@@ -22,22 +23,25 @@ import java.io.File
 import java.io.IOException
 
 
-open class WidgetChooseImage : WidgetRecycler() {
+open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
     private val DP = ToolsView.dpToPx(1).toInt()
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
+    private val vEmptyText: TextView = findViewById(R.id.vEmptyText)
+    private val vFabGalleryContainer: View = ToolsView.inflate(R.layout.z_fab)
+    private val vFabLinkContainer: View = ToolsView.inflate(R.layout.z_fab)
+    private val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
+    private val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
 
     private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
     private var spanCount = 3
 
     init {
-        val vFabGalleryContainer: View = ToolsView.inflate(R.layout.z_fab)
-        val vFabLinkContainer: View = ToolsView.inflate(R.layout.z_fab)
-        val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
-        val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
         vContainer.addView(vFabGalleryContainer)
         vContainer.addView(vFabLinkContainer)
+
+        vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
 
         (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72).toInt()
 
@@ -77,6 +81,10 @@ open class WidgetChooseImage : WidgetRecycler() {
                     MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC")
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
+
+            myAdapter.clear()
+
+            vEmptyText.visibility = if (myAdapter.isEmpty) View.VISIBLE else View.GONE
         }, {
             ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)
             hide()
@@ -124,7 +132,6 @@ open class WidgetChooseImage : WidgetRecycler() {
         hide()
     }
 
-
     //
     //  Setters
     //
@@ -157,7 +164,7 @@ open class WidgetChooseImage : WidgetRecycler() {
 
             val index = adapter!!.indexOf(this)
             val arg = index % spanCount
-            view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount-1) 0 else DP, DP)
+            view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount - 1) 0 else DP, DP)
 
         }
 
