@@ -212,8 +212,8 @@ object ToolsBitmap {
         if (w != 0 || h != 0 || maxW != 0 || maxH != 0) {
             var ww = maxW
             var hh = maxH
-            if(w in 1..(ww - 1)) ww = w
-            if(h in 1..(hh - 1)) hh = h
+            if (w in 1..(ww - 1)) ww = w
+            if (h in 1..(hh - 1)) hh = h
             options.inJustDecodeBounds = true
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
             options.inSampleSize = 1
@@ -282,7 +282,7 @@ object ToolsBitmap {
         val input = connection.inputStream
         try {
             return BitmapFactory.decodeStream(input)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return null
         }
     }
@@ -323,17 +323,17 @@ object ToolsBitmap {
         }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES) })
     }
 
-    fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
+    fun getFromGalleryCropped(ratioW: Int, ratioH: Int, autoBackOnCrop: Boolean, onCrop: ((SCrop?, Bitmap?, Int, Int, Int, Int) -> Unit)) {
 
         getFromGallery({ bytes ->
             val bitmap = ToolsBitmap.decode(bytes)
-            if (bitmap == null) onComplete.invoke(null, null)
-            else Navigator.to(SCrop(bitmap, ratioW, ratioH, onComplete).setAutoBackOnCrop(autoBackOnCrop))
+            if (bitmap == null) onCrop.invoke(null, null, 0, 0, 0, 0)
+            else Navigator.to(SCrop(bitmap, ratioW, ratioH, onCrop).setAutoBackOnCrop(autoBackOnCrop))
         })
     }
 
-    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onComplete: (SCrop?, Bitmap?) -> Unit) {
-        getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap -> onComplete.invoke(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true)) }
+    fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onCrop: ((SCrop?, Bitmap?, Int, Int, Int, Int) -> Unit)) {
+        getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap, x, y, ww, hh -> onCrop.invoke(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true), x, y, ww, hh) }
     }
 
 
