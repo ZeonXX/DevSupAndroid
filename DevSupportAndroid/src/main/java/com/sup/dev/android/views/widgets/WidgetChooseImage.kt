@@ -82,8 +82,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
             while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
 
-            myAdapter.clear()
-
             vEmptyText.visibility = if (myAdapter.isEmpty) View.VISIBLE else View.GONE
         }, {
             ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)

@@ -3,7 +3,6 @@ package com.sup.dev.android.views.dialogs
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
-
 class DialogSheetWidget(private val widget: Widget) : DialogSheet(widget.view), WidgetViewWrapper {
 
     init {
