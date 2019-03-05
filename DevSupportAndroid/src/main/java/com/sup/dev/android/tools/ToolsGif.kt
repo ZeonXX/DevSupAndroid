@@ -61,7 +61,7 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, onStart:()->Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, sizeArg:Float, onStart:()->Unit = {}) {
 
         ToolsThreads.thread {
             val file = "ToolsGif_${System.nanoTime()}_Inp"
@@ -75,8 +75,9 @@ object ToolsGif {
                 val iterator = GifDecoder().loadUsingIterator(f.absolutePath)
                 while (!stop && iterator.hasNext()) {
                     val next = iterator.next()
-                    val bm = next.bitmap
+                    var bm = next.bitmap
                     val ms = next.delayMs.toLong()
+                    if(sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width*sizeArg).toInt(), (bm.height*sizeArg).toInt())
                     ToolsThreads.main {
                         val v = vImage.get()
                         if (v == null || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {

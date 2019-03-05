@@ -195,11 +195,13 @@ object ImageLoader {
             if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
                 if (loader.isGif && ToolsBytes.isGif(bytes)) {
-                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!)){
+                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd){
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
-                    if (loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
+                    var bitmap = bm
+                    if(bitmap != null && loader.sizeArd != 1f) bitmap = ToolsBitmap.resize(bitmap, (bitmap.width * loader.sizeArd).toInt(), (bitmap.height * loader.sizeArd).toInt())
+                    if (loader.vImage != null && bitmap != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bitmap, animate && loader.fade))
                 }
             }
             loader.onLoaded.invoke(bytes)

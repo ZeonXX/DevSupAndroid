@@ -23,6 +23,7 @@ abstract class ImageLoaderA {
     internal var w = 0
     internal var h = 0
     internal var isGif = false
+    internal var sizeArd = 1f
     internal var holder: Any? = null
     internal var noHolder = false
     internal var fade = true
@@ -64,6 +65,11 @@ abstract class ImageLoaderA {
 
     fun asGif(): ImageLoaderA {
         isGif = true
+        return this
+    }
+
+    fun sizeArd(sizeArd:Float): ImageLoaderA {
+        this.sizeArd = sizeArd
         return this
     }
 
