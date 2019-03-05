@@ -7,12 +7,14 @@ import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
+import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.ref.WeakReference
 import java.util.ArrayList
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
@@ -81,9 +83,9 @@ object ImageLoader {
 
         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
 
-        if(loader.customSetHolder != null){
+        if (loader.customSetHolder != null) {
             loader.customSetHolder!!.invoke()
-        }else {
+        } else {
             if (loader.vImage != null) {
                 if (!loader.noHolder) {
                     if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
@@ -108,7 +110,7 @@ object ImageLoader {
     //  Cash
     //
 
-    fun addToCash(key: String, bitmap: Bitmap, bytes:ByteArray) {
+    fun addToCash(key: String, bitmap: Bitmap, bytes: ByteArray) {
         removeFromCash(key)
         val size = bitmap.width * bitmap.height * 4 + bytes.size
         if (size > maxCashItemSize) return
@@ -120,8 +122,8 @@ object ImageLoader {
     }
 
     fun getFromCash(key: String): Item3<String, Bitmap, ByteArray>? {
-        var item:Item3<String, Bitmap, ByteArray>? = null
-        for (i in cash) if (i.a1 == key){
+        var item: Item3<String, Bitmap, ByteArray>? = null
+        for (i in cash) if (i.a1 == key) {
             item = i
             break
         }
@@ -192,15 +194,8 @@ object ImageLoader {
         ToolsThreads.main {
             if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
-                if (loader.isGif) {
-                    DrawableGif(
-                            bytes,
-                            loader.vImage!!,
-                            loader.cropSquareCenter,
-                            loader.w,
-                            loader.h
-                    ) {
-                        if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) loader.vImage!!.setImageDrawable(it)
+                if (loader.isGif && ToolsBytes.isGif(bytes)) {
+                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!)){
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {

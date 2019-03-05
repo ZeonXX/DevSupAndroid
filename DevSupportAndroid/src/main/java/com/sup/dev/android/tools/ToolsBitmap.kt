@@ -15,6 +15,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
+import com.sup.dev.java.classes.geometry.Dimensions
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.*
@@ -389,6 +390,27 @@ object ToolsBitmap {
     //
     //  Sizes
     //
+
+    fun inscribe(bitmap: Bitmap, w: Int, h: Int): Dimensions {
+        val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+
+        if (bitmap.width.toFloat() > inscribe.w || bitmap.height.toFloat() > inscribe.h)
+            return inscribe
+
+        return Dimensions(bitmap.width.toFloat(), bitmap.height.toFloat())
+    }
+
+    fun keepMaxSizes(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+
+        var bm = bitmap
+        val inscribe = ToolsMath.inscribe(bm.width.toFloat(), bm.height.toFloat(), w.toFloat(), h.toFloat())
+
+        if (bm.width.toFloat() > inscribe.w || bm.height.toFloat() > inscribe.h)
+            bm = Bitmap.createScaledBitmap(bm, inscribe.w.toInt(), inscribe.h.toInt(), true)
+
+        return bm
+    }
+
 
     fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
         val w = bitmap.width
