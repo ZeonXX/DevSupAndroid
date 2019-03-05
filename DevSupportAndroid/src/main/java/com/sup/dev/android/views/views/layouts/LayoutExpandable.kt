@@ -16,16 +16,16 @@ import com.sup.dev.android.R
 class LayoutExpandable @MainThread
 constructor(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private var mWidth: Int = 0
-    private var mHeight: Int = 0
-    private var mDuration: Int = 0
-    private var mExpandDuration: Int = 0
-    private var mCollapseDuration: Int = 0
+    private var mWidth = 0
+    private var mHeight = 0
+    private var mDuration = 0
+    private var mExpandDuration = 0
+    private var mCollapseDuration = 0
 
-    private var mIsInited: Boolean = false
-    private var mIsExpand: Boolean = false
-    private var mIsExecuting: Boolean = false
-    private var mIsClickToToggle: Boolean = false
+    private var mIsInited = false
+    private var mIsExpand = false
+    private var mIsExecuting = false
+    private var mIsClickToToggle = false
 
     private var mSwitcher: View? = null
     private var mListener: OnStateChangedListener? = null

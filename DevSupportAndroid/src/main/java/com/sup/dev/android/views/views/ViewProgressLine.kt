@@ -17,9 +17,9 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
     private val paint: Paint
     private val path: Path
 
-    private var progressPercent: Float = 0.toFloat()
-    private var colorProgress: Int = 0
-    private var colorBackground: Int = 0
+    private var progressPercent = 0f
+    private var colorProgress = 0
+    private var colorBackground = 0
 
     init {
 

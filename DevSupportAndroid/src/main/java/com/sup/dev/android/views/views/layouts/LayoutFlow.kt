@@ -12,8 +12,8 @@ import com.sup.dev.android.R
 class LayoutFlow @MainThread
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
-    private var mHorizontalSpacing: Int = 0
-    private var mVerticalSpacing: Int = 0
+    private var mHorizontalSpacing = 0
+    private var mVerticalSpacing = 0
 
     init {
 

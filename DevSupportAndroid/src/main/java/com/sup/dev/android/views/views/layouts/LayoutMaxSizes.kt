@@ -16,12 +16,12 @@ import com.sup.dev.android.tools.ToolsView
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
-    private var maxWidth: Int = 0
-    private var maxHeight: Int = 0
+    private var maxWidth = 0
+    private var maxHeight = 0
     private val reserveWidth: Int
     private val reserveHeight: Int
-    private var maxWidthPercent: Float = 0.toFloat()
-    private var maxHeightPercent: Float = 0.toFloat()
+    private var maxWidthPercent = 0f
+    private var maxHeightPercent = 0f
     private var alwaysMaxW = false
     private var alwaysMaxH = false
     private var childAlwaysMaxW = false
@@ -30,12 +30,12 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     private var useScreenHeightAsParent = false
     private var allowChildMaxW = false
     private var allowChildMaxH = false
-    private var fadeWSize: Int = 0
-    private var fadeHSize: Int = 0
-    private var fadeColor: Int = 0
+    private var fadeWSize = 0
+    private var fadeHSize = 0
+    private var fadeColor = 0
 
-    private var isCroppedW: Boolean = false
-    private var isCroppedH: Boolean = false
+    private var isCroppedW = false
+    private var isCroppedH = false
 
     init {
 

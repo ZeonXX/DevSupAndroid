@@ -27,8 +27,8 @@ class ViewIcon @JvmOverloads constructor(
     private var filter = 0
     private var srcSelect = 0
     private var filterSelect = 0
-    private var accentColor: Int = 0
-    private var paddingCircle: Float = 0.toFloat()
+    private var accentColor = 0
+    private var paddingCircle = 0f
     private var background = 0
     private var useActiveBackground = true
     private var circleColor = -0x1

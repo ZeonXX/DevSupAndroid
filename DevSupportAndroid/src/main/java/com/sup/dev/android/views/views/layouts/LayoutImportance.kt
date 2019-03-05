@@ -11,7 +11,7 @@ import java.util.*
 
 class LayoutImportance(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private var lock: Int = 0
+    private var lock = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
