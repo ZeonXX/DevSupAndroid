@@ -60,7 +60,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
             cardView = card.instanceView(frame.context)
 
 
-        frame.addView(ToolsView.removeFromParent(cardView!!))
+        frame.addView(ToolsView.removeFromParent(cardView))
         frame.tag = card::class
 
         card.bindView(cardView)
