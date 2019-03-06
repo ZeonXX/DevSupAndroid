@@ -25,21 +25,30 @@ class SImageView private constructor()
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
     constructor(scrollTo: Int, bitmaps: Array<Bitmap>) : this() {
-        for (b in bitmaps) adapterIn.add(Page(b, 0L))
+        for (b in bitmaps) adapterIn.add(Page(null, b, 0L))
         vPager.setCurrentItem(scrollTo, false)
     }
 
     constructor(scrollTo: Int, ids: Array<Long>) : this() {
-        for (id in ids) adapterIn.add(Page(null, id))
+        for (id in ids) adapterIn.add(Page(null, null, id))
+        vPager.setCurrentItem(scrollTo, false)
+    }
+
+    constructor(scrollTo: Int, bytes: Array<ByteArray>) : this() {
+        for (b in bytes) adapterIn.add(Page(b, null, 0L))
         vPager.setCurrentItem(scrollTo, false)
     }
 
     constructor(bitmap: Bitmap) : this() {
-        adapterIn.add(Page(bitmap, 0L))
+        adapterIn.add(Page(null, bitmap, 0L))
     }
 
     constructor(id: Long) : this() {
-        adapterIn.add(Page(null, id))
+        adapterIn.add(Page(null, null, id))
+    }
+
+    constructor(bytes: ByteArray) : this() {
+        adapterIn.add(Page(bytes, null, 0L))
     }
 
     init {
@@ -72,6 +81,7 @@ class SImageView private constructor()
 
 
     private class Page constructor(
+            private val bytes: ByteArray?,
             private val bitmap: Bitmap?,
             private val id: Long
     ) : Card() {
@@ -88,7 +98,9 @@ class SImageView private constructor()
 
             if (bitmap != null)
                 vImage.setImageBitmap(bitmap)
-            else if (id > 0)
+            else if(bytes != null){
+                vImage.setImageBitmap(ToolsBitmap.decode(bytes))
+            } else if (id > 0)
                 ToolsImagesLoader.load(id).into { bytes ->
                     if (bytes != null) {
                         if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }

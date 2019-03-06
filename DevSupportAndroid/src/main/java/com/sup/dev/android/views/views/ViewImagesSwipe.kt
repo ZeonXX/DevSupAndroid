@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -102,14 +103,27 @@ class ViewImagesSwipe constructor(
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
     }
 
+    fun add(bytes: ByteArray, onClick: ((ByteArray) -> Unit)? = null, onLongClick: ((ByteArray) -> Unit)? = null) {
+        if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
+        adapter.add(CardSwipeBytes(bytes, onClick, onLongClick))
+    }
+
     fun remove(index: Int) {
         adapter.remove(adapter[CardSwipe::class][index])
+        ToolsThreads.main(true) { updateVisibility() }
+    }
+
+    fun remove(bytes: ByteArray) {
+        for(c in adapter[CardSwipeBytes::class]){
+            if(c.bytes === bytes) adapter.remove(c)
+        }
         ToolsThreads.main(true) { updateVisibility() }
     }
 
     fun scrollToEnd() {
         vRecycler.scrollToPosition(adapter.size() - 1)
     }
+
 
     //
     //  Setters
@@ -133,7 +147,16 @@ class ViewImagesSwipe constructor(
         return Array(array.size) { array[it].bitmap }
     }
 
+    fun getArrayBytes(): Array<ByteArray> {
+        val array = adapter[CardSwipeBytes::class]
+        return Array(array.size) { array[it].bytes }
+    }
+
     fun size() = adapter.size(CardSwipe::class)
+
+    fun isEmpty() = adapter.isEmpty
+
+    fun isNotEmpty() = !adapter.isEmpty
 
     //
     //  Card
@@ -218,4 +241,27 @@ class ViewImagesSwipe constructor(
 
         override fun getSource() = id
     }
+
+    inner class CardSwipeBytes(
+            val bytes: ByteArray,
+            onClick: ((ByteArray) -> Unit)?,
+            onLongClick: ((ByteArray) -> Unit)? = null
+    ) : CardSwipe<ByteArray>(onClick, onLongClick) {
+
+        override fun set(view: View, vImage: ImageView) {
+            vImage.setImageBitmap(ToolsBitmap.decode(bytes))
+            updateVisibility()
+        }
+
+        override fun toImageView() {
+            val array = getArrayBytes()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] === bytes) index = i
+            Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = bytes
+
+    }
+
 }
