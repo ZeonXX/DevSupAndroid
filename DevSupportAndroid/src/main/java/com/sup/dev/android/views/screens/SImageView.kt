@@ -1,9 +1,11 @@
 package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
@@ -14,29 +16,37 @@ import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.java.tools.ToolsBytes
+import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
 
 
 class SImageView private constructor()
     : Screen(R.layout.screen_image_view) {
 
+    private val vRoot: View = findViewById(R.id.vRoot)
+    private val vCounterContainer: View = findViewById(R.id.vCounterContainer)
+    private val vCounter: TextView = findViewById(R.id.vCounter)
     private val vPager: ViewPager = findViewById(R.id.vPager)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
+    private val vBack: ViewIcon = findViewById(R.id.vBack)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
     constructor(scrollTo: Int, bitmaps: Array<Bitmap>) : this() {
         for (b in bitmaps) adapterIn.add(Page(null, b, 0L))
         vPager.setCurrentItem(scrollTo, false)
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     constructor(scrollTo: Int, ids: Array<Long>) : this() {
         for (id in ids) adapterIn.add(Page(null, null, id))
         vPager.setCurrentItem(scrollTo, false)
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     constructor(scrollTo: Int, bytes: Array<ByteArray>) : this() {
         for (b in bytes) adapterIn.add(Page(b, null, 0L))
         vPager.setCurrentItem(scrollTo, false)
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     constructor(bitmap: Bitmap) : this() {
@@ -56,6 +66,11 @@ class SImageView private constructor()
         isBottomNavigationAllowed = false
         isBottomNavigationAnimation = false
 
+        val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
+        vDownload.setIconBackgroundColor(color)
+        vBack.setIconBackgroundColor(color)
+        vCounterContainer.setBackgroundColor(color)
+
         vDownload.setOnClickListener { download() }
         vPager.adapter = adapterIn
         vPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -65,7 +80,7 @@ class SImageView private constructor()
             }
 
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-
+                updateTitle()
             }
 
             override fun onPageSelected(p0: Int) {
@@ -73,6 +88,13 @@ class SImageView private constructor()
             }
 
         })
+
+        updateTitle()
+    }
+
+    private fun updateTitle(){
+        vCounter.text = "${vPager.currentItem+1} / ${adapterIn.size()}"
+
     }
 
     private fun download() {

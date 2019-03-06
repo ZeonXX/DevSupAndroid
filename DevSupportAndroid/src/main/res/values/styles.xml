@@ -123,6 +123,12 @@
         <item name="android:layout_height">32dp</item>
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="Icon.12">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
 >
 
     <style name="Root">

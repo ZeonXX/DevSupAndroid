@@ -15,6 +15,7 @@ import com.sup.dev.android.libs.screens.activity.SActivityDrawer
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.screens.SCrop
 
 
 open class Screen(
@@ -23,6 +24,7 @@ open class Screen(
 
     private var onBackPressed: () -> Boolean = { false }
 
+    private var onHide: () -> Unit = {}
     var isBackStackAllowed = true
     var hasBackIcon = true
     var isBottomNavigationVisible = true
@@ -91,7 +93,7 @@ open class Screen(
 
     @CallSuper
     open fun onDestroy() {
-
+        onHide.invoke()
     }
 
     @CallSuper
@@ -117,6 +119,11 @@ open class Screen(
 
     fun setOnBackPressed(onBackPressed:() -> Boolean){
         this.onBackPressed = onBackPressed
+    }
+
+    fun setOnHide(onHide: () -> Unit): Screen {
+        this.onHide = onHide
+        return this
     }
 
     //

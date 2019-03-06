@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vRoot"
     style="@style/Root">
 
     <FrameLayout
@@ -17,6 +19,25 @@
 
         <com.sup.dev.android.views.views.ViewIcon
             style="@style/Icon.Shadow.Back"/>
+
+        <com.sup.dev.android.views.views.layouts.LayoutCorned
+            android:id="@+id/vCounterContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="72dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            app:LayoutCorned_chipMode="true">
+
+            <TextView
+                android:id="@+id/vCounter"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"/>
+
+        </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
 
     </FrameLayout>
 

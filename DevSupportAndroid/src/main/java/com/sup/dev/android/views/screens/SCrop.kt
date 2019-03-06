@@ -2,13 +2,16 @@ package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.dialogs.DialogWidget
+import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
+import com.sup.dev.java.tools.ToolsColor
 
 class SCrop(
         bitmap: Bitmap,
@@ -17,11 +20,11 @@ class SCrop(
         private val onCrop: ((SCrop, Bitmap, Int, Int, Int, Int) -> Unit)?
 ) : Screen(R.layout.screen_image_crop) {
 
-
-    private var onHide: () -> Unit = {}
+    private val vRoot: View = findViewById(R.id.vRoot)
     private val vCropImageView: ViewCropImage = findViewById(R.id.vCrop)
     private val vFinish: View = findViewById(R.id.vFab)
     private val vAll: View = findViewById(R.id.vAll)
+    private val vBack: ViewIcon = findViewById(R.id.vBack)
 
     private var autoBackOnCrop = true
     private var locked: Boolean = false
@@ -35,6 +38,9 @@ class SCrop(
         isBottomNavigationVisible = false
         isBottomNavigationAllowed = false
         isBottomNavigationAnimation = false
+
+        val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
+        vBack.setIconBackgroundColor(color)
 
         if (aw > 0 && ah > 0) vCropImageView.setAspectRatio(aw, ah)
         vCropImageView.setImageBitmap(bitmap)
@@ -69,11 +75,6 @@ class SCrop(
         return this
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        onHide.invoke()
-    }
-
     fun setAutoBackOnCrop(autoBackOnCrop: Boolean): SCrop {
         this.autoBackOnCrop = autoBackOnCrop
         return this
@@ -85,11 +86,6 @@ class SCrop(
 
     fun back() {
         Navigator.back()
-    }
-
-    fun setOnHide(onHide: () -> Unit): SCrop {
-        this.onHide = onHide
-        return this
     }
 
 }

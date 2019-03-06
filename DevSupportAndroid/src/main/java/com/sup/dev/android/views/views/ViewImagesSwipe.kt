@@ -92,15 +92,26 @@ class ViewImagesSwipe constructor(
         updateVisibility()
     }
 
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null) {
+        add(id, fullId, w, h, onClick, null)
+    }
+
     fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
         if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
-
         adapter.add(CardSwipeId(id, fullId, w, h, onClick, onLongClick))
+    }
+
+    fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null) {
+        add(bitmap, onClick, null)
     }
 
     fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
         if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
         adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
+    }
+
+    fun add(bytes: ByteArray, onClick: ((ByteArray) -> Unit)? = null) {
+        add(bytes, onClick, null)
     }
 
     fun add(bytes: ByteArray, onClick: ((ByteArray) -> Unit)? = null, onLongClick: ((ByteArray) -> Unit)? = null) {
@@ -114,8 +125,8 @@ class ViewImagesSwipe constructor(
     }
 
     fun remove(bytes: ByteArray) {
-        for(c in adapter[CardSwipeBytes::class]){
-            if(c.bytes === bytes) adapter.remove(c)
+        for (c in adapter[CardSwipeBytes::class]) {
+            if (c.bytes === bytes) adapter.remove(c)
         }
         ToolsThreads.main(true) { updateVisibility() }
     }
@@ -175,9 +186,13 @@ class ViewImagesSwipe constructor(
             super.bindView(view)
             val vImage: ImageView = view.findViewById(R.id.vImage)
             view.setOnClickListener {
-                if (onClickGlobal(this as CardSwipe<Any>)) return@setOnClickListener
-                else if (onClick == null) toImageView()
-                else onClick.invoke(getSource())
+                if (onClickGlobal(this as CardSwipe<Any>)) {
+                    return@setOnClickListener
+                } else if (onClick == null) {
+                    toImageView()
+                } else {
+                    onClick.invoke(getSource())
+                }
             }
             if (onLongClick != null)
                 view.setOnLongClickListener {
