@@ -27,10 +27,10 @@ object ToolsImagesLoader {
 
         if(imageId > 0 ) {
             load(imageId).sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
-                if (gifId > 0) load(gifId).sizeArd(sizeArd).asGif().gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+                if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
             }
         }else{
-            if (gifId > 0) load(gifId).sizeArd(sizeArd).size(w, h).asGif().gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
     }
 

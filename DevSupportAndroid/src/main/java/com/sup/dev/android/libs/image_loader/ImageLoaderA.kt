@@ -22,7 +22,8 @@ abstract class ImageLoaderA {
     internal var options: BitmapFactory.Options? = null
     internal var w = 0
     internal var h = 0
-    internal var isGif = false
+    internal var allowGif = true
+    internal var showGifLoadingProgress = false
     internal var sizeArd = 1f
     internal var holder: Any? = null
     internal var noHolder = false
@@ -63,8 +64,13 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun asGif(): ImageLoaderA {
-        isGif = true
+    fun disallowGif(): ImageLoaderA {
+        allowGif = false
+        return this
+    }
+
+    fun showGifLoadingProgress(): ImageLoaderA {
+        showGifLoadingProgress = true
         return this
     }
 

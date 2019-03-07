@@ -61,7 +61,6 @@ object ImageLoader {
         putHolder(loader)
 
         if (bytes != null) {
-            loader.isGif = loader.isGif || ToolsBytes.isGif(bytes)
             ToolsThreads.thread { putImage(loader, parseImage(loader, bytes), true, bytes) }
             return
         }
@@ -81,7 +80,7 @@ object ImageLoader {
 
     private fun putHolder(loader: ImageLoaderA) {
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.isGif) View.VISIBLE else View.INVISIBLE
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.allowGif && loader.showGifLoadingProgress) View.VISIBLE else View.INVISIBLE
 
         if (loader.customSetHolder != null) {
             loader.customSetHolder!!.invoke()
@@ -159,9 +158,7 @@ object ImageLoader {
         var bytes = loadedBytes
         var bitmap: Bitmap? = null
 
-        loader.isGif = loader.isGif || ToolsBytes.isGif(loadedBytes)
-
-        if (!loader.isGif) {
+        if (loader.allowGif && !ToolsBytes.isGif(loadedBytes)) {
             bitmap = parseImage(loader, loadedBytes)
             if (loader.cashScaledBytes && bitmap != null) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
         }
@@ -194,7 +191,7 @@ object ImageLoader {
         ToolsThreads.main {
             if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
             if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
-                if (loader.isGif && ToolsBytes.isGif(bytes)) {
+                if (loader.allowGif && ToolsBytes.isGif(bytes)) {
                     ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd){
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
