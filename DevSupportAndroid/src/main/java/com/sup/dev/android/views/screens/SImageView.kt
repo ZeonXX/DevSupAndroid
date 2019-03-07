@@ -51,14 +51,17 @@ class SImageView private constructor()
 
     constructor(bitmap: Bitmap) : this() {
         adapterIn.add(Page(null, bitmap, 0L))
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     constructor(id: Long) : this() {
         adapterIn.add(Page(null, null, id))
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     constructor(bytes: ByteArray) : this() {
         adapterIn.add(Page(bytes, null, 0L))
+        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
     }
 
     init {

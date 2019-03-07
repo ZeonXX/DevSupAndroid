@@ -165,7 +165,7 @@ abstract class Widget(layoutRes: Int) {
         return sheet
     }
 
-    fun asSheetShow(): DialogSheetWidget {
+    open fun asSheetShow(): DialogSheetWidget {
         val sheet = asSheet()
         sheet.show()
         return sheet
