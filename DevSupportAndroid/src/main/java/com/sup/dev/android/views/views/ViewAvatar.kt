@@ -47,7 +47,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         addView(view)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewAvatar, 0, 0)
-        val src = a.getResourceId(R.styleable.ViewAvatar_android_src, R.color.blue_700)
+        val src = a.getResourceId(R.styleable.ViewAvatar_android_src, 0)
         val text = a.getString(R.styleable.ViewAvatar_ViewAvatar_chipText)
         val chipBackground = a.getColor(R.styleable.ViewAvatar_ViewAvatar_chipBackground, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatar_ViewAvatar_chipIcon, 0)

@@ -9,7 +9,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
@@ -190,7 +189,7 @@ object ImageLoader {
     private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray) {
         ToolsThreads.main {
             if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
-            if (loader.vImage != null && loader.isKey(loader.vImage!!.getTag())) {
+            if (loader.vImage != null && loader.isKey(loader.vImage!!.tag)) {
                 if (loader.allowGif && ToolsBytes.isGif(bytes)) {
                     ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd){
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE

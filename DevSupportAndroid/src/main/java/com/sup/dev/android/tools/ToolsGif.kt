@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 
 object ToolsGif {
 
-    fun resize(bytes: ByteArray, w: Int, h: Int, cropX: Int? = null, cropY: Int? = null, cropW: Int? = null, cropH: Int? = null, maxSizesMode:Boolean = false): ByteArray {
+    fun resize(bytes: ByteArray, w: Int, h: Int, cropX: Int? = null, cropY: Int? = null, cropW: Int? = null, cropH: Int? = null, maxSizesMode: Boolean = false): ByteArray {
         val fName = "ToolsGif_${System.nanoTime()}_Inp"
         ToolsCash.put(bytes, fName)
 
@@ -24,7 +24,7 @@ object ToolsGif {
 
         var ww = w
         var hh = h
-        if(maxSizesMode){
+        if (maxSizesMode) {
             var bm = ToolsBitmap.decode(bytes)!!
             if (cropX != null && cropY != null && cropW != null && cropH != null)
                 bm = Bitmap.createBitmap(bm, cropX, cropY, cropW, cropH)
@@ -61,7 +61,12 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, sizeArg:Float, onStart:()->Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, sizeArg: Float, onStart: () -> Unit = {}) {
+
+        val key = Any()
+        val vv = vImage.get()
+        if (vv == null) return
+        vv.tag = key
 
         ToolsThreads.thread {
             val file = "ToolsGif_${System.nanoTime()}_Inp"
@@ -77,14 +82,14 @@ object ToolsGif {
                     val next = iterator.next()
                     var bm = next.bitmap
                     val ms = next.delayMs.toLong()
-                    if(sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width*sizeArg).toInt(), (bm.height*sizeArg).toInt())
+                    if (sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width * sizeArg).toInt(), (bm.height * sizeArg).toInt())
                     ToolsThreads.main {
                         val v = vImage.get()
-                        if (v == null || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {
+                        if (v == null || v.tag !== key || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {
                             stop = true
                             return@main
                         }
-                        if(lastBitmap == null){
+                        if (lastBitmap == null) {
                             onStart.invoke()
                         }
                         lastBitmap = bm

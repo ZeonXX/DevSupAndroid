@@ -98,8 +98,8 @@ abstract class ImageLoaderA {
     }
 
     fun noHolder(): ImageLoaderA {
-        noHolder = true;
-        return this;
+        noHolder = true
+        return this
     }
 
     fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
