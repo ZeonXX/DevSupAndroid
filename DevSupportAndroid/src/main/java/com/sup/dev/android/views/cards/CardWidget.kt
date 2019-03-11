@@ -16,6 +16,7 @@ class CardWidget(private val widget: Widget) : Card(), WidgetViewWrapper {
     }
 
     override fun bindView(view: View) {
+        super.bindView(view)
         widget.onShow()
     }
 

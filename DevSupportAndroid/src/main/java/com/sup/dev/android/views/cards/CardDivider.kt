@@ -12,7 +12,7 @@ class CardDivider : Card() {
     }
 
     override fun bindView(view: View) {
-
+        super.bindView(view)
     }
 
 }

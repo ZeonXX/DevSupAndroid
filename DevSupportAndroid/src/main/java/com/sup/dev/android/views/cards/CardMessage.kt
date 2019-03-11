@@ -25,6 +25,7 @@ class CardMessage : Card() {
     }
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vDivider = view.findViewById<View>(R.id.vDivider)
         val vText = view.findViewById<TextView>(R.id.vText)
         val vAction = view.findViewById<Button>(R.id.vAction)

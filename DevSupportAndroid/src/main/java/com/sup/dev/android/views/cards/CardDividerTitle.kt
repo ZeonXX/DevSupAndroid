@@ -21,6 +21,7 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     override fun getLayout() = R.layout.card_divider_title
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vText = view.findViewById<TextView>(R.id.vText)
         val vDividerTop = view.findViewById<View>(R.id.vDividerTop)
         val vDividerBottom = view.findViewById<View>(R.id.vDividerBottom)

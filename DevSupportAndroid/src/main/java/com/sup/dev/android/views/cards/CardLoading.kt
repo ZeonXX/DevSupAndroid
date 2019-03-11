@@ -37,6 +37,7 @@ class CardLoading : Card() {
     }
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vDivider = view.findViewById<View>(R.id.vDivider)
         val vLoadingCircle = view.findViewById<View>(R.id.vLoading)
         val vLoadingHorizontal = view.findViewById<View>(R.id.vLoadingHorizontal)

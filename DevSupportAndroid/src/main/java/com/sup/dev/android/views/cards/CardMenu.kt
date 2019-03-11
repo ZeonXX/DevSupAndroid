@@ -28,6 +28,7 @@ open class CardMenu : Card() {
     }
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vTouch = view.findViewById<View>(R.id.vTouch)
         val vDivider = view.findViewById<View>(R.id.vDivider)
         val vText = view.findViewById<TextView>(R.id.vText)

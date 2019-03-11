@@ -44,6 +44,7 @@ open class CardSpoiler : Card() {
     override fun getLayout() =  R.layout.card_spoiler
 
     override fun bindView(view: View) {
+        super.bindView(view)
         val vIcon:ImageView = view.findViewById(R.id.vIcon)
         val vTitle:TextView = view.findViewById(R.id.vTitle)
         val vText:TextView = view.findViewById(R.id.vText)
