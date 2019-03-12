@@ -158,7 +158,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             super.bindView(view)
             val vImage = view.findViewById<ImageView>(R.id.vImage)
             vImage.setOnClickListener { v -> onClick() }
-            ToolsImagesLoader.load(file).size(512, 512).cropSquare().into(vImage)
+            ToolsImagesLoader.load(file).size(420, 420).cropSquare().into(vImage)
 
             val index = adapter!!.indexOf(this)
             val arg = index % spanCount

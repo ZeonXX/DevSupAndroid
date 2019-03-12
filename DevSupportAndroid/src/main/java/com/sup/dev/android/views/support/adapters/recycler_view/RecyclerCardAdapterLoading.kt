@@ -286,11 +286,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun setCardLoadingType(type: CardLoading.Type): RecyclerCardAdapterLoading<K, V> {
-        cardLoading.setType(type)
-        return this
-    }
-
     override fun setNotifyCount(notifyCount: Int): RecyclerCardAdapterLoading<K, V> {
         return super.setNotifyCount(notifyCount) as RecyclerCardAdapterLoading<K, V>
     }

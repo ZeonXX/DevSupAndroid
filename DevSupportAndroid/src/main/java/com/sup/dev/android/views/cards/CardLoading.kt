@@ -22,14 +22,9 @@ class CardLoading : Card() {
     private var retryButton: String? = null
     private var onRetry: ((CardLoading)->Unit)? = null
     private var state = State.LOADING
-    private var type = Type.CIRCLE
 
     enum class State {
         LOADING, ACTION, RETRY
-    }
-
-    enum class Type {
-        CIRCLE, HORIZONTAL, NONE
     }
 
     override fun getLayout(): Int {
@@ -40,7 +35,6 @@ class CardLoading : Card() {
         super.bindView(view)
         val vDivider = view.findViewById<View>(R.id.vDivider)
         val vLoadingCircle = view.findViewById<View>(R.id.vLoading)
-        val vLoadingHorizontal = view.findViewById<View>(R.id.vLoadingHorizontal)
         val vContainer = view.findViewById<View>(R.id.vContainer)
         val vAction = view.findViewById<Button>(R.id.vAction)
         val vText = view.findViewById<TextView>(R.id.vText)
@@ -53,20 +47,9 @@ class CardLoading : Card() {
         if (state == State.LOADING) {
             vContainer.visibility = View.GONE
 
-            if (type == Type.CIRCLE)
-                ToolsThreads.main(100) {
-                    if (state == State.LOADING) ToolsView.alpha(vLoadingCircle, type != Type.CIRCLE)
-                    Unit
-                }
-            else
-                vLoadingCircle.visibility = View.GONE
-            if (type == Type.HORIZONTAL)
-                ToolsThreads.main(100) {
-                    if (state == State.LOADING) ToolsView.alpha(vLoadingHorizontal, type != Type.HORIZONTAL)
-                    Unit
-                }
-            else
-                vLoadingHorizontal.visibility = View.GONE
+            ToolsThreads.main(100) {
+                if (state == State.LOADING) ToolsView.alpha(vLoadingCircle, false)
+            }
 
             vText.visibility = View.GONE
             vAction.visibility = View.GONE
@@ -76,7 +59,6 @@ class CardLoading : Card() {
         if (state == State.RETRY) {
             vContainer.visibility = View.VISIBLE
             ToolsView.toAlpha(vLoadingCircle)
-            ToolsView.toAlpha(vLoadingHorizontal)
             vText.visibility = View.VISIBLE
             vAction.visibility = if (retryButton == null || retryButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = retryMessage
@@ -89,7 +71,6 @@ class CardLoading : Card() {
         if (state == State.ACTION) {
             vContainer.visibility = View.VISIBLE
             ToolsView.toAlpha(vLoadingCircle)
-            ToolsView.toAlpha(vLoadingHorizontal)
             vText.visibility = View.VISIBLE
             vAction.visibility = if (actionButton == null || actionButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = actionMessage
@@ -171,12 +152,6 @@ class CardLoading : Card() {
 
     fun setOnRetry(onRetry: (CardLoading)->Unit): CardLoading {
         this.onRetry = onRetry
-        update()
-        return this
-    }
-
-    fun setType(type: Type): CardLoading {
-        this.type = type
         update()
         return this
     }

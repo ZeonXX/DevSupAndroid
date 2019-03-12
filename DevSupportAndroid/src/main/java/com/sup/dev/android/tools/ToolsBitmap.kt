@@ -11,12 +11,10 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.support.annotation.DrawableRes
-import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.java.classes.geometry.Dimensions
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.*
 import java.io.ByteArrayOutputStream
@@ -24,7 +22,7 @@ import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-
+import android.graphics.BitmapFactory
 
 object ToolsBitmap {
 
@@ -217,9 +215,7 @@ object ToolsBitmap {
             if (h in 1..(hh - 1)) hh = h
             options.inJustDecodeBounds = true
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
-            options.inSampleSize = 1
-            while (options.outHeight / options.inSampleSize > hh || options.outWidth / options.inSampleSize > ww)
-                options.inSampleSize *= 2
+            options.inSampleSize = calculateInSampleSize(options, ww, hh)
         }
 
 
@@ -233,6 +229,21 @@ object ToolsBitmap {
 
 
         return bitmap
+    }
+
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+            val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
+            val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
+            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+        }
+
+        return inSampleSize
     }
 
     @JvmOverloads
