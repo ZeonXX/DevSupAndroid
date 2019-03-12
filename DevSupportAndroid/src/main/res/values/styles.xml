@@ -318,10 +318,11 @@
         <item name="strokeColor">?color_stroke</item>
     </style>
 
-    <style name="TextInputLayout">
+    <style name="TextInputLayout" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="Field">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
