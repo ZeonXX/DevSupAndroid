@@ -26,7 +26,7 @@ object ImageLoader {
     internal val cash = ArrayList<Item3<String, Bitmap, ByteArray>>()
     internal var cashSize = 0
     internal val turn = ArrayList<ImageLoaderA>()
-    internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(2, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
+    internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
 
     //
     //  Public
