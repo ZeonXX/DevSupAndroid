@@ -32,7 +32,7 @@ object ToolsCash {
         ToolsCash.orderClearMaxCount = orderClearMaxCount
     }
 
-    fun put(data: ByteArray, name: String) {
+    fun put(data: ByteArray, name: String):File {
         if (cashSize == 0L) init()
 
         val cacheDir = SupAndroid.appContext!!.cacheDir
@@ -55,6 +55,8 @@ object ToolsCash {
                 }
 
         }
+
+        return file
     }
 
     fun get(name: String): ByteArray? {
