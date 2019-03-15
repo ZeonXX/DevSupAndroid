@@ -86,10 +86,13 @@ object ImageLoader {
         } else {
             if (loader.vImage != null) {
                 if (!loader.noHolder) {
-                    if (loader.holder is Int) loader.vImage!!.setImageResource(loader.holder as Int)
-                    else if (loader.holder is Drawable) loader.vImage!!.setImageDrawable(loader.holder as Drawable)
-                    else if (loader.holder is Bitmap) loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
-                    else if (loader.w != 0 && loader.h != 0) {
+                    if (loader.holder is Int) {
+                        loader.vImage!!.setImageResource(loader.holder as Int)
+                    } else if (loader.holder is Drawable) {
+                        loader.vImage!!.setImageDrawable(loader.holder as Drawable)
+                    } else if (loader.holder is Bitmap) {
+                        loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
+                    } else if (loader.w != 0 && loader.h != 0) {
                         val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
                         bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                         loader.vImage!!.setImageBitmap(bitmap)
@@ -191,12 +194,12 @@ object ImageLoader {
             if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
             if (loader.vImage != null && loader.isKey(loader.vImage!!.tag)) {
                 if (loader.allowGif && ToolsBytes.isGif(bytes)) {
-                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd){
+                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd) {
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
                     var bitmap = bm
-                    if(bitmap != null && loader.sizeArd != 1f) bitmap = ToolsBitmap.resize(bitmap, (bitmap.width * loader.sizeArd).toInt(), (bitmap.height * loader.sizeArd).toInt())
+                    if (bitmap != null && loader.sizeArd != 1f) bitmap = ToolsBitmap.resize(bitmap, (bitmap.width * loader.sizeArd).toInt(), (bitmap.height * loader.sizeArd).toInt())
                     if (loader.vImage != null && bitmap != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bitmap, animate && loader.fade))
                 }
             }

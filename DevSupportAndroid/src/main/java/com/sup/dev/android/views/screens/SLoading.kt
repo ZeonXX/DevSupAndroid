@@ -25,11 +25,13 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
     private var vAppBar: View? = null
+    private var vEmptySubContainer: ViewGroup? = null
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
     private val vMessageContainer: ViewGroup = findViewById(R.id.vMessageContainer)
+    private val vEmptyContainer: ViewGroup = findViewById(R.id.vEmptyContainer)
 
     protected var textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
@@ -41,8 +43,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
-
-    protected var imageBottomMarginDp = 0
 
     init {
 
@@ -61,6 +61,12 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected fun setContent(@LayoutRes res: Int) {
         vContainer.addView(ToolsView.inflate(context, res), 0)
         vAppBar = vContainer.findViewById(R.id.vAppBar)
+        vEmptySubContainer = vContainer.findViewById(R.id.vEmptySubContainer)
+
+        if(vEmptySubContainer != null) {
+            (vEmptyContainer.parent as ViewGroup).removeView(vEmptyContainer)
+            vEmptySubContainer!!.addView(vEmptyContainer)
+        }
     }
 
     protected fun setTextErrorNetwork(@StringRes t: Int) {
@@ -121,9 +127,8 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     fun setState(state: State) {
         this.stateS = state
 
-        if (vAppBar != null) {
+        if (vAppBar != null && vEmptySubContainer == null) {
             (vMessageContainer.layoutParams as FrameLayout.LayoutParams).topMargin = (vAppBar!!.height / 1.8f).toInt()
-            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).bottomMargin = ToolsView.dpToPx(imageBottomMarginDp).toInt()
         }
 
         if (state == State.PROGRESS) {

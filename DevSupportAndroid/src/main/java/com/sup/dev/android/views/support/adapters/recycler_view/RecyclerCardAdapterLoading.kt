@@ -24,11 +24,12 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var addTopPositionOffset = 0
     private var startBottomLoadOffset = 0
     private var startTopLoadOffset = 0
-    private var isLockTop: Boolean = false
-    private var isLockBottom: Boolean = false
-    private var isInProgress: Boolean = false
-    private var retryEnabled: Boolean = false
-    private var actionEnabled: Boolean = false
+    private var isLockTop = false
+    private var isLockBottom = false
+    private var isInProgress = false
+    private var retryEnabled = false
+    private var actionEnabled = false
+    private var showLoadingCard = true
     private var onErrorAndEmpty: (() -> Unit)? = null
     private var onEmpty: (() -> Unit)? = null
     private var onStartLoadingAndEmpty: (() -> Unit)? = null
@@ -39,7 +40,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
-
 
         if (!isLockBottom && position >= getItemCount() - 1 - startBottomLoadOffset) {
             ToolsThreads.main(true) {
@@ -53,7 +53,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             }
         }
     }
-
 
     private fun loadNow(bottom: Boolean) {
         if (isInProgress) return
@@ -71,10 +70,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
         if (!contains(cardClass)) {
             if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty!!.invoke()
-            else if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+            else if (!contains(cardLoading) && showLoadingCard) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty!!.invoke()
-            if (!contains(cardLoading)) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+            if (!contains(cardLoading) && showLoadingCard) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
         }
 
         if (bottom) bottomLoader!!.invoke({ result -> onLoaded(result, bottom, loadingTagLocal) }, cards)
@@ -251,6 +250,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     fun setEmptyMessage(@StringRes message: Int, @StringRes button: Int, onAction: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         return setEmptyMessage(ToolsResources.s(message), ToolsResources.s(button), onAction)
+    }
+
+    fun setShowLoadingCard(b:Boolean){
+        showLoadingCard = b
     }
 
     @JvmOverloads

@@ -11,7 +11,6 @@ import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 
-
 class SwipeView(private val view: ViewGroup,
                 private val vIcon: View,
                 private val onClick: (Float, Float) -> Unit = { x, y -> },
@@ -76,15 +75,21 @@ class SwipeView(private val view: ViewGroup,
                 clear()
                 onLongClick.invoke(e.x, e.y)
             }
-
             return true
         }
         if (e.action == MotionEvent.ACTION_MOVE && lastX > -1 && swipeEnabled) {
             val mx = e.x - (startX - view.x)
 
-            if (!swipeStarted && (Math.abs(lastX - mx)/4 <= Math.abs(lastY - e.y) || lastX - mx < ToolsView.dpToPx(10)))
+            if (!swipeStarted && (Math.abs(firstX - mx)/4 <= Math.abs(firstY - e.y) || firstX - mx < ToolsView.dpToPx(10))) {
+                if (firstClickTime < System.currentTimeMillis() - longClickTime) {
+                    clear()
+                    onLongClick.invoke(e.x, e.y)
+                    return true
+                }
+                lastX = e.x
+                lastY = e.y
                 return false
-            else {
+            }  else {
                 this.view.requestDisallowInterceptTouchEvent(true)
                 swipeStarted = true
             }
@@ -105,11 +110,10 @@ class SwipeView(private val view: ViewGroup,
             return true
         }
         if (e.action == MotionEvent.ACTION_UP && firstX == e.x && firstY == e.y) {
-            if (firstClickTime < System.currentTimeMillis() - longClickTime) {
+            if (firstClickTime < System.currentTimeMillis() - longClickTime)
                 onLongClick.invoke(e.x, e.y)
-            } else {
+            else
                 onClick.invoke(e.x, e.y)
-            }
             clear()
             return true
         }
@@ -117,7 +121,6 @@ class SwipeView(private val view: ViewGroup,
             clear()
             return true
         }
-
         return false
     }
 
