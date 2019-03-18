@@ -23,9 +23,10 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
 
     private val range = RangeF(1f, 4f)
 
-    private var onZoom: (()->Unit)? = null
+    private var onZoom: (() -> Unit)? = null
     private var animateTimeMs = 300
     private var doubleTouchRadius: Float = 0.toFloat()
+    var doubleTouchEnabled = true
     var boundsView: View? = null
         get() = if (field == null) if (childCount == 0) this else getChildAt(0) else field
 
@@ -34,7 +35,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         updateParams()
     }
 
-    
+
     //
     //  Getters
     //
@@ -81,11 +82,6 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         animateTimeMs = a.getInteger(R.styleable.LayoutZoom_LayoutZoom_animateTimeMs, animateTimeMs)
         a.recycle()
 
-        setOnTouchListener { view, motionEvent ->
-            onTouch(motionEvent)
-            true
-        }
-
         zoom = range.min
         updateParams()
     }
@@ -94,25 +90,45 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     //  Events
     //
 
-    private fun onTouch(motionEvent: MotionEvent) {
+    private var onTouchEventPassed = false
 
-        if (motionEvent.pointerCount == 1 && motionEvent.action == MotionEvent.ACTION_DOWN)
-            doubleTouch(motionEvent.x, motionEvent.y)
-        if (motionEvent.action == MotionEvent.ACTION_MOVE) {
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        onTouchEventPassed = false
+        super.dispatchTouchEvent(ev)
+        if(!onTouchEventPassed) onTouchEvent(ev)
+        return true
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        onTouchEventPassed = true
+
+        if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
+            doubleTouch(event.x, event.y)
+        }
+
+        if (event.action == MotionEvent.ACTION_MOVE) {
             clearDoubleTouch()
         }
 
-        if (motionEvent.pointerCount == 1 && (motionEvent.action == MotionEvent.ACTION_MOVE || motionEvent.action == MotionEvent.ACTION_DOWN))
-            move(motionEvent.x, motionEvent.y)
-        else
+        if (event.pointerCount == 1 && (event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_DOWN)) {
+            move(event.x, event.y)
+        } else {
             clearMove()
-        if (motionEvent.pointerCount == 2 && (motionEvent.action == MotionEvent.ACTION_MOVE || motionEvent.action == MotionEvent.ACTION_DOWN || motionEvent.action == MotionEvent.ACTION_POINTER_DOWN))
-            zoom(Line(motionEvent.x, motionEvent.y, motionEvent.getX(1), motionEvent.getY(1)))
-        else
+        }
+
+        if (event.pointerCount == 2 && (event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_POINTER_DOWN)) {
+            zoom(Line(event.x, event.y, event.getX(1), event.getY(1)))
+        } else {
             clearZoomParams()
+        }
+
+        return true
     }
 
     private fun doubleTouch(x: Float, y: Float) {
+
+        if (!doubleTouchEnabled) return
 
         if (doubleTouchTime > System.currentTimeMillis() - 500 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
             animateZoom(if (zoom == 1f) (range.max - range.min) / 2 + range.min else 1F, x, y)
@@ -198,8 +214,8 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         val fameCount = animateTimeMs * 60 / 1000
         val step = (targetZoom - zoom) / fameCount
 
-        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs/fameCount.toLong(), animateTimeMs+100.toLong(),
-                {subscription -> zoom(step, midX, midY)})
+        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(),
+                { subscription -> zoom(step, midX, midY) })
 
     }
 
