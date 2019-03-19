@@ -110,7 +110,7 @@ open class Settings @JvmOverloads constructor(
     }
 
     fun setIconPadding(dp: Int) {
-        setIconPaddingPx(ToolsView.dpToPx(dp).toFloat())
+        setIconPaddingPx(ToolsView.dpToPx(dp))
     }
 
     fun setIconPaddingPx(px: Float) {
