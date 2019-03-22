@@ -41,11 +41,8 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     //
 
     var zoom = 1.0f
-        private set
     var translateX = 0f
-        private set
     var translateY = 0f
-        private set
     private var subscriptionAnimateZoom: Subscription? = null
 
     //
@@ -230,21 +227,21 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     //  Params
     //
 
-    private fun updateParams() {
+    fun updateParams() {
 
         parent?.requestDisallowInterceptTouchEvent(zoom > 1.2)
 
         val vBound = boundsView
 
-        if (width > vBound!!.getWidth() * zoom)
+        if (width > vBound!!.width * zoom)
             translateX = 0f
         else
-            translateX = RangeF((width - vBound.getWidth() * zoom) / 2).toRange(translateX)
+            translateX = RangeF((width - vBound.width * zoom) / 2).toRange(translateX)
 
-        if (height > vBound.getHeight() * zoom)
+        if (height > vBound.height * zoom)
             translateY = 0f
         else
-            translateY = RangeF((height - vBound.getHeight() * zoom) / 2).toRange(translateY)
+            translateY = RangeF((height - vBound.height * zoom) / 2).toRange(translateY)
 
         for (i in 0 until childCount) {
             val v = getChildAt(i)
