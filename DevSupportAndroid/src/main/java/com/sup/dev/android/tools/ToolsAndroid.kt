@@ -196,8 +196,11 @@ object ToolsAndroid {
         if (primaryClip == null) return null
         return if (primaryClip.itemCount == 0)
             null
-        else
-            primaryClip.getItemAt(0).text.toString()
+        else {
+            val t = primaryClip.getItemAt(0).text
+            if(t == null) return null
+            return t.toString()
+        }
     }
 
 

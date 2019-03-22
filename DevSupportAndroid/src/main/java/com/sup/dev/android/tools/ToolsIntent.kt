@@ -26,7 +26,7 @@ object ToolsIntent {
     private val SHARE_FOLDER = "sup_share_cash"
 
     private var codeCounter = 0
-    private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>>()
+    private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>?>()
     private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND)}
 
     //
@@ -46,7 +46,7 @@ object ToolsIntent {
 
     fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent?) {
         for (pair in progressIntents)
-            if (requestCode == pair.a1) {
+            if (pair != null && requestCode == pair.a1) {
                 progressIntents.remove(pair)
                 pair.a2.invoke(resultCode, resultIntent)
                 return

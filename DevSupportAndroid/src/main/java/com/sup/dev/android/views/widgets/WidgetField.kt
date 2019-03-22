@@ -122,11 +122,13 @@ open class WidgetField(
         this.max = max
         vFieldWidget.vFieldLayout.counterMaxLength = max
         vFieldWidget.vFieldLayout.isCounterEnabled = true
+        check()
         return this
     }
 
     fun setMin(min: Int): WidgetField {
         this.min = min
+        check()
         return this
     }
 
