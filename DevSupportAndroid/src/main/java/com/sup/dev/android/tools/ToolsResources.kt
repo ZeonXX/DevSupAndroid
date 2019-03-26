@@ -36,7 +36,7 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.getString(r)
     }
 
-    fun sLang(languageCode:String, @StringRes r: Int): String {
+    fun sLang(languageCode: String, @StringRes r: Int): String {
         val res = SupAndroid.appContext!!.resources
         val conf = res.configuration
         val savedLocale = conf.locale
@@ -97,9 +97,12 @@ object ToolsResources {
         return getColor(getColorId(name))
     }
 
-
     fun getColor(@ColorRes r: Int): Int {
         return SupAndroid.appContext!!.resources.getColor(r)
+    }
+
+    fun getColors(@ColorRes vararg r: Int): Array<Int> {
+        return Array(r.size) { SupAndroid.appContext!!.resources.getColor(r[it]) }
     }
 
     fun getAccentColor(context: Context): Int {
