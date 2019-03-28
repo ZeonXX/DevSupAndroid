@@ -39,7 +39,7 @@ open class CardAvatar : Card() {
         vTouch.isFocusable = true && enabled
         vTouch.isClickable = true && enabled
         vTouch.isEnabled = true && enabled
-        if (enabled) vTouch.setOnClickListener { v -> onClick.invoke() }
+        if (enabled) vTouch.setOnClickListener { onClick.invoke() }
         else vTouch.setOnClickListener(null)
         if (enabled) ToolsView.setOnLongClickCoordinates(vTouch) { v, x, y -> onLongClick.invoke(this, v, x, y) }
         else vTouch.setOnLongClickListener(null)
@@ -48,7 +48,7 @@ open class CardAvatar : Card() {
         vAvatar.setTitle(title)
         vAvatar.setSubtitle(subtitle)
         vAvatar.isClickable = false
-        if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { v -> onClickAvatar!!.invoke() }
+        if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { onClickAvatar!!.invoke() }
         else vAvatar.vAvatar.setOnClickListener(null)
         vAvatar.vAvatar.setImage(image)
         vAvatar.vAvatar.setChipIcon(chipIcon)

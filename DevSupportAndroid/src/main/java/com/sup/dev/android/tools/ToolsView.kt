@@ -122,7 +122,7 @@ object ToolsView {
 
     fun showProgressDialog(title: String?): WidgetProgressWithTitle {
         val widget: WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
-        ToolsThreads.main {  widget.asDialogShow() }
+        ToolsThreads.main {  widget.asSheetShow() }
         return widget
     }
 
