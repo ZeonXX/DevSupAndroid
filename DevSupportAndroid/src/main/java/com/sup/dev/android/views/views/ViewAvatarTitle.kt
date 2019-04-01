@@ -12,8 +12,9 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
-class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
+open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
+    private var squareMode = false
     val vAvatar: ViewAvatar
     val vTitle: ViewTextLinkable
     val vSubtitle: ViewTextLinkable
@@ -43,11 +44,12 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
+        squareMode = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_square, false)
         a.recycle()
 
-
+        vAvatar.vImageView.setSquareMode(squareMode)
         vAvatar.setImage(src)
-        vAvatar.setRoundBackgroundColor(roundBackgroundColor)
+        vAvatar.vImageView.setBackgroundColorCircle(roundBackgroundColor)
         vAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
         vAvatar.setChipSize(chipSize.toInt())
         vAvatar.setChipText(chipText)
@@ -61,11 +63,20 @@ class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     fun updateCorned() {
-        setChipMode(hasOnClickListeners())
-        setCornedBL(hasOnClickListeners())
-        setCornedBR(hasOnClickListeners())
-        setCornedTL(hasOnClickListeners())
-        setCornedTR(hasOnClickListeners())
+        if(vAvatar.vImageView.isSquareMode()){
+            setChipMode(false)
+            setCornedSizePx(ViewCircleImage.SQUARE_CORNED.toInt())
+            setCornedBL(hasOnClickListeners())
+            setCornedBR(hasOnClickListeners())
+            setCornedTL(hasOnClickListeners())
+            setCornedTR(hasOnClickListeners())
+        }else{
+            setChipMode(hasOnClickListeners())
+            setCornedBL(hasOnClickListeners())
+            setCornedBR(hasOnClickListeners())
+            setCornedTL(hasOnClickListeners())
+            setCornedTR(hasOnClickListeners())
+        }
         vSubtitle.maxLines = if(hasOnClickListeners()) 2 else 10000
     }
 

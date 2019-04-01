@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -25,8 +26,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     val vChip: ViewChipMini
     val vChipIcon: ViewCircleImage
     private val vTouch: ViewDraw
-
-    private var roundBackgroundColor: Int = 0
 
     init {
 
@@ -54,10 +53,14 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
         val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
+        val squareMode = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_square, false)
         a.recycle()
+
 
         animationFocus = AnimationFocus(vTouch, focusColor)
 
+        vImageView.setSquareMode(squareMode)
+        vImageView.setBackgroundColorCircle(roundBackgroundColor)
         setImage(src)
         setChipSize(chipSize.toInt())
         setChipIconPadding(iconPadding.toInt())
@@ -69,14 +72,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
             paint.color = animationFocus.update()
             canvas.drawCircle(vTouch.width / 2f, vTouch.height / 2f, vTouch.height / 2f, paint)
         }
-
-        setRoundBackgroundColor(roundBackgroundColor)
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        paint.color = roundBackgroundColor
-        canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), (Math.min(width, height) / 2).toFloat(), paint)
-        super.onDraw(canvas)
     }
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
@@ -101,16 +96,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vChipIcon.layoutParams.width = size
         vChipIcon.layoutParams.height = size
         vChip.layoutParams.height = size
-    }
-
-    fun setCircleBackgroundColorResource(@ColorRes roundBackgroundColorRes: Int) {
-        setRoundBackgroundColor(ToolsResources.getColor(roundBackgroundColorRes))
-    }
-
-    fun setRoundBackgroundColor(roundBackgroundColor: Int) {
-        this.roundBackgroundColor = roundBackgroundColor
-        setWillNotDraw(roundBackgroundColor == 0x00000000)
-        invalidate()
     }
 
     fun setChipText(t: String?) {

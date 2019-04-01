@@ -71,7 +71,6 @@ open class Screen(
             } else {
                 toolbar.navigationIcon = null
             }
-
         } else {
             val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {

@@ -15,6 +15,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.android.views.views.ViewIcon
 import java.util.ArrayList
 
@@ -27,7 +28,7 @@ open class Settings @JvmOverloads constructor(
 
     val view: View
     private val line: View
-    private val vIcon: ViewIcon?
+    private val vIcon: ViewCircleImage?
     private val vTitle: TextView?
     private val vSubtitle: TextView?
     private val vSubViewContainer: ViewGroup?
@@ -59,8 +60,10 @@ open class Settings @JvmOverloads constructor(
         val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
         val iconBackground = a.getColor(R.styleable.Settings_Settings_icon_background, 0)
         val iconPadding = a.getDimension(R.styleable.Settings_Settings_icon_padding, ToolsView.dpToPx(6))
+        val squareMode = a.getBoolean(R.styleable.Settings_Settings_square, false)
         a.recycle()
 
+        vIcon?.setSquareMode(squareMode)
         setLineVisible(lineVisible)
         setTitle(title)
         setSubtitle(subtitle)
@@ -118,7 +121,7 @@ open class Settings @JvmOverloads constructor(
     }
 
     fun setIconBackground(color: Int) {
-        vIcon?.setIconBackgroundColor(color)
+        vIcon?.setBackgroundColor(color)
     }
 
     fun addSubSettings(settings: Settings) {

@@ -95,6 +95,7 @@
         <attr name="ViewAvatar_chipIcon" format="reference"/>
         <attr name="ViewAvatar_chipIconPadding" format="dimension"/>
         <attr name="ViewAvatar_avatarBackground" format="color"/>
+        <attr name="ViewAvatar_square" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ViewAvatarTitle">
@@ -108,6 +109,7 @@
         <attr name="ViewAvatarTitle_chipIconPadding"  format="dimension"/>
         <attr name="ViewAvatarTitle_avatarBackground" format="color"/>
         <attr name="ViewAvatarTitle_avatarPadding" format="dimension"/>
+        <attr name="ViewAvatarTitle_square" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ViewChipMini">
@@ -212,6 +214,7 @@
         <attr name="Settings_icon_background" format="color"/>
         <attr name="Settings_icon_padding" format="dimension"/>
         <attr name="Settings_checked" format="boolean"/>
+        <attr name="Settings_square" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsField">
