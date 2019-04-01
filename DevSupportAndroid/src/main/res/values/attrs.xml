@@ -98,6 +98,10 @@
         <attr name="ViewAvatar_square" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="ViewCircleImage">
+        <attr name="ViewCircleImage_square" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="ViewAvatarTitle">
         <attr name="android:src"/>
         <attr name="ViewAvatarTitle_title" format="string"/>

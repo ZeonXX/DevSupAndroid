@@ -30,7 +30,6 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
             vSeekBar.progress = progress
         }
 
-
     //
     //  Dpad
     //

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Path
 import android.util.AttributeSet
+import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
@@ -18,6 +19,12 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
     private val path = Path()
     private var ww = -1
     private var hh = -1
+
+    init {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0)
+        squareMode = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_square, false)
+        a.recycle()
+    }
 
     override fun draw(canvas: Canvas) {
         if (ww != width || hh != height) {

@@ -8,7 +8,7 @@
     android:paddingTop="8dp"
     android:paddingRight="6dp">
 
-    <com.sup.dev.android.views.views.ViewIcon
+    <com.sup.dev.android.views.views.ViewCircleImage
         android:id="@+id/vDevSupIcon"
         android:layout_width="38dp"
         android:layout_height="38dp"

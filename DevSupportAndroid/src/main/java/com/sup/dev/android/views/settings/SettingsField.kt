@@ -11,6 +11,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
+import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.debug.Debug
@@ -21,7 +22,7 @@ class SettingsField constructor(
         attrs: AttributeSet? = null
 ) : Settings(context, attrs, R.layout.settings_field) {
 
-    val vIcon: ViewIcon = findViewById(R.id.vDevSupIcon)
+    val vIcon: ViewCircleImage = findViewById(R.id.vDevSupIcon)
     val vField: ViewEditTextMedia = findViewById(R.id.vDevSupField)
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
