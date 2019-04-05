@@ -20,7 +20,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private val cardLoading: CardLoading = CardLoading()
 
     private var removeSame = true
-    private var addToSameCards = true
+    public var addToSameCards = false
     private var addBottomPositionOffset = 0
     private var addTopPositionOffset = 0
     private var startBottomLoadOffset = 0
