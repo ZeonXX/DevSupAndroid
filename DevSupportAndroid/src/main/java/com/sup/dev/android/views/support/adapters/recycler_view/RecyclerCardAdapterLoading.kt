@@ -20,6 +20,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private val cardLoading: CardLoading = CardLoading()
 
     private var removeSame = true
+    private var addToSameCards = true
     private var addBottomPositionOffset = 0
     private var addTopPositionOffset = 0
     private var startBottomLoadOffset = 0
@@ -70,10 +71,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
         if (!contains(cardClass)) {
             if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty!!.invoke()
-            else if (!contains(cardLoading) && showLoadingCard) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+            else if (!contains(cardLoading) && showLoadingCard) add(if (bottom) findBottomAdposition() else findTopAddPosition(), cardLoading)
         } else {
             if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty!!.invoke()
-            if (!contains(cardLoading) && showLoadingCard) add(if (bottom) size() - addBottomPositionOffset else addTopPositionOffset, cardLoading)
+            if (!contains(cardLoading) && showLoadingCard) add(if (bottom) findBottomAdposition() else findTopAddPosition(), cardLoading)
         }
 
         if (bottom) bottomLoader!!.invoke({ result -> onLoaded(result, bottom, loadingTagLocal) }, cards)
@@ -125,13 +126,39 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                     break
                 }
             }
-            if (bottom) add(size() - addBottomPositionOffset, card)
-            else add(addTopPositionOffset + i, card)
+            if (bottom) add(findBottomAdposition(), card)
+            else add(findTopAddPosition() + i, card)
         }
 
         if (contains(cardClass) || result.isNotEmpty())
             if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
 
+    }
+
+    fun findTopAddPosition(): Int {
+        if (addToSameCards) {
+            val cards = get(cardClass)
+            if (cards.isEmpty()) {
+                return addTopPositionOffset
+            } else {
+                return indexOf(cards[0]) - addTopPositionOffset
+            }
+        } else {
+            return addTopPositionOffset
+        }
+    }
+
+    fun findBottomAdposition(): Int {
+        if (addToSameCards) {
+            val cards = get(cardClass)
+            if (cards.isEmpty()) {
+                return size() - addBottomPositionOffset
+            } else {
+                return indexOf(cards[cards.size - 1]) + 1 - addBottomPositionOffset
+            }
+        } else {
+            return size() - addBottomPositionOffset
+        }
     }
 
     fun loadTop() {
@@ -252,7 +279,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return setEmptyMessage(ToolsResources.s(message), ToolsResources.s(button), onAction)
     }
 
-    fun setShowLoadingCard(b:Boolean){
+    fun setShowLoadingCard(b: Boolean) {
         showLoadingCard = b
     }
 

@@ -55,7 +55,7 @@ class SCrop(
                     setLock(false)
 
                 val cropPoints = vCropImageView.cropPoints
-                onCrop.invoke(this, vCropImageView.croppedImage!!, cropPoints[0].toInt(), cropPoints[1].toInt(), cropPoints[2].toInt() - cropPoints[0].toInt(), cropPoints[5].toInt() - cropPoints[1].toInt())
+                onCrop.invoke(this, vCropImageView.croppedImage!!, cropPoints[0].toInt(), cropPoints[1].toInt(), (cropPoints[2] - cropPoints[0]).toInt(), (cropPoints[5] - cropPoints[1]).toInt())
             }
         }
     }

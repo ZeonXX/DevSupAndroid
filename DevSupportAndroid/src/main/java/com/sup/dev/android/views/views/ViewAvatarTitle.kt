@@ -14,7 +14,6 @@ import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
-    private var squareMode = false
     val vAvatar: ViewAvatar
     val vTitle: ViewTextLinkable
     val vSubtitle: ViewTextLinkable
@@ -44,10 +43,10 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
-        squareMode = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_square, false)
+        val squareMode = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_square, false)
         a.recycle()
 
-        vAvatar.vImageView.setSquareMode(squareMode)
+        vAvatar.setSquareMode(squareMode)
         vAvatar.setImage(src)
         vAvatar.vImageView.setBackgroundColorCircle(roundBackgroundColor)
         vAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)

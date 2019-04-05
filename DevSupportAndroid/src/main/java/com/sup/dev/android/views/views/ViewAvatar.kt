@@ -56,10 +56,8 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val squareMode = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_square, false)
         a.recycle()
 
-
         animationFocus = AnimationFocus(vTouch, focusColor)
 
-        vImageView.setSquareMode(squareMode)
         vImageView.setBackgroundColorCircle(roundBackgroundColor)
         setImage(src)
         setChipSize(chipSize.toInt())
@@ -67,6 +65,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         setChipText(text)
         setChipIcon(srcIcon)
         setChipBackground(chipBackground)
+        setSquareMode(squareMode)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
@@ -91,6 +90,16 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     //
     //  Setters
     //
+
+    fun setSquareMode(squareMode:Boolean){
+        vImageView.setSquareMode(squareMode)
+        if(squareMode){
+            vChip.setChipMode(false)
+            vChip.setCornedSize(6)
+        }else{
+            vChip.setChipMode(true)
+        }
+    }
 
     fun setChipSize(size: Int) {
         vChipIcon.layoutParams.width = size
