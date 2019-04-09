@@ -60,10 +60,8 @@ open class Settings @JvmOverloads constructor(
         val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
         val iconBackground = a.getColor(R.styleable.Settings_Settings_icon_background, 0)
         val iconPadding = a.getDimension(R.styleable.Settings_Settings_icon_padding, ToolsView.dpToPx(6))
-        val squareMode = a.getBoolean(R.styleable.Settings_Settings_square, false)
         a.recycle()
 
-        vIcon?.setSquareMode(squareMode)
         setLineVisible(lineVisible)
         setTitle(title)
         setSubtitle(subtitle)

@@ -212,7 +212,6 @@
         <attr name="Settings_icon_background" format="color"/>
         <attr name="Settings_icon_padding" format="dimension"/>
         <attr name="Settings_checked" format="boolean"/>
-        <attr name="Settings_square" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SettingsField">
