@@ -76,6 +76,10 @@ open class Settings @JvmOverloads constructor(
     //  Setters
     //
 
+    fun setSquareMode(squareMode:Boolean){
+        vIcon?.setSquareMode(squareMode)
+    }
+
     override fun setOnTouchListener(l: View.OnTouchListener) {
         super.setOnTouchListener(l)
     }

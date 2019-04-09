@@ -7,9 +7,11 @@ import android.view.View
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.libs.eventBus.EventBus
 
 
 open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
@@ -17,6 +19,8 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     val vAvatar: ViewAvatar
     val vTitle: ViewTextLinkable
     val vSubtitle: ViewTextLinkable
+
+    private val eventBus = EventBus.subscribe(EventStyleChanged::class){updateCorned()}
 
     init {
 
@@ -43,10 +47,8 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
-        val squareMode = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_square, false)
         a.recycle()
 
-        vAvatar.setSquareMode(squareMode)
         vAvatar.setImage(src)
         vAvatar.vImageView.setBackgroundColorCircle(roundBackgroundColor)
         vAvatar.setPadding(avatarPadding, avatarPadding, avatarPadding, avatarPadding)
@@ -64,7 +66,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     fun updateCorned() {
         if(vAvatar.vImageView.isSquareMode()){
             setChipMode(false)
-            setCornedSizePx(ViewCircleImage.SQUARE_CORNED.toInt())
+            setCornedSizePx(vAvatar.vImageView.getSquareCorned().toInt())
             setCornedBL(hasOnClickListeners())
             setCornedBR(hasOnClickListeners())
             setCornedTL(hasOnClickListeners())

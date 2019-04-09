@@ -53,7 +53,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         val iconPadding = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipIconPadding, 0f)
         val chipSize = a.getDimension(R.styleable.ViewAvatar_ViewAvatar_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatar_ViewAvatar_avatarBackground, 0x00000000)
-        val squareMode = a.getBoolean(R.styleable.ViewAvatar_ViewAvatar_square, false)
         a.recycle()
 
         animationFocus = AnimationFocus(vTouch, focusColor)
@@ -65,7 +64,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         setChipText(text)
         setChipIcon(srcIcon)
         setChipBackground(chipBackground)
-        setSquareMode(squareMode)
 
         vTouch.setOnDraw { canvas ->
             paint.color = animationFocus.update()
