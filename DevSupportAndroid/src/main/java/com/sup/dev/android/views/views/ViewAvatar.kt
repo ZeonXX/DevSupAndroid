@@ -89,16 +89,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     //  Setters
     //
 
-    fun setSquareMode(squareMode:Boolean){
-        vImageView.setSquareMode(squareMode)
-        if(squareMode){
-            vChip.setChipMode(false)
-            vChip.setCornedSize(6)
-        }else{
-            vChip.setChipMode(true)
-        }
-    }
-
     fun setChipSize(size: Int) {
         vChipIcon.layoutParams.width = size
         vChipIcon.layoutParams.height = size

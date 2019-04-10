@@ -8,7 +8,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
-open class CardAvatar(val squareMode:Boolean) : Card() {
+open class CardAvatar() : Card() {
 
     private var onClick: () -> Unit = {}
     private var onLongClick: (CardAvatar, View, Int, Int) -> Unit = { card, view, x, y -> }
@@ -44,7 +44,6 @@ open class CardAvatar(val squareMode:Boolean) : Card() {
         if (enabled) ToolsView.setOnLongClickCoordinates(vTouch) { v, x, y -> onLongClick.invoke(this, v, x, y) }
         else vTouch.setOnLongClickListener(null)
         if (background != 0) view.setBackgroundColor(background)
-        vAvatar.vAvatar.vImageView.setSquareMode(squareMode)
         vAvatar.isEnabled = isEnabled()
         vAvatar.setTitle(title)
         vAvatar.setSubtitle(subtitle)
