@@ -12,6 +12,7 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
     private val animations = ArrayList<DrawAnimation>()
     private var clear = false
     private var inProgress = false
+    private var key: Any? = null
 
     init {
         setWillNotDraw(false)
@@ -22,14 +23,29 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
             clear = true
             invalidate()
         } else {
-            animations.clear()
-            addList.clear()
-            removeList.clear()
+            clearNow()
         }
     }
 
+    private fun clearNow() {
+        clear = false
+        key = null
+        animations.clear()
+        addList.clear()
+        removeList.clear()
+    }
+
+    fun setKey(key: Any?){
+        this.key = key
+        clear()
+    }
 
     fun addAnimation(animation: DrawAnimation) {
+        addAnimation(null, animation)
+    }
+
+    fun addAnimation(key: Any?, animation: DrawAnimation) {
+        if (this.key != null && this.key !== key) return
         animation.start()
         addList.add(animation)
         animations.add(animation)
@@ -38,7 +54,7 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
 
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        inProgress = true;
+        inProgress = true
         for (a in animations) {
             a.update(0.02f)
             a.draw(canvas)
@@ -56,8 +72,7 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
         addList.clear()
 
         if (clear) {
-            clear = false
-            animations.clear()
+            clearNow()
             removed = true
         }
         if (removed || animations.isNotEmpty()) invalidate()
