@@ -31,9 +31,7 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
         setDrawerView(ToolsView.inflate(this, R.layout.screen_activity_navigation_driver))
     }
 
-    override fun getLayout(): Int {
-        return R.layout.screen_activity_navigation
-    }
+    override fun getLayout() = R.layout.screen_activity_navigation
 
     //
     //  Events

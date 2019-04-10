@@ -22,6 +22,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import android.os.Build
 import com.sup.dev.android.R
+import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ abstract class SActivity : AppCompatActivity() {
     var started: Boolean = false
 
     protected var vActivityRoot: View? = null
+    var vActivityDrawAnimations: ViewDrawAnimations? = null
     protected var vActivityContainer: ViewGroup? = null
     protected var vActivityTouchLock: View? = null
 
@@ -44,11 +46,14 @@ abstract class SActivity : AppCompatActivity() {
 
         setContentView(getLayout())
         vActivityRoot = findViewById(R.id.vActivityRoot)
+        vActivityDrawAnimations = findViewById(R.id.vActivityDrawAnimations)
         vActivityContainer = findViewById(R.id.vScreenActivityView)
         vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
 
         vActivityTouchLock!!.visibility = View.GONE
     }
+
+    protected open fun getLayout() = R.layout.screen_activity
 
     override fun onStart() {
         super.onStart()
@@ -79,9 +84,6 @@ abstract class SActivity : AppCompatActivity() {
     protected open fun applyTheme() {
     }
 
-    protected open fun getLayout(): Int {
-        return R.layout.screen_activity
-    }
 
     protected open fun onFirstStart() {
 

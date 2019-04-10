@@ -36,7 +36,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     private var screenBottomNavigationVisible = true
     private var screenBottomNavigationAllowed = true
     private var screenBottomNavigationAnimation = true
-    private var screenBottomNavigationShadowAvliable = true
+    private var screenBottomNavigationShadowAvailable = true
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -47,6 +47,8 @@ abstract class SActivityBottomNavigation : SActivity() {
         updateNavigationVisible()
         setShadow(vLine!!)
     }
+
+    override fun getLayout() = R.layout.screen_activity_bottom_navigation
 
     fun addExtra(): NavigationItem {
         widgetMenu = WidgetMenu()
@@ -65,7 +67,7 @@ abstract class SActivityBottomNavigation : SActivity() {
             screenBottomNavigationVisible = screen.isBottomNavigationVisible
             screenBottomNavigationAllowed = screen.isBottomNavigationAllowed
             screenBottomNavigationAnimation = screen.isBottomNavigationAnimation
-            screenBottomNavigationShadowAvliable = screen.isBottomNavigationShadowAvliable
+            screenBottomNavigationShadowAvailable = screen.isBottomNavigationShadowAvliable
             updateNavigationVisible()
         }
     }
@@ -73,7 +75,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     private fun updateNavigationVisible() {
         if (navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) {
             ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-            if (screenBottomNavigationShadowAvliable) {
+            if (screenBottomNavigationShadowAvailable) {
                 ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
             } else {
                 ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
@@ -129,9 +131,6 @@ abstract class SActivityBottomNavigation : SActivity() {
         return widgetMenu!!.add(text) { w, c -> onClick.invoke() }.icon(icon)
     }
 
-    override fun getLayout(): Int {
-        return R.layout.screen_activity_bottom_navigation
-    }
 
     //
     //   Navigation Item

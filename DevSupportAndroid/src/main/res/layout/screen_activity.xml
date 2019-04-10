@@ -17,4 +17,9 @@
         android:clickable="true"
         android:focusable="true"/>
 
+    <com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+        android:id="@+id/vActivityDrawAnimations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>

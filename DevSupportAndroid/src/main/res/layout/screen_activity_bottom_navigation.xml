@@ -6,7 +6,6 @@
     android:background="?colorPrimaryDark"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:id="@+id/vScreenDrawer"
         android:layout_width="match_parent"
@@ -47,5 +46,9 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="48dp"/>
 
+    <com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+        android:id="@+id/vActivityDrawAnimations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
