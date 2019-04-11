@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 
 object ToolsGif {
 
-    fun resize(bytes: ByteArray, w: Int, h: Int, cropX: Int? = null, cropY: Int? = null, cropW: Int? = null, cropH: Int? = null, maxSizesMode: Boolean = false): ByteArray {
+    fun resize(bytes: ByteArray, w: Int, h: Int, cropX: Int? = null, cropY: Int? = null, cropW: Int? = null, cropH: Int? = null, weakSizesMode: Boolean = false): ByteArray {
         val fName = "ToolsGif_${System.nanoTime()}_Inp"
         ToolsCash.put(bytes, fName)
 
@@ -24,7 +24,7 @@ object ToolsGif {
 
         var ww = w
         var hh = h
-        if (maxSizesMode) {
+        if (weakSizesMode) {
             var bm = ToolsBitmap.decode(bytes)!!
             if (cropX != null && cropY != null && cropW != null && cropH != null)
                 bm = Bitmap.createBitmap(bm, cropX, cropY, cropW, cropH)
