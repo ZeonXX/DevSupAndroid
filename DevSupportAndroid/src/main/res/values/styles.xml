@@ -2,6 +2,7 @@
 
     <!-- Styles -->
     <attr name="widget_background" format="color"/>
+    <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
     <attr name="color_stroke" format="color"/>
     <attr name="color_interface_text" format="color"/>
@@ -20,11 +21,12 @@
 
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:windowBackground">@color/grey_850</item>
-        <item name="content_background">@color/grey_800</item>
-        <item name="widget_background">@color/grey_825</item>
-        <item name="colorPrimaryDark">@color/grey_825</item>
-        <item name="colorPrimary">@color/grey_825</item>
+        <item name="window_background">@color/black</item>
+        <item name="android:windowBackground">?window_background</item>
+        <item name="content_background">@color/grey_900</item>
+        <item name="widget_background">@color/grey_875</item>
+        <item name="colorPrimaryDark">@color/grey_875</item>
+        <item name="colorPrimary">@color/grey_875</item>
         <item name="color_stroke">@color/grey_400</item>
         <item name="color_divider">@color/focus</item>
         <item name="color_interface_text">@color/white</item>
@@ -45,12 +47,13 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="window_background">@color/grey_100</item>
+        <item name="android:windowBackground">?window_background</item>
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>
         <item name="color_divider">@color/focus</item>
         <item name="popup_background">@color/white</item>
-        <item name="android:windowBackground">@color/grey_100</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/grey_100</item>
@@ -132,9 +135,14 @@
 >
 
     <style name="Root">
+        <item name="android:id">@id/vScreenRoot</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">?android:windowBackground</item>
+    </style>
+
+    <style name="Root.Content">
+        <item name="android:background">?content_background</item>
     </style>
 
     <style name="Toolbar">
