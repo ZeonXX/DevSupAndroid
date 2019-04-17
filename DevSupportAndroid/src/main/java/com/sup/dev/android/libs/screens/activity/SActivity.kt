@@ -89,7 +89,7 @@ abstract class SActivity : AppCompatActivity() {
 
     }
 
-    protected abstract fun toMainScreen()
+    abstract fun toMainScreen()
 
     fun getViewRoot(): View? {
         return vActivityRoot

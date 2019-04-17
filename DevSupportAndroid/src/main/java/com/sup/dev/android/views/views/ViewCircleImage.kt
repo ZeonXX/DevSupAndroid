@@ -8,6 +8,7 @@ import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsMath
 
 class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null) : android.support.v7.widget.AppCompatImageView(context, attrs) {
 
@@ -43,7 +44,7 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
 
             if (squareMode) {
                 path.reset()
-                val dp = squareCorned
+                val dp = ToolsMath.min(squareCorned, height/2f)
                 path.addCircle(dp, dp, dp, Path.Direction.CCW)
                 path.addCircle(width - dp, dp, dp, Path.Direction.CCW)
                 path.addCircle(dp, height - dp, dp, Path.Direction.CCW)

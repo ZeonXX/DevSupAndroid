@@ -17,9 +17,9 @@ class LayoutImportance(context: Context, attrs: AttributeSet) : LinearLayout(con
 
         if (lock == 0) for (i in 0 until childCount) getChildAt(i).visibility = View.VISIBLE
 
-        val w = View.MeasureSpec.getSize(widthMeasureSpec)
+        val w = MeasureSpec.getSize(widthMeasureSpec)
 
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.UNSPECIFIED), heightMeasureSpec)
+        super.onMeasure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.UNSPECIFIED), heightMeasureSpec)
 
         if (measuredWidth > w) {
 
@@ -27,7 +27,7 @@ class LayoutImportance(context: Context, attrs: AttributeSet) : LinearLayout(con
             for (i in 0 until childCount) if (getChildAt(i).visibility == View.VISIBLE) children.add(getChildAt(i))
             if (children.isEmpty()) return
 
-            Collections.sort(children) { o1, o2 -> (o1.layoutParams as LayoutParams).importance - (o2.layoutParams as LayoutParams).importance }
+            children.sortWith(Comparator { o1, o2 -> (o1.layoutParams as LayoutParams).importance - (o2.layoutParams as LayoutParams).importance })
             children[0].visibility = View.GONE
 
             lock++

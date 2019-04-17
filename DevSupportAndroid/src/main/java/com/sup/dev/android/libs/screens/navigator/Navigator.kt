@@ -149,7 +149,7 @@ object Navigator {
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
         currentStack = stack
-        if (!currentStack.backStack.isEmpty()) setCurrentViewNew(Animation.ALPHA)
+        setCurrentViewNew(Animation.ALPHA)
     }
 
     fun closeProtected(onClose:()->Unit){
