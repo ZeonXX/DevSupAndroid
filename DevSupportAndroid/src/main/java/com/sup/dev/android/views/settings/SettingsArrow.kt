@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsView
 
 class SettingsArrow @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
@@ -13,7 +12,7 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
 
-        vArrow.setImageDrawable(ToolsResources.getDrawableFromAttr(R.attr.ic_keyboard_arrow_right))
+        vArrow.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_keyboard_arrow_right_24dp))
 
         setSubView(vArrow)
     }

@@ -89,12 +89,12 @@ open class WidgetField(
     }
 
     fun enableCopy(): WidgetField {
-        setIcon(R.drawable.ic_content_copy_white_24dp) { setText(ToolsAndroid.getFromClipboard()) }
+        setIcon(ToolsResources.getDrawableAttrId(R.attr.ic_content_copy_24dp)) { setText(ToolsAndroid.getFromClipboard()) }
         return this
     }
 
     fun enableFastCopy(): WidgetField {
-        setIcon(R.drawable.ic_content_copy_white_24dp) {
+        setIcon(ToolsResources.getDrawableAttrId(R.attr.ic_content_copy_24dp)) {
             setText(ToolsAndroid.getFromClipboard())
             vEnter.performClick()
         }

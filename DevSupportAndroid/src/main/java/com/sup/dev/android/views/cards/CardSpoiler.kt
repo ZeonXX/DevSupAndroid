@@ -52,8 +52,8 @@ open class CardSpoiler : Card() {
         val vTouch:View = view.findViewById(R.id.vTouch)
         val vDivider:View = view.findViewById(R.id.vDivider)
 
-        val iconDown = ToolsResources.getDrawableFromAttrId(R.attr.ic_keyboard_arrow_down)
-        val iconUp = ToolsResources.getDrawableFromAttrId(R.attr.ic_keyboard_arrow_up)
+        val iconDown = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_down_24dp)
+        val iconUp = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_up_24dp)
 
         if (!originalSeted) {
             originalSeted = true

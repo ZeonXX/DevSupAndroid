@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.PopupWindow
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -22,7 +21,7 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     init {
 
         val vCorned = LayoutCorned(view.context)
-        vCorned.setBackgroundColor(ToolsResources.getColorFromAttr(R.attr.popup_background))
+        vCorned.setBackgroundColor(ToolsResources.getColorAttr(R.attr.popup_background))
         ToolsView.removeFromParent(view)
         vCorned.addView(view)
         setBackgroundDrawable(ColorDrawable(0x00000000))

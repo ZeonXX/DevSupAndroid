@@ -63,7 +63,7 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.getDrawable(r)
     }
 
-    fun getDrawableFromAttr(@AttrRes r: Int): Drawable {
+    fun getDrawableAttr(@AttrRes r: Int): Drawable {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val drawable = ta.getDrawable(0)
@@ -71,7 +71,7 @@ object ToolsResources {
         return drawable
     }
 
-    fun getDrawableFromAttrId(@AttrRes r: Int): Int {
+    fun getDrawableAttrId(@AttrRes r: Int): Int {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val id = ta.getResourceId(0, 0)
@@ -79,7 +79,7 @@ object ToolsResources {
         return id
     }
 
-    fun getColorFromAttr(@AttrRes r: Int): Int {
+    fun getColorAttr(@AttrRes r: Int): Int {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val color = ta.getColor(0, 0x00000000)

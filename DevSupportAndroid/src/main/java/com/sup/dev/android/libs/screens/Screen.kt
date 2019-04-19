@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.screens.activity.SActivityDrawer
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.screens.SCrop
 
 
 open class Screen(
@@ -38,7 +37,7 @@ open class Screen(
     private val navigationDrawable: Drawable?
         get() {
             if (!Navigator.hasBackStack() && SupAndroid.activity !is SActivityDrawer) return null
-            return if (Navigator.hasBackStack()) ToolsResources.getDrawableFromAttr(R.attr.ic_arrow_back) else ToolsResources.getDrawableFromAttr(R.attr.ic_menu)
+            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
         }
 
     constructor(@LayoutRes layoutRes: Int) : this(ToolsView.inflate<View>(SupAndroid.activity!!, layoutRes))
@@ -64,7 +63,7 @@ open class Screen(
     open fun onResume() {
         val toolbar = findViewById<Toolbar>(R.id.vToolbar)
         if (toolbar != null) {
-            toolbar.setTitleTextColor(ToolsResources.getColorFromAttr(R.attr.toolbarTitleColor))
+            toolbar.setTitleTextColor(ToolsResources.getColorAttr(R.attr.revers_color))
             if (hasBackIcon) {
                 toolbar.navigationIcon = navigationDrawable
                 toolbar.setNavigationOnClickListener { v -> SupAndroid.activity!!.onViewBackPressed() }

@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Styles -->
     <attr name="widget_background" format="color"/>
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
@@ -8,16 +7,19 @@
     <attr name="color_interface_text" format="color"/>
     <attr name="color_divider" format="color"/>
     <attr name="popup_background" format="color"/>
-    <attr name="toolbarTitleColor" format="color"/>
-    <attr name="ic_arrow_back" format="reference"/>
-    <attr name="ic_menu" format="reference"/>
-    <attr name="ic_keyboard_arrow_right" format="reference"/>
-    <attr name="ic_file_download" format="reference"/>
-    <attr name="ic_keyboard_arrow_up" format="reference"/>
-    <attr name="ic_keyboard_arrow_down" format="reference"/>
-    <attr name="ic_content_copy" format="reference"/>
+    <attr name="revers_color" format="color"/>
     <attr name="selector_chip" format="reference"/>
     <attr name="selector_chip_outline" format="reference"/>
+    <attr name="ic_arrow_back_24dp" format="reference"/>
+    <attr name="ic_menu_24dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_right_24dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_left_24dp" format="reference"/>
+    <attr name="ic_file_download_24dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_up_24dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_down_24dp" format="reference"/>
+    <attr name="ic_content_copy_24dp" format="reference"/>
+    <attr name="ic_folder_24dp" format="reference"/>
+    <attr name="ic_insert_drive_file_24dp" format="reference"/>
 
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -36,14 +38,17 @@
         <item name="selector_chip_outline">@drawable/selector_style_dark_chip_outline</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="ic_arrow_back">@drawable/ic_arrow_back_white_24dp</item>
-        <item name="ic_menu">@drawable/ic_menu_white_24dp</item>
-        <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="ic_file_download">@drawable/ic_file_download_white_24dp</item>
-        <item name="ic_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_white_24dp</item>
-        <item name="ic_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_white_24dp</item>
-        <item name="ic_content_copy">@drawable/ic_content_copy_white_24dp</item>
-        <item name="toolbarTitleColor">@color/white</item>
+        <item name="revers_color">@color/white</item>
+        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
+        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
+        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
+        <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
+        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_white_24dp</item>
+        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_white_24dp</item>
+        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_white_24dp</item>
+        <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
+        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
     </style>
 
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -62,25 +67,31 @@
         <item name="color_interface_text">@color/black</item>
         <item name="selector_chip">@drawable/selector_style_light_chip</item>
         <item name="selector_chip_outline">@drawable/selector_style_light_chip_outline</item>
-        <item name="ic_arrow_back">@drawable/ic_arrow_back_black_24dp</item>
-        <item name="ic_menu">@drawable/ic_menu_black_24dp</item>
-        <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</item>
-        <item name="ic_file_download">@drawable/ic_file_download_black_24dp</item>
-        <item name="ic_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_black_24dp</item>
-        <item name="ic_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_black_24dp</item>
-        <item name="ic_content_copy">@drawable/ic_content_copy_black_24dp</item>
-        <item name="toolbarTitleColor">@color/black</item>
+        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_black_24dp</item>
+        <item name="ic_menu_24dp">@drawable/ic_menu_black_24dp</item>
+        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_black_24dp</item>
+        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_black_24dp</item>
+        <item name="ic_file_download_24dp">@drawable/ic_file_download_black_24dp</item>
+        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_black_24dp</item>
+        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_black_24dp</item>
+        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_black_24dp</item>
+        <item name="revers_color">@color/black</item>
+        <item name="ic_folder_24dp">@drawable/ic_folder_black_24dp</item>
+        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_black_24dp</item>
     </style>
 
     <style name="AppThemeLight.Colored">
-        <item name="ic_arrow_back">@drawable/ic_arrow_back_white_24dp</item>
-        <item name="ic_menu">@drawable/ic_menu_white_24dp</item>
-        <item name="ic_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="ic_file_download">@drawable/ic_file_download_white_24dp</item>
+        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
+        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
+        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
+        <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
+        <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
+        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
         <item name="colorPrimaryDark">@color/blue_700</item>
         <item name="colorAccent">@color/blue_a_400</item>
         <item name="colorPrimary">@color/blue_700</item>
-        <item name="toolbarTitleColor">@color/white</item>
+        <item name="revers_color">@color/white</item>
     </style>
 
 
@@ -113,7 +124,7 @@
 
     <style name="Icon.Shadow.Back">
         <item name="android:id">@id/vBack</item>
-        <item name="android:src">?ic_arrow_back</item>
+        <item name="android:src">?attr/ic_arrow_back_24dp</item>
         <item name="android:layout_gravity">left|top</item>
     </style>
 
@@ -149,9 +160,9 @@
         <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorPrimary">?toolbarTitleColor</item>
-        <item name="android:textColorSecondary">?toolbarTitleColor</item>
-        <item name="actionMenuTextColor">?toolbarTitleColor</item>
+        <item name="android:textColorPrimary">?attr/revers_color</item>
+        <item name="android:textColorSecondary">?attr/revers_color</item>
+        <item name="actionMenuTextColor">?attr/revers_color</item>
         <item name="layout_scrollFlags">scroll|enterAlways</item>
     </style>
 

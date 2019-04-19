@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsPermission
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
@@ -133,9 +134,10 @@ class WidgetChooseFile : WidgetRecycler() {
         }
 
         override fun bindView(view: View) {
+            super.bindView(view)
             val Settings = view as Settings
             Settings.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
-            Settings.setIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
+            Settings.setIcon(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_left_24dp))
             Settings.setOnClickListener { v -> setFolder(file.parentFile) }
             Settings.setTitle(file.name)
         }
@@ -165,10 +167,11 @@ class WidgetChooseFile : WidgetRecycler() {
         }
 
         override fun bindView(view: View) {
+            super.bindView(view)
             val v = view as Settings
             v.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
             v.setTitle(file.name)
-            v.setIcon(if (file.isDirectory) R.drawable.ic_folder_black_24dp else R.drawable.ic_insert_drive_file_black_24dp)
+            v.setIcon(ToolsResources.getDrawableAttrId(if (file.isDirectory) R.attr.ic_folder_24dp else R.attr.ic_insert_drive_file_24dp))
             v.setSubView(if (file.isDirectory && canGoInFolder) getViewIcon(view.getContext()) else null)
 
             v.setOnClickListener { v1 ->

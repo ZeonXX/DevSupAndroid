@@ -53,7 +53,7 @@ abstract class SActivityBottomNavigation : SActivity() {
     fun addExtra(): NavigationItem {
         widgetMenu = WidgetMenu()
 
-        return addIcon(vContainer!!.childCount, ToolsResources.getDrawableFromAttrId(R.attr.ic_menu)) { v -> widgetMenu!!.asSheetShow() }
+        return addIcon(vContainer!!.childCount, ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp)) { v -> widgetMenu!!.asSheetShow() }
     }
 
     fun setNavigationVisible(b: Boolean) {

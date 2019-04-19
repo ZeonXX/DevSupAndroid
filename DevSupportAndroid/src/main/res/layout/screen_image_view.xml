@@ -15,7 +15,7 @@
         <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vDownload"
             style="@style/Icon.Shadow"
-            android:src="?ic_file_download"/>
+            android:src="?attr/ic_file_download_24dp"/>
 
         <com.sup.dev.android.views.views.ViewIcon
             style="@style/Icon.Shadow.Back"/>
