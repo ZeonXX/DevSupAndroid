@@ -16,9 +16,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewCircleImage
-import com.sup.dev.android.views.views.ViewIcon
 import java.util.ArrayList
-
 
 open class Settings @JvmOverloads constructor(
         context: Context,
@@ -49,8 +47,8 @@ open class Settings @JvmOverloads constructor(
         line = View(context)
         addView(line, ViewGroup.LayoutParams.MATCH_PARENT, 1)
         line.setBackgroundColor(ToolsResources.getColor(R.color.grey_600))
-        (line.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), 0, ToolsView.dpToPx(8).toInt(), 0)
-        (line.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.BOTTOM
+        (line.layoutParams as MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), 0, ToolsView.dpToPx(8).toInt(), 0)
+        (line.layoutParams as LayoutParams).gravity = Gravity.BOTTOM
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.Settings, 0, 0)
         isFocusable = a.getBoolean(R.styleable.Settings_android_focusable, true)
@@ -74,7 +72,7 @@ open class Settings @JvmOverloads constructor(
     //  Setters
     //
 
-    override fun setOnTouchListener(l: View.OnTouchListener) {
+    override fun setOnTouchListener(l: OnTouchListener) {
         super.setOnTouchListener(l)
     }
 
@@ -151,7 +149,7 @@ open class Settings @JvmOverloads constructor(
                 settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
-    override fun setOnClickListener(l: View.OnClickListener?) {
+    override fun setOnClickListener(l: OnClickListener?) {
         view.setOnClickListener(l)
         view.isFocusable = l != null
     }
