@@ -14,6 +14,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.java.tools.ToolsText
 
 
@@ -24,7 +25,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private val vCancel: Button = findViewById(R.id.vCancel)
     private val vText: TextView = findViewById(R.id.vText)
     private val vTopContainer: ViewGroup = findViewById(R.id.vTopContainer)
-    private val vTopImage: ImageView = findViewById(R.id.vTopImage)
+    private val vTopImage: ViewCircleImage = findViewById(R.id.vTopImage)
     private val vTopTitle: TextView = findViewById(R.id.vTopTitle)
 
     private var key: String? = null
@@ -114,7 +115,14 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     fun setTitleImage(image: Int): WidgetAlert {
         vTopContainer.visibility = if (image > 0) View.VISIBLE else View.GONE
         ToolsView.setImageOrGone(vTopImage, image)
+        return this
+    }
 
+
+    fun setTitleImage(setter:(ViewCircleImage)->Unit): WidgetAlert {
+        vTopContainer.visibility = View.VISIBLE
+        vTopImage.visibility = View.VISIBLE
+        setter.invoke(vTopImage)
         return this
     }
 

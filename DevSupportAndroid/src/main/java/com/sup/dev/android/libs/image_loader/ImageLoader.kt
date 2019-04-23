@@ -93,7 +93,7 @@ object ImageLoader {
                     } else if (loader.holder is Bitmap) {
                         loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
                     } else if (loader.w != 0 && loader.h != 0) {
-                        val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
+                        val bitmap = Bitmap.createBitmap((loader.w*loader.sizeArd).toInt(), (loader.h*loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
                         bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                         loader.vImage!!.setImageBitmap(bitmap)
                     } else {

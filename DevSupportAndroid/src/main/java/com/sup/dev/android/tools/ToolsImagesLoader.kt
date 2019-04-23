@@ -5,6 +5,8 @@ import android.widget.ImageView
 import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.tools.ToolsMath
 import java.io.File
 
 
@@ -23,13 +25,26 @@ object ToolsImagesLoader {
         return ImageLoaderId(id)
     }
 
-    fun loadGif(imageId: Long, gifId: Long, w: Int = 0, h: Int = 0, vImage: ImageView, vGifProgressBar: View? = null, sizeArd:Float=1f, onError:()->Unit={}) {
+    fun loadGif(
+            imageId: Long,
+            gifId: Long,
+            w: Int = 0,
+            h: Int = 0,
+            vImage: ImageView,
+            vGifProgressBar: View? = null,
+            sizeArd: Float = 1f,
+            minGifSize: Float = ToolsView.dpToPx(128),
+            onError: () -> Unit = {}
+    ) {
+        var sizeArd = sizeArd
 
-        if(imageId > 0 ) {
+        if (gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArd = minGifSize/ToolsMath.min(w, h)
+
+        if (imageId > 0) {
             load(imageId).sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
                 if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
             }
-        }else{
+        } else {
             if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
     }
