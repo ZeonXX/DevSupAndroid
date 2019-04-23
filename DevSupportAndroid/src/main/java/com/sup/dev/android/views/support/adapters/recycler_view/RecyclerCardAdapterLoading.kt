@@ -5,6 +5,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import kotlin.reflect.KClass
@@ -28,21 +29,26 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var isLockTop = false
     private var isLockBottom = false
     private var isInProgress = false
-    private var retryEnabled = false
-    private var actionEnabled = false
-    private var showLoadingCard = true
-    private var onErrorAndEmpty: (() -> Unit)? = null
-    private var onEmpty: (() -> Unit)? = null
-    private var onStartLoadingAndEmpty: (() -> Unit)? = null
-    private var onLoadingAndNotEmpty: (() -> Unit)? = null
-    private var onLoadedNotEmpty: (() -> Unit)? = null
     private var loadingTag = 0L
     private var sameRemovedCount = 0
 
-    override fun onBindViewHolder(holder: RecyclerCardAdapter.Holder, position: Int, payloads: List<Any>) {
+    private var retryEnabled = false
+    private var actionEnabled = false
+    private var showLoadingCard = true
+    private var showLoadingCardIfEmpty = true
+    private var showLoadingTop = true
+    private var showLoadingBottom = true
+
+    private var onErrorAndEmpty = CallbacksList()
+    private var onEmpty = CallbacksList()
+    private var onStartLoadingAndEmpty = CallbacksList()
+    private var onLoadingAndNotEmpty = CallbacksList()
+    private var onLoadedNotEmpty = CallbacksList()
+
+    override fun onBindViewHolder(holder: Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
 
-        if (!isLockBottom && position >= getItemCount() - 1 - startBottomLoadOffset) {
+        if (!isLockBottom && position >= itemCount - 1 - startBottomLoadOffset) {
             ToolsThreads.main(true) {
                 loadNow(true)
                 Unit
@@ -70,11 +76,22 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         val cards = get(cardClass)
 
         if (!contains(cardClass)) {
-            if (onStartLoadingAndEmpty != null) onStartLoadingAndEmpty!!.invoke()
-            else if (!contains(cardLoading) && showLoadingCard) add(if (bottom) findBottomAdposition() else findTopAddPosition(), cardLoading)
+            onStartLoadingAndEmpty.invoke()
+            if (!contains(cardLoading) && showLoadingCard && showLoadingCardIfEmpty) {
+                if (bottom) {
+                    if (showLoadingBottom) add(findBottomAdposition(), cardLoading)
+                } else {
+                    if (showLoadingTop) add(findTopAddPosition(), cardLoading)
+                }
+            }
         } else {
-            if (onLoadingAndNotEmpty != null) onLoadingAndNotEmpty!!.invoke()
-            if (!contains(cardLoading) && showLoadingCard) add(if (bottom) findBottomAdposition() else findTopAddPosition(), cardLoading)
+            onLoadingAndNotEmpty.invoke()
+            if (!contains(cardLoading) && showLoadingCard)
+                if (bottom) {
+                    if (showLoadingBottom) add(findBottomAdposition(), cardLoading)
+                } else {
+                    if (showLoadingTop) add(findTopAddPosition(), cardLoading)
+                }
         }
 
         if (bottom) bottomLoader!!.invoke({ result -> onLoaded(result, bottom, loadingTagLocal) }, cards)
@@ -87,10 +104,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         if (loadingTagLocal != loadingTag) return
 
         if (result == null) {
-            if (retryEnabled && (contains(cardClass) || onErrorAndEmpty == null)) cardLoading.setState(CardLoading.State.RETRY)
+            if (retryEnabled) cardLoading.setState(CardLoading.State.RETRY)
             else remove(cardLoading)
 
-            if (!contains(cardClass) && onErrorAndEmpty != null) onErrorAndEmpty!!.invoke()
+            if (!contains(cardClass)) onErrorAndEmpty.invoke()
             return
         }
 
@@ -99,10 +116,12 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             if (bottom) lockBottom()
             else lockTop()
 
-            if (actionEnabled) cardLoading.setState(CardLoading.State.ACTION)
-            else {
+            if (actionEnabled) {
+                cardLoading.setState(CardLoading.State.ACTION)
+                onEmpty.invoke()
+            } else {
                 remove(cardLoading)
-                if (onEmpty != null) onEmpty!!.invoke()
+                onEmpty.invoke()
             }
         } else {
             if (result.isEmpty()) {
@@ -130,9 +149,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             else add(findTopAddPosition() + i, card)
         }
 
-        if (contains(cardClass) || result.isNotEmpty())
-            if (onLoadedNotEmpty != null) onLoadedNotEmpty!!.invoke()
-
+        if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
     }
 
     fun findTopAddPosition(): Int {
@@ -209,7 +226,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     override fun remove(position: Int) {
         super.remove(position)
-        if (onEmpty != null && !contains(cardClass)) onEmpty!!.invoke()
+        if (!contains(cardClass)) onEmpty.invoke()
     }
 
     //
@@ -226,18 +243,18 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun setOnLoadedNotEmpty(onLoadedNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadedNotEmpty = onLoadedNotEmpty
+    fun addOnLoadedNotEmpty(onLoadedNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedNotEmpty.add(onLoadedNotEmpty)
         return this
     }
 
-    fun setOnLoadingAndNotEmpty(onLoadingAndNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadingAndNotEmpty = onLoadingAndNotEmpty
+    fun addOnLoadingAndNotEmpty(onLoadingAndNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadingAndNotEmpty.add(onLoadingAndNotEmpty)
         return this
     }
 
-    fun setOnStartLoadingAndEmpty(onStartLoadingAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onStartLoadingAndEmpty = onStartLoadingAndEmpty
+    fun addOnStartLoadingAndEmpty(onStartLoadingAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onStartLoadingAndEmpty.add(onStartLoadingAndEmpty)
         return this
     }
 
@@ -246,13 +263,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun setOnEmpty(onEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onEmpty = onEmpty
+    fun addOnEmpty(onEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onEmpty.add(onEmpty)
         return this
     }
 
-    fun setOnErrorAndEmpty(onErrorAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onErrorAndEmpty = onErrorAndEmpty
+    fun addOnErrorAndEmpty(onErrorAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onErrorAndEmpty.add(onErrorAndEmpty)
         return this
     }
 
@@ -279,8 +296,24 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return setEmptyMessage(ToolsResources.s(message), ToolsResources.s(button), onAction)
     }
 
-    fun setShowLoadingCard(b: Boolean) {
+    fun setShowLoadingCard(b: Boolean): RecyclerCardAdapterLoading<K, V> {
         showLoadingCard = b
+        return this
+    }
+
+    fun setShowLoadingCardBottom(b: Boolean): RecyclerCardAdapterLoading<K, V> {
+        showLoadingBottom = b
+        return this
+    }
+
+    fun setShowLoadingCardTop(b: Boolean): RecyclerCardAdapterLoading<K, V> {
+        showLoadingTop = b
+        return this
+    }
+
+    fun setShowLoadingCardIfEmpty(b: Boolean): RecyclerCardAdapterLoading<K, V> {
+        showLoadingCardIfEmpty = b
+        return this
     }
 
     @JvmOverloads

@@ -43,13 +43,15 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
         ToolsThreads.main(true) {
             adapter = instanceAdapter()
-                    .setOnEmpty { setState(SLoading.State.EMPTY) }
-                    .setOnErrorAndEmpty { setState(SLoading.State.ERROR) }
-                    .setOnStartLoadingAndEmpty { setState(SLoading.State.PROGRESS) }
-                    .setOnLoadingAndNotEmpty { setState(SLoading.State.NONE) }
-                    .setOnLoadedNotEmpty { setState(SLoading.State.NONE) }
+                    .addOnEmpty { setState(State.EMPTY) }
+                    .addOnErrorAndEmpty { setState(State.ERROR) }
+                    .addOnStartLoadingAndEmpty { setState(State.PROGRESS) }
+                    .addOnLoadingAndNotEmpty { setState(State.NONE) }
+                    .addOnLoadedNotEmpty { setState(State.NONE) }
                     .setRetryMessage(textErrorNetwork, textErrorRetry)
+                    .setShowLoadingCardIfEmpty(false)
                     .setNotifyCount(5)
+
 
             prepareAdapter(adapter!!)
             setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)

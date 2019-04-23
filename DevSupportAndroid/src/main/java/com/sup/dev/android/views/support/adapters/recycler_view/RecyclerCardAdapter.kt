@@ -97,7 +97,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         card.setCardAdapter(this)
         items.add(p, card)
         notifyItemInserted(p)
-        onItemsChangeListeners.callback()
+        onItemsChangeListeners.invoke()
     }
 
     override fun remove(card: Card) {
@@ -124,7 +124,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         val card = items.removeAt(position)
         notifyItemRemoved(position)
         removeItemFromHolders(card)
-        onItemsChangeListeners.callback()
+        onItemsChangeListeners.invoke()
     }
 
     fun replace(index: Int, o: Card) {

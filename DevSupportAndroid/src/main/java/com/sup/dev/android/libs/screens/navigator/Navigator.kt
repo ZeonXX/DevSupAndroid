@@ -134,7 +134,7 @@ object Navigator {
         removeScreen(current!!)
         setCurrentViewNew(Animation.OUT)
 
-        onBack.callback(current, current)
+        onBack.invoke(current, current)
 
         return true
     }

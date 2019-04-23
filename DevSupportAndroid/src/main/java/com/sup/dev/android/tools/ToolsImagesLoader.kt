@@ -5,7 +5,6 @@ import android.widget.ImageView
 import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 import java.io.File
 

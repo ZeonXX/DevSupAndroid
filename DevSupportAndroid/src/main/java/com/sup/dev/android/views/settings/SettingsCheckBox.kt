@@ -14,7 +14,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
 
     private val vCheckBox: CheckBox = ToolsView.inflate(context, R.layout.z_check_box)
 
-    private var onClickListener: View.OnClickListener? = null
+    private var onClickListener: OnClickListener? = null
     private var salient: Boolean = false
 
     //
@@ -82,7 +82,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         salient = false
     }
 
-    override fun setOnClickListener(onClickListener: View.OnClickListener?) {
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
         this.onClickListener = onClickListener
     }
 
