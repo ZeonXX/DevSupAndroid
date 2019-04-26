@@ -104,8 +104,16 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         if (loadingTagLocal != loadingTag) return
 
         if (result == null) {
-            if (retryEnabled) cardLoading.setState(CardLoading.State.RETRY)
-            else remove(cardLoading)
+            if (retryEnabled) {
+                if (!contains(cardLoading)) {
+                    if (bottom) {
+                        add(findBottomAdposition(), cardLoading)
+                    } else {
+                        add(findTopAddPosition(), cardLoading)
+                    }
+                }
+                cardLoading.setState(CardLoading.State.RETRY)
+            }else remove(cardLoading)
 
             if (!contains(cardClass)) onErrorAndEmpty.invoke()
             return

@@ -15,7 +15,7 @@ abstract class ImageLoaderA {
     internal var vImage: ImageView? = null
     internal var vGifProgressBar: View? = null
     internal var onLoaded: (ByteArray?) -> Unit = {}
-    internal var onError: () -> Unit = {}
+    internal var onError: (() -> Unit)? = null
     internal var onSetHolder: () -> Unit = {}
     internal var customSetHolder: (() -> Unit)? = null
     internal var cropSquareCenter: Boolean = false
@@ -34,6 +34,8 @@ abstract class ImageLoaderA {
     internal var keyPrefix: String? = ""
     internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
+
+    var tryCount = 15
 
 
     fun into(vImage: ImageView?) {
@@ -107,7 +109,7 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun setOnError(onError: () -> Unit): ImageLoaderA {
+    fun setOnError(onError: (() -> Unit)?): ImageLoaderA {
         this.onError = onError
         return this
     }

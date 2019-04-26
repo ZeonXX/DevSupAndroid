@@ -68,6 +68,10 @@ object ImageLoader {
 
         for (l in turn) if (l.isKey(loader.getKey()) && l !== loader) return
 
+        loadStart(loader)
+    }
+
+    private fun loadStart(loader: ImageLoaderA) {
         threadPool.execute {
             try {
                 loadNow(loader)
@@ -93,7 +97,7 @@ object ImageLoader {
                     } else if (loader.holder is Bitmap) {
                         loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
                     } else if (loader.w != 0 && loader.h != 0) {
-                        val bitmap = Bitmap.createBitmap((loader.w*loader.sizeArd).toInt(), (loader.h*loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
+                        val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
                         bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                         loader.vImage!!.setImageBitmap(bitmap)
                     } else {
@@ -154,7 +158,11 @@ object ImageLoader {
 
         val loadedBytes = loader.startLoad()
         if (loadedBytes == null) {
-            ToolsThreads.main { loader.onError.invoke() }
+            if (loader.onError != null) ToolsThreads.main { loader.onError?.invoke() }
+            else if (loader.tryCount > 0) ToolsThreads.main(3000) {
+                loader.tryCount--
+                loadStart(loader)
+            }
             return
         }
         var bytes = loadedBytes

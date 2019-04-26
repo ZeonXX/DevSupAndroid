@@ -33,7 +33,7 @@ object ToolsImagesLoader {
             vGifProgressBar: View? = null,
             sizeArd: Float = 1f,
             minGifSize: Float = ToolsView.dpToPx(128),
-            onError: () -> Unit = {}
+            onError: (() -> Unit)? = null
     ) {
         var sizeArd = sizeArd
 
