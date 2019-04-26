@@ -125,6 +125,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             else lockTop()
 
             if (actionEnabled) {
+                if (!contains(cardLoading)) {
+                    if (bottom) {
+                        add(findBottomAdposition(), cardLoading)
+                    } else {
+                        add(findTopAddPosition(), cardLoading)
+                    }
+                }
                 cardLoading.setState(CardLoading.State.ACTION)
                 onEmpty.invoke()
             } else {
