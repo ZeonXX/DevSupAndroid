@@ -83,6 +83,10 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
         setProgress(100f * (value.toFloat() / max))
     }
 
+    fun setProgress(value: Int, max: Int) {
+        setProgress(100f * (value.toFloat() / max))
+    }
+
     fun setProgress(value: Float, max: Float) {
         setProgress(100f / (max / value))
     }
