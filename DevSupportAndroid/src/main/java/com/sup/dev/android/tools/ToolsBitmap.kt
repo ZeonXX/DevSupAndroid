@@ -23,6 +23,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import android.graphics.BitmapFactory
+import java.lang.RuntimeException
 
 object ToolsBitmap {
 
@@ -424,6 +425,7 @@ object ToolsBitmap {
 
 
     fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
+        if(maxSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMaxSides sides=$maxSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w <= maxSideSize && h <= maxSideSize) return bitmap
@@ -433,6 +435,7 @@ object ToolsBitmap {
     }
 
     fun keepMinSides(bitmap: Bitmap, minSideSize: Int): Bitmap {
+        if(minSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMinSides sides=$minSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w >= minSideSize && h >= minSideSize) return bitmap
@@ -446,10 +449,12 @@ object ToolsBitmap {
     }
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        if(w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
         return Bitmap.createScaledBitmap(bitmap, w, h, true)
     }
 
     fun resize(bitmap: Bitmap, w: Int): Bitmap {
+        if(w > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w")
         return Bitmap.createScaledBitmap(bitmap, w, w, true)
     }
 
