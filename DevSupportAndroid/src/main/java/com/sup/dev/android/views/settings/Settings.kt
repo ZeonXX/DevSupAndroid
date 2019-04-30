@@ -72,10 +72,6 @@ open class Settings @JvmOverloads constructor(
     //  Setters
     //
 
-    override fun setOnTouchListener(l: OnTouchListener) {
-        super.setOnTouchListener(l)
-    }
-
     fun setSubView(view: View?) {
         vSubViewContainer?.removeAllViews()
         if (view != null)
