@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/vScreenDrawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +27,7 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="?colorPrimaryDark"/>
+            android:background="?window_background"/>
 
     </android.support.v4.widget.DrawerLayout>
 

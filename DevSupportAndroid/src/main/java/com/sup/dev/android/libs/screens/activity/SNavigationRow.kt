@@ -13,13 +13,12 @@ import com.sup.dev.android.views.views.ViewChip
 
 class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, onClickListener: (View) -> Unit) {
 
-    val view: View?
+    val view: View = ToolsView.inflate(context, R.layout.screen_activity_navigation_driver_row)
     private val vChip: ViewChip
 
     constructor(context: Context, @DrawableRes icon: Int, @StringRes text: Int, onClickListener: (View) -> Unit) : this(context, icon, ToolsResources.s(text), onClickListener) {}
 
     init {
-        view = ToolsView.inflate(context, R.layout.screen_activity_navigation_row)
         vChip = view.findViewById(R.id.vNavigationRowChip)
 
         (view.findViewById(R.id.vNavigationRowIcon) as ImageView).setImageResource(icon)
@@ -30,6 +29,6 @@ class SNavigationRow(context: Context, @DrawableRes icon: Int, text: String?, on
     }
 
     fun setChipVisible(b: Boolean) {
-        view!!.findViewById<View>(R.id.vNavigationRowChip).visibility = if (b) View.VISIBLE else View.GONE
+        view.findViewById<View>(R.id.vNavigationRowChip).visibility = if (b) View.VISIBLE else View.GONE
     }
 }

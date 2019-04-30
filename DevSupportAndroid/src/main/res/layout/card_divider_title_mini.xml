@@ -12,8 +12,7 @@
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:text="Title"/>
+        android:paddingBottom="8dp"/>
 
     <View
         android:id="@+id/vDividerTop"

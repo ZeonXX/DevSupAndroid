@@ -10,18 +10,11 @@
         style="@style/Base.TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
         android:textColor="@color/textLight_54"
         android:padding="16dp"/>
 
     <View
-        android:id="@+id/vDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/grey_600"/>
+        style="@style/Divider.8"/>
 
 
 </LinearLayout>

@@ -32,8 +32,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Some description text"/>
+                android:layout_marginTop="4dp"/>
 
         </LinearLayout>
 
@@ -43,8 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:text="10"/>
+            android:layout_marginLeft="16dp"/>
 
         <ImageView
             android:id="@+id/vIcon"

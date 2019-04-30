@@ -16,6 +16,7 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
 
     private var drawerLayout: DrawerLayout? = null
     private var drawerContainer: ViewGroup? = null
+    private var vNavigationRowsContainer: ViewGroup? = null
     private var lastTranslate = 0.0f
 
     override fun onCreate(bundle: Bundle?) {
@@ -29,6 +30,7 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
         setNavigationLock(navigationLock)
 
         setDrawerView(ToolsView.inflate(this, R.layout.screen_activity_navigation_driver))
+        vNavigationRowsContainer = findViewById(R.id.vNavigationRowsContainer)
     }
 
     override fun getLayout() = R.layout.screen_activity_navigation
@@ -47,6 +49,20 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
     //
     //  View
     //
+
+    fun addView(view:View){
+        vNavigationRowsContainer?.addView(view)
+    }
+
+    fun addItem(icon:Int, text:String, onClick:(View)->Unit):SNavigationRow{
+        val view = SNavigationRow(this, icon, text, onClick)
+        addView(view.view)
+        return view
+    }
+
+    fun addDivider(){
+        addView(ToolsView.inflate(R.layout.z_divider_16))
+    }
 
     override fun setScreen(screen: Screen?, animation: Navigator.Animation) {
         super.setScreen(screen, animation)
@@ -72,7 +88,7 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
     }
 
     fun setNavigationLock(lock: Boolean) {
-        SActivityDrawer.navigationLock = lock
+        navigationLock = lock
         if (lock)
             drawerLayout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         else
