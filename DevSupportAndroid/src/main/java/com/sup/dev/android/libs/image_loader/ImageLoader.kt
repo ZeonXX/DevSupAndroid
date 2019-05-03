@@ -159,7 +159,7 @@ object ImageLoader {
         val loadedBytes = loader.startLoad()
         if (loadedBytes == null) {
             if (loader.onError != null) ToolsThreads.main { loader.onError?.invoke() }
-            else if (loader.tryCount > 0) ToolsThreads.main(3000) {
+            else if (loader.tryCount > 0) ToolsThreads.main(5000) {
                 loader.tryCount--
                 loadStart(loader)
             }

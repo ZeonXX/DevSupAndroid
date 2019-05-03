@@ -35,7 +35,7 @@ abstract class ImageLoaderA {
     internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
 
-    var tryCount = 15
+    var tryCount = 2
 
 
     fun into(vImage: ImageView?) {
