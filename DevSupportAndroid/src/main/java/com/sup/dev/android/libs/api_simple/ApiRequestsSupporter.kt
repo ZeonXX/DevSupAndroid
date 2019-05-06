@@ -71,9 +71,9 @@ object ApiRequestsSupporter {
         return executeProgressDialog(dialog, request, onComplete)
     }
 
-    fun <K : Request.Response> executeProgressDialog(dialog: Widget, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
+    fun <K : Request.Response> executeProgressDialog(dialog: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         return execute(request, onComplete)
-                .onFinish { dialog.hide() }
+                .onFinish { dialog?.hide() }
     }
 
     fun <K : Request.Response> executeProgressDialog(request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {

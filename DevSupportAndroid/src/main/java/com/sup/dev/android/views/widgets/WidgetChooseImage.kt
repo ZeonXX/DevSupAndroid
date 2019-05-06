@@ -2,6 +2,7 @@ package com.sup.dev.android.views.widgets
 
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
+import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
@@ -30,30 +32,49 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private val vEmptyText: TextView = findViewById(R.id.vEmptyText)
     private val vFabGalleryContainer: View = ToolsView.inflate(R.layout.z_fab)
     private val vFabLinkContainer: View = ToolsView.inflate(R.layout.z_fab)
+    private val vFabDoneContainer: View = ToolsView.inflate(R.layout.z_fab)
     private val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
     private val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
+    private val vFabDone: FloatingActionButton = vFabDoneContainer.findViewById(R.id.vFab)
 
     private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
     private var imagesLoaded: Boolean = false
     private var spanCount = 3
+    private var maxSelectCount = 1
+    private var selectedList = ArrayList<File>()
+    private var callbackInWorkerThread = false
 
     init {
-        vContainer.addView(vFabGalleryContainer)
-        vContainer.addView(vFabLinkContainer)
-
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
 
-        (vFabLinkContainer.getLayoutParams() as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72).toInt()
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
 
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)
+        vFabDone.setImageResource(R.drawable.ic_done_white_24dp)
         vFabGallery.setOnClickListener { v -> openGallery() }
         vFabLink.setOnClickListener { v -> showLink() }
+        vFabDone.setOnClickListener { sendAll() }
+
+        ToolsView.setFabColorR(vFabDone, R.color.green_700)
 
         setAdapter<WidgetRecycler>(myAdapter)
+        updateFabs()
+    }
+
+    fun updateFabs() {
+        if (selectedList.isEmpty()) {
+            vContainer.removeView(vFabDoneContainer)
+            if (vContainer.indexOfChild(vFabGalleryContainer) == -1) vContainer.addView(vFabGalleryContainer)
+            if (vContainer.indexOfChild(vFabLinkContainer) == -1) vContainer.addView(vFabLinkContainer)
+            (vFabLinkContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72).toInt()
+        } else {
+            vContainer.removeView(vFabGalleryContainer)
+            vContainer.removeView(vFabLinkContainer)
+            if (vContainer.indexOfChild(vFabDoneContainer) == -1) vContainer.addView(vFabDoneContainer)
+        }
     }
 
     override fun onShow() {
@@ -130,6 +151,38 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         hide()
     }
 
+    private fun sendAll() {
+        val d = ToolsView.showProgressDialog()
+        ToolsThreads.thread {
+            for (f in selectedList) {
+                try {
+
+                    val bytes = ToolsFiles.readFile(f)
+
+                    if(callbackInWorkerThread){
+                        onSelected(bytes)
+                    }else {
+                        val sent = Item(false)
+                        ToolsThreads.main {
+                            try {
+                                onSelected(bytes)
+                            } catch (e: Exception) {
+                                err(e)
+                            }
+                            sent.a = true
+                        }
+                        while (!sent.a) ToolsThreads.sleep(10)
+                    }
+
+                } catch (e: Exception) {
+                    err(e)
+                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                }
+            }
+            ToolsThreads.main { d.hide() }
+        }
+    }
+
     //
     //  Setters
     //
@@ -144,44 +197,83 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         return this
     }
 
+    fun setMaxSelectCount(maxSelectCount: Int): WidgetChooseImage {
+        this.maxSelectCount = maxSelectCount
+        return this
+    }
+
+    fun setCallbackInWorkerThread(callbackInWorkerThread:Boolean): WidgetChooseImage {
+        this.callbackInWorkerThread = callbackInWorkerThread
+        return this
+    }
+
     //
     //  Card
     //
 
     private inner class CardImage(private val file: File) : Card() {
 
-        override fun getLayout(): Int {
-            return R.layout.sheet_choose_image_card
-        }
+        override fun getLayout() = R.layout.sheet_choose_image_card
 
         override fun bindView(view: View) {
             super.bindView(view)
-            val vImage = view.findViewById<ImageView>(R.id.vImage)
-            vImage.setOnClickListener { v -> onClick() }
-            ToolsImagesLoader.load(file).size(420, 420).cropSquare().into(vImage)
+            val vImage: ImageView = view.findViewById(R.id.vImage)
+            val vNumContainerTouch: View = view.findViewById(R.id.vNumContainerTouch)
 
+            vImage.setOnClickListener { v -> onClick() }
+            if (maxSelectCount > 1) {
+                vImage.setOnLongClickListener { v ->
+                    onLongClick()
+                    true
+                }
+                vNumContainerTouch.setOnClickListener { onLongClick() }
+            }
+
+            ToolsImagesLoader.load(file).size(420, 420).cropSquare().into(vImage)
             val index = adapter!!.indexOf(this)
             val arg = index % spanCount
             view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount - 1) 0 else DP, DP)
 
+            updateIndex()
+        }
+
+        fun updateIndex() {
+            val view = getView()
+            if (view == null) return
+            val vNum: TextView = view.findViewById(R.id.vNum)
+            val vNumContainer: View = view.findViewById(R.id.vNumContainer)
+
+            val selectIndex = selectedList.indexOf(file)
+            vNum.text = if (selectIndex == -1) "   " else " ${selectIndex + 1} "
+            vNumContainer.visibility = if (maxSelectCount > 1) View.VISIBLE else View.GONE
+            vNumContainer.setBackgroundColor(if (selectIndex == -1) ToolsResources.getColor(R.color.focus_dark) else ToolsResources.getAccentColor(context))
         }
 
         fun onClick() {
-            val d = ToolsView.showProgressDialog()
-            ToolsThreads.thread {
-                try {
-                    val bytes = ToolsFiles.readFile(file)
-                    ToolsThreads.main {
-                        d.hide()
-                        onSelected(bytes)
-                    }
-                } catch (e: Exception) {
-                    err(e)
-                    ToolsThreads.main { d.hide() }
-                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
-                }
+            if (selectedList.isNotEmpty()) {
+                onLongClick()
+            } else {
+                selectedList.add(file)
+                sendAll()
             }
         }
+
+        fun onLongClick() {
+            if (selectedList.contains(file)) {
+                selectedList.remove(file)
+                updateFabs()
+                for (c in myAdapter.get(CardImage::class)) c.updateIndex()
+            } else {
+                if (selectedList.size >= maxSelectCount) {
+                    if (SupAndroid.TEXT_ERROR_MAX_ITEMS_COUNT != null) ToolsToast.show(SupAndroid.TEXT_ERROR_MAX_ITEMS_COUNT)
+                    return
+                }
+                selectedList.add(file)
+                updateFabs()
+                update()
+            }
+        }
+
 
     }
 

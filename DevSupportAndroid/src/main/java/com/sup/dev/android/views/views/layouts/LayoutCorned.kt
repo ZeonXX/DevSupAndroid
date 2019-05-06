@@ -41,6 +41,7 @@ open class LayoutCorned @JvmOverloads constructor(
         cornedBL = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedBL, true)
         cornedBR = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_cornedBR, true)
         chipMode = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_chipMode, false)
+        circleMode = a.getBoolean(R.styleable.LayoutCorned_LayoutCorned_circleMode, false)
         cornedSize = a.getDimension(R.styleable.LayoutCorned_LayoutCorned_cornedSize, cornedSize)
         a.recycle()
 
@@ -68,7 +69,7 @@ open class LayoutCorned @JvmOverloads constructor(
     private fun update() {
         path.reset()
 
-        var r = Math.min(Math.min(cornedSize, width.toFloat()), height.toFloat())
+        var r = Math.min(Math.min(cornedSize, width.toFloat() / 2), height.toFloat() / 2)
 
         if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
 

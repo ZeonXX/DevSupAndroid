@@ -156,6 +156,7 @@
         <attr name="LayoutCorned_cornedBR" format="boolean"/>
         <attr name="LayoutCorned_cornedBL" format="boolean"/>
         <attr name="LayoutCorned_chipMode" format="boolean"/>
+        <attr name="LayoutCorned_circleMode" format="boolean"/>
         <attr name="LayoutCorned_cornedSize" format="dimension"/>
     </declare-styleable>
 
