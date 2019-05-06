@@ -51,7 +51,7 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
                 path.addCircle(width - dp, height - dp, dp, Path.Direction.CCW)
                 path.addRect(0f, dp, width + 0f, height - dp, Path.Direction.CCW)
                 path.addRect(dp, 0f, width - dp, dp, Path.Direction.CCW)
-                path.addRect(dp, height - dp, width - dp, height + 0f, Path.Direction.CW)
+                path.addRect(dp, height - dp, width - dp, height + 0f, Path.Direction.CCW)
                 canvas.clipPath(path)
             } else {
                 path.reset()
