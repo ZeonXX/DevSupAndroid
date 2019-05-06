@@ -16,12 +16,12 @@
     <FrameLayout
         android:id="@+id/vNumContainerTouch"
         android:layout_width="wrap_content"
+        android:layout_gravity="right"
         android:layout_height="wrap_content">
 
         <com.sup.dev.android.views.views.layouts.LayoutCorned
             android:id="@+id/vNumContainer"
             android:tag="teest"
-            android:layout_gravity="right"
             android:layout_margin="8dp"
             android:layout_width="24dp"
             android:layout_height="24dp"
