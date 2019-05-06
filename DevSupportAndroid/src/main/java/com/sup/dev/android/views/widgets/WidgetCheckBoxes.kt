@@ -137,7 +137,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return this
     }
 
-
     //
     //  Setters
     //

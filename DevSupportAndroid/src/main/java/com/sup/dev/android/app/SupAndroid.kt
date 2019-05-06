@@ -32,6 +32,7 @@ object SupAndroid {
     var TEXT_APP_DONT_SHOW_AGAIN: String? = null
     var TEXT_APP_LINK: String? = null
     var TEXT_APP_CHOOSE: String? = null
+    var TEXT_APP_LOADING: String? = null
     var TEXT_ERROR_NETWORK: String? = null
     var TEXT_ERROR_ACCOUNT_BANED: String? = null
     var TEXT_ERROR_GONE: String? = null
@@ -77,6 +78,7 @@ object SupAndroid {
         TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again")
         TEXT_APP_LINK = loadText("app_link")
         TEXT_APP_CHOOSE = loadText("app_choose")
+        TEXT_APP_LOADING = loadText("app_loading")
         TEXT_ERROR_NETWORK = loadText("error_network")
         TEXT_ERROR_ACCOUNT_BANED = loadText("error_account_baned")
         TEXT_ERROR_GONE = loadText("error_gone")

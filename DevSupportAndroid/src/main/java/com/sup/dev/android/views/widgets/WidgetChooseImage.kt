@@ -37,12 +37,13 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
     private val vFabDone: FloatingActionButton = vFabDoneContainer.findViewById(R.id.vFab)
 
-    private var onSelected: (WidgetChooseImage, ByteArray) -> Unit = { widgetChooseImage, bytes -> }
+    private var onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit = { widgetChooseImage, bytes, index -> }
     private var imagesLoaded: Boolean = false
     private var spanCount = 3
     private var maxSelectCount = 1
     private var selectedList = ArrayList<File>()
     private var callbackInWorkerThread = false
+    private var hided = false
 
     init {
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
@@ -62,6 +63,17 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         setAdapter<WidgetRecycler>(myAdapter)
         updateFabs()
+
+        ToolsThreads.timerMain(2000) {
+            if (!imagesLoaded) return@timerMain
+            if (hided) it.unsubscribe()
+            else loadImagesNow()
+        }
+    }
+
+    override fun onHide() {
+        super.onHide()
+        hided = true
     }
 
     fun updateFabs() {
@@ -95,21 +107,42 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         ToolsPermission.requestReadPermission({
             imagesLoaded = true
-            val projection = arrayOf(MediaStore.Images.ImageColumns.DATA)
-            val cursor = SupAndroid.appContext!!.contentResolver.query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    projection, null, null,
-                    MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC")
-
-            while (cursor!!.moveToNext()) myAdapter.add(CardImage(File(cursor.getString(0))))
-
-            vEmptyText.visibility = if (myAdapter.isEmpty) View.VISIBLE else View.GONE
+            loadImagesNow()
         }, {
             ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)
             hide()
         })
 
+    }
 
+    private fun loadImagesNow() {
+
+        val offset = myAdapter.size()
+        var addCount = 0
+        val projection = arrayOf(MediaStore.Images.ImageColumns.DATA)
+        val cursor = SupAndroid.appContext!!.contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                projection, null, null,
+                MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC")
+
+        while (cursor!!.moveToNext()) {
+            val file = File(cursor.getString(0))
+            var added = false
+            for (c in myAdapter.get(CardImage::class)) if (c.file == file) {
+                added = true
+                break
+            }
+            if (!added) {
+                addCount++
+                myAdapter.add(myAdapter.size() - offset, CardImage(file))
+            }
+        }
+
+        if(addCount > 0 && offset > 0){
+            vRecycler.scrollToPosition(0)
+        }
+
+        vEmptyText.visibility = if (myAdapter.isEmpty) View.VISIBLE else View.GONE
     }
 
     private fun loadLink(link: String) {
@@ -117,7 +150,10 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         ToolsNetwork.getBytesFromURL(link, onResult = {
             progress.hide()
             if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
-            else onSelected(it)
+            else {
+                onSelected.invoke(this, it, 0)
+                hide()
+            }
         })
     }
 
@@ -138,7 +174,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private fun openGallery() {
         ToolsBitmap.getFromGallery({ bytes ->
             try {
-                onSelected(bytes)
+                onSelected.invoke(this, bytes, 0)
+                hide()
             } catch (e: IOException) {
                 err(e)
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
@@ -146,26 +183,22 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         })
     }
 
-    private fun onSelected(bytes: ByteArray) {
-        onSelected.invoke(this, bytes)
-        hide()
-    }
-
     private fun sendAll() {
-        val d = ToolsView.showProgressDialog()
+        val d = if (selectedList.size > 1 && SupAndroid.TEXT_APP_LOADING != null) ToolsView.showProgressDialog(SupAndroid.TEXT_APP_LOADING + " 1 / " + selectedList.size) else ToolsView.showProgressDialog()
         ToolsThreads.thread {
             for (f in selectedList) {
+                if (d is WidgetProgressWithTitle) ToolsThreads.main { d.setTitle(SupAndroid.TEXT_APP_LOADING + " ${selectedList.indexOf(f) + 1} / " + selectedList.size) }
                 try {
 
                     val bytes = ToolsFiles.readFile(f)
 
-                    if(callbackInWorkerThread){
-                        onSelected(bytes)
-                    }else {
+                    if (callbackInWorkerThread) {
+                        onSelected.invoke(this, bytes, selectedList.indexOf(f))
+                    } else {
                         val sent = Item(false)
                         ToolsThreads.main {
                             try {
-                                onSelected(bytes)
+                                onSelected.invoke(this, bytes, selectedList.indexOf(f))
                             } catch (e: Exception) {
                                 err(e)
                             }
@@ -179,7 +212,10 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
                     ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
                 }
             }
-            ToolsThreads.main { d.hide() }
+            ToolsThreads.main {
+                hide()
+                d.hide()
+            }
         }
     }
 
@@ -187,13 +223,13 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     //  Setters
     //
 
-    fun setOnSelected(onSelected: (WidgetChooseImage, ByteArray) -> Unit): WidgetChooseImage {
+    fun setOnSelected(onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit): WidgetChooseImage {
         this.onSelected = onSelected
         return this
     }
 
     fun setOnSelectedBitmap(callback: (WidgetChooseImage, Bitmap) -> Unit): WidgetChooseImage {
-        this.onSelected = { w, bytes -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
+        this.onSelected = { w, bytes, index -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
         return this
     }
 
@@ -202,7 +238,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         return this
     }
 
-    fun setCallbackInWorkerThread(callbackInWorkerThread:Boolean): WidgetChooseImage {
+    fun setCallbackInWorkerThread(callbackInWorkerThread: Boolean): WidgetChooseImage {
         this.callbackInWorkerThread = callbackInWorkerThread
         return this
     }
@@ -211,7 +247,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     //  Card
     //
 
-    private inner class CardImage(private val file: File) : Card() {
+    private inner class CardImage(val file: File) : Card() {
 
         override fun getLayout() = R.layout.sheet_choose_image_card
 

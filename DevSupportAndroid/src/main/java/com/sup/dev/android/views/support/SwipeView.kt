@@ -12,7 +12,8 @@ import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 
 class SwipeView(private val view: ViewGroup,
-                private val vIcon: View,
+                private val vIconForAlphaAnimation: View?,
+                private val colorDefault: Int,
                 private val onClick: (Float, Float) -> Unit = { x, y -> },
                 private val onLongClick: (Float, Float) -> Unit = { x, y -> },
                 private val onSwipe: () -> Unit = {}
@@ -20,6 +21,7 @@ class SwipeView(private val view: ViewGroup,
 
     private val maxOffset = ToolsView.dpToPx(48)
     private val longClickTime: Long = 200
+
     private val colorFocus = ToolsResources.getColor(R.color.focus)
     private val colorFocusAlpha = ToolsColor.alpha(colorFocus).toFloat()
     private val alphaAnimationTime = 500f
@@ -31,7 +33,7 @@ class SwipeView(private val view: ViewGroup,
     private var startX = -1f
     private var firstX = -1f
     private var firstY = -1f
-    private var firstClickTime: Long = -1
+    private var firstClickTime = -1L
     private var lastX = -1f
     private var lastY = -1f
     private var focusAlpha = 0f
@@ -41,9 +43,9 @@ class SwipeView(private val view: ViewGroup,
     private var subscriptionLongClick: Subscription? = null
 
     init {
-
         view.setOnTouchListener(this)
-        vIcon.alpha = 0f
+        vIconForAlphaAnimation?.alpha = 0f
+        view.setTag(this)
     }
 
     fun setSwipeEnabled(enabled: Boolean) {
@@ -51,6 +53,7 @@ class SwipeView(private val view: ViewGroup,
     }
 
     override fun onTouch(view: View, e: MotionEvent): Boolean {
+        if (view.tag != this) return false
         if (subscriptionBack != null) subscriptionBack!!.unsubscribe()
         if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
 
@@ -65,10 +68,11 @@ class SwipeView(private val view: ViewGroup,
             subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
                 focusAlpha += colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
                 focusAlpha = ToolsMath.min(focusAlpha, colorFocusAlpha)
-                view.setBackgroundColor(ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus))
+                view.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
+                if (view.tag != this) sub.unsubscribe()
             }, {
                 focusAlpha = colorFocusAlpha
-                view.setBackgroundColor(colorFocus)
+                view.setBackgroundColor(ToolsColor.add(colorDefault, colorFocus))
             })
 
             subscriptionLongClick = ToolsThreads.main(longClickTime) {
@@ -80,7 +84,7 @@ class SwipeView(private val view: ViewGroup,
         if (e.action == MotionEvent.ACTION_MOVE && lastX > -1 && swipeEnabled) {
             val mx = e.x - (startX - view.x)
 
-            if (!swipeStarted && (Math.abs(firstX - mx)/4 <= Math.abs(firstY - e.y) || firstX - mx < ToolsView.dpToPx(10))) {
+            if (!swipeStarted && (Math.abs(firstX - mx) / 6 <= Math.abs(firstY - e.y) || firstX - mx < ToolsView.dpToPx(24))) {
                 if (firstClickTime < System.currentTimeMillis() - longClickTime) {
                     clear()
                     onLongClick.invoke(e.x, e.y)
@@ -89,7 +93,7 @@ class SwipeView(private val view: ViewGroup,
                 lastX = e.x
                 lastY = e.y
                 return false
-            }  else {
+            } else {
                 this.view.requestDisallowInterceptTouchEvent(true)
                 swipeStarted = true
             }
@@ -104,7 +108,7 @@ class SwipeView(private val view: ViewGroup,
             if (view.x > startX) {
                 view.x = startX
             }
-            vIcon.alpha = (startX - view.x) / maxOffset
+            vIconForAlphaAnimation?.alpha = (startX - view.x) / maxOffset
             lastX = mx
             lastY = e.y
             return true
@@ -136,12 +140,16 @@ class SwipeView(private val view: ViewGroup,
         if (subscriptionFocus != null) subscriptionFocus!!.unsubscribe()
         if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
 
-        subscriptionBack = ToolsThreads.timerMain(10, 150, { sub ->
-            view.x = view.x + (startX - view.x) / (150 / 10f)
-            vIcon.alpha = (startX - view.x) / maxOffset
+        val stepTime = 10L
+        val animationTime = 150L
+        val step = -view.x / (animationTime / stepTime.toFloat())
+        subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, { sub ->
+            view.x += step
+            if (view.x > 0) view.x = 0f
+            vIconForAlphaAnimation?.alpha = (startX - view.x) / maxOffset
         }, {
-            view.x = startX
-            vIcon.alpha = 0f
+            view.x = 0f
+            vIconForAlphaAnimation?.alpha = 0f
             if (swiped) {
                 onSwipe.invoke()
                 swiped = false
@@ -150,10 +158,11 @@ class SwipeView(private val view: ViewGroup,
         subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
             focusAlpha -= colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
             focusAlpha = ToolsMath.max(focusAlpha, 0f)
-            view.setBackgroundColor(ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus))
+            view.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
+            if (view.tag != this) sub.unsubscribe()
         }, {
             focusAlpha = 0f
-            view.setBackgroundColor(0x00000000)
+            view.setBackgroundColor(colorDefault)
         })
     }
 
