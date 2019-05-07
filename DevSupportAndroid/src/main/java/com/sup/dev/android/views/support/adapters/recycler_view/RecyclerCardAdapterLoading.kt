@@ -70,6 +70,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         loadingTag = System.currentTimeMillis()
         val loadingTagLocal = loadingTag
 
+        remove(cardLoading)
         cardLoading.setOnRetry { source -> load(bottom) }
         cardLoading.setState(CardLoading.State.LOADING)
 
