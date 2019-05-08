@@ -196,14 +196,14 @@ object ToolsBitmap {
     }
 
     fun decode(bytes: ByteArray?): Bitmap? {
-        return if (bytes == null) null else decode(bytes, 0, 0, null, false)
+        return if (bytes == null) null else decode(bytes, 0, 0, null)
     }
 
     fun decode(bytes: ByteArray?, opts: BitmapFactory.Options): Bitmap? {
-        return if (bytes == null) null else decode(bytes, 0, 0, opts, false)
+        return if (bytes == null) null else decode(bytes, 0, 0, opts)
     }
 
-    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, minSizes: Boolean, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
+    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
         var options = options
 
         if (bytes == null) return null
@@ -223,7 +223,8 @@ object ToolsBitmap {
         options.inJustDecodeBounds = false
         var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
         if (bitmap != null && w != 0 && h != 0) {
-            val inscribe = if (minSizes) ToolsMath.inscribeByMinSide(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat()) else ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+            val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+
             if (bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
         }
@@ -425,7 +426,7 @@ object ToolsBitmap {
 
 
     fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
-        if(maxSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMaxSides sides=$maxSideSize")
+        if (maxSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMaxSides sides=$maxSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w <= maxSideSize && h <= maxSideSize) return bitmap
@@ -435,7 +436,7 @@ object ToolsBitmap {
     }
 
     fun keepMinSides(bitmap: Bitmap, minSideSize: Int): Bitmap {
-        if(minSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMinSides sides=$minSideSize")
+        if (minSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMinSides sides=$minSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w >= minSideSize && h >= minSideSize) return bitmap
@@ -449,12 +450,12 @@ object ToolsBitmap {
     }
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        if(w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
+        if (w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
         return Bitmap.createScaledBitmap(bitmap, w, h, true)
     }
 
     fun resize(bitmap: Bitmap, w: Int): Bitmap {
-        if(w > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w")
+        if (w > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w")
         return Bitmap.createScaledBitmap(bitmap, w, w, true)
     }
 

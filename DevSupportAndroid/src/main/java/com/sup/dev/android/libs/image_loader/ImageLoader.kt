@@ -192,7 +192,7 @@ object ImageLoader {
     }
 
     private fun parseImage(loader: ImageLoaderA, bytes: ByteArray): Bitmap? {
-        var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options, loader.cropSquareCenter)
+        var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options)
         if (loader.cropSquareCenter && bm != null) bm = ToolsBitmap.cropCenterSquare(bm)
         return bm
     }

@@ -37,7 +37,7 @@ object ToolsImagesLoader {
     ) {
         var sizeArd = sizeArd
 
-        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArd = minGifSize/ToolsMath.min(w, h)
+        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArd = minGifSize/ToolsMath.max(w, h)
 
         if (imageId > 0) {
             load(imageId).sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
