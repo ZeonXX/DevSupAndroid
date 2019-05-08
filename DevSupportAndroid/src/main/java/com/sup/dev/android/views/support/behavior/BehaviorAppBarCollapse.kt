@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 
 
-class BehaviorAppBarCollapse<V : View>(context: Context, attrs: AttributeSet) : BehaviorCollapse<V>(context, attrs) {
+class BehaviorAppBarCollapse<V : View>(context: Context, attrs: AttributeSet) : BehaviorCollapseSmooth<V>(context, attrs) {
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         child!!.y = dependency!!.y + dependency.height - child.height / 2

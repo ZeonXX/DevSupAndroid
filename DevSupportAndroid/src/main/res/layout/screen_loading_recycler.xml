@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Root.Content">
 
     <android.support.design.widget.AppBarLayout
@@ -28,5 +28,11 @@
             style="@style/Recycler"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/vFabX"
+        app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorCollapseFull"
+        style="@style/Fab"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

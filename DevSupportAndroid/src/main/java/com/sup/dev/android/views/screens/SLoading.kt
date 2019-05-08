@@ -22,7 +22,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-    protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
+    protected var vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vAction: Button = findViewById(R.id.vAction)
     private var vAppBar: View? = null
     private var vEmptySubContainer: ViewGroup? = null
