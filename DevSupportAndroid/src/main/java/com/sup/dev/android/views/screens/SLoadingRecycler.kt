@@ -47,6 +47,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         if (vFabX != null) {
             if (vFab.parent is ViewGroup) (vFab.parent as ViewGroup).removeView(vFab)
             vFabX.id = R.id.vFab
+            (vFabX as View).visibility = vFab.visibility
             vFab = vFabX
         }
 
