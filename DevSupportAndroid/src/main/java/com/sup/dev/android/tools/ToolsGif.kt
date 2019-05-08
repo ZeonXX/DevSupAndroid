@@ -78,8 +78,8 @@ object ToolsGif {
             var stop = false
             while (!stop) {
                 val iterator = GifDecoder().loadUsingIterator(f.absolutePath)
-                if(iterator == null){
-                    stop=true
+                if (iterator == null) {
+                    stop = true
                     break
                 }
                 while (!stop && iterator.hasNext()) {

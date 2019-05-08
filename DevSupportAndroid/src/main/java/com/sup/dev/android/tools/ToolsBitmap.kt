@@ -223,7 +223,7 @@ object ToolsBitmap {
         options.inJustDecodeBounds = false
         var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
         if (bitmap != null && w != 0 && h != 0) {
-            val inscribe = if (minSizes) ToolsMath.inscribeMin(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat()) else ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+            val inscribe = if (minSizes) ToolsMath.inscribeByMinSide(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat()) else ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
             if (bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
         }
