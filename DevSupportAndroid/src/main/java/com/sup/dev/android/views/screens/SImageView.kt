@@ -2,6 +2,7 @@ package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.ImageView
@@ -95,9 +96,10 @@ class SImageView private constructor()
         updateTitle()
     }
 
+    override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
+
     private fun updateTitle(){
         vCounter.text = "${vPager.currentItem+1} / ${adapterIn.size()}"
-
     }
 
     private fun download() {

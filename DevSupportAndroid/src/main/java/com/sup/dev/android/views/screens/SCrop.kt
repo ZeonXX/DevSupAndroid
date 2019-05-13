@@ -7,6 +7,7 @@ import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.cropper.ViewCropImage
@@ -59,6 +60,8 @@ class SCrop(
             }
         }
     }
+
+    override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
 
     fun setLock(b: Boolean): SCrop {
         locked = b

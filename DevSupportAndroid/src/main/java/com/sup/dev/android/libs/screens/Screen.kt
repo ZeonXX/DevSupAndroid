@@ -131,4 +131,6 @@ open class Screen(
     fun equalsNView(view: Screen): Boolean {
         return this === view
     }
+
+    open fun getStatusBarColor() = ToolsResources.getPrimaryDarkColor(context)
 }

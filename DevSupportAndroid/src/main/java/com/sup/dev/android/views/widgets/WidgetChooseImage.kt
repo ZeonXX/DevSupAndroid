@@ -64,7 +64,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         setAdapter<WidgetRecycler>(myAdapter)
         updateFabs()
 
-        ToolsThreads.timerMain(2000) {
+        ToolsThreads.timerMain(4000) {
             if (!imagesLoaded) return@timerMain
             if (hided) it.unsubscribe()
             else loadImagesNow()
@@ -135,10 +135,12 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             if (!added) {
                 addCount++
                 myAdapter.add(myAdapter.size() - offset, CardImage(file))
+            } else {
+                break
             }
         }
 
-        if(addCount > 0 && offset > 0){
+        if (addCount > 0 && offset > 0) {
             vRecycler.scrollToPosition(0)
         }
 
