@@ -128,6 +128,11 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
+    fun setTitleGravity(gravity: Int): Widget {
+        vTitle?.gravity = gravity
+        return this
+    }
+
     open fun setTitleBackgroundColorRes(@ColorRes color: Int): Widget {
         return setTitleBackgroundColor(ToolsResources.getColor(color))
     }

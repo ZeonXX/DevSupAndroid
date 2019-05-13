@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -118,6 +117,10 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
+    fun setTitleImageTopPadding(padding: Float): WidgetAlert {
+        vTopImage.setPadding(vTopImage.paddingLeft, padding.toInt(), vTopImage.paddingRight, vTopImage.paddingBottom)
+        return this
+    }
 
     fun setTitleImage(setter:(ViewCircleImage)->Unit): WidgetAlert {
         vTopContainer.visibility = View.VISIBLE
@@ -126,11 +129,11 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
-    fun setTitleText(@StringRes topTitle: Int): WidgetAlert {
-        return setTitleText(ToolsResources.s(topTitle))
+    fun setTopTitleText(@StringRes topTitle: Int): WidgetAlert {
+        return setTopTitleText(ToolsResources.s(topTitle))
     }
 
-    fun setTitleText(topTitle: String?): WidgetAlert {
+    fun setTopTitleText(topTitle: String?): WidgetAlert {
         vTopContainer.visibility = if (ToolsText.empty(topTitle)) View.GONE else View.VISIBLE
         ToolsView.setTextOrGone(vTopTitle, topTitle)
         return this

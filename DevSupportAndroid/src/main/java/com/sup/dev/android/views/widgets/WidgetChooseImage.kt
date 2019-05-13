@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.GridLayoutManager
+import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -44,6 +45,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private var selectedList = ArrayList<File>()
     private var callbackInWorkerThread = false
     private var hided = false
+    private val addedHash = SparseArray<Boolean>()
 
     init {
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
@@ -127,17 +129,13 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         while (cursor!!.moveToNext()) {
             val file = File(cursor.getString(0))
-            var added = false
-            for (c in myAdapter.get(CardImage::class)) if (c.file == file) {
-                added = true
-                break
-            }
-            if (!added) {
-                addCount++
-                myAdapter.add(myAdapter.size() - offset, CardImage(file))
-            } else {
-                break
-            }
+            val hash = file.hashCode()
+
+            if (addedHash.get(hash) != null) break
+
+            addCount++
+            addedHash.put(hash, true)
+            myAdapter.add(myAdapter.size() - offset, CardImage(file))
         }
 
         if (addCount > 0 && offset > 0) {
