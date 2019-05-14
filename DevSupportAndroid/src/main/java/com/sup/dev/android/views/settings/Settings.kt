@@ -84,7 +84,7 @@ open class Settings @JvmOverloads constructor(
 
     fun setTitle(title: String?) {
         vTitle?.text = title
-        vTitle?.visibility = if (title != null && !title.isEmpty()) View.VISIBLE else View.GONE
+        vTitle?.visibility = if (title != null && title.isNotEmpty()) View.VISIBLE else View.GONE
     }
 
     fun setSubtitle(@StringRes subtitleRes: Int) {
@@ -93,7 +93,7 @@ open class Settings @JvmOverloads constructor(
 
     fun setSubtitle(subtitle: String?) {
         vSubtitle?.text = subtitle
-        vSubtitle?.visibility = if (subtitle != null && !subtitle.isEmpty()) View.VISIBLE else View.GONE
+        vSubtitle?.visibility = if (subtitle != null && subtitle.isNotEmpty()) View.VISIBLE else View.GONE
     }
 
     fun setIcon(@DrawableRes icon: Int) {

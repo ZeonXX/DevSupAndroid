@@ -37,6 +37,7 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec)
             }
         }
+
         layoutMaxSizes.id = R.id.vDialogLayoutMaxSizes
         layoutMaxSizes.setMaxWidth(600)
         layoutMaxSizes.setUseScreenWidthAsParent(true)
