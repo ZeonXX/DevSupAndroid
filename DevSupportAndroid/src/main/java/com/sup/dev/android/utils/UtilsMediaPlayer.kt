@@ -6,7 +6,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.err
 import java.io.IOException
 
-
 class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
 
     private var streamType: Int = 0
@@ -52,6 +51,10 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
     //
     //  Control
     //
+
+    fun play(raw: Int) {
+        play(Uri.parse("android.resource://" + SupAndroid.appContext?.packageName + "/" + raw))
+    }
 
     fun play(mediaUri: String) {
         play(Uri.parse(mediaUri))
