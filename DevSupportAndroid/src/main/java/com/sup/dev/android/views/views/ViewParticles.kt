@@ -13,7 +13,6 @@ import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import java.util.ArrayList
 
-
 class ViewParticles @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     //
