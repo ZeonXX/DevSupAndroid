@@ -30,7 +30,7 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
 
         SupAndroid.initEditMode(this)
 
-        offset = ToolsView.dpToPx(16f).toFloat()
+        offset = ToolsView.dpToPx(16f)
         color = ToolsResources.getAccentAlphaColor(context)
         colorSelected = ToolsResources.getAccentColor(context)
 

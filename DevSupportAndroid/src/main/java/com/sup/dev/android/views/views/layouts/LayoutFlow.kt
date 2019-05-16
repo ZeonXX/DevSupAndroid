@@ -16,12 +16,10 @@ class LayoutFlow @MainThread
     private var mVerticalSpacing = 0
 
     init {
-
         val a = context.obtainStyledAttributes(attrs, R.styleable.LayoutFlow)
         mHorizontalSpacing = a.getDimensionPixelSize(R.styleable.LayoutFlow_LayoutFlow_horizontal, 0)
         mVerticalSpacing = a.getDimensionPixelSize(R.styleable.LayoutFlow_LayoutFlow_vertical, 0)
         a.recycle()
-
     }
 
     fun setHorizontalSpacing(mHorizontalSpacing: Int) {
@@ -34,9 +32,9 @@ class LayoutFlow @MainThread
 
     @MainThread
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthLimit = View.MeasureSpec.getSize(widthMeasureSpec) - paddingRight
-        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
-        val growHeight = widthMode != View.MeasureSpec.UNSPECIFIED
+        val widthLimit = MeasureSpec.getSize(widthMeasureSpec) - paddingRight
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val growHeight = widthMode != MeasureSpec.UNSPECIFIED
         var width = 0
         var currentWidth = paddingLeft
         var currentHeight = paddingTop
@@ -53,9 +51,7 @@ class LayoutFlow @MainThread
             val lp = child.layoutParams as LayoutParams
             spacing = mHorizontalSpacing
 
-            if (lp.horizontalSpacing >= 1)
-                spacing = lp.horizontalSpacing
-
+            if (lp.horizontalSpacing >= 1) spacing = lp.horizontalSpacing
 
             if (growHeight && (breakLine || currentWidth + child.measuredWidth > widthLimit)) {
                 newLine = true

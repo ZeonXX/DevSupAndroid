@@ -1,23 +1,18 @@
 package com.sup.dev.android.views.views.table
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.tools.ToolsColor
-import com.sup.dev.java.tools.ToolsMath
-import java.util.ArrayList
+import com.sup.dev.android.views.views.ViewTextLinkable
 
 class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
+    var textProcessor: (ViewTableCell, String, ViewTextLinkable) -> Unit = { vCell, c, vText -> }
     private var columnsCount = 0
     private var minCellW = ToolsView.dpToPx(56)
     private var minCellH = ToolsView.dpToPx(56)
@@ -31,6 +26,7 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     fun removeRow(index: Int) {
         removeViewAt(index)
+        for (i in 0 until getRowsCount()) getRow(i)?.requestLayout()
     }
 
     fun createRow(bottom: Boolean) {
@@ -44,7 +40,7 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         for (i in 0 until count) createRow(right)
     }
 
-    private fun getRow(index: Int) = getChildAt(index) as ViewTableRow
+    private fun getRow(index: Int) = getChildAt(index) as ViewTableRow?
 
 
     //
@@ -53,17 +49,17 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     fun setColumnsCount(columnsCount: Int, right: Boolean) {
         this.columnsCount = columnsCount
-        for (i in 0 until getRowsCount()) getRow(i).resetCells(right)
+        for (i in 0 until getRowsCount()) getRow(i)?.resetCells(right)
     }
 
     fun setMinCellW(minCellW: Float) {
         this.minCellW = minCellW
-        for (i in 0 until getRowsCount()) getRow(i).resetCellMinSizes()
+        for (i in 0 until getRowsCount()) getRow(i)?.resetCellMinSizes()
     }
 
     fun setMinCellH(minCellH: Float) {
         this.minCellH = minCellH
-        for (i in 0 until getRowsCount()) getRow(i).resetCellMinSizes()
+        for (i in 0 until getRowsCount()) getRow(i)?.resetCellMinSizes()
     }
 
     fun setOnCellClicked(onCellClicked: (ViewTableCell, Int, Int) -> Unit) {
@@ -73,6 +69,28 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     //
     //  Getters
     //
+
+    fun getIndexOfCell(vCell: ViewTableCell): Int {
+        var index = 0
+        for (i in 0 until getRowsCount()) {
+            val localIndex = getRow(i)!!.indexOfChild(vCell)
+            if (localIndex != -1) return index + localIndex
+            else index += columnsCount
+        }
+        return -1
+    }
+
+    fun getCell(rowIndex: Int, columnIndex: Int): ViewTableCell? {
+        val row = getRow(rowIndex)
+        if(row == null) return null
+        return row.getCell(columnIndex)
+    }
+
+    fun getCell(index: Int): ViewTableCell? {
+        val row = getRow(index / columnsCount)
+        if (row == null) return null
+        return row.getChildAt(index % columnsCount) as ViewTableCell
+    }
 
     fun getRowsCount() = childCount
 

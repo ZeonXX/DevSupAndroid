@@ -70,8 +70,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else View.MeasureSpec.getSize(widthMeasureSpec)
-        var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else View.MeasureSpec.getSize(heightMeasureSpec)
+        var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
+        var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
 
         if (maxWidthPercent != 0f) {
             val arg = (w / 100f * maxWidthPercent).toInt()
@@ -90,8 +90,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         var maxChildH = 0
         for (i in 0 until childCount) {
             getChildAt(i).measure(
-                    View.MeasureSpec.makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else AT_MOST),
-                    View.MeasureSpec.makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else AT_MOST))
+                    makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else AT_MOST),
+                    makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else AT_MOST))
             maxChildW = Math.max(getChildAt(i).measuredWidth, maxChildW)
             maxChildH = Math.max(getChildAt(i).measuredHeight, maxChildH)
         }

@@ -12,6 +12,17 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class LayoutMirrorSize @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
+    companion object {
+        val MODE_BIGGER_WH = 1
+        val MODE_SMALLER_WH = 2
+        val MODE_WHOM_BIGGER_W = 3
+        val MODE_WHOM_SMALLER_W = 4
+        val MODE_WHOM_BIGGER_H = 5
+        val MODE_WHOM_SMALLER_H = 6
+        val MODE_USE_1_IF_NO_ZERO = 7
+        val MODE_USE_2_IF_NO_ZERO = 8
+    }
+
     private var multiViewMode = MODE_USE_1_IF_NO_ZERO
     private var mirrorViewId = 0
     private var mirrorViewId_2 = 0
@@ -77,12 +88,12 @@ class LayoutMirrorSize @JvmOverloads constructor(context: Context, attrs: Attrib
             setMirrorView_2(ToolsView.findViewOnParents(this, mirrorViewId_2))
 
         if (!mirrorViewAvailable() && !mirrorView_2_Available()) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY))
+            super.onMeasure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY))
             return
         }
 
-        w = View.MeasureSpec.getSize(widthMeasureSpec)
-        h = View.MeasureSpec.getSize(heightMeasureSpec)
+        w = MeasureSpec.getSize(widthMeasureSpec)
+        h = MeasureSpec.getSize(heightMeasureSpec)
 
 
         if (mirrorViewAvailable() && !mirrorView_2_Available())
@@ -116,21 +127,9 @@ class LayoutMirrorSize @JvmOverloads constructor(context: Context, attrs: Attrib
 
         }
 
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY))
+        super.onMeasure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY))
 
 
-    }
-
-    companion object {
-
-        val MODE_BIGGER_WH = 1
-        val MODE_SMALLER_WH = 2
-        val MODE_WHOM_BIGGER_W = 3
-        val MODE_WHOM_SMALLER_W = 4
-        val MODE_WHOM_BIGGER_H = 5
-        val MODE_WHOM_SMALLER_H = 6
-        val MODE_USE_1_IF_NO_ZERO = 7
-        val MODE_USE_2_IF_NO_ZERO = 8
     }
 
 }

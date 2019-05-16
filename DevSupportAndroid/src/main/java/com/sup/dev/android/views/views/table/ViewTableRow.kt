@@ -30,13 +30,13 @@ class ViewTableRow constructor(val vTable: ViewTable) : LinearLayout(vTable.cont
     fun resetCellMinSizes() {
         for (i in 0 until getCellCount()) getCell(i).resetMinSizes()
     }
-
-    private fun getCell(index: Int) = getChildAt(index) as ViewTableCell
-
     //
     //  Getters
     //
 
+    fun getCell(index: Int) = getChildAt(index) as ViewTableCell
+
     fun getCellCount() = childCount
+
 
 }

@@ -72,14 +72,14 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
-        if (params.width == FrameLayout.LayoutParams.WRAP_CONTENT && params.height == FrameLayout.LayoutParams.WRAP_CONTENT) {
+        if (params.width == LayoutParams.WRAP_CONTENT && params.height == LayoutParams.WRAP_CONTENT) {
             params.width = ToolsView.dpToPx(48).toInt()
             params.height = ToolsView.dpToPx(48).toInt()
         }
 
-        if (params.width > 0 && params.height == FrameLayout.LayoutParams.WRAP_CONTENT)
+        if (params.width > 0 && params.height == LayoutParams.WRAP_CONTENT)
             params.height = params.width
-        if (params.height > 0 && params.width == FrameLayout.LayoutParams.WRAP_CONTENT) params.width = params.height
+        if (params.height > 0 && params.width == LayoutParams.WRAP_CONTENT) params.width = params.height
 
         super.setLayoutParams(params)
 
@@ -112,7 +112,7 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vChip.setBackgroundColor(color)
     }
 
-    override fun setOnClickListener(l: View.OnClickListener?) {
+    override fun setOnClickListener(l: OnClickListener?) {
         vTouch.setOnClickListener(l)
         vTouch.isClickable = l != null
     }

@@ -124,9 +124,7 @@ open class Settings @JvmOverloads constructor(
 
     fun setEnabledSubSettings(enabled: Boolean) {
         isSubSettingsEnabled = enabled
-        if (subSettings != null)
-            for (settings in subSettings!!)
-                settings.isEnabled = isSubSettingsEnabled && isEnabled
+        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
     fun setLineVisible(b: Boolean) {
@@ -140,9 +138,7 @@ open class Settings @JvmOverloads constructor(
         vTitle?.isEnabled = enabled
         vSubtitle?.isEnabled = enabled
         setEnabledSubSettings(enabled)
-        if (subSettings != null)
-            for (settings in subSettings!!)
-                settings.isEnabled = isSubSettingsEnabled && isEnabled
+        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
     override fun setOnClickListener(l: OnClickListener?) {

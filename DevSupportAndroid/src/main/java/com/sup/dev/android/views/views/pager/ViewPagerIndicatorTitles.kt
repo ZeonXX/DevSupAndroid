@@ -83,7 +83,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
             val v = getChildAt(i)
             measureChild(v, widthMeasureSpec, heightMeasureSpec)
         }
-        super.onMeasure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48).toInt(), View.MeasureSpec.EXACTLY))
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48).toInt(), MeasureSpec.EXACTLY))
     }
 
     @MainThread

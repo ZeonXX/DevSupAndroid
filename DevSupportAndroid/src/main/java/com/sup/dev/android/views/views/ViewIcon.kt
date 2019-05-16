@@ -152,12 +152,12 @@ class ViewIcon @JvmOverloads constructor(
         updateIcon()
     }
 
-    override fun setOnTouchListener(l: View.OnTouchListener?) {
+    override fun setOnTouchListener(l: OnTouchListener?) {
         super.setOnTouchListener(l)
         if (l == null) animationFocus.resetTouchListener()
     }
 
-    override fun setOnFocusChangeListener(l: View.OnFocusChangeListener?) {
+    override fun setOnFocusChangeListener(l: OnFocusChangeListener?) {
         super.setOnFocusChangeListener(l)
         if (l == null) animationFocus.resetOnFocusChangedListener()
     }
