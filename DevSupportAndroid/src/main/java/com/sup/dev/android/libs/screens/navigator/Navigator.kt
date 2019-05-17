@@ -3,7 +3,6 @@ package com.sup.dev.android.libs.screens.navigator
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
-import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.callbacks.CallbacksList2
 import java.util.ArrayList
 
@@ -54,7 +53,7 @@ object Navigator {
             } else {
                 getCurrent()!!.onPause()
             }
-            if (screen.isSingleInstanceInBackstack) {
+            if (screen.isSingleInstanceInBackStack) {
                 removeAll(screen.javaClass)
             }
         }

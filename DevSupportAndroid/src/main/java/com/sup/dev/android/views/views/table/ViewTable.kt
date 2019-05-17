@@ -40,6 +40,9 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         for (i in 0 until count) createRow(right)
     }
 
+    fun clear(){
+        removeAllViews()
+    }
 
     //
     //  Setters

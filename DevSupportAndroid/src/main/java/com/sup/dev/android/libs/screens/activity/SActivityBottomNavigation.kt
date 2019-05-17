@@ -67,7 +67,7 @@ abstract class SActivityBottomNavigation : SActivity() {
             screenBottomNavigationVisible = screen.isBottomNavigationVisible
             screenBottomNavigationAllowed = screen.isBottomNavigationAllowed
             screenBottomNavigationAnimation = screen.isBottomNavigationAnimation
-            screenBottomNavigationShadowAvailable = screen.isBottomNavigationShadowAvliable
+            screenBottomNavigationShadowAvailable = screen.isBottomNavigationShadowAvailable
             updateNavigationVisible()
         }
     }

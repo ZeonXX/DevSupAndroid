@@ -29,8 +29,8 @@ open class Screen(
     var isBottomNavigationVisible = true
     var isBottomNavigationAllowed = true
     var isBottomNavigationAnimation = true
-    var isBottomNavigationShadowAvliable = true
-    var isSingleInstanceInBackstack = false
+    var isBottomNavigationShadowAvailable = true
+    var isSingleInstanceInBackStack = false
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 
