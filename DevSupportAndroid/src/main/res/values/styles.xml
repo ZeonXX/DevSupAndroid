@@ -347,6 +347,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="TextInputLayout.Outlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxBackgroundColor">@color/focus</item>
+    </style>
+
     <style name="Field">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
