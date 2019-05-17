@@ -40,8 +40,6 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         for (i in 0 until count) createRow(right)
     }
 
-    private fun getRow(index: Int) = getChildAt(index) as ViewTableRow?
-
 
     //
     //  Setters
@@ -82,7 +80,7 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     fun getCell(rowIndex: Int, columnIndex: Int): ViewTableCell? {
         val row = getRow(rowIndex)
-        if(row == null) return null
+        if (row == null) return null
         return row.getCell(columnIndex)
     }
 
@@ -99,5 +97,9 @@ class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     fun getMinCellW() = minCellW
 
     fun getMinCellH() = minCellH
+
+    fun getRow(index: Int) = getChildAt(index) as ViewTableRow?
+
+    fun getColumnCells(index: Int) = Array(getRowsCount()) { getRow(it)!!.getCell(index)!! }
 
 }
