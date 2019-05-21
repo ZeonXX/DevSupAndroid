@@ -20,7 +20,6 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
 
-
 class SImageView private constructor()
     : Screen(R.layout.screen_image_view) {
 
