@@ -49,14 +49,16 @@ object SupAndroid {
     var appContext: Context? = null
     var activity: SActivity? = null
     var activityIsVisible = false
+    var appId = ""
 
     fun initEditMode(view: View) {
         if (!view.isInEditMode) return
         editMode = true
-        init(view.context)
+        init(view.context, "")
     }
 
-    fun init(appContext: Context) {
+    fun init(appContext: Context, appId:String) {
+        this.appId = appId
         SupAndroid.appContext = appContext
 
         ToolsThreads.onMain = { onNextTime, runnable ->

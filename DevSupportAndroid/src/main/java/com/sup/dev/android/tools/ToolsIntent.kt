@@ -110,7 +110,7 @@ object ToolsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
-    fun shareImage(bitmap: Bitmap, text: String, providerKey: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
+    fun shareImage(bitmap: Bitmap, text: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
 
         val files = File(cashRoot).listFiles()
         if (files != null)
@@ -137,7 +137,7 @@ object ToolsIntent {
             SupAndroid.activity!!.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity!!, providerKey, file))
+                    .putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(SupAndroid.activity!!, "${SupAndroid.appId}.fileprovider", file))
                     .putExtra(Intent.EXTRA_TEXT, text)
                     .setType("image/*"), null))
         } catch (ex: ActivityNotFoundException) {
@@ -147,13 +147,13 @@ object ToolsIntent {
 
     }
 
-    fun shareFile(patch: String, providerKey: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
-        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
+    fun shareFile(patch: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
+        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, "${SupAndroid.appId}.fileprovider", File(patch))
         shareFile(fileUti, onActivityNotFound)
     }
 
-    fun shareFile(patch: String, providerKey: String, type: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
-        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, providerKey, File(patch))
+    fun shareFile(patch: String, type: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
+        val fileUti = FileProvider.getUriForFile(SupAndroid.appContext!!, "${SupAndroid.appId}.fileprovider", File(patch))
         shareFile(fileUti, type, onActivityNotFound)
     }
 

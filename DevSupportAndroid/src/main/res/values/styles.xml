@@ -121,7 +121,10 @@
     </style>
 
     <style name="Icon.Shadow">
-        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
         <item name="ViewIcon_background">@color/focus_dark</item>
         <item name="android:layout_gravity">right|top</item>
     </style>
