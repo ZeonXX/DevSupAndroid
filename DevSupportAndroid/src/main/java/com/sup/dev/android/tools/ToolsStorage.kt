@@ -13,7 +13,6 @@ import java.io.FileOutputStream
 import android.content.Intent
 import android.net.Uri
 
-
 object ToolsStorage {
 
     var externalFileNamePrefix = "f"

@@ -100,6 +100,12 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     }
 
     //
+    //  Getters
+    //
+
+    fun getAdapterCards() = adapter
+
+    //
     //  Setters
     //
 

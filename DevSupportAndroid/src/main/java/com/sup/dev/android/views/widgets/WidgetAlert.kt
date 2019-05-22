@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.widgets
 
+import android.graphics.Bitmap
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
@@ -113,6 +114,12 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     fun setTitleImage(image: Int): WidgetAlert {
         vTopContainer.visibility = if (image > 0) View.VISIBLE else View.GONE
+        ToolsView.setImageOrGone(vTopImage, image)
+        return this
+    }
+
+    fun setTitleImage(image: Bitmap?): WidgetAlert {
+        vTopContainer.visibility = if (image != null) View.VISIBLE else View.GONE
         ToolsView.setImageOrGone(vTopImage, image)
         return this
     }
