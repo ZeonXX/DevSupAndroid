@@ -335,7 +335,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     @JvmOverloads
     fun setEmptyMessage(message: String?, button: String? = null, onAction: () -> Unit = {}): RecyclerCardAdapterLoading<K, V> {
-        actionEnabled = true
+        actionEnabled = message != null
         cardLoading.setActionMessage(message)
         cardLoading.setActionButton(button) { card -> onAction.invoke() }
         return this

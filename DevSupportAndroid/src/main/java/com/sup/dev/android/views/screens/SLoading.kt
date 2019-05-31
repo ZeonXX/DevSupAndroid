@@ -128,7 +128,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         this.stateS = state
 
         if (vAppBar != null && vEmptySubContainer == null) {
-            (vMessageContainer.layoutParams as FrameLayout.LayoutParams).topMargin = (vAppBar!!.height / 1.8f).toInt()
+            (vMessageContainer.layoutParams as LayoutParams).topMargin = (vAppBar!!.height / 1.8f).toInt()
         }
 
         if (state == State.PROGRESS) {
