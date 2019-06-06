@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/vRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Root">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.sup.dev.android.views.views.cropper.ViewCropImage
+            android:id="@+id/vCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/vAll"
+            style="@style/Fab"
+            android:layout_marginRight="96dp"
+            android:src="@drawable/ic_fullscreen_white_24dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            style="@style/Fab"
+            android:src="@drawable/ic_check_white_24dp"/>
+
+        <com.sup.dev.android.views.views.ViewIcon
+            style="@style/Icon.Shadow.Back"/>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
