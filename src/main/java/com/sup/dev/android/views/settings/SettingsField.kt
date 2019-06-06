@@ -3,40 +3,37 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.StringRes
-import com.google.android.material.textfield.TextInputLayout
+import android.support.annotation.StringRes
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
-import com.sup.dev.android.views.views.ViewEditText
+import com.sup.dev.android.views.views.ViewCircleImage
+import com.sup.dev.android.views.views.ViewEditTextMedia
+import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.Debug
+
 
 class SettingsField constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : Settings(context, attrs, R.layout.settings_field) {
 
-    companion object{
-        var GLOBAL_TRANSPARENT_BACKGROUND = false
-    }
-
-    val vField: ViewEditText = findViewById(R.id.vDevSupField)
+    val vIcon: ViewCircleImage = findViewById(R.id.vDevSupIcon)
+    val vField: ViewEditTextMedia = findViewById(R.id.vDevSupField)
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
     private var isError: Boolean = false
-    private var checker: ((String) -> String?)? = null
+    private var checker: ((String) -> Boolean)? = null
 
     init {
 
         vField.id = View.NO_ID //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0)
-        if(a.hasValue(R.styleable.SettingsField_android_textColor)) {
-            val textColor = a.getColor(R.styleable.SettingsField_android_textColor, 0)
-            vField.setTextColor(textColor)
-        }
         val hint = a.getString(R.styleable.SettingsField_android_hint)
         val text = a.getString(R.styleable.SettingsField_Settings_text)
         val inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.inputType)
@@ -45,9 +42,7 @@ class SettingsField constructor(
         a.recycle()
 
         if (singleLine) vField.setSingleLine()
-        vField.addTextChangedListener(TextWatcherChanged { checkError() })
-        if(GLOBAL_TRANSPARENT_BACKGROUND)vField.setBackgroundColor(ToolsResources.getColor(R.color.transparent))
-        vFieldLayout.boxStrokeColor = ToolsResources.getColorAttr(R.attr.colorSecondary)
+        vField.addTextChangedListener(TextWatcherChanged { s -> checkError() })
 
         setLineVisible(false)
         setText(text)
@@ -55,7 +50,6 @@ class SettingsField constructor(
         setInputType(inputType)
         setMaxLength(maxLength)
         vField.clearFocus()
-        isFocusable = false
     }
 
     fun showKeyboard(){
@@ -74,17 +68,17 @@ class SettingsField constructor(
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var stateV = state
-        if (stateV is Bundle) {
-            val bundle = stateV as Bundle?
+        var state = state
+        if (state is Bundle) {
+            val bundle = state as Bundle?
             setText(bundle!!.getString("vText"))
-            stateV = bundle.getParcelable("SUPER_STATE")
+            state = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(stateV)
+        super.onRestoreInstanceState(state)
     }
 
-    fun checkError() {
-        if (checker != null) setError((checker!!.invoke(getText())))
+    private fun checkError() {
+        if (checker != null) setError((!checker!!.invoke(getText())))
     }
 
     //
@@ -107,14 +101,14 @@ class SettingsField constructor(
 
     fun setError(error: String?) {
         isError = error != null
-        vField.error = error
+        if (vField.error != error) vField.error = error //  Скроллит к полю при вызове метода
     }
 
     fun clearError() {
         setError(false)
     }
 
-    fun setErrorChecker(checker: (String) -> String?) {
+    fun setErrorChecker(checker: (String) -> Boolean) {
         this.checker = checker
         checkError()
     }
@@ -142,6 +136,7 @@ class SettingsField constructor(
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         vField.isEnabled = enabled
+        vFieldLayout.isEnabled = enabled
     }
 
     //

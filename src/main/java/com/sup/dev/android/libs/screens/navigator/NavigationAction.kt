@@ -54,10 +54,6 @@ class NavigationAction private constructor(private var action: (Screen) -> Unit 
         fun reorder(): NavigationAction {
             return NavigationAction { Navigator.reorder(it) }
         }
-
-        fun toBackStackOrNew(): NavigationAction {
-            return NavigationAction { Navigator.toBackStackOrNew(it) }
-        }
     }
 
 }

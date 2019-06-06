@@ -1,10 +1,10 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
-import androidx.annotation.CallSuper
-import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
+import android.support.annotation.CallSuper
+import android.support.annotation.DrawableRes
+import android.support.annotation.LayoutRes
+import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -24,15 +24,12 @@ open class Settings @JvmOverloads constructor(
         @LayoutRes layoutRes: Int = R.layout.settings_action
 ) : FrameLayout(context, attrs) {
 
-
     val view: View
-    private var isSubSettingsEnabled = true
-    private var reversSubSettingsEnabled = false
     private val line: View
-    val vIcon: ViewCircleImage?
-    val vTitle: TextView?
-    val vSubtitle: TextView?
-    val vSubViewContainer: ViewGroup?
+    private val vIcon: ViewCircleImage?
+    private val vTitle: TextView?
+    private val vSubtitle: TextView?
+    private val vSubViewContainer: ViewGroup?
 
     private var subSettings: ArrayList<Settings>? = null
 
@@ -60,7 +57,6 @@ open class Settings @JvmOverloads constructor(
         val subtitle = a.getString(R.styleable.Settings_Settings_subtitle)
         val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
         val iconBackground = a.getColor(R.styleable.Settings_Settings_icon_background, 0)
-        val iconFilter = a.getColor(R.styleable.Settings_Settings_icon_filter, 0)
         val iconPadding = a.getDimension(R.styleable.Settings_Settings_icon_padding, ToolsView.dpToPx(6))
         a.recycle()
 
@@ -70,7 +66,6 @@ open class Settings @JvmOverloads constructor(
         setIcon(icon)
         setIconBackground(iconBackground)
         setIconPaddingPx(iconPadding)
-        setIconFilter(iconFilter)
     }
 
     //
@@ -83,11 +78,11 @@ open class Settings @JvmOverloads constructor(
             vSubViewContainer?.addView(view)
     }
 
-    open fun setTitle(@StringRes titleRes: Int) {
+    fun setTitle(@StringRes titleRes: Int) {
         setTitle(ToolsResources.s(titleRes))
     }
 
-    open fun setTitle(title: String?) {
+    fun setTitle(title: String?) {
         vTitle?.text = title
         vTitle?.visibility = if (title != null && title.isNotEmpty()) View.VISIBLE else View.GONE
     }
@@ -99,10 +94,6 @@ open class Settings @JvmOverloads constructor(
     fun setSubtitle(subtitle: String?) {
         vSubtitle?.text = subtitle
         vSubtitle?.visibility = if (subtitle != null && subtitle.isNotEmpty()) View.VISIBLE else View.GONE
-    }
-
-    fun setSubtitleColor(color: Int) {
-        vSubtitle?.setTextColor(color)
     }
 
     fun setIcon(@DrawableRes icon: Int) {
@@ -125,32 +116,19 @@ open class Settings @JvmOverloads constructor(
         vIcon?.setBackgroundColor(color)
     }
 
-    fun setIconFilter(color: Int) {
-        vIcon?.setColorFilter(color)
-    }
-
     fun addSubSettings(settings: Settings) {
         if (subSettings == null) subSettings = ArrayList()
         subSettings!!.add(settings)
         settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
-    fun setReversSubSettingsEnabled(reversSubSettingsEnabled: Boolean) {
-        this.reversSubSettingsEnabled = reversSubSettingsEnabled
-        setEnabledSubSettings(isEnabled)
-    }
-
     fun setEnabledSubSettings(enabled: Boolean) {
         isSubSettingsEnabled = enabled
-        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = if (reversSubSettingsEnabled) !(isSubSettingsEnabled && isEnabled) else (isSubSettingsEnabled && isEnabled)
+        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
     fun setLineVisible(b: Boolean) {
         line.visibility = if (b) View.VISIBLE else View.GONE
-    }
-
-    fun setSubSettingsEnabled(isSubSettingsEnabled: Boolean) {
-        this.isSubSettingsEnabled = isSubSettingsEnabled
     }
 
     @CallSuper
@@ -168,18 +146,12 @@ open class Settings @JvmOverloads constructor(
         view.isFocusable = l != null
     }
 
-    override fun setOnLongClickListener(l: OnLongClickListener?) {
-        view.setOnLongClickListener(l)
-        view.isFocusable = l != null
-    }
-
 
     //
     //  Getters
     //
 
-    fun getTitle() = vTitle?.text ?: ""
-
-    fun isSubSettingsEnabled() = isSubSettingsEnabled
+    var isSubSettingsEnabled = true
+        private set
 
 }

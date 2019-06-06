@@ -31,7 +31,6 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
         setMedia(Uri.parse(mediaUri))
     }
 
-    @Suppress("DEPRECATION")
     fun setMedia(mediaUri: Uri) {
         try {
 
@@ -104,7 +103,6 @@ class UtilsMediaPlayer : MediaPlayer.OnPreparedListener {
         if (mediaPlayer != null) mediaPlayer!!.isLooping = looping
     }
 
-    @Suppress("DEPRECATION")
     fun setAudioStreamType(streamType: Int) {
         this.streamType = streamType
         if (mediaPlayer != null) mediaPlayer!!.setAudioStreamType(streamType)

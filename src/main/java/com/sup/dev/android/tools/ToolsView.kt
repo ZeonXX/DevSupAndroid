@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.sup.dev.android.tools
 
 import android.animation.Animator
@@ -9,191 +7,53 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.text.*
-import android.text.method.LinkMovementMethod
+import android.support.annotation.ColorInt
+import android.support.annotation.ColorRes
+import android.support.annotation.LayoutRes
+import android.support.design.widget.FloatingActionButton
+import android.support.v4.view.animation.FastOutLinearInInterpolator
+import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import android.support.v7.widget.RecyclerView
+import android.text.Html
+import android.text.Selection
+import android.text.Spannable
+import android.text.Spanned
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
-import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
-import androidx.core.view.TintableBackgroundView
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
-import com.sup.dev.android.views.views.ViewText
-import com.sup.dev.android.views.splash.SplashProgressTransparent
-import com.sup.dev.android.views.splash.SplashProgressWithTitle
+import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.widgets.WidgetProgressTransparent
+import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
-import java.lang.ref.WeakReference
-import java.util.*
 import java.util.regex.Pattern
+
 
 object ToolsView {
 
     val ANIMATION_TIME = 300
-    val ANIMATION_TIME_FASE = 200
 
-    fun disableScrollViewJump(vScroll:ViewGroup){//    Убирает автоскролл к выделенному полю в ScrollView при клике на другие виджеты.
-        vScroll.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-        vScroll.isFocusable = true
-        vScroll.isFocusableInTouchMode = true
-        vScroll.setOnTouchListener { v, event ->
-            v.requestFocus(View.FOCUS_DOWN)
-            false
-        }
-    }
-
-    fun getSelectionPosition(vFiled: EditText): Point {
-        val pos = vFiled.selectionStart
-        val layout = vFiled.layout
-        val line = layout.getLineForOffset(pos)
-        val baseline = layout.getLineBaseline(line)
-        val ascent = layout.getLineAscent(line)
-
-        val point = Point()
-        point.x = layout.getPrimaryHorizontal(pos).toInt() - vFiled.scrollX
-        point.y = baseline + ascent - vFiled.scrollY
-
-        return point
-    }
-
-    fun onSelectionChanged(vFiled: EditText,onChanged: () -> Unit) {
-        onSelectionChanged(WeakReference(vFiled), onChanged)
-    }
-
-    private fun onSelectionChanged(vFiled: WeakReference<EditText>, onChanged: () -> Unit) {
-
-        val item = Item(vFiled.get()?.selectionEnd?:0)
-        vFiled.get()?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val get = vFiled.get()?:return
-                if(item.a != get.selectionEnd){
-                    item.a = get.selectionEnd
-                    onChanged.invoke()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-        })
-
-        ToolsThreads.timerMain(200){
-            val get = vFiled.get()
-            if(get == null){
-                it.unsubscribe()
-                return@timerMain
-            }
-            if(item.a != get.selectionEnd){
-                item.a = get.selectionEnd
-                onChanged.invoke()
-            }
-        }
-
-    }
-
-    fun jumpToWithAnimation(vRecycler: RecyclerView, position: Int, animationArg: Float = 5f) {
-        val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(vRecycler.context) {
-
-            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
-                return super.calculateSpeedPerPixel(displayMetrics) * animationArg
-            }
-
-            override fun getVerticalSnapPreference(): Int {
-                return SNAP_TO_START
-            }
-        }
-        smoothScroller.targetPosition = position
-        vRecycler.layoutManager?.startSmoothScroll(smoothScroller)
-    }
-
-    fun scrollRecyclerSmooth(vRecycler: RecyclerView, position: Int) {
-        if (vRecycler.adapter == null || vRecycler.adapter!!.itemCount == 0) return
-        if (position >= vRecycler.adapter!!.itemCount) vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
-        else if (position < 0) vRecycler.smoothScrollToPosition(0)
-        else vRecycler.smoothScrollToPosition(position)
-    }
-
-    fun scrollRecycler(vRecycler: RecyclerView, position: Int) {
-        if (vRecycler.adapter == null || vRecycler.adapter!!.itemCount == 0) return
-        if (position >= vRecycler.adapter!!.itemCount) vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
-        else if (position < 0) vRecycler.scrollToPosition(0)
-        else vRecycler.scrollToPosition(position)
-    }
-
-    fun addLink(vText: ViewText, link: String, color:Int?=null, onClick: () -> Unit) {
-        val text = vText.text.toString()
-        val index = text.indexOf(link)
-
-        if (index == -1) return
-
-        val span = if (vText.text is Spannable) vText.text as Spannable else Spannable.Factory.getInstance().newSpannable(text)
-        span.setSpan(object : ClickableSpan() {
-            override fun onClick(v: View) {
-                onClick.invoke()
-            }
-        }, index, index + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        if(color != null) span.setSpan(ForegroundColorSpan(color), index, index + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-
-        vText.text = span
-        makeLinksClickable(vText)
-    }
-
-    @Suppress("DEPRECATION")
-    fun makeTextHtml(vText: TextView) {
-        vText.text = Html.fromHtml(vText.text.toString())
-    }
-
-    fun setRecyclerAnimation(vRecycler: RecyclerView) {
-        vRecycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(vRecycler.context, R.anim.layout_animation_slide_from_bottom)
-    }
-
-    fun onFieldEnterKey(vFiled: EditText, callback: () -> Unit) {
-        vFiled.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == 6 || actionId == 5) {
+    fun onFieldEnterKey(vFiled:EditText, callback:()->Unit){
+        vFiled.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode==KeyEvent.KEYCODE_ENTER)) {
                 callback.invoke()
-                true
-            } else {
-                false
+                return@OnKeyListener true
             }
-        }
-    }
-
-    fun setNavigationBarColor(window: Window, color: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = color
-        }
-    }
-
-    fun makeNotFullscreen(activity: Activity) {
-        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            false
+        })
     }
 
     fun makeHalfFullscreen(activity: Activity) {
@@ -213,7 +73,7 @@ object ToolsView {
     }
 
     @JvmOverloads
-    fun setFabEnabled(vFab: FloatingActionButton, enabled: Boolean, @ColorInt colorEnabled: Int = ToolsResources.getSecondaryColor(vFab.context)) {
+    fun setFabEnabled(vFab: FloatingActionButton, enabled: Boolean, @ColorInt colorEnabled: Int = ToolsResources.getAccentColor(vFab.context)) {
         vFab.isEnabled = enabled
         setFabColor(vFab, if (enabled) colorEnabled else ToolsResources.getColor(R.color.grey_700))
     }
@@ -226,12 +86,10 @@ object ToolsView {
         vFab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
-    fun makeLinksClickable(vText: ViewText) {
-        vText.setLinkTextColor(ToolsResources.getSecondaryColor(vText.context))
-        Linkify.addLinks(vText, Pattern.compile("[a-z]+:\\/\\/[^ \\n]*"), "")
-
-        val m = vText.movementMethod
-        if (m == null || m !is LinkMovementMethod) if (vText.linksClickable) vText.movementMethod = LinkMovementMethod.getInstance()
+    fun makeLinksClickable(vText: ViewTextLinkable) {
+        vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
+        val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
+        Linkify.addLinks(vText, httpPattern, "")
     }
 
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {
@@ -247,25 +105,25 @@ object ToolsView {
         })
     }
 
-    fun <K : View> removeFromParent(view: K): K {
+    fun removeFromParent(view: View): View {
         if (view.parent != null) (view.parent as ViewGroup).removeView(view)
         return view
     }
 
-    fun showProgressDialog(): SplashProgressTransparent {
-        val widget = SplashProgressTransparent().setCancelable(false)
-        ToolsThreads.main { widget.asDialogShow() }
+    fun showProgressDialog(): WidgetProgressTransparent {
+        val widget = WidgetProgressTransparent().setCancelable(false)
+        ToolsThreads.main {  widget.asDialogShow() }
         return widget
     }
 
-    fun showProgressDialog(title: Int): SplashProgressWithTitle {
+    fun showProgressDialog(title: Int): WidgetProgressWithTitle {
         return showProgressDialog(ToolsResources.s(title))
     }
 
-    fun showProgressDialog(title: String?): SplashProgressWithTitle {
-        val splash: SplashProgressWithTitle = SplashProgressWithTitle().setTitle(title).setCancelable(false) as SplashProgressWithTitle
-        ToolsThreads.main { splash.asSheetShow() }
-        return splash
+    fun showProgressDialog(title: String?): WidgetProgressWithTitle {
+        val widget: WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
+        ToolsThreads.main {  widget.asSheetShow() }
+        return widget
     }
 
     fun setImageOrGone(vImage: ImageView, bitmap: Bitmap?) {
@@ -291,27 +149,26 @@ object ToolsView {
         vText.visibility = if (ToolsText.empty(text)) GONE else VISIBLE
     }
 
-    fun setOnClickAndLongClickCoordinates(v: View, onClick: (ClickEvent) -> Unit, onLongClick: (ClickEvent) -> Unit) {
+    fun setOnClickAndLongClickCoordinates(v: View, onClick: (View, Int, Int, Boolean) -> Unit) {
 
-        val clickScreenX = Item(0f)
-        val clickScreenY = Item(0f)
+        val clickScreenX = Item(0)
+        val clickScreenY = Item(0)
 
 
-        v.setOnTouchListener { _, event ->
-            clickScreenX.a = event.x
-            clickScreenY.a = event.y
+        v.setOnTouchListener { v1, event ->
+            clickScreenX.a = event.x.toInt()
+            clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnClickListener { onClick.invoke(ClickEvent(v, clickScreenX.a, clickScreenY.a)) }
-        v.setOnLongClickListener {
-            onLongClick.invoke(ClickEvent(v, clickScreenX.a, clickScreenY.a))
+        v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a, true) }
+        v.setOnLongClickListener { v1 ->
+            onClick.invoke(v, clickScreenX.a, clickScreenY.a, false)
             true
         }
 
-    }
 
-    class ClickEvent(val view:View, val x:Float, val y:Float)
+    }
 
     fun setOnClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
 
@@ -319,37 +176,39 @@ object ToolsView {
         val clickScreenY = Item(0)
 
 
-        v.setOnTouchListener { _, event ->
+        v.setOnTouchListener { v1, event ->
             clickScreenX.a = event.x.toInt()
             clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnClickListener { onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
+        v.setOnClickListener { v1 -> onClick.invoke(v, (if (clickScreenX.a == null) 0 else clickScreenX.a)!!, (if (clickScreenY.a == null) 0 else clickScreenY.a)!!) }
+
+
     }
 
-    fun setOnLongClickCoordinates(v: View, onClick: (View, Float, Float) -> Unit) {
+    fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
 
-        val clickScreenX = Item(0f)
-        val clickScreenY = Item(0f)
+        val clickScreenX = Item(0)
+        val clickScreenY = Item(0)
 
-        v.setOnTouchListener { _, event ->
-            clickScreenX.a = event.x
-            clickScreenY.a = event.y
+        v.setOnTouchListener { v1, event ->
+            clickScreenX.a = event.x.toInt()
+            clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnLongClickListener {
+        v.setOnLongClickListener { v1 ->
             onClick.invoke(v, clickScreenX.a, clickScreenY.a)
             true
         }
     }
 
-    fun viewPointAsScreenPoint(view: View, x: Float, y: Float): Array<Int> {
+    fun viewPointAsScreenPoint(view: View, x: Int, y: Int): Array<Int> {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        location[0] = location[0] + x.toInt()
-        location[1] = location[1] + y.toInt()
+        location[0] = location[0] + x
+        location[1] = location[1] + y
         return location.toTypedArray()
     }
 
@@ -374,8 +233,8 @@ object ToolsView {
         return LayoutInflater.from(viewContext).inflate(res, null, false) as K
     }
 
-    fun <K : View> inflate(parent: ViewGroup, @LayoutRes res: Int): K {
-        return LayoutInflater.from(parent.context).inflate(res, parent, false) as K
+    fun inflate(parent: ViewGroup, @LayoutRes res: Int): View {
+        return LayoutInflater.from(parent.context).inflate(res, parent, false)
     }
 
     fun getRootParent(v: View): ViewGroup? {
@@ -447,7 +306,7 @@ object ToolsView {
     }
 
     fun showKeyboard(view: View) {
-        ToolsThreads.main {
+        ToolsThreads.main(350) {
             view.requestFocus()
             val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
@@ -553,45 +412,6 @@ object ToolsView {
         v.animate()
                 .alpha(alpha)
                 .setDuration(time).interpolator = LinearOutSlowInInterpolator()
-    }
-
-    //
-    //  State color
-    //
-
-    fun setStateColorForText(view: TintableBackgroundView, states: Array<IntArray>, colors: IntArray) {
-        setStateColor(view, states, false, true, colors)
-    }
-
-    fun setStateColorForBackground(view: TintableBackgroundView, states: Array<IntArray>, colors: IntArray) {
-        setStateColor(view, states, true, false, colors)
-    }
-
-    fun setStateColor(view: TintableBackgroundView, states: Array<IntArray>, forBack: Boolean, forText: Boolean, colors: IntArray) {
-        var colorsArr: IntArray = colors
-        if (states.size > colors.size && colors.size == 1) {
-            colorsArr = IntArray(states.size)
-            Arrays.fill(colorsArr, colors[0])
-        }
-        val colorStateList = ColorStateList(states, colorsArr)
-        if (forBack) view.supportBackgroundTintList = colorStateList
-        if (forText && view is TextView) (view as TextView).setTextColor(colorStateList)
-    }
-
-    fun setStateColors(view: TintableBackgroundView, states: Array<IntArray>, colorsBack: IntArray, colorsText: IntArray) {
-        setStateColorForBackground(view, states, colorsBack)
-        setStateColorForText(view, states, colorsText)
-    }
-
-    fun getTextColorForState(view: TintableBackgroundView, state: Int): Int {
-        if (view !is TextView) throw IllegalArgumentException("View must be instance of TextView")
-        val colorStateList = (view as TextView).textColors
-        return colorStateList.getColorForState(intArrayOf(state), colorStateList.defaultColor)
-    }
-
-    fun getColorForState(view: TintableBackgroundView, state: Int): Int {
-        val colorStateList: ColorStateList? = view.supportBackgroundTintList
-        return colorStateList?.getColorForState(intArrayOf(state), colorStateList.defaultColor) ?: 0
     }
 
 }

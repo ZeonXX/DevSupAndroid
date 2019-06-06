@@ -11,6 +11,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 
+
 class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private val paint: Paint
@@ -24,7 +25,7 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
 
         SupAndroid.initEditMode(this)
         colorBackground = ToolsResources.getColor(R.color.focus)
-        colorProgress = ToolsResources.getSecondaryColor(context)
+        colorProgress = ToolsResources.getAccentColor(context)
 
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewProgressLine, 0, 0)
@@ -67,7 +68,7 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
         if (progressPercent > 0) {
             paint.color = colorProgress
 
-            val end = (width - r) / 100f * (if (progressPercent > 100) 100f else progressPercent)
+            val end = (width - r) / 100f * progressPercent
 
             canvas.drawCircle(r.toFloat(), r.toFloat(), r.toFloat(), paint)
             if (end > r) {

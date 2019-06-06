@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.view.View
 import android.widget.CheckBox
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
+
 
 class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
@@ -22,7 +24,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     init {
 
         vCheckBox.isFocusable = false
-        vCheckBox.setOnCheckedChangeListener { _, b ->
+        vCheckBox.setOnCheckedChangeListener { v, b ->
             setEnabledSubSettings(b)
             if (!salient) onClick()
         }
@@ -34,7 +36,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         setChecked(checked)
         setSubView(vCheckBox)
 
-        super.setOnClickListener {
+        super.setOnClickListener { v ->
             salient = true
             vCheckBox.isChecked = !vCheckBox.isChecked
             salient = false
@@ -59,15 +61,15 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var stateV = state
-        if (stateV is Bundle) {
-            val bundle = stateV as Bundle?
+        var state = state
+        if (state is Bundle) {
+            val bundle = state as Bundle?
             salient = true
             setChecked(bundle!!.getBoolean("checked"))
             salient = false
-            stateV = bundle.getParcelable("SUPER_STATE")
+            state = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(stateV)
+        super.onRestoreInstanceState(state)
     }
 
     //
@@ -80,8 +82,8 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         salient = false
     }
 
-    override fun setOnClickListener(l: OnClickListener?) {
-        this.onClickListener = l
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
+        this.onClickListener = onClickListener
     }
 
     override fun setEnabled(enabled: Boolean) {

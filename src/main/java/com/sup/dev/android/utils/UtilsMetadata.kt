@@ -3,7 +3,7 @@ package com.sup.dev.android.utils
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Build
-import androidx.annotation.RequiresApi
+import android.support.annotation.RequiresApi
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.java.libs.debug.info
 
@@ -65,7 +65,7 @@ class UtilsMetadata(var retriever: MediaMetadataRetriever? = null) {
     }
 
     fun getDurationMs(): Int {
-        return Integer.parseInt(retriever!!.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?:"0")
+        return Integer.parseInt(retriever!!.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
     }
 
     fun getTrackCount(): Int {

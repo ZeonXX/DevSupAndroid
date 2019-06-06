@@ -1,30 +1,29 @@
-﻿package com.sup.dev.android.libs.screens.activity
+package com.sup.dev.android.libs.screens.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.models.EventActivityPause
-import com.sup.dev.android.models.EventActivityResume
-import com.sup.dev.android.models.EventConfigurationChanged
-import com.sup.dev.android.tools.*
-import com.sup.dev.android.views.splash.view.SplashView
-import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.android.tools.ToolsIntent
+import com.sup.dev.android.tools.ToolsPermission
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
+import java.util.*
+import android.os.Build
+import com.sup.dev.android.R
+import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -32,98 +31,59 @@ abstract class SActivity : AppCompatActivity() {
         var onUrlClicked: ((String) -> Unit)? = null
     }
 
-    var started = false
+    var started: Boolean = false
 
-    var isFullScreen = false
-    var screenStatusBarIsLight = 0
-    var screenStatusBarColor = 0
-
-    var vActivityRoot: View? = null
+    protected var vActivityRoot: View? = null
     var vActivityDrawAnimations: ViewDrawAnimations? = null
-    var vActivityContainer: ViewGroup? = null
-    var vSplashContainer: ViewGroup? = null
-    var vActivityTouchLock: View? = null
-    var parseNotifications = true
-    var type = getNavigationType()
+    protected var vActivityContainer: ViewGroup? = null
+    protected var vActivityTouchLock: View? = null
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
-        Navigator.currentStack.clear()
         SupAndroid.activity = this
-        SupAndroid.activityIsDestroy = false
 
         applyTheme()
 
-        setContentView(type.getLayout())
+        setContentView(getLayout())
         vActivityRoot = findViewById(R.id.vActivityRoot)
         vActivityDrawAnimations = findViewById(R.id.vActivityDrawAnimations)
         vActivityContainer = findViewById(R.id.vScreenActivityView)
         vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
-        vSplashContainer = findViewById(R.id.vSplashContainer)
 
         vActivityTouchLock!!.visibility = View.GONE
-
-        type.onCreate()
-
-        ToolsThreads.main(true) {
-            if (parseIntent(intent)) intent = Intent()
-        }
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        //  Не потдерживает востановление состояния.
-    }
-
-    protected open fun getNavigationType(): SActivityType = SActivityTypeSimple(this)
+    protected open fun getLayout() = R.layout.screen_activity
 
     override fun onStart() {
         super.onStart()
 
-        SupAndroid.activity = this  //  Активность может поменяться в случае запуска коппии активности по интенту (Например для виджетов)
         SupAndroid.activityIsVisible = true
+        Navigator.resetCurrentView()
 
         if (!started) {
             started = true
             onFirstStart()
-        } else {
-            if (vActivityContainer?.childCount == 0) Navigator.resetCurrentView()
-            else Navigator.getCurrent()?.onResume()
         }
+
         if (Navigator.getStackSize() == 0) toMainScreen()
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        Navigator.onActivityPaused()
-        EventBus.post(EventActivityPause())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Navigator.onActivityResumed()
-        EventBus.post(EventActivityResume())
-    }
-
     override fun onStop() {
         super.onStop()
-        removeViews(getOldViews(Navigator.getCurrent()))
         SupAndroid.activityIsVisible = false
         Navigator.onActivityStop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        SupAndroid.activityIsDestroy = true
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        EventBus.post(EventConfigurationChanged())
+        Navigator.onActivityConfigChanged()
     }
 
     protected open fun applyTheme() {
     }
+
 
     protected open fun onFirstStart() {
 
@@ -147,14 +107,13 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        if (parseIntent(intent)) setIntent(Intent())
-    }
-
-    open fun parseIntent(intent: Intent?): Boolean {
-        if (parseNotifications && intent != null) return ToolsNotifications.parseNotification(intent)
-        return false
+    fun restart() {
+        if (Build.VERSION.SDK_INT >= 11) {
+            recreate()
+        } else {
+            finish()
+            startActivity(intent)
+        }
     }
 
     //
@@ -171,81 +130,19 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     open fun onViewBackPressed() {
-        type.onViewBackPressed()
+        onBackPressed()
     }
 
     override fun onBackPressed() {
-        if(onBackPressedSplash()) return
-        if(type.onBackPressed()) return
-        if(Navigator.parseOnBackPressedCallbacks()) return
-        onBackPressedScreen()
+        if (!Navigator.onBackPressed() && !onLastBackPressed()) {
+            started = false
+            finish()
+        }
     }
 
-    open fun onLastBackPressed(screen: Screen?): Boolean {
+    protected open fun onLastBackPressed(): Boolean {
         return false
     }
-
-    //
-    //  Splash
-    //
-
-    open fun onBackPressedSplash():Boolean{
-        if( vSplashContainer!!.childCount > 0){
-            val splash = vSplashContainer!!.getChildAt(vSplashContainer!!.childCount-1).tag as SplashView<out Any>
-            return splash.onBackPressed()
-        }
-        return false
-    }
-
-    fun addSplash(splashView: SplashView<out Any>) {
-        splashView.getView().tag = splashView
-        ToolsThreads.main {
-            if (!splashView.splash.isCompanion) ToolsView.hideKeyboard()
-            splashView.getView().visibility = View.INVISIBLE
-            if (!splashView.splash.isCompanion) {
-                vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-                getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-            }
-            vSplashContainer!!.addView(splashView.getView())
-            if (!splashView.splash.isCompanion) {
-                val navigationBarColor = splashView.getNavigationBarColor()
-                ToolsThreads.main(splashView.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
-            }
-            ToolsView.fromAlpha(splashView.getView(), splashView.animationMs.toInt()){
-                if (!splashView.splash.isCompanion) {splashView.getView().requestFocus() }
-            }
-        }
-    }
-
-    fun removeSplash(splashView: SplashView<out Any>) {
-        ToolsThreads.main {
-            if (!splashView.splash.isCompanion) {
-                ToolsView.hideKeyboard()
-                ToolsThreads.main(splashView.animationMs / 2) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 1 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
-                }
-            }
-            ToolsView.toAlpha(splashView.getView(), splashView.animationMs.toInt()) {
-                vSplashContainer!!.removeView(splashView.getView())
-                if (!splashView.splash.isCompanion) {
-                    if (vSplashContainer!!.childCount == 0) vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                    else getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                }
-            }
-            splashView.onHide()
-        }
-    }
-
-    fun getToSplash():SplashView<out Any>?{
-        if( vSplashContainer!!.childCount > 0){
-            return vSplashContainer!!.getChildAt(vSplashContainer!!.childCount - 1).tag as SplashView<out Any>
-        }
-        return null
-    }
-
-    fun isSplashShowed(splashView: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splashView.getView()) > -1
-
-    fun isTopSplash(splashView: SplashView<out Any>) = vSplashContainer!!.childCount > 0 && vSplashContainer!!.indexOfChild(splashView.getView()) == (vSplashContainer!!.childCount - 1)
 
     //
     //  Screens
@@ -253,71 +150,21 @@ abstract class SActivity : AppCompatActivity() {
 
     private var subscriptionTouchLock: Subscription? = null
 
-    open fun onBackPressedScreen(){
-        val screen = Navigator.getCurrent()
-        val b1 = Navigator.onBackPressed()
-        val b2 = b1 || onLastBackPressed(screen)
-        if (!b2) {
-            started = false
-            finish()
-        }
-    }
-
-    private fun getOldViews(screen: Screen?): ArrayList<View> {
-        val oldViews = ArrayList<View>()
-        for (i in 0 until vActivityContainer!!.childCount) if (vActivityContainer!!.getChildAt(i) != screen) oldViews.add(vActivityContainer!!.getChildAt(i))
-        return oldViews
-    }
-
-    private fun removeViews(views: ArrayList<View>) {
-        for (v in views)
-            try {
-                vActivityContainer!!.removeView(v)
-            } catch (e: IndexOutOfBoundsException) {
-                err(e)
-            }
-        views.clear()
-    }
-
-    open fun setScreen(screen: Screen?, a: Navigator.Animation, hideDialogs: Boolean) {
-        var animation = a
-        type.onSetScreen(screen)
+    open fun setScreen(screen: Screen?, animation: Navigator.Animation) {
 
         if (screen == null) {
             finish()
             return
         }
 
-        if (hideDialogs && vSplashContainer != null)
-            for (i in vSplashContainer!!.childCount - 1 downTo 0) {
-                val splash = vSplashContainer!!.getChildAt(i).tag as SplashView<out Any>
-                removeSplash(splash)
-                if (splash.isDestroyScreenAnimation()) animation = Navigator.Animation.NONE
-            }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            screenStatusBarColor = screen.statusBarColor
-            if (window.statusBarColor != screenStatusBarColor) window.statusBarColor = screenStatusBarColor
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!isFullScreen) {
-                screenStatusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
-                if (window.decorView.systemUiVisibility != screenStatusBarIsLight) window.decorView.systemUiVisibility = screenStatusBarIsLight
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = screen.navigationBarColor
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (screen.navigationBarIsLight) screen.systemUiVisibility = screen.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            else screen.systemUiVisibility = screen.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-        }
-
         ToolsView.hideKeyboard()
 
-        val oldViews = getOldViews(screen)
+        val oldViews = ArrayList<View>()
+        for (i in 0 until vActivityContainer!!.childCount) {
+            if (vActivityContainer!!.getChildAt(i) != screen) {
+                oldViews.add(vActivityContainer!!.getChildAt(i))
+            }
+        }
 
         val old = if (vActivityContainer!!.childCount == 0) null else vActivityContainer!!.getChildAt(0)
 
@@ -330,7 +177,6 @@ abstract class SActivity : AppCompatActivity() {
             ToolsView.clearAnimation(old)
             ToolsView.clearAnimation(screen)
 
-
             if (animation == Navigator.Animation.NONE) animateNone(oldViews)
             if (animation == Navigator.Animation.OUT) animateOut(screen, old, oldViews)
             if (animation == Navigator.Animation.IN) animateIn(screen, oldViews)
@@ -342,19 +188,16 @@ abstract class SActivity : AppCompatActivity() {
             vActivityTouchLock!!.visibility = View.GONE
         }
 
-        vActivityRoot?.setBackgroundColor(screen.activityRootBackground)
-
-        type.updateIcons()
     }
 
     private fun animateNone(oldViews: ArrayList<View>) {
-        removeViews(oldViews)
+        for (v in oldViews) vActivityContainer!!.removeView(v)
     }
 
     private fun animateAlpha(screen: Screen, old: View, oldViews: ArrayList<View>) {
         screen.visibility = View.INVISIBLE
         ToolsView.toAlpha(old) {
-            removeViews(oldViews)
+            for (v in oldViews) vActivityContainer!!.removeView(v)
         }
         ToolsView.fromAlpha(screen)
     }
@@ -364,7 +207,7 @@ abstract class SActivity : AppCompatActivity() {
         old.animate()
                 .alpha(0f)
                 .translationX((ToolsAndroid.getScreenW() / 3).toFloat())
-                .setDuration(200)
+                .setDuration(150)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setListener(object : AnimatorListenerAdapter() {
 
@@ -372,7 +215,7 @@ abstract class SActivity : AppCompatActivity() {
                         old.animate().setListener(null)
                         old.alpha = 1f
                         old.translationX = 0f
-                        removeViews(oldViews)
+                        for (v in oldViews) vActivityContainer!!.removeView(v)
                     }
                 })
     }
@@ -383,7 +226,7 @@ abstract class SActivity : AppCompatActivity() {
         screen.animate()
                 .alpha(1f)
                 .translationX(0f)
-                .setDuration(200)
+                .setDuration(150)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setListener(object : AnimatorListenerAdapter() {
 
@@ -391,7 +234,7 @@ abstract class SActivity : AppCompatActivity() {
                         screen.animate().setListener(null)
                         screen.alpha = 1f
                         screen.translationX = 0f
-                        removeViews(oldViews)
+                        for (v in oldViews) vActivityContainer!!.removeView(v)
                     }
                 })
     }

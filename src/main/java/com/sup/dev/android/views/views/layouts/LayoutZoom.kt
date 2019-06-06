@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.views.layouts
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
@@ -16,12 +17,16 @@ import com.sup.dev.java.classes.geometry.Point
 import com.sup.dev.java.classes.items.RangeF
 import com.sup.dev.java.tools.ToolsThreads
 
-class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+
+class LayoutZoom @SuppressLint("ClickableViewAccessibility")
+constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private val range = RangeF(1f, 4f)
 
     private var onZoom: (() -> Unit)? = null
     private var animateTimeMs = 300
+    private var doubleTouchRadius: Float = 0.toFloat()
+    var doubleTouchEnabled = true
     var boundsView: View? = null
         get() = if (field == null) if (childCount == 0) this else getChildAt(0) else field
 
@@ -41,22 +46,11 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
     private var subscriptionAnimateZoom: Subscription? = null
 
     //
-    //  Click
-    //
-
-    private val click = Point()
-    private var onClick: OnClickListener? = null
-    private var lastDownTime = 0L
-    private var clickRadius = ToolsView.dpToPx(24f)
-
-    //
     //  Double Touch
     //
 
-    var doubleTouchEnabled = true
-    private var doubleTouchRadius = ToolsView.dpToPx(24f)
     private val doubleTouch = Point()
-    private var doubleTouchTime = 0L
+    private var doubleTouchTime: Long = 0
 
     //
     //  Move
@@ -76,6 +70,7 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
     init {
 
         SupAndroid.initEditMode(this)
+        doubleTouchRadius = ToolsView.dpToPx(16f)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutZoom, 0, 0)
         range.min = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.min)
@@ -97,7 +92,7 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         onTouchEventPassed = false
         super.dispatchTouchEvent(ev)
-        if (!onTouchEventPassed) onTouchEvent(ev)
+        if(!onTouchEventPassed) onTouchEvent(ev)
         return true
     }
 
@@ -106,16 +101,11 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
         onTouchEventPassed = true
 
         if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
-            click(event.x, event.y)
             doubleTouch(event.x, event.y)
         }
 
-        if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_UP) {
-            click(event.x, event.y)
-        }
-
-        if (event.pointerCount > 1){
-            clickClear()
+        if (event.action == MotionEvent.ACTION_MOVE) {
+            clearDoubleTouch()
         }
 
         if (event.pointerCount == 1 && (event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_DOWN)) {
@@ -137,43 +127,18 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
 
         if (!doubleTouchEnabled) return
 
-        if (doubleTouchTime > System.currentTimeMillis() - 300 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
+        if (doubleTouchTime > System.currentTimeMillis() - 500 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
             animateZoom(if (zoom == 1f) (range.max - range.min) / 2 + range.min else 1F, x, y)
             doubleTouch.clear()
             doubleTouchTime = 0
-            clickClear()
         } else {
             doubleTouch.set(x, y)
             doubleTouchTime = System.currentTimeMillis()
         }
     }
 
-    private fun click(x: Float, y: Float) {
-
-        if (onClick == null) return
-
-        if (lastDownTime != 0L  && click.inRadius(x, y, clickRadius)) {
-            click.clear()
-            val key = lastDownTime
-            ToolsThreads.main(300) {
-                if (lastDownTime == key) {
-                    onClick?.onClick(this)
-                    lastDownTime = 0L
-                }
-            }
-        } else {
-            click.set(x, y)
-            lastDownTime = System.currentTimeMillis()
-        }
-    }
-
-    private fun clickClear() {
-        click.clear()
-        lastDownTime = 0L
-    }
-
-    override fun setOnClickListener(l: OnClickListener?) {
-        this.onClick = l
+    private fun clearDoubleTouch() {
+        doubleTouch.clear()
     }
 
     fun move(x: Float, y: Float) {
@@ -211,20 +176,20 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
     }
 
     fun zoom(zoomChange: Float, midX: Float, midY: Float) {
-        var zoomChangeV = zoomChange
-        zoom += zoomChangeV
+        var zoomChange = zoomChange
+        zoom += zoomChange
 
         if (zoom < range.min) {
-            zoomChangeV += range.min - zoom
+            zoomChange += range.min - zoom
             zoom = range.min
         }
         if (zoom > range.max) {
-            zoomChangeV -= zoom - range.max
+            zoomChange -= zoom - range.max
             zoom = range.max
         }
 
-        translateX += (width / 2 - midX) * zoomChangeV
-        translateY += (height / 2 - midY) * zoomChangeV
+        translateX += (width / 2 - midX) * zoomChange
+        translateY += (height / 2 - midY) * zoomChange
 
         updateParams()
     }
@@ -246,7 +211,8 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
         val fameCount = animateTimeMs * 60 / 1000
         val step = (targetZoom - zoom) / fameCount
 
-        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(), { zoom(step, midX, midY) })
+        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(),
+                { subscription -> zoom(step, midX, midY) })
 
     }
 
@@ -310,9 +276,9 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var stateV = state
-        if (stateV is Bundle) {
-            val bundle = stateV as Bundle?
+        var state = state
+        if (state is Bundle) {
+            val bundle = state as Bundle?
             range.min = bundle!!.getFloat("range_min")
             range.max = bundle.getFloat("range_max")
             animateTimeMs = bundle.getInt("animateTimeMs")
@@ -323,7 +289,7 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
             val w = bundle.getFloat("w")
             val h = bundle.getFloat("h")
 
-            stateV = bundle.getParcelable("SUPER_STATE")
+            state = bundle.getParcelable("SUPER_STATE")
 
             ToolsThreads.main(true) {
                 if (w != 0f && h != 0f) {
@@ -333,7 +299,7 @@ class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayo
                 }
             }
         }
-        super.onRestoreInstanceState(stateV)
+        super.onRestoreInstanceState(state)
     }
 
     //

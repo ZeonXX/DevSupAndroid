@@ -12,14 +12,14 @@ import com.sup.dev.java.tools.ToolsText
 object ToolsTextAndroid {
 
     fun getFilterSpecChars(): InputFilter {
-        return InputFilter{ source, _, _, _, _, _ -> if (source != null && ToolsText.SPEC.contains(source)) "" else null }
+        return InputFilter{ source, start, end, dest, dstart, dend -> if (source != null && ToolsText.SPEC.contains(source)) "" else null }
     }
 
     fun getFilterLetterOrDigit(): InputFilter {
-        return InputFilter{ source, start, end, _, _, _ ->
+        return InputFilter{ source, start, end, dest, dstart, dend ->
             for (i in start until end)
-                if (!Character.isLetterOrDigit(source[i]) && source.toString() != ".")
-                     return@InputFilter ""
+                if (!Character.isLetterOrDigit(source.get(i)) && source.toString() != ".")
+                     ""
             null
         }
     }
@@ -29,10 +29,9 @@ object ToolsTextAndroid {
     }
 
     fun setFilters(editText: EditText, allowed: String) {
-        setFilters(editText, InputFilter{ source, _, _, _, _, _ -> if (source != null && allowed.contains(source)) null else "" })
+        setFilters(editText, InputFilter{ source, start, end, dest, dstart, dend -> if (source != null && allowed.contains(source)) null else "" })
     }
 
-    @Suppress("DEPRECATION")
     fun htmlFromEditText(editText: EditText): String {
         val s = Html.toHtml(editText.text)
         return if (s.length == 0) s else s.substring(13, s.length - 5)

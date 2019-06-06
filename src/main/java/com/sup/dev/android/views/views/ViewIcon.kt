@@ -1,21 +1,23 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.util.AttributeSet
+import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.support.animation.AnimationFocus
+import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
 import com.sup.dev.java.tools.ToolsColor
-import com.sup.dev.java.tools.ToolsThreads
-
 
 class ViewIcon @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
+) : android.support.v7.widget.AppCompatImageView(context, attrs) {
 
     private val paint: Paint
     private val animationFocus: AnimationFocus
@@ -25,7 +27,7 @@ class ViewIcon @JvmOverloads constructor(
     private var filter = 0
     private var srcSelect = 0
     private var filterSelect = 0
-    private var secondaryColor = 0
+    private var accentColor = 0
     private var paddingCircle = 0f
     private var background = 0
     private var useActiveBackground = true
@@ -33,8 +35,6 @@ class ViewIcon @JvmOverloads constructor(
     private var circleSize = 0f
     private var transparentOnDisabled = true
     private var startPadding = -1
-    private var focusAnimationEnabled = true
-
 
     //
     //  Getters
@@ -45,14 +45,13 @@ class ViewIcon @JvmOverloads constructor(
             field = selected
             updateIcon()
             animationFocus.setClickAnimationEnabled(!selected)
-            ToolsThreads.main(true) { invalidate() }
         }
 
     init {
 
         SupAndroid.initEditMode(this)
 
-        secondaryColor = ToolsResources.getSecondaryColor(context)
+        accentColor = ToolsResources.getAccentColor(context)
         var focusColor = ToolsResources.getColor(R.color.focus)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewIcon, 0, 0)
@@ -62,7 +61,7 @@ class ViewIcon @JvmOverloads constructor(
         srcSelect = a.getResourceId(R.styleable.ViewIcon_ViewIcon_srcSelect, srcSelect)
         filter = a.getColor(R.styleable.ViewIcon_ViewIcon_filter, filter)
         filterSelect = a.getColor(R.styleable.ViewIcon_ViewIcon_filterSelect, filterSelect)
-        secondaryColor = a.getColor(R.styleable.ViewIcon_ViewIcon_secondaryColor, secondaryColor)
+        accentColor = a.getColor(R.styleable.ViewIcon_ViewIcon_accentColor, accentColor)
         focusColor = a.getColor(R.styleable.ViewIcon_ViewIcon_focusColor, focusColor)
         paddingCircle = a.getDimension(R.styleable.ViewIcon_ViewIcon_padding, paddingCircle)
         background = a.getColor(R.styleable.ViewIcon_ViewIcon_background, background)
@@ -70,7 +69,6 @@ class ViewIcon @JvmOverloads constructor(
         circleColor = a.getColor(R.styleable.ViewIcon_ViewIcon_circleColor, circleColor)
         circleSize = a.getDimension(R.styleable.ViewIcon_ViewIcon_circleSize, circleSize)
         transparentOnDisabled = a.getBoolean(R.styleable.ViewIcon_ViewIcon_transparent_on_disabled, transparentOnDisabled)
-        focusAnimationEnabled = a.getBoolean(R.styleable.ViewIcon_ViewIcon_focus_animation_enabled, focusAnimationEnabled);
         a.recycle()
 
         animationFocus = AnimationFocus(this, focusColor)
@@ -123,10 +121,8 @@ class ViewIcon @JvmOverloads constructor(
 
         super.onDraw(canvas)
 
-        if (focusAnimationEnabled) {
-            paint.color = animationFocus.update()
-            canvas.drawCircle(x, y, r, paint)
-        }
+        paint.color = animationFocus.update()
+        canvas.drawCircle(x, y, r, paint)
 
         if (animationSelectedBackground.isNeedUpdate())
             invalidate()
@@ -135,14 +131,13 @@ class ViewIcon @JvmOverloads constructor(
 
     private fun updateIcon() {
 
-        animationSelectedBackground.to(if (isIconSelected) if (isEnabled) secondaryColor else ToolsColor.setAlpha(106, secondaryColor) else 0x00000000)
+        animationSelectedBackground.to(if (isIconSelected) if (isEnabled) accentColor else ToolsColor.setAlpha(106, accentColor) else 0x00000000)
 
         if (src > 0)
             super.setImageResource(if (isIconSelected && srcSelect != 0) srcSelect else src)
 
         val myFilter = if (isIconSelected && filterSelect != 0) filterSelect else filter
         if (myFilter != 0) setColorFilter(myFilter, PorterDuff.Mode.SRC_ATOP)
-        else clearColorFilter()
 
         setAlpha(if (!isEnabled && transparentOnDisabled) 106 else 255)
     }
@@ -151,10 +146,6 @@ class ViewIcon @JvmOverloads constructor(
     //
     //  Setters
     //
-
-    fun setOnTouched(onTouched: (Boolean)->Unit) {
-        animationFocus.setOnTouched(onTouched)
-    }
 
     fun setTransparentOnDisabled(transparentOnDisabled: Boolean) {
         this.transparentOnDisabled = transparentOnDisabled
@@ -176,19 +167,9 @@ class ViewIcon @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setCircleColor(color: Int) {
-        this.circleColor = color
-        invalidate()
-    }
-
-    fun setCircleSize(size: Float) {
-        this.circleSize = size
-        invalidate()
-    }
-
     override fun setImageResource(resId: Int) {
         this.src = resId
-        if (startPadding == -1) startPadding = paddingLeft
+        if(startPadding == -1)startPadding = paddingLeft
         setPadding(startPadding, startPadding, startPadding, startPadding)
         scaleType = ScaleType.FIT_CENTER
         updateIcon()
@@ -196,7 +177,7 @@ class ViewIcon @JvmOverloads constructor(
 
     override fun setImageBitmap(bm: Bitmap?) {
         this.src = 0
-        if (startPadding == -1) startPadding = paddingLeft
+        if(startPadding == -1)startPadding = paddingLeft
         setPadding(0, 0, 0, 0)
         scaleType = ScaleType.CENTER_CROP
         super.setImageBitmap(bm)

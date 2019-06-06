@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.cards
 
-import androidx.annotation.StringRes
+import android.support.annotation.StringRes
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -9,7 +9,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
 
-class CardLoading : Card(R.layout.card_loading) {
+class CardLoading : Card() {
 
     private var dividerVisible = false
     private var enabled = true
@@ -25,6 +25,10 @@ class CardLoading : Card(R.layout.card_loading) {
 
     enum class State {
         LOADING, ACTION, RETRY
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.card_loading
     }
 
     override fun bindView(view: View) {
@@ -59,7 +63,7 @@ class CardLoading : Card(R.layout.card_loading) {
             vAction.visibility = if (retryButton == null || retryButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = retryMessage
             vAction.text = retryButton
-            vAction.setOnClickListener {
+            vAction.setOnClickListener { v ->
                 setState(State.LOADING)
                 if (onRetry != null) onRetry!!.invoke(this)
             }
@@ -71,7 +75,7 @@ class CardLoading : Card(R.layout.card_loading) {
             vAction.visibility = if (actionButton == null || actionButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = actionMessage
             vAction.text = actionButton
-            vAction.setOnClickListener { if (onAction != null) onAction!!.invoke(this) }
+            vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke(this) }
         }
     }
 

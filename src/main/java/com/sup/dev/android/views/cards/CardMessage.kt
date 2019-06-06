@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.cards
 
-import androidx.annotation.StringRes
+import android.support.annotation.StringRes
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -8,7 +8,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 
-class CardMessage : Card(R.layout.card_message) {
+class CardMessage : Card() {
 
     private var dividerVisible = false
     private var enabled = true
@@ -19,6 +19,10 @@ class CardMessage : Card(R.layout.card_message) {
     private var textColor: Int = 0
     private var actionText: String? = null
     private var onActionClicked: (()->Unit)? = null
+
+    override fun getLayout(): Int {
+        return R.layout.card_message
+    }
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -36,7 +40,7 @@ class CardMessage : Card(R.layout.card_message) {
         vAction.isEnabled = isEnabled()
         vAction.visibility = if (actionText == null) View.GONE else View.VISIBLE
         vAction.text = actionText
-        vAction.setOnClickListener { if (onActionClicked != null) onActionClicked!!.invoke() }
+        vAction.setOnClickListener { v -> if (onActionClicked != null) onActionClicked!!.invoke() }
 
         if (customColor)
             vText.setTextColor(textColor)

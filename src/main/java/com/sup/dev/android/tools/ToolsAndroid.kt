@@ -10,114 +10,43 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.media.AudioManager
 import android.media.audiofx.AcousticEchoCanceler
 import android.net.ConnectivityManager
 import android.os.*
-import android.view.Surface
+import android.support.annotation.RequiresPermission
 import android.view.WindowManager
-import androidx.annotation.RequiresPermission
 import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.util.*
 
+
 object ToolsAndroid {
-
-    fun lockScreenCurrentOrientation() {
-        lockScreenOrientation (getScreenRotation())
-    }
-    fun lockScreenOrientation(rotation:Int) {
-        when (rotation) {
-            Surface.ROTATION_0 -> lockScreenPortrait()
-            Surface.ROTATION_90 -> lockScreenLandscape()
-            Surface.ROTATION_180 -> lockScreenPortraitReverse()
-            Surface.ROTATION_270 -> lockScreenLandscapeReverse()
-        }
-    }
-
-    fun lockScreenPortrait() {
-        SupAndroid.activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    }
-
-    fun lockScreenPortraitReverse() {
-        SupAndroid.activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-    }
-
-    fun lockScreenLandscape() {
-        SupAndroid.activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    }
-
-    fun lockScreenLandscapeReverse() {
-        SupAndroid.activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-    }
-
-    fun unlockScreenOrientation() {
-        SupAndroid.activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
-    fun getDownloadsFolder(): File {
-        val f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        f.mkdirs()
-        return f
-    }
-
-    private var audioFocusListener = AudioManager.OnAudioFocusChangeListener() {}
 
     //
     //  Device
     //
 
-    fun isScreenOn(): Boolean {
-        val powerManager = SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager
-        return if (Build.VERSION.SDK_INT < 20) powerManager.isScreenOn else powerManager.isInteractive
-    }
-
-    @Suppress("DEPRECATION")
-    fun requestAudioFocus() {
-        val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
-    }
-
-    @Suppress("DEPRECATION")
-    fun releaseAudioFocus() {
-        val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.abandonAudioFocus(audioFocusListener)
-    }
-
-    @Suppress("DEPRECATION")
-    fun setLanguage(context: Context, lang: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val res = context.resources
-            val conf = res.configuration
-            conf.setLocale(Locale(lang.toLowerCase()))
-            res.updateConfiguration(conf, res.displayMetrics)
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    fun getLanguage(context: Context): String {
+    fun setLanguage(context:Context, lang: String) {
         val res = context.resources
-        val conf = res.configuration
-        return conf.locale.language.toLowerCase()
-
+        res.configuration.locale = Locale(lang)
+        res.updateConfiguration(res.configuration, res.displayMetrics)
     }
 
     fun getVersion() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionName
-    fun getVersionCode() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionCode
 
     @RequiresPermission(Manifest.permission.BLUETOOTH)
     fun getBluetoothMacAddress(): String {
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         var bluetoothMacAddress = ""
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             try {
                 val mServiceField = bluetoothAdapter.javaClass.getDeclaredField("mService")
                 mServiceField.isAccessible = true
@@ -212,7 +141,9 @@ object ToolsAndroid {
         return Locale.getDefault().language.toLowerCase()
     }
 
-    fun isEchoCancelerAvailable() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) AcousticEchoCanceler.isAvailable() else false
+    fun isEchoCancelerAvailable(): Boolean {
+        return AcousticEchoCanceler.isAvailable()
+    }
 
     fun isDirectToTV(): Boolean {
         return (SupAndroid.appContext!!.packageManager.hasSystemFeature("android.software.leanb‌​ack")
@@ -225,7 +156,6 @@ object ToolsAndroid {
         val activityManager = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val proc = activityManager.runningAppProcesses
 
-        if (proc == null) return true
         for (info in proc)
             if (info.processName == SupAndroid.appContext!!.packageName)
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
@@ -257,7 +187,7 @@ object ToolsAndroid {
     fun setToClipboard(text: String) {
         val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("", text)
-        clipboard.setPrimaryClip(clip)
+        clipboard.primaryClip = clip
     }
 
     fun getFromClipboard(): String? {
@@ -268,7 +198,7 @@ object ToolsAndroid {
             null
         else {
             val t = primaryClip.getItemAt(0).text
-            if (t == null) return null
+            if(t == null) return null
             return t.toString()
         }
     }
@@ -288,7 +218,6 @@ object ToolsAndroid {
         return false
     }
 
-    @Suppress("DEPRECATION")
     fun checkServiceStarted(appId: String, serviceName: String): Boolean {
 
         val am = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -307,8 +236,6 @@ object ToolsAndroid {
     //
     //  Screen
     //
-
-    fun getScreenRotation() =  SupAndroid.activity?.getWindowManager()?.getDefaultDisplay()?.getRotation() ?: Surface.ROTATION_0
 
     fun isScreenPortrait(): Boolean {
         return !isScreenLandscape()
@@ -331,21 +258,19 @@ object ToolsAndroid {
     }
 
     fun maxScreenSide(): Int {
-        return getScreenW().coerceAtLeast(getScreenH())
+        return Math.max(getScreenW(), getScreenH())
     }
 
     fun minScreenSide(): Int {
-        return getScreenW().coerceAtMost(getScreenH())
+        return Math.min(getScreenW(), getScreenH())
     }
 
-    @Suppress("DEPRECATION")
     fun isScreenKeyLocked(): Boolean {
         val myKeyManager = SupAndroid.appContext!!.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return myKeyManager.inKeyguardRestrictedInputMode()
     }
 
-    @Suppress("DEPRECATION")
-    fun screenOn(time:Long=5000) {
+    fun screenOn() {
         if ((SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager).isScreenOn)
             return
 
@@ -354,11 +279,12 @@ object ToolsAndroid {
 
         screenLock.acquire()
         Thread {
-            ToolsThreads.sleep(time)
+            ToolsThreads.sleep(5000)
             if (screenLock.isHeld)
                 screenLock.release()
         }.start()
 
     }
+
 
 }

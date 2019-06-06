@@ -1,20 +1,18 @@
 package com.sup.dev.android.views.cards
 
+import android.content.Context
+import android.support.annotation.CallSuper
+import android.support.annotation.LayoutRes
 import android.view.View
-import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
-import com.sup.dev.android.views.support.adapters.CardAdapterStub
-import com.sup.dev.java.libs.debug.Debug
 
-abstract class Card(
-        private val layout: Int
-) {
 
-    var adapter: CardAdapter = CardAdapterStub.INSTANCE
-    private var view: View? = null
-    var isBinding = false
+abstract class Card {
+
+    var adapter: CardAdapter? = null
+    private var view:View? = null
 
     var tag: Any? = null
 
@@ -22,62 +20,47 @@ abstract class Card(
     //  Bind
     //
 
+    @LayoutRes
+    abstract fun getLayout(): Int
+
     fun update() {
-        if (isBinding) return
         val view = getView()
-        if (view != null) bindCardView(view)
+        if (view != null) bindView(view)
     }
 
-    fun bindCardView(view: View) {
-        isBinding = true
+    @CallSuper
+    open fun bindView(view: View) {
         this.view = view
         view.tag = this
-        bindView(view)
-        isBinding = false
-    }
-
-    fun detachView() {
-        onDetachView()
-        this.view = null
-    }
-
-    open fun onDetachView() {
-
-    }
-
-    open fun bindView(view: View) {
     }
 
     protected open fun instanceView(): View {
         return View(SupAndroid.appContext)
     }
 
-    fun getView(): View? {
-        val view = adapter.getView(this)
-        if (view != null) {
+    protected fun getView(): View? {
+        val view = if(adapter == null)  null else adapter!!.getView(this)
+        if(view != null){
             this.view = view
             view.tag = this
         }
 
-        if (this.view != null && this.view!!.tag != this) this.view = null
+        if(this.view != null && this.view!!.tag != this) this.view = null
 
         return this.view
-    }
-
-    fun remove() {
-        adapter.remove(this)
     }
 
     //
     //  Adapter
     //
 
-    open fun instanceView(vParent: ViewGroup): View {
-        return if (layout > 0) ToolsView.inflate(vParent, layout) else instanceView()
+    open fun instanceView(context: Context): View {
+        val layout = getLayout()
+        return if (layout > 0) ToolsView.inflate(context, getLayout()) else instanceView()
     }
 
     open fun setCardAdapter(adapter: CardAdapter?) {
-        this.adapter = adapter?:CardAdapterStub.INSTANCE
+        this.adapter = adapter
     }
 
 

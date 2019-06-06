@@ -2,17 +2,20 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.annotation.DrawableRes
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.animation.AnimationFocus
+import com.sup.dev.android.views.support.AnimationFocus
 
 open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
@@ -112,11 +115,6 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
     override fun setOnClickListener(l: OnClickListener?) {
         vTouch.setOnClickListener(l)
         vTouch.isClickable = l != null
-    }
-
-    override fun setOnLongClickListener(l: OnLongClickListener?) {
-        vTouch.setOnLongClickListener(l)
-        vTouch.isLongClickable = l != null
     }
 
     override fun setEnabled(enabled: Boolean) {

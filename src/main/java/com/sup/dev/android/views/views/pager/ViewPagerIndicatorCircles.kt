@@ -2,8 +2,9 @@ package com.sup.dev.android.views.views.pager
 
 import android.content.Context
 import android.graphics.Canvas
-import androidx.viewpager.widget.ViewPager
+import android.support.v4.view.ViewPager
 import android.util.AttributeSet
+
 
 class ViewPagerIndicatorCircles(context: Context, attrs: AttributeSet) : ViewPagerIndicator(context, attrs), ViewPager.OnPageChangeListener {
 

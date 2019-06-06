@@ -4,7 +4,12 @@ import android.view.View
 import com.sup.dev.android.R
 
 
-class CardDivider : Card(R.layout.card_divider) {
+class CardDivider : Card() {
+
+
+    override fun getLayout(): Int {
+        return R.layout.card_divider
+    }
 
     override fun bindView(view: View) {
         super.bindView(view)

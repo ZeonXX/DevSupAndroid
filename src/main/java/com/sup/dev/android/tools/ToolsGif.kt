@@ -61,7 +61,7 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int = 0, h: Int = 0, resizeByMinSide: Boolean = false, onStart: () -> Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, sizeArg: Float, onStart: () -> Unit = {}) {
 
         val key = Any()
         val vv = vImage.get()
@@ -76,49 +76,34 @@ object ToolsGif {
 
             var lastBitmap: Bitmap? = null
             var stop = false
-            val decoder = GifDecoder()
-            if (!decoder.load(f.absolutePath)) return@thread
-
-            var index = 0
             while (!stop) {
-                var bm = next(decoder, index)
-                val ms = decoder.delay(index).toLong()
-                if (bm == null) {
-                    ToolsThreads.sleep(300)
-                    continue
+                val iterator = GifDecoder().loadUsingIterator(f.absolutePath)
+                if (iterator == null) {
+                    stop = true
+                    break
                 }
-                if (w != 0 && h != 0) bm = ToolsBitmap.inscribePin(bm, w, h, resizeByMinSide)
-                ToolsThreads.main {
-                    val v = vImage.get()
-                    if (v == null || v.tag !== key || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {
-                        stop = true
-                        return@main
+                while (!stop && iterator.hasNext()) {
+                    val next = iterator.next()
+                    var bm = next.bitmap
+                    val ms = next.delayMs.toLong()
+                    if (sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width * sizeArg).toInt(), (bm.height * sizeArg).toInt())
+                    ToolsThreads.main {
+                        val v = vImage.get()
+                        if (v == null || v.tag !== key || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {
+                            stop = true
+                            return@main
+                        }
+                        if (lastBitmap == null) {
+                            onStart.invoke()
+                        }
+                        lastBitmap = bm
+                        v.setImageBitmap(lastBitmap)
                     }
-                    if (lastBitmap == null) {
-                        onStart.invoke()
-                    }
-                    lastBitmap = bm
-                    v.setImageBitmap(lastBitmap)
+                    ToolsThreads.sleep(Math.max(ms, 50))
                 }
-                index++
-                if (index >= decoder.frameNum()) index = 0
-                ToolsThreads.sleep(Math.max(ms, 30))
+                iterator.close()
             }
-
             f.delete()
-        }
-    }
-
-    private fun next(decoder: GifDecoder, index: Int): Bitmap? {
-        try {
-            return decoder.frame(index)
-        } catch (e: OutOfMemoryError) {
-            SupAndroid.onLowMemory()
-            try {
-                return decoder.frame(index)
-            } catch (e: OutOfMemoryError) {
-                return null
-            }
         }
     }
 

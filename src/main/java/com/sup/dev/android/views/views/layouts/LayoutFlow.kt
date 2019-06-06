@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.views.layouts
 
 import android.content.Context
-import androidx.annotation.MainThread
+import android.support.annotation.MainThread
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup

@@ -1,34 +1,30 @@
 package com.sup.dev.android.tools
 
-import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Environment
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
-import com.sup.dev.java.libs.json.JsonParsable
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.io.FileOutputStream
-import kotlin.reflect.KClass
+import android.content.Intent
+import android.net.Uri
 
-
-@Suppress("UNCHECKED_CAST")
 object ToolsStorage {
 
     var externalFileNamePrefix = "f"
-    var preferences: SharedPreferences = SupAndroid.appContext!!.getSharedPreferences("android_app_pref", Activity.MODE_PRIVATE)
+    var preferences: SharedPreferences? = null
 
-    fun init(storageKey: String) {
+    @JvmOverloads
+    fun init(storageKey: String = "android_app_pref") {
         preferences = SupAndroid.appContext!!.getSharedPreferences(storageKey, Activity.MODE_PRIVATE)
     }
 
     operator fun contains(key: String): Boolean {
-        return preferences.contains(key)
+        return preferences!!.contains(key)
     }
 
     //
@@ -36,27 +32,32 @@ object ToolsStorage {
     //
 
     fun getBoolean(key: String, def: Boolean): Boolean {
-        return preferences.getBoolean(key, def)
+        if (preferences == null) init()
+        return preferences!!.getBoolean(key, def)
     }
 
     fun getInt(key: String, def: Int): Int {
-        return preferences.getInt(key, def)
+        if (preferences == null) init()
+        return preferences!!.getInt(key, def)
     }
 
     fun getLong(key: String, def: Long): Long {
-        return preferences.getLong(key, def)
+        if (preferences == null) init()
+        return preferences!!.getLong(key, def)
     }
 
     fun getFloat(key: String, def: Float): Float {
-        return preferences.getFloat(key, def)
+        if (preferences == null) init()
+        return preferences!!.getFloat(key, def)
     }
 
     fun getString(key: String, string: String?): String? {
-        return preferences.getString(key, string)
+        if (preferences == null) init()
+        return preferences!!.getString(key, string)
     }
 
     fun getBytes(key: String): ByteArray? {
-        val s = preferences.getString(key, null) ?: return null
+        val s = preferences!!.getString(key, null) ?: return null
         return s.toByteArray()
     }
 
@@ -65,19 +66,10 @@ object ToolsStorage {
         return Json(s)
     }
 
-    fun getJsonArray(key: String): JsonArray? {
+    fun getJsonArray(key: String, def: JsonArray): JsonArray {
         val string = getString(key, null)
-        return if (string == null || string.isEmpty()) null else JsonArray(string)
-    }
+        return if (string == null || string.isEmpty()) def else JsonArray(string)
 
-    fun <K : JsonParsable> getJsonParsable(key: String, cc: KClass<K>): K? {
-        val json = getJson(key) ?: return null
-        return Json().put("x", json).getJsonParsable("x", cc, null)
-    }
-
-    fun <K : JsonParsable> getJsonParsables(key: String, cc: KClass<K>): Array<K>? {
-        val json = getJsonArray(key) ?: return null
-        return Json().put("x", json).getJsonParsables("x", cc)
     }
 
     //
@@ -85,81 +77,74 @@ object ToolsStorage {
     //
 
     fun put(key: String, v: Boolean?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putBoolean(key, v).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putBoolean(key, v).apply()
     }
 
     fun put(key: String, v: Int?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putInt(key, v).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putInt(key, v).apply()
     }
 
     fun put(key: String, v: Long?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putLong(key, v).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putLong(key, v).apply()
     }
 
     fun put(key: String, v: Float?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putFloat(key, v).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putFloat(key, v).apply()
     }
 
     fun put(key: String, v: String?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putString(key, v).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, v).apply()
     }
 
     fun put(key: String, v: ByteArray?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putString(key, String(v)).apply()
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, String(v)).apply()
     }
 
     fun put(key: String, v: Json?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
         put(key, v.toString())
     }
 
-    fun put(key: String, v: JsonParsable?) {
-        put(key, v?.json(false, Json()))
-    }
-
     fun put(key: String, v: JsonArray?) {
-        if (v == null) {
+        if(v == null){
             clear(key)
             return
         }
-        preferences.edit().putString(key, v.toString()).apply()
-    }
-
-    fun put(key: String, x: Array<out JsonParsable>?) {
-        if (x == null) {
-            clear(key)
-            return
-        }
-        val jsonArray = JsonArray()
-        for (i in x) jsonArray.put(i.json(true, Json()))
-        put(key, jsonArray)
+        if (preferences == null) init()
+        preferences!!.edit().putString(key, v.toString()).apply()
     }
 
     //
@@ -167,7 +152,8 @@ object ToolsStorage {
     //
 
     fun clear(key: String) {
-        preferences.edit().remove(key).apply()
+        if (preferences == null) init()
+        preferences!!.edit().remove(key).apply()
     }
 
 
@@ -176,42 +162,40 @@ object ToolsStorage {
     //
 
     fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit = {}) {
-        ToolsPermission.requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                onGranted = {
-                    try {
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()
-                        val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png")
-                        f.createNewFile()
-                        val out = FileOutputStream(f)
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-                        out.close()
-                        ToolsThreads.main { onComplete.invoke(f) }
+        if (preferences == null) init()
+        ToolsPermission.requestWritePermission {
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()
+            val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png")
+            try {
+                val out = FileOutputStream(f)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                out.close()
+                ToolsThreads.main { onComplete.invoke(f) }
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
 
-                        //  Without this, the picture will be hidden until open gallery.
-                        if (SupAndroid.activity != null && !SupAndroid.activityIsDestroy) {
-                            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-                            mediaScanIntent.data = Uri.fromFile(f)
-                            SupAndroid.activity!!.sendBroadcast(mediaScanIntent)
-                        }
-                    } catch (e: Exception) {
-                        if (e.toString().contains("Permission denied")) {
-                            ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)
-                        } else {
-                            throw RuntimeException(e)
-                        }
-                    }
-                },
-                onPermissionRestriction = { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES) })
+            //  Without this, the picture will be hidden until open gallery.
+            if(SupAndroid.activity != null) {
+                val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                mediaScanIntent.data = Uri.fromFile(f)
+                SupAndroid.activity!!.sendBroadcast(mediaScanIntent)
+            }
+
+        }
+
 
 
     }
 
-    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String) -> Unit = {}) {
+    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
+        if (preferences == null) init()
         saveFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).absolutePath,
                 bytes, onComplete, onPermissionPermissionRestriction)
     }
 
-    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String) -> Unit = {}) {
+    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
+        if (preferences == null) init()
         ToolsPermission.requestWritePermission({
             val f = File(patch)
             f.delete()

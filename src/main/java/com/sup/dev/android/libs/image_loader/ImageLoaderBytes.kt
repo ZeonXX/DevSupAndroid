@@ -1,18 +1,12 @@
 package com.sup.dev.android.libs.image_loader
 
-class ImageLoaderBytes(
-        private val bytes: ByteArray
-) : ImageLink() {
+class ImageLoaderBytes(key: Any, private val bytes: ByteArray) : ImageLoaderA() {
 
-    override fun equalsTo(imageLoader: ImageLink): Boolean {
-        return bytes.hashCode() == (imageLoader as ImageLoaderBytes).bytes.hashCode()
+    init {
+        setKey("bytes_$key")
     }
-
-    override fun getKeyOfImage() = "bytes_${bytes.hashCode()}"
 
     override fun load(): ByteArray {
         return bytes
     }
-
-    override fun copyLocal() = ImageLoaderBytes(bytes)
 }

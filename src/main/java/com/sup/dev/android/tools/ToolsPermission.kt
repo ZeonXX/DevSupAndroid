@@ -4,8 +4,8 @@ import android.Manifest.permission.*
 import android.app.Activity
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.Debug
@@ -18,37 +18,19 @@ object ToolsPermission {
     private var code = 1
     private val requests = ArrayList<Request>()
 
-    private class Request(
-            val code: Int,
-            val onGranted: (String) -> Unit,
-            val onPermissionRestriction: (String) -> Unit,
-            val onAllPermissionsGranted: () -> Unit
-    )
+    private class Request(val code: Int, val onGranted: (String) -> Unit, val onPermissionRestriction: (String) -> Unit)
 
     //
     //  Result
     //
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: Array<Int>) {
-
-
-        for (r in requests) {
-            if (r.code == requestCode) {
-                var permissionCounter = 0
+        for (r in requests)
+            if (r.code == requestCode)
                 for (i in 0 until permissions.size) {
-                    if (grantResults[i] == PERMISSION_GRANTED) {
-                        permissionCounter++
-                        r.onGranted.invoke(permissions[i])
-                    } else {
-                        r.onPermissionRestriction.invoke(permissions[i])
-                    }
+                    if (grantResults[i] == PERMISSION_GRANTED) r.onGranted.invoke(permissions[i])
+                    else r.onPermissionRestriction.invoke(permissions[i])
                 }
-                if(permissionCounter == permissions.size){
-                    r.onAllPermissionsGranted.invoke()
-                }
-            }
-        }
-
     }
 
     //
@@ -71,7 +53,7 @@ object ToolsPermission {
     }
 
     fun requestPermission(permission: String, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermissions(arrayOf(permission), onGranted, onPermissionRestriction)
+        requestPermissions(arrayOf(permission), onGranted,onPermissionRestriction)
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit) {
@@ -79,21 +61,14 @@ object ToolsPermission {
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermissions(permissions, onGranted, onPermissionRestriction, {})
-    }
-
-    fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit, onAllPermissionsGranted: () -> Unit) {
         val list = ArrayList<String>()
         for (p in permissions) {
-            if (hasPermission(p)) onGranted.invoke(p)
+            if (hasPermission(p)) onGranted.invoke(p);
             else list.add(p)
         }
-        if (list.isEmpty()) {
-            onAllPermissionsGranted.invoke()
-            return
-        }
+        if (list.isEmpty()) return
 
-        val request = Request(code++, onGranted, onPermissionRestriction, onAllPermissionsGranted)
+        val request = Request(code++, onGranted, onPermissionRestriction)
         requests.add(request)
         ActivityCompat.requestPermissions(SupAndroid.activity!!, ToolsMapper.asArray(list), request.code)
     }
@@ -133,18 +108,6 @@ object ToolsPermission {
 
     fun requestMicrophonePermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
         requestPermission(RECORD_AUDIO, onGranted, onPermissionRestriction)
-    }
-
-    fun requestBluetouchPermisiion(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermission(BLUETOOTH_ADMIN, onGranted, onPermissionRestriction)
-    }
-
-    fun requestCameraPermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermission(CAMERA, onGranted, onPermissionRestriction)
-    }
-
-    fun requestReadContactsPermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermission(READ_CONTACTS, onGranted, onPermissionRestriction)
     }
 
     //

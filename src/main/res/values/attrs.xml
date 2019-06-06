@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SplashViewSheet">
+    <declare-styleable name="Sheet">
         <attr name="Sheet_dimId" format="reference"/>
     </declare-styleable>
 
@@ -12,10 +12,10 @@
         <attr name="ViewPagerIndicator_pager" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="ViewPagerIndicatorViews">
+    <declare-styleable name="ViewPagerIndicatorTitles">
         <attr name="ViewPagerIndicator_color"/>
         <attr name="ViewPagerIndicator_colorSelected"/>
-        <attr name="ViewPagerIndicatorViews_offset_left" format="dimension"/>
+        <attr name="ViewPagerIndicatorTitles_offset_left" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ViewIcon">
@@ -24,7 +24,7 @@
         <attr name="ViewIcon_srcSelect" format="reference"/>
         <attr name="ViewIcon_filter" format="color"/>
         <attr name="ViewIcon_filterSelect" format="color"/>
-        <attr name="ViewIcon_secondaryColor" format="color"/>
+        <attr name="ViewIcon_accentColor" format="color"/>
         <attr name="ViewIcon_focusColor" format="color"/>
         <attr name="ViewIcon_padding" format="dimension"/>
         <attr name="ViewIcon_background" format="color"/>
@@ -32,12 +32,6 @@
         <attr name="ViewIcon_circleColor" format="color"/>
         <attr name="ViewIcon_circleSize" format="dimension"/>
         <attr name="ViewIcon_transparent_on_disabled" format="boolean"/>
-        <attr name="ViewIcon_focus_animation_enabled" format="boolean"/>
-    </declare-styleable>
-
-    <declare-styleable name="ViewSwipe">
-        <attr name="android:src"/>
-        <attr name="ViewSwipe_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ViewCropImage">
@@ -114,10 +108,6 @@
         <attr name="ViewAvatarTitle_chipIconPadding"  format="dimension"/>
         <attr name="ViewAvatarTitle_avatarBackground" format="color"/>
         <attr name="ViewAvatarTitle_avatarPadding" format="dimension"/>
-        <attr name="ViewAvatarTitle_chipMode" format="boolean"/>
-        <attr name="ViewAvatarTitle_subtitleSingleLine" format="boolean"/>
-        <attr name="ViewAvatarTitle_subtitleEllipsizeEnd" format="boolean"/>
-        <attr name="ViewAvatarTitle_avatarHeight" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ViewChipMini">
@@ -147,8 +137,6 @@
         <attr name="LayoutMaxSizes_fadeColor" format="color"/>
         <attr name="LayoutMaxSizes_allowChildMaxW" format="boolean"/>
         <attr name="LayoutMaxSizes_allowChildMaxH" format="boolean"/>
-        <attr name="LayoutMaxSizes_ignoreParentW" format="boolean"/>
-        <attr name="LayoutMaxSizes_ignoreParentH" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="LayoutExpandable">
@@ -199,12 +187,6 @@
         <attr name="LayoutAspectRatio_h" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="ViewCircleImage">
-        <attr name="ViewCircleImage_circleMod" format="boolean"/>
-        <attr name="ViewCircleImage_squareMod" format="boolean"/>
-        <attr name="ViewCircleImage_corned" format="dimension"/>
-    </declare-styleable>
-
     <declare-styleable name="LayoutZoom">
         <attr name="LayoutZoom_maxZoom" format="float"/>
         <attr name="LayoutZoom_minZoom" format="float"/>
@@ -230,7 +212,6 @@
         <attr name="Settings_icon" format="reference"/>
         <attr name="Settings_icon_background" format="color"/>
         <attr name="Settings_icon_padding" format="dimension"/>
-        <attr name="Settings_icon_filter" format="color"/>
         <attr name="Settings_checked" format="boolean"/>
     </declare-styleable>
 
@@ -238,7 +219,6 @@
         <attr name="android:inputType"/>
         <attr name="android:singleLine"/>
         <attr name="android:hint"/>
-        <attr name="android:textColor"/>
         <attr name="Settings_text" format="string"/>
         <attr name="Settings_maxLength" format="integer"/>
     </declare-styleable>

@@ -2,10 +2,9 @@ package com.sup.dev.android.libs.screens.navigator
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.java.classes.callbacks.CallbacksList2
-import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
-import kotlin.reflect.KClass
 
 object Navigator {
 
@@ -16,7 +15,6 @@ object Navigator {
     val SET = NavigationAction.set().immutable()
     val REPLACE = NavigationAction.replace().immutable()
     val REORDER = NavigationAction.reorder().immutable()
-    val TO_BACK_STACK_OR_NEW = NavigationAction.toBackStackOrNew().immutable()
 
     //
     //  Listeners
@@ -31,26 +29,13 @@ object Navigator {
     }
 
     //
-    //  Stack Actions
+    //  Views
     //
 
-    private fun removeScreen(screen: Screen) {
-        screen.onPause()
-        screen.onStop()
+    fun removeScreen(screen: Screen) {
         screen.onDestroy()
-        currentStack.stack.remove(screen)
+        currentStack.backStack.remove(screen)
     }
-
-    private fun removeAllScreens(screenClass: KClass<out Screen>) {
-        var i = 0
-        while (i < currentStack.stack.size) {
-            if (currentStack.stack[i]::class == screenClass) {
-                removeScreen(currentStack.stack[i--])
-            }
-            i++
-        }
-    }
-
 
     //
     //  Navigation
@@ -62,60 +47,52 @@ object Navigator {
 
     @JvmOverloads
     fun to(screen: Screen, animation: Animation = Animation.IN) {
-        if (currentStack.stack.isNotEmpty()) {
+        if (!currentStack.backStack.isEmpty()) {
             if (!getCurrent()!!.isBackStackAllowed) {
                 removeScreen(getCurrent()!!)
             } else {
                 getCurrent()!!.onPause()
-                getCurrent()!!.onStop()
             }
             if (screen.isSingleInstanceInBackStack) {
-                removeAllScreens(screen::class)
+                removeAll(screen.javaClass)
             }
         }
-        currentStack.stack.add(screen)
+        currentStack.backStack.add(screen)
         setCurrentViewNew(animation)
     }
 
     fun replace(screen: Screen, newScreen: Screen) {
-        if (currentStack.stack.isEmpty()) return
+        if (currentStack.backStack.isEmpty()) return
         if (getCurrent() == screen) {
             replace(newScreen)
             return
         }
-        for (i in currentStack.stack.indices) if (currentStack.stack[i] == screen) currentStack.stack[i] = newScreen
+        for (i in currentStack.backStack.indices) if (currentStack.backStack[i] == screen) currentStack.backStack[i] = newScreen
     }
 
     fun replace(screen: Screen) {
-        if (currentStack.stack.isNotEmpty()) removeScreen(getCurrent()!!)
-
-        if (screen.isSingleInstanceInBackStack) removeAllScreens(screen::class)
-
-        currentStack.stack.add(screen)
-        setCurrentViewNew(Animation.ALPHA)
+        if (!currentStack.backStack.isEmpty()) removeScreen(getCurrent()!!)
+        to(screen, Animation.ALPHA)
     }
 
     fun set(screen: Screen, animation: Animation = Animation.ALPHA) {
-        while (currentStack.stack.size != 0) removeScreen(currentStack.stack[0])
+        while (currentStack.backStack.size != 0) removeScreen(currentStack.backStack[0])
         to(screen, animation)
     }
 
     fun reorder(screen: Screen) {
-        currentStack.stack.remove(screen)
+        currentStack.backStack.remove(screen)
         to(screen)
     }
 
-    fun toBackStackOrNew(screen: Screen) {
-        reorderOrCreate(screen::class) { screen }
-    }
+    fun reorderOrCreate(viewClass: Class<out Screen>, provider: () -> Screen) {
 
-    fun reorderOrCreate(viewClass: KClass<out Screen>, provider: () -> Screen) {
-        if (getCurrent() != null && getCurrent()!!::class == viewClass)
+        if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
             return
 
-        for (i in currentStack.stack.size - 1 downTo -1 + 1)
-            if (currentStack.stack[i]::class == viewClass) {
-                reorder(currentStack.stack[i])
+        for (i in currentStack.backStack.size - 1 downTo -1 + 1)
+            if (currentStack.backStack[i].javaClass == viewClass) {
+                reorder(currentStack.backStack[i])
                 return
             }
 
@@ -125,23 +102,23 @@ object Navigator {
     fun removeAllEqualsAndTo(view: Screen) {
 
         var i = 0
-        while (i < currentStack.stack.size) {
-            if (currentStack.stack[i].equalsNView(view))
-                remove(currentStack.stack[i--])
+        while (i < currentStack.backStack.size) {
+            if (currentStack.backStack[i].equalsNView(view))
+                remove(currentStack.backStack[i--])
             i++
         }
 
         to(view)
     }
 
-    fun removeAll(screenClass: KClass<out Screen>) {
+    fun removeAll(viewClass: Class<out Screen>) {
         val current = getCurrent()
-        val needUpdate = current != null && current::class == screenClass
+        val needUpdate = current != null && current.javaClass == viewClass
 
         var i = 0
-        while (i < currentStack.stack.size) {
-            if (currentStack.stack[i]::class == screenClass) {
-                remove(currentStack.stack[i--])
+        while (i < currentStack.backStack.size) {
+            if (currentStack.backStack[i].javaClass == viewClass) {
+                remove(currentStack.backStack[i--])
             }
             i++
         }
@@ -151,9 +128,10 @@ object Navigator {
 
 
     fun back(): Boolean {
+        if (!hasBackStack()) return false
+
         val current = getCurrent()
-        if (current != null) removeScreen(current)
-        if (currentStack.stack.size == 0) return false
+        removeScreen(current!!)
         setCurrentViewNew(Animation.OUT)
 
         onBack.invoke(current, current)
@@ -161,21 +139,23 @@ object Navigator {
         return true
     }
 
-    fun remove(screen: Screen) {
-        if (hasBackStack() && getCurrent() == screen) {
+    fun remove(view: Screen) {
+        if (hasBackStack() && getCurrent() == view)
             back()
-        } else {
-            removeScreen(screen)
-            if (currentStack.isEmpty()) SupAndroid.activity?.onLastBackPressed(screen)
-        }
+        else
+            removeScreen(view)
     }
 
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
-        val oldStack = currentStack
         currentStack = stack
-        for (screen in oldStack.stack) screen.onStackChanged()
         setCurrentViewNew(Animation.ALPHA)
+    }
+
+    fun closeProtected(onClose: () -> Unit) {
+        val current = getCurrent()
+        if (current is ScreenProtected) current.onProtectedClose(onClose)
+        else onClose.invoke()
     }
 
     //
@@ -183,43 +163,38 @@ object Navigator {
     //
 
     private fun setCurrentViewNew(animation: Animation) {
-        setCurrentView(animation, true)
+        setCurrentView(animation)
 
         val array = Array(onScreenChangedCallbacks.size) { onScreenChangedCallbacks[it] }
         for (i in array) if (i.invoke()) onScreenChangedCallbacks.remove(i)
     }
 
     fun resetCurrentView() {
-        setCurrentView(Animation.NONE, false)
+        setCurrentView(Animation.NONE)
     }
 
-    private fun setCurrentView(animation: Animation, hideDialogs: Boolean) {
-        val screen = getCurrent() ?: return
+    private fun setCurrentView(animation: Animation) {
+        val screen = getCurrent()
+        if (screen == null) return
 
-        SupAndroid.activity!!.setScreen(screen, animation, hideDialogs)
+        SupAndroid.activity!!.setScreen(screen, animation)
 
-        if (getCurrent() != null) ToolsThreads.main(true) {
-            if (!screen.wasShowed) {
-                screen.onFirstShow()
-                screen.wasShowed = true
-            }
-            screen.onResume()
-        }   //  В следующем проходе, чтоб все успело инициализироваться
+        val statusBarColor = screen.getStatusBarColor()
+        if(SupAndroid.activity?.window?.statusBarColor != statusBarColor) SupAndroid.activity?.window?.statusBarColor = statusBarColor
+
+        if (getCurrent() != null) screen.onResume()
     }
 
     fun onActivityStop() {
-        getCurrent()?.onStop()
+        if (getCurrent() != null) getCurrent()!!.onPause()
     }
 
-    fun onActivityPaused() {
-        getCurrent()?.onPause()
+    fun onActivityConfigChanged() {
+        if (getCurrent() != null) getCurrent()!!.onConfigChanged()
     }
 
-    fun onActivityResumed() {
-        getCurrent()?.onResume()
-    }
+    fun onBackPressed(): Boolean {
 
-    fun parseOnBackPressedCallbacks():Boolean{
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
             val c = onBackCallbacks[i]
             if (c.invoke()) {
@@ -227,10 +202,6 @@ object Navigator {
                 return true
             }
         }
-        return false
-    }
-
-    fun onBackPressed(): Boolean {
 
         return getCurrent() != null && getCurrent()!!.onBackPressed() || back()
     }
@@ -241,37 +212,28 @@ object Navigator {
 
 
     fun getStackSize(): Int {
-        return currentStack.stack.size
+        return currentStack.backStack.size
     }
 
     fun getPrevious(): Screen? {
-        return if (hasPrevious()) currentStack.stack[currentStack.stack.size - 2] else null
+        return if (hasPrevious()) currentStack.backStack[currentStack.backStack.size - 2] else null
     }
 
     fun getCurrent(): Screen? {
-        return if (currentStack.stack.isEmpty()) null else currentStack.stack[currentStack.stack.size - 1]
-    }
-
-    fun getLast(screenClass: KClass<out Screen>): Screen? {
-        for (i in currentStack.stack.indices.reversed()) if (currentStack.stack[i]::class == screenClass) return currentStack.stack[i]
-        return null
+        return if (currentStack.backStack.isEmpty()) null else currentStack.backStack[currentStack.backStack.size - 1]
     }
 
     fun isEmpty(): Boolean {
-        return currentStack.stack.isEmpty()
+        return currentStack.backStack.isEmpty()
     }
 
-    fun hasInBackStack(screenClass: KClass<out Screen>): Boolean {
-        for (i in currentStack.stack) if (i::class == screenClass) return true
-        return false
-    }
 
     fun hasBackStack(): Boolean {
-        return currentStack.stack.size > 1
+        return currentStack.backStack.size > 1
     }
 
     fun hasPrevious(): Boolean {
-        return currentStack.stack.size > 1
+        return currentStack.backStack.size > 1
     }
 
     fun addOnBackScreenListener(onBack: (Screen?, Screen?) -> Unit) {

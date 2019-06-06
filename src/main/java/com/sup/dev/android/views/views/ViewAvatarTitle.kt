@@ -1,11 +1,10 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.graphics.Color
+import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.StringRes
+import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventStyleChanged
@@ -13,19 +12,15 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsThreads
 
 
 open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
-    private val eventBus = EventBus.subscribe(EventStyleChanged::class) { ToolsThreads.main(true) { updateCorned() } }
-
     val vAvatar: ViewAvatar
-    val vTitle: ViewText
-    val vSubtitle: ViewText
+    val vTitle: ViewTextLinkable
+    val vSubtitle: ViewTextLinkable
 
-    private var chipModeAvatar = true
-    private var avatarHeight = -1f
+    private val eventBus = EventBus.subscribe(EventStyleChanged::class){updateCorned()}
 
     init {
 
@@ -45,17 +40,13 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val src = a.getResourceId(R.styleable.ViewAvatarTitle_android_src, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIcon, 0)
         val chipText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipText)
-        val chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, Color.TRANSPARENT)
+        val chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, ToolsResources.getAccentColor(context))
         val mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title)
         val mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle)
         val iconSizePadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0f)
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
-        val subtitleSingleLine = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleSingleLine, false)
-        val ellipsizeEnd = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleEllipsizeEnd, false)
-        chipModeAvatar = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipMode, chipModeAvatar)
-        avatarHeight = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarHeight, -1f)
         a.recycle()
 
         vAvatar.setImage(src)
@@ -67,41 +58,27 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         vAvatar.setChipIcon(srcIcon)
         vAvatar.setChipBackground(chipBackground)
 
-        vSubtitle.setSingleLine(subtitleSingleLine)
-        if(ellipsizeEnd) vSubtitle.ellipsize = android.text.TextUtils.TruncateAt.END
-
         setTitle(mText)
         setSubtitle(mSubtitle)
         updateCorned()
     }
 
-    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
-        if(avatarHeight != -1f){
-            vAvatar.layoutParams?.height = avatarHeight.toInt()
-            vAvatar.layoutParams?.width = avatarHeight.toInt()
-        } else if (params != null && params.height > -1) {
-            vAvatar.layoutParams?.height = params.height
-            vAvatar.layoutParams?.width = params.height
-        }
-        super.setLayoutParams(params)
-    }
-
     fun updateCorned() {
-        if (vAvatar.vImageView.isSquareMode()) {
+        if(vAvatar.vImageView.isSquareMode()){
             setChipMode(false)
-            if (getCornedSize() != 0f) setCornedSizePx(vAvatar.vImageView.getSquareCorned().toInt())
-            setCornedBL(chipModeAvatar && hasOnClickListeners())
-            setCornedBR(chipModeAvatar && hasOnClickListeners())
-            setCornedTL(chipModeAvatar && hasOnClickListeners())
-            setCornedTR(chipModeAvatar && hasOnClickListeners())
-        } else {
-            setChipMode(chipModeAvatar && hasOnClickListeners())
-            setCornedBL(chipModeAvatar && hasOnClickListeners())
-            setCornedBR(chipModeAvatar && hasOnClickListeners())
-            setCornedTL(chipModeAvatar && hasOnClickListeners())
-            setCornedTR(chipModeAvatar && hasOnClickListeners())
+            setCornedSizePx(vAvatar.vImageView.getSquareCorned().toInt())
+            setCornedBL(hasOnClickListeners())
+            setCornedBR(hasOnClickListeners())
+            setCornedTL(hasOnClickListeners())
+            setCornedTR(hasOnClickListeners())
+        }else{
+            setChipMode(hasOnClickListeners())
+            setCornedBL(hasOnClickListeners())
+            setCornedBR(hasOnClickListeners())
+            setCornedTL(hasOnClickListeners())
+            setCornedTR(hasOnClickListeners())
         }
-        vSubtitle.maxLines = if (hasOnClickListeners()) 2 else 10000
+        vSubtitle.maxLines = if(hasOnClickListeners()) 2 else 10000
     }
 
     //
@@ -123,25 +100,12 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     }
 
     fun setSubtitle(@StringRes text: Int) {
-        setSubtitle(ToolsResources.s(text))
+        vSubtitle.setText(text)
     }
 
     fun setSubtitle(text: String?) {
         vSubtitle.visibility = if (text == null || text.isEmpty()) GONE else VISIBLE
         vSubtitle.text = text
-    }
-
-    fun setTitleColor(color: Int) {
-        vTitle.setTextColor(color)
-    }
-
-    fun setSubtitleColor(color: Int) {
-        vSubtitle.setTextColor(color)
-    }
-
-    fun setAvatarHeight(pixels:Float){
-        avatarHeight = pixels
-        setLayoutParams(layoutParams)
     }
 
     //

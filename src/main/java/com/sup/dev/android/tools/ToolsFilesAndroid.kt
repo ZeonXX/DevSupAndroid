@@ -9,6 +9,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
+
 object ToolsFilesAndroid {
 
     //
@@ -97,21 +98,13 @@ object ToolsFilesAndroid {
 
     @Throws(IOException::class)
     fun unpackZip(path: String, zipFile: File) {
-        unpackZip(path, FileInputStream(zipFile))
-    }
-
-    @Throws(IOException::class)
-    fun unpackZip(path: String, zipFile: ByteArray) {
-        unpackZip(path, ByteArrayInputStream(zipFile))
-    }
-
-    @Throws(IOException::class)
-    fun unpackZip(path: String, inp: InputStream) {
+        var `is`: InputStream? = null
         var zis: ZipInputStream? = null
         try {
             var filename: String
-            zis = ZipInputStream(BufferedInputStream(inp))
-            var ze: ZipEntry?
+            `is` = FileInputStream(zipFile)
+            zis = ZipInputStream(BufferedInputStream(`is`))
+            var ze: ZipEntry
             val buffer = ByteArray(1024)
             var count: Int
             while (true) {
@@ -136,7 +129,7 @@ object ToolsFilesAndroid {
             zis.close()
         } finally {
             try {
-                inp.close()
+                `is`?.close()
             } catch (ex: IOException) {
                 err(ex)
             }

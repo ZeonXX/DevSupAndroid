@@ -2,6 +2,7 @@ package com.sup.dev.android.tools
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
@@ -15,27 +16,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PersistableBundle
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
-import androidx.core.app.NotificationCompat
+import android.support.annotation.DrawableRes
+import android.support.annotation.RequiresApi
+import android.support.annotation.RequiresPermission
+import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
+import java.lang.RuntimeException
 import java.util.HashMap
-
-/*
-
-        <service
-            android:name="com.sup.dev.android.tools.ToolsBackgroundWork$ForegroundService"
-            android:foregroundServiceType="xxxx"/>
-
-        <service
-            android:name="com.sup.dev.android.tools.ToolsBackgroundWork$chedulerService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
-
-
- */
 
 object ToolsBackgroundWork {
 
@@ -52,26 +39,25 @@ object ToolsBackgroundWork {
     private val callbacks = HashMap<Int, ()->Unit>()
     private var index: Int = 0
 
-    //  !!!!!!!!!
-    //  Add service to the manifest file
-    //  !!!!!!!!!
-    fun startForegroundService(@DrawableRes icon: Int, title: String?, body: String, chanelId: String) {
-
-        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, chanelId)
+    fun startForegroundService(activityClass: Class<out Activity>, @DrawableRes icon: Int, title: String?, body: String) {
+        throw RuntimeException("Fix me")
+        /*
+        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getDefChanelId())
                 .setSmallIcon(icon)
                 .setContentText(body)
                 .setOngoing(true)
         if (title != null) builder.setContentTitle(title)
 
-        val intent = Intent(SupAndroid.appContext!!, SupAndroid.activityClass)
+        val intent = Intent(SupAndroid.appContext!!, activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        val pi = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(pi)
+        val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        builder.setContentIntent(pendingIntent)
 
         notification = builder.build()
 
         ToolsIntent.startServiceForeground(ForegroundService::class.java)
+        */
     }
 
     class ForegroundService : Service() {

@@ -1,9 +1,10 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.graphics.Bitmap
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -12,7 +13,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.libs.image_loader.ImageLink
+import com.sup.dev.android.tools.ToolsBitmap
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
@@ -31,7 +33,7 @@ class ViewImagesSwipe constructor(
     private val vNext: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val vBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val adapter = RecyclerCardAdapter()
-    private var onClickGlobal: (CardSwipe) -> Boolean = { false }
+    private var onClickGlobal: (CardSwipe<Any>) -> Boolean = { false }
 
     init {
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -41,8 +43,8 @@ class ViewImagesSwipe constructor(
 
         vNext.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
         vBack.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
-        vNext.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp)
-        vBack.setImageResource(R.drawable.ic_keyboard_arrow_left_white_24dp)
+        vNext.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_right_24dp))
+        vBack.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_left_24dp))
 
         addView(vRecycler)
         addView(vNext)
@@ -90,17 +92,42 @@ class ViewImagesSwipe constructor(
         updateVisibility()
     }
 
-    fun add(imageLoader: ImageLink, onClick: ((ImageLink) -> Unit)? = null) {
-        add(imageLoader, onClick, null)
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null) {
+        add(id, fullId, w, h, onClick, null)
     }
 
-    fun add(imageLoader: ImageLink, onClick: ((ImageLink) -> Unit)? = null, onLongClick: ((ImageLink) -> Unit)? = null) {
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
         if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
-        adapter.add(CardSwipe(imageLoader, onClick, onLongClick))
+        adapter.add(CardSwipeId(id, fullId, w, h, onClick, onLongClick))
+    }
+
+    fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null) {
+        add(bitmap, onClick, null)
+    }
+
+    fun add(bitmap: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
+        if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
+        adapter.add(CardSwipeBitmap(bitmap, onClick, onLongClick))
+    }
+
+    fun add(bytes: ByteArray, onClick: ((ByteArray) -> Unit)? = null) {
+        add(bytes, onClick, null)
+    }
+
+    fun add(bytes: ByteArray, onClick: ((ByteArray) -> Unit)? = null, onLongClick: ((ByteArray) -> Unit)? = null) {
+        if (!adapter.isEmpty) adapter.add(CardSpace(0, 4))
+        adapter.add(CardSwipeBytes(bytes, onClick, onLongClick))
     }
 
     fun remove(index: Int) {
-        adapter.remove(adapter.get(CardSwipe::class)[index])
+        adapter.remove(adapter[CardSwipe::class][index])
+        ToolsThreads.main(true) { updateVisibility() }
+    }
+
+    fun remove(bytes: ByteArray) {
+        for (c in adapter[CardSwipeBytes::class]) {
+            if (c.bytes === bytes) adapter.remove(c)
+        }
         ToolsThreads.main(true) { updateVisibility() }
     }
 
@@ -113,13 +140,28 @@ class ViewImagesSwipe constructor(
     //  Setters
     //
 
-    fun setOnClickGlobal(onClickGlobal: (CardSwipe) -> Boolean) {
+    fun setOnClickGlobal(onClickGlobal: (CardSwipe<Any>) -> Boolean) {
         this.onClickGlobal = onClickGlobal
     }
 
     //
     //  Getters
     //
+
+    fun getArrayIds(): Array<Long> {
+        val array = adapter[CardSwipeId::class]
+        return Array(array.size) { array[it].fullId }
+    }
+
+    fun getArrayBitmaps(): Array<Bitmap> {
+        val array = adapter[CardSwipeBitmap::class]
+        return Array(array.size) { array[it].bitmap }
+    }
+
+    fun getArrayBytes(): Array<ByteArray> {
+        val array = adapter[CardSwipeBytes::class]
+        return Array(array.size) { array[it].bytes }
+    }
 
     fun size() = adapter.size(CardSwipe::class)
 
@@ -131,44 +173,109 @@ class ViewImagesSwipe constructor(
     //  Card
     //
 
-    inner class CardSwipe(
-            val imageLoader:ImageLink,
-            val onClick: ((ImageLink) -> Unit)?,
-            val onLongClick: ((ImageLink) -> Unit)?
-    ) : Card(R.layout.view_image_swipe_card) {
+    abstract inner class CardSwipe<K>(
+            val onClick: ((K) -> Unit)?,
+            val onLongClick: ((K) -> Unit)?
+    ) : Card() {
+
+        override fun getLayout(): Int {
+            return R.layout.view_image_swipe_card
+        }
 
         override fun bindView(view: View) {
             super.bindView(view)
             val vImage: ImageView = view.findViewById(R.id.vImage)
             view.setOnClickListener {
-                if (onClickGlobal(this)) {
+                if (onClickGlobal(this as CardSwipe<Any>)) {
                     return@setOnClickListener
                 } else if (onClick == null) {
                     toImageView()
                 } else {
-                    onClick.invoke(imageLoader)
+                    onClick.invoke(getSource())
                 }
             }
             if (onLongClick != null)
                 view.setOnLongClickListener {
-                    onLongClick.invoke(imageLoader)
+                    onLongClick.invoke(getSource())
                     true
                 }
             set(view, vImage)
             updateVisibility()
         }
 
-        fun set(view: View, vImage: ImageView) {
-            imageLoader.setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.into(vImage){ ToolsThreads.main(10) { updateVisibility() } }
+        abstract fun set(view: View, vImage: ImageView)
+
+        abstract fun toImageView()
+
+        abstract fun getSource(): K
+
+    }
+
+
+    inner class CardSwipeBitmap(
+            val bitmap: Bitmap,
+            onClick: ((Bitmap) -> Unit)?,
+            onLongClick: ((Bitmap) -> Unit)? = null
+    ) : CardSwipe<Bitmap>(onClick, onLongClick) {
+
+        override fun set(view: View, vImage: ImageView) {
+            vImage.setImageBitmap(bitmap)
+            updateVisibility()
         }
 
-        fun toImageView() {
-            val cards = this@ViewImagesSwipe.adapter.get(CardSwipe::class)
-            val array = Array(cards.size) { cards[it].imageLoader }
+        override fun toImageView() {
+            val array = getArrayBitmaps()
             var index = 0
-            for (i in array.indices) if (array[i] == imageLoader) index = i
+            for (i in 0 until array.size) if (array[i] == bitmap) index = i
             Navigator.to(SImageView(index, array))
         }
+
+        override fun getSource() = bitmap
+
+    }
+
+    inner class CardSwipeId(
+            val id: Long,
+            val fullId: Long,
+            val w: Int,
+            val h: Int,
+            onClick: ((Long) -> Unit)?,
+            onLongClick: ((Long) -> Unit)? = null
+    ) : CardSwipe<Long>(onClick, onLongClick) {
+
+        override fun set(view: View, vImage: ImageView) {
+            ToolsImagesLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoaded { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
+        }
+
+        override fun toImageView() {
+            val array = getArrayIds()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] == fullId) index = i
+            Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = id
+    }
+
+    inner class CardSwipeBytes(
+            val bytes: ByteArray,
+            onClick: ((ByteArray) -> Unit)?,
+            onLongClick: ((ByteArray) -> Unit)? = null
+    ) : CardSwipe<ByteArray>(onClick, onLongClick) {
+
+        override fun set(view: View, vImage: ImageView) {
+            vImage.setImageBitmap(ToolsBitmap.decode(bytes))
+            updateVisibility()
+        }
+
+        override fun toImageView() {
+            val array = getArrayBytes()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] === bytes) index = i
+            Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = bytes
 
     }
 

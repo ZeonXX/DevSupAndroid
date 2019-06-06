@@ -4,15 +4,17 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Switch
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsView
 
-class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
+
+class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vSwitcher: Switch = Switch(context)
 
-    private var onClickListener: OnClickListener? = null
-    private var setOnSwitchListener: (Boolean)->Unit = {  }
+    private var onClickListener: View.OnClickListener? = null
     private var salient: Boolean = false
 
     //
@@ -22,9 +24,8 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
     init {
 
         vSwitcher.isFocusable = false
-        vSwitcher.setOnCheckedChangeListener { _, b ->
+        vSwitcher.setOnCheckedChangeListener { v, b ->
             setEnabledSubSettings(b)
-            if (!salient) setOnSwitchListener.invoke(b)
             if (!salient) onClick()
         }
 
@@ -35,7 +36,7 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
         setChecked(checked)
         setSubView(vSwitcher)
 
-        super.setOnClickListener {
+        super.setOnClickListener { v ->
             setChecked(!vSwitcher.isChecked)
             onClick()
         }
@@ -64,31 +65,23 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var stateV = state
-        if (stateV is Bundle) {
-            val bundle = stateV as Bundle?
+        var state = state
+        if (state is Bundle) {
+            val bundle = state as Bundle?
             salient = true
             setChecked(bundle!!.getBoolean("checked"))
             salient = false
-            stateV = bundle.getParcelable("SUPER_STATE")
+            state = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(stateV)
+        super.onRestoreInstanceState(state)
     }
 
     //
     //  Setters
     //
 
-    override fun setOnClickListener(l: OnClickListener?) {
-        this.onClickListener = l
-    }
-
-    fun setOnRootClickListener(l: OnClickListener?) {
-        super.setOnClickListener(l)
-    }
-
-    fun setOnSwitchListener(l: (Boolean)->Unit) {
-        this.setOnSwitchListener = l
+    override fun setOnClickListener(onClickListener: View.OnClickListener?) {
+        this.onClickListener = onClickListener
     }
 
     override fun setEnabled(enabled: Boolean) {

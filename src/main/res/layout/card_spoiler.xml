@@ -44,32 +44,16 @@
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"/>
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/vIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="16dp">
-
-            <ImageView
-                android:id="@+id/vIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="?colorOnPrimaryIcons"
-                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
-
-            <ProgressBar
-                android:id="@+id/vProgress"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
-
-        </FrameLayout>
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/vDividerTop"
-        style="@style/Divider"
-        android:layout_gravity="top"/>
     <View
         style="@style/Divider"/>
 

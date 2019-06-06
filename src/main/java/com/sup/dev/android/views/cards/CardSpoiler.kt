@@ -1,71 +1,59 @@
 package com.sup.dev.android.views.cards
 
 import android.graphics.PorterDuff
+import android.support.annotation.StringRes
 import android.text.Html
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.StringRes
-import androidx.recyclerview.widget.RecyclerView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
-import com.sup.dev.java.classes.callbacks.CallbacksList1
-import java.util.*
+import java.util.ArrayList
 
-open class CardSpoiler : Card(R.layout.card_spoiler) {
+
+open class CardSpoiler : Card() {
+
+    //
+    //  Getters
+    //
 
     val cards = ArrayList<Card>()
-
-    private val onExpandChanged = CallbacksList1<Boolean>()
-
     private var titleGravity = Gravity.LEFT
     private var title: String? = null
     private var titleExpanded: String? = null
     private var text: String? = null
-    private var textSize: Float? = null
     private var rightText: String? = null
     private var titleColor = 0
     private var rightTextColor = 0
     private var textColor = 0
-    private var backgroundColor: Int? = null
     private var originalSeted = false
     private var dividerVisible = true
-    private var dividerTopVisible = false
     private var titleColorOriginal = 0
     private var rightTextColorOriginal = 0
     private var textColorOriginal = 0
     private var iconColor = 0
     private var useExpandedArrow = true
     private var useExpandedTitleArrow = false
-    private var animation = false
-    private var isProgress = false
-    private var vRecycler: RecyclerView? = null
-    private var autoHideBottomDividerOnExpand = false
-    private var autoHideTopDividerOnExpand = false
-    private var autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider = true
 
-    internal var expanded = false
+    internal var expanded: Boolean = false
     internal var enabled = true
 
-    @Suppress("DEPRECATION")
+    override fun getLayout() =  R.layout.card_spoiler
+
     override fun bindView(view: View) {
         super.bindView(view)
-        val vIcon: ImageView = view.findViewById(R.id.vIcon)
-        val vTitle: TextView = view.findViewById(R.id.vTitle)
-        val vText: TextView = view.findViewById(R.id.vText)
-        val vRightText: TextView = view.findViewById(R.id.vRightText)
-        val vTouch: View = view.findViewById(R.id.vTouch)
-        val vDivider: View = view.findViewById(R.id.vDivider)
-        val vDividerTop: View = view.findViewById(R.id.vDividerTop)
-        val vRoot: View = view.findViewById(R.id.vRoot)
-        val vProgress: View = view.findViewById(R.id.vProgress)
+        val vIcon:ImageView = view.findViewById(R.id.vIcon)
+        val vTitle:TextView = view.findViewById(R.id.vTitle)
+        val vText:TextView = view.findViewById(R.id.vText)
+        val vRightText:TextView = view.findViewById(R.id.vRightText)
+        val vTouch:View = view.findViewById(R.id.vTouch)
+        val vDivider:View = view.findViewById(R.id.vDivider)
 
-        val iconDown = R.drawable.ic_keyboard_arrow_down_white_24dp
-        val iconUp = R.drawable.ic_keyboard_arrow_up_white_24dp
+        val iconDown = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_down_24dp)
+        val iconUp = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_up_24dp)
 
         if (!originalSeted) {
             originalSeted = true
@@ -74,11 +62,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
             rightTextColorOriginal = vRightText.currentTextColor
         }
 
-        vProgress.visibility = if (isProgress) View.VISIBLE else View.GONE
-        vIcon.visibility = if (!isProgress && useExpandedArrow) View.VISIBLE else View.GONE
-
         vText.text = if (text == null) null else Html.fromHtml(text)
-        if (textSize != null) vText.setTextSize(textSize!!)
         vRightText.text = if (rightText == null) null else Html.fromHtml(rightText)
 
         if (expanded && titleExpanded != null)
@@ -89,9 +73,13 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         vText.visibility = if (text == null) View.GONE else View.VISIBLE
         vRightText.visibility = if (rightText == null) View.GONE else View.VISIBLE
         vTitle.visibility = if (title == null) View.GONE else View.VISIBLE
+        vIcon.visibility = if (useExpandedArrow) View.VISIBLE else View.GONE
 
-        if (useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
-        else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
+
+       if(useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
+       else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
 
         vText.isEnabled = enabled
         vRightText.isEnabled = enabled
@@ -99,8 +87,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
         (vTitle.layoutParams as LinearLayout.LayoutParams).gravity = titleGravity
 
-        vDivider.visibility = if (willShowBottomDivider()) View.VISIBLE else View.GONE
-        vDividerTop.visibility = if (willShowTopDivider()) View.VISIBLE else View.GONE
+        vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vText.setTextColor(if (textColor != 0) textColor else textColorOriginal)
         vRightText.setTextColor(if (rightTextColor != 0) rightTextColor else rightTextColorOriginal)
         vTitle.setTextColor(if (titleColor != 0) titleColor else titleColorOriginal)
@@ -108,70 +95,23 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         vIcon.setImageResource(if (expanded) iconUp else iconDown)
         vIcon.setAlpha(if (enabled) 255 else 106)
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
-        if (enabled) vTouch.setOnClickListener { setExpanded(!expanded) }
+        if (enabled) vTouch.setOnClickListener { v -> setExpanded(!expanded) }
         else vTouch.setOnClickListener(null)
-
-        if (backgroundColor != null) vRoot.setBackgroundColor(backgroundColor!!)
-
         vTouch.isClickable = enabled
-    }
-
-    private fun willShowBottomDivider():Boolean{
-        return dividerVisible && (!autoHideBottomDividerOnExpand || !expanded)
-    }
-
-    private fun willShowTopDivider():Boolean{
-        val b = !isHideDisableTopDividerByTopCard()
-        return dividerTopVisible && (!autoHideTopDividerOnExpand || !expanded) && !isHideDisableTopDividerByTopCard()
-    }
-
-    private fun isHideDisableTopDividerByTopCard():Boolean{
-        if(!autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider) return false
-        if(!dividerTopVisible) return false
-        val card = getTopSpoiler() ?: return false
-        return !card.expanded && card.willShowBottomDivider()
-    }
-
-    private fun getBottomSpoiler():CardSpoiler?{
-        for (i in adapter.indexOf(this) + 1 until adapter.size()){
-            val card = adapter[i]
-            if(card is CardSpoiler) return card
-        }
-        return null
-    }
-
-    private fun getTopSpoiler():CardSpoiler?{
-        for (i in adapter.indexOf(this) - 1 downTo 0){
-            val card = adapter[i]
-            if(card is CardSpoiler) return card
-        }
-        return null
     }
 
     //
     //  Setters
     //
 
-    fun setProgress(isProgress: Boolean): CardSpoiler {
-        this.isProgress = isProgress
-        update()
-        return this
-    }
-
-    fun setUseExpandedArrow(useExpandedArrow: Boolean): CardSpoiler {
+    fun setUseExpandedArrow(useExpandedArrow:Boolean): CardSpoiler {
         this.useExpandedArrow = useExpandedArrow
         update()
         return this
     }
 
-    fun setUseExpandedTitleArrow(useExpandedArrow: Boolean): CardSpoiler {
+    fun setUseExpandedTitleArrow(useExpandedArrow:Boolean): CardSpoiler {
         this.useExpandedTitleArrow = useExpandedArrow
-        update()
-        return this
-    }
-
-    fun setAutoHideTopDividerIfTopCardIsSpoilerWithBottomDivider(autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider: Boolean): CardSpoiler {
-        this.autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider = autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider
         update()
         return this
     }
@@ -182,29 +122,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
-    fun remove(card: Card): CardSpoiler {
-        cards.remove(card)
-        adapter.remove(card)
-        return this
-    }
-
     open fun setTitle(@StringRes title: Int): CardSpoiler {
         return setTitle(ToolsResources.s(title))
     }
 
     fun setTitle(title: String?): CardSpoiler {
         this.title = title
-        update()
-        return this
-    }
-
-    fun setAutoHideBottomDividerOnExpand(b: Boolean): CardSpoiler {
-        this.autoHideBottomDividerOnExpand = b
-        update()
-        return this
-    }
-    fun setAutoHideTopDividerOnExpand(b: Boolean): CardSpoiler {
-        this.autoHideTopDividerOnExpand = b
         update()
         return this
     }
@@ -226,39 +149,25 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     }
 
     override fun setCardAdapter(adapter: CardAdapter?) {
-        super.setCardAdapter(adapter)
+        super.adapter = adapter
         setExpanded(expanded)
-    }
-
-    open fun onExpandedClicked(expanded: Boolean) {
-
     }
 
     fun setExpanded(expanded: Boolean): CardSpoiler {
         this.expanded = expanded
-        onExpandedClicked(expanded)
         update()
 
-        if (expanded) {
-            var myIndex = adapter.indexOf(this)
-            for (c in cards)
-                if (myIndex != -1) {
-                    ++myIndex
-                    if (!adapter.contains(c)) adapter.add(myIndex, c)
-                }
-            if (cards.isNotEmpty()) {
-                //   if (!animation) adapter.notifyUpdate()
-                if (vRecycler != null) ToolsView.jumpToWithAnimation(vRecycler!!, adapter.indexOf(this))
-            }
-        } else {
-            for (c in cards) adapter.remove(c)
-            // if (!animation) adapter.notifyUpdate()
+        if (adapter != null) {
+            if (expanded) {
+
+                var myIndex = adapter!!.indexOf(this)
+                for (c in cards)
+                    if (myIndex != -1)
+                        if (!adapter!!.contains(c)) adapter!!.add(++myIndex, c)
+
+            } else
+                for (c in cards) adapter!!.remove(c)
         }
-
-        onExpandChanged.invoke(expanded)
-
-        getBottomSpoiler()?.update()
-        getTopSpoiler()?.update()
 
         return this
     }
@@ -271,12 +180,6 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     fun setText(text: String): CardSpoiler {
         this.text = text
-        update()
-        return this
-    }
-
-    fun setTextSize(textSize: Float): CardSpoiler {
-        this.textSize = textSize
         update()
         return this
     }
@@ -299,20 +202,9 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
-    fun setBackgroundColor(backgroundColor: Int): CardSpoiler {
-        this.backgroundColor = backgroundColor
-        update()
-        return this
-    }
-
     fun setTitleColor(titleColor: Int): CardSpoiler {
         this.titleColor = titleColor
         update()
-        return this
-    }
-
-    fun setAnimation(animation: Boolean): CardSpoiler {
-        this.animation = animation
         return this
     }
 
@@ -327,24 +219,4 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         update()
         return this
     }
-
-    fun setRecyclerView(vRecycler: RecyclerView?): CardSpoiler {
-        this.vRecycler = vRecycler
-        return this
-    }
-
-    fun setDividerTopVisible(dividerTopVisible: Boolean): CardSpoiler {
-        this.dividerTopVisible = dividerTopVisible
-        update()
-        return this
-    }
-
-    fun addOnExpandChanged(onExpandChanged: (Boolean) -> Unit): CardSpoiler {
-        this.onExpandChanged.add(onExpandChanged)
-        return this
-    }
-
-    fun isHasOnExpandChangedCallback() = onExpandChanged.isNotEmpty()
-
-    fun isExpanded() = expanded
 }

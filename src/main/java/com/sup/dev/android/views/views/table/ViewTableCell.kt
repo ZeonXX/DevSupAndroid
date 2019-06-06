@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views.table
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -8,19 +9,19 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
-import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewText
+import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsThreads
 
 class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTableRow.context) {
 
     init {
         resetMinSizes()
-        setBackgroundColor(ToolsResources.getColorAttr(R.attr.colorSurface))
+        setBackgroundColor(ToolsResources.getColorAttr(R.attr.content_background))
         setPadding(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt())
-        ToolsView.setOnClickCoordinates(this) { _, x, y -> vTableRow.vTable.onCellClicked.invoke(this, x, y) }
+        ToolsView.setOnClickCoordinates(this) { v, x, y -> vTableRow.vTable.onCellClicked.invoke(this, x, y) }
     }
 
     fun resetMinSizes() {
@@ -48,7 +49,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
     //
 
     fun setContentText(text: String) {
-        val vText: ViewText = ToolsView.inflate(R.layout.z_text_body)
+        val vText: ViewTextLinkable = ToolsView.inflate(R.layout.z_text_body)
         vText.text = text
         resetView(vText)
         vTableRow.vTable.textProcessor.invoke(this, text, vText)
@@ -68,7 +69,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
         resetView(vImage)
         (vImage.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
         (vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
-        ImageLoader.load(imageId).into(vImage)
+        ToolsImagesLoader.loadGif(0, imageId, 0, 0, vImage, null, 1f)
     }
 
     //

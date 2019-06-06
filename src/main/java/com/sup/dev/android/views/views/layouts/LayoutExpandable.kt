@@ -3,8 +3,8 @@ package com.sup.dev.android.views.views.layouts
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
-import androidx.annotation.AnyThread
-import androidx.annotation.MainThread
+import android.support.annotation.AnyThread
+import android.support.annotation.MainThread
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Interpolator
@@ -43,7 +43,7 @@ constructor(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs
 
         mExpandDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
         mCollapseDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
-        if (mIsClickToToggle)  setOnClickListener { toggle() }
+        if (mIsClickToToggle)  setOnClickListener { v -> toggle() }
         else setOnClickListener(null)
     }
 

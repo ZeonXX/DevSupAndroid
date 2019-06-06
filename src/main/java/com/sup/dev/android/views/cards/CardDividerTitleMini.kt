@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.cards
 
-import androidx.annotation.StringRes
+import android.support.annotation.StringRes
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -8,9 +8,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
-class CardDividerTitleMini constructor(
-    private var title: String? = null
-) : Card(R.layout.card_divider_title_mini) {
+class CardDividerTitleMini constructor(private var title: String? = null) : Card() {
 
     private var background: Int = 0
     private var enabled = true
@@ -19,6 +17,8 @@ class CardDividerTitleMini constructor(
     private var gravity = Gravity.LEFT
 
     constructor(@StringRes title: Int) : this(ToolsResources.s(title))
+
+    override fun getLayout() = R.layout.card_divider_title_mini
 
     override fun bindView(view: View) {
         super.bindView(view)

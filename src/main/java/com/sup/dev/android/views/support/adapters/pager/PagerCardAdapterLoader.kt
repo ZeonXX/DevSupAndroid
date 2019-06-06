@@ -5,6 +5,7 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
+
 class PagerCardAdapterLoader<X>(private val loader: ((Array<X>) -> Unit, ArrayList<Card>) -> Unit, private val mapper: (X)->Card) : PagerCardAdapter() {
 
     private var startLoadOffset = 0

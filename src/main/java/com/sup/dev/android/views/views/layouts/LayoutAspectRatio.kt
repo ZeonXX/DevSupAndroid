@@ -2,12 +2,14 @@ package com.sup.dev.android.views.views.layouts
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.View.MeasureSpec.UNSPECIFIED
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.sup.dev.android.R
 
-open class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+
+class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var rw = 0f
     private var rh = 0f
@@ -33,7 +35,7 @@ open class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         if (rw <= 0 || rh <= 0) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY))
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
             return
         }
 
@@ -42,10 +44,10 @@ open class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? 
         if (layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        var w = MeasureSpec.getSize(widthMeasureSpec)
-        var h = MeasureSpec.getSize(heightMeasureSpec)
-        val wm = MeasureSpec.getMode(widthMeasureSpec)
-        val hm = MeasureSpec.getMode(heightMeasureSpec)
+        var w = View.MeasureSpec.getSize(widthMeasureSpec)
+        var h = View.MeasureSpec.getSize(heightMeasureSpec)
+        val wm = View.MeasureSpec.getMode(widthMeasureSpec)
+        val hm = View.MeasureSpec.getMode(heightMeasureSpec)
 
         if (wm == UNSPECIFIED) w = h
         if (hm == UNSPECIFIED) h = w
@@ -55,7 +57,7 @@ open class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? 
         val insW = rw * if (ah < aw) ah else aw
         val insH = rh * if (ah < aw) ah else aw
 
-        super.onMeasure(MeasureSpec.makeMeasureSpec(insW.toInt(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(insH.toInt(), MeasureSpec.EXACTLY))
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(insW.toInt(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(insH.toInt(), View.MeasureSpec.EXACTLY))
     }
 
 }

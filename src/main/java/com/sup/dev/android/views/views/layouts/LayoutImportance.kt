@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.sup.dev.android.R
-import com.sup.dev.java.tools.ToolsCollections
 import java.util.*
 
 
@@ -28,7 +27,7 @@ class LayoutImportance(context: Context, attrs: AttributeSet) : LinearLayout(con
             for (i in 0 until childCount) if (getChildAt(i).visibility == View.VISIBLE) children.add(getChildAt(i))
             if (children.isEmpty()) return
 
-            ToolsCollections.sort(children){ o1, o2 -> (o1.layoutParams as LayoutParams).importance - (o2.layoutParams as LayoutParams).importance }
+            children.sortWith(Comparator { o1, o2 -> (o1.layoutParams as LayoutParams).importance - (o2.layoutParams as LayoutParams).importance })
             children[0].visibility = View.GONE
 
             lock++

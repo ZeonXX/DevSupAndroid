@@ -1,13 +1,13 @@
 package com.sup.dev.android.views.cards
 
-import android.view.Gravity
-import androidx.annotation.StringRes
+import android.support.annotation.StringRes
 import android.view.View
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
-class CardTitle @JvmOverloads constructor(title: String? = null) : Card(R.layout.card_title) {
+
+class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
 
     private var dividerVisible = false
     private var background = 0
@@ -16,12 +16,15 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card(R.layout
     private var title: String? = null
     private var customColor: Boolean = false
     private var textColor: Int = 0
-    private var textGravity = Gravity.LEFT
 
     constructor(@StringRes title: Int) : this(ToolsResources.s(title)) {}
 
     init {
         setTitle(title)
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.card_title
     }
 
     override fun bindView(view: View) {
@@ -33,7 +36,6 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card(R.layout
         if (background != 0) view.setBackgroundColor(background)
         textView.text = title
         textView.isEnabled = enabled
-        textView.gravity = textGravity
 
         if (customColor) textView.setTextColor(textColor)
     }
@@ -41,13 +43,6 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card(R.layout
     //
     //  Setters
     //
-
-    //  Gravity.LEFT
-    fun setTextGravity(textGravity: Int): CardTitle {
-        this.textGravity = textGravity
-        update()
-        return this
-    }
 
     fun setDividerVisible(dividerVisible: Boolean): CardTitle {
         this.dividerVisible = dividerVisible

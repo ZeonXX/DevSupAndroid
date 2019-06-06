@@ -5,13 +5,9 @@ import android.content.Context
 import android.graphics.*
 import android.media.ExifInterface
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.util.Pair
-import androidx.annotation.RequiresApi
-import com.sup.dev.java.libs.debug.err
 import java.io.*
-import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
@@ -65,27 +61,28 @@ internal object BitmapUtils {
 
         }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun rotateBitmapByExif(bitmap: Bitmap, context: Context, uri: Uri): RotateBitmapResult {
         var ei: ExifInterface? = null
         try {
             val inputStream = context.contentResolver.openInputStream(uri)
             if (inputStream != null) {
                 ei = ExifInterface(inputStream)
-                inputStream.close()
+                inputStream!!.close()
             }
         } catch (ignored: Exception) {
         }
 
-        return if (ei != null) rotateBitmapByExif(bitmap, ei) else RotateBitmapResult(bitmap, 0)
+        return if (ei != null) rotateBitmapByExif(bitmap, ei!!) else RotateBitmapResult(bitmap, 0)
     }
 
     fun rotateBitmapByExif(bitmap: Bitmap, exif: ExifInterface): RotateBitmapResult {
-        val degrees: Int = when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> 90
-            ExifInterface.ORIENTATION_ROTATE_180 -> 180
-            ExifInterface.ORIENTATION_ROTATE_270 -> 270
-            else -> 0
+        val degrees: Int
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> degrees = 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> degrees = 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> degrees = 270
+            else -> degrees = 0
         }
         return RotateBitmapResult(bitmap, degrees)
     }
@@ -153,35 +150,28 @@ internal object BitmapUtils {
             aspectRatioY: Int,
             scale: Float,
             flipHorizontally: Boolean,
-            flipVertically: Boolean): Bitmap? {
+            flipVertically: Boolean): Bitmap {
 
-        try {
-            val rect = getRectFromPoints(
-                    points,
-                    bitmap.width,
-                    bitmap.height,
-                    fixAspectRatio,
-                    aspectRatioX,
-                    aspectRatioY)
+        val rect = getRectFromPoints(
+                points,
+                bitmap.width,
+                bitmap.height,
+                fixAspectRatio,
+                aspectRatioX,
+                aspectRatioY)
 
-            val matrix = Matrix()
-            matrix.setRotate(degreesRotated.toFloat(), (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat())
-            matrix.postScale(if (flipHorizontally) -scale else scale, if (flipVertically) -scale else scale)
-            var result = Bitmap.createBitmap(bitmap, rect.left, rect.top, rect.width(), rect.height(), matrix, true)
+        val matrix = Matrix()
+        matrix.setRotate(degreesRotated.toFloat(), (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat())
+        matrix.postScale(if (flipHorizontally) -scale else scale, if (flipVertically) -scale else scale)
+        var result = Bitmap.createBitmap(bitmap, rect.left, rect.top, rect.width(), rect.height(), matrix, true)
 
-            if (result == bitmap)
-                result = bitmap.copy(bitmap.config, false)
+        if (result == bitmap)
+            result = bitmap.copy(bitmap.config, false)
 
-            if (degreesRotated % 90 != 0)
-                result = cropForRotatedImage(result, points, rect, degreesRotated, fixAspectRatio, aspectRatioX, aspectRatioY)
+        if (degreesRotated % 90 != 0)
+            result = cropForRotatedImage(result, points, rect, degreesRotated, fixAspectRatio, aspectRatioX, aspectRatioY)
 
-            return result
-        }catch (e:NullPointerException){
-            err(e)
-            return null
-        }
-
-
+        return result
     }
 
     fun cropBitmap(
@@ -296,19 +286,19 @@ internal object BitmapUtils {
     }
 
     fun writeTempStateStoreBitmap(context: Context, bitmap: Bitmap, uri: Uri?): Uri? {
-        var uriV = uri
+        var uri = uri
         try {
             var needSave = true
-            if (uriV == null) {
-                uriV = Uri.fromFile(
+            if (uri == null) {
+                uri = Uri.fromFile(
                         File.createTempFile("aic_state_store_temp", ".jpg", context.cacheDir))
-            } else if (File(uriV.path).exists()) {
+            } else if (File(uri!!.path).exists()) {
                 needSave = false
             }
             if (needSave) {
-                writeBitmapToUri(context, bitmap, uriV, Bitmap.CompressFormat.JPEG, 95)
+                writeBitmapToUri(context, bitmap, uri, Bitmap.CompressFormat.JPEG, 95)
             }
-            return uriV
+            return uri
         } catch (e: Exception) {
             Log.w("AIC", "Failed to write bitmap to temp file for image-cropper save instance state", e)
             return null
@@ -325,7 +315,7 @@ internal object BitmapUtils {
             compressQuality: Int) {
         var outputStream: OutputStream? = null
         try {
-            outputStream = context.contentResolver.openOutputStream(uri!!)
+            outputStream = context.contentResolver.openOutputStream(uri)
             bitmap.compress(compressFormat, compressQuality, outputStream)
         } finally {
             closeSafe(outputStream)
@@ -411,7 +401,9 @@ internal object BitmapUtils {
                             result, points, rect, degreesRotated, fixAspectRatio, aspectRatioX, aspectRatioY)
                 }
             } catch (e: OutOfMemoryError) {
-                result.recycle()
+                if (result != null) {
+                    result!!.recycle()
+                }
                 throw e
             }
 
@@ -466,7 +458,7 @@ internal object BitmapUtils {
                     }
 
                     result = cropBitmapObjectWithScale(
-                            fullBitmap,
+                            fullBitmap!!,
                             points2,
                             degreesRotated,
                             fixAspectRatio,
@@ -477,13 +469,13 @@ internal object BitmapUtils {
                             flipVertically)
                 } finally {
                     if (result != fullBitmap) {
-                        fullBitmap.recycle()
+                        fullBitmap!!.recycle()
                     }
                 }
             }
         } catch (e: OutOfMemoryError) {
             if (result != null) {
-                result.recycle()
+                result!!.recycle()
             }
             throw e
         } catch (e: Exception) {
@@ -551,7 +543,7 @@ internal object BitmapUtils {
         } finally {
             closeSafe(stream)
             if (decoder != null) {
-                decoder.recycle()
+                decoder!!.recycle()
             }
         }
         return BitmapSampled(null, 1)
@@ -565,7 +557,7 @@ internal object BitmapUtils {
             fixAspectRatio: Boolean,
             aspectRatioX: Int,
             aspectRatioY: Int): Bitmap? {
-        var bitmapV = bitmap
+        var bitmap = bitmap
         if (degreesRotated % 90 != 0) {
 
             var adjLeft = 0
@@ -594,13 +586,13 @@ internal object BitmapUtils {
                 fixRectForAspectRatio(rect, aspectRatioX, aspectRatioY)
             }
 
-            val bitmapTmp = bitmapV
-            bitmapV = Bitmap.createBitmap(bitmapV!!, rect.left, rect.top, rect.width(), rect.height())
-            if (bitmapTmp != bitmapV) {
+            val bitmapTmp = bitmap
+            bitmap = Bitmap.createBitmap(bitmap!!, rect.left, rect.top, rect.width(), rect.height())
+            if (bitmapTmp != bitmap) {
                 bitmapTmp!!.recycle()
             }
         }
-        return bitmapV
+        return bitmap
     }
 
     private fun calculateInSampleSizeByReqestedSize(
@@ -646,7 +638,7 @@ internal object BitmapUtils {
     private fun closeSafe(closeable: Closeable?) {
         if (closeable != null) {
             try {
-                closeable.close()
+                closeable!!.close()
             } catch (ignored: IOException) {
             }
 

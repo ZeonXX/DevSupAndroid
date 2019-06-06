@@ -3,14 +3,15 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import com.google.android.material.chip.Chip
+import android.support.design.chip.Chip
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.drawable.DrawableBitmapCircle
+import com.sup.dev.android.views.support.DrawableBitmapCircle
+
 
 class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : Chip(context, attributeSet, defStyleAttr) {
 
@@ -18,13 +19,6 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
 
         fun instance(context: Context, name: String? = null, tag: Any? = null): ViewChip {
             val v: ViewChip = ToolsView.inflate(context, R.layout.z_chip)
-            v.text = name
-            v.tag = tag
-            return v
-        }
-
-        fun instanceMini(vParent: ViewGroup, name: String? = null, tag: Any? = null): ViewChip {
-            val v: ViewChip = ToolsView.inflate(vParent, R.layout.z_chip_mini)
             v.text = name
             v.tag = tag
             return v
@@ -78,13 +72,6 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         layoutParams.height = size
         chipIconSize = size.toFloat() - chipIconSizePadding
         updatePadding()
-    }
-
-    fun setTextPaddings(start:Float, end:Float){
-        textStartPaddingLocal = start
-        textEndPaddingLocal = end
-        textStartPadding = start
-        textEndPadding = end
     }
 
     private fun updatePadding() {
@@ -141,7 +128,7 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         chipBackgroundColor = ColorStateList.valueOf(color)
     }
 
-    fun setIconPadding(p: Float) {
+    fun setIocnPadings(p: Float) {
         iconStartPadding = p
         iconEndPadding = p
     }

@@ -1,8 +1,8 @@
 package com.sup.dev.android.views.support.behavior
 
 import android.content.Context
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -28,12 +28,10 @@ class BehaviorBottomSheet<V : View> : BottomSheetBehavior<V> {
         return canCollapse && super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
     }
 
-    @Suppress("DEPRECATION")
     override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dx: Int, dy: Int, consumed: IntArray) {
         if (canCollapse) super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed)
     }
 
-    @Suppress("DEPRECATION")
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View) {
         if (canCollapse) super.onStopNestedScroll(coordinatorLayout, child, target)
     }

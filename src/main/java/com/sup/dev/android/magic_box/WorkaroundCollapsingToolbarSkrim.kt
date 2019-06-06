@@ -1,6 +1,6 @@
 package com.sup.dev.android.magic_box
 
-import com.google.android.material.appbar.CollapsingToolbarLayout
+import android.support.design.widget.CollapsingToolbarLayout
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 

@@ -1,10 +1,8 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
@@ -14,19 +12,9 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
 
-        vArrow.setImageDrawable(ToolsResources.getDrawable(R.drawable.ic_keyboard_arrow_right_white_24dp))
-        vArrow.setColorFilter(ToolsResources.getColorAttr(R.attr.colorOnPrimaryIcons))
+        vArrow.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_keyboard_arrow_right_24dp))
 
         setSubView(vArrow)
     }
-
-    fun setArrowIcon(@DrawableRes drawable: Int) {
-        setArrowIcon(ToolsResources.getDrawable(drawable))
-    }
-
-    fun setArrowIcon(drawable: Drawable) {
-        vArrow.setImageDrawable(drawable)
-    }
-
 
 }

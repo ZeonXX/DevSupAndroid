@@ -2,8 +2,8 @@ package com.sup.dev.android.views.views.pager
 
 import android.content.Context
 import android.graphics.Paint
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -31,8 +31,8 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
         SupAndroid.initEditMode(this)
 
         offset = ToolsView.dpToPx(16f)
-        color = ToolsResources.getSecondaryAlphaColor(context)
-        colorSelected = ToolsResources.getSecondaryColor(context)
+        color = ToolsResources.getAccentAlphaColor(context)
+        colorSelected = ToolsResources.getAccentColor(context)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator, 0, 0)
         color = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_color, color)
@@ -57,8 +57,8 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
 
     open fun setPagerView(pager: ViewPager?) {
         this.pager = pager
-        pager?.addOnPageChangeListener(this)
-        pager?.addOnAdapterChangeListener(this)
+        pager!!.addOnPageChangeListener(this)
+        pager.addOnAdapterChangeListener(this)
         onChanged()
     }
 
@@ -82,5 +82,6 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
     protected abstract fun onChanged()
 
     override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
+
     }
 }

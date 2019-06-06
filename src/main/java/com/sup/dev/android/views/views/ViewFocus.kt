@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.google.android.material.button.MaterialButton
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 import com.sup.dev.android.tools.ToolsView
@@ -16,12 +15,12 @@ import com.sup.dev.android.tools.ToolsResources
 class ViewFocus @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : MaterialButton(context, attrs) {
+) : android.support.design.button.MaterialButton(context, attrs) {
 
     private val path = Path()
     private val paint = Paint()
 
-    private val color = ToolsResources.getSecondaryColor(getContext())
+    private val color = ToolsResources.getAccentColor(getContext())
 
     private val radius = ToolsAndroid.getScreenW() / 1.6f
     private val radiusTrembling = radius / 10

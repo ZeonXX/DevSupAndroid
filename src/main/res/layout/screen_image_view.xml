@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vRoot"
-    android:background="#FF000000"
     style="@style/Root">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager.widget.ViewPager style="@style/Pager" />
-
-        <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/vShare"
-            style="@style/Icon.Shadow"
-            android:layout_marginRight="72dp"
-            android:src="@drawable/ic_share_white_24dp"/>
+        <android.support.v4.view.ViewPager
+            style="@style/Pager"/>
 
         <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vDownload"
             style="@style/Icon.Shadow"
-            android:src="@drawable/ic_file_download_white_24dp" />
+            android:src="?attr/ic_file_download_24dp"/>
 
-        <com.sup.dev.android.views.views.ViewIcon style="@style/Icon.Shadow.Back"
-            app:ViewIcon_filter="@color/white"/>
+        <com.sup.dev.android.views.views.ViewIcon
+            style="@style/Icon.Shadow.Back"/>
 
         <com.sup.dev.android.views.views.layouts.LayoutCorned
             android:id="@+id/vCounterContainer"
@@ -39,20 +34,12 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?colorOnPrimary"
-                android:layout_gravity="top|left" />
+                android:layout_gravity="top|left"/>
 
         </com.sup.dev.android.views.views.layouts.LayoutCorned>
 
-        <com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
-            android:id="@+id/vIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:padding="4dp"
-            android:background="#20000000" />
 
     </FrameLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

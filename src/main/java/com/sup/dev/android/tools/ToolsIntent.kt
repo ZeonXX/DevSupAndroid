@@ -1,28 +1,22 @@
 package com.sup.dev.android.tools
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.app.Service
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.Parcelable
-import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
+import android.support.v4.content.FileProvider
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsText
-import com.sup.dev.java.tools.ToolsThreads
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.io.Serializable
+import java.io.*
 import java.net.URLConnection
 import java.util.*
 
@@ -33,7 +27,7 @@ object ToolsIntent {
 
     private var codeCounter = 0
     private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>?>()
-    private val onActivityNotFoundDef: () -> Unit = { ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND) }
+    private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND)}
 
     //
     //  Support
@@ -48,14 +42,6 @@ object ToolsIntent {
         val code = codeCounter++
         progressIntents.add(Item2(code, onResult))
         SupAndroid.activity!!.startActivityForResult(intent, code)
-    }
-
-    fun startIntentForResult(intentSender: IntentSender, onResult: (Int, Intent?) -> Unit) {
-        if (codeCounter == 65000)
-            codeCounter = 0
-        val code = codeCounter++
-        progressIntents.add(Item2(code, onResult))
-        ActivityCompat.startIntentSenderForResult(SupAndroid.activity!!, intentSender, code, null, 0, 0, 0, null)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent?) {
@@ -74,24 +60,9 @@ object ToolsIntent {
         SupAndroid.appContext!!.startActivity(intent)
     }
 
-    fun parseExtras(intent: Intent, onNext: (key: String, value: Any) -> Unit) {
-        val extras = intent.extras
-        if (extras != null) {
-            val keySet = extras.keySet()
-            for (k in keySet) {
-                onNext.invoke(k, extras.get(k)!!)
-            }
-        }
-    }
-
     //
     //  Intents
     //
-
-    fun startWeb(link: String, onActivityNotFound: () -> Unit) {
-        startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
-    }
 
     fun startIntent(intent: Intent, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         try {
@@ -132,23 +103,6 @@ object ToolsIntent {
     fun startMail(mail: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$mail"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
-    }
-
-    fun startMail(link: String, subject: String, text: String, onActivityNotFound: () -> Unit) {
-        startMail(link, subject, text, null, onActivityNotFound)
-    }
-
-    fun startMail(link: String, subject: String, text: String, attachmentPath: Uri?, onActivityNotFound: () -> Unit) {
-        val intent: Intent = Intent(Intent.ACTION_SENDTO)
-                .setData(Uri.parse("mailto:"))
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                .putExtra(Intent.EXTRA_EMAIL, arrayOf(link))
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-                .putExtra(Intent.EXTRA_TEXT, text)
-
-        if (attachmentPath != null) intent.putExtra(Intent.EXTRA_STREAM, attachmentPath)
-
-        startIntent(intent, onActivityNotFound)
     }
 
     fun startPhone(phone: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
@@ -240,56 +194,27 @@ object ToolsIntent {
     //  Intents result
     //
 
-    fun getCameraImage(onResult: (ByteArray) -> Unit, onError: (Exception) -> Unit = {}) {
-        try {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (intent.resolveActivity(SupAndroid.appContext!!.packageManager) != null) {
-                startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-                    if (resultCode != Activity.RESULT_OK || resultIntent == null) {
-                        onError.invoke(IllegalAccessException("Result is null or not OK"))
-                    } else {
-                        ToolsThreads.thread {
-                            try {
-                                val imageBitmap = resultIntent.extras!!.get("data") as Bitmap
-                                val bytes = ToolsBitmap.toBytes(imageBitmap)!!
-                                ToolsThreads.main { onResult.invoke(bytes) }
-                            } catch (e: Exception) {
-                                ToolsThreads.main { onError.invoke(e) }
-                            }
-
-                        }
-                    }
-                }
-            } else {
-                onError.invoke(IllegalAccessException("Cant find camera"))
-            }
-        } catch (e: Exception) {
-            onError.invoke(e)
-            return
-        }
-    }
-
-    fun getGalleryImage(onResult: (ByteArray) -> Unit, onError: (Exception) -> Unit = {}) {
+    fun getGalleryImage(onResult: (ByteArray)->Unit, onError: ()->Unit={}) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         try {
             startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-                try {
+                try{
                     if (resultCode != Activity.RESULT_OK || resultIntent == null || resultIntent.data == null) throw IllegalAccessException("Result is null or not OK")
-                    val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data!!)
-                    val bytes = ByteArray(inp!!.available())
+                    val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data)
+                    val bytes = ByteArray(inp.available())
                     inp.read(bytes)
                     inp.close()
                     onResult.invoke(bytes)
-                } catch (e: Exception) {
+                }catch (e:Exception){
                     err(e)
-                    onError.invoke(e)
+                    onError.invoke()
                 }
 
             }
         } catch (ex: ActivityNotFoundException) {
             err(ex)
-            onError.invoke(ex)
+            onError.invoke()
         }
 
     }
@@ -317,10 +242,10 @@ object ToolsIntent {
     }
 
     fun startActivity(viewContext: Context, activityClass: Class<out Activity>, vararg extras: Any) {
-        startActivityFlag(viewContext, activityClass, null, *extras)
+        startActivity(viewContext, activityClass, null, *extras)
     }
 
-    fun startActivityFlag(viewContext: Context, activityClass: Class<out Activity>, flags: Int?, vararg extras: Any) {
+    fun startActivity(viewContext: Context, activityClass: Class<out Activity>, flags: Int?, vararg extras: Any) {
         val intent = Intent(viewContext, activityClass)
 
         addExtras(intent, *extras)
@@ -343,6 +268,15 @@ object ToolsIntent {
                 throw IllegalArgumentException("Extras must be instance of Parcelable or Serializable")
             i += 2
         }
+    }
+
+    fun sendSalient(intent: PendingIntent) {
+        try {
+            intent.send()
+        } catch (ex: PendingIntent.CanceledException) {
+            err(ex)
+        }
+
     }
 
 

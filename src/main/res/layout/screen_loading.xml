@@ -15,7 +15,7 @@
             android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:indeterminate="true" />
+            android:indeterminate="true"/>
 
         <LinearLayout
             android:id="@+id/vMessageContainer"
@@ -29,7 +29,7 @@
                 android:layout_width="168dp"
                 android:layout_height="168dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:id="@+id/vMessage"
@@ -38,39 +38,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:maxWidth="240dp" />
+                android:maxWidth="240dp"
+                android:text="tttttttttttttttttttttttttttttttt"/>
 
-            <FrameLayout
+            <com.sup.dev.android.views.views.ViewButton
+                android:id="@+id/vAction"
+                style="@style/Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="12dp">
-
-                <ProgressBar
-                    android:id="@+id/vProgressLine"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="128dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true" />
-
-                <com.sup.dev.android.views.views.ViewButton
-                    android:id="@+id/vAction"
-                    style="@style/Button.Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
-
-            </FrameLayout>
-
+                android:layout_marginTop="8dp"
+                android:text="tttttttttttt"/>
 
         </LinearLayout>
 
     </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/vFab"
-        style="@style/Fab"
-        app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorCollapseFull" />
+        app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorCollapseFull"
+        style="@style/Fab"/>
 
 </FrameLayout>

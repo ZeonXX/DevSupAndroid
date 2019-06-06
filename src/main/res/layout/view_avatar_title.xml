@@ -17,20 +17,21 @@
         android:paddingRight="16dp"
         android:orientation="vertical">
 
-        <com.sup.dev.android.views.views.ViewText
+        <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vDevSupTitle"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"/>
+            android:layout_gravity="left"
+            android:text="Title"/>
 
-        <com.sup.dev.android.views.views.ViewText
+        <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vDevSupSubtitle"
-            android:layout_marginTop="-2dp"
             style="@style/Base.TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"/>
+            android:layout_gravity="left"
+            android:text="subtitle"/>
 
     </LinearLayout>
 

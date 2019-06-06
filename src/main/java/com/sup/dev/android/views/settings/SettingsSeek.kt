@@ -3,8 +3,8 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
@@ -49,7 +49,6 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         setMaxProgress(maxProgress)
         vSeekBar.progress = progress
-        isFocusable = false
     }
 
     //
@@ -63,8 +62,8 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         return bundle
     }
 
-    public override fun onRestoreInstanceState(s: Parcelable?) {
-        var state = s
+    public override fun onRestoreInstanceState(state: Parcelable?) {
+        var state = state
         if (state is Bundle) {
             val bundle = state as Bundle?
             progress = bundle!!.getInt("progress")
@@ -78,6 +77,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //
 
     fun setMaxProgress(max: Int) {
+
         vSeekBar.max = max
     }
 

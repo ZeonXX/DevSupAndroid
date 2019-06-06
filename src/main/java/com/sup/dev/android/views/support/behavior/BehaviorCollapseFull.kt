@@ -1,23 +1,23 @@
 package com.sup.dev.android.views.support.behavior
 
 import android.content.Context
-import com.google.android.material.appbar.AppBarLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 
-open class BehaviorCollapseFull<V : View>(context: Context, attrs: AttributeSet) : androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior<V>(context, attrs) {
+open class BehaviorCollapseFull<V : View>(context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<V>(context, attrs) {
 
     private var subscription: Subscription? = null
     private var target = 1f
 
-    override fun layoutDependsOn(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, dependency: View): Boolean {
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         return dependency is AppBarLayout
     }
 
-    override fun onDependentViewChanged(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         if (child.visibility != View.GONE) {
             if (target == 1f) {
                 if (-dependency.y > child.height / 2f) {

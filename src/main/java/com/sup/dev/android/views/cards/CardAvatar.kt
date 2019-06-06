@@ -1,20 +1,17 @@
 package com.sup.dev.android.views.cards
 
 import android.graphics.Bitmap
-import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.view.View
-import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
-open class CardAvatar(
-    layout: Int = 0
-) : Card(if (layout > 0) layout else R.layout.card_avatar) {
+open class CardAvatar() : Card() {
 
-    protected var onClick: () -> Unit = {}
-    protected var onLongClick: (CardAvatar, View, Float, Float) -> Unit = { _, _, _, _ -> }
+    private var onClick: () -> Unit = {}
+    private var onLongClick: (CardAvatar, View, Int, Int) -> Unit = { card, view, x, y -> }
     private var dividerVisible = false
     private var enabled = true
     private var background = 0
@@ -22,8 +19,6 @@ open class CardAvatar(
     private var subtitle: String? = null
     private var chipText: String? = null
     private var image: Bitmap? = null
-    private var imageRes: Int? = null
-    private var avatarSize:Int? = null
     @DrawableRes
     private var chipIcon = 0
     private var chipIconPadding = 0
@@ -32,13 +27,15 @@ open class CardAvatar(
     private var chipUseIconBackground = false
     private var onClickAvatar: (() -> Unit)? = null
 
+    override fun getLayout() = R.layout.card_avatar
+
     override fun bindView(view: View) {
         super.bindView(view)
         val vTouch: View = view.findViewById(R.id.vTouch)
-        val vDivider: View? = view.findViewById(R.id.vDivider)
+        val vDivider: View = view.findViewById(R.id.vDivider)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
 
-        if(vDivider != null) vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
+        vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = true && enabled
         vTouch.isClickable = true && enabled
         vTouch.isEnabled = true && enabled
@@ -53,17 +50,11 @@ open class CardAvatar(
         vAvatar.isClickable = false
         if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { onClickAvatar!!.invoke() }
         else vAvatar.vAvatar.setOnClickListener(null)
-        if (imageRes != null) vAvatar.vAvatar.setImage(imageRes!!)
-        else vAvatar.vAvatar.setImage(image)
+        vAvatar.vAvatar.setImage(image)
         vAvatar.vAvatar.setChipIcon(chipIcon)
         vAvatar.vAvatar.setChipIconPadding(chipIconPadding)
         vAvatar.vAvatar.setChipText(chipText)
         vAvatar.vAvatar.setChipBackground(chipBackground)
-
-        if(avatarSize != null) {
-            vAvatar.vAvatar.layoutParams.width = avatarSize!!
-            vAvatar.vAvatar.layoutParams.height = avatarSize!!
-        }
 
         onBind(vAvatar)
     }
@@ -82,8 +73,6 @@ open class CardAvatar(
         return this
     }
 
-    fun setTitle(title: Int) = setTitle(com.sup.dev.android.tools.ToolsResources.s(title))
-
     fun setTitle(title: String): CardAvatar {
         this.title = title
         update()
@@ -98,18 +87,6 @@ open class CardAvatar(
 
     fun setImage(image: Bitmap): CardAvatar {
         this.image = image
-        update()
-        return this
-    }
-
-    fun setImage(image: Int): CardAvatar {
-        this.imageRes = image
-        update()
-        return this
-    }
-
-    fun setAvatarSize(avatarSize: Int): CardAvatar {
-        this.avatarSize = avatarSize
         update()
         return this
     }
@@ -150,7 +127,7 @@ open class CardAvatar(
         return this
     }
 
-    fun setOnLongClick(onLongClick: (CardAvatar, View, Float, Float) -> Unit): CardAvatar {
+    fun setOnLongClick(onLongClick: (CardAvatar, View, Int, Int) -> Unit): CardAvatar {
         this.onLongClick = onLongClick
         update()
         return this

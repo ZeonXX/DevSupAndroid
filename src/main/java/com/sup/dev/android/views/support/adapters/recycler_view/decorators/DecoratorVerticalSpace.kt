@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.support.adapters.recycler_view.decorators
 
 import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.sup.dev.android.tools.ToolsView
 
