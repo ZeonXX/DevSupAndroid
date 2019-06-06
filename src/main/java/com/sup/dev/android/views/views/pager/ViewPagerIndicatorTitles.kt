@@ -2,33 +2,18 @@ package com.sup.dev.android.views.views.pager
 
 import android.content.Context
 import android.support.annotation.MainThread
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.sup.dev.android.R
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsColor
 
+class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPagerIndicatorViews(context, attrs) {
 
-class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPagerIndicator(context, attrs) {
-
-    private var offsetLeft: Int = 0
 
     private var titles: Array<out String?>? = null
-    private var views: Array<TextView?>? = null
-
-    init {
-
-        SupAndroid.initEditMode(this)
-
-        val a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicatorTitles, 0, 0)
-        offsetLeft = a.getDimension(R.styleable.ViewPagerIndicatorTitles_ViewPagerIndicatorTitles_offset_left, offsetLeft.toFloat()).toInt()
-        a.recycle()
-    }
 
     fun setTitles(vararg titles: String) {
         this.titles = titles
@@ -40,50 +25,10 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
             (this.titles as Array<String?>)[i] = ToolsResources.s(titles[i])
     }
 
-    override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
-        reset()
-    }
-
-    override fun setPagerView(pager: ViewPager?) {
-        super.setPagerView(pager)
-        reset()
-    }
-
-    fun reset() {
-        removeAllViews()
-        if (pager!!.adapter == null) return
-
-        views = arrayOfNulls(pager!!.adapter!!.count)
-        for (i in views!!.indices) {
-            views!![i] = ToolsView.inflate(context, R.layout.view_indicator_title)
-            views!![i]!!.text = if (titles!!.size <= i) null else titles!![i]
-            views!![i]!!.setOnClickListener { v -> pager!!.currentItem = i }
-            addView(views!![i])
-        }
-    }
-
-    @MainThread
-    override fun onChanged() {
-        requestLayout()
-    }
-
-    fun setOffsetLeft(offsetLeft: Int) {
-        this.offsetLeft = offsetLeft
-    }
-
-    //
-    //  Layout
-    //
-
-    @MainThread
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if (pager == null && pagerId != 0) setPagerView(ToolsView.findViewOnParents(this, pagerId))
-
-        for (i in 0 until childCount) {
-            val v = getChildAt(i)
-            measureChild(v, widthMeasureSpec, heightMeasureSpec)
-        }
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(ToolsView.dpToPx(48).toInt(), MeasureSpec.EXACTLY))
+    override fun instanceView(index: Int): View {
+        val v:TextView = ToolsView.inflate(context, R.layout.view_indicator_title)
+        v.text = if (titles!!.size <= index) null else titles!![index]
+        return v
     }
 
     @MainThread
@@ -91,28 +36,16 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
         super.onLayout(changed, l, t, r, b)
         val count = childCount
         if (count == 0) return
-        var xOffset = 0
-        for (i in 0 until position) {
-            val child = getChildAt(i)
-            xOffset += (child.measuredWidth + offset).toInt()
-        }
 
-        val selected = views!![position]!!.findViewById<TextView>(R.id.vDevSupTitle)
+        val selected = views[position].findViewById<TextView>(R.id.vDevSupTitle)
         var old: TextView? = null
         val oldIndex = if (positionOffset > 0) position + 1 else position - 1
         if (positionOffset != 0f && oldIndex > -1 && oldIndex < count) {
-            old = views!![oldIndex]!!.findViewById(R.id.vDevSupTitle)
-            xOffset += (((selected.measuredWidth + old!!.measuredWidth) / 2 + offset) * positionOffset).toInt()
+            old = views[oldIndex].findViewById(R.id.vDevSupTitle)
         }
 
-        var x = (width - offsetLeft - selected.measuredWidth) / 2 - xOffset
         for (i in 0 until count) {
-            val child = getChildAt(i)
-            val y = (height - child.measuredHeight) / 2
-            child.layout(x, y, x + child.measuredWidth, child.measuredHeight + y)
-            x += (offset + child.measuredWidth).toInt()
-
-            val textView = views!![i]!!.findViewById<TextView>(R.id.vDevSupTitle)
+            val textView = views[i].findViewById<TextView>(R.id.vDevSupTitle)
             textView.setTextColor(ToolsColor.setAlpha(120, textView.currentTextColor))
         }
 
@@ -126,6 +59,5 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
 
 
     }
-
 
 }

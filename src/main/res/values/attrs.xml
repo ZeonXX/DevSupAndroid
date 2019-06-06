@@ -12,10 +12,10 @@
         <attr name="ViewPagerIndicator_pager" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="ViewPagerIndicatorTitles">
+    <declare-styleable name="ViewPagerIndicatorViews">
         <attr name="ViewPagerIndicator_color"/>
         <attr name="ViewPagerIndicator_colorSelected"/>
-        <attr name="ViewPagerIndicatorTitles_offset_left" format="dimension"/>
+        <attr name="ViewPagerIndicatorViews_offset_left" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ViewIcon">

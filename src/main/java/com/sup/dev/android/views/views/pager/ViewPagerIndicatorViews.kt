@@ -1,9 +1,9 @@
 package com.sup.dev.android.views.views.pager
 
 import android.content.Context
-import androidx.annotation.MainThread
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
+import android.support.annotation.MainThread
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
@@ -42,11 +42,11 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
 
     fun reset(){
         removeAllViews()
-        if (pager?.adapter == null) return
+        if (pager!!.adapter == null) return
 
         views = Array(pager!!.adapter!!.count){
             val v = instanceView(it)
-            v.setOnClickListener { _ -> pager!!.currentItem = it }
+            v.setOnClickListener { vc -> pager!!.currentItem = it }
             addView(v)
             v
         }
@@ -70,13 +70,13 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
     }
 
     @MainThread
-    override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {
-        super.onLayout(b, i, i1, i2, i3)
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
         val count = childCount
         if (count == 0) return
         var xOffset = 0
-        for (n in 0 until position) {
-            val child = getChildAt(n) ?: break
+        for (i in 0 until position) {
+            val child = getChildAt(i)
             xOffset += (child.measuredWidth + offset).toInt()
         }
 
@@ -89,8 +89,8 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
 
 
         var x = (width - offsetLeft - selected.measuredWidth) / 2 - xOffset
-        for (n in 0 until count) {
-            val child = getChildAt(n)
+        for (i in 0 until count) {
+            val child = getChildAt(i)
             val y = (height - child.measuredHeight) / 2
             child.layout(x, y, x + child.measuredWidth, child.measuredHeight + y)
             x += (offset + child.measuredWidth).toInt()

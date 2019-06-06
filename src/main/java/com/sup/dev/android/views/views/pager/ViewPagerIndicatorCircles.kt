@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 
-
 class ViewPagerIndicatorCircles(context: Context, attrs: AttributeSet) : ViewPagerIndicator(context, attrs), ViewPager.OnPageChangeListener {
 
     init {

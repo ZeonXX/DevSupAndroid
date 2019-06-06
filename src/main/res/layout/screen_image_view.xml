@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vRoot"
     style="@style/Root">
@@ -9,16 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.view.ViewPager
-            style="@style/Pager"/>
+        <android.support.v4.view.ViewPager style="@style/Pager" />
 
         <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vDownload"
             style="@style/Icon.Shadow"
-            android:src="?attr/ic_file_download_24dp"/>
+            android:src="?attr/ic_file_download_24dp" />
 
-        <com.sup.dev.android.views.views.ViewIcon
-            style="@style/Icon.Shadow.Back"/>
+        <com.sup.dev.android.views.views.ViewIcon style="@style/Icon.Shadow.Back" />
 
         <com.sup.dev.android.views.views.layouts.LayoutCorned
             android:id="@+id/vCounterContainer"
@@ -34,10 +31,16 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|left"/>
+                android:layout_gravity="top|left" />
 
         </com.sup.dev.android.views.views.layouts.LayoutCorned>
 
+        <com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
+            android:id="@+id/vIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:background="#20000000" />
 
     </FrameLayout>
 

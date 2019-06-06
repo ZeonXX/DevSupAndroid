@@ -16,6 +16,7 @@ import com.sup.dev.android.views.support.DrawableGif
 import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
+import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -29,39 +30,51 @@ class SImageView private constructor()
     private val vPager: ViewPager = findViewById(R.id.vPager)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
+    private val vIndicator: ViewPagerIndicatorImages = findViewById(R.id.vIndicator)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
     constructor(scrollTo: Int, bitmaps: Array<Bitmap>) : this() {
         for (b in bitmaps) adapterIn.add(Page(null, b, 0L))
         vPager.setCurrentItem(scrollTo, false)
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, bitmaps[index]) }
+        vIndicator.setPagerView(vPager)
     }
 
     constructor(scrollTo: Int, ids: Array<Long>) : this() {
         for (id in ids) adapterIn.add(Page(null, null, id))
         vPager.setCurrentItem(scrollTo, false)
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.imageProvider = { index, v ->
+            ToolsImagesLoader.load(ids[index]).size(64, 64).into(v)
+        }
+        vIndicator.setPagerView(vPager)
     }
 
     constructor(scrollTo: Int, bytes: Array<ByteArray>) : this() {
         for (b in bytes) adapterIn.add(Page(b, null, 0L))
         vPager.setCurrentItem(scrollTo, false)
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, ToolsBitmap.decode( bytes[index])!!) }
+        vIndicator.setPagerView(vPager)
     }
 
     constructor(bitmap: Bitmap) : this() {
         adapterIn.add(Page(null, bitmap, 0L))
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = View.GONE
     }
 
     constructor(id: Long) : this() {
         adapterIn.add(Page(null, null, id))
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = View.GONE
     }
 
     constructor(bytes: ByteArray) : this() {
         adapterIn.add(Page(bytes, null, 0L))
-        vCounterContainer.visibility = if(adapterIn.size() > 1 ) View.VISIBLE else View.GONE
+        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = View.GONE
     }
 
     init {
@@ -97,8 +110,8 @@ class SImageView private constructor()
 
     override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
 
-    private fun updateTitle(){
-        vCounter.text = "${vPager.currentItem+1} / ${adapterIn.size()}"
+    private fun updateTitle() {
+        vCounter.text = "${vPager.currentItem + 1} / ${adapterIn.size()}"
     }
 
     private fun download() {
@@ -124,7 +137,7 @@ class SImageView private constructor()
 
             if (bitmap != null)
                 vImage.setImageBitmap(bitmap)
-            else if(bytes != null){
+            else if (bytes != null) {
                 vImage.setImageBitmap(ToolsBitmap.decode(bytes))
             } else if (id > 0)
                 ToolsImagesLoader.load(id).into { bytes ->
