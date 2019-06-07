@@ -22,16 +22,14 @@
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="Title"/>
+            android:layout_gravity="left"/>
 
         <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vDevSupSubtitle"
             style="@style/Base.TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="subtitle"/>
+            android:layout_gravity="left"/>
 
     </LinearLayout>
 
