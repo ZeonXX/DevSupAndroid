@@ -24,7 +24,7 @@ interface INFO
      git submodule add https://github.com/ZeonXX/DevSupEngineering.git
      git submodule add https://github.com/ZeonXX/AndroidGE.git
 
-     rm -rf path_to_submodule
+     git rm -rf path_to_submodule
 
 
     -   Тема
