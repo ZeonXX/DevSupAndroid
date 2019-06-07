@@ -11,7 +11,6 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventJonScheduler
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 object ToolsJobScheduler{
@@ -25,7 +24,6 @@ object ToolsJobScheduler{
 
     @SuppressLint("MissingPermission")
     fun scheduleJob(id:Int, latency:Long) {
-        log("scheduleJob $id $latency")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val scheduler = SupAndroid.appContext!!.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
 
@@ -46,14 +44,12 @@ object ToolsJobScheduler{
     class ToolsJobSchedulerService : JobService() {
 
         override fun onStartJob(params: JobParameters): Boolean {
-            log("onStartJob")
             EventBus.post(EventJonScheduler(params))
             stopSelf()
             return false
         }
 
         override fun onStopJob(params: JobParameters): Boolean {
-            log("onStopJob")
             return false
         }
     }

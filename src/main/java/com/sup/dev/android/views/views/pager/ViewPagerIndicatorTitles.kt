@@ -52,7 +52,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
         if (positionOffset != 0f) {
             val arg = Math.abs(positionOffset)
             selected.setTextColor(ToolsColor.setAlpha(120 + ((255 - 120) * (1 - arg)).toInt(), selected.currentTextColor))
-            old!!.setTextColor(ToolsColor.setAlpha(120 + ((255 - 120) * arg).toInt(), old.currentTextColor))
+            old?.setTextColor(ToolsColor.setAlpha(120 + ((255 - 120) * arg).toInt(), old.currentTextColor))
         } else {
             selected.setTextColor(ToolsColor.setAlpha(255, selected.currentTextColor))
         }

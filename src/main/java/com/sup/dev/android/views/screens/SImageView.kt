@@ -45,9 +45,7 @@ class SImageView private constructor()
         for (id in ids) adapterIn.add(Page(null, null, id))
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v ->
-            ToolsImagesLoader.load(ids[index]).size(64, 64).into(v)
-        }
+        vIndicator.imageProvider = { index, v -> vIndicator.setImageId(v, ids[index]) }
         vIndicator.setPagerView(vPager)
     }
 
