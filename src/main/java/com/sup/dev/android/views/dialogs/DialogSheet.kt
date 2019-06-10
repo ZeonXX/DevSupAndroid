@@ -42,7 +42,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
-        vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
+      //  vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
         vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
 

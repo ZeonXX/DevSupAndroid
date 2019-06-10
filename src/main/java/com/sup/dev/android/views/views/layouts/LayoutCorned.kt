@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 
 
 open class LayoutCorned @JvmOverloads constructor(
@@ -48,7 +49,8 @@ open class LayoutCorned @JvmOverloads constructor(
     }
 
     override fun draw(canvas: Canvas?) {
-        canvas?.clipPath(path)
+        if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode))
+            canvas?.clipPath(path)
         if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint)
 
         super.draw(canvas)

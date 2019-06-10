@@ -44,7 +44,7 @@ class SAlert(
 
         fun instanceGone(): SAlert {
             return SAlert(
-                    SupAndroid.TEXT_APP_WHOOPS,
+                    if (GLOBAL_SHOW_WHOOPS) SupAndroid.TEXT_APP_WHOOPS else null,
                     SupAndroid.TEXT_ERROR_GONE,
                     SupAndroid.TEXT_APP_BACK,
                     SupAndroid.IMG_ERROR_GONE
