@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sup.dev.android.views.views.ViewCircleImage
+<com.sup.dev.android.views.views.layouts.LayoutCorned
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/vSupportImageView"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:scaleType="centerCrop"
-    app:ViewCircleImage_squareMod="true"
-    app:ViewCircleImage_corned="8dp"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:LayoutCorned_cornedBL="true"
+    app:LayoutCorned_cornedBR="true"
+    app:LayoutCorned_cornedSize="12dp"
+    app:LayoutCorned_cornedTL="true"
+    app:LayoutCorned_cornedTR="true">
+
+    <ImageView
+        android:id="@+id/vSupportImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+</com.sup.dev.android.views.views.layouts.LayoutCorned>
