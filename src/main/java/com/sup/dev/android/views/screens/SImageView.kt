@@ -106,6 +106,15 @@ class SImageView private constructor()
         updateTitle()
     }
 
+    private fun toggleInterface(){
+        val toAlpha = vBack.visibility == View.VISIBLE
+
+        ToolsView.alpha(vBack, toAlpha)
+        ToolsView.alpha(vDownload, toAlpha)
+        ToolsView.alpha(vCounterContainer, toAlpha)
+        ToolsView.alpha(vIndicator, toAlpha)
+    }
+
     override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
 
     private fun updateTitle() {
@@ -116,8 +125,7 @@ class SImageView private constructor()
         (adapterIn[vPager.currentItem] as Page).download()
     }
 
-
-    private class Page constructor(
+    private inner class Page constructor(
             private val bytes: ByteArray?,
             private val bitmap: Bitmap?,
             private val id: Long
@@ -132,6 +140,9 @@ class SImageView private constructor()
 
             vZoom.reset()
             vImage.isClickable = false
+            vImage.setOnClickListener {
+                toggleInterface()
+            }
 
             if (bitmap != null)
                 vImage.setImageBitmap(bitmap)

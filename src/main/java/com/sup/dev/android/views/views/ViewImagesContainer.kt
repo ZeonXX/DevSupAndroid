@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.sup.dev.android.R
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.tools.ToolsThreads
 
 
 class ViewImagesContainer @JvmOverloads constructor(
@@ -20,26 +22,25 @@ class ViewImagesContainer @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     private val rowH = ToolsView.dpToPx(108).toInt()
-    private val items = ArrayList<Item>()
+    private val items = ArrayList<Item<out Any>>()
     private var itemIndex = 0
+    private var onClickGlobal: (Item<Any>) -> Boolean = { false }
 
     init {
         orientation = VERTICAL
     }
 
-    fun add(vararg bitmaps: Bitmap) {
+    fun add(vararg bitmaps: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
         for (bitmap in bitmaps) {
-            val item = ItemBitmap(bitmap)
+            val item = ItemBitmap(bitmap, onClick, onLongClick)
             items.add(item)
         }
         rebuild()
     }
 
-    fun add(vararg ids: Long) {
-        for (id in ids) {
-            val item = ItemId(id)
-            items.add(item)
-        }
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
+        val item = ItemId(id, fullId, w, h, onClick, onLongClick)
+        items.add(item)
         rebuild()
     }
 
@@ -188,36 +189,79 @@ class ViewImagesContainer @JvmOverloads constructor(
         rebuild()
     }
 
-    private abstract inner class Item {
+    private abstract inner class Item<K>(
+            val onClick: ((K) -> Unit)?,
+            val onLongClick: ((K) -> Unit)?
+    ) {
 
         val vContainer: LayoutCorned = ToolsView.inflate(R.layout.view_images_container_item)
         val vImage: ImageView = vContainer.findViewById(R.id.vSupportImageView)
 
+        init {
+            vImage.setOnClickListener {
+                if (onClickGlobal(this as Item<Any>)) {
+                    return@setOnClickListener
+                } else if (onClick == null) {
+                    toImageView()
+                } else {
+                    onClick.invoke(getSource())
+                }
+            }
+            if (onLongClick != null)
+                vImage.setOnLongClickListener {
+                    onLongClick.invoke(getSource())
+                    true
+                }
+        }
+
+        abstract fun toImageView()
+
+        abstract fun getSource(): K
+
     }
 
     private inner class ItemBitmap(
-            val bitmap: Bitmap
-    ) : Item() {
+            val bitmap: Bitmap,
+            onClick: ((Bitmap) -> Unit)?,
+            onLongClick: ((Bitmap) -> Unit)? = null
+    ) : Item<Bitmap>(onClick, onLongClick) {
 
         init {
             vImage.setImageBitmap(bitmap)
-            vImage.setOnClickListener {
-                SImageView(items.indexOf(this), getBitmapsArray())
-            }
         }
+
+        override fun toImageView() {
+            val array = getBitmapsArray()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] == bitmap) index = i
+            Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = bitmap
 
     }
 
     private inner class ItemId(
-            val id: Long
-    ) : Item() {
+            val id: Long,
+            val fullId: Long,
+            val w: Int,
+            val h: Int,
+            onClick: ((Long) -> Unit)?,
+            onLongClick: ((Long) -> Unit)? = null
+    ) : Item<Long>(onClick, onLongClick) {
 
         init {
-            ToolsImagesLoader.load(id).into(vImage)
-            vImage.setOnClickListener {
-                SImageView(items.indexOf(this), getIdsArray())
-            }
+            ToolsImagesLoader.load(id).size(w, h).into(vImage)
         }
+
+        override fun toImageView() {
+            val array = getIdsArray()
+            var index = 0
+            for (i in 0 until array.size) if (array[i] == fullId) index = i
+            Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = id
 
     }
 }
