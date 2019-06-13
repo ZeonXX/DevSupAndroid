@@ -30,9 +30,6 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
     protected var subscription: Request<*>? = null
 
-    protected val notifyCount: Int
-        get() = 5
-
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
@@ -60,6 +57,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
                     .addOnLoadedNotEmpty { setState(State.NONE) }
                     .setRetryMessage(textErrorNetwork, textErrorRetry)
                     .setShowLoadingCardIfEmpty(false)
+                    .setShowErrorCardIfEmpty(false)
                     .setNotifyCount(5)
 
 

@@ -36,6 +36,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var actionEnabled = false
     private var showLoadingCard = true
     private var showLoadingCardIfEmpty = true
+    private var showErrorCardIfEmpty = true
     private var showLoadingTop = true
     private var showLoadingBottom = true
 
@@ -100,12 +101,15 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     }
 
     private fun onLoaded(result: Array<V>?, bottom: Boolean, loadingTagLocal: Long) {
-
         isInProgress = false
         if (loadingTagLocal != loadingTag) return
 
         if (result == null) {
-            if (retryEnabled) {
+
+            lockBottom()
+            lockTop()
+
+            if (retryEnabled && (contains(cardClass) || showErrorCardIfEmpty)) {
                 if (!contains(cardLoading)) {
                     if (bottom) {
                         add(findBottomAdposition(), cardLoading)
@@ -114,9 +118,11 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                     }
                 }
                 cardLoading.setState(CardLoading.State.RETRY)
-            }else remove(cardLoading)
+            } else remove(cardLoading)
 
-            if (!contains(cardClass)) onErrorAndEmpty.invoke()
+            if (!contains(cardClass)) {
+                onErrorAndEmpty.invoke()
+            }
             return
         }
 
@@ -329,6 +335,11 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     fun setShowLoadingCardIfEmpty(b: Boolean): RecyclerCardAdapterLoading<K, V> {
         showLoadingCardIfEmpty = b
+        return this
+    }
+
+    fun setShowErrorCardIfEmpty(b: Boolean): RecyclerCardAdapterLoading<K, V> {
+        showErrorCardIfEmpty = b
         return this
     }
 

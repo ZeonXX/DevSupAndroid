@@ -24,13 +24,19 @@ object ApiRequestsSupporter {
     fun init(api: ApiClient) {
         ApiRequestsSupporter.api = api
     }
-
     fun <K : Request.Response> execute(request: Request<K>, onComplete: (K) -> Unit): Request<K> {
+        return execute(request, false, onComplete)
+    }
+
+    fun <K : Request.Response> execute(request: Request<K>, sendNow:Boolean, onComplete: (K) -> Unit): Request<K> {
         request.onComplete { r -> onComplete.invoke(r) }
                 .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
                 .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
                 .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(SupAndroid.TEXT_ERROR_GONE) }
-                .send(api!!)
+
+        if(sendNow)request.sendNow(api!!)
+        else request.send(api!!)
+
         return request
     }
 
@@ -72,7 +78,11 @@ object ApiRequestsSupporter {
     }
 
     fun <K : Request.Response> executeProgressDialog(dialog: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
-        return execute(request, onComplete)
+        return executeProgressDialog(dialog, request, false, onComplete)
+    }
+
+    fun <K : Request.Response> executeProgressDialog(dialog: Widget?, request: Request<K>, sendNow:Boolean, onComplete: (K) -> Unit): Request<K> {
+        return execute(request, sendNow, onComplete)
                 .onFinish { dialog?.hide() }
     }
 
