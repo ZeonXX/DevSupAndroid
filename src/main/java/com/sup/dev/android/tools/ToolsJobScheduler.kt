@@ -17,23 +17,19 @@ object ToolsJobScheduler{
 
     /*
 
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
      */
 
     @SuppressLint("MissingPermission")
     fun scheduleJob(id:Int, latency:Long) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val scheduler = SupAndroid.appContext!!.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        val scheduler = SupAndroid.appContext!!.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
 
-            val job = JobInfo.Builder(id, ComponentName(SupAndroid.appContext!!, ToolsJobSchedulerService::class.java))
-                    .setMinimumLatency(latency)
-                    .setPersisted(true)
-                    .build()
+        val job = JobInfo.Builder(id, ComponentName(SupAndroid.appContext!!, ToolsJobSchedulerService::class.java))
+                .setMinimumLatency(latency)
+                .setPersisted(true)
+                .build()
 
-            scheduler.schedule(job)
-        }
+        scheduler.schedule(job)
     }
 
     //
