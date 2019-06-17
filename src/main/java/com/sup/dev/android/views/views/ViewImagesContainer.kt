@@ -2,7 +2,6 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,8 +12,7 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
-import com.sup.dev.java.tools.ToolsThreads
-
+import com.sup.dev.java.libs.debug.log
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
@@ -22,6 +20,7 @@ class ViewImagesContainer @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     private val rowH = ToolsView.dpToPx(108).toInt()
+    private val itemW = ToolsView.dpToPx(108).toInt()
     private val items = ArrayList<Item<out Any>>()
     private var itemIndex = 0
     private var onClickGlobal: (Item<Any>) -> Boolean = { false }
@@ -53,102 +52,17 @@ class ViewImagesContainer @JvmOverloads constructor(
         itemIndex = 0
         removeAllViews()
 
-        if (items.size == 1) {
-            addView(items[0].vContainer)
-        }
-        if (items.size == 2) {
-            addLinear()
-            addItem()
-            addItem()
-        }
-        if (items.size == 3) {
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-        }
-        if (items.size == 4) {
-            addLinear()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-        }
-        if (items.size == 5) {
-            addLinear()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-        }
-
-        if (items.size == 6) {
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-        }
-
-        if (items.size == 7) {
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-        }
-
-        if (items.size == 8) {
-            addLinear()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-        }
-        if (items.size == 9) {
-            addLinear()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addItem()
-        }
-        if (items.size == 10) {
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
-            addItem()
-            addLinear()
-            addItem()
-            addItem()
-            addItem()
+        when {
+            items.size == 1 -> addView(items[0].vContainer)
+            items.size == 2 -> addItems(2)
+            items.size == 3 -> addItems(3)
+            items.size == 4 -> {;addItems(2);addItems(2); }
+            items.size == 5 -> {;addItems(2);addItems(3); }
+            items.size == 6 -> {;addItems(4);addItems(2); }
+            items.size == 7 -> {;addItems(4);addItems(3); }
+            items.size == 8 -> {;addItems(2);addItems(3);addItems(3); }
+            items.size == 9 -> {;addItems(2);addItems(3);addItems(4); }
+            items.size == 10 -> {;addItems(3);addItems(4);addItems(3); }
         }
 
         if (layoutParams != null) layoutParams.height = childCount * rowH
@@ -166,22 +80,24 @@ class ViewImagesContainer @JvmOverloads constructor(
         return list.toTypedArray()
     }
 
-    private fun addLinear(): LinearLayout {
+    private fun addItems(count: Int) {
+
         val vLinear = LinearLayout(context)
         vLinear.orientation = HORIZONTAL
         addView(vLinear)
         (vLinear.layoutParams as LayoutParams).weight = 1f
         (vLinear.layoutParams as LayoutParams).topMargin = if (childCount > 1) ToolsView.dpToPx(2).toInt() else 0
-        return vLinear
-    }
 
-    private fun addItem() {
-        val vLinear = getChildAt(childCount - 1) as LinearLayout
-        val item = items[itemIndex++]
-        ToolsView.removeFromParent(item.vContainer)
-        vLinear.addView(item.vContainer)
-        (item.vContainer.layoutParams as LayoutParams).weight = 1f
-        (item.vContainer.layoutParams as LayoutParams).leftMargin = if (vLinear.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
+        for (i in 0 until count) {
+            val vLinear = getChildAt(childCount - 1) as LinearLayout
+            val item = items[itemIndex++]
+            ToolsView.removeFromParent(item.vContainer)
+            vLinear.addView(item.vContainer)
+            (item.vContainer.layoutParams as LayoutParams).weight = 1f
+            (item.vContainer.layoutParams as LayoutParams).leftMargin = if (vLinear.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
+            (item.vContainer.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
+            (item.vContainer.layoutParams as LayoutParams).height = rowH
+        }
     }
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
@@ -257,7 +173,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         override fun toImageView() {
             val array = getIdsArray()
             var index = 0
-            for (i in 0 until array.size) if (array[i] == fullId) index = i
+            for (i in 0 until array.size) if (array[i] == id) index = i
             Navigator.to(SImageView(index, array))
         }
 
