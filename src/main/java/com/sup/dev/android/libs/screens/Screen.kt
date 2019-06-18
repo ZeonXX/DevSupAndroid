@@ -31,6 +31,7 @@ open class Screen(
     var isBottomNavigationAnimation = true
     var isBottomNavigationShadowAvailable = true
     var isSingleInstanceInBackStack = false
+    var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 
@@ -132,5 +133,4 @@ open class Screen(
         return this === view
     }
 
-    open fun getStatusBarColor() = ToolsResources.getPrimaryDarkColor(context)
 }

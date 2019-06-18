@@ -39,6 +39,7 @@ class SCrop(
         isBottomNavigationVisible = false
         isBottomNavigationAllowed = false
         isBottomNavigationAnimation = false
+        statusBarColor = ToolsResources.getColor(R.color.black)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vBack.setIconBackgroundColor(color)
@@ -60,8 +61,6 @@ class SCrop(
             }
         }
     }
-
-    override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
 
     fun setLock(b: Boolean): SCrop {
         locked = b

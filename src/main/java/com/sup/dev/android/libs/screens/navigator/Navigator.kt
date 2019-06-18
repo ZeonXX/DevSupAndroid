@@ -174,12 +174,11 @@ object Navigator {
     }
 
     private fun setCurrentView(animation: Animation) {
-        val screen = getCurrent()
-        if (screen == null) return
+        val screen = getCurrent() ?: return
 
         SupAndroid.activity!!.setScreen(screen, animation)
 
-        val statusBarColor = screen.getStatusBarColor()
+        val statusBarColor = screen.statusBarColor
         if(SupAndroid.activity?.window?.statusBarColor != statusBarColor) SupAndroid.activity?.window?.statusBarColor = statusBarColor
 
         if (getCurrent() != null) screen.onResume()

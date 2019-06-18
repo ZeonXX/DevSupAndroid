@@ -13,22 +13,23 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.RuntimeException
 
 open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), View.OnTouchListener {
 
-    var onClick: (ClickEvent) -> Unit = { performClick() }
-    var onLongClick: (ClickEvent) -> Unit = { performLongClick() }
-    var onSwipe: () -> Unit = { }
-
     private val vContainer = FrameLayout(context)
     private val vIconForAlphaAnimation: ImageView = ToolsView.inflate(this, R.layout.view_swipe_icon)
-    private var colorDefault = 0
+    private var colorDefault: Int = 0
+    private val onClick: (Float, Float) -> Unit = { x, y -> }
+    private val onLongClick: (Float, Float) -> Unit = { x, y -> }
+    private val onSwipe: () -> Unit = {}
 
     private val maxOffset = ToolsView.dpToPx(48)
-    private val longClickTime = 300L
+    private val longClickTime: Long = 200
 
     private val colorFocus = ToolsResources.getColor(R.color.focus)
     private val colorFocusAlpha = ToolsColor.alpha(colorFocus).toFloat()
@@ -49,7 +50,6 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
     private var subscriptionBack: Subscription? = null
     private var subscriptionFocus: Subscription? = null
     private var subscriptionLongClick: Subscription? = null
-    private var inited = false
 
     init {
         colorDefault = if (background is ColorDrawable) (background as ColorDrawable).color else Color.WHITE
@@ -62,33 +62,23 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
         if (src != 0) setIcon(src)
         setBackgroundColor(background)
 
-        addView(vIconForAlphaAnimation, 0)
-        addView(vContainer, 1)
+        ToolsThreads.main(true) {
+            if (childCount == 0) throw RuntimeException("You must provide at list one view in ViewSwipe")
 
-        vIconForAlphaAnimation.alpha = 0f
-        (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
-        (vIconForAlphaAnimation.layoutParams as LayoutParams).rightMargin = ToolsView.dpToPx(12).toInt()
-        (vIconForAlphaAnimation.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(12).toInt()
-
-        vContainer.setOnTouchListener(this)
-        vContainer.setBackgroundColor(colorDefault)
-        (vContainer.layoutParams as LayoutParams).width = LayoutParams.MATCH_PARENT
-        (vContainer.layoutParams as LayoutParams).height = LayoutParams.WRAP_CONTENT
-
-        inited = true
-    }
-
-    fun setDefaultColor(color:Int){
-        colorDefault = color
-        clear()
-    }
-
-    override fun requestLayout() {
-        super.requestLayout()
-        if (inited && childCount == 3 && vContainer.childCount == 0) {
-            val vChild = getChildAt(2)
+            val vChild = getChildAt(0)
             removeView(vChild)
             vContainer.addView(vChild)
+
+            addView(vIconForAlphaAnimation)
+            addView(vContainer)
+
+            vIconForAlphaAnimation.alpha = 0f
+            (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
+
+            vContainer.setOnTouchListener(this)
+            vContainer.setBackgroundColor(colorDefault)
+            (vContainer.layoutParams as LayoutParams).width = LayoutParams.MATCH_PARENT
+            (vContainer.layoutParams as LayoutParams).height = LayoutParams.WRAP_CONTENT
         }
     }
 
@@ -98,11 +88,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
     override fun onTouch(view: View, e: MotionEvent): Boolean {
         if (subscriptionBack != null) subscriptionBack!!.unsubscribe()
-        if (subscriptionLongClick != null && (e.action != MotionEvent.ACTION_MOVE || swipeStarted
-                        || firstX < e.x - ToolsView.dpToPx(12)
-                        || firstX > e.x + ToolsView.dpToPx(12)
-                        || firstY < e.y - ToolsView.dpToPx(12)
-                        || firstY > e.y + ToolsView.dpToPx(12))) subscriptionLongClick!!.unsubscribe()
+        if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
 
         if (e.action == MotionEvent.ACTION_DOWN) {
             startX = vContainer.x
@@ -112,7 +98,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             firstY = e.y
             firstClickTime = System.currentTimeMillis()
 
-            subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), {
+            subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
                 focusAlpha += colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
                 focusAlpha = ToolsMath.min(focusAlpha, colorFocusAlpha)
                 vContainer.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
@@ -122,10 +108,8 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             })
 
             subscriptionLongClick = ToolsThreads.main(longClickTime) {
-                if(subscriptionLongClick != null && subscriptionLongClick!!.isSubscribed()) {
-                    clear()
-                    onLongClick.invoke(ClickEvent(this, e.x, e.y))
-                }
+                clear()
+                onLongClick.invoke(e.x, e.y)
             }
             return true
         }
@@ -135,7 +119,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             if (!swipeStarted && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y - ToolsView.dpToPx(12) && firstY < e.y + ToolsView.dpToPx(12)) {
                 if (firstClickTime < System.currentTimeMillis() - longClickTime) {
                     clear()
-                    onLongClick.invoke(ClickEvent(this, e.x, e.y))
+                    onLongClick.invoke(e.x, e.y)
                     return true
                 }
                 lastX = e.x
@@ -150,7 +134,10 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             if (vContainer.x < startX - maxOffset) {
                 vContainer.x = startX - maxOffset
                 swiped = true
-            } else if (vContainer.x > startX + maxOffset) {
+            } else {
+                swiped = false
+            }
+            if (vContainer.x > startX + maxOffset) {
                 vContainer.x = startX + maxOffset
                 swiped = true
             } else {
@@ -164,7 +151,10 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             return true
         }
         if (e.action == MotionEvent.ACTION_UP && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y - ToolsView.dpToPx(12) && firstY < e.y + ToolsView.dpToPx(12)) {
-            onClick.invoke(ClickEvent(this, e.x, e.y))
+            if (firstClickTime < System.currentTimeMillis() - longClickTime)
+                onLongClick.invoke(e.x, e.y)
+            else
+                onClick.invoke(e.x, e.y)
             clear()
             return true
         }
@@ -201,7 +191,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
         val stepTime = 10L
         val animationTime = 150L
         val step = -vContainer.x / (animationTime / stepTime.toFloat())
-        subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, {
+        subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, { sub ->
             vContainer.x += step
             if (step > 0 && vContainer.x > 0) vContainer.x = 0f
             if (step < 0 && vContainer.x < 0) vContainer.x = 0f
@@ -214,7 +204,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
                 swiped = false
             }
         })
-        subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), {
+        subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
             focusAlpha -= colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
             focusAlpha = ToolsMath.max(focusAlpha, 0f)
             vContainer.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
@@ -223,26 +213,5 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             vContainer.setBackgroundColor(colorDefault)
         })
     }
-
-    class ClickEvent{
-
-        val x:Float
-        val y:Float
-
-        constructor(view:View, x:Float, y:Float)  {
-            val location = IntArray(2)
-            view.getLocationOnScreen(location)
-            if(location[0] < x && location[1] < y) {
-                this.x = x - location[0]
-                this.y = y - location[1]
-            } else {
-                this.x = x
-                this.y = y
-            }
-        }
-
-    }
-
-
 
 }

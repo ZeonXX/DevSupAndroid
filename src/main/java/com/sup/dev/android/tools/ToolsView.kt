@@ -233,8 +233,8 @@ object ToolsView {
         return LayoutInflater.from(viewContext).inflate(res, null, false) as K
     }
 
-    fun inflate(parent: ViewGroup, @LayoutRes res: Int): View {
-        return LayoutInflater.from(parent.context).inflate(res, parent, false)
+    fun <K : View> inflate(parent: ViewGroup, @LayoutRes res: Int): K {
+        return LayoutInflater.from(parent.context).inflate(res, parent, false) as K
     }
 
     fun getRootParent(v: View): ViewGroup? {

@@ -34,6 +34,11 @@
         <attr name="ViewIcon_transparent_on_disabled" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="ViewSwipe">
+        <attr name="android:src"/>
+        <attr name="ViewSwipe_background"/>
+    </declare-styleable>
+
     <declare-styleable name="ViewCropImage">
         <attr name="cropGuidelines">
             <enum name="off" value="0"/>

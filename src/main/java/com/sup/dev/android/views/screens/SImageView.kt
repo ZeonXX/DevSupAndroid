@@ -79,6 +79,7 @@ class SImageView private constructor()
         isBottomNavigationVisible = false
         isBottomNavigationAllowed = false
         isBottomNavigationAnimation = false
+        statusBarColor = ToolsResources.getColor(R.color.black)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vDownload.setIconBackgroundColor(color)
@@ -114,8 +115,6 @@ class SImageView private constructor()
         ToolsView.alpha(vCounterContainer, toAlpha)
         ToolsView.alpha(vIndicator, toAlpha)
     }
-
-    override fun getStatusBarColor() = ToolsResources.getColor(R.color.black)
 
     private fun updateTitle() {
         vCounter.text = "${vPager.currentItem + 1} / ${adapterIn.size()}"
