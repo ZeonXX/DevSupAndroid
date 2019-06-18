@@ -115,7 +115,7 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if(intent != null) ToolsNotifications.hideNotificationsForAction(intent)
+        if(intent != null) ToolsNotifications.parseNotification(intent)
     }
 
     //

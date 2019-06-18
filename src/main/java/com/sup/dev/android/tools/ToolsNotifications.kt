@@ -8,8 +8,6 @@ import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.collections.HashList
-import com.sup.dev.java.libs.debug.log
-
 
 object ToolsNotifications {
 
@@ -23,8 +21,14 @@ object ToolsNotifications {
         SINGLE, GROUP
     }
 
-    private var notificationIdCounter = 1
+    enum class IntentType(val index:Int) {
+        CLICK(1), ACTION(2), CANCEL(3)
+    }
 
+    var notificationsListener: (Intent, IntentType, tag: String) -> Unit = { intent, type, tag -> }
+
+    private var chanels = ArrayList<Chanel>()
+    private var notificationIdCounter = 1
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun instanceGroup(groupId: Int, name: Int) = instanceGroup(groupId, ToolsResources.s(name))
@@ -37,11 +41,34 @@ object ToolsNotifications {
         return id
     }
 
-    fun instanceChanel(id: Int) = Chanel(id)
+    fun instanceChanel(id: Int): Chanel {
+        val chanel = Chanel(id)
+        chanels.add(chanel)
+        return chanel
+    }
 
-    fun hideNotificationsForAction(intent:Intent){
-        val intExtra = intent.getIntExtra("ToolsNotification.Action.notificationId", -1)
-        if(intExtra != -1) notificationManager.cancel(intExtra)
+    fun parseNotification(intent: Intent) {
+
+        val notificationId = intent.getIntExtra("ToolsNotification.notificationId", -1)
+        val intentTypeIndex = intent.getIntExtra("ToolsNotification.intentType", -1)
+        val notificationTag = intent.getStringExtra("ToolsNotification.notificationTag") ?: "null${SPLITER}null"
+        val actionTag = intent.getStringExtra("ToolsNotification.actionTag")
+
+        if (notificationId != -1) {
+
+            val intentType = when (intentTypeIndex) {
+                IntentType.ACTION.index -> IntentType.ACTION
+                IntentType.CANCEL.index -> IntentType.CANCEL
+                else -> IntentType.CLICK
+            }
+
+            notificationManager.cancel(notificationId)
+            notificationManager.cancel(notificationTag, notificationId)
+            for (chanel in chanels) chanel.cancel(notificationTag)
+
+            val tag = if(actionTag == null) notificationTag.split(SPLITER)[1] else actionTag
+            notificationsListener.invoke(intent, intentType, tag)
+        }
     }
 
     //
@@ -88,27 +115,32 @@ object ToolsNotifications {
             }
 
             val notificationId = notificationIdCounter++
+            val notificationTag = idS + SPLITER + notification.tag
             showedNotifications.add(notification.tag, notificationId)
 
-            val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, notificationId, notification.intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            builder.setContentIntent(pendingIntent)
+            notification.intent.putExtra("ToolsNotification.notificationId", notificationId)
+            notification.intent.putExtra("ToolsNotification.notificationTag", notificationTag)
+            notification.intent.putExtra("ToolsNotification.intentType", IntentType.CLICK.index)
+            notification.intentCancel.putExtra("ToolsNotification.notificationId", notificationId)
+            notification.intentCancel.putExtra("ToolsNotification.notificationTag", notificationTag)
+            notification.intentCancel.putExtra("ToolsNotification.intentType", IntentType.CANCEL.index)
+
+            builder.setContentIntent(PendingIntent.getActivity(SupAndroid.appContext!!, ++notificationIdCounter, notification.intent, PendingIntent.FLAG_CANCEL_CURRENT))
+            builder.setDeleteIntent(PendingIntent.getActivity(SupAndroid.appContext!!, ++notificationIdCounter, notification.intentCancel, PendingIntent.FLAG_CANCEL_CURRENT))
 
             for (a in notification.actions) {
-                val intent = if (a.intent != null)
-                    a.intent!!
-                else
-                    Intent(SupAndroid.appContext, a.intentActivityClass).setAction(a.intentAction)
+                a.intent.putExtra("ToolsNotification.notificationId", notificationId)
+                a.intent.putExtra("ToolsNotification.notificationTag", notificationTag)
+                a.intent.putExtra("ToolsNotification.actionTag", a.tag)
+                a.intent.putExtra("ToolsNotification.intentType", IntentType.ACTION.index)
 
-                for(e in a.extras.keys) intent.putExtra(e, a.extras.get(e))
-                intent.putExtra("ToolsNotification.Action.notificationId", notificationId)
-
-                val action = NotificationCompat.Action(a.icon, a.text, PendingIntent.getActivity(SupAndroid.appContext, a.intentRequestCode, intent, a.intentRequestFlags))
+                val action = NotificationCompat.Action(a.icon, a.text, PendingIntent.getActivity(SupAndroid.appContext, ++notificationIdCounter, a.intent, PendingIntent.FLAG_CANCEL_CURRENT))
                 builder.addAction(action)
             }
 
             onBuild.invoke(builder)
 
-            notificationManager.notify(idS + SPLITER + notification.tag, notificationId, builder.build())
+            notificationManager.notify(notificationTag, notificationId, builder.build())
 
         }
 
@@ -222,43 +254,49 @@ object ToolsNotifications {
     //  Notification
     //
 
-    class NotificationX {
+    class NotificationX() {
 
         @DrawableRes
         var icon = 0
         var title: String? = null
         var text: String? = null
-        var intent = Intent()
+        val intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
+        var intentCancel = Intent()
         var tag = "tag"
         var actions = ArrayList<ActionX>()
 
-        fun setIcon(icon:Int):NotificationX{
+        fun setIcon(icon: Int): NotificationX {
             this.icon = icon
             return this
         }
 
-        fun setTitle(title:String):NotificationX{
+        fun setTitle(title: String): NotificationX {
             this.title = title
             return this
         }
 
-        fun setText(text:String):NotificationX{
+        fun setText(text: String): NotificationX {
             this.text = text
             return this
         }
 
-        fun setIntent(intent: Intent):NotificationX{
-            this.intent = intent
+        fun setIntentCancel(intentCancel: Intent): NotificationX {
+            this.intentCancel = intentCancel
             return this
         }
 
-        fun setTag(tag: String):NotificationX{
+        fun setTag(tag: String): NotificationX {
             this.tag = tag
             return this
         }
 
-        fun addAction(action: ActionX):NotificationX{
+        fun addAction(action: ActionX): NotificationX {
             this.actions.add(action)
+            return this
+        }
+
+        fun addExtra(key: String, value:String): NotificationX {
+            intent.putExtra(key, value)
             return this
         }
 
@@ -269,42 +307,29 @@ object ToolsNotifications {
 
         var icon = 0
         var text = ""
-        var intent: Intent? = null
-        var intentActivityClass:Class<*>? = null
-        var intentAction:String = "Notification action"
-        var intentRequestCode = 0
-        var intentRequestFlags = 0
-        var extras:HashMap<String, String> = HashMap()
+        var tag = ""
+        val intent: Intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
 
-        fun setIcon(icon:Int):ActionX{
+        fun setIcon(icon: Int): ActionX {
             this.icon = icon
             return this
         }
 
-        fun setText(text:String):ActionX{
+        fun setText(text: String): ActionX {
             this.text = text
             return this
         }
 
-        fun setIntent(intent:Intent):ActionX{
-            this.intent = intent
+        fun setTag(tag: String): ActionX {
+            this.tag = tag
             return this
         }
 
-        fun setIntentActivityClass(intentActivityClass:Class<*>):ActionX{
-            this.intentActivityClass = intentActivityClass
+        fun addExtra(key: String, value:String): ActionX {
+            intent.putExtra(key, value)
             return this
         }
 
-        fun setIntentAction(intentAction:String):ActionX{
-            this.intentAction = intentAction
-            return this
-        }
-
-        fun putExtra(key:String, value:String):ActionX{
-            this.extras.put(key, value)
-            return this
-        }
 
     }
 }

@@ -48,18 +48,20 @@ object SupAndroid {
     var editMode = false
     var appContext: Context? = null
     var activity: SActivity? = null
+    var activityClass: Class<out SActivity>? = null
     var activityIsVisible = false
     var appId = ""
 
     fun initEditMode(view: View) {
         if (!view.isInEditMode) return
         editMode = true
-        init(view.context, "")
+        init(view.context, "", SActivity::class.java)
     }
 
-    fun init(appContext: Context, appId:String) {
+    fun init(appContext: Context, appId:String, activityClass:Class<out SActivity>) {
         this.appId = appId
-        SupAndroid.appContext = appContext
+        this.activityClass = activityClass
+        this.appContext = appContext
 
         ToolsThreads.onMain = { onNextTime, runnable ->
             if ((!onNextTime) && ToolsAndroid.isMainThread()) runnable.invoke()

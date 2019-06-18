@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Notification
-import android.app.PendingIntent
 import android.app.Service
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -19,7 +18,6 @@ import android.os.PersistableBundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.RequiresApi
 import android.support.annotation.RequiresPermission
-import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import java.lang.RuntimeException
 import java.util.HashMap
@@ -51,8 +49,8 @@ object ToolsBackgroundWork {
         val intent = Intent(SupAndroid.appContext!!, activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(pendingIntent)
+        val pi = PndingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PndingIntent.FLAG_UPDATE_CURRENT)
+        builder.setContentIntent(pi)
 
         notification = builder.build()
 

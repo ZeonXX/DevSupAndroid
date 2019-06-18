@@ -1,7 +1,6 @@
 package com.sup.dev.android.tools
 
 import android.app.Activity
-import android.app.PendingIntent
 import android.app.Service
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -11,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Parcelable
 import android.support.v4.content.FileProvider
-import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.err
@@ -58,6 +56,16 @@ object ToolsIntent {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(ToolsResources.s(stringID))
         SupAndroid.appContext!!.startActivity(intent)
+    }
+
+    fun parseExtras(intent: Intent, onNext:(key:String,value:Any) -> Unit){
+        val extras = intent.extras
+        if(extras != null){
+            val keySet = extras.keySet()
+            for(k in keySet){
+                onNext.invoke(k, extras.get(k))
+            }
+        }
     }
 
     //
@@ -270,14 +278,6 @@ object ToolsIntent {
         }
     }
 
-    fun sendSalient(intent: PendingIntent) {
-        try {
-            intent.send()
-        } catch (ex: PendingIntent.CanceledException) {
-            err(ex)
-        }
-
-    }
 
 
 }
