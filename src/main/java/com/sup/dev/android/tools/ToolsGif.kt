@@ -99,7 +99,7 @@ object ToolsGif {
                         lastBitmap = bm
                         v.setImageBitmap(lastBitmap)
                     }
-                    ToolsThreads.sleep(Math.max(ms, 50))
+                    ToolsThreads.sleep(Math.max(ms, 30))
                 }
                 iterator.close()
             }

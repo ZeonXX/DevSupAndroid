@@ -12,7 +12,6 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
-import com.sup.dev.java.libs.debug.log
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,

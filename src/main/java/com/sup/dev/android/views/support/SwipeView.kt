@@ -1,8 +1,10 @@
 package com.sup.dev.android.views.support
 
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -12,7 +14,7 @@ import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 
 class SwipeView(private val view: ViewGroup,
-                private val vIconForAlphaAnimation: View?,
+                private val vIconForAlphaAnimation: View,
                 private val colorDefault: Int,
                 private val onClick: (Float, Float) -> Unit = { x, y -> },
                 private val onLongClick: (Float, Float) -> Unit = { x, y -> },
@@ -44,7 +46,7 @@ class SwipeView(private val view: ViewGroup,
 
     init {
         view.setOnTouchListener(this)
-        vIconForAlphaAnimation?.alpha = 0f
+        vIconForAlphaAnimation.alpha = 0f
         view.setTag(this)
     }
 
@@ -84,7 +86,7 @@ class SwipeView(private val view: ViewGroup,
         if (e.action == MotionEvent.ACTION_MOVE && lastX > -1 && swipeEnabled) {
             val mx = e.x - (startX - view.x)
 
-            if (!swipeStarted && (Math.abs(firstX - mx) / 6 <= Math.abs(firstY - e.y) || firstX - mx < ToolsView.dpToPx(24))) {
+            if (!swipeStarted && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y  - ToolsView.dpToPx(12) && firstY < e.y  + ToolsView.dpToPx(12)) {
                 if (firstClickTime < System.currentTimeMillis() - longClickTime) {
                     clear()
                     onLongClick.invoke(e.x, e.y)
@@ -105,15 +107,22 @@ class SwipeView(private val view: ViewGroup,
             } else {
                 swiped = false
             }
-            if (view.x > startX) {
-                view.x = startX
+            if (view.x > startX + maxOffset) {
+                view.x = startX + maxOffset
+                swiped = true
+            } else {
+                swiped = false
             }
-            vIconForAlphaAnimation?.alpha = (startX - view.x) / maxOffset
+
+            if(vIconForAlphaAnimation.layoutParams is FrameLayout.LayoutParams)
+                (vIconForAlphaAnimation.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER or (if(view.x > 0) Gravity.RIGHT else Gravity.LEFT)
+
+            vIconForAlphaAnimation.alpha = (startX - view.x) / maxOffset
             lastX = mx
             lastY = e.y
             return true
         }
-        if (e.action == MotionEvent.ACTION_UP && firstX == e.x && firstY == e.y) {
+        if (e.action == MotionEvent.ACTION_UP && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y  - ToolsView.dpToPx(12) && firstY < e.y  + ToolsView.dpToPx(12)) {
             if (firstClickTime < System.currentTimeMillis() - longClickTime)
                 onLongClick.invoke(e.x, e.y)
             else
@@ -145,11 +154,12 @@ class SwipeView(private val view: ViewGroup,
         val step = -view.x / (animationTime / stepTime.toFloat())
         subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, { sub ->
             view.x += step
-            if (view.x > 0) view.x = 0f
-            vIconForAlphaAnimation?.alpha = (startX - view.x) / maxOffset
+            if (step > 0 && view.x > 0) view.x = 0f
+            if (step < 0 && view.x < 0) view.x = 0f
+            vIconForAlphaAnimation.alpha = (startX - view.x) / maxOffset
         }, {
             view.x = 0f
-            vIconForAlphaAnimation?.alpha = 0f
+            vIconForAlphaAnimation.alpha = 0f
             if (swiped) {
                 onSwipe.invoke()
                 swiped = false
