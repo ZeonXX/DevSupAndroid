@@ -142,8 +142,6 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
                 swiped = false
             }
 
-
-
             updateIcon()
 
             lastX = mx
