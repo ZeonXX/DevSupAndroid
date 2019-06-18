@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.collections.HashList
+import com.sup.dev.java.libs.debug.log
 
 
 object ToolsNotifications {
@@ -30,13 +31,18 @@ object ToolsNotifications {
 
     fun instanceGroup(groupId: Int, name: String): String {
         val id = "group_$groupId"
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             notificationManager.createNotificationChannelGroup(NotificationChannelGroup(id, name))
 
         return id
     }
 
     fun instanceChanel(id: Int) = Chanel(id)
+
+    fun hideNotificationsForAction(intent:Intent){
+        val intExtra = intent.getIntExtra("ToolsNotification.Action.notificationId", -1)
+        if(intExtra != -1) notificationManager.cancel(intExtra)
+    }
 
     //
     //  Chanel
@@ -62,17 +68,17 @@ object ToolsNotifications {
             this.idS = "chanel_$id"
         }
 
-        fun post(@DrawableRes icon: Int, title: String?, body: String?, intent: Intent, tag: String = "tag") {
+        fun post(notification: NotificationX, onBuild: (NotificationCompat.Builder) -> Unit = {}) {
 
-            if (groupingType == GroupingType.SINGLE) cancel(tag)
+            if (groupingType == GroupingType.SINGLE) cancel(notification.tag)
 
             val builder = NotificationCompat.Builder(SupAndroid.appContext!!, idS)
-                    .setSmallIcon(icon)
+                    .setSmallIcon(notification.icon)
                     .setAutoCancel(true)
                     .setWhen(System.currentTimeMillis())
-                    .setContentText(body)
+                    .setContentText(notification.text)
 
-            if (title != null) builder.setContentTitle(title)
+            if (notification.title != null) builder.setContentTitle(notification.title)
             if (sound) {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)
             } else {
@@ -82,14 +88,27 @@ object ToolsNotifications {
             }
 
             val notificationId = notificationIdCounter++
-            showedNotifications.add(tag, notificationId)
+            showedNotifications.add(notification.tag, notificationId)
 
-            val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = PendingIntent.getActivity(SupAndroid.appContext!!, notificationId, notification.intent, PendingIntent.FLAG_UPDATE_CURRENT)
             builder.setContentIntent(pendingIntent)
 
-            val notification = builder.build()
+            for (a in notification.actions) {
+                val intent = if (a.intent != null)
+                    a.intent!!
+                else
+                    Intent(SupAndroid.appContext, a.intentActivityClass).setAction(a.intentAction)
 
-            notificationManager.notify(idS + SPLITER + tag, notificationId, notification)
+                for(e in a.extras.keys) intent.putExtra(e, a.extras.get(e))
+                intent.putExtra("ToolsNotification.Action.notificationId", notificationId)
+
+                val action = NotificationCompat.Action(a.icon, a.text, PendingIntent.getActivity(SupAndroid.appContext, a.intentRequestCode, intent, a.intentRequestFlags))
+                builder.addAction(action)
+            }
+
+            onBuild.invoke(builder)
+
+            notificationManager.notify(idS + SPLITER + notification.tag, notificationId, builder.build())
 
         }
 
@@ -129,7 +148,7 @@ object ToolsNotifications {
 
             if (name.isEmpty()) name = SupAndroid.TEXT_APP_NAME ?: ""
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
                 val imp = when (importance) {
                     Importance.HIGH -> NotificationManager.IMPORTANCE_HIGH
@@ -199,5 +218,94 @@ object ToolsNotifications {
 
     }
 
+    //
+    //  Notification
+    //
+
+    class NotificationX {
+
+        @DrawableRes
+        var icon = 0
+        var title: String? = null
+        var text: String? = null
+        var intent = Intent()
+        var tag = "tag"
+        var actions = ArrayList<ActionX>()
+
+        fun setIcon(icon:Int):NotificationX{
+            this.icon = icon
+            return this
+        }
+
+        fun setTitle(title:String):NotificationX{
+            this.title = title
+            return this
+        }
+
+        fun setText(text:String):NotificationX{
+            this.text = text
+            return this
+        }
+
+        fun setIntent(intent: Intent):NotificationX{
+            this.intent = intent
+            return this
+        }
+
+        fun setTag(tag: String):NotificationX{
+            this.tag = tag
+            return this
+        }
+
+        fun addAction(action: ActionX):NotificationX{
+            this.actions.add(action)
+            return this
+        }
+
+    }
+
+
+    class ActionX {
+
+        var icon = 0
+        var text = ""
+        var intent: Intent? = null
+        var intentActivityClass:Class<*>? = null
+        var intentAction:String = "Notification action"
+        var intentRequestCode = 0
+        var intentRequestFlags = 0
+        var extras:HashMap<String, String> = HashMap()
+
+        fun setIcon(icon:Int):ActionX{
+            this.icon = icon
+            return this
+        }
+
+        fun setText(text:String):ActionX{
+            this.text = text
+            return this
+        }
+
+        fun setIntent(intent:Intent):ActionX{
+            this.intent = intent
+            return this
+        }
+
+        fun setIntentActivityClass(intentActivityClass:Class<*>):ActionX{
+            this.intentActivityClass = intentActivityClass
+            return this
+        }
+
+        fun setIntentAction(intentAction:String):ActionX{
+            this.intentAction = intentAction
+            return this
+        }
+
+        fun putExtra(key:String, value:String):ActionX{
+            this.extras.put(key, value)
+            return this
+        }
+
+    }
 }
 

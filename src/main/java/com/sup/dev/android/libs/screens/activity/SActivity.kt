@@ -13,15 +13,12 @@ import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsIntent
-import com.sup.dev.android.tools.ToolsPermission
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import android.os.Build
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 
 
@@ -114,6 +111,11 @@ abstract class SActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if(intent != null) ToolsNotifications.hideNotificationsForAction(intent)
     }
 
     //
