@@ -21,12 +21,13 @@ import java.lang.RuntimeException
 
 open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), View.OnTouchListener {
 
+    var onClick: (Float, Float) -> Unit = { x, y -> performClick() }
+    var onLongClick: (Float, Float) -> Unit = { x, y -> performLongClick() }
+    var onSwipe: () -> Unit = {}
+
     private val vContainer = FrameLayout(context)
     private val vIconForAlphaAnimation: ImageView = ToolsView.inflate(this, R.layout.view_swipe_icon)
     private var colorDefault: Int = 0
-    private val onClick: (Float, Float) -> Unit = { x, y -> }
-    private val onLongClick: (Float, Float) -> Unit = { x, y -> }
-    private val onSwipe: () -> Unit = {}
 
     private val maxOffset = ToolsView.dpToPx(48)
     private val longClickTime: Long = 200
@@ -69,8 +70,8 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             removeView(vChild)
             vContainer.addView(vChild)
 
-            addView(vIconForAlphaAnimation)
-            addView(vContainer)
+            addView(vIconForAlphaAnimation, 0)
+            addView(vContainer, 1)
 
             vIconForAlphaAnimation.alpha = 0f
             (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
@@ -134,15 +135,14 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             if (vContainer.x < startX - maxOffset) {
                 vContainer.x = startX - maxOffset
                 swiped = true
-            } else {
-                swiped = false
-            }
-            if (vContainer.x > startX + maxOffset) {
+            } else if (vContainer.x > startX + maxOffset) {
                 vContainer.x = startX + maxOffset
                 swiped = true
             } else {
                 swiped = false
             }
+
+
 
             updateIcon()
 
