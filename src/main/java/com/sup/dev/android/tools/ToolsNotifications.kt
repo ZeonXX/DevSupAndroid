@@ -95,6 +95,15 @@ object ToolsNotifications {
             this.idS = "chanel_$id"
         }
 
+        fun post(icon:Int, title:String, text:String, intent:Intent, tag:String){
+            post(NotificationX()
+                    .setIcon(icon)
+                    .setTitle(title)
+                    .setText(text)
+                    .setIntent(intent)
+                    .setTag(tag))
+        }
+
         fun post(notification: NotificationX, onBuild: (NotificationCompat.Builder) -> Unit = {}) {
 
             if (groupingType == GroupingType.SINGLE) cancel(notification.tag)
@@ -260,7 +269,7 @@ object ToolsNotifications {
         var icon = 0
         var title: String? = null
         var text: String? = null
-        val intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
+        var intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
         var intentCancel = Intent()
         var tag = "tag"
         var actions = ArrayList<ActionX>()
@@ -277,6 +286,11 @@ object ToolsNotifications {
 
         fun setText(text: String): NotificationX {
             this.text = text
+            return this
+        }
+
+        fun setIntent(intent: Intent): NotificationX {
+            this.intent = intent
             return this
         }
 
