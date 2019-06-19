@@ -13,17 +13,15 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
-import java.lang.RuntimeException
 
 open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), View.OnTouchListener {
 
     var onClick: (Float, Float) -> Unit = { x, y -> performClick() }
     var onLongClick: (Float, Float) -> Unit = { x, y -> performLongClick() }
-    var onSwipe: () -> Unit = {}
+    var onSwipe: () -> Unit = { }
 
     private val vContainer = FrameLayout(context)
     private val vIconForAlphaAnimation: ImageView = ToolsView.inflate(this, R.layout.view_swipe_icon)
@@ -51,6 +49,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
     private var subscriptionBack: Subscription? = null
     private var subscriptionFocus: Subscription? = null
     private var subscriptionLongClick: Subscription? = null
+    private var inited = false
 
     init {
         colorDefault = if (background is ColorDrawable) (background as ColorDrawable).color else Color.WHITE
@@ -63,23 +62,26 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
         if (src != 0) setIcon(src)
         setBackgroundColor(background)
 
-        ToolsThreads.main(true) {
-            if (childCount == 0) throw RuntimeException("You must provide at list one view in ViewSwipe")
+        addView(vIconForAlphaAnimation, 0)
+        addView(vContainer, 1)
 
-            val vChild = getChildAt(0)
+        vIconForAlphaAnimation.alpha = 0f
+        (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
+
+        vContainer.setOnTouchListener(this)
+        vContainer.setBackgroundColor(colorDefault)
+        (vContainer.layoutParams as LayoutParams).width = LayoutParams.MATCH_PARENT
+        (vContainer.layoutParams as LayoutParams).height = LayoutParams.WRAP_CONTENT
+
+        inited = true
+    }
+
+    override fun requestLayout() {
+        super.requestLayout()
+        if(inited && childCount == 3 && vContainer.childCount == 0) {
+            val vChild = getChildAt(2)
             removeView(vChild)
             vContainer.addView(vChild)
-
-            addView(vIconForAlphaAnimation, 0)
-            addView(vContainer, 1)
-
-            vIconForAlphaAnimation.alpha = 0f
-            (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
-
-            vContainer.setOnTouchListener(this)
-            vContainer.setBackgroundColor(colorDefault)
-            (vContainer.layoutParams as LayoutParams).width = LayoutParams.MATCH_PARENT
-            (vContainer.layoutParams as LayoutParams).height = LayoutParams.WRAP_CONTENT
         }
     }
 
