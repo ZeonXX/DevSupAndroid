@@ -47,7 +47,7 @@ object ToolsNotifications {
         return chanel
     }
 
-    fun parseNotification(intent: Intent) {
+    fun parseNotification(intent: Intent):Boolean {
 
         val notificationId = intent.getIntExtra("ToolsNotification.notificationId", -1)
         val intentTypeIndex = intent.getIntExtra("ToolsNotification.intentType", -1)
@@ -68,7 +68,11 @@ object ToolsNotifications {
 
             val tag = if(actionTag == null) notificationTag.split(SPLITER)[1] else actionTag
             notificationsListener.invoke(intent, intentType, tag)
+
+            return true
         }
+
+        return false
     }
 
     //

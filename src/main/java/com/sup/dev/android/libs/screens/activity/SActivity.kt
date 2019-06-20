@@ -34,6 +34,7 @@ abstract class SActivity : AppCompatActivity() {
     var vActivityDrawAnimations: ViewDrawAnimations? = null
     protected var vActivityContainer: ViewGroup? = null
     protected var vActivityTouchLock: View? = null
+    protected var parseNotifications = true
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -115,7 +116,7 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if(intent != null) ToolsNotifications.parseNotification(intent)
+        if(parseNotifications && intent != null) ToolsNotifications.parseNotification(intent)
     }
 
     //
