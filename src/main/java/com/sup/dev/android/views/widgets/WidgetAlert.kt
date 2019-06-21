@@ -209,13 +209,17 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetAlert) -> Unit = {}): WidgetAlert {
-        super.setOnHide{ b -> onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener { v ->
             hide()
             onCancel.invoke(this)
         }
 
+        return this
+    }
+
+    override fun setOnHide(onHide: (Widget) -> Unit): WidgetAlert {
+        super.setOnHide{onHide.invoke(this)}
         return this
     }
 
