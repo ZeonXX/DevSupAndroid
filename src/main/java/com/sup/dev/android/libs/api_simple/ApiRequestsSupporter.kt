@@ -118,8 +118,8 @@ object ApiRequestsSupporter {
             widget?.hideForce()
         }.onFinish {
             widget?.setEnabled(true)
-            if (widget != null && widget is WidgetProgressTransparent) widget.hideForce()
-            if (widget != null && widget is WidgetProgressWithTitle) widget.hideForce()
+            if (widget is WidgetProgressTransparent) widget.hideForce()
+            if (widget is WidgetProgressWithTitle) widget.hideForce()
         }
     }
 
