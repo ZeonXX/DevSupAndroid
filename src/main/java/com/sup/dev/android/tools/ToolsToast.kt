@@ -1,10 +1,11 @@
 package com.sup.dev.android.tools
 
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -48,7 +49,7 @@ object ToolsToast {
         if (text == null || text.isEmpty()) return
         val snack = Snackbar.make(v, text, Snackbar.LENGTH_SHORT)
         val snackbarView = snack.view
-        val textView = snackbarView.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+        val textView = snackbarView.findViewById<TextView>(R.id.snackbar_text)
         textView.maxLines = 5
         snack.show()
     }

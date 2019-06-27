@@ -3,7 +3,7 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import android.support.design.chip.Chip
+import com.google.android.material.chip.Chip
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup

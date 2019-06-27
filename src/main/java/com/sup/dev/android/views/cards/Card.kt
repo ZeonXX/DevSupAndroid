@@ -1,8 +1,8 @@
 package com.sup.dev.android.views.cards
 
 import android.content.Context
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import android.view.View
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView

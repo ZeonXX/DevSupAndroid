@@ -4,8 +4,8 @@ import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.support.annotation.RequiresPermission
-import android.support.annotation.WorkerThread
+import androidx.annotation.RequiresPermission
+import androidx.annotation.WorkerThread
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.tools.ToolsIntent

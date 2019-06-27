@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.screens
 
-import android.support.annotation.DrawableRes
-import android.support.v7.widget.Toolbar
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R

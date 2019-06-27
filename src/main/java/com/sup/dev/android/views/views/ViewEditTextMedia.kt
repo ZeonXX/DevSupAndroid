@@ -1,9 +1,9 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.support.v13.view.inputmethod.EditorInfoCompat
-import android.support.v13.view.inputmethod.InputConnectionCompat
-import android.support.v4.os.BuildCompat
+import androidx.core.view.inputmethod.EditorInfoCompat
+import androidx.core.view.inputmethod.InputConnectionCompat
+import androidx.core.os.BuildCompat
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
@@ -13,7 +13,7 @@ import com.sup.dev.java.libs.debug.err
 class ViewEditTextMedia constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : android.support.v7.widget.AppCompatEditText(context, attrs) {
+) : androidx.appcompat.widget.AppCompatEditText(context, attrs) {
 
 
     private var callback: ((String) -> Unit)? = null

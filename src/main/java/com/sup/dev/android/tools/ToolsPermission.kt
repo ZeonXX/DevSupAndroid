@@ -4,8 +4,8 @@ import android.Manifest.permission.*
 import android.app.Activity
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.Debug

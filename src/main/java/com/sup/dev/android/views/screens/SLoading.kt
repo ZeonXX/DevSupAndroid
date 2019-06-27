@@ -1,10 +1,10 @@
 package com.sup.dev.android.views.screens
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.Toolbar
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*

@@ -3,8 +3,8 @@ package com.sup.dev.android.views.views.layouts
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.support.annotation.AnyThread
-import android.support.annotation.MainThread
+import androidx.annotation.AnyThread
+import androidx.annotation.MainThread
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Interpolator

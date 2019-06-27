@@ -54,7 +54,7 @@
 
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/vFab"
         app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorCollapseFull"
         style="@style/Fab"/>

@@ -21,7 +21,7 @@
         android:src="@drawable/ic_clear_black_24dp"/>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/vDevSupInputLayout"
         style="@style/TextInputLayout">
 
@@ -29,6 +29,6 @@
             android:id="@+id/vDevSupField"
             style="@style/Field"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

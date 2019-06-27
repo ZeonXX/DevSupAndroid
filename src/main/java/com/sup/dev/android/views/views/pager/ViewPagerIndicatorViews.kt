@@ -1,9 +1,9 @@
 package com.sup.dev.android.views.views.pager
 
 import android.content.Context
-import android.support.annotation.MainThread
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.annotation.MainThread
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
@@ -11,7 +11,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import java.lang.RuntimeException
 
-open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPagerIndicator(context, attrs), ViewPager.OnPageChangeListener {
+open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPagerIndicator(context, attrs), androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 
     var viewsProvider:(Int)->View = {throw RuntimeException("You must set provider")}
     var offsetLeft = 0
@@ -31,11 +31,11 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
         requestLayout()
     }
 
-    override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
+    override fun onAdapterChanged(viewPager: androidx.viewpager.widget.ViewPager, oldAdapter: androidx.viewpager.widget.PagerAdapter?, newAdapter: androidx.viewpager.widget.PagerAdapter?) {
         reset()
     }
 
-    override fun setPagerView(pager: ViewPager?) {
+    override fun setPagerView(pager: androidx.viewpager.widget.ViewPager?) {
         super.setPagerView(pager)
         reset()
     }

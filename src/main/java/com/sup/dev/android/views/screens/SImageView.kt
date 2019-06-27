@@ -3,7 +3,7 @@ package com.sup.dev.android.views.screens
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,7 +27,7 @@ class SImageView private constructor()
     private val vRoot: View = findViewById(R.id.vRoot)
     private val vCounterContainer: View = findViewById(R.id.vCounterContainer)
     private val vCounter: TextView = findViewById(R.id.vCounter)
-    private val vPager: ViewPager = findViewById(R.id.vPager)
+    private val vPager: androidx.viewpager.widget.ViewPager = findViewById(R.id.vPager)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
     private val vIndicator: ViewPagerIndicatorImages = findViewById(R.id.vIndicator)
@@ -88,7 +88,7 @@ class SImageView private constructor()
 
         vDownload.setOnClickListener { download() }
         vPager.adapter = adapterIn
-        vPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        vPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(p0: Int) {
 

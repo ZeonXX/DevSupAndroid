@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.cards
 
 import android.graphics.PorterDuff
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.text.Html
 import android.view.Gravity
 import android.view.View

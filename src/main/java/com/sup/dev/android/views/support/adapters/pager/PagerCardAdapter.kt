@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.support.adapters.pager
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import java.util.ArrayList
 import kotlin.reflect.KClass
 
 
-open class PagerCardAdapter : PagerAdapter(), CardAdapter {
+open class PagerCardAdapter : androidx.viewpager.widget.PagerAdapter(), CardAdapter {
 
     private val holders = ArrayList<Holder>()
     val items: ArrayList<Card> = ArrayList()
@@ -87,7 +87,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        return PagerAdapter.POSITION_NONE
+        return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
     }
 
     fun getItemId(position: Int): Int {

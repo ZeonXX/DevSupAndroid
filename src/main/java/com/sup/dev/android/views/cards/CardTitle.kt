@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.cards
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.widget.TextView
 import com.sup.dev.android.R

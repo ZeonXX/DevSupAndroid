@@ -1,9 +1,9 @@
 package com.sup.dev.android.views.widgets
 
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.CardDivider
@@ -19,7 +19,7 @@ open class WidgetMenu : WidgetRecycler() {
     private var autoHide = true
 
     init {
-        vRecycler.layoutManager = LinearLayoutManager(view.context)
+        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
         setAdapter<WidgetRecycler>(myAdapter)
     }
 

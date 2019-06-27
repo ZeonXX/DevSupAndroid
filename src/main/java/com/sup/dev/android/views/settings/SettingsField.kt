@@ -3,8 +3,8 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.StringRes
-import android.support.design.widget.TextInputLayout
+import androidx.annotation.StringRes
+import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R

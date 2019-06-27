@@ -1,8 +1,8 @@
 package com.sup.dev.android.libs.screens.activity
 
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
@@ -12,9 +12,9 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 
 
-abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
+abstract class SActivityDrawer : SActivity(), androidx.drawerlayout.widget.DrawerLayout.DrawerListener {
 
-    private var drawerLayout: DrawerLayout? = null
+    private var drawerLayout: androidx.drawerlayout.widget.DrawerLayout? = null
     private var drawerContainer: ViewGroup? = null
     private var vNavigationRowsContainer: ViewGroup? = null
     private var lastTranslate = 0.0f
@@ -90,9 +90,9 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
     fun setNavigationLock(lock: Boolean) {
         navigationLock = lock
         if (lock)
-            drawerLayout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            drawerLayout!!.setDrawerLockMode(androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         else
-            drawerLayout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            drawerLayout!!.setDrawerLockMode(androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -115,7 +115,7 @@ abstract class SActivityDrawer : SActivity(), DrawerLayout.DrawerListener {
     }
 
     override fun onDrawerStateChanged(newState: Int) {
-        if (newState == DrawerLayout.STATE_DRAGGING)
+        if (newState == androidx.drawerlayout.widget.DrawerLayout.STATE_DRAGGING)
             ToolsView.hideKeyboard()
     }
 

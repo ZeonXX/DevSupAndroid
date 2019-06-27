@@ -2,8 +2,8 @@ package com.sup.dev.android.views.views.pager
 
 import android.content.Context
 import android.graphics.Paint
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -12,7 +12,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 
-abstract class ViewPagerIndicator constructor(context: Context, attrs: AttributeSet?) : ViewGroup(context, attrs), ViewPager.OnPageChangeListener, ViewPager.OnAdapterChangeListener {
+abstract class ViewPagerIndicator constructor(context: Context, attrs: AttributeSet?) : ViewGroup(context, attrs), androidx.viewpager.widget.ViewPager.OnPageChangeListener, androidx.viewpager.widget.ViewPager.OnAdapterChangeListener {
 
     protected val paint: Paint
 
@@ -21,7 +21,7 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
     protected var colorSelected: Int = 0
     protected var offset: Float = 0.toFloat()
 
-    protected var pager: ViewPager? = null
+    protected var pager: androidx.viewpager.widget.ViewPager? = null
     protected var position: Int = 0
     protected var positionOffset: Float = 0.toFloat()
     protected var state: Int = 0
@@ -55,7 +55,7 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
-    open fun setPagerView(pager: ViewPager?) {
+    open fun setPagerView(pager: androidx.viewpager.widget.ViewPager?) {
         this.pager = pager
         pager!!.addOnPageChangeListener(this)
         pager.addOnAdapterChangeListener(this)
@@ -69,7 +69,7 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
     }
 
     override fun onPageSelected(position: Int) {
-        if (state == ViewPager.SCROLL_STATE_IDLE)
+        if (state == androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE)
             this.position = position
         onChanged()
     }
@@ -81,7 +81,7 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
 
     protected abstract fun onChanged()
 
-    override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
+    override fun onAdapterChanged(viewPager: androidx.viewpager.widget.ViewPager, oldAdapter: androidx.viewpager.widget.PagerAdapter?, newAdapter: androidx.viewpager.widget.PagerAdapter?) {
 
     }
 }

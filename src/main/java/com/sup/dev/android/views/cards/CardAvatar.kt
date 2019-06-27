@@ -1,8 +1,8 @@
 package com.sup.dev.android.views.cards
 
 import android.graphics.Bitmap
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView

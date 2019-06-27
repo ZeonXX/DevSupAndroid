@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup

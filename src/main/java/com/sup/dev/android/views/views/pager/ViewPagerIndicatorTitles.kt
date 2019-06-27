@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.views.pager
 
 import android.content.Context
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView

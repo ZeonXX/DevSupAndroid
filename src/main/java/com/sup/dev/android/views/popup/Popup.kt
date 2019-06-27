@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.popup
 
 import android.graphics.drawable.ColorDrawable
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import android.view.View
 import android.widget.PopupWindow
 import com.sup.dev.android.R

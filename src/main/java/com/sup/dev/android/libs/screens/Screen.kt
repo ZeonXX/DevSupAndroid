@@ -1,11 +1,11 @@
 package com.sup.dev.android.libs.screens
 
 import android.graphics.drawable.Drawable
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.design.widget.AppBarLayout
-import android.support.v7.widget.Toolbar
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import com.google.android.material.appbar.AppBarLayout
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView

@@ -3,8 +3,8 @@ package com.sup.dev.android.views.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar

@@ -2,10 +2,10 @@ package com.sup.dev.android.views.views.pager
 
 import android.content.Context
 import android.graphics.Canvas
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 
-class ViewPagerIndicatorCircles(context: Context, attrs: AttributeSet) : ViewPagerIndicator(context, attrs), ViewPager.OnPageChangeListener {
+class ViewPagerIndicatorCircles(context: Context, attrs: AttributeSet) : ViewPagerIndicator(context, attrs), androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 
     init {
         setWillNotDraw(false)

@@ -14,7 +14,7 @@ import android.content.res.Configuration
 import android.media.audiofx.AcousticEchoCanceler
 import android.net.ConnectivityManager
 import android.os.*
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import android.view.WindowManager
 import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid

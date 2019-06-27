@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/vRoot"
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Root">
@@ -14,13 +14,13 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/vAll"
             style="@style/Fab"
             android:layout_marginRight="96dp"
             android:src="@drawable/ic_fullscreen_white_24dp"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Fab"
             android:src="@drawable/ic_check_white_24dp"/>
 
@@ -29,4 +29,4 @@
 
     </FrameLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

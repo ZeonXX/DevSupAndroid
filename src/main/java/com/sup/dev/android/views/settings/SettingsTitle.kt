@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.widget.TextView
 import com.sup.dev.android.R

@@ -3,7 +3,7 @@ package com.sup.dev.android.utils
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.java.libs.debug.info
 

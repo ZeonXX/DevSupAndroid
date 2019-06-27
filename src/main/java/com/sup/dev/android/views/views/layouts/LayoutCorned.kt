@@ -6,8 +6,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.support.annotation.AttrRes
-import android.support.annotation.StyleRes
+import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.sup.dev.android.R

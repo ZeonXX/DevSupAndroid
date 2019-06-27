@@ -15,9 +15,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PersistableBundle
-import android.support.annotation.DrawableRes
-import android.support.annotation.RequiresApi
-import android.support.annotation.RequiresPermission
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.sup.dev.android.app.SupAndroid
 import java.lang.RuntimeException
 import java.util.HashMap

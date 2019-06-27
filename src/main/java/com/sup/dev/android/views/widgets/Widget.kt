@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.widgets
 
 import android.content.Context
-import android.support.annotation.*
+import androidx.annotation.*
 import android.view.View
 import android.widget.TextView
 import com.sup.dev.android.R

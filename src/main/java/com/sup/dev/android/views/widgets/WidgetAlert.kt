@@ -1,9 +1,9 @@
 package com.sup.dev.android.views.widgets
 
 import android.graphics.Bitmap
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button

@@ -9,13 +9,13 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.LayoutRes
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.animation.FastOutLinearInInterpolator
-import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.text.Selection
 import android.text.Spannable
@@ -92,10 +92,10 @@ object ToolsView {
         Linkify.addLinks(vText, httpPattern, "")
     }
 
-    fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {
-        vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    fun recyclerHideFabWhenScrollEnd(vRecycler: androidx.recyclerview.widget.RecyclerView, vFab: FloatingActionButton) {
+        vRecycler.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
                 if (vRecycler.computeVerticalScrollOffset() != 0 && vRecycler.computeVerticalScrollOffset() + 50 >= vRecycler.computeVerticalScrollRange() - vRecycler.computeVerticalScrollExtent())
                     vFab.hide()
                 else

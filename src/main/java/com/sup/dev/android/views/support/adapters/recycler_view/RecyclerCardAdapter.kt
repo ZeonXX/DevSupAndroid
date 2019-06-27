@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.support.adapters.recycler_view
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -15,14 +15,14 @@ import java.util.ArrayList
 import kotlin.reflect.KClass
 
 
-open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder>(), CardAdapter {
+open class RecyclerCardAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<RecyclerCardAdapter.Holder>(), CardAdapter {
 
     private val viewCash = HashList<KClass<out Card>, View>()
     private val items = ArrayList<Card>()
     private val holders = ArrayList<Holder>()
     private val onItemsChangeListeners = CallbacksList()
-    private var cardW = RecyclerView.LayoutParams.MATCH_PARENT
-    private var cardH = RecyclerView.LayoutParams.WRAP_CONTENT
+    private var cardW = androidx.recyclerview.widget.RecyclerView.LayoutParams.MATCH_PARENT
+    private var cardH = androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT
 
     private var notifyCount = 0
 
@@ -68,7 +68,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = FrameLayout(parent.context)
-        view.layoutParams = RecyclerView.LayoutParams(cardW, cardH)
+        view.layoutParams = androidx.recyclerview.widget.RecyclerView.LayoutParams(cardW, cardH)
         val holder = Holder(view)
         holders.add(holder)
         return holder
@@ -271,7 +271,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
     //  Holder
     //
 
-    class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class Holder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         var item: Card? = null
     }

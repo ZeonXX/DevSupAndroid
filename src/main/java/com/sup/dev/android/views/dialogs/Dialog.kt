@@ -1,7 +1,7 @@
 package com.sup.dev.android.views.dialogs
 
-import android.support.annotation.CallSuper
-import android.support.v7.app.AppCompatDialog
+import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatDialog
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window

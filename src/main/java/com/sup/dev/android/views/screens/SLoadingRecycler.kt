@@ -1,11 +1,11 @@
 package com.sup.dev.android.views.screens
 
-import android.support.annotation.DrawableRes
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
+import androidx.annotation.DrawableRes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -23,8 +23,8 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
     protected val vToolbar: Toolbar? = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup? = findViewById(R.id.vToolbarIconsContainer)
-    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
-    protected val vRefresh: SwipeRefreshLayout? = findViewById(R.id.vRefresh)
+    protected val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    protected val vRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout? = findViewById(R.id.vRefresh)
     protected val vScreenRoot: ViewGroup? = findViewById(R.id.vScreenRoot)
 
     protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
@@ -33,14 +33,14 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
-        vRecycler.layoutManager = LinearLayoutManager(context)
+        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         if (vRefresh != null)
             vRefresh.setOnRefreshListener {
                 vRefresh.isRefreshing = false
                 onReloadClicked()
             }
 
-        val vFabX:FloatingActionButton? = findViewById(R.id.vFabX)
+        val vFabX: FloatingActionButton? = findViewById(R.id.vFabX)
         if (vFabX != null) {
             if (vFab.parent is ViewGroup) (vFab.parent as ViewGroup).removeView(vFab)
             vFabX.id = R.id.vFab
@@ -62,7 +62,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
 
             prepareAdapter(adapter!!)
-            setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
+            setAdapter(adapter as androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>)
 
             ToolsThreads.main(true) {
                 reload()
@@ -107,7 +107,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     //  Setters
     //
 
-    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
+    fun setAdapter(adapter: androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>) {
         vRecycler.adapter = adapter
     }
 

@@ -2,7 +2,7 @@ package com.sup.dev.android.views.widgets
 
 import android.content.Context
 import android.os.Environment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -34,7 +34,7 @@ class WidgetChooseFile : WidgetRecycler() {
         rootFolder = Environment.getExternalStorageDirectory()
         currentFolder = rootFolder
 
-        vRecycler.layoutManager = LinearLayoutManager(view.context)
+        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
         vRecycler.itemAnimator = null
         setAdapter<WidgetRecycler>(adapter as RecyclerCardAdapter)
         ToolsPermission.requestReadPermission { resetCards(rootFolder!!) }

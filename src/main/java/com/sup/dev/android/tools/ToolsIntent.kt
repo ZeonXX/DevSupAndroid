@@ -9,7 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Parcelable
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.err

@@ -8,7 +8,7 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventJonScheduler
 import com.sup.dev.java.libs.eventBus.EventBus

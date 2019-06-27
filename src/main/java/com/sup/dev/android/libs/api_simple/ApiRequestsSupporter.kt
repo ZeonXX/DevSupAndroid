@@ -1,6 +1,6 @@
 package com.sup.dev.android.libs.api_simple
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen

@@ -2,8 +2,8 @@ package com.sup.dev.android.views.widgets
 
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.GridLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.GridLayoutManager
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +52,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
-        vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
+        vRecycler.layoutManager = androidx.recyclerview.widget.GridLayoutManager(view.context, spanCount)
 
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)

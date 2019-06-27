@@ -3,8 +3,8 @@ package com.sup.dev.android.libs.screens.activity
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout

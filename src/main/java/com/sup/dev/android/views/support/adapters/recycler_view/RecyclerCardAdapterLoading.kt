@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.support.adapters.recycler_view
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading

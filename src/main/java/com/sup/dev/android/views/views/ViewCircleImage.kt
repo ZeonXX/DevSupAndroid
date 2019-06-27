@@ -10,7 +10,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsMath
 
-class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null) : android.support.v7.widget.AppCompatImageView(context, attrs) {
+class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
 
     companion object {
         var SQUARE_GLOBAL_CORNED = ToolsView.dpToPx(10)

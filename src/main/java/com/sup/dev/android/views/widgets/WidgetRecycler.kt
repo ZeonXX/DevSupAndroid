@@ -1,6 +1,6 @@
 package com.sup.dev.android.views.widgets
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -15,7 +15,7 @@ open class WidgetRecycler(
 ) : Widget(r) {
 
     protected val vRoot: ViewGroup = findViewById(R.id.vRoot)
-    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    protected val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
     protected val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var adapter: RecyclerCardAdapter? = null

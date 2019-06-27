@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 
 
-open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : android.support.v7.widget.AppCompatTextView(context, attrs) {
+open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatTextView(context, attrs) {
 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

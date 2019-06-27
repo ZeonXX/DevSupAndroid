@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.support.annotation.*
+import androidx.annotation.*
 import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid

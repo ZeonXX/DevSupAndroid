@@ -17,7 +17,7 @@ import com.sup.dev.java.tools.ToolsColor
 class ViewIcon @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : android.support.v7.widget.AppCompatImageView(context, attrs) {
+) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
 
     private val paint: Paint
     private val animationFocus: AnimationFocus

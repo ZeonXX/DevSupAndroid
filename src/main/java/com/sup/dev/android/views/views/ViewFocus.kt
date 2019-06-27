@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import com.google.android.material.button.MaterialButton
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 import com.sup.dev.android.tools.ToolsView
@@ -15,7 +16,7 @@ import com.sup.dev.android.tools.ToolsResources
 class ViewFocus @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : android.support.design.button.MaterialButton(context, attrs) {
+) : MaterialButton(context, attrs) {
 
     private val path = Path()
     private val paint = Paint()
