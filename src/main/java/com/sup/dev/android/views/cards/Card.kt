@@ -50,6 +50,10 @@ abstract class Card {
         return this.view
     }
 
+    fun remove(){
+        if(adapter != null) adapter!!.remove(this)
+    }
+
     //
     //  Adapter
     //
