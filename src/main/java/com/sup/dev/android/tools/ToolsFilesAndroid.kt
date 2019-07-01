@@ -97,13 +97,21 @@ object ToolsFilesAndroid {
 
     @Throws(IOException::class)
     fun unpackZip(path: String, zipFile: File) {
-        var `is`: InputStream? = null
+        unpackZip(path, FileInputStream(zipFile))
+    }
+
+    @Throws(IOException::class)
+    fun unpackZip(path: String, zipFile: ByteArray) {
+        unpackZip(path, ByteArrayInputStream(zipFile))
+    }
+
+    @Throws(IOException::class)
+    fun unpackZip(path: String, inp: InputStream) {
         var zis: ZipInputStream? = null
         try {
             var filename: String
-            `is` = FileInputStream(zipFile)
-            zis = ZipInputStream(BufferedInputStream(`is`))
-            var ze: ZipEntry
+            zis = ZipInputStream(BufferedInputStream(inp))
+            var ze: ZipEntry?
             val buffer = ByteArray(1024)
             var count: Int
             while (true) {
@@ -128,7 +136,7 @@ object ToolsFilesAndroid {
             zis.close()
         } finally {
             try {
-                `is`?.close()
+                inp?.close()
             } catch (ex: IOException) {
                 err(ex)
             }
