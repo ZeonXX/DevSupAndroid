@@ -34,7 +34,7 @@ class WidgetChooseFile : WidgetRecycler() {
         rootFolder = Environment.getExternalStorageDirectory()
         currentFolder = rootFolder
 
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        vRecycler.layoutManager = LinearLayoutManager(view.context)
         vRecycler.itemAnimator = null
         setAdapter<WidgetRecycler>(adapter as RecyclerCardAdapter)
         ToolsPermission.requestReadPermission { resetCards(rootFolder!!) }
