@@ -211,7 +211,7 @@ abstract class SActivity : AppCompatActivity() {
         old.animate()
                 .alpha(0f)
                 .translationX((ToolsAndroid.getScreenW() / 3).toFloat())
-                .setDuration(300)
+                .setDuration(200)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setListener(object : AnimatorListenerAdapter() {
 
@@ -230,7 +230,7 @@ abstract class SActivity : AppCompatActivity() {
         screen.animate()
                 .alpha(1f)
                 .translationX(0f)
-                .setDuration(300)
+                .setDuration(200)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setListener(object : AnimatorListenerAdapter() {
 
