@@ -57,11 +57,12 @@ abstract class SActivity : AppCompatActivity() {
         super.onStart()
 
         SupAndroid.activityIsVisible = true
-        Navigator.resetCurrentView()
 
         if (!started) {
             started = true
             onFirstStart()
+        }else{
+            Navigator.resetCurrentView()
         }
 
         if (Navigator.getStackSize() == 0) toMainScreen()

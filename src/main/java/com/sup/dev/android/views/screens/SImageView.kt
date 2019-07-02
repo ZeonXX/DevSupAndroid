@@ -27,7 +27,7 @@ class SImageView private constructor()
     private val vRoot: View = findViewById(R.id.vRoot)
     private val vCounterContainer: View = findViewById(R.id.vCounterContainer)
     private val vCounter: TextView = findViewById(R.id.vCounter)
-    private val vPager: androidx.viewpager.widget.ViewPager = findViewById(R.id.vPager)
+    private val vPager: ViewPager = findViewById(R.id.vPager)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
     private val vIndicator: ViewPagerIndicatorImages = findViewById(R.id.vIndicator)
@@ -37,6 +37,7 @@ class SImageView private constructor()
         for (b in bitmaps) adapterIn.add(Page(null, b, 0L))
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, bitmaps[index]) }
         vIndicator.setPagerView(vPager)
     }
@@ -45,6 +46,7 @@ class SImageView private constructor()
         for (id in ids) adapterIn.add(Page(null, null, id))
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.imageProvider = { index, v -> vIndicator.setImageId(v, ids[index]) }
         vIndicator.setPagerView(vPager)
     }
@@ -53,6 +55,7 @@ class SImageView private constructor()
         for (b in bytes) adapterIn.add(Page(b, null, 0L))
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
+        vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, ToolsBitmap.decode( bytes[index])!!) }
         vIndicator.setPagerView(vPager)
     }
