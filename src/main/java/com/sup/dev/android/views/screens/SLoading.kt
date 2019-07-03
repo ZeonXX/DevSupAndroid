@@ -95,6 +95,10 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         this.onAction = null
     }
 
+    fun setTextProgress(@StringRes textProgress: Int) {
+        setTextProgress(ToolsResources.s(textProgress))
+    }
+
     fun setTextProgress(textProgress: String) {
         this.textProgressS = textProgress
     }
