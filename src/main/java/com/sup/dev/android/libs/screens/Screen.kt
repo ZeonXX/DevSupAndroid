@@ -91,6 +91,11 @@ open class Screen(
     }
 
     @CallSuper
+    open fun onStackChanged() {
+
+    }
+
+    @CallSuper
     open fun onDestroy() {
         onHide.invoke()
     }

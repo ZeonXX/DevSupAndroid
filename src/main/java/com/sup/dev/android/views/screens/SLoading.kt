@@ -15,7 +15,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
 
-
 abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_loading) {
 
     enum class State {
@@ -134,7 +133,9 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         if (state == State.PROGRESS) {
             ToolsThreads.main(600) {
                 ToolsView.alpha(vProgress, this.stateS != State.PROGRESS)
-                if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) ToolsView.fromAlpha(vMessage)
+                if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) {
+                    ToolsView.fromAlpha(vMessage)
+                }
             }
         } else
             ToolsView.toAlpha(vProgress)
@@ -148,21 +149,24 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         }
 
         if (state == State.ERROR) {
+            vMessage.text = textErrorNetwork
+            vAction.text = textRetry
+            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
+            ToolsView.alpha(vAction, vAction.text.isEmpty())
 
-            ToolsView.setTextOrGone(vMessage, textErrorNetwork)
-            ToolsView.setTextOrGone(vAction, textRetry)
             vAction.setOnClickListener { v -> onReloadClicked() }
         }
 
         if (state == State.EMPTY) {
+            vMessage.text = textEmptyS
+            vAction.text = textAction
+            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
+            ToolsView.alpha(vAction, vAction.text.isEmpty())
 
-            ToolsView.setTextOrGone(vMessage, textEmptyS)
-            ToolsView.setTextOrGone(vAction, textAction)
             vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke() }
         }
 
         if (state == State.PROGRESS) {
-
             vMessage.visibility = View.GONE
             vMessage.text = textProgressS
             ToolsView.setTextOrGone(vAction, textProgressAction)

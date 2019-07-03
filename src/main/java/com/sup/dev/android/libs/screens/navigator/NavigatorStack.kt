@@ -5,12 +5,12 @@ import java.util.ArrayList
 
 class NavigatorStack {
 
-    internal var backStack = ArrayList<Screen>()
+    var stack = ArrayList<Screen>()
 
-    fun isEmpty() = backStack.isEmpty()
+    fun isEmpty() = stack.isEmpty()
 
-    fun isNotEmpty() = backStack.isNotEmpty()
+    fun isNotEmpty() = stack.isNotEmpty()
 
-    fun size() = backStack.size
+    fun size() = stack.size
 
 }

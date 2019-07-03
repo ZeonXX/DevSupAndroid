@@ -34,7 +34,7 @@ object Navigator {
 
     fun removeScreen(screen: Screen) {
         screen.onDestroy()
-        currentStack.backStack.remove(screen)
+        currentStack.stack.remove(screen)
     }
 
     //
@@ -47,7 +47,7 @@ object Navigator {
 
     @JvmOverloads
     fun to(screen: Screen, animation: Animation = Animation.IN) {
-        if (!currentStack.backStack.isEmpty()) {
+        if (!currentStack.stack.isEmpty()) {
             if (!getCurrent()!!.isBackStackAllowed) {
                 removeScreen(getCurrent()!!)
             } else {
@@ -57,31 +57,31 @@ object Navigator {
                 removeAll(screen.javaClass)
             }
         }
-        currentStack.backStack.add(screen)
+        currentStack.stack.add(screen)
         setCurrentViewNew(animation)
     }
 
     fun replace(screen: Screen, newScreen: Screen) {
-        if (currentStack.backStack.isEmpty()) return
+        if (currentStack.stack.isEmpty()) return
         if (getCurrent() == screen) {
             replace(newScreen)
             return
         }
-        for (i in currentStack.backStack.indices) if (currentStack.backStack[i] == screen) currentStack.backStack[i] = newScreen
+        for (i in currentStack.stack.indices) if (currentStack.stack[i] == screen) currentStack.stack[i] = newScreen
     }
 
     fun replace(screen: Screen) {
-        if (!currentStack.backStack.isEmpty()) removeScreen(getCurrent()!!)
+        if (!currentStack.stack.isEmpty()) removeScreen(getCurrent()!!)
         to(screen, Animation.ALPHA)
     }
 
     fun set(screen: Screen, animation: Animation = Animation.ALPHA) {
-        while (currentStack.backStack.size != 0) removeScreen(currentStack.backStack[0])
+        while (currentStack.stack.size != 0) removeScreen(currentStack.stack[0])
         to(screen, animation)
     }
 
     fun reorder(screen: Screen) {
-        currentStack.backStack.remove(screen)
+        currentStack.stack.remove(screen)
         to(screen)
     }
 
@@ -90,9 +90,9 @@ object Navigator {
         if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
             return
 
-        for (i in currentStack.backStack.size - 1 downTo -1 + 1)
-            if (currentStack.backStack[i].javaClass == viewClass) {
-                reorder(currentStack.backStack[i])
+        for (i in currentStack.stack.size - 1 downTo -1 + 1)
+            if (currentStack.stack[i].javaClass == viewClass) {
+                reorder(currentStack.stack[i])
                 return
             }
 
@@ -102,9 +102,9 @@ object Navigator {
     fun removeAllEqualsAndTo(view: Screen) {
 
         var i = 0
-        while (i < currentStack.backStack.size) {
-            if (currentStack.backStack[i].equalsNView(view))
-                remove(currentStack.backStack[i--])
+        while (i < currentStack.stack.size) {
+            if (currentStack.stack[i].equalsNView(view))
+                remove(currentStack.stack[i--])
             i++
         }
 
@@ -116,9 +116,9 @@ object Navigator {
         val needUpdate = current != null && current.javaClass == viewClass
 
         var i = 0
-        while (i < currentStack.backStack.size) {
-            if (currentStack.backStack[i].javaClass == viewClass) {
-                remove(currentStack.backStack[i--])
+        while (i < currentStack.stack.size) {
+            if (currentStack.stack[i].javaClass == viewClass) {
+                remove(currentStack.stack[i--])
             }
             i++
         }
@@ -148,7 +148,9 @@ object Navigator {
 
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
+        val oldStack = currentStack
         currentStack = stack
+        for(screen in oldStack.stack) screen.onStackChanged()
         setCurrentViewNew(Animation.ALPHA)
     }
 
@@ -211,28 +213,28 @@ object Navigator {
 
 
     fun getStackSize(): Int {
-        return currentStack.backStack.size
+        return currentStack.stack.size
     }
 
     fun getPrevious(): Screen? {
-        return if (hasPrevious()) currentStack.backStack[currentStack.backStack.size - 2] else null
+        return if (hasPrevious()) currentStack.stack[currentStack.stack.size - 2] else null
     }
 
     fun getCurrent(): Screen? {
-        return if (currentStack.backStack.isEmpty()) null else currentStack.backStack[currentStack.backStack.size - 1]
+        return if (currentStack.stack.isEmpty()) null else currentStack.stack[currentStack.stack.size - 1]
     }
 
     fun isEmpty(): Boolean {
-        return currentStack.backStack.isEmpty()
+        return currentStack.stack.isEmpty()
     }
 
 
     fun hasBackStack(): Boolean {
-        return currentStack.backStack.size > 1
+        return currentStack.stack.size > 1
     }
 
     fun hasPrevious(): Boolean {
-        return currentStack.backStack.size > 1
+        return currentStack.stack.size > 1
     }
 
     fun addOnBackScreenListener(onBack: (Screen?, Screen?) -> Unit) {

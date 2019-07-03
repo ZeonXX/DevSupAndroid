@@ -2,12 +2,12 @@ package com.sup.dev.android.views.screens
 
 import androidx.annotation.DrawableRes
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
@@ -23,8 +23,8 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
     protected val vToolbar: Toolbar? = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup? = findViewById(R.id.vToolbarIconsContainer)
-    protected val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
-    protected val vRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout? = findViewById(R.id.vRefresh)
+    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    protected val vRefresh: SwipeRefreshLayout? = findViewById(R.id.vRefresh)
     protected val vScreenRoot: ViewGroup? = findViewById(R.id.vScreenRoot)
 
     protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
@@ -33,7 +33,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        vRecycler.layoutManager = LinearLayoutManager(context)
         if (vRefresh != null)
             vRefresh.setOnRefreshListener {
                 vRefresh.isRefreshing = false
@@ -62,7 +62,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
 
             prepareAdapter(adapter!!)
-            setAdapter(adapter as androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>)
+            setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
 
             ToolsThreads.main(true) {
                 reload()
@@ -107,7 +107,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     //  Setters
     //
 
-    fun setAdapter(adapter: androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>) {
+    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
         vRecycler.adapter = adapter
     }
 
