@@ -91,7 +91,11 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
     override fun onTouch(view: View, e: MotionEvent): Boolean {
         if (subscriptionBack != null) subscriptionBack!!.unsubscribe()
-        if (subscriptionLongClick != null) subscriptionLongClick!!.unsubscribe()
+        if (subscriptionLongClick != null && (e.action != MotionEvent.ACTION_MOVE || swipeStarted
+                        || firstX < e.x - ToolsView.dpToPx(12)
+                        || firstX > e.x + ToolsView.dpToPx(12)
+                        || firstY < e.y - ToolsView.dpToPx(12)
+                        || firstY > e.y + ToolsView.dpToPx(12))) subscriptionLongClick!!.unsubscribe()
 
         if (e.action == MotionEvent.ACTION_DOWN) {
             startX = vContainer.x
