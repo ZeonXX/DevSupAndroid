@@ -27,6 +27,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     private var vEmptySubContainer: ViewGroup? = null
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: ProgressBar = findViewById(R.id.vProgress)
+    private val vProgressLine: ProgressBar = findViewById(R.id.vProgressLine)
     private val vEmptyImage: ImageView = findViewById(R.id.vEmptyImage)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
     private val vMessageContainer: ViewGroup = findViewById(R.id.vMessageContainer)
@@ -49,6 +50,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         vAction.visibility = View.INVISIBLE
         vMessage.visibility = View.INVISIBLE
         vProgress.visibility = View.INVISIBLE
+        vProgressLine.visibility = View.INVISIBLE
         vEmptyImage.visibility = View.GONE
 
         setState(State.PROGRESS)
@@ -80,6 +82,10 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         setTextEmpty(ToolsResources.s(t))
     }
 
+    protected fun setTextEmpty(t: String?) {
+        textEmptyS = t
+    }
+
     protected fun setAction(@StringRes textAction: Int, onAction: () -> Unit) {
         setAction(ToolsResources.s(textAction), onAction)
     }
@@ -107,10 +113,6 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         this.onAction = onAction
     }
 
-    protected fun setTextEmpty(t: String?) {
-        textEmptyS = t
-    }
-
     fun setBackgroundImage(@DrawableRes res: Int) {
         this.image = res
     }
@@ -132,13 +134,15 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
         if (state == State.PROGRESS) {
             ToolsThreads.main(600) {
-                ToolsView.alpha(vProgress, this.stateS != State.PROGRESS)
+                ToolsView.alpha(vProgress, this.stateS != State.PROGRESS || textProgressS != null)
+                ToolsView.alpha(vProgressLine, this.stateS != State.PROGRESS || textProgressS == null)
                 if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) {
                     ToolsView.fromAlpha(vMessage)
                 }
             }
         } else
             ToolsView.toAlpha(vProgress)
+            ToolsView.toAlpha(vProgressLine)
 
         if (image == null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
