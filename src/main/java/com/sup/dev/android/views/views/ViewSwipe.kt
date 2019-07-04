@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
+import com.sup.dev.android.tools.ToolsBackgroundWork
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription

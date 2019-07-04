@@ -2,8 +2,8 @@ package com.sup.dev.android.tools
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.app.Activity
 import android.app.Notification
+import android.app.PendingIntent
 import android.app.Service
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -18,8 +18,8 @@ import android.os.PersistableBundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.core.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
-import java.lang.RuntimeException
 import java.util.HashMap
 
 object ToolsBackgroundWork {
@@ -37,25 +37,26 @@ object ToolsBackgroundWork {
     private val callbacks = HashMap<Int, ()->Unit>()
     private var index: Int = 0
 
-    fun startForegroundService(activityClass: Class<out Activity>, @DrawableRes icon: Int, title: String?, body: String) {
-        throw RuntimeException("Fix me")
-        /*
-        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getDefChanelId())
+    //  !!!!!!!!!
+    //  Add service to the manifest file
+    //  !!!!!!!!!
+    fun startForegroundService(@DrawableRes icon: Int, title: String?, body: String) {
+
+        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.defChanelId.toString())
                 .setSmallIcon(icon)
                 .setContentText(body)
                 .setOngoing(true)
         if (title != null) builder.setContentTitle(title)
 
-        val intent = Intent(SupAndroid.appContext!!, activityClass)
+        val intent = Intent(SupAndroid.appContext!!, SupAndroid.activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        val pi = PndingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PndingIntent.FLAG_UPDATE_CURRENT)
+        val pi = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pi)
 
         notification = builder.build()
 
         ToolsIntent.startServiceForeground(ForegroundService::class.java)
-        */
     }
 
     class ForegroundService : Service() {

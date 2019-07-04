@@ -12,6 +12,7 @@ import com.sup.dev.java.classes.collections.HashList
 object ToolsNotifications {
 
     private val SPLITER = "-FS2ААА67миО-"
+    var defChanelId = 0
 
     enum class Importance {
         DEFAULT, HIGH, MIN
@@ -98,6 +99,8 @@ object ToolsNotifications {
             this.id = id
             this.idS = "chanel_$id"
         }
+
+        fun getId() = id
 
         fun post(icon:Int, title:String, text:String, intent:Intent, tag:String){
             post(NotificationX()
