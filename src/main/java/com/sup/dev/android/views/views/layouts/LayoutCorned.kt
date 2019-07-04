@@ -14,7 +14,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
-
 open class LayoutCorned @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

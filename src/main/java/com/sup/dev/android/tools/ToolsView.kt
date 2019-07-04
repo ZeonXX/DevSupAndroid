@@ -42,7 +42,6 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
-
 object ToolsView {
 
     val ANIMATION_TIME = 300
