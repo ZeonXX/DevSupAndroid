@@ -19,7 +19,7 @@ open class WidgetMenu : WidgetRecycler() {
     private var autoHide = true
 
     init {
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        vRecycler.layoutManager = LinearLayoutManager(view.context)
         setAdapter<WidgetRecycler>(myAdapter)
     }
 

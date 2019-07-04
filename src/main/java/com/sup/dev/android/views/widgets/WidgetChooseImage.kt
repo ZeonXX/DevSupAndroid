@@ -52,7 +52,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
-        vRecycler.layoutManager = androidx.recyclerview.widget.GridLayoutManager(view.context, spanCount)
+        vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
+        ToolsView.setRecyclerAnimation(vRecycler)
 
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)

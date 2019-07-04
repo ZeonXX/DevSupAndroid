@@ -17,6 +17,7 @@ import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
+import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -28,6 +29,7 @@ class SImageView private constructor()
     private val vCounterContainer: View = findViewById(R.id.vCounterContainer)
     private val vCounter: TextView = findViewById(R.id.vCounter)
     private val vPager: ViewPager = findViewById(R.id.vPager)
+    private val vShare: ViewIcon = findViewById(R.id.vShare)
     private val vDownload: ViewIcon = findViewById(R.id.vDownload)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
     private val vIndicator: ViewPagerIndicatorImages = findViewById(R.id.vIndicator)
@@ -86,12 +88,14 @@ class SImageView private constructor()
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vDownload.setIconBackgroundColor(color)
+        vShare.setIconBackgroundColor(color)
         vBack.setIconBackgroundColor(color)
         vCounterContainer.setBackgroundColor(color)
 
         vDownload.setOnClickListener { download() }
+        vShare.setOnClickListener { share() }
         vPager.adapter = adapterIn
-        vPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+        vPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(p0: Int) {
 
@@ -115,6 +119,7 @@ class SImageView private constructor()
 
         ToolsView.alpha(vBack, toAlpha)
         ToolsView.alpha(vDownload, toAlpha)
+        ToolsView.alpha(vShare, toAlpha)
         ToolsView.alpha(vCounterContainer, toAlpha)
         ToolsView.alpha(vIndicator, toAlpha)
     }
@@ -125,6 +130,10 @@ class SImageView private constructor()
 
     private fun download() {
         (adapterIn[vPager.currentItem] as Page).download()
+    }
+
+    private fun share() {
+        (adapterIn[vPager.currentItem] as Page).share()
     }
 
     private inner class Page constructor(
@@ -176,6 +185,39 @@ class SImageView private constructor()
                 dialog.hide()
                 ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)
             }
+
+        }
+
+        fun share() {
+
+            WidgetField()
+                    .setHint(SupAndroid.TEXT_APP_MESSAGE)
+                    .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                    .setOnEnter(SupAndroid.TEXT_APP_SHARE) { w, text ->
+                        ToolsThreads.thread {
+                            if (bitmap != null) {
+                                ToolsIntent.shareImage(bitmap, text)
+                            } else if (id > 0) {
+                                val dialog = ToolsView.showProgressDialog()
+                                ToolsImagesLoader.load(id).into { bytes ->
+                                    ToolsThreads.thread {
+                                        val bm = ToolsBitmap.decode(bytes)
+                                        ToolsThreads.main {
+                                            dialog.hide()
+                                            if(bm == null){
+                                                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                                                return@main
+                                            }
+                                            ToolsIntent.shareImage(bm, text)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .asSheetShow()
+
+
 
         }
     }

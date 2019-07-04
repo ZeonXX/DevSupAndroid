@@ -11,6 +11,12 @@
         <androidx.viewpager.widget.ViewPager style="@style/Pager" />
 
         <com.sup.dev.android.views.views.ViewIcon
+            android:id="@+id/vShare"
+            style="@style/Icon.Shadow"
+            android:layout_marginRight="72dp"
+            android:src="?attr/ic_share_24dp"/>
+
+        <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vDownload"
             style="@style/Icon.Shadow"
             android:src="?attr/ic_file_download_24dp" />

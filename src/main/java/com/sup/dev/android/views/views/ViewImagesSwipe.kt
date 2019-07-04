@@ -29,7 +29,7 @@ class ViewImagesSwipe constructor(
         attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    private val vRecycler = androidx.recyclerview.widget.RecyclerView(context)
+    private val vRecycler = RecyclerView(context)
     private val vNext: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val vBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val adapter = RecyclerCardAdapter()
@@ -38,7 +38,7 @@ class ViewImagesSwipe constructor(
     init {
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
         adapter.setCardH(ViewGroup.LayoutParams.MATCH_PARENT)
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
+        vRecycler.layoutManager = LinearLayoutManager(context, GridLayoutManager.HORIZONTAL, false)
         vRecycler.adapter = adapter
 
         vNext.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
@@ -70,8 +70,8 @@ class ViewImagesSwipe constructor(
                 else vRecycler.smoothScrollToPosition(firstItem() - 2)
             }
         }
-        vRecycler.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+        vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 updateVisibility()
             }
         })
@@ -83,9 +83,9 @@ class ViewImagesSwipe constructor(
         vBack.visibility = if (firstItem() < 1) View.INVISIBLE else View.VISIBLE
     }
 
-    private fun lastItem() = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+    private fun lastItem() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
-    private fun firstItem() = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+    private fun firstItem() = (vRecycler.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
 
     fun clear() {
         adapter.clear()

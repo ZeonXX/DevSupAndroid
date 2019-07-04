@@ -16,10 +16,10 @@ abstract class SRecycler(res: Int = R.layout.screen_recycler) : Screen(res) {
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
-    protected val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
 
     init {
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        vRecycler.layoutManager = LinearLayoutManager(context)
     }
 
     fun onReloadClicked() {

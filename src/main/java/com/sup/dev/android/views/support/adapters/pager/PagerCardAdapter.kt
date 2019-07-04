@@ -12,10 +12,9 @@ import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.collections.HashList
 import java.util.ArrayList
-import kotlin.reflect.KClass
 
 
-open class PagerCardAdapter : androidx.viewpager.widget.PagerAdapter(), CardAdapter {
+open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     private val holders = ArrayList<Holder>()
     val items: ArrayList<Card> = ArrayList()
@@ -79,7 +78,7 @@ open class PagerCardAdapter : androidx.viewpager.widget.PagerAdapter(), CardAdap
     }
 
     override fun isViewFromObject(view: View, obj: Any): Boolean {
-        return obj is PagerCardAdapter.Holder && obj.itemView === view
+        return obj is Holder && obj.itemView === view
     }
 
     override fun destroyItem(parent: ViewGroup, position: Int, `object`: Any) {
@@ -87,7 +86,7 @@ open class PagerCardAdapter : androidx.viewpager.widget.PagerAdapter(), CardAdap
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
+        return POSITION_NONE
     }
 
     fun getItemId(position: Int): Int {

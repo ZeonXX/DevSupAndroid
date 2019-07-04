@@ -26,6 +26,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -45,6 +46,10 @@ import java.util.regex.Pattern
 object ToolsView {
 
     val ANIMATION_TIME = 300
+
+    fun setRecyclerAnimation(vRecycler:RecyclerView){
+        vRecycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(vRecycler.context, R.anim.layout_animation_slide_from_bottom)
+    }
 
     fun onFieldEnterKey(vFiled:EditText, callback:()->Unit){
         vFiled.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
@@ -92,10 +97,10 @@ object ToolsView {
         Linkify.addLinks(vText, httpPattern, "")
     }
 
-    fun recyclerHideFabWhenScrollEnd(vRecycler: androidx.recyclerview.widget.RecyclerView, vFab: FloatingActionButton) {
-        vRecycler.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+    fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {
+        vRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (vRecycler.computeVerticalScrollOffset() != 0 && vRecycler.computeVerticalScrollOffset() + 50 >= vRecycler.computeVerticalScrollRange() - vRecycler.computeVerticalScrollExtent())
                     vFab.hide()
                 else
@@ -182,7 +187,7 @@ object ToolsView {
             false
         }
 
-        v.setOnClickListener { v1 -> onClick.invoke(v, (if (clickScreenX.a == null) 0 else clickScreenX.a)!!, (if (clickScreenY.a == null) 0 else clickScreenY.a)!!) }
+        v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
 
 
     }

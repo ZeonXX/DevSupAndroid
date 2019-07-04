@@ -15,7 +15,7 @@ open class WidgetRecycler(
 ) : Widget(r) {
 
     protected val vRoot: ViewGroup = findViewById(R.id.vRoot)
-    protected val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     protected val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var adapter: RecyclerCardAdapter? = null

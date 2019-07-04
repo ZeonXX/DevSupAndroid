@@ -16,6 +16,7 @@
     <attr name="ic_keyboard_arrow_right_24dp" format="reference"/>
     <attr name="ic_keyboard_arrow_left_24dp" format="reference"/>
     <attr name="ic_file_download_24dp" format="reference"/>
+    <attr name="ic_share_24dp" format="reference"/>
     <attr name="ic_keyboard_arrow_up_24dp" format="reference"/>
     <attr name="ic_keyboard_arrow_down_24dp" format="reference"/>
     <attr name="ic_content_copy_24dp" format="reference"/>
@@ -46,6 +47,7 @@
         <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
         <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
         <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
+        <item name="ic_share_24dp">@drawable/ic_share_white_24dp</item>
         <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_white_24dp</item>
         <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_white_24dp</item>
         <item name="ic_content_copy_24dp">@drawable/ic_content_copy_white_24dp</item>
@@ -74,6 +76,7 @@
         <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_black_24dp</item>
         <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_black_24dp</item>
         <item name="ic_file_download_24dp">@drawable/ic_file_download_black_24dp</item>
+        <item name="ic_share_24dp">@drawable/ic_share_black_24dp</item>
         <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_black_24dp</item>
         <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_black_24dp</item>
         <item name="ic_content_copy_24dp">@drawable/ic_content_copy_black_24dp</item>
@@ -249,6 +252,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
+    </style>
+
+    <style name="Recycler.Animated">
+        <item name="android:layoutAnimation">@anim/layout_animation_slide_from_bottom</item>
     </style>
 
     <style name="Pager">
