@@ -16,15 +16,14 @@ import android.net.Uri
 object ToolsStorage {
 
     var externalFileNamePrefix = "f"
-    var preferences: SharedPreferences? = null
+    var preferences: SharedPreferences = SupAndroid.appContext!!.getSharedPreferences("android_app_pref", Activity.MODE_PRIVATE)
 
-    @JvmOverloads
-    fun init(storageKey: String = "android_app_pref") {
+    fun init(storageKey: String) {
         preferences = SupAndroid.appContext!!.getSharedPreferences(storageKey, Activity.MODE_PRIVATE)
     }
 
     operator fun contains(key: String): Boolean {
-        return preferences!!.contains(key)
+        return preferences.contains(key)
     }
 
     //
@@ -32,32 +31,27 @@ object ToolsStorage {
     //
 
     fun getBoolean(key: String, def: Boolean): Boolean {
-        if (preferences == null) init()
-        return preferences!!.getBoolean(key, def)
+        return preferences.getBoolean(key, def)
     }
 
     fun getInt(key: String, def: Int): Int {
-        if (preferences == null) init()
-        return preferences!!.getInt(key, def)
+        return preferences.getInt(key, def)
     }
 
     fun getLong(key: String, def: Long): Long {
-        if (preferences == null) init()
-        return preferences!!.getLong(key, def)
+        return preferences.getLong(key, def)
     }
 
     fun getFloat(key: String, def: Float): Float {
-        if (preferences == null) init()
-        return preferences!!.getFloat(key, def)
+        return preferences.getFloat(key, def)
     }
 
     fun getString(key: String, string: String?): String? {
-        if (preferences == null) init()
-        return preferences!!.getString(key, string)
+        return preferences.getString(key, string)
     }
 
     fun getBytes(key: String): ByteArray? {
-        val s = preferences!!.getString(key, null) ?: return null
+        val s = preferences.getString(key, null) ?: return null
         return s.toByteArray()
     }
 
@@ -81,8 +75,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putBoolean(key, v).apply()
+        preferences.edit().putBoolean(key, v).apply()
     }
 
     fun put(key: String, v: Int?) {
@@ -90,8 +83,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putInt(key, v).apply()
+        preferences.edit().putInt(key, v).apply()
     }
 
     fun put(key: String, v: Long?) {
@@ -99,8 +91,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putLong(key, v).apply()
+        preferences.edit().putLong(key, v).apply()
     }
 
     fun put(key: String, v: Float?) {
@@ -108,8 +99,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putFloat(key, v).apply()
+        preferences.edit().putFloat(key, v).apply()
     }
 
     fun put(key: String, v: String?) {
@@ -117,8 +107,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putString(key, v).apply()
+        preferences.edit().putString(key, v).apply()
     }
 
     fun put(key: String, v: ByteArray?) {
@@ -126,8 +115,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putString(key, String(v)).apply()
+        preferences.edit().putString(key, String(v)).apply()
     }
 
     fun put(key: String, v: Json?) {
@@ -143,8 +131,7 @@ object ToolsStorage {
             clear(key)
             return
         }
-        if (preferences == null) init()
-        preferences!!.edit().putString(key, v.toString()).apply()
+        preferences.edit().putString(key, v.toString()).apply()
     }
 
     //
@@ -152,8 +139,7 @@ object ToolsStorage {
     //
 
     fun clear(key: String) {
-        if (preferences == null) init()
-        preferences!!.edit().remove(key).apply()
+        preferences.edit().remove(key).apply()
     }
 
 
@@ -162,7 +148,6 @@ object ToolsStorage {
     //
 
     fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit = {}) {
-        if (preferences == null) init()
         ToolsPermission.requestWritePermission {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()
             val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png")
@@ -189,13 +174,11 @@ object ToolsStorage {
     }
 
     fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
-        if (preferences == null) init()
         saveFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).absolutePath,
                 bytes, onComplete, onPermissionPermissionRestriction)
     }
 
     fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
-        if (preferences == null) init()
         ToolsPermission.requestWritePermission({
             val f = File(patch)
             f.delete()
