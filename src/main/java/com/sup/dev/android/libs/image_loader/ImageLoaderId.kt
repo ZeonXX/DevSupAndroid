@@ -1,6 +1,6 @@
 package com.sup.dev.android.libs.image_loader
 
-class ImageLoaderId(private val imageId: Long) : ImageLoaderA() {
+class ImageLoaderId(val imageId: Long) : ImageLoaderA() {
 
 
     companion object {

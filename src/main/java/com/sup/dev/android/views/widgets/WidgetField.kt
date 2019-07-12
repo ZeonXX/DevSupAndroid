@@ -181,7 +181,6 @@ open class WidgetField(
 
     fun setText(text: String?): WidgetField {
         vFieldWidget.setText(text)
-        vFieldWidget.vField.setSelection(getText().length)
         return this
     }
 

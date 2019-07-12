@@ -75,7 +75,7 @@ class ViewImagesContainer @JvmOverloads constructor(
 
     private fun getIdsArray(): Array<Long> {
         val list = ArrayList<Long>()
-        for (i in items) if (i is ItemId) list.add(i.id)
+        for (i in items) if (i is ItemId) list.add(i.fullId)
         return list.toTypedArray()
     }
 
