@@ -219,7 +219,7 @@
     </style>
 
     <style name="Fab.Mini">
-        <item name="fabCustomSize">42dp</item>
+        <item name="fabSize">mini</item>
     </style>
 
     <style name="Widget.GifView" parent="@android:style/Widget"/>
