@@ -85,10 +85,13 @@ object ToolsPermission {
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit, onAllPermissionsGranted: () -> Unit) {
         val list = ArrayList<String>()
         for (p in permissions) {
-            if (hasPermission(p)) onGranted.invoke(p);
+            if (hasPermission(p)) onGranted.invoke(p)
             else list.add(p)
         }
-        if (list.isEmpty()) return
+        if (list.isEmpty()) {
+            onAllPermissionsGranted.invoke()
+            return
+        }
 
         val request = Request(code++, onGranted, onPermissionRestriction, onAllPermissionsGranted)
         requests.add(request)
