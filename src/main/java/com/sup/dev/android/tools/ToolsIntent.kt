@@ -72,6 +72,11 @@ object ToolsIntent {
     //  Intents
     //
 
+    fun startWeb(link: String, onActivityNotFound: ()->Unit) {
+        startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
+    }
+
     fun startIntent(intent: Intent, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         try {
             SupAndroid.appContext!!.startActivity(intent)
