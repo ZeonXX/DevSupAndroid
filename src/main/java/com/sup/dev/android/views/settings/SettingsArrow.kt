@@ -1,8 +1,10 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
@@ -16,5 +18,14 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
 
         setSubView(vArrow)
     }
+
+    fun setArrowIcon(@DrawableRes drawable: Int) {
+        setArrowIcon(ToolsResources.getDrawable(drawable))
+    }
+
+    fun setArrowIcon(drawable: Drawable) {
+        vArrow.setImageDrawable(drawable)
+    }
+
 
 }
