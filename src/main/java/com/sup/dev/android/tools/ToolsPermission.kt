@@ -18,19 +18,37 @@ object ToolsPermission {
     private var code = 1
     private val requests = ArrayList<Request>()
 
-    private class Request(val code: Int, val onGranted: (String) -> Unit, val onPermissionRestriction: (String) -> Unit)
+    private class Request(
+            val code: Int,
+            val onGranted: (String) -> Unit,
+            val onPermissionRestriction: (String) -> Unit,
+            val onAllPermissionsGranted: () -> Unit
+    )
 
     //
     //  Result
     //
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: Array<Int>) {
-        for (r in requests)
-            if (r.code == requestCode)
+
+
+        for (r in requests) {
+            if (r.code == requestCode) {
+                var permissionCounter = 0
                 for (i in 0 until permissions.size) {
-                    if (grantResults[i] == PERMISSION_GRANTED) r.onGranted.invoke(permissions[i])
-                    else r.onPermissionRestriction.invoke(permissions[i])
+                    if (grantResults[i] == PERMISSION_GRANTED) {
+                        permissionCounter++
+                        r.onGranted.invoke(permissions[i])
+                    } else {
+                        r.onPermissionRestriction.invoke(permissions[i])
+                    }
                 }
+                if(permissionCounter == permissions.size){
+                    r.onAllPermissionsGranted.invoke()
+                }
+            }
+        }
+
     }
 
     //
@@ -53,7 +71,7 @@ object ToolsPermission {
     }
 
     fun requestPermission(permission: String, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
-        requestPermissions(arrayOf(permission), onGranted,onPermissionRestriction)
+        requestPermissions(arrayOf(permission), onGranted, onPermissionRestriction)
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit) {
@@ -61,6 +79,10 @@ object ToolsPermission {
     }
 
     fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
+        requestPermissions(permissions, onGranted, onPermissionRestriction, {})
+    }
+
+    fun requestPermissions(permissions: Array<String>, onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit, onAllPermissionsGranted: () -> Unit) {
         val list = ArrayList<String>()
         for (p in permissions) {
             if (hasPermission(p)) onGranted.invoke(p);
@@ -68,7 +90,7 @@ object ToolsPermission {
         }
         if (list.isEmpty()) return
 
-        val request = Request(code++, onGranted, onPermissionRestriction)
+        val request = Request(code++, onGranted, onPermissionRestriction, onAllPermissionsGranted)
         requests.add(request)
         ActivityCompat.requestPermissions(SupAndroid.activity!!, ToolsMapper.asArray(list), request.code)
     }
