@@ -1,9 +1,12 @@
 package com.sup.dev.android.libs.screens.navigator
 
+import android.os.Build
+import android.view.View
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.java.classes.callbacks.CallbacksList2
+import com.sup.dev.java.libs.debug.log
 import java.util.ArrayList
 
 object Navigator {
@@ -150,7 +153,7 @@ object Navigator {
         if (currentStack == stack) return
         val oldStack = currentStack
         currentStack = stack
-        for(screen in oldStack.stack) screen.onStackChanged()
+        for (screen in oldStack.stack) screen.onStackChanged()
         setCurrentViewNew(Animation.ALPHA)
     }
 
@@ -180,8 +183,18 @@ object Navigator {
 
         SupAndroid.activity!!.setScreen(screen, animation)
 
-        val statusBarColor = screen.statusBarColor
-        if(SupAndroid.activity?.window?.statusBarColor != statusBarColor) SupAndroid.activity?.window?.statusBarColor = statusBarColor
+        if (SupAndroid.activity != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val statusBarColor = screen.statusBarColor
+                if (SupAndroid.activity?.window?.statusBarColor != statusBarColor) SupAndroid.activity?.window?.statusBarColor = statusBarColor
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val statusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
+                if (SupAndroid.activity!!.window.decorView.systemUiVisibility != statusBarIsLight) SupAndroid.activity!!.window.decorView.systemUiVisibility = statusBarIsLight
+            }
+        }
 
         if (getCurrent() != null) screen.onResume()
     }

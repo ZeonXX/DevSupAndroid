@@ -33,6 +33,7 @@ open class Screen(
     var isBottomNavigationShadowAvailable = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
+    var statusBarIsLight = false
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 
@@ -137,7 +138,12 @@ open class Screen(
         if (SupAndroid.activity is SActivityDrawer) {
             return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
         } else {
-            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(navigationIcon) else null
+            if (Navigator.hasBackStack()) {
+                val drawableAttr = ToolsResources.getDrawableAttr(navigationIcon)
+                if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(navigationIcon)
+            } else {
+                return null
+            }
         }
     }
 
