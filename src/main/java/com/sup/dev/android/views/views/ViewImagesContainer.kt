@@ -172,7 +172,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         override fun toImageView() {
             val array = getIdsArray()
             var index = 0
-            for (i in 0 until array.size) if (array[i] == id) index = i
+            for (i in 0 until array.size) if (array[i] == fullId) index = i
             Navigator.to(SImageView(index, array))
         }
 

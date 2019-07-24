@@ -6,7 +6,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.java.classes.callbacks.CallbacksList2
-import com.sup.dev.java.libs.debug.log
 import java.util.ArrayList
 
 object Navigator {

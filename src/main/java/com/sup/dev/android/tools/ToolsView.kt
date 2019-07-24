@@ -20,6 +20,7 @@ import android.text.Html
 import android.text.Selection
 import android.text.Spannable
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.util.Linkify
 import android.util.TypedValue
@@ -94,6 +95,9 @@ object ToolsView {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
         val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
         Linkify.addLinks(vText, httpPattern, "")
+
+        val m = vText.movementMethod
+        if (m == null || m !is LinkMovementMethod) if (vText.linksClickable) vText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     fun recyclerHideFabWhenScrollEnd(vRecycler: RecyclerView, vFab: FloatingActionButton) {

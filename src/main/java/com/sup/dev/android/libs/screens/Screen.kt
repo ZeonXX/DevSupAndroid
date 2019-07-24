@@ -24,7 +24,8 @@ open class Screen(
     private var onBackPressed: () -> Boolean = { false }
 
     private var onHide: () -> Unit = {}
-    var navigationIcon = R.attr.ic_arrow_back_24dp
+    var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
+    var toolbarTitleColor = ToolsResources.getColorAttr(R.attr.revers_color)
     var isBackStackAllowed = true
     var hasBackIcon = true
     var isBottomNavigationVisible = true
@@ -60,7 +61,7 @@ open class Screen(
     open fun onResume() {
         val toolbar = findViewById<Toolbar>(R.id.vToolbar)
         if (toolbar != null) {
-            toolbar.setTitleTextColor(ToolsResources.getColorAttr(R.attr.revers_color))
+            toolbar.setTitleTextColor(toolbarTitleColor)
             if (hasBackIcon) {
                 toolbar.navigationIcon = getNavigationDrawable()
                 toolbar.setNavigationOnClickListener { v -> SupAndroid.activity!!.onViewBackPressed() }
@@ -139,8 +140,8 @@ open class Screen(
             return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
         } else {
             if (Navigator.hasBackStack()) {
-                val drawableAttr = ToolsResources.getDrawableAttr(navigationIcon)
-                if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(navigationIcon)
+                val drawableAttr = ToolsResources.getDrawableAttr(toolbarNavigationIcon)
+                if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(toolbarNavigationIcon)
             } else {
                 return null
             }
