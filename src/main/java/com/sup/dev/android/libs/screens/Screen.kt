@@ -24,6 +24,7 @@ open class Screen(
     private var onBackPressed: () -> Boolean = { false }
 
     private var onHide: () -> Unit = {}
+    var navigationIcon = R.attr.ic_arrow_back_24dp
     var isBackStackAllowed = true
     var hasBackIcon = true
     var isBottomNavigationVisible = true
@@ -34,12 +35,6 @@ open class Screen(
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
-
-    private val navigationDrawable: Drawable?
-        get() {
-            if (!Navigator.hasBackStack() && SupAndroid.activity !is SActivityDrawer) return null
-            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
-        }
 
     constructor(@LayoutRes layoutRes: Int) : this(ToolsView.inflate<View>(SupAndroid.activity!!, layoutRes))
 
@@ -66,7 +61,7 @@ open class Screen(
         if (toolbar != null) {
             toolbar.setTitleTextColor(ToolsResources.getColorAttr(R.attr.revers_color))
             if (hasBackIcon) {
-                toolbar.navigationIcon = navigationDrawable
+                toolbar.navigationIcon = getNavigationDrawable()
                 toolbar.setNavigationOnClickListener { v -> SupAndroid.activity!!.onViewBackPressed() }
             } else {
                 toolbar.navigationIcon = null
@@ -74,7 +69,7 @@ open class Screen(
         } else {
             val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {
-                v.setImageDrawable(navigationDrawable)
+                v.setImageDrawable(getNavigationDrawable())
                 v.setOnClickListener { vv -> SupAndroid.activity!!.onViewBackPressed() }
             }
         }
@@ -121,7 +116,7 @@ open class Screen(
         (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
     }
 
-    fun setOnBackPressed(onBackPressed:() -> Boolean){
+    fun setOnBackPressed(onBackPressed: () -> Boolean) {
         this.onBackPressed = onBackPressed
     }
 
@@ -136,6 +131,14 @@ open class Screen(
 
     fun equalsNView(view: Screen): Boolean {
         return this === view
+    }
+
+    fun getNavigationDrawable(): Drawable? {
+        if (SupAndroid.activity is SActivityDrawer) {
+            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
+        } else {
+            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(navigationIcon) else null
+        }
     }
 
 }
