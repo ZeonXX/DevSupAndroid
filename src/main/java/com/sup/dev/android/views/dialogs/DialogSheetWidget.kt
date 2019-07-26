@@ -2,7 +2,6 @@ package com.sup.dev.android.views.dialogs
 
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
-import com.sup.dev.java.libs.debug.log
 
 class DialogSheetWidget(private val widget: Widget) : DialogSheet(widget.view), WidgetViewWrapper {
 
@@ -17,13 +16,11 @@ class DialogSheetWidget(private val widget: Widget) : DialogSheet(widget.view), 
 
     override fun onShow() {
         super.onShow()
-        log("Show " + widget)
         widget.onShow()
     }
 
     override fun onHide() {
         super.onHide()
-        log("Hide " + widget)
         widget.onHide()
     }
 

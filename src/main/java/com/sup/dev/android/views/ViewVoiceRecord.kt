@@ -15,13 +15,18 @@ import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.utils.UtilsVoiceRecorder
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
 import kotlin.math.max
 import kotlin.math.min
 
 class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+
+    var maxRecordingTimeMs = -1L
+    var onRecordingStart: () -> Unit = {}
+    var onRecordingStop: (ByteArray?) -> Unit = {}
+    var onRecordingProgress: (Long) -> Unit = {}
 
     val view: View = ToolsView.inflate(R.layout.view_voice_recorder)
     val vIconContainer: ViewGroup = view.findViewById(R.id.vIconContainer)
@@ -29,9 +34,6 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
     val vIconBig: ViewIcon = view.findViewById(R.id.vIconBig)
     val vIconStop: ViewIcon = view.findViewById(R.id.vIconStop)
     val vIconLock: ViewIcon = view.findViewById(R.id.vIconLock)
-    val vTimerContainer: ViewGroup = view.findViewById(R.id.vTimerContainer)
-    val vIndicator: View = view.findViewById(R.id.vIndicator)
-    val vTimer: TextView = view.findViewById(R.id.vTimer)
 
     val voiceRecorder = UtilsVoiceRecorder()
 
@@ -39,53 +41,42 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
     var isRecordingMode = false
     var isLocked = false
     var currentSelectedIcon: ViewIcon = vIconBig
-    var indicatorUpdateTime = 0L
 
     init {
         addView(view)
         setWillNotDraw(false)
 
-        vIconContainer.visibility = View.INVISIBLE
-        vTimerContainer.visibility = View.INVISIBLE
         vIconBig.isClickable = false
         vIconStop.isClickable = false
         vIconLock.isClickable = false
+
+        stopRecording()
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        if(isRecordingMode){
+        if (isRecordingMode) {
             updateTimer()
             invalidate()
-            if(indicatorUpdateTime < System.currentTimeMillis() - 1000) {
-                indicatorUpdateTime = System.currentTimeMillis()
-                if (vIndicator.visibility == View.INVISIBLE) {
-                    ToolsView.fromAlpha(vIndicator, 950)
-                } else if (vIndicator.alpha == 1f) {
-                    ToolsView.toAlpha(vIndicator, 950)
-                }
-            }
         }
     }
 
     private fun startRecording() {
-        if(ToolsPermission.hasMicrophonePermission()){
+        if (ToolsPermission.hasMicrophonePermission()) {
             recordingStartTime = System.currentTimeMillis()
             isRecordingMode = true
             vIconContainer.visibility = View.VISIBLE
             vIcon.visibility = View.INVISIBLE
-            vTimerContainer.visibility = View.VISIBLE
             vIconLock.visibility = View.VISIBLE
             vIconBig.setImageResource(R.drawable.ic_mic_white_24dp)
             currentSelectedIcon = vIconBig
-            vIndicator.alpha = 1f
-            vIndicator.visibility = View.VISIBLE
             isLocked = false
             voiceRecorder.start()
+            onRecordingStart.invoke()
             updateTimer()
             invalidate()
-        }else {
+        } else {
             ToolsPermission.requestMicrophonePermission({
 
             }, {
@@ -96,25 +87,25 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private fun stopRecording() {
         isRecordingMode = false
-        vTimerContainer.visibility = View.INVISIBLE
-        vIconContainer.visibility = View.INVISIBLE
+        vIconContainer.visibility = View.GONE
         vIcon.visibility = View.VISIBLE
         voiceRecorder.stop()
+        onRecordingStop.invoke(null)
         invalidate()
     }
 
     private fun onFinishClicked() {
         val array = voiceRecorder.getAsArray()
-        log(array.size)
         stopRecording()
         isLocked = false
+        onRecordingStop.invoke(array)
     }
 
     private fun onLockClicked() {
         isLocked = true
         vIconLock.visibility = View.INVISIBLE
         vIconBig.setImageResource(R.drawable.ic_send_white_24dp)
-        updateCircles(vIconBig.x + vIconBig.width/2, vIconBig.y + vIconBig.height/2)
+        updateCircles(vIconBig.x + vIconBig.width / 2, vIconBig.y + vIconBig.height / 2)
     }
 
     private fun onStopClicked() {
@@ -126,15 +117,19 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
 
         if (event.action == MotionEvent.ACTION_DOWN)
             if (!isRecordingMode)
-                if (ToolsMath.collisionRectAndPoint(event.x, event.y, vIcon.x, vIcon.y, vIcon.x + vIcon.width, vIcon.y + vIcon.height))
+                if (ToolsMath.collisionRectAndPoint(event.x, event.y, vIcon.x, vIcon.y, vIcon.x + vIcon.width, vIcon.y + vIcon.height)) {
                     startRecording()
+                    ToolsThreads.main(true) {
+                        updateCircles(event.x, event.y)
+                    }
+                }
 
         if (isRecordingMode) updateCircles(event.x, event.y)
 
         if (event.action == MotionEvent.ACTION_UP) {
             if (isRecordingMode) {
                 if (currentSelectedIcon == vIconBig) {
-                    if(System.currentTimeMillis() - recordingStartTime < 1000)
+                    if (System.currentTimeMillis() - recordingStartTime < 1000)
                         onStopClicked()
                     else
                         onFinishClicked()
@@ -153,7 +148,7 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun updateCircles(x: Float, y: Float) {
         val r = vIconBig.x + vIconBig.width / 2
         val b = vIconBig.y + vIconBig.height / 2
-        val l = vIconStop.x + vIconStop.width / 2
+        val l = vIconStop.x + vIconStop.width
         val t = vIconLock.y + vIconLock.height / 2
         val w = r - l
         val h = b - t
@@ -178,7 +173,7 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
             currentSelectedIcon = vIconStop
         }
 
-        if(isLocked){
+        if (isLocked) {
             bigPadding = 0f
             stopPadding = vIconStop.width / 4f
         }
@@ -188,8 +183,10 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
         vIconLock.setPaddingCircle(max(0f, min(vIconLock.height / 4f, lockPadding)))
     }
 
-    private fun updateTimer(){
-        vTimer.text = ToolsText.toTime(System.currentTimeMillis() - recordingStartTime)
+    private fun updateTimer() {
+        val time = System.currentTimeMillis() - recordingStartTime
+        onRecordingProgress.invoke(time)
+        if (time >= maxRecordingTimeMs) onFinishClicked()
     }
 
 }
