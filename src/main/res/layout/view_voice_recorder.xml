@@ -4,6 +4,42 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vTimerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="114dp"
+        android:layout_marginRight="130dp"
+        android:background="@color/grey_600"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sup.dev.android.views.views.ViewCircleImage
+                android:id="@+id/vIndicator"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:src="@color/red_700" />
+
+            <TextView
+                android:id="@+id/vTimer"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_height="wrap_content"
+                android:text="00:10"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
     <FrameLayout
         android:id="@+id/vIconContainer"
         android:layout_width="162dp"
@@ -46,10 +82,9 @@
 
     </FrameLayout>
 
-    <com.sup.dev.android.views.views.ViewIcon
+    <ImageView
         android:id="@+id/vIcon"
         style="@style/Icon"
-        app:ViewIcon_filter="?colorOnPrimary"
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_mic_white_24dp" />
 
