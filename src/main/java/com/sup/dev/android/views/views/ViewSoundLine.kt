@@ -7,11 +7,13 @@ import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
+import kotlin.math.abs
+import kotlin.math.min
 
 class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
-    private var color = ToolsResources.getColorAttr(R.attr.colorStroke)
-    private var colorProgress = ToolsResources.getSecondaryColor(context)
+    private var color = ToolsResources.getColorAttr(R.attr.color_stroke)
+    private var colorProgress = ToolsResources.getAccentColor(context)
     private val maxLines = 30
     private val paint = Paint()
     private var soundMask = Array(0) { 0 }
@@ -34,7 +36,7 @@ class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: Attribute
         val h = (height - r * 2f) / 2f
 
         paint.style = Paint.Style.FILL
-        for (i in soundMask.indices) {
+        for (i in 0 until soundMask.size) {
 
             if (i >= progress) paint.color = color
             else paint.color = colorProgress
@@ -53,11 +55,11 @@ class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: Attribute
         this.soundMask = soundMask
 
         var minValue = Integer.MAX_VALUE
-        for (i in soundMask.indices) {
+        for (i in 0 until soundMask.size) {
             if (soundMask[i] < minValue) minValue = soundMask[i]
             if (soundMask[i] > maxValue) maxValue = soundMask[i]
         }
-        for (i in soundMask.indices) soundMask[i] -= minValue
+        for (i in 0 until soundMask.size) soundMask[i] -= minValue
 
         invalidate()
     }

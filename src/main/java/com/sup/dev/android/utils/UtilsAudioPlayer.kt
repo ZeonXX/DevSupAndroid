@@ -7,6 +7,8 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class UtilsAudioPlayer {
 
+    var onStep: (Long)-> Unit = {}
+    private val stepTime = 100L
     private val sampleRate = 8000
     private val minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT)
 
@@ -41,11 +43,17 @@ class UtilsAudioPlayer {
         init {
             ToolsThreads.thread {
                 var offset = 0
+                val startTime =  System.currentTimeMillis()
+                var lastStep = startTime
                 audioTrack.play()
                 while (!stop && offset < byteArray.size) {
                     audioTrack.write(byteArray, offset, 160)
                     offset += 160
                     ToolsThreads.sleep(10)
+                    if(lastStep + stepTime < System.currentTimeMillis()){
+                        lastStep = System.currentTimeMillis()
+                        ToolsThreads.main {onStep.invoke(System.currentTimeMillis() - startTime)}
+                    }
                 }
                 audioTrack.stop()
                 audioTrack.release()
