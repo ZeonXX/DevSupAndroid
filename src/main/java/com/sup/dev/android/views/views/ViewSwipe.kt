@@ -79,7 +79,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
     override fun requestLayout() {
         super.requestLayout()
-        if(inited && childCount == 3 && vContainer.childCount == 0) {
+        if (inited && childCount == 3 && vContainer.childCount == 0) {
             val vChild = getChildAt(2)
             removeView(vChild)
             vContainer.addView(vChild)
@@ -156,10 +156,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             return true
         }
         if (e.action == MotionEvent.ACTION_UP && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y - ToolsView.dpToPx(12) && firstY < e.y + ToolsView.dpToPx(12)) {
-            if (firstClickTime < System.currentTimeMillis() - longClickTime)
-                onLongClick.invoke(e.x, e.y)
-            else
-                onClick.invoke(e.x, e.y)
+            onClick.invoke(e.x, e.y)
             clear()
             return true
         }

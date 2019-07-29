@@ -9,19 +9,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import androidx.recyclerview.widget.RecyclerView
-import android.text.Html
-import android.text.Selection
-import android.text.Spannable
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.*
@@ -32,6 +20,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
@@ -191,8 +186,6 @@ object ToolsView {
         }
 
         v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
-
-
     }
 
     fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
