@@ -144,9 +144,10 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
                     ToolsView.fromAlpha(vMessage)
                 }
             }
-        } else
+        } else {
             ToolsView.toAlpha(vProgress)
             ToolsView.toAlpha(vProgressLine)
+        }
 
         if (image == null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
