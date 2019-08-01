@@ -1,13 +1,18 @@
 package com.sup.dev.android.views.support.adapters.recycler_view
 
+import android.util.SparseBooleanArray
 import androidx.annotation.StringRes
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.java.classes.callbacks.CallbacksList
+import com.sup.dev.java.tools.ToolsClass
+import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.reflect.KClass
 
 
@@ -19,6 +24,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var bottomLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
     private var topLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
     private val cardLoading: CardLoading = CardLoading()
+    private val cardsHash = SparseBooleanArray()
 
     private var removeSame = true
     private var addToSameCards = false
@@ -76,6 +82,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         cardLoading.setState(CardLoading.State.LOADING)
 
         val cards = get(cardClass)
+        ToolsCollections.removeIf(cards){!cardsHash.get(it.hashCode(), false) }
 
         if (!contains(cardClass)) {
             onStartLoadingAndEmpty.invoke()
@@ -167,6 +174,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                     break
                 }
             }
+            cardsHash.put(card.hashCode(), true)
             if (bottom) add(findBottomAdposition(), card)
             else add(findTopAddPosition() + i, card)
         }
@@ -224,7 +232,16 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         sameRemovedCount = 0
         loadingTag = 0
         isInProgress = false
-        remove(cardClass)
+
+        var i = 0
+        while (i < itemCount) {
+            val c = get(i)
+            if (ToolsClass.instanceOf(c, cardClass) && cardsHash.get(c.hashCode(), false))
+                remove(i--)
+            i++
+        }
+        cardsHash.clear()
+
         remove(cardLoading)
         load(bottom)
     }
@@ -247,6 +264,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     }
 
     override fun remove(position: Int) {
+        val c = get(position)
         super.remove(position)
         if (!contains(cardClass)) onEmpty.invoke()
     }
