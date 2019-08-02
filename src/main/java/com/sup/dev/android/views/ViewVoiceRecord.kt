@@ -9,14 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsPermission
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.utils.UtilsVoiceRecorder
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsMath
-import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import kotlin.math.max
 import kotlin.math.min
@@ -41,6 +39,7 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
     var isRecordingMode = false
     var isLocked = false
     var currentSelectedIcon: ViewIcon = vIconBig
+    var dropNextAction = false
 
     init {
         addView(view)
@@ -101,7 +100,8 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
         onRecordingStop.invoke(array)
     }
 
-    private fun onLockClicked() {
+    fun lock() {
+        dropNextAction = true
         isLocked = true
         vIconLock.visibility = View.INVISIBLE
         vIconBig.setImageResource(R.drawable.ic_send_white_24dp)
@@ -127,16 +127,21 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
         if (isRecordingMode) updateCircles(event.x, event.y)
 
         if (event.action == MotionEvent.ACTION_UP) {
-            if (isRecordingMode) {
-                if (currentSelectedIcon == vIconBig) {
-                    if (System.currentTimeMillis() - recordingStartTime < 1000)
+            if(dropNextAction){
+                dropNextAction = false
+            } else {
+                if (isRecordingMode) {
+                    if (currentSelectedIcon == vIconBig) {
+                        if (System.currentTimeMillis() - recordingStartTime < 1000)
+                            onStopClicked()
+                        else
+                            onFinishClicked()
+                    } else if (currentSelectedIcon == vIconStop) {
                         onStopClicked()
-                    else
-                        onFinishClicked()
-                } else if (currentSelectedIcon == vIconStop) {
-                    onStopClicked()
-                } else if (currentSelectedIcon == vIconLock) {
-                    onLockClicked()
+                    } else if (currentSelectedIcon == vIconLock) {
+                        lock()
+                        dropNextAction = false
+                    }
                 }
             }
         }
