@@ -29,7 +29,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
     private var colorDefault: Int = 0
 
     private val maxOffset = ToolsView.dpToPx(48)
-    private val longClickTime: Long = 200
+    private val longClickTime = 300L
 
     private val colorFocus = ToolsResources.getColor(R.color.focus)
     private val colorFocusAlpha = ToolsColor.alpha(colorFocus).toFloat()
@@ -116,8 +116,10 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             })
 
             subscriptionLongClick = ToolsThreads.main(longClickTime) {
-                clear()
-                onLongClick.invoke(e.x, e.y)
+                if(subscriptionLongClick != null && subscriptionLongClick!!.isSubscribed()) {
+                    clear()
+                    onLongClick.invoke(e.x, e.y)
+                }
             }
             return true
         }

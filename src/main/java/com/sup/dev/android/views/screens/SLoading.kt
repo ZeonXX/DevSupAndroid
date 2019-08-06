@@ -176,9 +176,9 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         }
 
         if (state == State.PROGRESS) {
-            vMessage.visibility = View.GONE
+            vMessage.visibility = View.INVISIBLE
             vMessage.text = textProgressS
-            ToolsView.setTextOrGone(vAction, textProgressAction)
+            vAction.text = textProgressAction
             vAction.setOnClickListener { v -> if (onProgressAction != null) onProgressAction!!.invoke() }
         }
 
