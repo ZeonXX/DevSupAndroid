@@ -41,7 +41,7 @@
             android:layout_marginRight="2dp"
             android:layout_marginBottom="66dp"
             android:padding="20dp"
-            android:src="@drawable/ic_lock_white_24dp"
+            android:src="?ic_lock_24dp"
             app:ViewIcon_background="@color/blue_500" />
 
     </FrameLayout>
@@ -50,6 +50,6 @@
         android:id="@+id/vIcon"
         style="@style/Icon"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_mic_white_24dp" />
+        android:src="?ic_mic_24dp" />
 
 </FrameLayout>

@@ -22,6 +22,9 @@
     <attr name="ic_content_copy_24dp" format="reference"/>
     <attr name="ic_folder_24dp" format="reference"/>
     <attr name="ic_insert_drive_file_24dp" format="reference"/>
+    <attr name="ic_mic_24dp" format="reference"/>
+    <attr name="ic_clear_24dp" format="reference"/>
+    <attr name="ic_lock_24dp" format="reference"/>
 
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -53,6 +56,9 @@
         <item name="ic_content_copy_24dp">@drawable/ic_content_copy_white_24dp</item>
         <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
         <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
+        <item name="ic_mic_24dp">@drawable/ic_mic_white_24dp</item>
+        <item name="ic_clear_24dp">@drawable/ic_clear_white_24dp</item>
+        <item name="ic_lock_24dp">@drawable/ic_lock_white_24dp</item>
     </style>
 
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -84,6 +90,9 @@
         <item name="revers_color_lighted">@color/grey_800</item>
         <item name="ic_folder_24dp">@drawable/ic_folder_black_24dp</item>
         <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_black_24dp</item>
+        <item name="ic_mic_24dp">@drawable/ic_mic_black_24dp</item>
+        <item name="ic_clear_24dp">@drawable/ic_clear_black_24dp</item>
+        <item name="ic_lock_24dp">@drawable/ic_lock_black_24dp</item>
     </style>
 
     <style name="AppThemeLight.Colored">

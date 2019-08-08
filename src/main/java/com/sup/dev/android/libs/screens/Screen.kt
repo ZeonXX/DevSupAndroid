@@ -21,6 +21,10 @@ open class Screen(
         protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
 
+    companion object{
+        var GLOBAL_STATUS_BAR_IS_LIGHT = false
+    }
+
     private var onBackPressed: () -> Boolean = { false }
 
     private var onHide: () -> Unit = {}
@@ -34,7 +38,7 @@ open class Screen(
     var isBottomNavigationShadowAvailable = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
-    var statusBarIsLight = false
+    var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 
