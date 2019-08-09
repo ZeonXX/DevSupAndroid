@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 
 class LayoutFrameMeasureCallback @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
-    var onMeasure: (Int, Int) -> Unit = {_,_ -> }
+    var onMeasure: (Int, Int) -> Unit = {w,h -> }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

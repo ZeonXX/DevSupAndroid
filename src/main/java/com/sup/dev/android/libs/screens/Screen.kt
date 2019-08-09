@@ -36,6 +36,7 @@ open class Screen(
     var isBottomNavigationAllowed = true
     var isBottomNavigationAnimation = true
     var isBottomNavigationShadowAvailable = true
+    var isHideBottomNavigationWhenKeyboard = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT

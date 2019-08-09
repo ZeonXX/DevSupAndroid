@@ -11,6 +11,8 @@ import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.media.audiofx.AcousticEchoCanceler
 import android.net.ConnectivityManager
 import android.os.*
@@ -30,9 +32,21 @@ import java.util.*
 
 object ToolsAndroid {
 
+    private var audioFocusListener = AudioManager.OnAudioFocusChangeListener() {}
+
     //
     //  Device
     //
+
+    fun requestAudioFoucs(){
+        val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
+    }
+
+    fun releaseAudioFoucs(){
+        val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.abandonAudioFocus(audioFocusListener)
+    }
 
     fun setLanguage(context:Context, lang: String) {
         val res = context.resources

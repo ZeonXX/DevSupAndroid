@@ -26,7 +26,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
     private val vContainer = FrameLayout(context)
     private val vIconForAlphaAnimation: ImageView = ToolsView.inflate(this, R.layout.view_swipe_icon)
-    private var colorDefault: Int = 0
+    private var colorDefault = 0
 
     private val maxOffset = ToolsView.dpToPx(48)
     private val longClickTime = 300L

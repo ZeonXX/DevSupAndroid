@@ -15,7 +15,9 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.tools.ToolsThreads
 
 
 abstract class SActivityBottomNavigation : SActivity() {
@@ -37,6 +39,10 @@ abstract class SActivityBottomNavigation : SActivity() {
     private var screenBottomNavigationAllowed = true
     private var screenBottomNavigationAnimation = true
     private var screenBottomNavigationShadowAvailable = true
+    private var screenHideBottomNavigationWhenKeyboard = true
+    private var lastH = 0
+    private var maxH = 0
+    private var skipNextNavigationAnimation = false
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -46,6 +52,12 @@ abstract class SActivityBottomNavigation : SActivity() {
 
         updateNavigationVisible()
         setShadow(vLine!!)
+
+        (vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { w, h ->
+            lastH = View.MeasureSpec.getSize(h)
+            if(maxH < lastH) maxH = lastH
+            ToolsThreads.main(true) { updateNavigationVisible() }
+        }
     }
 
     override fun getLayout() = R.layout.screen_activity_bottom_navigation
@@ -68,29 +80,33 @@ abstract class SActivityBottomNavigation : SActivity() {
             screenBottomNavigationAllowed = screen.isBottomNavigationAllowed
             screenBottomNavigationAnimation = screen.isBottomNavigationAnimation
             screenBottomNavigationShadowAvailable = screen.isBottomNavigationShadowAvailable
+            screenHideBottomNavigationWhenKeyboard = screen.isHideBottomNavigationWhenKeyboard
             updateNavigationVisible()
         }
     }
 
-    private fun updateNavigationVisible() {
+    fun updateNavigationVisible() {
         if (navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) {
-            ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-            if (screenBottomNavigationShadowAvailable) {
-                ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+            if (screenHideBottomNavigationWhenKeyboard && lastH < maxH) {
+                vContainer!!.visibility = View.GONE
+                vLine!!.visibility = View.GONE
+                skipNextNavigationAnimation  = true
             } else {
-                ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
-                    vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
-                    Unit
+                ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                if (screenBottomNavigationShadowAvailable) {
+                    ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                } else {
+                    ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                        vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
+                    }
                 }
             }
         } else {
             ToolsView.toAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
                 vContainer!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
-                Unit
             }
             ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
                 vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
-                Unit
             }
         }
     }

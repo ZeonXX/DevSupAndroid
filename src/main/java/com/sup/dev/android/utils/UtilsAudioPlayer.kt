@@ -1,23 +1,19 @@
 package com.sup.dev.android.utils
 
-import android.content.Context
 import android.media.AudioFormat
-import android.media.AudioManager
 import android.media.AudioManager.STREAM_MUSIC
+import android.media.AudioManager.STREAM_VOICE_CALL
 import android.media.AudioTrack
-import com.sup.dev.java.libs.debug.log
-import com.sup.dev.java.tools.ToolsThreads
-import android.content.Context.AUDIO_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.libs.debug.err
-import java.lang.IllegalStateException
+import com.sup.dev.java.tools.ToolsThreads
 
 
 class UtilsAudioPlayer {
 
     var onStep: (Long) -> Unit = {}
-    private val stepTime = 100L
+    var useProximity = false
     private val sampleRate = 8000
     private val frameSize = 160
     private val minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT)
@@ -35,51 +31,84 @@ class UtilsAudioPlayer {
 
     fun pause() {
         subPlayer?.audioTrack?.pause()
+        ToolsAndroid.releaseAudioFoucs()
     }
 
     fun resume() {
         subPlayer?.audioTrack?.play()
+        ToolsAndroid.requestAudioFoucs()
     }
 
 
     private inner class SubPlayer(
             val byteArray: ByteArray,
-            onStop: () -> Unit
+            val onStop: () -> Unit
     ) {
 
-        val audioTrack = AudioTrack(STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize, AudioTrack.MODE_STREAM)
+        val utilsProximity = UtilsProximity {
+            if (useProximity) {
+                startPlay(if (it) STREAM_VOICE_CALL else STREAM_MUSIC)
+            }
+        }
         var stop = false
+        var offset = 0
+        var audioTrack: AudioTrack? = null
+        var playbackOffset = 0
 
         init {
-            ToolsThreads.thread {
-                var offset = 0
+            startPlay(STREAM_MUSIC)
+        }
 
+        fun startPlay(stream: Int) {
+            if(stop){
+                utilsProximity.release()
+                return
+            }
+            if(this.audioTrack != null){
+                playbackOffset += this.audioTrack!!.playbackHeadPosition
+            }
+            SupAndroid.activity!!.volumeControlStream = stream
+            val audioTrack = AudioTrack(stream, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize, AudioTrack.MODE_STREAM)
+            this.audioTrack = audioTrack
+            ToolsThreads.thread {
+
+                ToolsAndroid.requestAudioFoucs()
                 audioTrack.play()
                 try {
-                    while (!stop && offset < byteArray.size) {
+                    while (!stop && this.audioTrack == audioTrack && offset < byteArray.size) {
                         if (audioTrack.playState == AudioTrack.PLAYSTATE_PLAYING) {
                             audioTrack.write(byteArray, offset, frameSize)
                             offset += frameSize
                             ToolsThreads.main {
                                 try {
-                                    onStep.invoke(audioTrack.getPlaybackHeadPosition() / (sampleRate/1000L))
+                                    onStep.invoke((audioTrack.playbackHeadPosition + playbackOffset) / (sampleRate / 1000L))
                                 } catch (e: Exception) {
-                                    if(e !is IllegalStateException)err(e)
+                                    if (e !is IllegalStateException) err(e)
                                 }
                             }
                         }
                     }
                 } catch (e: Exception) {
-                    if(e !is IllegalStateException)err(e)
+                    if (e !is IllegalStateException) err(e)
                 }
-                audioTrack.stop()
+                try {
+                    audioTrack.stop()
+                }catch (e:Exception){
+                    err(e)
+                }
                 audioTrack.release()
-                ToolsThreads.main { onStop.invoke() }
+                if (this.audioTrack == audioTrack || stop) {
+                    stop = true
+                    ToolsAndroid.releaseAudioFoucs()
+                    utilsProximity.release()
+                    ToolsThreads.main { onStop.invoke() }
+                }
             }
         }
 
         fun stop() {
             stop = true
+            utilsProximity.release()
         }
 
     }
