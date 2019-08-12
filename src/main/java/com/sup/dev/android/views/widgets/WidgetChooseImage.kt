@@ -25,7 +25,6 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.io.IOException
 
-
 open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
     private val DP = ToolsView.dpToPx(1).toInt()
