@@ -49,7 +49,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     init {
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
 
-
         spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)

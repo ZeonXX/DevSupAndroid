@@ -15,7 +15,6 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
     private var onSelected: (Int) -> Unit = {}
     private val vArrow: ImageView = ImageView(context)
 
-
     init {
         view.setOnClickListener { menu.asSheetShow() }
         vArrow.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_keyboard_arrow_down_24dp))
