@@ -36,6 +36,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
     private val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
     private val vFabDone: FloatingActionButton = vFabDoneContainer.findViewById(R.id.vFab)
+    private val fabs = ArrayList<View>()
 
     private var onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit = { widgetChooseImage, bytes, index -> }
     private var imagesLoaded: Boolean = false
@@ -70,6 +71,10 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             if (hided) it.unsubscribe()
             else loadImagesNow()
         }
+
+        fabs.add(vFabGalleryContainer)
+        fabs.add(vFabLinkContainer)
+
     }
 
     override fun onHide() {
@@ -80,14 +85,27 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     fun updateFabs() {
         if (selectedList.isEmpty()) {
             vContainer.removeView(vFabDoneContainer)
-            if (vContainer.indexOfChild(vFabGalleryContainer) == -1) vContainer.addView(vFabGalleryContainer)
-            if (vContainer.indexOfChild(vFabLinkContainer) == -1) vContainer.addView(vFabLinkContainer)
-            (vFabLinkContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(72).toInt()
+            var offset = 0
+            for (i in fabs) {
+                if (vContainer.indexOfChild(i) == -1) vContainer.addView(i)
+                (i.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(offset).toInt()
+                offset += 72
+            }
         } else {
-            vContainer.removeView(vFabGalleryContainer)
-            vContainer.removeView(vFabLinkContainer)
+            for (i in fabs) vContainer.removeView(i)
             if (vContainer.indexOfChild(vFabDoneContainer) == -1) vContainer.addView(vFabDoneContainer)
         }
+    }
+
+    fun addFab(icon: Int, onClick: () -> Unit):WidgetChooseImage {
+        val vFabContainer: View = ToolsView.inflate(R.layout.z_fab)
+        val vFab: ImageView = vFabContainer.findViewById(R.id.vFab)
+        fabs.add(vFabContainer)
+
+        vFab.setImageResource(icon)
+        vFab.setOnClickListener { onClick.invoke() }
+        updateFabs()
+        return this
     }
 
     override fun onShow() {
@@ -150,7 +168,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             progress.hideForce()
             if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
             else {
-                if(callbackInWorkerThread) ToolsThreads.thread {onSelected.invoke(this, it, 0)  }
+                if (callbackInWorkerThread) ToolsThreads.thread { onSelected.invoke(this, it, 0) }
                 else onSelected.invoke(this, it, 0)
                 hide()
             }
