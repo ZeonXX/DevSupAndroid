@@ -64,7 +64,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         ToolsView.setFabColorR(vFabDone, R.color.green_700)
 
         setAdapter<WidgetRecycler>(myAdapter)
-        updateFabs()
 
         ToolsThreads.timerMain(4000) {
             if (!imagesLoaded) return@timerMain
@@ -75,6 +74,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         fabs.add(vFabGalleryContainer)
         fabs.add(vFabLinkContainer)
 
+        updateFabs()
     }
 
     override fun onHide() {
@@ -267,7 +267,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
     private inner class CardImage(val file: File) : Card() {
 
-        override fun getLayout() = R.layout.sheet_choose_image_card
+        override fun getLayout() = R.layout.widget_choose_image_card
 
         override fun bindView(view: View) {
             super.bindView(view)

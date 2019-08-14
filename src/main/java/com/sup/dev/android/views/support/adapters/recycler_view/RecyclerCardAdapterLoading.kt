@@ -182,6 +182,11 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
     }
 
+    fun addWithHash(card:K){
+        cardsHash.put(card.hashCode(), true)
+        add(card)
+    }
+
     fun findTopAddPosition(): Int {
         if (addToSameCards) {
             val cards = get(cardClass)
