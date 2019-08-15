@@ -19,6 +19,7 @@ open class CardAvatar() : Card() {
     private var subtitle: String? = null
     private var chipText: String? = null
     private var image: Bitmap? = null
+    private var imageRes: Int? = null
     @DrawableRes
     private var chipIcon = 0
     private var chipIconPadding = 0
@@ -50,7 +51,8 @@ open class CardAvatar() : Card() {
         vAvatar.isClickable = false
         if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { onClickAvatar!!.invoke() }
         else vAvatar.vAvatar.setOnClickListener(null)
-        vAvatar.vAvatar.setImage(image)
+        if(imageRes != null)vAvatar.vAvatar.setImage(imageRes!!)
+        else vAvatar.vAvatar.setImage(image)
         vAvatar.vAvatar.setChipIcon(chipIcon)
         vAvatar.vAvatar.setChipIconPadding(chipIconPadding)
         vAvatar.vAvatar.setChipText(chipText)
@@ -73,6 +75,8 @@ open class CardAvatar() : Card() {
         return this
     }
 
+    fun setTitle(title: Int) = setTitle(com.sup.dev.android.tools.ToolsResources.s(title))
+
     fun setTitle(title: String): CardAvatar {
         this.title = title
         update()
@@ -87,6 +91,12 @@ open class CardAvatar() : Card() {
 
     fun setImage(image: Bitmap): CardAvatar {
         this.image = image
+        update()
+        return this
+    }
+
+    fun setImage(image: Int): CardAvatar {
+        this.imageRes = image
         update()
         return this
     }
