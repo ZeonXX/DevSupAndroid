@@ -77,22 +77,22 @@
         <item name="color_interface_text">@color/black</item>
         <item name="selector_chip">@drawable/selector_style_light_chip</item>
         <item name="selector_chip_outline">@drawable/selector_style_light_chip_outline</item>
-        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_black_24dp</item>
-        <item name="ic_menu_24dp">@drawable/ic_menu_black_24dp</item>
-        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_black_24dp</item>
-        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_black_24dp</item>
-        <item name="ic_file_download_24dp">@drawable/ic_file_download_black_24dp</item>
-        <item name="ic_share_24dp">@drawable/ic_share_black_24dp</item>
-        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_black_24dp</item>
-        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_black_24dp</item>
-        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_black_24dp</item>
-        <item name="revers_color">@color/black</item>
+        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_grey_700_24dp</item>
+        <item name="ic_menu_24dp">@drawable/ic_menu_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_grey_700_24dp</item>
+        <item name="ic_file_download_24dp">@drawable/ic_file_download_grey_700_24dp</item>
+        <item name="ic_share_24dp">@drawable/ic_share_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_grey_700_24dp</item>
+        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_grey_700_24dp</item>
+        <item name="revers_color">@color/grey_700</item>
         <item name="revers_color_lighted">@color/grey_800</item>
-        <item name="ic_folder_24dp">@drawable/ic_folder_black_24dp</item>
-        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_black_24dp</item>
-        <item name="ic_mic_24dp">@drawable/ic_mic_black_24dp</item>
-        <item name="ic_clear_24dp">@drawable/ic_clear_black_24dp</item>
-        <item name="ic_lock_24dp">@drawable/ic_lock_black_24dp</item>
+        <item name="ic_folder_24dp">@drawable/ic_folder_grey_700_24dp</item>
+        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_grey_700_24dp</item>
+        <item name="ic_mic_24dp">@drawable/ic_mic_grey_700_24dp</item>
+        <item name="ic_clear_24dp">@drawable/ic_clear_grey_700_24dp</item>
+        <item name="ic_lock_24dp">@drawable/ic_lock_grey_700_24dp</item>
     </style>
 
     <style name="AppThemeLight.Colored">
