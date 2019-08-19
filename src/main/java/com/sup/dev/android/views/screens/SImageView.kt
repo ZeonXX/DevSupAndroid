@@ -140,9 +140,7 @@ class SImageView private constructor()
             private val bytes: ByteArray?,
             private val bitmap: Bitmap?,
             private val id: Long
-    ) : Card() {
-
-        override fun getLayout() = R.layout.screen_image_view_page
+    ) : Card(R.layout.screen_image_view_page) {
 
         override fun bindView(view: View) {
             super.bindView(view)

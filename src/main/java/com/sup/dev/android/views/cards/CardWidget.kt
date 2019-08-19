@@ -5,11 +5,7 @@ import android.view.View
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
-class CardWidget(private val widget: Widget) : Card(), WidgetViewWrapper {
-
-    override fun getLayout(): Int {
-        return 0
-    }
+class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper {
 
     override fun instanceView(context: Context): View {
         return widget.view

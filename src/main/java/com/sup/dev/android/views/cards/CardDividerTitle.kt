@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
-class CardDividerTitle constructor(private var title: String? = null) : Card() {
+class CardDividerTitle constructor(private var title: String? = null) : Card(R.layout.card_divider_title) {
 
     private var background: Int = 0
     private var enabled = true
@@ -17,8 +17,6 @@ class CardDividerTitle constructor(private var title: String? = null) : Card() {
     private var gravity = Gravity.LEFT
 
     constructor(@StringRes title: Int) : this(ToolsResources.s(title)) {}
-
-    override fun getLayout() = R.layout.card_divider_title
 
     override fun bindView(view: View) {
         super.bindView(view)

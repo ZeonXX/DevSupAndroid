@@ -14,7 +14,7 @@ import com.sup.dev.android.views.support.adapters.CardAdapter
 import java.util.ArrayList
 
 
-open class CardSpoiler : Card() {
+open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     //
     //  Getters
@@ -40,8 +40,6 @@ open class CardSpoiler : Card() {
 
     internal var expanded: Boolean = false
     internal var enabled = true
-
-    override fun getLayout() =  R.layout.card_spoiler
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -8,7 +8,9 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
-open class CardAvatar() : Card() {
+open class CardAvatar(
+    layout: Int = 0
+) : Card(if (layout > 0) layout else R.layout.card_avatar) {
 
     private var onClick: () -> Unit = {}
     private var onLongClick: (CardAvatar, View, Int, Int) -> Unit = { card, view, x, y -> }
@@ -27,8 +29,6 @@ open class CardAvatar() : Card() {
     private var chipBackground = 0
     private var chipUseIconBackground = false
     private var onClickAvatar: (() -> Unit)? = null
-
-    override fun getLayout() = R.layout.card_avatar
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -51,7 +51,7 @@ open class CardAvatar() : Card() {
         vAvatar.isClickable = false
         if (onClickAvatar != null) vAvatar.vAvatar.setOnClickListener { onClickAvatar!!.invoke() }
         else vAvatar.vAvatar.setOnClickListener(null)
-        if(imageRes != null)vAvatar.vAvatar.setImage(imageRes!!)
+        if (imageRes != null) vAvatar.vAvatar.setImage(imageRes!!)
         else vAvatar.vAvatar.setImage(image)
         vAvatar.vAvatar.setChipIcon(chipIcon)
         vAvatar.vAvatar.setChipIconPadding(chipIconPadding)

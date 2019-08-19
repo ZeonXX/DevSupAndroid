@@ -9,7 +9,9 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
 
 
-abstract class Card {
+abstract class Card(
+    private val layout:Int
+) {
 
     var adapter: CardAdapter? = null
     private var view:View? = null
@@ -19,9 +21,6 @@ abstract class Card {
     //
     //  Bind
     //
-
-    @LayoutRes
-    abstract fun getLayout(): Int
 
     fun update() {
         val view = getView()
@@ -59,8 +58,7 @@ abstract class Card {
     //
 
     open fun instanceView(context: Context): View {
-        val layout = getLayout()
-        return if (layout > 0) ToolsView.inflate(context, getLayout()) else instanceView()
+        return if (layout > 0) ToolsView.inflate(context, layout) else instanceView()
     }
 
     open fun setCardAdapter(adapter: CardAdapter?) {

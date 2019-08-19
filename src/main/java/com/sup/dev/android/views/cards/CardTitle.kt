@@ -7,7 +7,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 
-class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
+class CardTitle @JvmOverloads constructor(title: String? = null) : Card(R.layout.card_title) {
 
     private var dividerVisible = false
     private var background = 0
@@ -21,10 +21,6 @@ class CardTitle @JvmOverloads constructor(title: String? = null) : Card() {
 
     init {
         setTitle(title)
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.card_title
     }
 
     override fun bindView(view: View) {

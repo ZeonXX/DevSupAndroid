@@ -9,7 +9,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
 
-class CardLoading : Card() {
+class CardLoading : Card(R.layout.card_loading) {
 
     private var dividerVisible = false
     private var enabled = true
@@ -25,10 +25,6 @@ class CardLoading : Card() {
 
     enum class State {
         LOADING, ACTION, RETRY
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.card_loading
     }
 
     override fun bindView(view: View) {

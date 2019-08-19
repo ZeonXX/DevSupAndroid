@@ -176,11 +176,7 @@ class ViewImagesSwipe constructor(
     abstract inner class CardSwipe<K>(
             val onClick: ((K) -> Unit)?,
             val onLongClick: ((K) -> Unit)?
-    ) : Card() {
-
-        override fun getLayout(): Int {
-            return R.layout.view_image_swipe_card
-        }
+    ) : Card(R.layout.view_image_swipe_card) {
 
         override fun bindView(view: View) {
             super.bindView(view)

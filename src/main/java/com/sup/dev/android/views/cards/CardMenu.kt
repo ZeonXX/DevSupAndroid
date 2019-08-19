@@ -10,7 +10,9 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
 
 
-open class CardMenu : Card() {
+open class CardMenu(
+    layout : Int = 0
+) : Card(if(layout > 0) layout else R.layout.card_menu) {
 
     var onClick: ((View, Int, Int)->Unit)? = null
     var dividerVisible = false
@@ -22,10 +24,6 @@ open class CardMenu : Card() {
     var customColor: Boolean = false
     var textColor: Int = 0
     var icon: Int = 0
-
-    override fun getLayout(): Int {
-        return R.layout.card_menu
-    }
 
     override fun bindView(view: View) {
         super.bindView(view)

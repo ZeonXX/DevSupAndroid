@@ -265,9 +265,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     //  Card
     //
 
-    private inner class CardImage(val file: File) : Card() {
-
-        override fun getLayout() = R.layout.widget_choose_image_card
+    private inner class CardImage(val file: File) : Card(R.layout.widget_choose_image_card) {
 
         override fun bindView(view: View) {
             super.bindView(view)

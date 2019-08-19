@@ -123,11 +123,7 @@ class WidgetChooseFile : WidgetRecycler() {
     //  Card
     //
 
-    inner class CardBack constructor(val file: File) : Card() {
-
-        override fun getLayout(): Int {
-            return 0
-        }
+    inner class CardBack constructor(val file: File) : Card(0) {
 
         override fun instanceView(context: Context): View {
             return Settings(context)
@@ -143,12 +139,8 @@ class WidgetChooseFile : WidgetRecycler() {
         }
     }
 
-    private inner class CardFile constructor(private val file: File) : Card() {
+    private inner class CardFile constructor(private val file: File) : Card(0) {
         private var viewIcon: ViewIcon? = null
-
-        override fun getLayout(): Int {
-            return 0
-        }
 
         override fun instanceView(context: Context): View {
             return Settings(context)

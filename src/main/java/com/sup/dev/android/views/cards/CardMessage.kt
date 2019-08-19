@@ -8,7 +8,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 
 
-class CardMessage : Card() {
+class CardMessage : Card(R.layout.card_message) {
 
     private var dividerVisible = false
     private var enabled = true
@@ -19,10 +19,6 @@ class CardMessage : Card() {
     private var textColor: Int = 0
     private var actionText: String? = null
     private var onActionClicked: (()->Unit)? = null
-
-    override fun getLayout(): Int {
-        return R.layout.card_message
-    }
 
     override fun bindView(view: View) {
         super.bindView(view)
