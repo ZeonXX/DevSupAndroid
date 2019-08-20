@@ -18,7 +18,6 @@ import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 

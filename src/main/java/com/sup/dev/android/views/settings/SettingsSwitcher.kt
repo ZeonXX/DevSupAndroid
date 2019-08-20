@@ -7,14 +7,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Switch
 import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsView
-
 
 class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vSwitcher: Switch = Switch(context)
 
-    private var onClickListener: View.OnClickListener? = null
+    private var onClickListener: OnClickListener? = null
     private var salient: Boolean = false
 
     //
@@ -80,7 +78,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
     //  Setters
     //
 
-    override fun setOnClickListener(onClickListener: View.OnClickListener?) {
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
         this.onClickListener = onClickListener
     }
 
