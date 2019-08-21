@@ -121,7 +121,7 @@ class SImageView private constructor()
         ToolsView.alpha(vDownload, toAlpha)
         ToolsView.alpha(vShare, toAlpha)
         ToolsView.alpha(vCounterContainer, toAlpha)
-        ToolsView.alpha(vIndicator, toAlpha)
+        ToolsView.alpha(vIndicator, toAlpha || adapterIn.size() < 2)
     }
 
     private fun updateTitle() {
