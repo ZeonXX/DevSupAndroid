@@ -132,6 +132,14 @@ open class Screen(
         return this
     }
 
+    fun setScreenColor(color:Int){
+        findViewById<View>(R.id.vScreenRoot).setBackgroundColor(color)
+    }
+
+    fun setScreenColorBackground(){
+        setScreenColor(ToolsResources.getColorAttr(R.attr.window_background))
+    }
+
     //
     //  Getters
     //
