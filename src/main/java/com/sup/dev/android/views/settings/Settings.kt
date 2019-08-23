@@ -21,7 +21,7 @@ import java.util.ArrayList
 open class Settings @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        @LayoutRes layoutRes: Int = R.layout.settings_action
+        @LayoutRes layoutRes: Int   = R.layout.settings_action
 ) : FrameLayout(context, attrs) {
 
     val view: View

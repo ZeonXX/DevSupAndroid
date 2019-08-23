@@ -75,6 +75,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.text = item.text
         item.card?.setIcon(item.icon)
         item.card?.setBackground(item.bg)
+        if(item.textColor != null)item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick { v, x, y ->
             item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
@@ -166,6 +167,22 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
+    fun textColorRes(@ColorRes color: Int): WidgetMenu {
+        return textColor(ToolsResources.getColor(color))
+    }
+
+    fun textColorRes(@ColorRes color: Int, condition: () -> Boolean): WidgetMenu {
+        return if (condition.invoke())
+            textColor(ToolsResources.getColor(color))
+        else
+            this
+    }
+
+    fun textColor(@ColorInt color: Int): WidgetMenu {
+        buildItem!!.textColor = color
+        return this
+    }
+
     fun preferred(b: Boolean): WidgetMenu {
         buildItem!!.preferred = b
         return this
@@ -207,10 +224,11 @@ open class WidgetMenu : WidgetRecycler() {
 
         var card: CardMenu? = null
         var onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }
-        var text: String = ""
-        var icon: Int = 0
-        var bg: Int = 0
-        var preferred: Boolean = false
+        var text = ""
+        var icon = 0
+        var bg = 0
+        var textColor:Int? = null
+        var preferred = false
 
     }
 

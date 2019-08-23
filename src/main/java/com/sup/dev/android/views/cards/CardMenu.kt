@@ -17,13 +17,13 @@ open class CardMenu(
     var onClick: ((View, Int, Int)->Unit)? = null
     var dividerVisible = false
     var enabled = true
-    var background: Int = 0
+    var background = 0
 
-    var text: String = ""
-    var description: String = ""
-    var customColor: Boolean = false
-    var textColor: Int = 0
-    var icon: Int = 0
+    var text = ""
+    var description = ""
+    var customColor = false
+    var textColor = 0
+    var icon = 0
 
     override fun bindView(view: View) {
         super.bindView(view)
