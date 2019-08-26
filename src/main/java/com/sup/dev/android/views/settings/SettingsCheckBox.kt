@@ -8,7 +8,6 @@ import android.widget.CheckBox
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 
-
 class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vCheckBox: CheckBox = ToolsView.inflate(context, R.layout.z_check_box)
