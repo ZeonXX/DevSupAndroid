@@ -25,6 +25,7 @@ interface INFO
      git submodule add https://github.com/ZeonXX/DevSupAndroidGoogle.git
      git submodule add https://github.com/ZeonXX/CampfireSDK.git
      git submodule add https://github.com/ZeonXX/CampfireApi.git
+     git submodule add https://github.com/ZeonXX/CampfireApiMedia.git
 
      git rm -rf path_to_submodule
 
