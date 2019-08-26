@@ -81,6 +81,14 @@ object ApiRequestsSupporter {
         return executeProgressDialog(dialog, request, false, onComplete)
     }
 
+    fun <K : Request.Response> executeProgressDialog(w: Widget, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
+        return execute(request) { r -> onComplete.invoke(w, r) }
+            .onError {
+                ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK)
+                w.hide()
+            }
+    }
+
     fun <K : Request.Response> executeProgressDialog(dialog: Widget?, request: Request<K>, sendNow:Boolean, onComplete: (K) -> Unit): Request<K> {
         return execute(request, sendNow, onComplete)
                 .onFinish { dialog?.hide() }
@@ -96,11 +104,7 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeProgressDialog(title: String?, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
         val w = if (title == null) ToolsView.showProgressDialog() else ToolsView.showProgressDialog(title)
-        return execute(request) { r -> onComplete.invoke(w, r) }
-                .onNetworkError {
-                    ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK)
-                    w.hide()
-                }
+        return executeProgressDialog(w, request) { w, r -> onComplete.invoke(w, r) }
     }
 
     fun <K : Request.Response> executeEnabledCallback(request: Request<K>, onComplete: (K) -> Unit, enabled: (Boolean) -> Unit): Request<K> {
