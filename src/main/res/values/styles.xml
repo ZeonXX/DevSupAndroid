@@ -156,6 +156,12 @@
         <item name="android:layout_gravity">right</item>
     </style>
 
+    <style name="Icon.48">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:padding">18dp</item>
+    </style>
+
     <style name="Icon.18">
         <item name="android:layout_width">32dp</item>
         <item name="android:layout_height">32dp</item>
