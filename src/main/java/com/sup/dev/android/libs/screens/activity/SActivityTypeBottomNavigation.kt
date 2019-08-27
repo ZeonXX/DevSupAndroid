@@ -41,6 +41,7 @@ class SActivityTypeBottomNavigation(
 
     private var vContainer: LinearLayout? = null
     private var vLine: View? = null
+    private var extraNavigationItem:NavigationItem? = null
 
     override fun getLayout() = R.layout.screen_activity_bottom_navigation
 
@@ -106,16 +107,16 @@ class SActivityTypeBottomNavigation(
         else lastH_L < (maxH_L - ToolsView.dpToPx(50))
     }
 
-    fun setNavigationVisible(b: Boolean) {
-        navigationVisible = b
-        updateNavigationVisible()
-    }
+    //fun setNavigationVisible(b: Boolean) {
+    //    navigationVisible = b
+    //    updateNavigationVisible()
+    //}
 
     override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
         if(hided){
             if(widgetMenu == null) {
                 widgetMenu = WidgetMenu()
-                addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { v -> widgetMenu!!.asSheetShow() }
+                extraNavigationItem = addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { v -> widgetMenu!!.asSheetShow() }
             }
             widgetMenu!!.add(text) { w, c -> onClick.invoke(c.getView()!!) }.icon(icon)
             return null
@@ -124,11 +125,13 @@ class SActivityTypeBottomNavigation(
         }
     }
 
-    override fun addNavigationView(view:View){
+    override fun addItemNavigationView(view:View){
         vContainer?.addView(view)
         (view.layoutParams as LinearLayout.LayoutParams).weight = 1f
         (view.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
     }
+
+    override fun getExtraNavigationItem() = extraNavigationItem
 
     fun clearNavigation() {
         widgetMenu!!.clear()

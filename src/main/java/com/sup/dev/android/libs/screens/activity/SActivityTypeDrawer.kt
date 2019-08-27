@@ -1,14 +1,9 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.sup.dev.android.R
@@ -16,8 +11,6 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewChip
-import com.sup.dev.android.views.views.ViewIcon
 
 class SActivityTypeDrawer(
         activity:SActivity
@@ -54,8 +47,12 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer?.addView(view)
     }
 
+    override fun addItemNavigationView(view:View){
+        vNavigationRowsContainer?.addView(view)
+    }
+
     override fun addNavigationDivider(){
-        addNavigationView(ToolsView.inflate(R.layout.z_divider))
+        addItemNavigationView(ToolsView.inflate(R.layout.z_divider))
     }
 
     override fun onViewBackPressed() {

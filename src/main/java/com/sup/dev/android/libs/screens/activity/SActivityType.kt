@@ -11,7 +11,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
 
-
 abstract class SActivityType(
         val activity: SActivity
 ) {
@@ -35,29 +34,45 @@ abstract class SActivityType(
         }
     }
 
-    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
-       return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
-    }
-
 
     open fun addNavigationDivider(){
 
     }
 
+    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
+       return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
+    }
+
+    fun addNavigationItem(icon: Drawable, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
+       return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
+    }
+
     open fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
+        return addNavigationItem(ToolsResources.getDrawable(icon), text, hided, onClick)
+    }
+
+    open fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
         if(getNavigationItemLayout() == 0) return null
         val view = NavigationItem()
-        view.vIcon.setImageResource(icon)
+        view.vIcon.setImageDrawable(icon)
         view.view.setOnClickListener(onClick)
         view.vChip.visibility = View.GONE
         view.vText?.setText(text)
-        addNavigationView(view.view)
+        addItemNavigationView(view.view)
         return view
+    }
+
+    open fun getExtraNavigationItem(): NavigationItem? {
+        return null
     }
 
     open fun getNavigationItemLayout() = 0
 
     open fun addNavigationView(view:View){
+
+    }
+
+    open fun addItemNavigationView(view:View){
 
     }
 
