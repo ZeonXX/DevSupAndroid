@@ -15,15 +15,15 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewCircleImage
+import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsText
-
 
 class WidgetAlert : Widget(R.layout.widget_alert) {
 
     private val vCheck: CheckBox = findViewById(R.id.vCheckBox)
     private val vEnter: Button = findViewById(R.id.vEnter)
     private val vCancel: Button = findViewById(R.id.vCancel)
-    private val vText: TextView = findViewById(R.id.vText)
+    private val vText: ViewTextLinkable = findViewById(R.id.vText)
     private val vTopContainer: ViewGroup = findViewById(R.id.vTopContainer)
     private val vTopImage: ViewCircleImage = findViewById(R.id.vTopImage)
     private val vTopTitle: TextView = findViewById(R.id.vTopTitle)
@@ -151,6 +151,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     fun addLine(text: String): WidgetAlert {
         vText.text = vText.text.toString() + "\n" + text
         vText.visibility = View.VISIBLE
+        ToolsView.makeLinksClickable(vText)
         return this
     }
 
@@ -160,6 +161,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
     fun setText(text: CharSequence?): WidgetAlert {
         ToolsView.setTextOrGone(vText, text)
+        ToolsView.makeLinksClickable(vText)
         return this
     }
 

@@ -50,7 +50,7 @@
                 android:textSize="20sp"
                 android:text="Title"/>
 
-            <TextView
+            <com.sup.dev.android.views.views.ViewTextLinkable
                 android:id="@+id/vText"
                 android:textSize="16sp"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
