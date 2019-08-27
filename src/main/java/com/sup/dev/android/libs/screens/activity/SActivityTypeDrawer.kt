@@ -1,9 +1,14 @@
 package com.sup.dev.android.libs.screens.activity
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.sup.dev.android.R
@@ -11,16 +16,17 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewChip
+import com.sup.dev.android.views.views.ViewIcon
 
 class SActivityTypeDrawer(
-        activity: SActivity
-) : SActivityType(activity), DrawerLayout.DrawerListener {
+        activity:SActivity
+) : SActivityType(activity),DrawerLayout.DrawerListener {
 
     companion object {
         private var navigationLock: Boolean = false
     }
 
-    private val iconsList = ArrayList<NavigationItem>()
     private var drawerLayout: DrawerLayout? = null
     private var drawerContainer: ViewGroup? = null
     private var vNavigationRowsContainer: ViewGroup? = null
@@ -31,7 +37,7 @@ class SActivityTypeDrawer(
     override fun onCreate() {
         drawerLayout = activity.findViewById(R.id.vScreenDrawer)
         drawerContainer = activity.findViewById(R.id.vScreenDrawerContainer)
-        drawerLayout!!.addDrawerListener(this)
+        drawerLayout!!.setDrawerListener(this)
         drawerLayout!!.drawerElevation = 0f
         drawerLayout!!.setScrimColor(0)
         setNavigationLock(navigationLock)
@@ -40,18 +46,16 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer = activity.findViewById(R.id.vNavigationRowsContainer)
     }
 
-    override fun onBackPressed(): Boolean {
-        if (drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
-            hideDrawer()
-            return true
-        } else {
-            return super.onBackPressed()
-        }
+    override fun onSetScreen(screen: Screen?) {
+        hideDrawer()
     }
 
-    override fun onSetScreen(screen: Screen?) {
-        super.onSetScreen(screen)
-        hideDrawer()
+    override fun addNavigationView(view:View){
+        vNavigationRowsContainer?.addView(view)
+    }
+
+    override fun addNavigationDivider(){
+        addNavigationView(ToolsView.inflate(R.layout.z_divider))
     }
 
     override fun onViewBackPressed() {
@@ -62,18 +66,10 @@ class SActivityTypeDrawer(
     }
 
     override fun getNavigationDrawable(screen: Screen): Drawable? {
-        return if (Navigator.hasBackStack()) ToolsResources.getDrawable(R.drawable.ic_arrow_back_white_24dp) else ToolsResources.getDrawable(R.drawable.ic_menu_white_24dp)
+        return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
     }
 
-    override fun updateNavigationVisible() {
-        if (screenNavigationAllowed && screenNavigationVisible) {
-            setNavigationLock(false)
-        } else {
-            hideDrawer()
-            setNavigationLock(true)
-        }
-    }
-
+    override fun getNavigationItemLayout() = R.layout.screen_activity_navigation_driver_row
 
     //
     //  Navigation Drawer
@@ -113,68 +109,18 @@ class SActivityTypeDrawer(
     }
 
     override fun onDrawerOpened(drawerView: View) {
-        ToolsView.hideKeyboard()
+
     }
 
     override fun onDrawerClosed(drawerView: View) {
-        ToolsView.hideKeyboard()
+
     }
 
     override fun onDrawerStateChanged(newState: Int) {
-        if (newState == DrawerLayout.STATE_DRAGGING) ToolsView.hideKeyboard()
+        if (newState == DrawerLayout.STATE_DRAGGING)
+            ToolsView.hideKeyboard()
     }
 
-    //
-    //  Navigation Item
-    //
 
-    override fun addNavigationView(view: View, useIconsFilters: Boolean) {
-        vNavigationRowsContainer?.addView(view)
-    }
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
-        val item = NavigationItem()
-
-        item.view = ToolsView.inflate(activity, R.layout.screen_activity_navigation_driver_row)
-        item.vIcon = item.view?.findViewById(R.id.vNavigationItemIcon)
-        item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
-        item.vText = item.view?.findViewById(R.id.vNavigationItemText)
-
-        item.vIcon?.setImageResource(icon)
-        if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.colorOnPrimary))
-        item.view?.setOnClickListener {
-            hideDrawer()
-            onClick(it)
-        }
-        if (onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
-        item.vChip?.visibility = View.GONE
-        item.vText?.text = text
-
-        vNavigationRowsContainer?.addView(item.view)
-
-        iconsList.add(item)
-
-        return item
-    }
-
-    override fun updateIcons() {
-        val currentScreen = Navigator.getCurrent()
-        var found = false
-        getExtraNavigationItem()?.vIcon?.setFilter(getIconsColor())
-        for (i in iconsList) {
-            if (currentScreen != null && i.targetScreens.contains(currentScreen::class)) {
-                i.vIcon?.setFilter(getIconsColorTarget())
-                found = true
-            } else i.vIcon?.setFilter(getIconsColor())
-        }
-        if (!found) for (i in iconsList) if (i.isDefoultTargetItem) i.vIcon?.setFilter(getIconsColorTarget())
-    }
-
-    inner class NavigationItem : SActivityType.NavigationItem() {
-
-        override fun setVisible(visible: Boolean) {
-            view?.visibility = if (visible) View.VISIBLE else View.GONE
-        }
-
-    }
 }

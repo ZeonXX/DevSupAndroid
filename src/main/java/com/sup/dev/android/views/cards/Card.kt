@@ -37,7 +37,7 @@ abstract class Card(
         return View(SupAndroid.appContext)
     }
 
-    protected fun getView(): View? {
+    fun getView(): View? {
         val view = if(adapter == null)  null else adapter!!.getView(this)
         if(view != null){
             this.view = view

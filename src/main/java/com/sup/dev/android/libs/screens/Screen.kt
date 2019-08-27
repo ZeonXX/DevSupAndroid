@@ -1,18 +1,16 @@
 package com.sup.dev.android.libs.screens
 
-import android.graphics.drawable.Drawable
-import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import com.google.android.material.appbar.AppBarLayout
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.AppBarLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.screens.activity.SActivityDrawer
-import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
@@ -26,20 +24,22 @@ open class Screen(
     }
 
     private var onBackPressed: () -> Boolean = { false }
-
     private var onHide: () -> Unit = {}
+
+    //  Params
     var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
     var toolbarTitleColor = ToolsResources.getColorAttr(R.attr.revers_color)
     var isBackStackAllowed = true
     var hasBackIcon = true
+    var isSingleInstanceInBackStack = false
+    var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
+    var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
+    //  Bottom navigation
     var isBottomNavigationVisible = true
     var isBottomNavigationAllowed = true
     var isBottomNavigationAnimation = true
     var isBottomNavigationShadowAvailable = true
     var isHideBottomNavigationWhenKeyboard = true
-    var isSingleInstanceInBackStack = false
-    var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
-    var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */
 
@@ -68,7 +68,7 @@ open class Screen(
         if (toolbar != null) {
             toolbar.setTitleTextColor(toolbarTitleColor)
             if (hasBackIcon) {
-                toolbar.navigationIcon = getNavigationDrawable()
+                toolbar.navigationIcon = getActivity().type.getNavigationDrawable(this)
                 toolbar.setNavigationOnClickListener { v -> SupAndroid.activity!!.onViewBackPressed() }
             } else {
                 toolbar.navigationIcon = null
@@ -76,7 +76,7 @@ open class Screen(
         } else {
             val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {
-                v.setImageDrawable(getNavigationDrawable())
+                v.setImageDrawable(getActivity().type.getNavigationDrawable(this))
                 v.setOnClickListener { vv -> SupAndroid.activity!!.onViewBackPressed() }
             }
         }
@@ -148,17 +148,6 @@ open class Screen(
         return this === view
     }
 
-    fun getNavigationDrawable(): Drawable? {
-        if (SupAndroid.activity is SActivityDrawer) {
-            return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
-        } else {
-            if (Navigator.hasBackStack()) {
-                val drawableAttr = ToolsResources.getDrawableAttr(toolbarNavigationIcon)
-                if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(toolbarNavigationIcon)
-            } else {
-                return null
-            }
-        }
-    }
+    fun getActivity() = context as SActivity
 
 }

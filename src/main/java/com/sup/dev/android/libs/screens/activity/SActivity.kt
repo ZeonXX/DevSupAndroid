@@ -20,6 +20,7 @@ import android.os.Build
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+import java.nio.file.attribute.AclEntryType
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -28,30 +29,33 @@ abstract class SActivity : AppCompatActivity() {
         var onUrlClicked: ((String) -> Unit)? = null
     }
 
-    var started: Boolean = false
+    var started = false
 
-    protected var vActivityRoot: View? = null
+    var vActivityRoot: View? = null
     var vActivityDrawAnimations: ViewDrawAnimations? = null
-    protected var vActivityContainer: ViewGroup? = null
-    protected var vActivityTouchLock: View? = null
-    protected var parseNotifications = true
+    var vActivityContainer: ViewGroup? = null
+    var vActivityTouchLock: View? = null
+    var parseNotifications = true
+    var type = getDefaultType()
 
-    override fun onCreate(bundle: Bundle?) {
+     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         SupAndroid.activity = this
 
         applyTheme()
 
-        setContentView(getLayout())
+        setContentView(type.getLayout())
         vActivityRoot = findViewById(R.id.vActivityRoot)
         vActivityDrawAnimations = findViewById(R.id.vActivityDrawAnimations)
         vActivityContainer = findViewById(R.id.vScreenActivityView)
         vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
 
         vActivityTouchLock!!.visibility = View.GONE
+
+         type.onCreate()
     }
 
-    protected open fun getLayout() = R.layout.screen_activity
+    protected open fun getDefaultType():SActivityType = SActivityTypeSimple(this)
 
     override fun onStart() {
         super.onStart()
@@ -134,7 +138,7 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     open fun onViewBackPressed() {
-        onBackPressed()
+        type.onViewBackPressed()
     }
 
     override fun onBackPressed() {
@@ -155,6 +159,8 @@ abstract class SActivity : AppCompatActivity() {
     private var subscriptionTouchLock: Subscription? = null
 
     open fun setScreen(screen: Screen?, animation: Navigator.Animation) {
+
+        type.onSetScreen(screen)
 
         if (screen == null) {
             finish()
