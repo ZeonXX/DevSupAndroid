@@ -17,6 +17,7 @@ object Navigator {
     val SET = NavigationAction.set().immutable()
     val REPLACE = NavigationAction.replace().immutable()
     val REORDER = NavigationAction.reorder().immutable()
+    val TO_BACK_STACK_OR_NEW = NavigationAction.toBackStackOrNew().immutable()
 
     //
     //  Listeners
@@ -85,6 +86,10 @@ object Navigator {
     fun reorder(screen: Screen) {
         currentStack.stack.remove(screen)
         to(screen)
+    }
+
+    fun toBackStackOrNew(screen: Screen) {
+        reorderOrCreate(screen::class.java) {screen}
     }
 
     fun reorderOrCreate(viewClass: Class<out Screen>, provider: () -> Screen) {
