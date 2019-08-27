@@ -149,6 +149,11 @@ object ImageLoader {
 
     }
 
+    fun clearCash(){
+        cash.clear()
+        cashSize = 0
+    }
+
     //
     //  Methods
     //
