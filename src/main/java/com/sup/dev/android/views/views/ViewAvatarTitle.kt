@@ -100,7 +100,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     }
 
     fun setSubtitle(@StringRes text: Int) {
-        vSubtitle.setText(text)
+        setSubtitle(ToolsResources.s(text))
     }
 
     fun setSubtitle(text: String?) {

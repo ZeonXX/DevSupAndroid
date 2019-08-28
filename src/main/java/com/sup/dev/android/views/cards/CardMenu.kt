@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.cards
 
+import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import android.view.View
@@ -18,12 +19,14 @@ open class CardMenu(
     var dividerVisible = false
     var enabled = true
     var background = 0
+    var visible = true
 
     var text = ""
     var description = ""
     var customColor = false
     var textColor = 0
     var icon = 0
+    var iconDrawable:Drawable? = null
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -33,10 +36,11 @@ open class CardMenu(
         val vDescription = view.findViewById<TextView>(R.id.vDesc)
         val vIcon = view.findViewById<ViewIcon>(R.id.vIcon)
 
-        if (icon == 0)
-            vIcon.visibility = View.GONE
-        else
-            vIcon.setImageResource(icon)
+        view.visibility = if(visible) View.VISIBLE else View.GONE
+
+        if(iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
+        else if (icon == 0) vIcon.visibility = View.GONE
+        else vIcon.setImageResource(icon)
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = onClick != null && enabled
@@ -56,6 +60,12 @@ open class CardMenu(
     //
     //  Setters
     //
+
+    fun setVisible(visible:Boolean):CardMenu{
+        this.visible = visible
+        update()
+        return this
+    }
 
     fun setOnClick(onClick: (View, Int, Int) -> Unit): CardMenu {
         this.onClick = onClick
@@ -77,6 +87,12 @@ open class CardMenu(
 
     fun setIcon(icon: Int): CardMenu {
         this.icon = icon
+        update()
+        return this
+    }
+
+    fun setIcon(icon: Drawable?): CardMenu {
+        this.iconDrawable = icon
         update()
         return this
     }

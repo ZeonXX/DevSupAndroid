@@ -1,5 +1,6 @@
 package com.sup.dev.android.libs.screens.activity
 
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
@@ -27,12 +28,6 @@ class SActivityTypeBottomNavigation(
 
     private var widgetMenu: WidgetMenu? = null
 
-    private var navigationVisible = true
-    private var screenBottomNavigationVisible = true
-    private var screenBottomNavigationAllowed = true
-    private var screenBottomNavigationAnimation = true
-    private var screenBottomNavigationShadowAvailable = true
-    private var screenHideBottomNavigationWhenKeyboard = true
     private var lastH_P = 0
     private var maxH_P = 0
     private var lastH_L = 0
@@ -41,7 +36,7 @@ class SActivityTypeBottomNavigation(
 
     private var vContainer: LinearLayout? = null
     private var vLine: View? = null
-    private var extraNavigationItem:NavigationItem? = null
+    private var extraNavigationItem:SActivityType.NavigationItem? = null
 
     override fun getLayout() = R.layout.screen_activity_bottom_navigation
 
@@ -65,39 +60,28 @@ class SActivityTypeBottomNavigation(
         }
     }
 
-    override fun onSetScreen(screen: Screen?) {
-        if (screen != null) {
-            screenBottomNavigationVisible = screen.isBottomNavigationVisible
-            screenBottomNavigationAllowed = screen.isBottomNavigationAllowed
-            screenBottomNavigationAnimation = screen.isBottomNavigationAnimation
-            screenBottomNavigationShadowAvailable = screen.isBottomNavigationShadowAvailable
-            screenHideBottomNavigationWhenKeyboard = screen.isHideBottomNavigationWhenKeyboard
-            updateNavigationVisible()
-        }
-    }
-
-    fun updateNavigationVisible() {
-        if (navigationVisible && screenBottomNavigationAllowed && screenBottomNavigationVisible) {
+    override fun updateNavigationVisible() {
+        if (screenNavigationAllowed && screenNavigationVisible) {
             if (screenHideBottomNavigationWhenKeyboard && isKeyboardShown()) {
                 vContainer!!.visibility = View.GONE
                 vLine!!.visibility = View.GONE
                 skipNextNavigationAnimation  = true
             } else {
-                ToolsView.fromAlpha(vContainer!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
-                if (screenBottomNavigationShadowAvailable) {
-                    ToolsView.fromAlpha(vLine!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                if (screenNavigationShadowAvailable) {
+                    ToolsView.fromAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
                 } else {
-                    ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
-                        vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
+                    ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                        vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
                     }
                 }
             }
         } else {
-            ToolsView.toAlpha(vContainer!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
-                vContainer!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
+            ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                vContainer!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
             }
-            ToolsView.toAlpha(vLine!!, if (screenBottomNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
-                vLine!!.visibility = if (screenBottomNavigationAllowed) View.INVISIBLE else View.GONE
+            ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
             }
         }
     }
@@ -107,40 +91,52 @@ class SActivityTypeBottomNavigation(
         else lastH_L < (maxH_L - ToolsView.dpToPx(50))
     }
 
-    //fun setNavigationVisible(b: Boolean) {
-    //    navigationVisible = b
-    //    updateNavigationVisible()
-    //}
+    //
+    //  Navigation Item
+    //
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
+    override fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
         if(hided){
+            val item = NavigationItem()
             if(widgetMenu == null) {
                 widgetMenu = WidgetMenu()
                 extraNavigationItem = addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { v -> widgetMenu!!.asSheetShow() }
             }
             widgetMenu!!.add(text) { w, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-            return null
+            item.menuIndex = widgetMenu!!.getItemsCount()
+            return item
         } else {
-            return super.addNavigationItem(icon, text, hided, onClick)
-        }
-    }
 
-    override fun addItemNavigationView(view:View){
-        vContainer?.addView(view)
-        (view.layoutParams as LinearLayout.LayoutParams).weight = 1f
-        (view.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
+            val item = NavigationItem()
+
+            item.view = ToolsView.inflate(activity, R.layout.screen_activity_bottom_navigation_item)
+            item.vIcon = item.view?.findViewById(R.id.vNavigationItemIcon)
+            item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
+            item.vText = item.view?.findViewById(R.id.vNavigationItemText)
+
+            item.vIcon?.setImageDrawable(icon)
+            item.view?.setOnClickListener(onClick)
+            item.vChip?.visibility = View.GONE
+            item.vText?.text = text
+
+            vContainer?.addView(item.view)
+            (item.view?.layoutParams as LinearLayout.LayoutParams).weight = 1f
+            (item.view?.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
+
+            return item
+        }
     }
 
     override fun getExtraNavigationItem() = extraNavigationItem
 
-    fun clearNavigation() {
-        widgetMenu!!.clear()
+    inner class NavigationItem : SActivityType.NavigationItem() {
+
+        var menuIndex:Int? = null
+
+        override fun setVisible(visible: Boolean) {
+            view?.visibility = if(visible) View.VISIBLE else View.GONE
+            if(menuIndex != null && widgetMenu != null) widgetMenu!!.setItemVisible(menuIndex!!, visible)
+        }
+
     }
-
-    fun hideNavigation() {
-        widgetMenu!!.hide()
-    }
-
-    override fun getNavigationItemLayout() =  R.layout.screen_activity_bottom_navigation_item
-
 }

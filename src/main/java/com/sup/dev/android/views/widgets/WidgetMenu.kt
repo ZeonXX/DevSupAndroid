@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.widgets
 
+import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -62,6 +63,11 @@ open class WidgetMenu : WidgetRecycler() {
     private var skipThisItem = false
     private var skipGroup = false
 
+    fun setItemVisible(index: Int, visible: Boolean) {
+        if (myAdapter.size() < index) (myAdapter.get(index) as CardMenu).setVisible(visible)
+    }
+
+    fun getItemsCount() = myAdapter.size()
 
     fun clear() {
         finishItemBuilding()
@@ -74,8 +80,9 @@ open class WidgetMenu : WidgetRecycler() {
         item.card = CardMenu()
         item.card?.text = item.text
         item.card?.setIcon(item.icon)
+        item.card?.setIcon(item.iconDrawable)
         item.card?.setBackground(item.bg)
-        if(item.textColor != null)item.card?.setTextColor(item.textColor!!)
+        if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick { v, x, y ->
             item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
@@ -148,6 +155,11 @@ open class WidgetMenu : WidgetRecycler() {
 
     fun icon(icon: Int): WidgetMenu {
         buildItem!!.icon = icon
+        return this
+    }
+
+    fun icon(icon: Drawable): WidgetMenu {
+        buildItem!!.iconDrawable = icon
         return this
     }
 
@@ -226,8 +238,9 @@ open class WidgetMenu : WidgetRecycler() {
         var onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }
         var text = ""
         var icon = 0
+        var iconDrawable: Drawable? = null
         var bg = 0
-        var textColor:Int? = null
+        var textColor: Int? = null
         var preferred = false
 
     }

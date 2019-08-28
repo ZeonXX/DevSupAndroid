@@ -25,13 +25,6 @@ open class Settings @JvmOverloads constructor(
 ) : FrameLayout(context, attrs) {
 
 
-    /*
-
-    on: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '2',''2',''1532',''1532',''1705',''1705',''1841',''1841',''10',''10',''1979',''19' at line 1
-XInfo, DII, INSERT INTO statistic(statistic_key,statistic_type,statistic_date,statistic_value_1,statistic_value_s_1,statistic_version)  VALUES (?,?,?,?,?,?)
-
-     */
-
     val view: View
     private val line: View
     private val vIcon: ViewCircleImage?

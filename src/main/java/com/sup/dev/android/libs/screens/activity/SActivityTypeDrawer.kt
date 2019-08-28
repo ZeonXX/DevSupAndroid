@@ -40,19 +40,8 @@ class SActivityTypeDrawer(
     }
 
     override fun onSetScreen(screen: Screen?) {
+        super.onSetScreen(screen)
         hideDrawer()
-    }
-
-    override fun addNavigationView(view:View){
-        vNavigationRowsContainer?.addView(view)
-    }
-
-    override fun addItemNavigationView(view:View){
-        vNavigationRowsContainer?.addView(view)
-    }
-
-    override fun addNavigationDivider(){
-        addItemNavigationView(ToolsView.inflate(R.layout.z_divider))
     }
 
     override fun onViewBackPressed() {
@@ -66,7 +55,15 @@ class SActivityTypeDrawer(
         return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
     }
 
-    override fun getNavigationItemLayout() = R.layout.screen_activity_navigation_driver_row
+    override fun updateNavigationVisible() {
+        if (screenNavigationAllowed && screenNavigationVisible) {
+            setNavigationLock(false)
+        } else {
+            hideDrawer()
+            setNavigationLock(true)
+        }
+    }
+
 
     //
     //  Navigation Drawer
@@ -118,6 +115,41 @@ class SActivityTypeDrawer(
             ToolsView.hideKeyboard()
     }
 
+    //
+    //  Navigation Item
+    //
 
+    override fun addNavigationView(view:View){
+        vNavigationRowsContainer?.addView(view)
+    }
 
+    override fun addNavigationDivider(){
+        vNavigationRowsContainer?.addView(ToolsView.inflate(R.layout.z_divider))
+    }
+
+    override fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+        val item = NavigationItem()
+
+        item.view = ToolsView.inflate(activity,  R.layout.screen_activity_navigation_driver_row)
+        item.vIcon = item.view?.findViewById(R.id.vNavigationItemIcon)
+        item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
+        item.vText = item.view?.findViewById(R.id.vNavigationItemText)
+
+        item.vIcon?.setImageDrawable(icon)
+        item.view?.setOnClickListener(onClick)
+        item.vChip?.visibility = View.GONE
+        item.vText?.text = text
+
+        vNavigationRowsContainer?.addView(item.view)
+
+        return item
+    }
+
+    inner class NavigationItem : SActivityType.NavigationItem() {
+
+        override fun setVisible(visible: Boolean) {
+            view?.visibility = if(visible) View.VISIBLE else View.GONE
+        }
+
+    }
 }

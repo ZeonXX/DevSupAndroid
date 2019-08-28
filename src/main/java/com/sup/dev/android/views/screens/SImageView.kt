@@ -2,7 +2,6 @@ package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.widget.ImageView
@@ -81,9 +80,9 @@ class SImageView private constructor()
     }
 
     init {
-        isBottomNavigationVisible = false
-        isBottomNavigationAllowed = false
-        isBottomNavigationAnimation = false
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
         statusBarColor = ToolsResources.getColorAttr(R.attr.window_background)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)

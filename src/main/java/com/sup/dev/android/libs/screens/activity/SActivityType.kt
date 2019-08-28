@@ -3,6 +3,7 @@ package com.sup.dev.android.libs.screens.activity
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.CallSuper
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -15,13 +16,33 @@ abstract class SActivityType(
         val activity: SActivity
 ) {
 
+    var screenNavigationVisible = true
+    var screenNavigationAllowed = true
+    var screenNavigationAnimation = true
+    var screenNavigationShadowAvailable = true
+    var screenHideBottomNavigationWhenKeyboard = true
+
     abstract fun onCreate()
 
-    abstract fun onSetScreen(screen: Screen?)
+    @CallSuper
+    open fun onSetScreen(screen: Screen?){
+        if (screen != null) {
+            screenNavigationVisible = screen.isNavigationVisible
+            screenNavigationAllowed = screen.isNavigationAllowed
+            screenNavigationAnimation = screen.isNavigationAnimation
+            screenNavigationShadowAvailable = screen.isNavigationShadowAvailable
+            screenHideBottomNavigationWhenKeyboard = screen.isHideBottomNavigationWhenKeyboard
+            updateNavigationVisible()
+        }
+    }
+
+    open fun updateNavigationVisible() {
+
+    }
 
     abstract fun getLayout(): Int
 
-    open fun onViewBackPressed(){
+    open fun onViewBackPressed() {
         activity.onBackPressed()
     }
 
@@ -34,58 +55,44 @@ abstract class SActivityType(
         }
     }
 
-
-    open fun addNavigationDivider(){
-
-    }
-
-    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
-       return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
-    }
-
-    fun addNavigationItem(icon: Drawable, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
-       return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
-    }
-
-    open fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
-        return addNavigationItem(ToolsResources.getDrawable(icon), text, hided, onClick)
-    }
-
-    open fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem? {
-        if(getNavigationItemLayout() == 0) return null
-        val view = NavigationItem()
-        view.vIcon.setImageDrawable(icon)
-        view.view.setOnClickListener(onClick)
-        view.vChip.visibility = View.GONE
-        view.vText?.setText(text)
-        addItemNavigationView(view.view)
-        return view
-    }
+    //
+    //  Navigation Item
+    //
 
     open fun getExtraNavigationItem(): NavigationItem? {
         return null
     }
 
-    open fun getNavigationItemLayout() = 0
-
-    open fun addNavigationView(view:View){
+    open fun addNavigationView(view: View) {
 
     }
 
-    open fun addItemNavigationView(view:View){
+    open fun addNavigationDivider() {
 
     }
 
-    //
-    //  Navigation Item
-    //
+    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
+        return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
+    }
 
-    inner class NavigationItem {
+    fun addNavigationItem(icon: Drawable, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
+        return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
+    }
 
-        val view: View = ToolsView.inflate(activity, getNavigationItemLayout())
-        val vIcon: ViewIcon = view.findViewById(R.id.vNavigationItemIcon)
-        val vChip: ViewChipMini = view.findViewById(R.id.vNavigationItemChip)
-        val vText: TextView? = view.findViewById(R.id.vNavigationItemText)
+    fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
+        return addNavigationItem(ToolsResources.getDrawable(icon), text, hided, onClick)
+    }
+
+    abstract fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem
+
+    abstract class NavigationItem {
+
+        var view: View? = null
+        var vIcon: ViewIcon? = null
+        var vChip: ViewChipMini? = null
+        var vText: TextView? = null
+
+        abstract fun setVisible(visible: Boolean)
 
     }
 }

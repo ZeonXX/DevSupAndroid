@@ -34,11 +34,12 @@ open class Screen(
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
+    //  All activity navigation types
+    var isNavigationAllowed = true
+    var isNavigationVisible = true
+    var isNavigationAnimation = true
+    var isNavigationShadowAvailable = true
     //  Bottom navigation
-    var isBottomNavigationVisible = true
-    var isBottomNavigationAllowed = true
-    var isBottomNavigationAnimation = true
-    var isBottomNavigationShadowAvailable = true
     var isHideBottomNavigationWhenKeyboard = true
 
     protected var isAppbarExpanded: Boolean = false /* Обход разворачивания бара при повторном создании вью */

@@ -36,9 +36,9 @@ class SCrop(
 
     init {
 
-        isBottomNavigationVisible = false
-        isBottomNavigationAllowed = false
-        isBottomNavigationAnimation = false
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
         statusBarColor = ToolsResources.getColor(R.color.black)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
