@@ -2,6 +2,8 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -26,6 +28,22 @@ class ViewImagesContainer @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
+    }
+
+    fun add(vararg drawable: Drawable, onClick: ((Drawable) -> Unit)? = null, onLongClick: ((Drawable) -> Unit)? = null) {
+        for (i in drawable) {
+            val item = ItemDrawable(i, onClick, onLongClick)
+            items.add(item)
+        }
+        rebuild()
+    }
+
+    fun add(vararg uris: Uri, onClick: ((Uri) -> Unit)? = null, onLongClick: ((Uri) -> Unit)? = null) {
+        for (i in uris) {
+            val item = ItemUri(i, onClick, onLongClick)
+            items.add(item)
+        }
+        rebuild()
     }
 
     fun add(vararg bitmaps: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
@@ -70,6 +88,18 @@ class ViewImagesContainer @JvmOverloads constructor(
     private fun getBitmapsArray(): Array<Bitmap> {
         val list = ArrayList<Bitmap>()
         for (i in items) if (i is ItemBitmap) list.add(i.bitmap)
+        return list.toTypedArray()
+    }
+
+    private fun getDrawablesArray(): Array<Drawable> {
+        val list = ArrayList<Drawable>()
+        for (i in items) if (i is ItemDrawable) list.add(i.drawable)
+        return list.toTypedArray()
+    }
+
+    private fun getUriArray(): Array<Uri> {
+        val list = ArrayList<Uri>()
+        for (i in items) if (i is ItemUri) list.add(i.uri)
         return list.toTypedArray()
     }
 
@@ -153,6 +183,47 @@ class ViewImagesContainer @JvmOverloads constructor(
         }
 
         override fun getSource() = bitmap
+
+    }
+
+    private inner class ItemDrawable(
+            val drawable: Drawable,
+            onClick: ((Drawable) -> Unit)?,
+            onLongClick: ((Drawable) -> Unit)? = null
+    ) : Item<Drawable>(onClick, onLongClick) {
+
+        init {
+            vImage.setImageDrawable(drawable)
+        }
+
+        override fun toImageView() {
+          //  val array = getDrawablesArray()
+          //  var index = 0
+          //  for (i in 0 until array.size) if (array[i] == drawable) index = i
+          //  Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = drawable
+
+    }
+    private inner class ItemUri(
+            val uri: Uri,
+            onClick: ((Uri) -> Unit)?,
+            onLongClick: ((Uri) -> Unit)? = null
+    ) : Item<Uri>(onClick, onLongClick) {
+
+        init {
+            vImage.setImageURI(uri)
+        }
+
+        override fun toImageView() {
+           // val array = getUriArray()
+           // var index = 0
+           // for (i in 0 until array.size) if (array[i] == uri) index = i
+           // Navigator.to(SImageView(index, array))
+        }
+
+        override fun getSource() = uri
 
     }
 

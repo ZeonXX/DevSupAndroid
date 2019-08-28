@@ -38,7 +38,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var useExpandedArrow = true
     private var useExpandedTitleArrow = false
 
-    internal var expanded: Boolean = false
+    internal var expanded = false
     internal var enabled = true
 
     override fun bindView(view: View) {
@@ -120,6 +120,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
+    fun remove(card: Card): CardSpoiler {
+        cards.remove(card)
+        adapter?.remove(card)
+        return this
+    }
+
     open fun setTitle(@StringRes title: Int): CardSpoiler {
         return setTitle(ToolsResources.s(title))
     }
@@ -151,8 +157,13 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         setExpanded(expanded)
     }
 
+    open fun onExpandedClicked(expanded: Boolean){
+
+    }
+
     fun setExpanded(expanded: Boolean): CardSpoiler {
         this.expanded = expanded
+        onExpandedClicked(expanded)
         update()
 
         if (adapter != null) {

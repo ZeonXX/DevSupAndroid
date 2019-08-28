@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventStyleChanged

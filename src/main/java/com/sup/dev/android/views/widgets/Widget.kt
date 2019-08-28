@@ -206,7 +206,6 @@ abstract class Widget(layoutRes: Int) {
         return popup
     }
 
-    @JvmOverloads
     fun showPopupWhenClick(view: View, willShow: (() -> Boolean)? = null): Widget {
         ToolsView.setOnClickCoordinates(view) { view1, x, y ->
             if (willShow == null || willShow.invoke()) asPopup().show<Popup>(view1, x, y)
@@ -233,6 +232,22 @@ abstract class Widget(layoutRes: Int) {
                 if (willShowClick == null || willShowClick.invoke()) asPopup().show<Popup>(view1, x, y)
             } else {
                 if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().show<Popup>(view1, x, y)
+            }
+            Unit
+        }
+        return this
+    }
+
+    fun showSheetWhenClickAndLongClick(view: View, willShowClick: () -> Boolean): Widget {
+        return showSheetWhenClickAndLongClick(view, willShowClick, null)
+    }
+
+    fun showSheetWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
+        ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
+            if (isClick) {
+                if (willShowClick == null || willShowClick.invoke()) asSheetShow()
+            } else {
+                if (willShowLongClick == null || willShowLongClick.invoke())  asSheetShow()
             }
             Unit
         }
