@@ -16,12 +16,9 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
-import android.os.Build
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
-import java.nio.file.attribute.AclEntryType
-
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -107,15 +104,6 @@ abstract class SActivity : AppCompatActivity() {
             onUrlClicked!!.invoke(intent.data!!.toString())
         } else {
             super.startActivity(intent)
-        }
-    }
-
-    fun restart() {
-        if (Build.VERSION.SDK_INT >= 11) {
-            recreate()
-        } else {
-            finish()
-            startActivity(intent)
         }
     }
 

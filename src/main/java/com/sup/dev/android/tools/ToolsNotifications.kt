@@ -1,8 +1,10 @@
 package com.sup.dev.android.tools
 
 import android.app.*
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
@@ -14,6 +16,12 @@ object ToolsNotifications {
     private val SPLITER = "-FS2ААА67миО-"
     var defChanelId = 0
 
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null && intent.action == "NOTIF_CANCEL") parseNotification(intent)
+        }
+    }
+
     enum class Importance {
         DEFAULT, HIGH, MIN
     }
@@ -22,15 +30,18 @@ object ToolsNotifications {
         SINGLE, GROUP
     }
 
-    enum class IntentType(val index:Int) {
+    enum class IntentType(val index: Int) {
         CLICK(1), ACTION(2), CANCEL(3)
     }
 
     var notificationsListener: (Intent, IntentType, tag: String) -> Unit = { intent, type, tag -> }
-
     private var chanels = ArrayList<Chanel>()
     private var notificationIdCounter = 1
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    init {
+        SupAndroid.appContext?.registerReceiver(broadcastReceiver, IntentFilter("NOTIF_CANCEL"))
+    }
 
     fun instanceGroup(groupId: Int, name: Int) = instanceGroup(groupId, ToolsResources.s(name))
 
@@ -48,8 +59,7 @@ object ToolsNotifications {
         return chanel
     }
 
-    fun parseNotification(intent: Intent):Boolean {
-
+    fun parseNotification(intent: Intent): Boolean {
         val notificationId = intent.getIntExtra("ToolsNotification.notificationId", -1)
         val intentTypeIndex = intent.getIntExtra("ToolsNotification.intentType", -1)
         val notificationTag = intent.getStringExtra("ToolsNotification.notificationTag") ?: "null${SPLITER}null"
@@ -67,7 +77,7 @@ object ToolsNotifications {
             notificationManager.cancel(notificationTag, notificationId)
             for (chanel in chanels) chanel.cancel(notificationTag)
 
-            val tag = if(actionTag == null) notificationTag.split(SPLITER)[1] else actionTag
+            val tag = if (actionTag == null) notificationTag.split(SPLITER)[1] else actionTag
             notificationsListener.invoke(intent, intentType, tag)
 
             return true
@@ -77,7 +87,7 @@ object ToolsNotifications {
     }
 
     //
-    //  Chanel
+    //  Classes
     //
 
     class Chanel {
@@ -102,13 +112,21 @@ object ToolsNotifications {
 
         fun getId() = id
 
-        fun post(icon:Int, title:String, text:String, intent:Intent, tag:String){
-            post(NotificationX()
+        fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, intentCancel: Intent? = null) {
+            val notification = NotificationX()
                     .setIcon(icon)
                     .setTitle(title)
                     .setText(text)
                     .setIntent(intent)
-                    .setTag(tag))
+                    .setTag(tag)
+
+            if (intentCancel != null) {
+                notification.setIntentCancel(intentCancel)
+            } else{
+                if(intent.extras != null) notification.intentCancel.putExtras(intent.extras)
+            }
+
+            post(notification)
         }
 
         fun post(notification: NotificationX, onBuild: (NotificationCompat.Builder) -> Unit = {}) {
@@ -142,7 +160,7 @@ object ToolsNotifications {
             notification.intentCancel.putExtra("ToolsNotification.intentType", IntentType.CANCEL.index)
 
             builder.setContentIntent(PendingIntent.getActivity(SupAndroid.appContext!!, ++notificationIdCounter, notification.intent, PendingIntent.FLAG_CANCEL_CURRENT))
-            builder.setDeleteIntent(PendingIntent.getActivity(SupAndroid.appContext!!, ++notificationIdCounter, notification.intentCancel, PendingIntent.FLAG_CANCEL_CURRENT))
+            builder.setDeleteIntent(PendingIntent.getBroadcast(SupAndroid.appContext!!, ++notificationIdCounter, notification.intentCancel, PendingIntent.FLAG_CANCEL_CURRENT))
 
             for (a in notification.actions) {
                 a.intent.putExtra("ToolsNotification.notificationId", notificationId)
@@ -266,18 +284,14 @@ object ToolsNotifications {
 
     }
 
-    //
-    //  Notification
-    //
-
-    class NotificationX() {
+    class NotificationX {
 
         @DrawableRes
         var icon = 0
         var title: String? = null
         var text: String? = null
         var intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
-        var intentCancel = Intent()
+        var intentCancel = Intent("NOTIF_CANCEL")
         var tag = "tag"
         var actions = ArrayList<ActionX>()
 
@@ -303,6 +317,7 @@ object ToolsNotifications {
 
         fun setIntentCancel(intentCancel: Intent): NotificationX {
             this.intentCancel = intentCancel
+            intentCancel.action = "NOTIF_CANCEL"
             return this
         }
 
@@ -316,13 +331,12 @@ object ToolsNotifications {
             return this
         }
 
-        fun addExtra(key: String, value:String): NotificationX {
+        fun addExtra(key: String, value: String): NotificationX {
             intent.putExtra(key, value)
             return this
         }
 
     }
-
 
     class ActionX {
 
@@ -346,7 +360,7 @@ object ToolsNotifications {
             return this
         }
 
-        fun addExtra(key: String, value:String): ActionX {
+        fun addExtra(key: String, value: String): ActionX {
             intent.putExtra(key, value)
             return this
         }
