@@ -31,12 +31,12 @@ class UtilsAudioPlayer {
 
     fun pause() {
         subPlayer?.audioTrack?.pause()
-        ToolsAndroid.releaseAudioFoucs()
+        ToolsAndroid.releaseAudioFocus()
     }
 
     fun resume() {
         subPlayer?.audioTrack?.play()
-        ToolsAndroid.requestAudioFoucs()
+        ToolsAndroid.requestAudioFocus()
     }
 
 
@@ -72,7 +72,7 @@ class UtilsAudioPlayer {
             this.audioTrack = audioTrack
             ToolsThreads.thread {
 
-                ToolsAndroid.requestAudioFoucs()
+                ToolsAndroid.requestAudioFocus()
                 audioTrack.play()
                 try {
                     while (!stop && this.audioTrack == audioTrack && offset < byteArray.size) {
@@ -99,7 +99,7 @@ class UtilsAudioPlayer {
                 audioTrack.release()
                 if (this.audioTrack == audioTrack || stop) {
                     stop = true
-                    ToolsAndroid.releaseAudioFoucs()
+                    ToolsAndroid.releaseAudioFocus()
                     utilsProximity.release()
                     ToolsThreads.main { onStop.invoke() }
                 }

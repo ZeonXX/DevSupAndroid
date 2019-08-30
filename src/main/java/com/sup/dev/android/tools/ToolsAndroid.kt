@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.audiofx.AcousticEchoCanceler
@@ -28,6 +29,9 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.util.*
+import android.util.DisplayMetrics
+
+
 
 
 object ToolsAndroid {
@@ -38,20 +42,28 @@ object ToolsAndroid {
     //  Device
     //
 
-    fun requestAudioFoucs(){
+    fun requestAudioFocus(){
         val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
     }
 
-    fun releaseAudioFoucs(){
+    fun releaseAudioFocus(){
         val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.abandonAudioFocus(audioFocusListener)
     }
 
     fun setLanguage(context:Context, lang: String) {
         val res = context.resources
-        res.configuration.locale = Locale(lang)
-        res.updateConfiguration(res.configuration, res.displayMetrics)
+        val conf = res.configuration
+        conf.setLocale(Locale(lang.toLowerCase()))
+        res.updateConfiguration(conf, res.displayMetrics)
+    }
+
+    fun getLanguage(context:Context):String {
+        val res = context.resources
+        val conf = res.configuration
+        return conf.locale.language.toLowerCase()
+
     }
 
     fun getVersion() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionName
@@ -60,7 +72,7 @@ object ToolsAndroid {
     fun getBluetoothMacAddress(): String {
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         var bluetoothMacAddress = ""
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 val mServiceField = bluetoothAdapter.javaClass.getDeclaredField("mService")
                 mServiceField.isAccessible = true

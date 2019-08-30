@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
+import com.sup.dev.java.classes.animation.Delta
 
 class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -52,11 +53,13 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
         invalidate()
     }
 
+    val delta = Delta()
+
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         inProgress = true
         for (a in animations) {
-            a.update(0.02f)
+            a.update(delta.deltaSec())
             a.draw(canvas)
             if (a.needRemove) removeList.add(a)
         }
