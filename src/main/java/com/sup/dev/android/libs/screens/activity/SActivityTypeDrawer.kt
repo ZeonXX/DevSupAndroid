@@ -127,7 +127,7 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer?.addView(ToolsView.inflate(R.layout.z_divider))
     }
 
-    override fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
         val item = NavigationItem()
 
         item.view = ToolsView.inflate(activity,  R.layout.screen_activity_navigation_driver_row)
@@ -135,7 +135,8 @@ class SActivityTypeDrawer(
         item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
         item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
-        item.vIcon?.setImageDrawable(icon)
+        item.vIcon?.setImageResource(icon)
+        item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
         item.view?.setOnClickListener(onClick)
         item.vChip?.visibility = View.GONE
         item.vText?.text = text

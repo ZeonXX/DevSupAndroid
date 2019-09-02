@@ -75,15 +75,7 @@ abstract class SActivityType(
         return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
     }
 
-    fun addNavigationItem(icon: Drawable, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
-        return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
-    }
-
-    fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
-        return addNavigationItem(ToolsResources.getDrawable(icon), text, hided, onClick)
-    }
-
-    abstract fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem
+    abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem
 
     abstract class NavigationItem {
 

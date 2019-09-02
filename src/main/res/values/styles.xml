@@ -3,6 +3,7 @@
     <attr name="widget_background" format="color"/>
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
+    <attr name="toolbar_content_color" format="color"/>
     <attr name="color_stroke" format="color"/>
     <attr name="color_interface_text" format="color"/>
     <attr name="color_divider" format="color"/>
@@ -35,6 +36,7 @@
         <item name="colorPrimaryDark">@color/grey_875</item>
         <item name="colorPrimary">@color/grey_875</item>
         <item name="color_stroke">@color/grey_400</item>
+        <item name="toolbar_content_color">@color/white</item>
         <item name="color_divider">@color/focus</item>
         <item name="color_interface_text">@color/white</item>
         <item name="popup_background">@color/grey_700</item>
@@ -67,6 +69,7 @@
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>
+        <item name="toolbar_content_color">@color/grey_950</item>
         <item name="color_divider">@color/focus</item>
         <item name="popup_background">@color/white</item>
         <item name="windowActionBar">false</item>
@@ -96,6 +99,7 @@
     </style>
 
     <style name="AppThemeLight.Colored">
+        <item name="toolbar_content_color">@color/white</item>
         <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
         <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
@@ -173,7 +177,6 @@
         <item name="android:layout_height">24dp</item>
         <item name="android:padding">4dp</item>
     </style>
->
 
     <style name="Root">
         <item name="android:id">@id/vScreenRoot</item>
@@ -191,9 +194,9 @@
         <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorPrimary">?attr/revers_color</item>
-        <item name="android:textColorSecondary">?attr/revers_color</item>
-        <item name="actionMenuTextColor">?attr/revers_color</item>
+        <item name="android:textColorPrimary">?attr/toolbar_content_color</item>
+        <item name="android:textColorSecondary">?attr/toolbar_content_color</item>
+        <item name="actionMenuTextColor">?attr/toolbar_content_color</item>
         <item name="layout_scrollFlags">scroll|enterAlways</item>
     </style>
 

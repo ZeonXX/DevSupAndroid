@@ -1,5 +1,6 @@
 package com.sup.dev.android.libs.screens
 
+import android.graphics.PorterDuff
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -19,7 +21,7 @@ open class Screen(
         protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
 
-    companion object{
+    companion object {
         var GLOBAL_STATUS_BAR_IS_LIGHT = false
     }
 
@@ -28,7 +30,7 @@ open class Screen(
 
     //  Params
     var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
-    var toolbarTitleColor = ToolsResources.getColorAttr(R.attr.revers_color)
+    var toolbarContentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
     var isBackStackAllowed = true
     var hasBackIcon = true
     var isSingleInstanceInBackStack = false
@@ -65,12 +67,13 @@ open class Screen(
 
     @CallSuper
     open fun onResume() {
-        val toolbar = findViewById<Toolbar>(R.id.vToolbar)
+        val toolbar: Toolbar? = findViewById(R.id.vToolbar)
         if (toolbar != null) {
-            toolbar.setTitleTextColor(toolbarTitleColor)
+            toolbar.setTitleTextColor(toolbarContentColor)
             if (hasBackIcon) {
                 toolbar.navigationIcon = getActivity().type.getNavigationDrawable(this)
-                toolbar.setNavigationOnClickListener { v -> SupAndroid.activity!!.onViewBackPressed() }
+                toolbar.navigationIcon?.setColorFilter(toolbarContentColor, PorterDuff.Mode.SRC_ATOP)
+                toolbar.setNavigationOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
             } else {
                 toolbar.navigationIcon = null
             }
@@ -78,14 +81,12 @@ open class Screen(
             val v = findViewById<View>(R.id.vBack)
             if (v != null && v is ImageView) {
                 v.setImageDrawable(getActivity().type.getNavigationDrawable(this))
-                v.setOnClickListener { vv -> SupAndroid.activity!!.onViewBackPressed() }
+                v.setOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
             }
         }
 
-        val appBarLayout = findViewById<AppBarLayout>(R.id.vAppBar)
-        appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout1, verticalOffset ->
-            isAppbarExpanded = verticalOffset == 0
-        })
+        val appBarLayout:AppBarLayout? = findViewById(R.id.vAppBar)
+        appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout1, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
     }
 
     @CallSuper
@@ -133,11 +134,11 @@ open class Screen(
         return this
     }
 
-    fun setScreenColor(color:Int){
+    fun setScreenColor(color: Int) {
         findViewById<View>(R.id.vScreenRoot).setBackgroundColor(color)
     }
 
-    fun setScreenColorBackground(){
+    fun setScreenColorBackground() {
         setScreenColor(ToolsResources.getColorAttr(R.attr.window_background))
     }
 

@@ -58,8 +58,9 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         inProgress = true
+        val deltaSec = delta.deltaSec()
         for (a in animations) {
-            a.update(delta.deltaSec())
+            a.update(deltaSec)
             a.draw(canvas)
             if (a.needRemove) removeList.add(a)
         }

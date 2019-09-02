@@ -64,7 +64,9 @@ open class WidgetMenu : WidgetRecycler() {
     private var skipGroup = false
 
     fun setItemVisible(index: Int, visible: Boolean) {
-        if (myAdapter.size() < index) (myAdapter.get(index) as CardMenu).setVisible(visible)
+        if (myAdapter.size() > index) {
+            (myAdapter.get(index) as CardMenu).setVisible(visible)
+        }
     }
 
     fun getItemsCount() = myAdapter.size()
@@ -119,7 +121,7 @@ open class WidgetMenu : WidgetRecycler() {
         this.onGlobalSelected = onGlobalSelected
     }
 
-    private fun finishItemBuilding() {
+    fun finishItemBuilding() {
         if (buildItem != null) {
             val i = buildItem
             buildItem = null

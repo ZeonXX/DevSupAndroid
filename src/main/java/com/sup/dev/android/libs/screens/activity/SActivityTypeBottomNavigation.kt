@@ -1,12 +1,10 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.sup.dev.android.R
-import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -95,7 +93,7 @@ class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    override fun addNavigationItem(icon: Drawable, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
         if(hided){
             val item = NavigationItem()
             if(widgetMenu == null) {
@@ -103,7 +101,8 @@ class SActivityTypeBottomNavigation(
                 extraNavigationItem = addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { v -> widgetMenu!!.asSheetShow() }
             }
             widgetMenu!!.add(text) { w, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-            item.menuIndex = widgetMenu!!.getItemsCount()
+            widgetMenu!!.finishItemBuilding()
+            item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item
         } else {
 
@@ -114,7 +113,8 @@ class SActivityTypeBottomNavigation(
             item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
             item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
-            item.vIcon?.setImageDrawable(icon)
+            item.vIcon?.setImageResource(icon)
+            item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
             item.view?.setOnClickListener(onClick)
             item.vChip?.visibility = View.GONE
             item.vText?.text = text

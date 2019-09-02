@@ -93,8 +93,9 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected fun addToolbarIcon(drawable: Drawable, onClick: (View) -> Unit): ViewIcon {
         val viewIcon: ViewIcon = ToolsView.inflate(context, R.layout.z_icon)
         viewIcon.setImageDrawable(drawable)
+        viewIcon.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
         viewIcon.setOnClickListener { onClick.invoke(viewIcon) }
-        if (vToolbarIconsContainer != null) vToolbarIconsContainer.addView(viewIcon)
+        vToolbarIconsContainer?.addView(viewIcon)
         return viewIcon
     }
 
