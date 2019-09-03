@@ -36,13 +36,13 @@ open class CardMenu(
         val vDescription = view.findViewById<TextView>(R.id.vDesc)
         val vIcon = view.findViewById<ViewIcon>(R.id.vIcon)
 
-        view.visibility = if(visible) View.VISIBLE else View.GONE
+        vTouch.visibility = if(visible) View.VISIBLE else View.GONE
 
         if(iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
         else if (icon == 0) vIcon.visibility = View.GONE
         else vIcon.setImageResource(icon)
 
-        vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
+        vDivider.visibility = if (visible && dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = onClick != null && enabled
         vTouch.isClickable = onClick != null && enabled
         vTouch.isEnabled = onClick != null && enabled

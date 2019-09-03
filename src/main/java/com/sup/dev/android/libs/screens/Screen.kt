@@ -37,6 +37,7 @@ open class Screen(
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
     //  All activity navigation types
+    var activityRootBackground = ToolsResources.getColorAttr(R.attr.window_background)
     var isNavigationAllowed = true
     var isNavigationVisible = true
     var isNavigationAnimation = true

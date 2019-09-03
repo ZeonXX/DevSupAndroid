@@ -186,6 +186,8 @@ abstract class SActivity : AppCompatActivity() {
             vActivityTouchLock!!.visibility = View.GONE
         }
 
+        vActivityRoot?.setBackgroundColor(screen.activityRootBackground)
+
     }
 
     private fun animateNone(oldViews: ArrayList<View>) {
