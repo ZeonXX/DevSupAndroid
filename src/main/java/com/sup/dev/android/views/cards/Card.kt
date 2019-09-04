@@ -16,6 +16,7 @@ abstract class Card(
 
     var adapter: CardAdapter? = null
     private var view:View? = null
+    var isBinding = false
 
     var tag: Any? = null
 
@@ -24,14 +25,20 @@ abstract class Card(
     //
 
     fun update() {
+        if(isBinding) return
         val view = getView()
-        if (view != null) bindView(view)
+        if (view != null) bindCardView(view)
     }
 
-    @CallSuper
-    open fun bindView(view: View) {
+    fun bindCardView(view: View) {
+        isBinding = true
         this.view = view
         view.tag = this
+        bindView(view)
+        isBinding = false
+    }
+
+    open fun bindView(view: View) {
     }
 
     protected open fun instanceView(): View {

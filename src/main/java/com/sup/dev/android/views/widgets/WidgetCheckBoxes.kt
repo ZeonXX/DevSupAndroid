@@ -130,7 +130,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         finishItemBuilding()
         val card = CardDividerTitleMini().setText(title).setDividerBottom(divider)
         val v = card.instanceView(context)
-        card.bindView(v)
+        card.bindCardView(v)
         vOptionsContainer.addView(v)
         if (vOptionsContainer.childCount > 1)
             (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()

@@ -63,7 +63,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         frame.addView(ToolsView.removeFromParent(cardView))
         frame.tag = card::class
 
-        card.bindView(cardView)
+        card.bindCardView(cardView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

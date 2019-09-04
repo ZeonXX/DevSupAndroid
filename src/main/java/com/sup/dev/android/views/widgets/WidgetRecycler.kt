@@ -9,7 +9,6 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.popup.PopupWidget
 
-
 open class WidgetRecycler(
         r:Int = R.layout.widget_recycler
 ) : Widget(r) {

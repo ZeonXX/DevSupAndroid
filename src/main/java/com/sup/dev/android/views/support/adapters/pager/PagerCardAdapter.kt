@@ -72,7 +72,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         frame.tag = card::class
         (cardView.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER
 
-        card.bindView(cardView)
+        card.bindCardView(cardView)
 
         return holder
     }
