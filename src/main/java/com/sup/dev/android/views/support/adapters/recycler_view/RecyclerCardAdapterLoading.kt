@@ -35,6 +35,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var isLockTop = false
     private var isLockBottom = false
     private var isInProgress = false
+    private var isLoadedAtListOneTime = false
     private var loadingTag = 0L
     private var sameRemovedCount = 0
 
@@ -109,6 +110,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     private fun onLoaded(result: Array<V>?, bottom: Boolean, loadingTagLocal: Long) {
         isInProgress = false
+        isLoadedAtListOneTime = true
         if (loadingTagLocal != loadingTag) return
 
         if (result == null) {
@@ -236,6 +238,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     fun reload(bottom: Boolean) {
         sameRemovedCount = 0
         loadingTag = 0
+        isLoadedAtListOneTime = false
         isInProgress = false
 
         var i = 0
@@ -271,7 +274,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     override fun remove(position: Int) {
         val c = get(position)
         super.remove(position)
-        if (!contains(cardClass)) onEmpty.invoke()
+        if (!contains(cardClass) && isLoadedAtListOneTime) onEmpty.invoke()
     }
 
     //
