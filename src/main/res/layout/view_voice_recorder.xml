@@ -46,9 +46,10 @@
 
     </FrameLayout>
 
-    <ImageView
+    <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/vIcon"
         style="@style/Icon"
+        app:ViewIcon_filter="?toolbar_content_color"
         android:layout_gravity="bottom|right"
         android:src="?ic_mic_24dp" />
 

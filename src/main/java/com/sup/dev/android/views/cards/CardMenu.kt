@@ -10,7 +10,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
 
-
 open class CardMenu(
     layout : Int = 0
 ) : Card(if(layout > 0) layout else R.layout.card_menu) {
@@ -27,6 +26,7 @@ open class CardMenu(
     var textColor = 0
     var icon = 0
     var iconDrawable:Drawable? = null
+    var iconFilter:Int? = null
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -39,6 +39,7 @@ open class CardMenu(
         vTouch.visibility = if(visible) View.VISIBLE else View.GONE
 
         if(iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
+        if(iconFilter != null) vIcon.setFilter(iconFilter!!)
         else if (icon == 0) vIcon.visibility = View.GONE
         else vIcon.setImageResource(icon)
 
@@ -93,6 +94,11 @@ open class CardMenu(
 
     fun setIcon(icon: Drawable?): CardMenu {
         this.iconDrawable = icon
+        update()
+        return this
+    }
+    fun setIconFilter(iconFilter: Int?): CardMenu {
+        this.iconFilter = iconFilter
         update()
         return this
     }

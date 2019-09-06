@@ -4,6 +4,7 @@
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
     <attr name="toolbar_content_color" format="color"/>
+    <attr name="toolbar_content_color_secondary" format="color"/>
     <attr name="color_stroke" format="color"/>
     <attr name="color_interface_text" format="color"/>
     <attr name="color_divider" format="color"/>
@@ -37,6 +38,7 @@
         <item name="colorPrimary">@color/grey_875</item>
         <item name="color_stroke">@color/grey_400</item>
         <item name="toolbar_content_color">@color/white</item>
+        <item name="toolbar_content_color_secondary">@color/white</item>
         <item name="color_divider">@color/focus</item>
         <item name="color_interface_text">@color/white</item>
         <item name="popup_background">@color/grey_700</item>
@@ -70,6 +72,7 @@
         <item name="content_background">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>
         <item name="toolbar_content_color">@color/grey_950</item>
+        <item name="toolbar_content_color_secondary">@color/grey_700</item>
         <item name="color_divider">@color/focus</item>
         <item name="popup_background">@color/white</item>
         <item name="windowActionBar">false</item>
@@ -100,6 +103,7 @@
 
     <style name="AppThemeLight.Colored">
         <item name="toolbar_content_color">@color/white</item>
+        <item name="toolbar_content_color_secondary">@color/grey_700</item>
         <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
         <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
@@ -158,6 +162,7 @@
 
     <style name="Icon.Toolbar">
         <item name="android:layout_gravity">right</item>
+        <item name="ViewIcon_filter">?toolbar_content_color</item>
     </style>
 
     <style name="Icon.48">

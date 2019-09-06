@@ -6,5 +6,5 @@
     style="@style/Button.Outlined"
     android:layout_height="48dp"
     android:text="Title"
-    android:textColor="?color_interface_text"
+    android:textColor="?toolbar_content_color"
     app:strokeWidth="0dp"/>

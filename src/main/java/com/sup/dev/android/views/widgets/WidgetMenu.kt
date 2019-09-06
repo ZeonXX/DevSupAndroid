@@ -83,6 +83,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.text = item.text
         item.card?.setIcon(item.icon)
         item.card?.setIcon(item.iconDrawable)
+        item.card?.setIconFilter(item.iconFilter)
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick { _, _, _ ->
@@ -165,6 +166,11 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
+    fun iconFilter(iconFilter: Int): WidgetMenu {
+        buildItem!!.iconFilter = iconFilter
+        return this
+    }
+
     fun backgroundRes(@ColorRes color: Int): WidgetMenu {
         return background(ToolsResources.getColor(color))
     }
@@ -240,6 +246,7 @@ open class WidgetMenu : WidgetRecycler() {
         var onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }
         var text = ""
         var icon = 0
+        var iconFilter:Int? = null
         var iconDrawable: Drawable? = null
         var bg = 0
         var textColor: Int? = null
