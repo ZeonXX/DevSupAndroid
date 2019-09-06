@@ -49,7 +49,7 @@ open class LayoutCorned @JvmOverloads constructor(
     override fun draw(canvas: Canvas?) {
         if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode))
             canvas?.clipPath(path)
-        if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint)
+        if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint!!)
 
         super.draw(canvas)
     }

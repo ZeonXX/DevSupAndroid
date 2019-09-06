@@ -8,8 +8,8 @@ import android.view.View
 
 class BehaviorAppBarCollapse<V : View>(context: Context, attrs: AttributeSet) : BehaviorCollapseSmooth<V>(context, attrs) {
 
-    override fun onDependentViewChanged(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, dependency: View): Boolean {
-        child!!.y = dependency!!.y + dependency.height - child.height / 2
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
+        child.y = dependency.y + dependency.height - child.height / 2
         return super.onDependentViewChanged(parent, child, dependency)
     }
 }

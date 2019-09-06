@@ -88,7 +88,7 @@ class SAlert(
 
         }
 
-        vAction.setOnClickListener { v -> onAction?.invoke() }
+        vAction.setOnClickListener { onAction?.invoke() }
 
     }
 

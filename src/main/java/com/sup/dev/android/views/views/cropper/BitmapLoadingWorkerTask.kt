@@ -9,13 +9,12 @@ import java.lang.ref.WeakReference
 
 internal class BitmapLoadingWorkerTask(cropImageView: ViewCropImage, val uri: Uri) : AsyncTask<Void, Void, BitmapLoadingWorkerTask.Result>() {
 
-    private val mCropImageViewReference: WeakReference<ViewCropImage>
+    private val mCropImageViewReference: WeakReference<ViewCropImage> = WeakReference(cropImageView)
     private val mContext: Context= cropImageView.context
     private val mWidth: Int
     private val mHeight: Int
 
     init {
-        mCropImageViewReference = WeakReference(cropImageView)
 
         val metrics = cropImageView.resources.displayMetrics
         val densityAdj:Double = if (metrics.density > 1)  1.0 else 1.0 / metrics.density;

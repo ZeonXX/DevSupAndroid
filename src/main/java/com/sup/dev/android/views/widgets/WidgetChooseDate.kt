@@ -33,9 +33,9 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: (WidgetChooseDate, Long) -> Unit = { w, x -> }): WidgetChooseDate {
+    fun setOnEnter(s: String?, onEnter: (WidgetChooseDate, Long) -> Unit = { _, _ -> }): WidgetChooseDate {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
@@ -66,9 +66,9 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
     }
 
     fun setOnCancel(s: String?, onCancel: (WidgetChooseDate) -> Unit = {}): WidgetChooseDate {
-        super.setOnHide { b -> onCancel.invoke(this) }
+        super.setOnHide { onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }

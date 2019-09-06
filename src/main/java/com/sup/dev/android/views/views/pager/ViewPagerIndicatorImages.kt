@@ -10,11 +10,12 @@ import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import java.lang.RuntimeException
+import kotlin.math.abs
 
 class ViewPagerIndicatorImages @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPagerIndicatorViews(context, attrs) {
 
 
-    var imageProvider: (Int, ImageView) -> Unit = { index,v ->throw RuntimeException("You must set provider") }
+    var imageProvider: (Int, ImageView) -> Unit = { _,_ ->throw RuntimeException("You must set provider") }
 
     override fun instanceView(index: Int): View {
         val v: View = ToolsView.inflate(context, R.layout.view_indicator_image)
@@ -30,8 +31,8 @@ class ViewPagerIndicatorImages @JvmOverloads constructor(context: Context, attrs
         ToolsImagesLoader.load(imageId).size(ToolsView.dpToPx(64).toInt(), ToolsView.dpToPx(64).toInt()).into(v)
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
+    override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {
+        super.onLayout(b, i, i1, i2, i3)
         val count = childCount
         if (count == 0) return
 
@@ -42,13 +43,13 @@ class ViewPagerIndicatorImages @JvmOverloads constructor(context: Context, attrs
             old = views[oldIndex]
         }
 
-        for (i in 0 until count) {
-            val vv = views[i]
+        for (n in 0 until count) {
+            val vv = views[n]
             vv.alpha = 80f / 255f
         }
 
         if (positionOffset != 0f) {
-            val arg = Math.abs(positionOffset)
+            val arg = abs(positionOffset)
             selected.alpha = (80 + ((255 - 80) * (1 - arg))) / 255f
             old?.alpha = (80 + ((255 - 80) * arg))  / 255f
         } else {

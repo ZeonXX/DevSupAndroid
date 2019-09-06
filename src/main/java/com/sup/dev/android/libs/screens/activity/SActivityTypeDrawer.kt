@@ -30,7 +30,7 @@ class SActivityTypeDrawer(
     override fun onCreate() {
         drawerLayout = activity.findViewById(R.id.vScreenDrawer)
         drawerContainer = activity.findViewById(R.id.vScreenDrawerContainer)
-        drawerLayout!!.setDrawerListener(this)
+        drawerLayout!!.addDrawerListener(this)
         drawerLayout!!.drawerElevation = 0f
         drawerLayout!!.setScrimColor(0)
         setNavigationLock(navigationLock)

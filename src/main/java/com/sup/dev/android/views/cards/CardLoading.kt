@@ -59,7 +59,7 @@ class CardLoading : Card(R.layout.card_loading) {
             vAction.visibility = if (retryButton == null || retryButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = retryMessage
             vAction.text = retryButton
-            vAction.setOnClickListener { v ->
+            vAction.setOnClickListener {
                 setState(State.LOADING)
                 if (onRetry != null) onRetry!!.invoke(this)
             }
@@ -71,7 +71,7 @@ class CardLoading : Card(R.layout.card_loading) {
             vAction.visibility = if (actionButton == null || actionButton!!.isEmpty()) View.GONE else View.VISIBLE
             vText.text = actionMessage
             vAction.text = actionButton
-            vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke(this) }
+            vAction.setOnClickListener { if (onAction != null) onAction!!.invoke(this) }
         }
     }
 

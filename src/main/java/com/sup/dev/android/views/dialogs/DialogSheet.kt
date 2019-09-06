@@ -9,6 +9,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
+@Suppress("UNCHECKED_CAST")
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
 
     //
@@ -24,7 +25,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
     init {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setOnCancelListener { dialogInterface -> onHide() }
+        setOnCancelListener { onHide() }
 
         val vRoot: ViewGroup = ToolsView.inflate(view.context, R.layout.dialog_sheet)
         val vContainer: LayoutCorned = vRoot.findViewById(R.id.vContainer)
@@ -44,7 +45,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
 
       //  vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 
-        vRoot.setOnClickListener { v -> if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
+        vRoot.setOnClickListener { if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
 
         Navigator.addOnScreenChanged {
             hide()

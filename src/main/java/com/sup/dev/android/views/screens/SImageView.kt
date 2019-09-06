@@ -190,7 +190,7 @@ class SImageView private constructor()
             WidgetField()
                     .setHint(SupAndroid.TEXT_APP_MESSAGE)
                     .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
-                    .setOnEnter(SupAndroid.TEXT_APP_SHARE) { w, text ->
+                    .setOnEnter(SupAndroid.TEXT_APP_SHARE) { _, text ->
                         ToolsThreads.thread {
                             if (bitmap != null) {
                                 ToolsIntent.shareImage(bitmap, text)

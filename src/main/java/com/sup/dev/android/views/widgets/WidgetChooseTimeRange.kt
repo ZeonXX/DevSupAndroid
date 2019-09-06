@@ -30,17 +30,17 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
 
-        vStart.setOnClickListener { v ->
+        vStart.setOnClickListener {
             WidgetChooseTime()
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
-                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { dialog, h, m -> setTimeStart(h, m) }
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { _, h, m -> setTimeStart(h, m) }
                 .asSheetShow()
         }
 
-        vEnd.setOnClickListener { v ->
+        vEnd.setOnClickListener {
             WidgetChooseTime()
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
-                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { dialog, h, m -> setTimeEnd(h, m) }
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { _, h, m -> setTimeEnd(h, m) }
                 .asSheetShow()
         }
 
@@ -77,10 +77,10 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     @JvmOverloads
     fun setOnEnter(
         s: String?,
-        onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit = { w, x, y, xx, yy -> }
+        onEnter: (WidgetChooseTimeRange, Int, Int, Int, Int) -> Unit = { _, _, _, _, _ -> }
     ): WidgetChooseTimeRange {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
@@ -105,9 +105,9 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetChooseTimeRange) -> Unit = {}): WidgetChooseTimeRange {
-        super.setOnHide { b -> onCancel.invoke(this) }
+        super.setOnHide { onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }

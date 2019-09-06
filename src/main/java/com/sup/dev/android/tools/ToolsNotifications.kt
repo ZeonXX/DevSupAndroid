@@ -34,7 +34,7 @@ object ToolsNotifications {
         CLICK(1), ACTION(2), CANCEL(3)
     }
 
-    var notificationsListener: (Intent, IntentType, tag: String) -> Unit = { intent, type, tag -> }
+    var notificationsListener: (Intent, IntentType, tag: String) -> Unit = { _, _, _ -> }
     private var chanels = ArrayList<Chanel>()
     private var notificationIdCounter = 1
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -123,7 +123,7 @@ object ToolsNotifications {
             if (intentCancel != null) {
                 notification.setIntentCancel(intentCancel)
             } else{
-                if(intent.extras != null) notification.intentCancel.putExtras(intent.extras)
+                if(intent.extras != null) notification.intentCancel.putExtras(intent.extras!!)
             }
 
             post(notification)

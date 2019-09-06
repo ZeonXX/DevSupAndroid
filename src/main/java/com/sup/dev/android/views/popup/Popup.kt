@@ -12,6 +12,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
 
+@Suppress("UNCHECKED_CAST")
 abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!) {
 
     private var isEnabled: Boolean = true
@@ -54,8 +55,8 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     }
 
     fun <K : Popup> show(anchor: View, x: Int, y: Int): K {
-        var x = x
-        var y = y
+        var xV = x
+        var yV = y
 
         onShow()
 
@@ -67,16 +68,16 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
         else
             height = Math.min(view.measuredHeight, ToolsView.dpToPx(300).toInt())
 
-        if (x > -1 && y > -1) {
-            x -= width / 2
-            y -= anchor.height
+        if (xV > -1 && yV > -1) {
+            xV -= width / 2
+            yV -= anchor.height
 
             val location = IntArray(2)
             anchor.getLocationOnScreen(location)
-            if (height + (anchor.height + y) + location[1] > ToolsAndroid.getScreenH())
-                y += anchor.height
+            if (height + (anchor.height + yV) + location[1] > ToolsAndroid.getScreenH())
+                yV += anchor.height
 
-            showAsDropDown(anchor, x, y)
+            showAsDropDown(anchor, xV, yV)
         } else {
             showAsDropDown(anchor)
         }

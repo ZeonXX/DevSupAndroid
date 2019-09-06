@@ -43,7 +43,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     private fun finishItemBuilding() {
         if (buildItem != null) {
-            val i = buildItem
             buildItem = null
         }
     }
@@ -147,7 +146,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     fun setOnEnter(s: String?): WidgetCheckBoxes {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { vi ->
+        vEnter.setOnClickListener {
             for (i in 0 until vOptionsContainer.childCount) {
                 if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
@@ -178,9 +177,9 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
-        super.setOnHide { b -> onCancel.invoke(this) }
+        super.setOnHide { onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }
@@ -196,13 +195,13 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
         val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
-        var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { w, i, b -> run { } }
-        var onSelected: (WidgetCheckBoxes, Item) -> Unit = { w, i -> }
-        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = { w, i -> }
+        var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { _, _, _ -> run { } }
+        var onSelected: (WidgetCheckBoxes, Item) -> Unit = { _, _ -> }
+        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = { _, _ -> }
 
         init {
             v.tag = this
-            v.setOnCheckedChangeListener { w, b -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked) }
+            v.setOnCheckedChangeListener { _, _ -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked) }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
                 (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()

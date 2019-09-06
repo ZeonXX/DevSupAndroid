@@ -124,12 +124,12 @@ class ServiceNetworkCheck : Service() {
         fun isHasInternetConnection(onResult: (Boolean) -> Unit) {
             ToolsThreads.thread {
                 val has = Item(isHasInternetConnectionNow)
-                if (!has.a!!) {
+                if (!has.a) {
                     ToolsThreads.sleep(5000)
                     has.a = isHasInternetConnectionNow
                 }
                 ToolsThreads.main {
-                    onResult.invoke(has.a!!)
+                    onResult.invoke(has.a)
                     Unit
                 }
                 Unit

@@ -19,7 +19,7 @@ class SActivityTypeBottomNavigation(
     companion object {
 
         fun setShadow(view: View) {
-            view.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x30000000, 0x00000000)))
+            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x30000000, 0x00000000))
         }
 
     }
@@ -46,7 +46,7 @@ class SActivityTypeBottomNavigation(
         updateNavigationVisible()
         setShadow(vLine!!)
 
-        (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { w, h ->
+        (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h ->
             if(ToolsAndroid.isScreenPortrait()){
                 lastH_P = View.MeasureSpec.getSize(h)
                 if(maxH_P < lastH_P) maxH_P = lastH_P
@@ -98,9 +98,9 @@ class SActivityTypeBottomNavigation(
             val item = NavigationItem()
             if(widgetMenu == null) {
                 widgetMenu = WidgetMenu()
-                extraNavigationItem = addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { v -> widgetMenu!!.asSheetShow() }
+                extraNavigationItem = addNavigationItem(ToolsResources.getDrawableAttrId(R.attr.ic_menu_24dp), "", false) { widgetMenu!!.asSheetShow() }
             }
-            widgetMenu!!.add(text) { w, c -> onClick.invoke(c.getView()!!) }.icon(icon)
+            widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item

@@ -118,12 +118,12 @@ class ViewImagesContainer @JvmOverloads constructor(
         (vLinear.layoutParams as LayoutParams).topMargin = if (childCount > 1) ToolsView.dpToPx(2).toInt() else 0
 
         for (i in 0 until count) {
-            val vLinear = getChildAt(childCount - 1) as LinearLayout
+            val vLinearV = getChildAt(childCount - 1) as LinearLayout
             val item = items[itemIndex++]
             ToolsView.removeFromParent(item.vContainer)
-            vLinear.addView(item.vContainer)
+            vLinearV.addView(item.vContainer)
             (item.vContainer.layoutParams as LayoutParams).weight = 1f
-            (item.vContainer.layoutParams as LayoutParams).leftMargin = if (vLinear.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
+            (item.vContainer.layoutParams as LayoutParams).leftMargin = if (vLinearV.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
             (item.vContainer.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
             (item.vContainer.layoutParams as LayoutParams).height = rowH
         }
@@ -134,6 +134,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         rebuild()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private abstract inner class Item<K>(
             val onClick: ((K) -> Unit)?,
             val onLongClick: ((K) -> Unit)?
@@ -144,12 +145,10 @@ class ViewImagesContainer @JvmOverloads constructor(
 
         init {
             vImage.setOnClickListener {
-                if (onClickGlobal(this as Item<Any>)) {
-                    return@setOnClickListener
-                } else if (onClick == null) {
-                    toImageView()
-                } else {
-                    onClick.invoke(getSource())
+                when {
+                    onClickGlobal(this as Item<Any>) -> return@setOnClickListener
+                    onClick == null -> toImageView()
+                    else -> onClick.invoke(getSource())
                 }
             }
             if (onLongClick != null)

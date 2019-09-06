@@ -12,11 +12,11 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 
 class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
-    var textProcessor: (ViewTableCell, String, ViewTextLinkable) -> Unit = { vCell, c, vText -> }
+    var textProcessor: (ViewTableCell, String, ViewTextLinkable) -> Unit = { _, _, _ -> }
     private var columnsCount = 0
     private var minCellW = ToolsView.dpToPx(56)
     private var minCellH = ToolsView.dpToPx(56)
-    internal var onCellClicked: (ViewTableCell, Int, Int) -> Unit = { v, x, y -> }
+    internal var onCellClicked: (ViewTableCell, Int, Int) -> Unit = { _, _, _ -> }
 
     init {
         setBackgroundColor(ToolsResources.getColor(R.color.focus_dark))

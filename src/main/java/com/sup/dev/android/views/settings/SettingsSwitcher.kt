@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.View
 import android.widget.Switch
 import com.sup.dev.android.R
 
@@ -22,7 +21,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
     init {
 
         vSwitcher.isFocusable = false
-        vSwitcher.setOnCheckedChangeListener { v, b ->
+        vSwitcher.setOnCheckedChangeListener { _, b ->
             setEnabledSubSettings(b)
             if (!salient) onClick()
         }
@@ -34,7 +33,7 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
         setChecked(checked)
         setSubView(vSwitcher)
 
-        super.setOnClickListener { v ->
+        super.setOnClickListener {
             setChecked(!vSwitcher.isChecked)
             onClick()
         }
@@ -63,23 +62,23 @@ class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var state = state
-        if (state is Bundle) {
-            val bundle = state as Bundle?
+        var stateV = state
+        if (stateV is Bundle) {
+            val bundle = stateV as Bundle?
             salient = true
             setChecked(bundle!!.getBoolean("checked"))
             salient = false
-            state = bundle.getParcelable("SUPER_STATE")
+            stateV = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(state)
+        super.onRestoreInstanceState(stateV)
     }
 
     //
     //  Setters
     //
 
-    override fun setOnClickListener(onClickListener: OnClickListener?) {
-        this.onClickListener = onClickListener
+    override fun setOnClickListener(l: OnClickListener?) {
+        this.onClickListener = l
     }
 
     override fun setEnabled(enabled: Boolean) {

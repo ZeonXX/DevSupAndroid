@@ -204,24 +204,24 @@ object ToolsBitmap {
     }
 
     fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
-        var options = options
+        var optionsV = options
 
         if (bytes == null) return null
-        if (options == null) options = BitmapFactory.Options()
+        if (optionsV == null) optionsV = BitmapFactory.Options()
 
         if (w != 0 || h != 0 || maxW != 0 || maxH != 0) {
             var ww = maxW
             var hh = maxH
-            if (w in 1..(ww - 1)) ww = w
-            if (h in 1..(hh - 1)) hh = h
-            options.inJustDecodeBounds = true
-            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
-            options.inSampleSize = calculateInSampleSize(options, ww, hh)
+            if (w in 1 until ww) ww = w
+            if (h in 1 until hh) hh = h
+            optionsV.inJustDecodeBounds = true
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, optionsV)
+            optionsV.inSampleSize = calculateInSampleSize(optionsV, ww, hh)
         }
 
 
-        options.inJustDecodeBounds = false
-        var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+        optionsV.inJustDecodeBounds = false
+        var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, optionsV)
         if (bitmap != null && w != 0 && h != 0) {
             val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
 
@@ -347,7 +347,7 @@ object ToolsBitmap {
     }
 
     fun getFromGalleryCroppedAndScaled(w: Int, h: Int, autoBackOnCrop: Boolean, onCrop: ((SCrop?, Bitmap?, Int, Int, Int, Int) -> Unit)) {
-        getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap, x, y, ww, hh -> onCrop.invoke(pCrop, Bitmap.createScaledBitmap(bitmap, w, h, true), x, y, ww, hh) }
+        getFromGalleryCropped(w, h, autoBackOnCrop) { pCrop, bitmap, x, y, ww, hh -> onCrop.invoke(pCrop, Bitmap.createScaledBitmap(bitmap!!, w, h, true), x, y, ww, hh) }
     }
 
 
@@ -393,7 +393,7 @@ object ToolsBitmap {
     }
 
     fun drawableToBytes(@DrawableRes resId: Int): ByteArray {
-        val d = SupAndroid.appContext!!.resources.getDrawable(resId)
+        val d = SupAndroid.activity!!.resources.getDrawable(resId, SupAndroid.activity!!.theme)
         val bitmap = (d as BitmapDrawable).bitmap
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)

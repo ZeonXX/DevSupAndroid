@@ -134,7 +134,7 @@ class WidgetChooseFile : WidgetRecycler() {
             val Settings = view as Settings
             Settings.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
             Settings.setIcon(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_left_24dp))
-            Settings.setOnClickListener { v -> setFolder(file.parentFile) }
+            Settings.setOnClickListener {setFolder(file.parentFile) }
             Settings.setTitle(file.name)
         }
     }
@@ -150,7 +150,7 @@ class WidgetChooseFile : WidgetRecycler() {
             if (viewIcon == null) {
                 viewIcon = ToolsView.inflate(context, R.layout.z_icon)
                 viewIcon!!.setImageResource(R.drawable.ic_done_black_24dp)
-                viewIcon!!.setOnClickListener { v ->
+                viewIcon!!.setOnClickListener {
                     onFolderSelected.invoke(file)
                     hide()
                 }
@@ -166,7 +166,7 @@ class WidgetChooseFile : WidgetRecycler() {
             v.setIcon(ToolsResources.getDrawableAttrId(if (file.isDirectory) R.attr.ic_folder_24dp else R.attr.ic_insert_drive_file_24dp))
             v.setSubView(if (file.isDirectory && canGoInFolder) getViewIcon(view.getContext()) else null)
 
-            v.setOnClickListener { v1 ->
+            v.setOnClickListener {
                 if (file.isDirectory) {
                     if (!canGoInFolder) {
                         onFolderSelected.invoke(file)

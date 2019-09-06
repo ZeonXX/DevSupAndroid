@@ -36,7 +36,7 @@ class CardMessage : Card(R.layout.card_message) {
         vAction.isEnabled = isEnabled()
         vAction.visibility = if (actionText == null) View.GONE else View.VISIBLE
         vAction.text = actionText
-        vAction.setOnClickListener { v -> if (onActionClicked != null) onActionClicked!!.invoke() }
+        vAction.setOnClickListener { if (onActionClicked != null) onActionClicked!!.invoke() }
 
         if (customColor)
             vText.setTextColor(textColor)

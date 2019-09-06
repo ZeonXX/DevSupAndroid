@@ -22,7 +22,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     init {
 
         vCheckBox.isFocusable = false
-        vCheckBox.setOnCheckedChangeListener { v, b ->
+        vCheckBox.setOnCheckedChangeListener { _, b ->
             setEnabledSubSettings(b)
             if (!salient) onClick()
         }
@@ -34,7 +34,7 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         setChecked(checked)
         setSubView(vCheckBox)
 
-        super.setOnClickListener { v ->
+        super.setOnClickListener {
             salient = true
             vCheckBox.isChecked = !vCheckBox.isChecked
             salient = false
@@ -59,15 +59,15 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var state = state
-        if (state is Bundle) {
-            val bundle = state as Bundle?
+        var stateV = state
+        if (stateV is Bundle) {
+            val bundle = stateV as Bundle?
             salient = true
             setChecked(bundle!!.getBoolean("checked"))
             salient = false
-            state = bundle.getParcelable("SUPER_STATE")
+            stateV = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(state)
+        super.onRestoreInstanceState(stateV)
     }
 
     //
@@ -80,8 +80,8 @@ class SettingsCheckBox @JvmOverloads constructor(context: Context, attrs: Attrib
         salient = false
     }
 
-    override fun setOnClickListener(onClickListener: OnClickListener?) {
-        this.onClickListener = onClickListener
+    override fun setOnClickListener(l: OnClickListener?) {
+        this.onClickListener = l
     }
 
     override fun setEnabled(enabled: Boolean) {

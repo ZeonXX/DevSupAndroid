@@ -40,10 +40,10 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         vCancel.visibility = View.GONE
         vIcon.visibility = View.GONE
 
-        vFieldWidget_1.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
+        vFieldWidget_1.vField.addTextChangedListener(TextWatcherChanged { check() })
         vFieldWidget_1.vField.setCallback { vFieldWidget_1.setText(it) }
 
-        vFieldWidget_2.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
+        vFieldWidget_2.vField.addTextChangedListener(TextWatcherChanged { check() })
         vFieldWidget_2.vField.setCallback { vFieldWidget_2.setText(it) }
     }
 
@@ -119,7 +119,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     fun setIcon(icon: Int, onClick: (WidgetFieldTwo) -> Unit) {
         vIcon.visibility = View.VISIBLE
         vIcon.setImageResource(icon)
-        vIcon.setOnClickListener { v -> onClick.invoke(this) }
+        vIcon.setOnClickListener { onClick.invoke(this) }
     }
 
     fun setMediaCallback_1(callback: (WidgetFieldTwo, String) -> Unit): WidgetFieldTwo {
@@ -281,7 +281,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     fun setOnCancel(s: String?, onCancel: (WidgetFieldTwo) -> Unit = {}): WidgetFieldTwo {
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.visibility = View.VISIBLE
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             if (autoHideOnCancel) hide()
             else setEnabled(false)
             onCancel.invoke(this)
@@ -290,13 +290,13 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
     }
 
 
-    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetFieldTwo, String, String) -> Unit = { w, s1, s2 -> }): WidgetFieldTwo {
+    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetFieldTwo, String, String) -> Unit = { _, _, _ -> }): WidgetFieldTwo {
         return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
-    fun setOnEnter(s: String?, onEnter: (WidgetFieldTwo, String, String) -> Unit = { w, s1, s2 -> }): WidgetFieldTwo {
+    fun setOnEnter(s: String?, onEnter: (WidgetFieldTwo, String, String) -> Unit = { _, _, _ -> }): WidgetFieldTwo {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else

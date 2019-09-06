@@ -26,6 +26,7 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
     }
 
 
+    @Suppress("DEPRECATION")
     fun setTime(h: Int, m: Int): WidgetChooseTime {
         vTimePicker.currentHour = h
         vTimePicker.currentMinute = m
@@ -41,9 +42,10 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: (WidgetChooseTime, Int, Int) -> Unit = { w, x, y -> }): WidgetChooseTime {
+    @Suppress("DEPRECATION")
+    fun setOnEnter(s: String?, onEnter: (WidgetChooseTime, Int, Int) -> Unit = { _, _, _ -> }): WidgetChooseTime {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
@@ -69,9 +71,9 @@ class WidgetChooseTime : Widget(R.layout.widget_choose_time) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetChooseTime) -> Unit = {}): WidgetChooseTime {
-        super.setOnHide { b -> onCancel.invoke(this) }
+        super.setOnHide { onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }

@@ -38,7 +38,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private val vFabDone: FloatingActionButton = vFabDoneContainer.findViewById(R.id.vFab)
     private val fabs = ArrayList<View>()
 
-    private var onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit = { widgetChooseImage, bytes, index -> }
+    private var onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit = { _, _, _ -> }
     private var imagesLoaded: Boolean = false
     private var spanCount = 3
     private var maxSelectCount = 1
@@ -57,8 +57,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)
         vFabDone.setImageResource(R.drawable.ic_done_white_24dp)
-        vFabGallery.setOnClickListener { v -> openGallery() }
-        vFabLink.setOnClickListener { v -> showLink() }
+        vFabGallery.setOnClickListener {openGallery() }
+        vFabLink.setOnClickListener { showLink() }
         vFabDone.setOnClickListener { sendAll() }
 
         ToolsView.setFabColorR(vFabDone, R.color.green_700)
@@ -183,7 +183,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
                 }
                 .enableFastCopy()
                 .setHint(SupAndroid.TEXT_APP_LINK)
-                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { w, s -> loadLink(s) }
+                .setOnEnter(SupAndroid.TEXT_APP_CHOOSE) { _, s -> loadLink(s) }
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow()
 
@@ -247,7 +247,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     }
 
     fun setOnSelectedBitmap(callback: (WidgetChooseImage, Bitmap) -> Unit): WidgetChooseImage {
-        this.onSelected = { w, bytes, index -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
+        this.onSelected = { _, bytes, _ -> callback.invoke(this, ToolsBitmap.decode(bytes)!!) }
         return this
     }
 
@@ -272,9 +272,9 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             val vImage: ImageView = view.findViewById(R.id.vImage)
             val vNumContainerTouch: View = view.findViewById(R.id.vNumContainerTouch)
 
-            vImage.setOnClickListener { v -> onClick() }
+            vImage.setOnClickListener { onClick() }
             if (maxSelectCount > 1) {
-                vImage.setOnLongClickListener { v ->
+                vImage.setOnLongClickListener {
                     onLongClick()
                     true
                 }

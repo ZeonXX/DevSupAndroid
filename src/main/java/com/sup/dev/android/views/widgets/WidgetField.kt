@@ -39,7 +39,7 @@ open class WidgetField(
         vCancel.visibility = View.GONE
         vIcon.visibility = View.GONE
 
-        vFieldWidget.vField.addTextChangedListener(TextWatcherChanged { text -> check() })
+        vFieldWidget.vField.addTextChangedListener(TextWatcherChanged { check() })
 
         vFieldWidget.vField.setCallback { vFieldWidget.setText(it) }
     }
@@ -104,13 +104,13 @@ open class WidgetField(
     fun setIcon(icon: Int, onClick: (WidgetField) -> Unit) {
         vIcon.visibility = View.VISIBLE
         vIcon.setImageResource(icon)
-        vIcon.setOnClickListener { v -> onClick.invoke(this) }
+        vIcon.setOnClickListener { onClick.invoke(this) }
     }
 
     fun setIcon(icon: Bitmap, onClick: (WidgetField) -> Unit) {
         vIcon.visibility = View.VISIBLE
         vIcon.setImageBitmap(icon)
-        vIcon.setOnClickListener { v -> onClick.invoke(this) }
+        vIcon.setOnClickListener {onClick.invoke(this) }
     }
 
     fun setMediaCallback(callback: (WidgetField, String) -> Unit): WidgetField {
@@ -211,7 +211,7 @@ open class WidgetField(
     fun setOnCancel(s: String?, onCancel: (WidgetField) -> Unit = {}): WidgetField {
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.visibility = View.VISIBLE
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             if (autoHideOnCancel) hide()
             else if (autoDisableOnCancel) setEnabled(false)
             onCancel.invoke(this)
@@ -224,14 +224,14 @@ open class WidgetField(
     }
 
 
-    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
+    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetField, String) -> Unit = { _, _ -> }): WidgetField {
         return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
     @JvmOverloads
-    fun setOnEnter(s: String?, onEnter: (WidgetField, String) -> Unit = { w, s -> }): WidgetField {
+    fun setOnEnter(s: String?, onEnter: (WidgetField, String) -> Unit = { _, _ -> }): WidgetField {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else

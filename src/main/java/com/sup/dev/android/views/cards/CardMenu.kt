@@ -118,7 +118,7 @@ open class CardMenu(
     }
 
     fun setDescription(@StringRes desc: Int): CardMenu {
-        return setDescription(ToolsResources.s(text))
+        return setDescription(ToolsResources.s(desc))
     }
 
     fun setDescription(desc: String?): CardMenu {

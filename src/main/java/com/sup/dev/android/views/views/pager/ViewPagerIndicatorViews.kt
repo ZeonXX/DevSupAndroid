@@ -46,7 +46,7 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
 
         views = Array(pager!!.adapter!!.count){
             val v = instanceView(it)
-            v.setOnClickListener { vc -> pager!!.currentItem = it }
+            v.setOnClickListener { _ -> pager!!.currentItem = it }
             addView(v)
             v
         }
@@ -70,13 +70,13 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
     }
 
     @MainThread
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
+    override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {
+        super.onLayout(b, i, i1, i2, i3)
         val count = childCount
         if (count == 0) return
         var xOffset = 0
-        for (i in 0 until position) {
-            val child = getChildAt(i)
+        for (n in 0 until position) {
+            val child = getChildAt(n)
             xOffset += (child.measuredWidth + offset).toInt()
         }
 
@@ -89,8 +89,8 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
 
 
         var x = (width - offsetLeft - selected.measuredWidth) / 2 - xOffset
-        for (i in 0 until count) {
-            val child = getChildAt(i)
+        for (n in 0 until count) {
+            val child = getChildAt(n)
             val y = (height - child.measuredHeight) / 2
             child.layout(x, y, x + child.measuredWidth, child.measuredHeight + y)
             x += (offset + child.measuredWidth).toInt()

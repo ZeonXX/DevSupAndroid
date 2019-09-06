@@ -51,14 +51,14 @@ class LayoutMirrorSize @JvmOverloads constructor(context: Context, attrs: Attrib
     fun setMirrorView(mirrorView: View?) {
         this.mirrorView = mirrorView
         if (mirrorView == null) return
-        mirrorView.addOnLayoutChangeListener { view, i, i1, i2, i3, i4, i5, i6, i7 -> ToolsThreads.main(true) { requestLayout() } }
+        mirrorView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> ToolsThreads.main(true) { requestLayout() } }
         requestLayout()
     }
 
     fun setMirrorView_2(mirrorView_2: View?) {
         this.mirrorView_2 = mirrorView_2
         if (mirrorView_2 == null) return
-        mirrorView_2.addOnLayoutChangeListener { view, i, i1, i2, i3, i4, i5, i6, i7 -> ToolsThreads.main(true) { requestLayout() } }
+        mirrorView_2.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> ToolsThreads.main(true) { requestLayout() } }
         requestLayout()
     }
 

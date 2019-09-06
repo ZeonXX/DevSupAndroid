@@ -126,7 +126,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     fun setOnEnter(s: String?): WidgetRadioButtons {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { vi ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
@@ -161,9 +161,9 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetRadioButtons)->Unit = {}): WidgetRadioButtons {
-        super.setOnHide{ b -> onCancel?.invoke(this) }
+        super.setOnHide{ onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }
@@ -185,7 +185,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
         init {
             v.tag = this
-            v.setOnCheckedChangeListener { buttonView, isChecked ->
+            v.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked)
                     for (i in 0 until vOptionsContainer.childCount)
                         if (vOptionsContainer.getChildAt(i) !== v)

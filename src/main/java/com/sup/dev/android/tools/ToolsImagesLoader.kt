@@ -35,16 +35,16 @@ object ToolsImagesLoader {
             minGifSize: Float = ToolsView.dpToPx(184),
             onError: (() -> Unit)? = null
     ) {
-        var sizeArd = sizeArd
+        var sizeArdV = sizeArd
 
-        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArd = minGifSize/ToolsMath.max(w, h)
+        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize/ToolsMath.max(w, h)
 
         if (imageId > 0) {
-            load(imageId).sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
-                if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            load(imageId).sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
+                if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
             }
         } else {
-            if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArd).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
     }
 

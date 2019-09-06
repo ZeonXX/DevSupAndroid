@@ -87,7 +87,7 @@ open class Screen(
         }
 
         val appBarLayout:AppBarLayout? = findViewById(R.id.vAppBar)
-        appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout1, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
+        appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
     }
 
     @CallSuper

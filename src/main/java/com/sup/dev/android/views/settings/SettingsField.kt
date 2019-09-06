@@ -13,8 +13,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.android.views.views.ViewEditTextMedia
-import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.Debug
 
 
 class SettingsField constructor(
@@ -42,7 +40,7 @@ class SettingsField constructor(
         a.recycle()
 
         if (singleLine) vField.setSingleLine()
-        vField.addTextChangedListener(TextWatcherChanged { s -> checkError() })
+        vField.addTextChangedListener(TextWatcherChanged { checkError() })
 
         setLineVisible(false)
         setText(text)
@@ -68,13 +66,13 @@ class SettingsField constructor(
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var state = state
-        if (state is Bundle) {
-            val bundle = state as Bundle?
+        var stateV = state
+        if (stateV is Bundle) {
+            val bundle = stateV as Bundle?
             setText(bundle!!.getString("vText"))
-            state = bundle.getParcelable("SUPER_STATE")
+            stateV = bundle.getParcelable("SUPER_STATE")
         }
-        super.onRestoreInstanceState(state)
+        super.onRestoreInstanceState(stateV)
     }
 
     private fun checkError() {

@@ -163,7 +163,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
             ToolsView.alpha(vMessage, vMessage.text.isEmpty())
             ToolsView.alpha(vAction, vAction.text.isEmpty())
 
-            vAction.setOnClickListener { v -> onReloadClicked() }
+            vAction.setOnClickListener { onReloadClicked() }
         }
 
         if (state == State.EMPTY) {
@@ -172,14 +172,14 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
             ToolsView.alpha(vMessage, vMessage.text.isEmpty())
             ToolsView.alpha(vAction, vAction.text.isEmpty())
 
-            vAction.setOnClickListener { v -> if (onAction != null) onAction!!.invoke() }
+            vAction.setOnClickListener { if (onAction != null) onAction!!.invoke() }
         }
 
         if (state == State.PROGRESS) {
             vMessage.visibility = View.INVISIBLE
             vMessage.text = textProgressS
             vAction.text = textProgressAction
-            vAction.setOnClickListener { v -> if (onProgressAction != null) onProgressAction!!.invoke() }
+            vAction.setOnClickListener { if (onProgressAction != null) onProgressAction!!.invoke() }
         }
 
         if (state == State.NONE) {

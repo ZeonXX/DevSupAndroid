@@ -255,14 +255,14 @@ class HttpRequest(private val url: String) {
     }
 
     private fun urlEncodeString(urlString: String): String {
-        var urlString = urlString
+        var urlStringV = urlString
         try {
-            urlString = URLEncoder.encode(urlString, "UTF-8")
+            urlStringV = URLEncoder.encode(urlStringV, "UTF-8")
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
 
-        return urlString
+        return urlStringV
     }
 
     //
@@ -292,7 +292,7 @@ class HttpRequest(private val url: String) {
         }
 
         HttpsURLConnection.setDefaultSSLSocketFactory(ctx!!.socketFactory)
-        HttpsURLConnection.setDefaultHostnameVerifier { hostname, session -> true }
+        HttpsURLConnection.setDefaultHostnameVerifier { _, _ -> true }
     }
 
 }//

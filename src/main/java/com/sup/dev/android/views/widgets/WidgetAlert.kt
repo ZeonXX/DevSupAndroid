@@ -47,7 +47,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
 
         vText.setTextIsSelectable(true)
 
-        vCheck.setOnCheckedChangeListener { compoundButton, b -> updateLock(vEnter, vCheck) }
+        vCheck.setOnCheckedChangeListener { _, _ -> updateLock(vEnter, vCheck) }
     }
 
     private fun updateLock(vEnter: Button, vCheck: CheckBox) {
@@ -181,7 +181,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     @JvmOverloads
     fun setOnEnter(s: String?, onEnter: (WidgetAlert) -> Unit = {}): WidgetAlert {
         ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
@@ -212,7 +212,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetAlert) -> Unit = {}): WidgetAlert {
         ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener { v ->
+        vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
         }

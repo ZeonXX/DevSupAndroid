@@ -243,7 +243,7 @@ abstract class Widget(layoutRes: Int) {
     }
 
     fun showSheetWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
-        ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
+        ToolsView.setOnClickAndLongClickCoordinates(view) { _, _, _, isClick ->
             if (isClick) {
                 if (willShowClick == null || willShowClick.invoke()) asSheetShow()
             } else {

@@ -19,6 +19,7 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
         this.titles = titles
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun setTitles(vararg titles: Int) {
         this.titles = arrayOfNulls(titles.size)
         for (i in titles.indices)
@@ -32,8 +33,8 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
     }
 
     @MainThread
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
+    override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {
+        super.onLayout(b, i, i1, i2, i3)
         val count = childCount
         if (count == 0) return
 
@@ -44,8 +45,8 @@ class ViewPagerIndicatorTitles @JvmOverloads constructor(context: Context, attrs
             old = views[oldIndex].findViewById(R.id.vDevSupTitle)
         }
 
-        for (i in 0 until count) {
-            val textView = views[i].findViewById<TextView>(R.id.vDevSupTitle)
+        for (n in 0 until count) {
+            val textView = views[n].findViewById<TextView>(R.id.vDevSupTitle)
             textView.setTextColor(ToolsColor.setAlpha(120, textView.currentTextColor))
         }
 

@@ -43,7 +43,7 @@ constructor(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs
 
         mExpandDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
         mCollapseDuration = if (mDuration == 0) DEFAULT_DURATION else mDuration
-        if (mIsClickToToggle)  setOnClickListener { v -> toggle() }
+        if (mIsClickToToggle)  setOnClickListener { toggle() }
         else setOnClickListener(null)
     }
 

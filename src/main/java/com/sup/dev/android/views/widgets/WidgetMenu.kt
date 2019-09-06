@@ -14,7 +14,7 @@ import com.sup.dev.android.views.cards.CardMenu
 open class WidgetMenu : WidgetRecycler() {
 
     val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
-    private var onGlobalSelected: (WidgetMenu, String?) -> Unit = { w, s -> }
+    private var onGlobalSelected: (WidgetMenu, String?) -> Unit = { _, _ -> }
 
     private var prefCount = 0
     private var autoHide = true
@@ -85,7 +85,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setIcon(item.iconDrawable)
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
-        item.card?.setOnClick { v, x, y ->
+        item.card?.setOnClick { _, _, _ ->
             item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
@@ -134,11 +134,11 @@ open class WidgetMenu : WidgetRecycler() {
         return add(ToolsResources.s(text))
     }
 
-    fun add(@StringRes text: Int, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
+    fun add(@StringRes text: Int, onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }): WidgetMenu {
         return add(ToolsResources.s(text), onClick)
     }
 
-    fun add(text: String, onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }): WidgetMenu {
+    fun add(text: String, onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }): WidgetMenu {
         finishItemBuilding()
         buildItem = Item()
         buildItem!!.text = text
@@ -237,7 +237,7 @@ open class WidgetMenu : WidgetRecycler() {
     private inner class Item {
 
         var card: CardMenu? = null
-        var onClick: (WidgetMenu, CardMenu) -> Unit = { w, c -> }
+        var onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }
         var text = ""
         var icon = 0
         var iconDrawable: Drawable? = null

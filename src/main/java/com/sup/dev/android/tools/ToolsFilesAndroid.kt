@@ -136,7 +136,7 @@ object ToolsFilesAndroid {
             zis.close()
         } finally {
             try {
-                inp?.close()
+                inp.close()
             } catch (ex: IOException) {
                 err(ex)
             }

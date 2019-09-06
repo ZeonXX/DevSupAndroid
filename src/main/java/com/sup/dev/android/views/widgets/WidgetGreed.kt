@@ -20,7 +20,7 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
     private val vEmptyText: TextView = findViewById(R.id.vEmptyText)
 
-    private var onSelected: (WidgetGreed, Int) -> Unit = { widgetChooseImage, index -> }
+    private var onSelected: (WidgetGreed, Int) -> Unit = { _, _ -> }
     private var spanCount = 0
     private var hided = false
 
@@ -55,11 +55,11 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
     //  Setters
     //
 
-    fun addAttr(attr: Int, onSelectedItem: (WidgetGreed, Int) -> Unit = { widgetChooseImage, index -> }) {
+    fun addAttr(attr: Int, onSelectedItem: (WidgetGreed, Int) -> Unit = { _, _ -> }) {
         myAdapter.add(CardImage(0, attr, onSelectedItem))
     }
 
-    fun add(res: Int, onSelectedItem: (WidgetGreed, Int) -> Unit = { widgetChooseImage, index -> }) {
+    fun add(res: Int, onSelectedItem: (WidgetGreed, Int) -> Unit = { _, _ -> }) {
         myAdapter.add(CardImage(res, 0, onSelectedItem))
     }
 
@@ -82,7 +82,7 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
             super.bindView(view)
             val vImage: ImageView = view.findViewById(R.id.vImage)
 
-            vImage.setOnClickListener { v ->
+            vImage.setOnClickListener {
                 onSelectedItem.invoke(this@WidgetGreed, myAdapter.indexOf(this))
                 onSelected.invoke(this@WidgetGreed, myAdapter.indexOf(this))
                 hide()

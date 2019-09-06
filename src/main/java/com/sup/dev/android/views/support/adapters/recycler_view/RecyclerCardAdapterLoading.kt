@@ -16,6 +16,7 @@ import kotlin.collections.HashMap
 import kotlin.reflect.KClass
 
 
+@Suppress("DIFFERENT_NAMES_FOR_THE_SAME_PARAMETER_IN_SUPERTYPES")
 open class RecyclerCardAdapterLoading<K : Card, V>(
         private val cardClass: KClass<K>,
         private var mapper: ((V) -> K)?
@@ -79,7 +80,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         val loadingTagLocal = loadingTag
 
         remove(cardLoading)
-        cardLoading.setOnRetry { source -> load(bottom) }
+        cardLoading.setOnRetry {load(bottom) }
         cardLoading.setState(CardLoading.State.LOADING)
 
         val cards = get(cardClass)
@@ -272,7 +273,6 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     }
 
     override fun remove(position: Int) {
-        val c = get(position)
         super.remove(position)
         if (!contains(cardClass) && isLoadedAtListOneTime) onEmpty.invoke()
     }
@@ -374,7 +374,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     fun setEmptyMessage(message: String?, button: String? = null, onAction: () -> Unit = {}): RecyclerCardAdapterLoading<K, V> {
         actionEnabled = message != null
         cardLoading.setActionMessage(message)
-        cardLoading.setActionButton(button) { card -> onAction.invoke() }
+        cardLoading.setActionButton(button) { onAction.invoke() }
         return this
     }
 
@@ -403,6 +403,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun setNotifyCount(notifyCount: Int): RecyclerCardAdapterLoading<K, V> {
         return super.setNotifyCount(notifyCount) as RecyclerCardAdapterLoading<K, V>
     }

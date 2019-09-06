@@ -16,27 +16,29 @@ class BehaviorBottomSheet<V : View> : BottomSheetBehavior<V> {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
-    override fun onInterceptTouchEvent(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, event: MotionEvent): Boolean {
+    override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         return canCollapse && super.onInterceptTouchEvent(parent, child, event)
     }
 
-    override fun onTouchEvent(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, event: MotionEvent): Boolean {
+    override fun onTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         return canCollapse && super.onTouchEvent(parent, child, event)
     }
 
-    override fun onStartNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
+    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
         return canCollapse && super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
     }
 
-    override fun onNestedPreScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, target: View, dx: Int, dy: Int, consumed: IntArray) {
+    @Suppress("DEPRECATION")
+    override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dx: Int, dy: Int, consumed: IntArray) {
         if (canCollapse) super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed)
     }
 
-    override fun onStopNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, target: View) {
+    @Suppress("DEPRECATION")
+    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View) {
         if (canCollapse) super.onStopNestedScroll(coordinatorLayout, child, target)
     }
 
-    override fun onNestedPreFling(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout, child: V, target: View, velocityX: Float, velocityY: Float): Boolean {
+    override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout, child: V, target: View, velocityX: Float, velocityY: Float): Boolean {
         return canCollapse && super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY)
     }
 

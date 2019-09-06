@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.sup.dev.android.tools
 
 import android.animation.Animator
@@ -47,7 +49,7 @@ object ToolsView {
     }
 
     fun onFieldEnterKey(vFiled:EditText, callback:()->Unit){
-        vFiled.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        vFiled.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode==KeyEvent.KEYCODE_ENTER)) {
                 callback.invoke()
                 return@OnKeyListener true
@@ -163,14 +165,14 @@ object ToolsView {
         val clickScreenY = Item(0)
 
 
-        v.setOnTouchListener { v1, event ->
+        v.setOnTouchListener { _, event ->
             clickScreenX.a = event.x.toInt()
             clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a, true) }
-        v.setOnLongClickListener { v1 ->
+        v.setOnClickListener { onClick.invoke(v, clickScreenX.a, clickScreenY.a, true) }
+        v.setOnLongClickListener {
             onClick.invoke(v, clickScreenX.a, clickScreenY.a, false)
             true
         }
@@ -184,13 +186,13 @@ object ToolsView {
         val clickScreenY = Item(0)
 
 
-        v.setOnTouchListener { v1, event ->
+        v.setOnTouchListener { _, event ->
             clickScreenX.a = event.x.toInt()
             clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnClickListener { v1 -> onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
+        v.setOnClickListener {onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
     }
 
     fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
@@ -198,13 +200,13 @@ object ToolsView {
         val clickScreenX = Item(0)
         val clickScreenY = Item(0)
 
-        v.setOnTouchListener { v1, event ->
+        v.setOnTouchListener { _, event ->
             clickScreenX.a = event.x.toInt()
             clickScreenY.a = event.y.toInt()
             false
         }
 
-        v.setOnLongClickListener { v1 ->
+        v.setOnLongClickListener {
             onClick.invoke(v, clickScreenX.a, clickScreenY.a)
             true
         }

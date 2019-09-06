@@ -32,7 +32,7 @@ object ApiRequestsSupporter {
         request.onComplete { r -> onComplete.invoke(r) }
                 .onNetworkError { ToolsToast.show(SupAndroid.TEXT_ERROR_NETWORK) }
                 .onApiError(ApiClient.ERROR_ACCOUNT_IS_BANED) { ex -> ToolsToast.show(String.format(SupAndroid.TEXT_ERROR_ACCOUNT_BANED!!, ToolsDate.dateToStringFull(java.lang.Long.parseLong(ex.params!![0])))) }
-                .onApiError(ApiClient.ERROR_GONE) { ex -> ToolsToast.show(SupAndroid.TEXT_ERROR_GONE) }
+                .onApiError(ApiClient.ERROR_GONE) { ToolsToast.show(SupAndroid.TEXT_ERROR_GONE) }
 
         if(sendNow)request.sendNow(api!!)
         else request.send(api!!)
@@ -104,7 +104,7 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeProgressDialog(title: String?, request: Request<K>, onComplete: (Widget, K) -> Unit): Request<K> {
         val w = if (title == null) ToolsView.showProgressDialog() else ToolsView.showProgressDialog(title)
-        return executeProgressDialog(w, request) { w, r -> onComplete.invoke(w, r) }
+        return executeProgressDialog(w, request) { _, r -> onComplete.invoke(w, r) }
     }
 
     fun <K : Request.Response> executeEnabledCallback(request: Request<K>, onComplete: (K) -> Unit, enabled: (Boolean) -> Unit): Request<K> {

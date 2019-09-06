@@ -176,20 +176,20 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     }
 
     fun zoom(zoomChange: Float, midX: Float, midY: Float) {
-        var zoomChange = zoomChange
-        zoom += zoomChange
+        var zoomChangeV = zoomChange
+        zoom += zoomChangeV
 
         if (zoom < range.min) {
-            zoomChange += range.min - zoom
+            zoomChangeV += range.min - zoom
             zoom = range.min
         }
         if (zoom > range.max) {
-            zoomChange -= zoom - range.max
+            zoomChangeV -= zoom - range.max
             zoom = range.max
         }
 
-        translateX += (width / 2 - midX) * zoomChange
-        translateY += (height / 2 - midY) * zoomChange
+        translateX += (width / 2 - midX) * zoomChangeV
+        translateY += (height / 2 - midY) * zoomChangeV
 
         updateParams()
     }
@@ -211,8 +211,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         val fameCount = animateTimeMs * 60 / 1000
         val step = (targetZoom - zoom) / fameCount
 
-        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(),
-                { subscription -> zoom(step, midX, midY) })
+        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(), {  zoom(step, midX, midY) })
 
     }
 
@@ -276,9 +275,9 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     }
 
     public override fun onRestoreInstanceState(state: Parcelable?) {
-        var state = state
-        if (state is Bundle) {
-            val bundle = state as Bundle?
+        var stateV = state
+        if (stateV is Bundle) {
+            val bundle = stateV as Bundle?
             range.min = bundle!!.getFloat("range_min")
             range.max = bundle.getFloat("range_max")
             animateTimeMs = bundle.getInt("animateTimeMs")
@@ -289,7 +288,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
             val w = bundle.getFloat("w")
             val h = bundle.getFloat("h")
 
-            state = bundle.getParcelable("SUPER_STATE")
+            stateV = bundle.getParcelable("SUPER_STATE")
 
             ToolsThreads.main(true) {
                 if (w != 0f && h != 0f) {
@@ -299,7 +298,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
                 }
             }
         }
-        super.onRestoreInstanceState(state)
+        super.onRestoreInstanceState(stateV)
     }
 
     //

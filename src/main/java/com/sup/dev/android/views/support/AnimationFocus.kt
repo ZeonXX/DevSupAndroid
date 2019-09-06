@@ -30,7 +30,7 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
     }
 
     fun resetOnFocusChangedListener() {
-        view.setOnFocusChangeListener { view1, b -> updateFocusColor() }
+        view.setOnFocusChangeListener { _, _ -> updateFocusColor() }
     }
 
 

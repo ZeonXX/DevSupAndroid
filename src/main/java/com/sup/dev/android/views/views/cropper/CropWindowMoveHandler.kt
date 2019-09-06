@@ -59,43 +59,41 @@ internal class CropWindowMoveHandler(
 
         // Calculate the offset from the appropriate handle.
         when (mType) {
-            CropWindowMoveHandler.Type.TOP_LEFT -> {
+            Type.TOP_LEFT -> {
                 touchOffsetX = rect.left - touchX
                 touchOffsetY = rect.top - touchY
             }
-            CropWindowMoveHandler.Type.TOP_RIGHT -> {
+            Type.TOP_RIGHT -> {
                 touchOffsetX = rect.right - touchX
                 touchOffsetY = rect.top - touchY
             }
-            CropWindowMoveHandler.Type.BOTTOM_LEFT -> {
+            Type.BOTTOM_LEFT -> {
                 touchOffsetX = rect.left - touchX
                 touchOffsetY = rect.bottom - touchY
             }
-            CropWindowMoveHandler.Type.BOTTOM_RIGHT -> {
+            Type.BOTTOM_RIGHT -> {
                 touchOffsetX = rect.right - touchX
                 touchOffsetY = rect.bottom - touchY
             }
-            CropWindowMoveHandler.Type.LEFT -> {
+            Type.LEFT -> {
                 touchOffsetX = rect.left - touchX
                 touchOffsetY = 0f
             }
-            CropWindowMoveHandler.Type.TOP -> {
+            Type.TOP -> {
                 touchOffsetX = 0f
                 touchOffsetY = rect.top - touchY
             }
-            CropWindowMoveHandler.Type.RIGHT -> {
+            Type.RIGHT -> {
                 touchOffsetX = rect.right - touchX
                 touchOffsetY = 0f
             }
-            CropWindowMoveHandler.Type.BOTTOM -> {
+            Type.BOTTOM -> {
                 touchOffsetX = 0f
                 touchOffsetY = rect.bottom - touchY
             }
-            CropWindowMoveHandler.Type.CENTER -> {
+            Type.CENTER -> {
                 touchOffsetX = rect.centerX() - touchX
                 touchOffsetY = rect.centerY() - touchY
-            }
-            else -> {
             }
         }
 
@@ -128,26 +126,26 @@ internal class CropWindowMoveHandler(
     private fun moveSizeWithFreeAspectRatio(
             rect: RectF, x: Float, y: Float, bounds: RectF, viewWidth: Int, viewHeight: Int, snapMargin: Float) {
         when (mType) {
-            CropWindowMoveHandler.Type.TOP_LEFT -> {
+            Type.TOP_LEFT -> {
                 adjustTop(rect, y, bounds, snapMargin, 0f, false, false)
                 adjustLeft(rect, x, bounds, snapMargin, 0f, false, false)
             }
-            CropWindowMoveHandler.Type.TOP_RIGHT -> {
+            Type.TOP_RIGHT -> {
                 adjustTop(rect, y, bounds, snapMargin, 0f, false, false)
                 adjustRight(rect, x, bounds, viewWidth, snapMargin, 0f, false, false)
             }
-            CropWindowMoveHandler.Type.BOTTOM_LEFT -> {
+            Type.BOTTOM_LEFT -> {
                 adjustBottom(rect, y, bounds, viewHeight, snapMargin, 0f, false, false)
                 adjustLeft(rect, x, bounds, snapMargin, 0f, false, false)
             }
-            CropWindowMoveHandler.Type.BOTTOM_RIGHT -> {
+            Type.BOTTOM_RIGHT -> {
                 adjustBottom(rect, y, bounds, viewHeight, snapMargin, 0f, false, false)
                 adjustRight(rect, x, bounds, viewWidth, snapMargin, 0f, false, false)
             }
-            CropWindowMoveHandler.Type.LEFT -> adjustLeft(rect, x, bounds, snapMargin, 0f, false, false)
-            CropWindowMoveHandler.Type.TOP -> adjustTop(rect, y, bounds, snapMargin, 0f, false, false)
-            CropWindowMoveHandler.Type.RIGHT -> adjustRight(rect, x, bounds, viewWidth, snapMargin, 0f, false, false)
-            CropWindowMoveHandler.Type.BOTTOM -> adjustBottom(rect, y, bounds, viewHeight, snapMargin, 0f, false, false)
+            Type.LEFT -> adjustLeft(rect, x, bounds, snapMargin, 0f, false, false)
+            Type.TOP -> adjustTop(rect, y, bounds, snapMargin, 0f, false, false)
+            Type.RIGHT -> adjustRight(rect, x, bounds, viewWidth, snapMargin, 0f, false, false)
+            Type.BOTTOM -> adjustBottom(rect, y, bounds, viewHeight, snapMargin, 0f, false, false)
             else -> {
             }
         }
@@ -163,47 +161,47 @@ internal class CropWindowMoveHandler(
             snapMargin: Float,
             aspectRatio: Float) {
         when (mType) {
-            CropWindowMoveHandler.Type.TOP_LEFT -> if (calculateAspectRatio(x, y, rect.right, rect.bottom) < aspectRatio) {
+            Type.TOP_LEFT -> if (calculateAspectRatio(x, y, rect.right, rect.bottom) < aspectRatio) {
                 adjustTop(rect, y, bounds, snapMargin, aspectRatio, true, false)
                 adjustLeftByAspectRatio(rect, aspectRatio)
             } else {
                 adjustLeft(rect, x, bounds, snapMargin, aspectRatio, true, false)
                 adjustTopByAspectRatio(rect, aspectRatio)
             }
-            CropWindowMoveHandler.Type.TOP_RIGHT -> if (calculateAspectRatio(rect.left, y, x, rect.bottom) < aspectRatio) {
+            Type.TOP_RIGHT -> if (calculateAspectRatio(rect.left, y, x, rect.bottom) < aspectRatio) {
                 adjustTop(rect, y, bounds, snapMargin, aspectRatio, false, true)
                 adjustRightByAspectRatio(rect, aspectRatio)
             } else {
                 adjustRight(rect, x, bounds, viewWidth, snapMargin, aspectRatio, true, false)
                 adjustTopByAspectRatio(rect, aspectRatio)
             }
-            CropWindowMoveHandler.Type.BOTTOM_LEFT -> if (calculateAspectRatio(x, rect.top, rect.right, y) < aspectRatio) {
+            Type.BOTTOM_LEFT -> if (calculateAspectRatio(x, rect.top, rect.right, y) < aspectRatio) {
                 adjustBottom(rect, y, bounds, viewHeight, snapMargin, aspectRatio, true, false)
                 adjustLeftByAspectRatio(rect, aspectRatio)
             } else {
                 adjustLeft(rect, x, bounds, snapMargin, aspectRatio, false, true)
                 adjustBottomByAspectRatio(rect, aspectRatio)
             }
-            CropWindowMoveHandler.Type.BOTTOM_RIGHT -> if (calculateAspectRatio(rect.left, rect.top, x, y) < aspectRatio) {
+            Type.BOTTOM_RIGHT -> if (calculateAspectRatio(rect.left, rect.top, x, y) < aspectRatio) {
                 adjustBottom(rect, y, bounds, viewHeight, snapMargin, aspectRatio, false, true)
                 adjustRightByAspectRatio(rect, aspectRatio)
             } else {
                 adjustRight(rect, x, bounds, viewWidth, snapMargin, aspectRatio, false, true)
                 adjustBottomByAspectRatio(rect, aspectRatio)
             }
-            CropWindowMoveHandler.Type.LEFT -> {
+            Type.LEFT -> {
                 adjustLeft(rect, x, bounds, snapMargin, aspectRatio, true, true)
                 adjustTopBottomByAspectRatio(rect, bounds, aspectRatio)
             }
-            CropWindowMoveHandler.Type.TOP -> {
+            Type.TOP -> {
                 adjustTop(rect, y, bounds, snapMargin, aspectRatio, true, true)
                 adjustLeftRightByAspectRatio(rect, bounds, aspectRatio)
             }
-            CropWindowMoveHandler.Type.RIGHT -> {
+            Type.RIGHT -> {
                 adjustRight(rect, x, bounds, viewWidth, snapMargin, aspectRatio, true, true)
                 adjustTopBottomByAspectRatio(rect, bounds, aspectRatio)
             }
-            CropWindowMoveHandler.Type.BOTTOM -> {
+            Type.BOTTOM -> {
                 adjustBottom(rect, y, bounds, viewHeight, snapMargin, aspectRatio, true, true)
                 adjustLeftRightByAspectRatio(rect, bounds, aspectRatio)
             }

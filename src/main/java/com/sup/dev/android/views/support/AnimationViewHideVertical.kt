@@ -48,7 +48,7 @@ class AnimationViewHideVertical(private val view: View) {
 
         spring = AnimationSpring(0f, AnimationSpring.SpeedType.TIME_MS, animationTime.toFloat())
 
-        view.addOnLayoutChangeListener { view1, i, i1, i2, i3, i4, i5, i6, i7 ->
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             if (lastH != view.height) {
                 lastH = view.height
                 isShoved = shovedM

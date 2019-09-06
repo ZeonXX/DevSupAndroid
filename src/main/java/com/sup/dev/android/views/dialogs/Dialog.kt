@@ -14,6 +14,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 
 
+@Suppress("UNCHECKED_CAST")
 abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity!!) {
 
     //
@@ -29,7 +30,7 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
     init {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setOnCancelListener { dialogInterface -> onHide() }
+        setOnCancelListener { onHide() }
 
         val layoutMaxSizes = object : LayoutMaxSizes(SupAndroid.activity!!) {
             override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -80,6 +81,7 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
         showDialog<Dialog>()
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <K : Dialog> showDialog(): K {
         onShow()
         super.show()

@@ -47,9 +47,9 @@ class SCrop(
         if (aw > 0 && ah > 0) vCropImageView.setAspectRatio(aw, ah)
         vCropImageView.setImageBitmap(bitmap)
 
-        vAll.setOnClickListener { v -> vCropImageView.cropRect = Rect(0, 0, bitmap.width, bitmap.height) }
+        vAll.setOnClickListener { vCropImageView.cropRect = Rect(0, 0, bitmap.width, bitmap.height) }
 
-        vFinish.setOnClickListener { v ->
+        vFinish.setOnClickListener {
             if (onCrop != null) {
                 if (autoBackOnCrop)
                     Navigator.back()

@@ -18,6 +18,7 @@ class ViewEditTextMedia constructor(
 
     private var callback: ((String) -> Unit)? = null
 
+    @Suppress("DEPRECATION")
     override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection? {
         if (callback == null) {
             return super.onCreateInputConnection(editorInfo)
@@ -26,7 +27,7 @@ class ViewEditTextMedia constructor(
             val ic: InputConnection? = super.onCreateInputConnection(editorInfo)
             EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
 
-            return InputConnectionCompat.createWrapper(ic!!, editorInfo) { inputContentInfo, flags, opts ->
+            return InputConnectionCompat.createWrapper(ic!!, editorInfo) { inputContentInfo, flags, _ ->
                 if (BuildCompat.isAtLeastNMR1() && (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
                     try {
                         inputContentInfo.requestPermission()

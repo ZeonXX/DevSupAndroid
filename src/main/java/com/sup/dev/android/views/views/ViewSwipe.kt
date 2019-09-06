@@ -20,8 +20,8 @@ import com.sup.dev.java.tools.ToolsThreads
 
 open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), View.OnTouchListener {
 
-    var onClick: (Float, Float) -> Unit = { x, y -> performClick() }
-    var onLongClick: (Float, Float) -> Unit = { x, y -> performLongClick() }
+    var onClick: (Float, Float) -> Unit = { _, _ -> performClick() }
+    var onLongClick: (Float, Float) -> Unit = { _, _ -> performLongClick() }
     var onSwipe: () -> Unit = { }
 
     private val vContainer = FrameLayout(context)
@@ -106,7 +106,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             firstY = e.y
             firstClickTime = System.currentTimeMillis()
 
-            subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
+            subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), {
                 focusAlpha += colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
                 focusAlpha = ToolsMath.min(focusAlpha, colorFocusAlpha)
                 vContainer.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
@@ -195,7 +195,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
         val stepTime = 10L
         val animationTime = 150L
         val step = -vContainer.x / (animationTime / stepTime.toFloat())
-        subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, { sub ->
+        subscriptionBack = ToolsThreads.timerMain(stepTime, animationTime, {
             vContainer.x += step
             if (step > 0 && vContainer.x > 0) vContainer.x = 0f
             if (step < 0 && vContainer.x < 0) vContainer.x = 0f
@@ -208,7 +208,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
                 swiped = false
             }
         })
-        subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), { sub ->
+        subscriptionFocus = ToolsThreads.timerMain(alphaAnimationStep.toLong(), alphaAnimationTime.toLong(), {
             focusAlpha -= colorFocusAlpha / alphaAnimationTime * alphaAnimationStep
             focusAlpha = ToolsMath.max(focusAlpha, 0f)
             vContainer.setBackgroundColor(ToolsColor.add(colorDefault, ToolsColor.setAlpha(focusAlpha.toInt(), colorFocus)))
