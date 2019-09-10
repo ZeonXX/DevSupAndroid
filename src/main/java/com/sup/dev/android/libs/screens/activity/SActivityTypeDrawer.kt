@@ -136,7 +136,7 @@ class SActivityTypeDrawer(
         item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
         item.vIcon?.setImageResource(icon)
-        item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+        if(useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
         item.view?.setOnClickListener(onClick)
         item.vChip?.visibility = View.GONE
         item.vText?.text = text

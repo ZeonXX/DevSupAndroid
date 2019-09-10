@@ -12,7 +12,7 @@ import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.tools.ToolsThreads
 
-class SActivityTypeBottomNavigation(
+open class SActivityTypeBottomNavigation(
         activity:SActivity
 ) : SActivityType(activity) {
 
@@ -101,7 +101,7 @@ class SActivityTypeBottomNavigation(
                 extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false) { widgetMenu!!.asSheetShow() }
             }
             widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-               //   Не работает. Иконки пропадают     //.iconFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
+               //   Не работает. Иконки пропадают     //if(useIconsFilters) .iconFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item
@@ -115,7 +115,7 @@ class SActivityTypeBottomNavigation(
             item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
             item.vIcon?.setImageResource(icon)
-            item.vIcon?.setFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+            if(useIconsFilters)item.vIcon?.setFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
             item.view?.setOnClickListener(onClick)
             item.vChip?.visibility = View.GONE
             item.vText?.text = text
