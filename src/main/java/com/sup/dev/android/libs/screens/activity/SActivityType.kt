@@ -21,7 +21,7 @@ abstract class SActivityType(
     var screenNavigationAnimation = true
     var screenNavigationShadowAvailable = true
     var screenHideBottomNavigationWhenKeyboard = true
-    var useIconsFilters = true
+    var useIconsFilters = false
 
     abstract fun onCreate()
 
