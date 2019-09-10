@@ -14,7 +14,7 @@ import com.sup.dev.java.classes.collections.HashList
 object ToolsNotifications {
 
     private val SPLITER = "-FS2ААА67миО-"
-    var defChanelId = 0
+    var defChanelId = "chanel_0"
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {

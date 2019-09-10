@@ -29,21 +29,13 @@
                 android:focusable="true"/>
         </FrameLayout>
 
-        <LinearLayout
+        <com.sup.dev.android.views.views.layouts.LayoutNavigationClipped
             android:id="@+id/vScreenActivityBottomNavigationContainer"
+            android:layout_marginTop="-74dp"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="?colorPrimary"
-            android:orientation="horizontal"/>
+            android:layout_height="86dp"/>
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/vScreenActivityBottomNavigationLine"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="48dp"/>
 
     <com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
         android:id="@+id/vActivityDrawAnimations"

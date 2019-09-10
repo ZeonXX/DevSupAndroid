@@ -167,6 +167,16 @@ class ViewIcon @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setCircleColor(color: Int) {
+        this.circleColor = color
+        invalidate()
+    }
+
+    fun setCircleSize(size: Float) {
+        this.circleSize = size
+        invalidate()
+    }
+
     override fun setImageResource(resId: Int) {
         this.src = resId
         if(startPadding == -1)startPadding = paddingLeft

@@ -21,7 +21,7 @@
             style="@style/ChipMini"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="10dp"
-            app:chipBackgroundColor="?colorSecondary" />
+            app:chipBackgroundColor="?colorAccent" />
 
 
     </FrameLayout>
