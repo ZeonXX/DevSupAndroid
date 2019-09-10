@@ -21,12 +21,11 @@ abstract class SActivityType(
     var screenNavigationAnimation = true
     var screenNavigationShadowAvailable = true
     var screenHideBottomNavigationWhenKeyboard = true
-    var useIconsFilters = false
 
     abstract fun onCreate()
 
     @CallSuper
-    open fun onSetScreen(screen: Screen?){
+    open fun onSetScreen(screen: Screen?) {
         if (screen != null) {
             screenNavigationVisible = screen.isNavigationVisible
             screenNavigationAllowed = screen.isNavigationAllowed
@@ -72,11 +71,11 @@ abstract class SActivityType(
 
     }
 
-    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, onClick: (View) -> Unit): NavigationItem {
-        return addNavigationItem(icon, ToolsResources.s(text), hided, onClick)
+    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem {
+        return addNavigationItem(icon, ToolsResources.s(text), hided, useIconsFilters, onClick)
     }
 
-    abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): NavigationItem
+    abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem
 
     abstract class NavigationItem {
 

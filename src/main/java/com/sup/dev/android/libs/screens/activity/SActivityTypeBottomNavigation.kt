@@ -93,7 +93,7 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
         if(hided){
             val item = NavigationItem()
             if(widgetMenu == null) {

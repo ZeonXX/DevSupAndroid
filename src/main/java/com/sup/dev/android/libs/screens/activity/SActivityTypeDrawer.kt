@@ -127,7 +127,7 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer?.addView(ToolsView.inflate(R.layout.z_divider))
     }
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
         val item = NavigationItem()
 
         item.view = ToolsView.inflate(activity,  R.layout.screen_activity_navigation_driver_row)
