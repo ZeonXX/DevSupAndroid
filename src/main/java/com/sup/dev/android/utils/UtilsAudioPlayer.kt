@@ -45,11 +45,7 @@ class UtilsAudioPlayer {
             val onStop: () -> Unit
     ) {
 
-        val utilsProximity = UtilsProximity {
-            if (useProximity) {
-                startPlay(if (it) STREAM_VOICE_CALL else STREAM_MUSIC)
-            }
-        }
+        var utilsProximity:UtilsProximity? = null
         var stop = false
         var offset = 0
         var audioTrack: AudioTrack? = null
@@ -57,11 +53,18 @@ class UtilsAudioPlayer {
 
         init {
             startPlay(STREAM_MUSIC)
+            if (useProximity) {
+                utilsProximity = UtilsProximity {
+                    if (useProximity) {
+                        startPlay(if (it) STREAM_VOICE_CALL else STREAM_MUSIC)
+                    }
+                }
+            }
         }
 
         fun startPlay(stream: Int) {
             if(stop){
-                utilsProximity.release()
+                utilsProximity?.release()
                 return
             }
             if(this.audioTrack != null){
@@ -100,7 +103,7 @@ class UtilsAudioPlayer {
                 if (this.audioTrack == audioTrack || stop) {
                     stop = true
                     ToolsAndroid.releaseAudioFocus()
-                    utilsProximity.release()
+                    utilsProximity?.release()
                     ToolsThreads.main { onStop.invoke() }
                 }
             }
@@ -108,7 +111,7 @@ class UtilsAudioPlayer {
 
         fun stop() {
             stop = true
-            utilsProximity.release()
+            utilsProximity?.release()
         }
 
     }

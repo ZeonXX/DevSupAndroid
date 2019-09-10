@@ -31,10 +31,13 @@ import java.lang.reflect.InvocationTargetException
 import java.util.*
 import android.util.DisplayMetrics
 
-
-
-
 object ToolsAndroid {
+
+    fun getDownloadsFolder():File{
+        val f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        f.mkdirs()
+        return f
+    }
 
     private var audioFocusListener = AudioManager.OnAudioFocusChangeListener() {}
 
