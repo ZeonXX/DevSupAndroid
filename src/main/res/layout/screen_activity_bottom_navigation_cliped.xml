@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/vActivityRoot"
     android:layout_width="match_parent"
-    android:background="?android:windowBackground"
+    android:background="?window_background"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -29,22 +29,25 @@
                 android:focusable="true"/>
         </FrameLayout>
 
-        <com.sup.dev.android.views.views.layouts.LayoutNavigationClipped
+        <LinearLayout
             android:id="@+id/vScreenActivityBottomNavigationContainer"
-            android:layout_marginTop="-74dp"
             android:layout_width="match_parent"
-            android:layout_height="86dp"/>
+            android:layout_height="48dp"
+            android:background="?colorPrimary"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/vScreenActivityBottomNavigationLine"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="48dp"/>
 
     <com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
         android:id="@+id/vActivityDrawAnimations"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <FrameLayout
-        android:id="@+id/vSplashContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback>

@@ -14,12 +14,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
-open class LayoutCorned @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        @AttrRes defStyleAttr: Int = 0,
-        @StyleRes defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private val path = Path()
     private var paint: Paint? = null
@@ -131,11 +126,9 @@ open class LayoutCorned @JvmOverloads constructor(
         update()
     }
 
-
     fun setBackgroundRes(r: Int) {
         setBackgroundColor(ToolsResources.getColor(r))
     }
-
 
     override fun setBackground(background: Drawable?) {
 

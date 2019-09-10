@@ -12,12 +12,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 
-class ViewChipMini @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        @AttrRes defStyleAttr: Int = 0,
-        @StyleRes defStyleRes: Int = 0
-) : LayoutCorned(context, attrs, defStyleAttr, defStyleRes) {
+class ViewChipMini @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
 
     private val vText: TextView = ToolsView.inflate(context, R.layout.z_text_caption)
 

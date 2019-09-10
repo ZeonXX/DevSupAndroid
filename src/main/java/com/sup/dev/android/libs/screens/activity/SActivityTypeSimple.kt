@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import com.sup.dev.android.R
 
