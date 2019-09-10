@@ -92,25 +92,23 @@ object ToolsNotifications {
 
     class Chanel {
 
-        private val id: Int
         private val idS: String
-        private var name: String = ""
-        private var description: String = ""
-        private var groupId: String = ""
-        private var sound: Boolean = true
-        private var vibration: Boolean = true
-        private var importance: Importance = Importance.DEFAULT
+        private var name = ""
+        private var description = ""
+        private var groupId = ""
+        private var sound = true
+        private var vibration = true
+        private var importance = Importance.DEFAULT
         private var groupingType = GroupingType.GROUP
 
         private var showedNotifications = HashList<String, Int>()
 
 
         constructor(id: Int) {
-            this.id = id
             this.idS = "chanel_$id"
         }
 
-        fun getId() = id
+        fun getId() = idS
 
         fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, intentCancel: Intent? = null) {
             val notification = NotificationX()
