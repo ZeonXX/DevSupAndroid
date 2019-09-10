@@ -23,6 +23,7 @@ open class Screen(
 
     companion object {
         var GLOBAL_STATUS_BAR_IS_LIGHT = false
+        var GLOBAL_USE_ICONS_FILTER = false
     }
 
     private var onBackPressed: () -> Boolean = { false }
@@ -36,6 +37,7 @@ open class Screen(
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
+    var useIconsFilter = GLOBAL_USE_ICONS_FILTER
     //  All activity navigation types
     var activityRootBackground = ToolsResources.getColorAttr(R.attr.window_background)
     var isNavigationAllowed = true
@@ -73,7 +75,7 @@ open class Screen(
             toolbar.setTitleTextColor(toolbarContentColor)
             if (hasBackIcon) {
                 toolbar.navigationIcon = getActivity().type.getNavigationDrawable(this)
-                toolbar.navigationIcon?.setColorFilter(toolbarContentColor, PorterDuff.Mode.SRC_ATOP)
+                if (useIconsFilter) toolbar.navigationIcon?.setColorFilter(toolbarContentColor, PorterDuff.Mode.SRC_ATOP)
                 toolbar.setNavigationOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
             } else {
                 toolbar.navigationIcon = null
@@ -86,7 +88,7 @@ open class Screen(
             }
         }
 
-        val appBarLayout:AppBarLayout? = findViewById(R.id.vAppBar)
+        val appBarLayout: AppBarLayout? = findViewById(R.id.vAppBar)
         appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
     }
 
