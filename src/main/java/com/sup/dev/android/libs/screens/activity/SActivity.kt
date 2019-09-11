@@ -50,6 +50,8 @@ abstract class SActivity : AppCompatActivity() {
         vActivityTouchLock!!.visibility = View.GONE
 
          type.onCreate()
+
+         ToolsThreads.main(true) { parseIntent(intent) }
     }
 
     protected open fun getDefaultType():SActivityType = SActivityTypeSimple(this)
@@ -109,7 +111,12 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if(parseNotifications && intent != null) ToolsNotifications.parseNotification(intent)
+        parseIntent(intent)
+    }
+
+    private fun parseIntent(intent: Intent?):Boolean{
+        if(parseNotifications && intent != null)return ToolsNotifications.parseNotification(intent)
+        return false
     }
 
     //
