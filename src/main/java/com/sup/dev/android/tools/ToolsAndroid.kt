@@ -45,16 +45,19 @@ object ToolsAndroid {
     //  Device
     //
 
+    @Suppress("DEPRECATION")
     fun requestAudioFocus(){
         val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
     }
 
+    @Suppress("DEPRECATION")
     fun releaseAudioFocus(){
         val audioManager = SupAndroid.appContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.abandonAudioFocus(audioFocusListener)
     }
 
+    @Suppress("DEPRECATION")
     fun setLanguage(context:Context, lang: String) {
         val res = context.resources
         val conf = res.configuration
@@ -62,6 +65,7 @@ object ToolsAndroid {
         res.updateConfiguration(conf, res.displayMetrics)
     }
 
+    @Suppress("DEPRECATION")
     fun getLanguage(context:Context):String {
         val res = context.resources
         val conf = res.configuration
@@ -247,6 +251,7 @@ object ToolsAndroid {
         return false
     }
 
+    @Suppress("DEPRECATION")
     fun checkServiceStarted(appId: String, serviceName: String): Boolean {
 
         val am = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -287,18 +292,20 @@ object ToolsAndroid {
     }
 
     fun maxScreenSide(): Int {
-        return Math.max(getScreenW(), getScreenH())
+        return getScreenW().coerceAtLeast(getScreenH())
     }
 
     fun minScreenSide(): Int {
-        return Math.min(getScreenW(), getScreenH())
+        return getScreenW().coerceAtMost(getScreenH())
     }
 
+    @Suppress("DEPRECATION")
     fun isScreenKeyLocked(): Boolean {
         val myKeyManager = SupAndroid.appContext!!.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return myKeyManager.inKeyguardRestrictedInputMode()
     }
 
+    @Suppress("DEPRECATION")
     fun screenOn() {
         if ((SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager).isScreenOn)
             return

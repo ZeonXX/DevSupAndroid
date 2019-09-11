@@ -36,6 +36,7 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.getString(r)
     }
 
+    @Suppress("DEPRECATION")
     fun sLang(languageCode: String, @StringRes r: Int): String {
         val res = SupAndroid.appContext!!.resources
         val conf = res.configuration
@@ -59,6 +60,7 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.getStringArray(r)
     }
 
+    @Suppress("DEPRECATION")
     fun getDrawable(@DrawableRes r: Int): Drawable {
         return SupAndroid.appContext!!.resources.getDrawable(r)
     }
@@ -79,12 +81,20 @@ object ToolsResources {
         return id
     }
 
-    fun getColorAttr(@AttrRes r: Int): Int {
+    fun getColorAttr(@AttrRes r: Int, def:Int=0x00000000): Int {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
-        val color = ta.getColor(0, 0x00000000)
+        val color = ta.getColor(0, def)
         ta.recycle()
         return color
+    }
+
+    fun getBooleanAttr(@AttrRes r: Int, def:Boolean=false): Boolean {
+        val attrs = intArrayOf(r)
+        val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
+        val b = ta.getBoolean(0, def)
+        ta.recycle()
+        return b
     }
 
     fun getStream(r: Int) = SupAndroid.appContext!!.resources.openRawResource(+r)
@@ -97,10 +107,12 @@ object ToolsResources {
         return getColor(getColorId(name))
     }
 
+    @Suppress("DEPRECATION")
     fun getColor(@ColorRes r: Int): Int {
         return SupAndroid.appContext!!.resources.getColor(r)
     }
 
+    @Suppress("DEPRECATION")
     fun getColors(@ColorRes vararg r: Int): Array<Int> {
         return Array(r.size) { SupAndroid.appContext!!.resources.getColor(r[it]) }
     }

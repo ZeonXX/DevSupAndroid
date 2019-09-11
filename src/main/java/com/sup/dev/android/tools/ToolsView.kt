@@ -11,6 +11,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.util.TypedValue
@@ -43,6 +44,12 @@ import java.util.regex.Pattern
 object ToolsView {
 
     val ANIMATION_TIME = 300
+
+
+    @Suppress("DEPRECATION")
+    fun makeTextHtml(vText:TextView){
+        vText.text = Html.fromHtml(vText.text.toString())
+    }
 
     fun setRecyclerAnimation(vRecycler:RecyclerView){
         vRecycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(vRecycler.context, R.anim.layout_animation_slide_from_bottom)

@@ -18,7 +18,6 @@ import java.io.*
 import java.net.URLConnection
 import java.util.*
 
-
 object ToolsIntent {
 
     private val SHARE_FOLDER = "sup_share_cash"
@@ -214,8 +213,8 @@ object ToolsIntent {
             startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
                 try{
                     if (resultCode != Activity.RESULT_OK || resultIntent == null || resultIntent.data == null) throw IllegalAccessException("Result is null or not OK")
-                    val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data)
-                    val bytes = ByteArray(inp.available())
+                    val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data!!)
+                    val bytes = ByteArray(inp!!.available())
                     inp.read(bytes)
                     inp.close()
                     onResult.invoke(bytes)
