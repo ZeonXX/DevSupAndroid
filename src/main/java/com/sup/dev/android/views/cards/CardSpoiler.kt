@@ -41,6 +41,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     internal var expanded = false
     internal var enabled = true
 
+    @Suppress("DEPRECATION")
     override fun bindView(view: View) {
         super.bindView(view)
         val vIcon:ImageView = view.findViewById(R.id.vIcon)
@@ -93,7 +94,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         vIcon.setImageResource(if (expanded) iconUp else iconDown)
         vIcon.setAlpha(if (enabled) 255 else 106)
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
-        if (enabled) vTouch.setOnClickListener { v -> setExpanded(!expanded) }
+        if (enabled) vTouch.setOnClickListener { setExpanded(!expanded) }
         else vTouch.setOnClickListener(null)
         vTouch.isClickable = enabled
     }
@@ -171,8 +172,10 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
                 var myIndex = adapter!!.indexOf(this)
                 for (c in cards)
-                    if (myIndex != -1)
-                        if (!adapter!!.contains(c)) adapter!!.add(++myIndex, c)
+                    if (myIndex != -1) {
+                        ++myIndex
+                        if (!adapter!!.contains(c)) adapter!!.add(myIndex, c)
+                    }
 
             } else
                 for (c in cards) adapter!!.remove(c)

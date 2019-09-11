@@ -16,15 +16,18 @@ class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper {
         widget.onShow()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
         adapter!!.remove(this)
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return this as K
     }
