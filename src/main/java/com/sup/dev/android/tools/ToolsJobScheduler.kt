@@ -49,7 +49,6 @@ object ToolsJobScheduler{
     class ToolsJobSchedulerService : JobService() {
 
         override fun onStartJob(params: JobParameters): Boolean {
-            params.jobId
             EventBus.post(EventJonScheduler(params))
             stopSelf()
             return false
