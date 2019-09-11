@@ -35,15 +35,18 @@ class DialogWidget(private val widget: Widget) : Dialog(widget.view), WidgetView
     //  Setters
     //
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
         hide()
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return setDialogCancelable<Dialog>(cancelable) as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return setEnabled<Dialog>(enabled) as K
     }

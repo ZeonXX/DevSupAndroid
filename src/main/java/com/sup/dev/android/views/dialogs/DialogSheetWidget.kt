@@ -24,15 +24,18 @@ class DialogSheetWidget(private val widget: Widget) : DialogSheet(widget.view), 
         widget.onHide()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
         hide()
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return setDialogCancelable(cancelable) as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return setEnabled(enabled) as K
     }
