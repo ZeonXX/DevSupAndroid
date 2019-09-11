@@ -8,7 +8,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -21,11 +20,6 @@ open class Screen(
         protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
 
-    companion object {
-        var GLOBAL_STATUS_BAR_IS_LIGHT = false
-        var GLOBAL_USE_ICONS_FILTER = false
-    }
-
     private var onBackPressed: () -> Boolean = { false }
     private var onHide: () -> Unit = {}
 
@@ -36,8 +30,8 @@ open class Screen(
     var hasBackIcon = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
-    var statusBarIsLight = GLOBAL_STATUS_BAR_IS_LIGHT
-    var useIconsFilter = GLOBAL_USE_ICONS_FILTER
+    var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)
+    var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.them_use_navigation_icons_filters)
     //  All activity navigation types
     var activityRootBackground = ToolsResources.getColorAttr(R.attr.window_background)
     var isNavigationAllowed = true

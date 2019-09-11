@@ -35,7 +35,7 @@ abstract class SActivity : AppCompatActivity() {
     var parseNotifications = true
     var type = getDefaultType()
 
-     override fun onCreate(bundle: Bundle?) {
+    override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         SupAndroid.activity = this
 
@@ -49,12 +49,14 @@ abstract class SActivity : AppCompatActivity() {
 
         vActivityTouchLock!!.visibility = View.GONE
 
-         type.onCreate()
+        type.onCreate()
 
-         ToolsThreads.main(true) { parseIntent(intent) }
+        ToolsThreads.main(true) {
+            if (parseIntent(intent)) intent = Intent()
+        }
     }
 
-    protected open fun getDefaultType():SActivityType = SActivityTypeSimple(this)
+    protected open fun getDefaultType(): SActivityType = SActivityTypeSimple(this)
 
     override fun onStart() {
         super.onStart()
@@ -64,7 +66,7 @@ abstract class SActivity : AppCompatActivity() {
         if (!started) {
             started = true
             onFirstStart()
-        }else{
+        } else {
             Navigator.resetCurrentView()
         }
 
@@ -111,11 +113,11 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        parseIntent(intent)
+        if (parseIntent(intent)) setIntent(Intent())
     }
 
-    private fun parseIntent(intent: Intent?):Boolean{
-        if(parseNotifications && intent != null)return ToolsNotifications.parseNotification(intent)
+    private fun parseIntent(intent: Intent?): Boolean {
+        if (parseNotifications && intent != null) return ToolsNotifications.parseNotification(intent)
         return false
     }
 

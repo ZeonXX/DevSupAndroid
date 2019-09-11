@@ -25,6 +25,7 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
         widget.onHide()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : Popup> hide(): K {
         dismiss()
         return this as K
@@ -34,24 +35,29 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
     //  Setters
     //
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : Popup> setCancelable(cancelable: Boolean): K {
         super.setCancelable<Popup>(cancelable)
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : Popup> setEnabled(enabled: Boolean): K {
         super.setEnabled<Popup>(enabled)
         return this as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
         return hide<Popup>() as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
         return setCancelable<Popup>(cancelable) as K
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
         return setEnabled<Popup>(enabled) as K
     }
