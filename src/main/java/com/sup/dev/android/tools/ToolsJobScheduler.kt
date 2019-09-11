@@ -18,6 +18,11 @@ object ToolsJobScheduler{
     /*
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+            <service
+            android:name="com.sup.dev.android.tools.ToolsJobScheduler$ToolsJobSchedulerService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
      */
 
     @SuppressLint("MissingPermission")
