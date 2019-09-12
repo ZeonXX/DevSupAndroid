@@ -107,6 +107,14 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         vSubtitle.text = text
     }
 
+    fun setTitleColor(color: Int) {
+        vTitle.setTextColor(color)
+    }
+
+    fun setSubtitleColor(color: Int) {
+        vSubtitle.setTextColor(color)
+    }
+
     //
     //  Getters
     //

@@ -10,6 +10,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.CardDivider
 import com.sup.dev.android.views.cards.CardDividerTitleMini
 import com.sup.dev.android.views.cards.CardMenu
+import com.sup.dev.java.libs.debug.Debug
 
 open class WidgetMenu : WidgetRecycler() {
 

@@ -11,6 +11,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardDividerTitleMini
+import com.sup.dev.java.libs.debug.log
 import java.util.ArrayList
 
 
@@ -92,7 +93,9 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     }
 
     fun checked(b: Boolean): WidgetCheckBoxes {
+        buildItem!!.callbackLock = true
         buildItem!!.v.isChecked = b
+        buildItem!!.callbackLock = false
         return this
     }
 
@@ -193,6 +196,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     public inner class Item(val key: Any) {
 
+        var callbackLock = false
         val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
         var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { _, _, _ -> run { } }
@@ -201,7 +205,9 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
         init {
             v.tag = this
-            v.setOnCheckedChangeListener { _, _ -> onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked) }
+            v.setOnCheckedChangeListener { _, _ ->
+                if(!callbackLock) onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked)
+            }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
                 (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()

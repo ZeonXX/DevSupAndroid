@@ -10,9 +10,7 @@ import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.tools.ToolsClass
 import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsThreads
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.reflect.KClass
 
 
@@ -133,61 +131,60 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             if (!contains(cardClass)) {
                 onErrorAndEmpty.invoke()
             }
-            return
-        }
-
-
-        if (!contains(cardClass) && result.isEmpty()) {
-            if (bottom) lockBottom()
-            else lockTop()
-
-            if (actionEnabled) {
-                if (!contains(cardLoading)) {
-                    if (bottom) {
-                        add(findBottomAdposition(), cardLoading)
-                    } else {
-                        add(findTopAddPosition(), cardLoading)
-                    }
-                }
-                cardLoading.setState(CardLoading.State.ACTION)
-                onEmpty.invoke()
-            } else {
-                remove(cardLoading)
-                onEmpty.invoke()
-            }
         } else {
-            if (result.isEmpty()) {
+            if (!contains(cardClass) && result.isEmpty()) {
                 if (bottom) lockBottom()
                 else lockTop()
-            }
-            remove(cardLoading)
-        }
 
-        for (i in result.indices) {
-            val card = mapper!!.invoke(result[i]!!)
-            if (removeSame) {
-                val cards = get(cardClass)
-                var b = false
-                for (c in cards) if (card == c) {
-                    b = true
-                    break
+                if (actionEnabled) {
+                    if (!contains(cardLoading)) {
+                        if (bottom) {
+                            add(findBottomAdposition(), cardLoading)
+                        } else {
+                            add(findTopAddPosition(), cardLoading)
+                        }
+                    }
+                    cardLoading.setState(CardLoading.State.ACTION)
+                    onEmpty.invoke()
+                } else {
+                    remove(cardLoading)
+                    onEmpty.invoke()
                 }
-                if (b) {
-                    sameRemovedCount++
-                    break
+            } else {
+                if (result.isEmpty()) {
+                    if (bottom) lockBottom()
+                    else lockTop()
                 }
+                remove(cardLoading)
             }
-            cardsHash.put(card.hashCode(), true)
-            if (bottom) add(findBottomAdposition(), card)
-            else add(findTopAddPosition() + i, card)
-        }
 
-        if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
+            for (i in result.indices) {
+                val card = mapper!!.invoke(result[i]!!)
+                if (removeSame) {
+                    val cards = get(cardClass)
+                    var b = false
+                    for (c in cards) if (card == c) {
+                        b = true
+                        break
+                    }
+                    if (b) {
+                        sameRemovedCount++
+                        break
+                    }
+                }
+                cardsHash.put(card.hashCode(), true)
+                if (bottom) add(findBottomAdposition(), card)
+                else add(findTopAddPosition() + i, card)
+            }
+
+            if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
+        }
     }
+
 
     fun addWithHash(card:K){
         cardsHash.put(card.hashCode(), true)
-        add(card)
+        add(findBottomAdposition(), card)
     }
 
     fun findTopAddPosition(): Int {
@@ -334,6 +331,10 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     fun setRemoveSame(b: Boolean) {
         removeSame = b
+    }
+
+    fun setAddToSameCards(b: Boolean) {
+        addToSameCards = b
     }
 
     fun setEmptyMessage(@StringRes message: Int): RecyclerCardAdapterLoading<K, V> {

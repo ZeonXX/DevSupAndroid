@@ -1,10 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
@@ -12,6 +9,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsColor
 
 class ViewIcon @JvmOverloads constructor(
@@ -179,7 +177,7 @@ class ViewIcon @JvmOverloads constructor(
 
     override fun setImageResource(resId: Int) {
         this.src = resId
-        if(startPadding == -1)startPadding = paddingLeft
+        if (startPadding == -1) startPadding = paddingLeft
         setPadding(startPadding, startPadding, startPadding, startPadding)
         scaleType = ScaleType.FIT_CENTER
         updateIcon()
@@ -187,7 +185,7 @@ class ViewIcon @JvmOverloads constructor(
 
     override fun setImageBitmap(bm: Bitmap?) {
         this.src = 0
-        if(startPadding == -1)startPadding = paddingLeft
+        if (startPadding == -1) startPadding = paddingLeft
         setPadding(0, 0, 0, 0)
         scaleType = ScaleType.CENTER_CROP
         super.setImageBitmap(bm)
