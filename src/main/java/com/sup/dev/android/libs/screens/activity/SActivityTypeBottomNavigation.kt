@@ -100,8 +100,8 @@ open class SActivityTypeBottomNavigation(
                 widgetMenu = WidgetMenu()
                 extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
             }
-            widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-               //   Не работает. Иконки пропадают     //if(useIconsFilters) .iconFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
+            val menuItem = widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
+           // if(useIconsFilters) menuItem.iconFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item

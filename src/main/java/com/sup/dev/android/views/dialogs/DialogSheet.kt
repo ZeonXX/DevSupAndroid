@@ -8,6 +8,8 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 
 @Suppress("UNCHECKED_CAST")
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
@@ -42,6 +44,9 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         window!!.setBackgroundDrawable(null)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+        if(Navigator.getCurrent() != null) window!!.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+
 
       //  vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
 

@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.cards
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -9,12 +10,13 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.Debug
 
 open class CardMenu(
-    layout : Int = 0
-) : Card(if(layout > 0) layout else R.layout.card_menu) {
+        layout: Int = 0
+) : Card(if (layout > 0) layout else R.layout.card_menu) {
 
-    var onClick: ((View, Int, Int)->Unit)? = null
+    var onClick: ((View, Int, Int) -> Unit)? = null
     var dividerVisible = false
     var enabled = true
     var background = 0
@@ -25,8 +27,8 @@ open class CardMenu(
     var customColor = false
     var textColor = 0
     var icon = 0
-    var iconDrawable:Drawable? = null
-    var iconFilter:Int? = null
+    var iconDrawable: Drawable? = null
+    var iconFilter: Int? = null
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -36,10 +38,10 @@ open class CardMenu(
         val vDescription = view.findViewById<TextView>(R.id.vDesc)
         val vIcon = view.findViewById<ViewIcon>(R.id.vIcon)
 
-        vTouch.visibility = if(visible) View.VISIBLE else View.GONE
+        vTouch.visibility = if (visible) View.VISIBLE else View.GONE
 
-        if(iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
-        if(iconFilter != null) vIcon.setFilter(iconFilter!!)
+        if (iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
+        if (iconFilter != null) vIcon.setFilter(iconFilter!!)
         else if (icon == 0) vIcon.visibility = View.GONE
         else vIcon.setImageResource(icon)
 
@@ -62,7 +64,7 @@ open class CardMenu(
     //  Setters
     //
 
-    fun setVisible(visible:Boolean):CardMenu{
+    fun setVisible(visible: Boolean): CardMenu {
         this.visible = visible
         update()
         return this
@@ -97,6 +99,7 @@ open class CardMenu(
         update()
         return this
     }
+
     fun setIconFilter(iconFilter: Int?): CardMenu {
         this.iconFilter = iconFilter
         update()
@@ -118,7 +121,7 @@ open class CardMenu(
     }
 
     fun setText(text: String?): CardMenu {
-        this.text = text?:""
+        this.text = text ?: ""
         update()
         return this
     }
@@ -128,7 +131,7 @@ open class CardMenu(
     }
 
     fun setDescription(desc: String?): CardMenu {
-        this.description = desc?:""
+        this.description = desc ?: ""
         update()
         return this
     }

@@ -187,19 +187,6 @@ object Navigator {
 
         SupAndroid.activity!!.setScreen(screen, animation)
 
-        if (SupAndroid.activity != null) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val statusBarColor = screen.statusBarColor
-                if (SupAndroid.activity?.window?.statusBarColor != statusBarColor) SupAndroid.activity?.window?.statusBarColor = statusBarColor
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val statusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
-                if (SupAndroid.activity!!.window.decorView.systemUiVisibility != statusBarIsLight) SupAndroid.activity!!.window.decorView.systemUiVisibility = statusBarIsLight
-            }
-        }
-
         if (getCurrent() != null) screen.onResume()
     }
 

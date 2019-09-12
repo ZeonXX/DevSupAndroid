@@ -49,6 +49,8 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT) //  Без этой строки диалог умирает при повороте экрана
 
+        if(Navigator.getCurrent() != null) window!!.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+
         Navigator.addOnScreenChanged {
             hide()
             true

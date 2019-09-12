@@ -17,6 +17,8 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -57,7 +59,7 @@ class SImageView private constructor()
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, ToolsBitmap.decode( bytes[index])!!) }
+        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, ToolsBitmap.decode(bytes[index])!!) }
         vIndicator.setPagerView(vPager)
     }
 
@@ -84,6 +86,8 @@ class SImageView private constructor()
         isNavigationAllowed = false
         isNavigationAnimation = false
         statusBarColor = ToolsResources.getColorAttr(R.attr.window_background)
+        navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
+        statusBarIsLight = statusBarColor > 0xFF70FFFF.toInt()
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vDownload.setIconBackgroundColor(color)
@@ -113,7 +117,7 @@ class SImageView private constructor()
         updateTitle()
     }
 
-    private fun toggleInterface(){
+    private fun toggleInterface() {
         val toAlpha = vBack.visibility == View.VISIBLE
 
         ToolsView.alpha(vBack, toAlpha)
@@ -201,7 +205,7 @@ class SImageView private constructor()
                                         val bm = ToolsBitmap.decode(bytes)
                                         ToolsThreads.main {
                                             dialog.hide()
-                                            if(bm == null){
+                                            if (bm == null) {
                                                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
                                                 return@main
                                             }
@@ -213,7 +217,6 @@ class SImageView private constructor()
                         }
                     }
                     .asSheetShow()
-
 
 
         }

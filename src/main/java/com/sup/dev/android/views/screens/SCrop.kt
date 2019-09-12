@@ -40,6 +40,7 @@ class SCrop(
         isNavigationAllowed = false
         isNavigationAnimation = false
         statusBarColor = ToolsResources.getColor(R.color.black)
+        navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vBack.setIconBackgroundColor(color)

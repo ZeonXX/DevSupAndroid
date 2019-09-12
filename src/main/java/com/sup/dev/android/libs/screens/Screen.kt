@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
-
 open class Screen(
         protected val viewScreen: View
 ) : FrameLayout(SupAndroid.activity!!) {
@@ -30,6 +29,7 @@ open class Screen(
     var hasBackIcon = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
+    var navigationBarColor = ToolsResources.getPrimaryColor(context)
     var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)
     var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.them_use_navigation_icons_filters)
     //  All activity navigation types

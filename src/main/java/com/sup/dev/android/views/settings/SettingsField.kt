@@ -32,6 +32,10 @@ class SettingsField constructor(
         vField.id = View.NO_ID //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsField, 0, 0)
+        if(a.hasValue(R.styleable.SettingsField_android_textColor)) {
+            val textColor = a.getColor(R.styleable.SettingsField_android_textColor, 0)
+            vField.setTextColor(textColor)
+        }
         val hint = a.getString(R.styleable.SettingsField_android_hint)
         val text = a.getString(R.styleable.SettingsField_Settings_text)
         val inputType = a.getInteger(R.styleable.SettingsField_android_inputType, vField.inputType)

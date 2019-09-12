@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.appcompat.app.AppCompatActivity
@@ -163,6 +164,18 @@ abstract class SActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val statusBarColor = screen.statusBarColor
+            if (window.statusBarColor != statusBarColor) window.statusBarColor = statusBarColor
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val statusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
+            if (window.decorView.systemUiVisibility != statusBarIsLight) window.decorView.systemUiVisibility = statusBarIsLight
+        }
+
+        window.navigationBarColor = screen.navigationBarColor
 
         ToolsView.hideKeyboard()
 
