@@ -113,14 +113,8 @@
 
     <style name="AppThemeLight.Colored">
         <item name="toolbar_content_color">@color/white</item>
+        <item name="them_status_bar_is_light">false</item>
         <item name="toolbar_content_color_secondary">@color/grey_700</item>
-        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
-        <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
-        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
-        <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
-        <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
-        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
         <item name="colorPrimaryDark">@color/blue_700</item>
         <item name="colorAccent">@color/blue_a_400</item>
         <item name="colorPrimary">@color/blue_700</item>
@@ -164,10 +158,18 @@
         <item name="android:layout_gravity">right|top</item>
     </style>
 
+    <style name="Icon.Shadow.Filtered">
+        <item name="ViewIcon_filter">?toolbar_content_color</item>
+    </style>
+
     <style name="Icon.Shadow.Back">
         <item name="android:id">@id/vBack</item>
         <item name="android:src">?attr/ic_arrow_back_24dp</item>
         <item name="android:layout_gravity">left|top</item>
+    </style>
+
+    <style name="Icon.Shadow.Back.Filtered">
+        <item name="ViewIcon_filter">?toolbar_content_color</item>
     </style>
 
     <style name="Icon.Toolbar">

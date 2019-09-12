@@ -224,6 +224,7 @@
         <attr name="android:inputType"/>
         <attr name="android:singleLine"/>
         <attr name="android:hint"/>
+        <attr name="android:textColor"/>
         <attr name="Settings_text" format="string"/>
         <attr name="Settings_maxLength" format="integer"/>
     </declare-styleable>
