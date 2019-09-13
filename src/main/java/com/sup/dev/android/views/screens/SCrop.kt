@@ -4,11 +4,14 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.widget.SeekBar
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.dialogs.DialogWidget
+import com.sup.dev.android.views.settings.Settings
+import com.sup.dev.android.views.settings.SettingsSeek
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
@@ -26,6 +29,12 @@ class SCrop(
     private val vFinish: View = findViewById(R.id.vFab)
     private val vAll: View = findViewById(R.id.vAll)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
+    private val vBackground: View = findViewById(R.id.vBackground)
+    private val vBackgroundPanel: View = findViewById(R.id.vBackgroundPanel)
+    private val vBackgroundPanelColor: ViewIcon = findViewById(R.id.vBackgroundPanelColor)
+    private val vBackgroundPanelSeek: SeekBar = findViewById(R.id.vBackgroundPanelSeek)
+    private val vBackgroundPanelCancel: View = findViewById(R.id.vBackgroundPanelCancel)
+    private val vBackgroundPanelEnter: View = findViewById(R.id.vBackgroundPanelEnter)
 
     private var autoBackOnCrop = true
     private var locked: Boolean = false
@@ -50,6 +59,8 @@ class SCrop(
 
         vAll.setOnClickListener { vCropImageView.cropRect = Rect(0, 0, bitmap.width, bitmap.height) }
 
+
+
         vFinish.setOnClickListener {
             if (onCrop != null) {
                 if (autoBackOnCrop)
@@ -60,6 +71,34 @@ class SCrop(
                 val cropPoints = vCropImageView.cropPoints
                 onCrop.invoke(this, vCropImageView.croppedImage!!, cropPoints[0].toInt(), cropPoints[1].toInt(), (cropPoints[2] - cropPoints[0]).toInt(), (cropPoints[5] - cropPoints[1]).toInt())
             }
+        }
+
+        //  Background panel
+
+        vBackground.visibility = View.GONE // !!!!!!!!!!!!!!
+
+        vBackgroundPanelSeek.max = 100
+        vBackgroundPanel.visibility = View.GONE
+        vBackgroundPanelColor.setOnClickListener {
+
+        }
+        vBackground.setOnClickListener {
+            vBackgroundPanel.visibility = View.VISIBLE
+            vBackground.visibility = View.GONE
+            vAll.visibility = View.GONE
+            vFinish.visibility = View.GONE
+        }
+        vBackgroundPanelCancel.setOnClickListener {
+            vBackgroundPanel.visibility = View.GONE
+            vBackground.visibility = View.VISIBLE
+            vAll.visibility = View.VISIBLE
+            vFinish.visibility = View.VISIBLE
+        }
+        vBackgroundPanelEnter.setOnClickListener {
+            vBackgroundPanel.visibility = View.GONE
+            vBackground.visibility = View.VISIBLE
+            vAll.visibility = View.VISIBLE
+            vFinish.visibility = View.VISIBLE
         }
     }
 
