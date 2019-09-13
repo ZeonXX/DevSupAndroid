@@ -231,4 +231,6 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         update()
         return this
     }
+
+    fun isExpanded() = expanded
 }
