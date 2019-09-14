@@ -15,13 +15,20 @@ class UtilsAudioPlayer {
     var onStep: (Long) -> Unit = {}
     var useProximity = false
     private val sampleRate = 8000
-    private val frameSize = 160
-    private val minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT)
+    private val minBufferSize = AudioTrack.getMinBufferSize(
+        sampleRate,
+        AudioFormat.CHANNEL_OUT_MONO,
+        AudioFormat.ENCODING_PCM_16BIT
+    )
 
     private var subPlayer: SubPlayer? = null
 
+    fun play(stream: () -> ByteArray, onStop: () -> Unit = {}) {
+        subPlayer = SubPlayer(stream, onStop)
+    }
+
     fun play(bytes: ByteArray, onStop: () -> Unit = {}) {
-        subPlayer = SubPlayer(bytes, onStop)
+        subPlayer = SubPlayer({ bytes }, onStop)
     }
 
     fun stop() {
@@ -41,13 +48,12 @@ class UtilsAudioPlayer {
 
 
     private inner class SubPlayer(
-            val byteArray: ByteArray,
-            val onStop: () -> Unit
+        val stream: () -> ByteArray,
+        val onStop: () -> Unit
     ) {
 
-        var utilsProximity:UtilsProximity? = null
+        var utilsProximity: UtilsProximity? = null
         var stop = false
-        var offset = 0
         var audioTrack: AudioTrack? = null
         var playbackOffset = 0
 
@@ -62,26 +68,37 @@ class UtilsAudioPlayer {
             }
         }
 
-        fun startPlay(stream: Int) {
-            if(stop){
+        fun startPlay(streamType: Int) {
+            if (stop) {
                 utilsProximity?.release()
                 return
             }
-            if(this.audioTrack != null){
+            if (this.audioTrack != null) {
                 playbackOffset += this.audioTrack!!.playbackHeadPosition
             }
-            SupAndroid.activity!!.volumeControlStream = stream
-            val audioTrack = AudioTrack(stream, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize, AudioTrack.MODE_STREAM)
+            SupAndroid.activity!!.volumeControlStream = streamType
+            val audioTrack = AudioTrack(
+                streamType,
+                sampleRate,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                minBufferSize,
+                AudioTrack.MODE_STREAM
+            )
             this.audioTrack = audioTrack
             ToolsThreads.thread {
 
                 ToolsAndroid.requestAudioFocus()
                 audioTrack.play()
                 try {
-                    while (!stop && this.audioTrack == audioTrack && offset < byteArray.size) {
+                    while (!stop && this.audioTrack == audioTrack) {
                         if (audioTrack.playState == AudioTrack.PLAYSTATE_PLAYING) {
-                            audioTrack.write(byteArray, offset, frameSize)
-                            offset += frameSize
+                            val byteArray = stream.invoke()
+                            if(byteArray.isEmpty()) {
+                                ToolsThreads.sleep(1)
+                                continue
+                            }
+                            audioTrack.write(byteArray, 0, byteArray.size)
                             ToolsThreads.main {
                                 try {
                                     onStep.invoke((audioTrack.playbackHeadPosition + playbackOffset) / (sampleRate / 1000L))
@@ -89,6 +106,8 @@ class UtilsAudioPlayer {
                                     if (e !is IllegalStateException) err(e)
                                 }
                             }
+                        }else{
+                            ToolsThreads.sleep(1)
                         }
                     }
                 } catch (e: Exception) {
@@ -96,7 +115,7 @@ class UtilsAudioPlayer {
                 }
                 try {
                     audioTrack.stop()
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     err(e)
                 }
                 audioTrack.release()
