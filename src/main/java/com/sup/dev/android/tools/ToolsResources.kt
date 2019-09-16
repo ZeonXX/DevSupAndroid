@@ -10,6 +10,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 object ToolsResources {
@@ -18,6 +19,38 @@ object ToolsResources {
 
     fun sCap(@StringRes r: Int, vararg args: Any): String {
         return s(r, *args).capitalize()
+    }
+
+    /*
+      string_key_1, string_key_2, string_key_3...
+      stringKey - "string_key_" or "string_%s_key"
+    */
+    fun getStringIndexedArray(stringKey: String): Array<String> {
+        var index = 1
+        val list = ArrayList<String>()
+        while (true) {
+            val x = getStringId(if (stringKey.contains("%s")) String.format(stringKey, index) else stringKey + index)
+            index++
+            if (x > 0) list.add(s(x))
+            else break
+        }
+        return list.toTypedArray()
+    }
+
+    /*
+      string_key_1, string_key_2, string_key_3...
+      stringKey - "string_key_" or "string_%s_key"
+    */
+    fun getStringIndexedArrayId(stringKey: String): Array<Int> {
+        var index = 1
+        val list = ArrayList<Int>()
+        while (true) {
+            val x = getStringId(if (stringKey.contains("%s")) String.format(stringKey, index) else stringKey + index)
+            index++
+            if (x > 0) list.add(x)
+            else break
+        }
+        return list.toTypedArray()
     }
 
     fun s(@StringRes r: Int, vararg args: Any): String {
@@ -81,7 +114,7 @@ object ToolsResources {
         return id
     }
 
-    fun getColorAttr(@AttrRes r: Int, def:Int=0x00000000): Int {
+    fun getColorAttr(@AttrRes r: Int, def: Int = 0x00000000): Int {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val color = ta.getColor(0, def)
@@ -89,7 +122,7 @@ object ToolsResources {
         return color
     }
 
-    fun getBooleanAttr(@AttrRes r: Int, def:Boolean=false): Boolean {
+    fun getBooleanAttr(@AttrRes r: Int, def: Boolean = false): Boolean {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val b = ta.getBoolean(0, def)

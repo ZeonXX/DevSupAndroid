@@ -18,7 +18,6 @@ import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads

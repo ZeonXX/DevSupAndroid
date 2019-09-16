@@ -34,9 +34,6 @@ open class Settings @JvmOverloads constructor(
 
     private var subSettings: ArrayList<Settings>? = null
 
-    /*
-
-     */
     init {
 
         SupAndroid.initEditMode(this)

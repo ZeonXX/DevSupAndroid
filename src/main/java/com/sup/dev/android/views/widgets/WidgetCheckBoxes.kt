@@ -11,7 +11,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardDividerTitleMini
-import com.sup.dev.java.libs.debug.log
 import java.util.ArrayList
 
 

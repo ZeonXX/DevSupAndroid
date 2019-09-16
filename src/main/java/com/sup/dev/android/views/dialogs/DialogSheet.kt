@@ -9,7 +9,6 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 
 @Suppress("UNCHECKED_CAST")
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
