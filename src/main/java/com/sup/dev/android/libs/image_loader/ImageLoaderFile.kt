@@ -5,11 +5,11 @@ import com.sup.dev.java.tools.ToolsFiles
 import java.io.File
 import java.io.IOException
 
-class ImageLoaderFile(val file: File) : ImageLoaderA() {
+class ImageLoaderFile(
+        val file: File
+) : ImageLoaderA() {
 
-    init {
-        setKey("file_" + file.absolutePath)
-    }
+    override fun getKey() = "file_${file.absolutePath}_${w}_${h}"
 
     override fun load(): ByteArray? {
         try {

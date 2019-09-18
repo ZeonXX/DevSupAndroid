@@ -1,10 +1,11 @@
 package com.sup.dev.android.libs.image_loader
 
-class ImageLoaderBytes(key: Any, private val bytes: ByteArray) : ImageLoaderA() {
+class ImageLoaderBytes(
+        private val key: Any,
+        private val bytes: ByteArray
+) : ImageLoaderA() {
 
-    init {
-        setKey("bytes_$key")
-    }
+    override fun getKey() = "bytes_${key}_${w}_${h}"
 
     override fun load(): ByteArray {
         return bytes

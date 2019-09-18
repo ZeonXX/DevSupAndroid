@@ -10,8 +10,6 @@ import com.sup.dev.android.tools.ToolsCash
 
 abstract class ImageLoaderA {
 
-    private var key: String = "key"
-
     internal var vImage: ImageView? = null
     internal var vGifProgressBar: View? = null
     internal var onLoaded: (ByteArray?) -> Unit = {}
@@ -31,7 +29,6 @@ abstract class ImageLoaderA {
     internal var cashScaledBytes = false
     internal var noCash = false
     internal var noLoadFromCash = false
-    internal var keyPrefix: String? = ""
     internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
 
@@ -40,7 +37,7 @@ abstract class ImageLoaderA {
 
     fun into(vImage: ImageView?) {
         this.vImage = vImage
-        if (vImage != null) vImage.tag = key
+        if (vImage != null) vImage.tag = getKey()
         ImageLoader.load(this)
     }
 
@@ -76,17 +73,11 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun sizeArd(sizeArd:Float): ImageLoaderA {
+    fun sizeArd(sizeArd: Float): ImageLoaderA {
         this.sizeArd = sizeArd
         return this
     }
 
-    fun keyPrefix(keyPrefix: String): ImageLoaderA {
-        if (this.keyPrefix != null) key = key.substring(keyPrefix.length)
-        this.keyPrefix = keyPrefix
-        setKey(key)
-        return this
-    }
 
     fun size(w: Int, h: Int): ImageLoaderA {
         this.w = w
@@ -94,10 +85,7 @@ abstract class ImageLoaderA {
         return this
     }
 
-    protected fun setKey(key: Any): ImageLoaderA {
-        this.key = keyPrefix!! + key.toString()
-        return this
-    }
+    abstract fun getKey(): String
 
     fun noHolder(): ImageLoaderA {
         noHolder = true
@@ -170,18 +158,18 @@ abstract class ImageLoaderA {
     }
 
     fun isKey(key: Any?): Boolean {
-        return key === this.key || key != null && key == this.key
+        return key === this.getKey() || key != null && key == this.getKey()
     }
 
     fun startLoad(): ByteArray? {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, "" + key.replace("/", "_").hashCode())
+        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
         return data
     }
 
-    fun getFromCash() = ToolsCash.get("" + key.replace("/", "_").hashCode())
+    fun getFromCash() = ToolsCash.get("" + getKey().replace("/", "_").hashCode())
 
     abstract fun load(): ByteArray?
 
@@ -189,13 +177,9 @@ abstract class ImageLoaderA {
     //  Getters
     //
 
-    fun getKey(): String {
-        return key
-    }
-
     fun clear() {
-        ToolsCash.clear("" + key.replace("/", "_").hashCode())
-        ImageLoader.removeFromCash(key)
+        ToolsCash.clear("" + getKey().replace("/", "_").hashCode())
+        ImageLoader.removeFromCash(getKey())
     }
 
 }
