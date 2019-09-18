@@ -8,6 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.sup.dev.android.views.views.cropper.ViewCropImage
+            android:id="@+id/vCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
         <LinearLayout
             android:id="@+id/vBackgroundPanel"
             android:layout_width="match_parent"
@@ -97,12 +103,6 @@
             android:src="@drawable/ic_all_out_white_24dp" />
 
         <com.sup.dev.android.views.views.ViewIcon style="@style/Icon.Shadow.Back" />
-
-        <com.sup.dev.android.views.views.cropper.ViewCropImage
-            android:id="@+id/vCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
 
     </FrameLayout>
 

@@ -237,6 +237,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         }
     }
 
+    fun getSelectedCount() = selectedList.size
+
     //
     //  Setters
     //

@@ -1,7 +1,5 @@
 package com.sup.dev.android.libs.screens.navigator
 
-import android.os.Build
-import android.view.View
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
