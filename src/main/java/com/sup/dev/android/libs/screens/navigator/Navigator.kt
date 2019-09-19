@@ -2,7 +2,6 @@ package com.sup.dev.android.libs.screens.navigator
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.java.classes.callbacks.CallbacksList2
 import java.util.ArrayList
 
@@ -46,110 +45,133 @@ object Navigator {
         action.doAction(screen)
     }
 
-    @JvmOverloads
-    fun to(screen: Screen, animation: Animation = Animation.IN) {
-        if (!currentStack.stack.isEmpty()) {
-            if (!getCurrent()!!.isBackStackAllowed) {
-                removeScreen(getCurrent()!!)
-            } else {
-                getCurrent()!!.onPause()
+    fun to(screen: Screen, animation: Animation = Animation.IN, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            if (currentStack.stack.isNotEmpty()) {
+                if (!getCurrent()!!.isBackStackAllowed) {
+                    removeScreen(getCurrent()!!)
+                } else {
+                    getCurrent()!!.onPause()
+                }
+                if (screen.isSingleInstanceInBackStack) {
+                    removeAll(screen.javaClass, false)
+                }
             }
-            if (screen.isSingleInstanceInBackStack) {
-                removeAll(screen.javaClass)
+            currentStack.stack.add(screen)
+            setCurrentViewNew(animation)
+        }
+    }
+
+    fun replace(screen: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            if (currentStack.stack.isNotEmpty()) removeScreen(getCurrent()!!)
+            to(screen, Animation.ALPHA, false)
+        }
+    }
+
+    fun replace(screen: Screen, newScreen: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            if (currentStack.stack.isNotEmpty()) {
+                if (getCurrent() == screen) {
+                    replace(newScreen, false)
+                } else {
+                    for (i in currentStack.stack.indices) if (currentStack.stack[i] == screen) currentStack.stack[i] = newScreen
+                }
             }
         }
-        currentStack.stack.add(screen)
-        setCurrentViewNew(animation)
     }
 
-    fun replace(screen: Screen, newScreen: Screen) {
-        if (currentStack.stack.isEmpty()) return
-        if (getCurrent() == screen) {
-            replace(newScreen)
-            return
+    fun set(screen: Screen, animation: Animation = Animation.ALPHA, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            while (currentStack.stack.size != 0) removeScreen(currentStack.stack[0])
+            to(screen, animation, false)
         }
-        for (i in currentStack.stack.indices) if (currentStack.stack[i] == screen) currentStack.stack[i] = newScreen
     }
 
-    fun replace(screen: Screen) {
-        if (!currentStack.stack.isEmpty()) removeScreen(getCurrent()!!)
-        to(screen, Animation.ALPHA)
+    fun reorder(screen: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            currentStack.stack.remove(screen)
+            to(screen, Animation.ALPHA, false)
+        }
     }
 
-    fun set(screen: Screen, animation: Animation = Animation.ALPHA) {
-        while (currentStack.stack.size != 0) removeScreen(currentStack.stack[0])
-        to(screen, animation)
+    fun toBackStackOrNew(screen: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            reorderOrCreate(screen::class.java, false) { screen }
+        }
     }
 
-    fun reorder(screen: Screen) {
-        currentStack.stack.remove(screen)
-        to(screen)
+    fun reorderOrCreate(viewClass: Class<out Screen>, checkCanHideCurrent: Boolean=true, provider: () -> Screen) {
+        checkHideCurrent(checkCanHideCurrent) {
+            if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
+                return@checkHideCurrent
+
+            for (i in currentStack.stack.size - 1 downTo -1 + 1)
+                if (currentStack.stack[i].javaClass == viewClass) {
+                    reorder(currentStack.stack[i], false)
+                    return@checkHideCurrent
+                }
+
+            to(provider.invoke(), Animation.ALPHA, false)
+        }
     }
 
-    fun toBackStackOrNew(screen: Screen) {
-        reorderOrCreate(screen::class.java) {screen}
-    }
-
-    fun reorderOrCreate(viewClass: Class<out Screen>, provider: () -> Screen) {
-
-        if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
-            return
-
-        for (i in currentStack.stack.size - 1 downTo -1 + 1)
-            if (currentStack.stack[i].javaClass == viewClass) {
-                reorder(currentStack.stack[i])
-                return
+    fun removeAllEqualsAndTo(view: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            var i = 0
+            while (i < currentStack.stack.size) {
+                if (currentStack.stack[i].equalsNView(view))
+                    remove(currentStack.stack[i--], false)
+                i++
             }
 
-        to(provider.invoke())
-    }
-
-    fun removeAllEqualsAndTo(view: Screen) {
-
-        var i = 0
-        while (i < currentStack.stack.size) {
-            if (currentStack.stack[i].equalsNView(view))
-                remove(currentStack.stack[i--])
-            i++
+            to(view, Animation.ALPHA, false)
         }
-
-        to(view)
     }
 
-    fun removeAll(viewClass: Class<out Screen>) {
-        val current = getCurrent()
-        val needUpdate = current != null && current.javaClass == viewClass
+    fun removeAll(viewClass: Class<out Screen>, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            val current = getCurrent()
+            val needUpdate = current != null && current.javaClass == viewClass
 
-        var i = 0
-        while (i < currentStack.stack.size) {
-            if (currentStack.stack[i].javaClass == viewClass) {
-                remove(currentStack.stack[i--])
+            var i = 0
+            while (i < currentStack.stack.size) {
+                if (currentStack.stack[i].javaClass == viewClass) {
+                    remove(currentStack.stack[i--], false)
+                }
+                i++
             }
-            i++
-        }
 
-        if (needUpdate) setCurrentViewNew(Animation.OUT)
+            if (needUpdate) setCurrentViewNew(Animation.OUT)
+        }
     }
 
-
-    fun back(): Boolean {
+    fun back(checkCanHideCurrent: Boolean=true): Boolean {
         if (!hasBackStack()) return false
 
-        val current = getCurrent()
-        removeScreen(current!!)
-        setCurrentViewNew(Animation.OUT)
+        checkHideCurrent(checkCanHideCurrent) {
+            val current = getCurrent()
+            removeScreen(current!!)
+            setCurrentViewNew(Animation.OUT)
 
-        onBack.invoke(current, current)
+            onBack.invoke(current, current)
+        }
 
         return true
     }
 
-    fun remove(view: Screen) {
-        if (hasBackStack() && getCurrent() == view)
-            back()
-        else
-            removeScreen(view)
+    fun remove(view: Screen, checkCanHideCurrent: Boolean=true) {
+        checkHideCurrent(checkCanHideCurrent) {
+            if (hasBackStack() && getCurrent() == view)
+                back(false)
+            else
+                removeScreen(view)
+        }
     }
+
+    //
+    //  Stack
+    //
 
     fun setStack(stack: NavigatorStack) {
         if (currentStack == stack) return
@@ -159,10 +181,19 @@ object Navigator {
         setCurrentViewNew(Animation.ALPHA)
     }
 
-    fun closeProtected(onClose: () -> Unit) {
+    //
+    //  Support
+    //
+
+    private fun checkHideCurrent(checkCanHideCurrent: Boolean, callback: () -> Unit) {
+        if (!checkCanHideCurrent) callback.invoke()
         val current = getCurrent()
-        if (current is ScreenProtected) current.onProtectedClose(onClose)
-        else onClose.invoke()
+        if (current == null) callback.invoke()
+        else {
+            current.onTryToHideOrClose {
+                if(it)callback.invoke()
+            }
+        }
     }
 
     //
@@ -206,7 +237,7 @@ object Navigator {
             }
         }
 
-        return getCurrent() != null && getCurrent()!!.onBackPressed() || back()
+        return getCurrent() != null && getCurrent()!!.onBackPressed() || back(false)
     }
 
     //

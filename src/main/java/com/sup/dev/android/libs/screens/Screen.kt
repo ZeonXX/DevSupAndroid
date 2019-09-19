@@ -14,7 +14,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
 
 open class Screen(
         protected val viewScreen: View
@@ -90,6 +89,10 @@ open class Screen(
     @CallSuper
     open fun onPause() {
 
+    }
+
+    open fun onTryToHideOrClose(willCloseCallback:(Boolean)->Unit) {
+        willCloseCallback.invoke(true)
     }
 
     @CallSuper
