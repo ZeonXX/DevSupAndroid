@@ -14,6 +14,7 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 
 open class Screen(
         protected val viewScreen: View
@@ -26,7 +27,7 @@ open class Screen(
     var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
     var toolbarContentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
     var isBackStackAllowed = true
-    var hasBackIcon = true
+    var hasToolbarBackIcon = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var navigationBarColor = ToolsResources.getPrimaryColor(context)
@@ -54,7 +55,7 @@ open class Screen(
     }
 
     protected fun removeAppbarNavigation() {
-        hasBackIcon = false
+        hasToolbarBackIcon = false
         onResume()
     }
 
@@ -67,19 +68,19 @@ open class Screen(
         val toolbar: Toolbar? = findViewById(R.id.vToolbar)
         if (toolbar != null) {
             toolbar.setTitleTextColor(toolbarContentColor)
-            if (hasBackIcon) {
+            if (hasToolbarBackIcon) {
                 toolbar.navigationIcon = getActivity().type.getNavigationDrawable(this)
                 if (useIconsFilter) toolbar.navigationIcon?.setColorFilter(toolbarContentColor, PorterDuff.Mode.SRC_ATOP)
                 toolbar.setNavigationOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
             } else {
                 toolbar.navigationIcon = null
             }
-        } else {
-            val v = findViewById<View>(R.id.vBack)
-            if (v != null && v is ImageView) {
-                v.setImageDrawable(getActivity().type.getNavigationDrawable(this))
-                v.setOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
-            }
+        }
+
+        val v = findViewById<View>(R.id.vBack)
+        if (v != null && v is ImageView) {
+            v.setImageDrawable(getActivity().type.getNavigationDrawable(this))
+            v.setOnClickListener { SupAndroid.activity!!.onViewBackPressed() }
         }
 
         val appBarLayout: AppBarLayout? = findViewById(R.id.vAppBar)
