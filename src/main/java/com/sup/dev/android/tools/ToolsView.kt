@@ -44,6 +44,7 @@ import java.util.regex.Pattern
 object ToolsView {
 
     val ANIMATION_TIME = 300
+    val ANIMATION_TIME_FASE = 200
 
 
     @Suppress("DEPRECATION")

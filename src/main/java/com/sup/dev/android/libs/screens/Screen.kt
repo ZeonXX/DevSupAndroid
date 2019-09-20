@@ -91,10 +91,6 @@ open class Screen(
 
     }
 
-    open fun onTryToHideOrClose(willCloseCallback:(Boolean)->Unit) {
-        willCloseCallback.invoke(true)
-    }
-
     @CallSuper
     open fun onStackChanged() {
 

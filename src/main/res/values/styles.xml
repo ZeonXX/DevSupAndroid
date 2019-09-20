@@ -179,6 +179,27 @@
         <item name="android:layout_gravity">right</item>
     </style>
 
+    <style name="Icon.Toolbar.Shadow">
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="ViewIcon_background">@color/focus_dark</item>
+    </style>
+
+    <style name="Icon.Toolbar.Shadow.Back">
+        <item name="android:id">@id/vBack</item>
+        <item name="android:src">?attr/ic_arrow_back_24dp</item>
+    </style>
+
+    <style name="Icon.Toolbar.Shadow.Back.Filtered">
+        <item name="ViewIcon_filter">?toolbar_content_color</item>
+    </style>
+
+    <style name="Icon.Toolbar.Shadow.Filtered">
+        <item name="ViewIcon_filter">?toolbar_content_color</item>
+    </style>
+
     <style name="Icon.Toolbar.Filtered">
         <item name="ViewIcon_filter">?toolbar_content_color</item>
     </style>

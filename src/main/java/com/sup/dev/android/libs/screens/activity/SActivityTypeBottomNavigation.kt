@@ -65,20 +65,20 @@ open class SActivityTypeBottomNavigation(
                 vLine!!.visibility = View.GONE
                 skipNextNavigationAnimation  = true
             } else {
-                ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0)
                 if (screenNavigationShadowAvailable) {
-                    ToolsView.fromAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0)
+                    ToolsView.fromAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0)
                 } else {
-                    ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+                    ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                         vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
                     }
                 }
             }
         } else {
-            ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+            ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                 vContainer!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
             }
-            ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME else 0) {
+            ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                 vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
             }
         }
