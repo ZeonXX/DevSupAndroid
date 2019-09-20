@@ -87,16 +87,16 @@ object Navigator {
     }
 
     fun toBackStackOrNew(screen: Screen) {
-        reorderOrCreate(screen::class.java) { screen }
+        reorderOrCreate(screen::class) { screen }
     }
 
-    fun reorderOrCreate(viewClass: Class<out Screen>, provider: () -> Screen) {
+    fun reorderOrCreate(viewClass: KClass<out Screen>, provider: () -> Screen) {
 
-        if (getCurrent() != null && getCurrent()!!.javaClass == viewClass)
+        if (getCurrent() != null && getCurrent()!!::class == viewClass)
             return
 
         for (i in currentStack.stack.size - 1 downTo -1 + 1)
-            if (currentStack.stack[i].javaClass == viewClass) {
+            if (currentStack.stack[i]::class == viewClass) {
                 reorder(currentStack.stack[i])
                 return
             }
@@ -218,6 +218,11 @@ object Navigator {
 
     fun getCurrent(): Screen? {
         return if (currentStack.stack.isEmpty()) null else currentStack.stack[currentStack.stack.size - 1]
+    }
+
+    fun getCurrentLast(screenClass: KClass<out Screen>): Screen? {
+        for (i in currentStack.stack.indices.reversed()) if (currentStack.stack[i]::class == screenClass) return currentStack.stack[i]
+        return null
     }
 
     fun isEmpty(): Boolean {
