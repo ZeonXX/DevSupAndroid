@@ -9,7 +9,9 @@ import android.os.Build
 import android.util.Log
 import android.util.Pair
 import androidx.annotation.RequiresApi
+import com.sup.dev.java.libs.debug.err
 import java.io.*
+import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
@@ -151,28 +153,35 @@ internal object BitmapUtils {
             aspectRatioY: Int,
             scale: Float,
             flipHorizontally: Boolean,
-            flipVertically: Boolean): Bitmap {
+            flipVertically: Boolean): Bitmap? {
 
-        val rect = getRectFromPoints(
-                points,
-                bitmap.width,
-                bitmap.height,
-                fixAspectRatio,
-                aspectRatioX,
-                aspectRatioY)
+        try {
+            val rect = getRectFromPoints(
+                    points,
+                    bitmap.width,
+                    bitmap.height,
+                    fixAspectRatio,
+                    aspectRatioX,
+                    aspectRatioY)
 
-        val matrix = Matrix()
-        matrix.setRotate(degreesRotated.toFloat(), (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat())
-        matrix.postScale(if (flipHorizontally) -scale else scale, if (flipVertically) -scale else scale)
-        var result = Bitmap.createBitmap(bitmap, rect.left, rect.top, rect.width(), rect.height(), matrix, true)
+            val matrix = Matrix()
+            matrix.setRotate(degreesRotated.toFloat(), (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat())
+            matrix.postScale(if (flipHorizontally) -scale else scale, if (flipVertically) -scale else scale)
+            var result = Bitmap.createBitmap(bitmap, rect.left, rect.top, rect.width(), rect.height(), matrix, true)
 
-        if (result == bitmap)
-            result = bitmap.copy(bitmap.config, false)
+            if (result == bitmap)
+                result = bitmap.copy(bitmap.config, false)
 
-        if (degreesRotated % 90 != 0)
-            result = cropForRotatedImage(result, points, rect, degreesRotated, fixAspectRatio, aspectRatioX, aspectRatioY)
+            if (degreesRotated % 90 != 0)
+                result = cropForRotatedImage(result, points, rect, degreesRotated, fixAspectRatio, aspectRatioX, aspectRatioY)
 
-        return result
+            return result
+        }catch (e:NullPointerException){
+            err(e)
+            return null
+        }
+
+
     }
 
     fun cropBitmap(

@@ -189,6 +189,7 @@ object ToolsAndroid {
         val activityManager = SupAndroid.appContext!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val proc = activityManager.runningAppProcesses
 
+        if(proc == null) return true
         for (info in proc)
             if (info.processName == SupAndroid.appContext!!.packageName)
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)

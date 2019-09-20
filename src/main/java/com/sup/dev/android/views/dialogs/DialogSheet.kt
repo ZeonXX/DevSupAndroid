@@ -9,6 +9,8 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.err
+import java.lang.IllegalArgumentException
 
 @Suppress("UNCHECKED_CAST")
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
@@ -76,7 +78,11 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
     }
 
     override fun hide() {
-        super.dismiss()
+        try{
+            super.dismiss()
+        }catch (e:IllegalArgumentException){
+            err(e)
+        }
         onHide()
     }
 

@@ -288,15 +288,16 @@ object ToolsBitmap {
 
     @Throws(IOException::class)
     fun getFromURL(src: String): Bitmap? {
-        val url = URL(src)
-        val connection = url.openConnection() as HttpURLConnection
-        connection.readTimeout = 4000
-        connection.doInput = true
-        connection.connect()
-        val input = connection.inputStream
         try {
+            val url = URL(src)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.readTimeout = 4000
+            connection.doInput = true
+            connection.connect()
+            val input = connection.inputStream
             return BitmapFactory.decodeStream(input)
         } catch (e: Exception) {
+            err(e)
             return null
         }
     }
