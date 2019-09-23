@@ -58,25 +58,29 @@ object ToolsCash {
     }
 
     fun clearIfNeed(){
-        if (maxCashSize == 0L) init()
-        val cacheDir = SupAndroid.appContext!!.cacheDir
-        var cashSize = getDirSize(cacheDir)
-        if(cashSize > overClearSize + maxCashSize){
+        try {
+            if (maxCashSize == 0L) init()
+            val cacheDir = SupAndroid.appContext!!.cacheDir
+            var cashSize = getDirSize(cacheDir)
+            if (cashSize > overClearSize + maxCashSize) {
 
-            val listFiles = cacheDir.listFiles()
-            Arrays.sort(listFiles){i1,i2 -> (i1.lastModified() - i2.lastModified()).toInt()}
-            var index = 0
+                val listFiles = cacheDir.listFiles()
+                Arrays.sort(listFiles) { i1, i2 -> (i1.lastModified() - i2.lastModified()).toInt() }
+                var index = 0
 
-            while (cashSize > maxCashSize && index < listFiles.size){
-                cashSize -= listFiles[index].length()
-                try{
-                    listFiles[index].delete()
-                }catch (e:Exception){
-                    err(e)
+                while (cashSize > maxCashSize && index < listFiles.size) {
+                    cashSize -= listFiles[index].length()
+                    try {
+                        listFiles[index].delete()
+                    } catch (e: Exception) {
+                        err(e)
+                    }
+                    index++
                 }
-                index++
-            }
 
+            }
+        }catch (e:Exception){
+            err(e)
         }
     }
 
