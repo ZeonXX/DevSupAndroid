@@ -6,6 +6,7 @@ import android.media.AudioManager.STREAM_VOICE_CALL
 import android.media.AudioTrack
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -16,22 +17,22 @@ class UtilsAudioPlayer {
     var useProximity = false
     private val sampleRate = 8000
     private val minBufferSize = AudioTrack.getMinBufferSize(
-        sampleRate,
-        AudioFormat.CHANNEL_OUT_MONO,
-        AudioFormat.ENCODING_PCM_16BIT
+            sampleRate,
+            AudioFormat.CHANNEL_OUT_MONO,
+            AudioFormat.ENCODING_PCM_16BIT
     )
 
     private var subPlayer: SubPlayer? = null
 
-    fun playBuffered(onStop: () -> Unit = {}):ArrayList<ByteArray> {
+    fun playBuffered(onStop: () -> Unit = {}): ArrayList<ByteArray> {
         val buffer = ArrayList<ByteArray>()
         playBuffered(buffer, onStop)
         return buffer
     }
 
-    fun playBuffered(buffer:ArrayList<ByteArray>, onStop: () -> Unit = {}) {
+    fun playBuffered(buffer: ArrayList<ByteArray>, onStop: () -> Unit = {}) {
         subPlayer = SubPlayer({
-            if(buffer.isEmpty()) ByteArray(0){0}
+            if (buffer.isEmpty()) ByteArray(0) { 0 }
             else buffer.removeAt(0)
         }, onStop)
     }
@@ -42,13 +43,24 @@ class UtilsAudioPlayer {
     }
 
     fun play(bytes: ByteArray, onStop: () -> Unit = {}) {
-        subPlayer = SubPlayer({ bytes }, onStop)
+        stop()
+        val flag = Item(false)
+        subPlayer = SubPlayer({
+            if (flag.a) {
+                null
+            } else {
+                flag.a = true
+                bytes
+            }
+        }, onStop)
     }
 
     fun stop() {
         subPlayer?.stop()
         subPlayer = null
     }
+
+    fun isPlaying() = subPlayer != null && !subPlayer!!.stop
 
     fun pause() {
         subPlayer?.audioTrack?.pause()
@@ -62,8 +74,8 @@ class UtilsAudioPlayer {
 
 
     private inner class SubPlayer(
-        val stream: () -> ByteArray,
-        val onStop: () -> Unit
+            val stream: () -> ByteArray?,
+            val onStop: () -> Unit
     ) {
 
         var utilsProximity: UtilsProximity? = null
@@ -80,6 +92,16 @@ class UtilsAudioPlayer {
                     }
                 }
             }
+
+            ToolsThreads.timerMain(20) {
+                if (stop) it.unsubscribe()
+                try {
+                    if (audioTrack != null) onStep.invoke((audioTrack!!.playbackHeadPosition + playbackOffset) / (sampleRate / 1000L))
+                } catch (e: Exception) {
+                    err(e)
+                }
+            }
+
         }
 
         fun startPlay(streamType: Int) {
@@ -92,12 +114,12 @@ class UtilsAudioPlayer {
             }
             SupAndroid.activity!!.volumeControlStream = streamType
             val audioTrack = AudioTrack(
-                streamType,
-                sampleRate,
-                AudioFormat.CHANNEL_OUT_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
-                minBufferSize,
-                AudioTrack.MODE_STREAM
+                    streamType,
+                    sampleRate,
+                    AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT,
+                    minBufferSize,
+                    AudioTrack.MODE_STREAM
             )
             this.audioTrack = audioTrack
             ToolsThreads.thread {
@@ -108,19 +130,16 @@ class UtilsAudioPlayer {
                     while (!stop && this.audioTrack == audioTrack) {
                         if (audioTrack.playState == AudioTrack.PLAYSTATE_PLAYING) {
                             val byteArray = stream.invoke()
-                            if(byteArray.isEmpty()) {
+                            if (byteArray == null) {
+                                stop()
+                                continue
+                            }
+                            if (byteArray.isEmpty()) {
                                 ToolsThreads.sleep(1)
                                 continue
                             }
                             audioTrack.write(byteArray, 0, byteArray.size)
-                            ToolsThreads.main {
-                                try {
-                                    onStep.invoke((audioTrack.playbackHeadPosition + playbackOffset) / (sampleRate / 1000L))
-                                } catch (e: Exception) {
-                                    if (e !is IllegalStateException) err(e)
-                                }
-                            }
-                        }else{
+                        } else {
                             ToolsThreads.sleep(1)
                         }
                     }
@@ -145,6 +164,11 @@ class UtilsAudioPlayer {
         fun stop() {
             stop = true
             utilsProximity?.release()
+            try {
+                if (audioTrack != null) audioTrack!!.stop()
+            } catch (e: Exception) {
+                err(e)
+            }
         }
 
     }
