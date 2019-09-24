@@ -14,7 +14,6 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.android.views.views.ViewEditTextMedia
 
-
 class SettingsField constructor(
         context: Context,
         attrs: AttributeSet? = null

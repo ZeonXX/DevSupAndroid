@@ -11,7 +11,7 @@ open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        if(layoutParams.width != ViewGroup.LayoutParams.MATCH_PARENT && gravity != Gravity.CENTER) {
+        if (layoutParams.width != ViewGroup.LayoutParams.MATCH_PARENT && gravity != Gravity.CENTER) {
             val width = Math.ceil(getMaxLineWidth().toDouble()).toInt()
             val height = measuredHeight
             setMeasuredDimension(width, height)
@@ -19,13 +19,13 @@ open class ViewTextRounded constructor(context: Context, attrs: AttributeSet) : 
     }
 
     public fun getMaxLineWidth(): Float {
-        if(layout == null) return 0f
+        if (layout == null) return 0f
         var maximumWidth = 0.0f
         val lines = layout.lineCount
         for (i in 0 until lines) {
             maximumWidth = Math.max(layout.getLineWidth(i), maximumWidth)
         }
 
-        return maximumWidth
+        return maximumWidth + paddingLeft + paddingRight
     }
 }
