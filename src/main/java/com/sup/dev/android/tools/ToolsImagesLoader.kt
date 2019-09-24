@@ -39,6 +39,7 @@ object ToolsImagesLoader {
 
         if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize/ToolsMath.max(w, h)
 
+        vImage.setImageDrawable(null)
         if (imageId > 0) {
             load(imageId).sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
                 if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
