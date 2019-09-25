@@ -2,6 +2,7 @@ package com.sup.dev.android.views.cards
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
@@ -62,8 +63,8 @@ abstract class Card(
     //  Adapter
     //
 
-    open fun instanceView(context: Context): View {
-        return if (layout > 0) ToolsView.inflate(context, layout) else instanceView()
+    open fun instanceView(vParent:ViewGroup): View {
+        return if (layout > 0) ToolsView.inflate(vParent, layout) else instanceView()
     }
 
     open fun setCardAdapter(adapter: CardAdapter?) {

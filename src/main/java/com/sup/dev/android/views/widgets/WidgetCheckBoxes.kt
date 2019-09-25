@@ -130,7 +130,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     fun group(title: String?, divider: Boolean = false): WidgetCheckBoxes {
         finishItemBuilding()
         val card = CardDividerTitleMini().setText(title).setDividerBottom(divider)
-        val v = card.instanceView(context)
+        val v = card.instanceView(vOptionsContainer)
         card.bindCardView(v)
         vOptionsContainer.addView(v)
         if (vOptionsContainer.childCount > 1)

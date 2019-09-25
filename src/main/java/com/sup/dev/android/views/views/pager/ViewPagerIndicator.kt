@@ -82,6 +82,5 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
     protected abstract fun onChanged()
 
     override fun onAdapterChanged(viewPager: ViewPager, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) {
-
     }
 }

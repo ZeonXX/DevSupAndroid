@@ -57,7 +57,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
 
         var cardView = viewCash.removeOne(card::class)
         if (cardView == null)
-            cardView = card.instanceView(frame.context)
+            cardView = card.instanceView(frame)
 
 
         frame.addView(ToolsView.removeFromParent(cardView))
@@ -140,6 +140,11 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         notifyItemRangeRemoved(0, count)
         for (h in holders)
             h.item = null
+    }
+
+    fun containsSame(card:Card):Boolean{
+        for (i in items) if(i == card) return true
+        return false
     }
 
 

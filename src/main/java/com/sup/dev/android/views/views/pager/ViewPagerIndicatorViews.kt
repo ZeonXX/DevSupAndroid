@@ -76,7 +76,7 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
         if (count == 0) return
         var xOffset = 0
         for (n in 0 until position) {
-            val child = getChildAt(n)
+            val child = getChildAt(n) ?: break
             xOffset += (child.measuredWidth + offset).toInt()
         }
 

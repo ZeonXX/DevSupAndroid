@@ -13,7 +13,6 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.collections.HashList
 import java.util.ArrayList
 
-
 open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     private val holders = ArrayList<Holder>()
@@ -36,14 +35,12 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         }
 
     //
-    //  items
+    //  Adapter
     //
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
         val holder = getFreeHolder(parent)
         parent.addView(holder.itemView)
-        holder.itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         var i = position
         while (i < position + notifyCount && i < items.size) {
@@ -51,21 +48,17 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
                 (items[i] as NotifyItem).notifyItem()
             i++
         }
-        removeItemFromHolders(items[position])
+        for (h in holders) if (h.item === items[position]) h.item = null
         holder.item = items[position]
 
         val card = items[position]
         val frame = holder.itemView
 
-        val tag = frame.tag
+        if (frame.childCount != 0 && frame.tag != null) viewCash.add(frame.tag, frame.getChildAt(0))
 
-        if (frame.childCount != 0  && tag != null)
-            viewCash.add(tag, frame.getChildAt(0))
         frame.removeAllViews()
-
         var cardView = viewCash.removeOne(card::class)
-        if (cardView == null)
-            cardView = card.instanceView(frame.context)
+        if (cardView == null) cardView = card.instanceView(frame)
 
 
         frame.addView(ToolsView.removeFromParent(cardView))
@@ -73,6 +66,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         (cardView.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER
 
         card.bindCardView(cardView)
+        if (frame.width == 0) frame.requestLayout()
 
         return holder
     }
@@ -81,34 +75,23 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         return obj is Holder && obj.itemView === view
     }
 
-    override fun destroyItem(parent: ViewGroup, position: Int, `object`: Any) {
-        parent.removeView((`object` as Holder).itemView)
+    override fun destroyItem(parent: ViewGroup, position: Int, ob: Any) {
+        parent.removeView((ob as Holder).itemView)
     }
 
-    override fun getItemPosition(`object`: Any): Int {
-        return POSITION_NONE
+    override fun getItemPosition(ob: Any): Int {
+        if ((ob as Holder).item == null) return POSITION_NONE
+        return indexOf(ob.item!!)
     }
 
-    fun getItemId(position: Int): Int {
-        return position
-    }
-
-    fun getHolders(): ArrayList<Holder> {
-
-        val list = ArrayList<Holder>()
-        for (h in holders)
-            list.add(h)
-
-        return list
+    override fun getCount(): Int {
+        return items.size
     }
 
     //
     //  Items
     //
 
-    override fun getCount(): Int {
-        return items.size
-    }
 
     override operator fun get(position: Int): Card {
         return items[realPosition(position)]
@@ -164,10 +147,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     override fun getView(card: Card): View? {
-        val holders = getHolders()
-        for (h in holders) {
-            if (h.item === card) return h.itemView
-        }
+        for (h in holders) if (h.item === card) return h.itemView
         return null
     }
 
@@ -175,16 +155,6 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         this.notifyCount = notifyCount
         return this as K
     }
-
-    private fun removeItemFromHolders(item: Card) {
-        for (h in holders)
-            if (h.item === item)
-                h.item = null
-    }
-
-    //
-    //  Getters
-    //
 
     override fun isVisible(card: Card): Boolean {
         return getView(card) != null
@@ -202,10 +172,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     //
 
     private fun getFreeHolder(parent: ViewGroup): Holder {
-
-        for (holder in holders)
-            if (holder.itemView.parent == null)
-                return holder
+        for (holder in holders) if (holder.itemView.parent == null) return holder
 
         val holder = Holder(parent.context)
         holders.add(holder)
@@ -216,10 +183,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     class Holder constructor(context: Context) {
 
         var item: Card? = null
-        var itemView: FrameLayout
+        var itemView: FrameLayout = FrameLayout(context)
 
-        init {
-            this.itemView = FrameLayout(context)
-        }
     }
 }

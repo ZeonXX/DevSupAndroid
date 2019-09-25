@@ -125,8 +125,8 @@ class WidgetChooseFile : WidgetRecycler() {
 
     inner class CardBack constructor(val file: File) : Card(0) {
 
-        override fun instanceView(context: Context): View {
-            return Settings(context)
+        override fun instanceView(vParent: ViewGroup): View {
+            return Settings(vParent.context)
         }
 
         override fun bindView(view: View) {
@@ -142,8 +142,8 @@ class WidgetChooseFile : WidgetRecycler() {
     private inner class CardFile constructor(private val file: File) : Card(0) {
         private var viewIcon: ViewIcon? = null
 
-        override fun instanceView(context: Context): View {
-            return Settings(context)
+        override fun instanceView(vParent: ViewGroup): View {
+            return Settings(vParent.context)
         }
 
         private fun getViewIcon(context: Context): ViewIcon {

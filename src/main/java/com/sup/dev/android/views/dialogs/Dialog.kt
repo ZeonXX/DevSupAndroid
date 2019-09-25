@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.dialogs
 
+import android.os.Build
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDialog
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
@@ -16,6 +18,33 @@ import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 
 @Suppress("UNCHECKED_CAST")
 abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity!!) {
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        val window = window
+        if (hasFocus && view.context is SActivity && window != null) {
+            val activity = view.context!! as SActivity
+            if (activity.isFullScreen) {
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!activity.isFullScreen) {
+                    window.decorView.systemUiVisibility = activity.screenStatusBarIsLight
+                }
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.statusBarColor = activity.screenStatusBarColor
+            }
+
+        }
+    }
+
 
     //
     //  Getters

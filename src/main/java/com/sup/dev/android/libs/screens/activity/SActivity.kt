@@ -20,6 +20,9 @@ import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+import android.view.WindowManager
+import com.sup.dev.java.libs.debug.log
+
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -28,6 +31,10 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     var started = false
+
+    var isFullScreen = false
+    var screenStatusBarIsLight = 0
+    var screenStatusBarColor = 0
 
     var vActivityRoot: View? = null
     var vActivityDrawAnimations: ViewDrawAnimations? = null
@@ -88,7 +95,6 @@ abstract class SActivity : AppCompatActivity() {
 
     protected open fun applyTheme() {
     }
-
 
     protected open fun onFirstStart() {
 
@@ -165,14 +171,16 @@ abstract class SActivity : AppCompatActivity() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val statusBarColor = screen.statusBarColor
-            if (window.statusBarColor != statusBarColor) window.statusBarColor = statusBarColor
+            screenStatusBarColor = screen.statusBarColor
+            if (window.statusBarColor != screenStatusBarColor) window.statusBarColor = screenStatusBarColor
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val statusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
-            if (window.decorView.systemUiVisibility != statusBarIsLight) window.decorView.systemUiVisibility = statusBarIsLight
-        }
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           if(!isFullScreen) {
+               screenStatusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
+               if (window.decorView.systemUiVisibility != screenStatusBarIsLight) window.decorView.systemUiVisibility = screenStatusBarIsLight
+           }
+       }
 
         window.navigationBarColor = screen.navigationBarColor
 

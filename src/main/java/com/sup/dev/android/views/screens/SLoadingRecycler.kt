@@ -62,18 +62,12 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
                     .setShowErrorCardIfEmpty(false)
                     .setNotifyCount(5)
 
-
-            prepareAdapter(adapter!!)
-            setAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>)
+            vRecycler.adapter = adapter
 
             ToolsThreads.main(true) {
                 reload()
             }
         }
-    }
-
-    open fun prepareAdapter(adapter: RecyclerCardAdapterLoading<C, V>) {
-
     }
 
     override fun onReloadClicked() {
@@ -109,14 +103,6 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     //
 
     fun getAdapterCards() = adapter
-
-    //
-    //  Setters
-    //
-
-    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
-        vRecycler.adapter = adapter
-    }
 
 
 }

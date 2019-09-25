@@ -1,13 +1,13 @@
 package com.sup.dev.android.views.cards
 
-import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
 class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper {
 
-    override fun instanceView(context: Context): View {
+    override fun instanceView(vParent: ViewGroup): View {
         return widget.view
     }
 

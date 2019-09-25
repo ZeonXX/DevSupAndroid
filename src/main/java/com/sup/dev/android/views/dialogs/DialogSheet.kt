@@ -1,19 +1,50 @@
 package com.sup.dev.android.views.dialogs
 
+import android.content.Context
+import android.os.Build
+import android.util.DisplayMetrics
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDialog
 import android.view.*
 import com.sup.dev.android.R
+import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import java.lang.IllegalArgumentException
 
 @Suppress("UNCHECKED_CAST")
 open class DialogSheet(protected val view: View) : AppCompatDialog(view.context) {
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        val window = window
+        if (hasFocus && view.context is SActivity && window != null) {
+            val activity = view.context!! as SActivity
+            if (activity.isFullScreen) {
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!activity.isFullScreen) {
+                    window.decorView.systemUiVisibility = activity.screenStatusBarIsLight
+                }
+            }
+
+           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+               window.statusBarColor = activity.screenStatusBarColor
+           }
+
+        }
+    }
 
     //
     //  Getters
@@ -46,11 +77,6 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
-        if(Navigator.getCurrent() != null) window!!.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
-
-
-      //  vRoot.y = (-ToolsAndroid.getBottomNavigationBarHeight()).toFloat()
-
         vRoot.setOnClickListener { if (cancelable && isEnabled && onTryCancelOnTouchOutside()) hide() }
 
         Navigator.addOnScreenChanged {
@@ -60,7 +86,7 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
     }
 
     override fun onBackPressed() {
-        if(onTryCancelOnTouchOutside()) super.onBackPressed()
+        if (onTryCancelOnTouchOutside()) super.onBackPressed()
     }
 
     open fun onTryCancelOnTouchOutside(): Boolean {
@@ -78,9 +104,9 @@ open class DialogSheet(protected val view: View) : AppCompatDialog(view.context)
     }
 
     override fun hide() {
-        try{
+        try {
             super.dismiss()
-        }catch (e:IllegalArgumentException){
+        } catch (e: IllegalArgumentException) {
             err(e)
         }
         onHide()
