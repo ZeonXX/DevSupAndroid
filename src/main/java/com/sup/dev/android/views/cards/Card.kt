@@ -1,13 +1,10 @@
 package com.sup.dev.android.views.cards
 
 import android.content.Context
-import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
 import android.view.View
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
-import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class Card(
