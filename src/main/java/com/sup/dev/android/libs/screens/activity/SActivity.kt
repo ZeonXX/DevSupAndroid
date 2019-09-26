@@ -20,8 +20,6 @@ import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
-import android.view.WindowManager
-import com.sup.dev.java.libs.debug.log
 
 
 abstract class SActivity : AppCompatActivity() {

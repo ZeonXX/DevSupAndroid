@@ -20,6 +20,21 @@ class ViewImagesContainer @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
+    companion object {
+
+        private val cash = ArrayList<LayoutCorned>()
+
+        private fun putToCash(v: LayoutCorned) {
+            cash.add(v)
+        }
+
+        private fun getViewFromCash(): LayoutCorned? {
+            if (cash.isEmpty()) return null
+            else return ToolsView.removeFromParent(cash.removeAt(0))
+        }
+
+    }
+
     private val rowH = ToolsView.dpToPx(108).toInt()
     private val itemW = ToolsView.dpToPx(108).toInt()
     private val items = ArrayList<Item<out Any>>()
@@ -31,36 +46,30 @@ class ViewImagesContainer @JvmOverloads constructor(
     }
 
     fun add(vararg drawable: Drawable, onClick: ((Drawable) -> Unit)? = null, onLongClick: ((Drawable) -> Unit)? = null) {
-        for (i in drawable) {
-            val item = ItemDrawable(i, onClick, onLongClick)
-            items.add(item)
-        }
+        for (i in drawable) items.add(ItemDrawable(i, onClick, onLongClick))
         rebuild()
     }
 
     fun add(vararg uris: Uri, onClick: ((Uri) -> Unit)? = null, onLongClick: ((Uri) -> Unit)? = null) {
-        for (i in uris) {
-            val item = ItemUri(i, onClick, onLongClick)
-            items.add(item)
-        }
+        for (i in uris) items.add(ItemUri(i, onClick, onLongClick))
         rebuild()
     }
 
     fun add(vararg bitmaps: Bitmap, onClick: ((Bitmap) -> Unit)? = null, onLongClick: ((Bitmap) -> Unit)? = null) {
-        for (bitmap in bitmaps) {
-            val item = ItemBitmap(bitmap, onClick, onLongClick)
-            items.add(item)
-        }
+        for (bitmap in bitmaps) items.add(ItemBitmap(bitmap, onClick, onLongClick))
         rebuild()
     }
 
     fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
-        val item = ItemId(id, fullId, w, h, onClick, onLongClick)
-        items.add(item)
+        items.add(ItemId(id, fullId, w, h, onClick, onLongClick))
         rebuild()
     }
 
     fun clear() {
+        for (i in items) {
+            i.vImage.setImageDrawable(null)
+            putToCash(i.vContainer)
+        }
         items.clear()
         rebuild()
     }
@@ -140,7 +149,7 @@ class ViewImagesContainer @JvmOverloads constructor(
             val onLongClick: ((K) -> Unit)?
     ) {
 
-        val vContainer: LayoutCorned = ToolsView.inflate(R.layout.view_images_container_item)
+        val vContainer: LayoutCorned = getViewFromCash() ?: ToolsView.inflate(R.layout.view_images_container_item)
         val vImage: ImageView = vContainer.findViewById(R.id.vSupportImageView)
 
         init {
@@ -196,15 +205,16 @@ class ViewImagesContainer @JvmOverloads constructor(
         }
 
         override fun toImageView() {
-          //  val array = getDrawablesArray()
-          //  var index = 0
-          //  for (i in 0 until array.size) if (array[i] == drawable) index = i
-          //  Navigator.to(SImageView(index, array))
+            //  val array = getDrawablesArray()
+            //  var index = 0
+            //  for (i in 0 until array.size) if (array[i] == drawable) index = i
+            //  Navigator.to(SImageView(index, array))
         }
 
         override fun getSource() = drawable
 
     }
+
     private inner class ItemUri(
             val uri: Uri,
             onClick: ((Uri) -> Unit)?,
@@ -216,10 +226,10 @@ class ViewImagesContainer @JvmOverloads constructor(
         }
 
         override fun toImageView() {
-           // val array = getUriArray()
-           // var index = 0
-           // for (i in 0 until array.size) if (array[i] == uri) index = i
-           // Navigator.to(SImageView(index, array))
+            // val array = getUriArray()
+            // var index = 0
+            // for (i in 0 until array.size) if (array[i] == uri) index = i
+            // Navigator.to(SImageView(index, array))
         }
 
         override fun getSource() = uri

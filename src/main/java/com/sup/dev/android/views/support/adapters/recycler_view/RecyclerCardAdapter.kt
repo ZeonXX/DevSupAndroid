@@ -43,6 +43,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
                 (items[i] as NotifyItem).notifyItem()
             i++
         }
+        if(holder.item != null) holder.item?.onDetachView()
         removeItemFromHolders(items[position])
         holder.item = items[position]
 
@@ -76,8 +77,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
 
     private fun removeItemFromHolders(item: Card) {
         for (h in holders)
-            if (h.item === item)
+            if (h.item === item) {
+                item.detachView()
                 h.item = null
+            }
     }
 
     //
@@ -138,8 +141,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         val count = items.size
         items.clear()
         notifyItemRangeRemoved(0, count)
-        for (h in holders)
+        for (h in holders) {
+            h.item?.onDetachView()
             h.item = null
+        }
     }
 
     fun containsSame(card:Card):Boolean{

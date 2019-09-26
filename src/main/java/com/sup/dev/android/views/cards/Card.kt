@@ -1,12 +1,10 @@
 package com.sup.dev.android.views.cards
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
-
 
 abstract class Card(
     private val layout:Int
@@ -34,6 +32,15 @@ abstract class Card(
         view.tag = this
         bindView(view)
         isBinding = false
+    }
+
+    fun detachView(){
+        onDetachView()
+        this.view = null
+    }
+
+    open fun onDetachView(){
+
     }
 
     open fun bindView(view: View) {

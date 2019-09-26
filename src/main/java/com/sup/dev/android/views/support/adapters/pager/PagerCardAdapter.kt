@@ -76,7 +76,9 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     override fun destroyItem(parent: ViewGroup, position: Int, ob: Any) {
-        parent.removeView((ob as Holder).itemView)
+        ob as Holder
+        parent.removeView((ob.itemView))
+        ob.item?.detachView()
     }
 
     override fun getItemPosition(ob: Any): Int {

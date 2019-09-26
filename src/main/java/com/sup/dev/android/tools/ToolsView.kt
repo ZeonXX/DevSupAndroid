@@ -127,7 +127,7 @@ object ToolsView {
         })
     }
 
-    fun removeFromParent(view: View): View {
+    fun <K:View>removeFromParent(view: K): K {
         if (view.parent != null) (view.parent as ViewGroup).removeView(view)
         return view
     }

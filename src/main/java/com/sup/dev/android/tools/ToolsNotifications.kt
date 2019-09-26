@@ -110,13 +110,14 @@ object ToolsNotifications {
 
         fun getId() = idS
 
-        fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, intentCancel: Intent? = null) {
+        fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, sound: Boolean, intentCancel: Intent? = null) {
             val notification = NotificationX()
                     .setIcon(icon)
                     .setTitle(title)
                     .setText(text)
                     .setIntent(intent)
                     .setTag(tag)
+                    .setSound(sound)
 
             if (intentCancel != null) {
                 notification.setIntentCancel(intentCancel)
@@ -138,7 +139,7 @@ object ToolsNotifications {
                     .setContentText(notification.text)
 
             if (notification.title != null) builder.setContentTitle(notification.title)
-            if (sound) {
+            if (sound && notification.sound) {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)
             } else {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS)
@@ -286,6 +287,7 @@ object ToolsNotifications {
 
         @DrawableRes
         var icon = 0
+        var sound = true
         var title: String? = null
         var text: String? = null
         var intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
@@ -305,6 +307,11 @@ object ToolsNotifications {
 
         fun setText(text: String): NotificationX {
             this.text = text
+            return this
+        }
+
+        fun setSound(sound: Boolean): NotificationX {
+            this.sound = sound
             return this
         }
 

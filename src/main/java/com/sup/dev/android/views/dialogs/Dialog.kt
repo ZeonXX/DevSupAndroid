@@ -19,31 +19,6 @@ import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 @Suppress("UNCHECKED_CAST")
 abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.activity!!) {
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        val window = window
-        if (hasFocus && view.context is SActivity && window != null) {
-            val activity = view.context!! as SActivity
-            if (activity.isFullScreen) {
-                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (!activity.isFullScreen) {
-                    window.decorView.systemUiVisibility = activity.screenStatusBarIsLight
-                }
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = activity.screenStatusBarColor
-            }
-
-        }
-    }
 
 
     //
@@ -75,6 +50,9 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
         layoutMaxSizes.setChildAlwaysMaxW(true)
         layoutMaxSizes.addView(ToolsView.removeFromParent(view), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         setContentView(layoutMaxSizes)
+
+        iniWindow()
+
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window!!.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT) //  Без этой строки диалог умирает при повороте экрана
 
@@ -85,6 +63,32 @@ abstract class Dialog(protected val view: View) : AppCompatDialog(SupAndroid.act
             true
         }
     }
+
+    private fun iniWindow(){
+        val window = window
+        if (view.context is SActivity && window != null) {
+            val activity = view.context!! as SActivity
+            if (activity.isFullScreen) {
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!activity.isFullScreen) {
+                    window.decorView.systemUiVisibility = activity.screenStatusBarIsLight
+                }
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.statusBarColor = activity.screenStatusBarColor
+            }
+
+        }
+    }
+
 
     override fun onBackPressed() {
         if(onTryCancelOnTouchOutside()) super.onBackPressed()
