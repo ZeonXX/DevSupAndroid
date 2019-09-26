@@ -121,8 +121,8 @@ object ToolsNotifications {
 
             if (intentCancel != null) {
                 notification.setIntentCancel(intentCancel)
-            } else{
-                if(intent.extras != null) notification.intentCancel.putExtras(intent.extras!!)
+            } else {
+                if (intent.extras != null) notification.intentCancel.putExtras(intent.extras!!)
             }
 
             post(notification)
@@ -187,7 +187,7 @@ object ToolsNotifications {
             for (tag in keys) cancel(tag)
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
-                for (n in notificationManager.activeNotifications) if (n.tag.split(SPLITER)[0] == idS) notificationManager.cancel(n.tag, n.id)
+                for (n in notificationManager.activeNotifications) if (n.tag != null && n.tag.split(SPLITER)[0] == idS) notificationManager.cancel(n.tag, n.id)
 
         }
 
@@ -198,9 +198,11 @@ object ToolsNotifications {
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
                 for (n in notificationManager.activeNotifications) {
-                    val split = n.tag.split(SPLITER)
-                    if (split.size > 1)
-                        if (split[1] == tag) notificationManager.cancel(n.tag, n.id)
+                    if (n.tag != null) {
+                        val split = n.tag.split(SPLITER)
+                        if (split.size > 1)
+                            if (split[1] == tag) notificationManager.cancel(n.tag, n.id)
+                    }
                 }
         }
 
