@@ -20,6 +20,7 @@ import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+import com.sup.dev.java.libs.debug.log
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -173,12 +174,12 @@ abstract class SActivity : AppCompatActivity() {
             if (window.statusBarColor != screenStatusBarColor) window.statusBarColor = screenStatusBarColor
         }
 
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-           if(!isFullScreen) {
-               screenStatusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
-               if (window.decorView.systemUiVisibility != screenStatusBarIsLight) window.decorView.systemUiVisibility = screenStatusBarIsLight
-           }
-       }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!isFullScreen) {
+                screenStatusBarIsLight = if (screen.statusBarIsLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else View.SYSTEM_UI_FLAG_VISIBLE
+                if (window.decorView.systemUiVisibility != screenStatusBarIsLight) window.decorView.systemUiVisibility = screenStatusBarIsLight
+            }
+        }
 
         window.navigationBarColor = screen.navigationBarColor
 
@@ -242,7 +243,12 @@ abstract class SActivity : AppCompatActivity() {
                         old.animate().setListener(null)
                         old.alpha = 1f
                         old.translationX = 0f
-                        for (v in oldViews) vActivityContainer!!.removeView(v)
+                        for (v in oldViews)
+                            try {
+                                vActivityContainer!!.removeView(v)
+                            } catch (e: IndexOutOfBoundsException) {
+                                log(e)
+                            }
                     }
                 })
     }
@@ -261,7 +267,12 @@ abstract class SActivity : AppCompatActivity() {
                         screen.animate().setListener(null)
                         screen.alpha = 1f
                         screen.translationX = 0f
-                        for (v in oldViews) vActivityContainer!!.removeView(v)
+                        for (v in oldViews)
+                            try {
+                                vActivityContainer!!.removeView(v)
+                            } catch (e: IndexOutOfBoundsException) {
+                                log(e)
+                            }
                     }
                 })
     }

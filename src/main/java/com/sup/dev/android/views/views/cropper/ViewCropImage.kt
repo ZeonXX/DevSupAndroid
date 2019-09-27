@@ -397,7 +397,9 @@ class ViewCropImage @JvmOverloads constructor(context: Context, attrs: Attribute
                         .bitmap
             }
 
-            croppedBitmap = BitmapUtils.resizeBitmap(croppedBitmap!!, reqWidthV, reqHeightV, options)
+            if(croppedBitmap == null) return null
+
+            croppedBitmap = BitmapUtils.resizeBitmap(croppedBitmap, reqWidthV, reqHeightV, options)
         }
 
         return croppedBitmap

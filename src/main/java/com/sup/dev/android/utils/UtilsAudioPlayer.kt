@@ -125,8 +125,8 @@ class UtilsAudioPlayer {
             ToolsThreads.thread {
 
                 ToolsAndroid.requestAudioFocus()
-                audioTrack.play()
                 try {
+                    audioTrack.play()
                     while (!stop && this.audioTrack == audioTrack) {
                         if (audioTrack.playState == AudioTrack.PLAYSTATE_PLAYING) {
                             val byteArray = stream.invoke()
