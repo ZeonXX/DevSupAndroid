@@ -47,11 +47,11 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         vFieldWidget_2.vField.setCallback { vFieldWidget_2.setText(it) }
     }
 
-    private fun check(){
-        vEnter.isEnabled = check_1() && check_2()
+    private fun check(setError:Boolean = true){
+        vEnter.isEnabled = check_1(setError) && check_2(setError)
     }
 
-    private fun check_1():Boolean {
+    private fun check_1(setError:Boolean = true):Boolean {
 
         val text = getText_1()
         var error: String? = null
@@ -63,7 +63,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
             }
 
         if (error != null) {
-            vFieldWidget_1.vFieldLayout.error = if (error.isEmpty()) null else error
+            if(setError)vFieldWidget_1.vFieldLayout.error = if (error.isEmpty()) null else error
             return false
         } else {
             vFieldWidget_1.vFieldLayout.error = null
@@ -71,7 +71,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         }
     }
 
-    private fun check_2():Boolean {
+    private fun check_2(setError:Boolean = true):Boolean {
 
         val text = getText_2()
         var error: String? = null
@@ -83,7 +83,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
             }
 
         if (error != null) {
-            vFieldWidget_2.vFieldLayout.error = if (error.isEmpty()) null else error
+            if(setError)vFieldWidget_2.vFieldLayout.error = if (error.isEmpty()) null else error
             return false
         } else {
             vFieldWidget_2.vFieldLayout.error = null
@@ -95,7 +95,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         super.onShow()
         ToolsView.showKeyboard(vFieldWidget_1.vField)
         vFieldWidget_1.vField.setSelection(getText_1().length)
-        check()
+        check(false)
     }
 
     override fun onHide() {
