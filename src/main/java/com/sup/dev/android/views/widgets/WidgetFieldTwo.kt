@@ -95,6 +95,7 @@ open class WidgetFieldTwo : Widget(R.layout.widget_field_two) {
         super.onShow()
         ToolsView.showKeyboard(vFieldWidget_1.vField)
         vFieldWidget_1.vField.setSelection(getText_1().length)
+        check()
     }
 
     override fun onHide() {

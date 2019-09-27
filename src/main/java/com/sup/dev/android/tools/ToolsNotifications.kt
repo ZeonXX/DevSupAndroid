@@ -110,7 +110,7 @@ object ToolsNotifications {
 
         fun getId() = idS
 
-        fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, sound: Boolean, intentCancel: Intent? = null) {
+        fun post(icon: Int, title: String, text: String, intent: Intent, tag: String, sound: Boolean, vibration: Boolean, intentCancel: Intent? = null) {
             val notification = NotificationX()
                     .setIcon(icon)
                     .setTitle(title)
@@ -118,6 +118,7 @@ object ToolsNotifications {
                     .setIntent(intent)
                     .setTag(tag)
                     .setSound(sound)
+                    .setVibration(vibration)
 
             if (intentCancel != null) {
                 notification.setIntentCancel(intentCancel)
@@ -139,8 +140,14 @@ object ToolsNotifications {
                     .setContentText(notification.text)
 
             if (notification.title != null) builder.setContentTitle(notification.title)
-            if (sound && notification.sound) {
+            if (sound && notification.sound && vibration && notification.vibration) {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)
+            } else if (vibration && notification.vibration) {
+                builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
+                builder.setSound(null)
+            } else if (sound && notification.sound) {
+                builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
+                builder.setVibrate(LongArray(0))
             } else {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS)
                 builder.setSound(null)
@@ -290,6 +297,7 @@ object ToolsNotifications {
         @DrawableRes
         var icon = 0
         var sound = true
+        var vibration = true
         var title: String? = null
         var text: String? = null
         var intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
@@ -314,6 +322,11 @@ object ToolsNotifications {
 
         fun setSound(sound: Boolean): NotificationX {
             this.sound = sound
+            return this
+        }
+
+        fun setVibration(vibration: Boolean): NotificationX {
+            this.vibration = vibration
             return this
         }
 
