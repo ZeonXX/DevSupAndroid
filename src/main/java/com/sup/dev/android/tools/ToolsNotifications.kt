@@ -10,7 +10,6 @@ import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.collections.HashList
-import com.sup.dev.java.libs.debug.log
 
 object ToolsNotifications {
 

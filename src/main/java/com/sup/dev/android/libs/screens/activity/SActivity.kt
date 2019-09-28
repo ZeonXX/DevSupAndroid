@@ -20,7 +20,7 @@ import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
-import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.debug.err
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -247,7 +247,7 @@ abstract class SActivity : AppCompatActivity() {
                             try {
                                 vActivityContainer!!.removeView(v)
                             } catch (e: IndexOutOfBoundsException) {
-                                log(e)
+                                err(e)
                             }
                     }
                 })
@@ -271,7 +271,7 @@ abstract class SActivity : AppCompatActivity() {
                             try {
                                 vActivityContainer!!.removeView(v)
                             } catch (e: IndexOutOfBoundsException) {
-                                log(e)
+                                err(e)
                             }
                     }
                 })
