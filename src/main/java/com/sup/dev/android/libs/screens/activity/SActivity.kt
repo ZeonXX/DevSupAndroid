@@ -203,6 +203,7 @@ abstract class SActivity : AppCompatActivity() {
             ToolsView.clearAnimation(old)
             ToolsView.clearAnimation(screen)
 
+
             if (animation == Navigator.Animation.NONE) animateNone(oldViews)
             if (animation == Navigator.Animation.OUT) animateOut(screen, old, oldViews)
             if (animation == Navigator.Animation.IN) animateIn(screen, oldViews)

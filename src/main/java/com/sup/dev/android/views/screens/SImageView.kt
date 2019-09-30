@@ -2,6 +2,7 @@ package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.widget.ImageView
@@ -17,7 +18,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.android.views.widgets.WidgetField
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -84,8 +85,8 @@ class SImageView private constructor()
         isNavigationVisible = false
         isNavigationAllowed = false
         isNavigationAnimation = false
-        statusBarColor = ToolsResources.getColorAttr(R.attr.window_background)
-        navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
+        statusBarColor = 0xFF000000.toInt()
+        navigationBarColor = 0xFF000000.toInt()
         statusBarIsLight = statusBarColor > 0xFF70FFFF.toInt()
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
@@ -151,7 +152,7 @@ class SImageView private constructor()
 
             vZoom.reset()
             vImage.isClickable = false
-            vImage.setOnClickListener {
+            vZoom.setOnClickListener {
                 toggleInterface()
             }
 

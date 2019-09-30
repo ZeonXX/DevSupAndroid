@@ -15,6 +15,7 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.geometry.Line
 import com.sup.dev.java.classes.geometry.Point
 import com.sup.dev.java.classes.items.RangeF
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 
@@ -25,8 +26,6 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
 
     private var onZoom: (() -> Unit)? = null
     private var animateTimeMs = 300
-    private var doubleTouchRadius: Float = 0.toFloat()
-    var doubleTouchEnabled = true
     var boundsView: View? = null
         get() = if (field == null) if (childCount == 0) this else getChildAt(0) else field
 
@@ -46,11 +45,22 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     private var subscriptionAnimateZoom: Subscription? = null
 
     //
+    //  Click
+    //
+
+    private val click = Point()
+    private var onClick: OnClickListener? = null
+    private var lastDownTime = 0L
+    private var clickRadius = ToolsView.dpToPx(24f)
+
+    //
     //  Double Touch
     //
 
+    var doubleTouchEnabled = true
+    private var doubleTouchRadius = ToolsView.dpToPx(24f)
     private val doubleTouch = Point()
-    private var doubleTouchTime: Long = 0
+    private var doubleTouchTime = 0L
 
     //
     //  Move
@@ -70,7 +80,6 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     init {
 
         SupAndroid.initEditMode(this)
-        doubleTouchRadius = ToolsView.dpToPx(16f)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutZoom, 0, 0)
         range.min = a.getFloat(R.styleable.LayoutZoom_LayoutZoom_minZoom, range.min)
@@ -92,7 +101,7 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         onTouchEventPassed = false
         super.dispatchTouchEvent(ev)
-        if(!onTouchEventPassed) onTouchEvent(ev)
+        if (!onTouchEventPassed) onTouchEvent(ev)
         return true
     }
 
@@ -101,11 +110,16 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
         onTouchEventPassed = true
 
         if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
+            click(event.x, event.y)
             doubleTouch(event.x, event.y)
         }
 
-        if (event.action == MotionEvent.ACTION_MOVE) {
-            clearDoubleTouch()
+        if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_UP) {
+            click(event.x, event.y)
+        }
+
+        if (event.pointerCount > 1){
+            clickClear()
         }
 
         if (event.pointerCount == 1 && (event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_DOWN)) {
@@ -127,18 +141,43 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
 
         if (!doubleTouchEnabled) return
 
-        if (doubleTouchTime > System.currentTimeMillis() - 500 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
+        if (doubleTouchTime > System.currentTimeMillis() - 300 && doubleTouch.inRadius(x, y, doubleTouchRadius)) {
             animateZoom(if (zoom == 1f) (range.max - range.min) / 2 + range.min else 1F, x, y)
             doubleTouch.clear()
             doubleTouchTime = 0
+            clickClear()
         } else {
             doubleTouch.set(x, y)
             doubleTouchTime = System.currentTimeMillis()
         }
     }
 
-    private fun clearDoubleTouch() {
-        doubleTouch.clear()
+    private fun click(x: Float, y: Float) {
+
+        if (onClick == null) return
+
+        if (lastDownTime != 0L  && click.inRadius(x, y, clickRadius)) {
+            click.clear()
+            val key = lastDownTime
+            ToolsThreads.main(300) {
+                if (lastDownTime == key) {
+                    onClick?.onClick(this)
+                    lastDownTime = 0L
+                }
+            }
+        } else {
+            click.set(x, y)
+            lastDownTime = System.currentTimeMillis()
+        }
+    }
+
+    private fun clickClear() {
+        click.clear()
+        lastDownTime = 0L
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        this.onClick = l
     }
 
     fun move(x: Float, y: Float) {
@@ -205,13 +244,14 @@ constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs
  */
 
     fun animateZoom(targetZoom: Float, midX: Float, midY: Float) {
+        log("animateZoom $targetZoom $midX $midY")
 
         if (subscriptionAnimateZoom != null) subscriptionAnimateZoom!!.unsubscribe()
 
         val fameCount = animateTimeMs * 60 / 1000
         val step = (targetZoom - zoom) / fameCount
 
-        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(), {  zoom(step, midX, midY) })
+        subscriptionAnimateZoom = ToolsThreads.timerMain(animateTimeMs / fameCount.toLong(), animateTimeMs + 100.toLong(), { zoom(step, midX, midY) })
 
     }
 

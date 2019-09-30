@@ -2,6 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vRoot"
+    android:background="#FF000000"
+
     style="@style/Root">
 
     <FrameLayout
@@ -12,14 +14,14 @@
 
         <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vShare"
-            style="@style/Icon.Shadow.Filtered"
+            style="@style/Icon.Shadow"
             android:layout_marginRight="72dp"
-            android:src="?attr/ic_share_24dp"/>
+            android:src="@drawable/ic_share_white_24dp"/>
 
         <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vDownload"
             style="@style/Icon.Shadow.Filtered"
-            android:src="?attr/ic_file_download_24dp" />
+            android:src="@drawable/ic_file_download_white_24dp" />
 
         <com.sup.dev.android.views.views.ViewIcon style="@style/Icon.Shadow.Back.Filtered" />
 

@@ -1,15 +1,16 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.util.AttributeSet
-import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsColor
 
 class ViewIcon @JvmOverloads constructor(
