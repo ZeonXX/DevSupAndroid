@@ -192,6 +192,10 @@
         <attr name="LayoutAspectRatio_h" format="float"/>
     </declare-styleable>
 
+    <declare-styleable name="ViewCircleImage">
+        <attr name="ViewCircleImage_circleMod" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="LayoutZoom">
         <attr name="LayoutZoom_maxZoom" format="float"/>
         <attr name="LayoutZoom_minZoom" format="float"/>

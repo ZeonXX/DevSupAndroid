@@ -11,6 +11,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
 
 
 open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = null) : LayoutCorned(context, attrs) {
@@ -19,7 +20,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     val vTitle: ViewTextLinkable
     val vSubtitle: ViewTextLinkable
 
-    private val eventBus = EventBus.subscribe(EventStyleChanged::class){updateCorned()}
+    private val eventBus = EventBus.subscribe(EventStyleChanged::class){ToolsThreads.main(true) { updateCorned() }}
 
     init {
 

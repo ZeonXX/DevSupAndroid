@@ -64,25 +64,29 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
     private fun update() {
         path.reset()
 
-        var r = Math.min(Math.min(cornedSize, width.toFloat() / 2), height.toFloat() / 2)
+        if(!chipMode && !cornedTL && !cornedTR && !cornedBL && !cornedBR){
+            path.addRect(0f, 0f, width.toFloat(), height.toFloat(), Path.Direction.CCW)
+        }else {
+            var r = Math.min(Math.min(cornedSize, width.toFloat() / 2), height.toFloat() / 2)
 
-        if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
+            if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
 
-        if (cornedTL) path.addCircle(r, r, r, Path.Direction.CCW)
-        else path.addRect(0f, 0f, r, r, Path.Direction.CCW)
+            if (cornedTL) path.addCircle(r, r, r, Path.Direction.CCW)
+            else path.addRect(0f, 0f, r, r, Path.Direction.CCW)
 
-        if (cornedTR) path.addCircle(width - r, r, r, Path.Direction.CCW)
-        else path.addRect(width - r, 0f, width.toFloat(), r, Path.Direction.CCW)
+            if (cornedTR) path.addCircle(width - r, r, r, Path.Direction.CCW)
+            else path.addRect(width - r, 0f, width.toFloat(), r, Path.Direction.CCW)
 
-        if (cornedBL) path.addCircle(r, height - r, r, Path.Direction.CCW)
-        else path.addRect(0f, height - r, r, height.toFloat(), Path.Direction.CCW)
+            if (cornedBL) path.addCircle(r, height - r, r, Path.Direction.CCW)
+            else path.addRect(0f, height - r, r, height.toFloat(), Path.Direction.CCW)
 
-        if (cornedBR) path.addCircle(width - r, height - r, r, Path.Direction.CCW)
-        else path.addRect(width - r, height - r, width.toFloat(), height.toFloat(), Path.Direction.CCW)
+            if (cornedBR) path.addCircle(width - r, height - r, r, Path.Direction.CCW)
+            else path.addRect(width - r, height - r, width.toFloat(), height.toFloat(), Path.Direction.CCW)
 
-        path.addRect(r, 0f, width - r, r, Path.Direction.CCW)
-        path.addRect(r, height.toFloat(), width - r, height - r, Path.Direction.CW)
-        path.addRect(0f, r, width.toFloat(), height - r, Path.Direction.CCW)
+            path.addRect(r, 0f, width - r, r, Path.Direction.CCW)
+            path.addRect(r, height.toFloat(), width - r, height - r, Path.Direction.CW)
+            path.addRect(0f, r, width.toFloat(), height - r, Path.Direction.CCW)
+        }
 
         invalidate()
     }

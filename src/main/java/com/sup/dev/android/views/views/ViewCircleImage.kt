@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Path
 import android.util.AttributeSet
+import com.sup.dev.android.R
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -34,6 +35,15 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
     }
 
     init {
+
+        val a = getContext().obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0)
+        val circleMode = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_circleMod, false)
+        a.recycle()
+
+        if(circleMode){
+            useGlobalStyle = false
+            squareMode = false
+        }
 
     }
 
