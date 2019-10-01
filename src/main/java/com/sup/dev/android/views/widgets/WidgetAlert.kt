@@ -31,6 +31,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private var key: String? = null
     private var lockUntilAccept: Boolean = false
     private var autoHideOnEnter = true
+    private var onChecker:(Boolean)->Unit = {}
 
     init {
 
@@ -90,12 +91,17 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
-    fun setChecker(key: String, @StringRes text: Int): WidgetAlert {
+
+    fun setChecker(@StringRes text: Int): WidgetAlert {
+        return setChecker(null, ToolsResources.s(text))
+    }
+
+    fun setChecker(key: String? = null, @StringRes text: Int): WidgetAlert {
         return setChecker(key, ToolsResources.s(text))
     }
 
     @JvmOverloads
-    fun setChecker(key: String, text: String? = SupAndroid.TEXT_APP_DONT_SHOW_AGAIN): WidgetAlert {
+    fun setChecker(key: String?=null, text: String? = SupAndroid.TEXT_APP_DONT_SHOW_AGAIN): WidgetAlert {
         this.key = key
         vCheck.text = text
         vCheck.visibility = View.VISIBLE
@@ -174,6 +180,11 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return setOnEnter(ToolsResources.s(s))
     }
 
+    fun setOnChecker(onChecker:(Boolean)->Unit): WidgetAlert {
+        this.onChecker = onChecker
+        return this
+    }
+
     fun setOnEnter(@StringRes s: Int, onEnter: (WidgetAlert) -> Unit): WidgetAlert {
         return setOnEnter(ToolsResources.s(s), onEnter)
     }
@@ -188,6 +199,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
                 setEnabled(false)
             if (key != null) ToolsStorage.put(key!!, vCheck.isChecked)
             onEnter.invoke(this)
+            onChecker.invoke(vCheck.isChecked)
         }
         return this
     }

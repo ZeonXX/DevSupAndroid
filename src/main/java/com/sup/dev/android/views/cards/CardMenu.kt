@@ -32,32 +32,48 @@ open class CardMenu(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val vTouch = view.findViewById<View>(R.id.vTouch)
-        val vDivider = view.findViewById<View>(R.id.vDivider)
-        val vText = view.findViewById<TextView>(R.id.vText)
-        val vDescription = view.findViewById<TextView>(R.id.vDesc)
-        val vIcon = view.findViewById<ViewIcon>(R.id.vIcon)
+        val vTouch:View? = view.findViewById(R.id.vTouch)
+        val vDivider:View? = view.findViewById(R.id.vDivider)
+        val vText:TextView? = view.findViewById(R.id.vText)
+        val vDescription:TextView? = view.findViewById(R.id.vDesc)
+        val vIcon:ViewIcon? = view.findViewById(R.id.vIcon)
 
-        vTouch.visibility = if (visible) View.VISIBLE else View.GONE
+        if(vTouch != null) {
+            vTouch.visibility = if (visible) View.VISIBLE else View.GONE
+            vTouch.isFocusable = onClick != null && enabled
+            vTouch.isClickable = onClick != null && enabled
+            vTouch.isEnabled = onClick != null && enabled
+            ToolsView.setOnClickCoordinates(vTouch) { v, x, y -> onClick(v,x,y) }
+        }
 
-        if (iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
-        if (iconFilter != null) vIcon.setFilter(iconFilter!!)
-        else if (icon == 0) vIcon.visibility = View.GONE
-        else vIcon.setImageResource(icon)
+        if(vIcon != null) {
+            if (iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
+            if (iconFilter != null) vIcon.setFilter(iconFilter!!)
+            else if (icon == 0) vIcon.visibility = View.GONE
+            else vIcon.setImageResource(icon)
+        }
 
-        vDivider.visibility = if (visible && dividerVisible) View.VISIBLE else View.GONE
-        vTouch.isFocusable = onClick != null && enabled
-        vTouch.isClickable = onClick != null && enabled
-        vTouch.isEnabled = onClick != null && enabled
-        ToolsView.setOnClickCoordinates(vTouch) { v, x, y -> if (enabled && onClick != null) onClick!!.invoke(v, x, y) }
+        if(vDivider != null) {
+            vDivider.visibility = if (visible && dividerVisible) View.VISIBLE else View.GONE
+        }
+
+        if(vDescription != null) {
+            vDescription.text = description
+            vDescription.isEnabled = enabled
+            vDescription.visibility = if (description.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
+        if(vText != null) {
+            vText.text = text
+            vText.isEnabled = enabled
+            if (customColor) vText.setTextColor(textColor)
+        }
+
         view.setBackgroundColor(background)
+    }
 
-        vDescription.text = description
-        vDescription.isEnabled = enabled
-        vDescription.visibility = if (description.isNotEmpty()) View.VISIBLE else View.GONE
-        vText.text = text
-        vText.isEnabled = enabled
-        if (customColor) vText.setTextColor(textColor)
+    fun onClick(v:View, x:Int, y:Int){
+        if (enabled && onClick != null) onClick!!.invoke(v, x, y)
     }
 
     //
