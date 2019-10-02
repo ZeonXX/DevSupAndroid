@@ -135,6 +135,10 @@ object ToolsPermission {
         requestPermission(RECORD_AUDIO, onGranted, onPermissionRestriction)
     }
 
+    fun requestBluetouchPermisiion(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
+        requestPermission(BLUETOOTH_ADMIN, onGranted, onPermissionRestriction)
+    }
+
     //
     //  Checks
     //
