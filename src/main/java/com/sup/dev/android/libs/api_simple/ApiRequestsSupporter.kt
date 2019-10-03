@@ -14,6 +14,7 @@ import com.sup.dev.android.views.screens.SInterstitialProgress
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsDate
 
 object ApiRequestsSupporter {
@@ -55,7 +56,7 @@ object ApiRequestsSupporter {
                 .onApiError(ApiClient.ERROR_GONE) {
                     if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE)
                 }
-                .onNetworkError {
+                .onError {
                     if (Navigator.getCurrent() === sInterstitialProgress)
                         SAlert.showNetwork(Navigator.REPLACE) {
                             Navigator.replace(sInterstitialProgress)

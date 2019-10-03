@@ -77,7 +77,6 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //
 
     fun setMaxProgress(max: Int) {
-
         vSeekBar.max = max
     }
 
