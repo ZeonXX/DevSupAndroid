@@ -20,7 +20,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     val vTitle: ViewTextLinkable
     val vSubtitle: ViewTextLinkable
 
-    private val eventBus = EventBus.subscribe(EventStyleChanged::class){ToolsThreads.main(true) { updateCorned() }}
+    private val eventBus = EventBus.subscribe(EventStyleChanged::class) { ToolsThreads.main(true) { updateCorned() } }
 
     init {
 
@@ -64,21 +64,21 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     }
 
     fun updateCorned() {
-        if(vAvatar.vImageView.isSquareMode()){
+        if (vAvatar.vImageView.isSquareMode()) {
             setChipMode(false)
-            setCornedSizePx(vAvatar.vImageView.getSquareCorned().toInt())
+            if (getCornedSize() != 0f) setCornedSizePx(vAvatar.vImageView.getSquareCorned().toInt())
             setCornedBL(hasOnClickListeners())
             setCornedBR(hasOnClickListeners())
             setCornedTL(hasOnClickListeners())
             setCornedTR(hasOnClickListeners())
-        }else{
+        } else {
             setChipMode(hasOnClickListeners())
             setCornedBL(hasOnClickListeners())
             setCornedBR(hasOnClickListeners())
             setCornedTL(hasOnClickListeners())
             setCornedTR(hasOnClickListeners())
         }
-        vSubtitle.maxLines = if(hasOnClickListeners()) 2 else 10000
+        vSubtitle.maxLines = if (hasOnClickListeners()) 2 else 10000
     }
 
     //

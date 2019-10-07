@@ -42,8 +42,9 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun draw(canvas: Canvas?) {
-        if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode))
+        if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode)) {
             canvas?.clipPath(path)
+        }
         if (paint != null && paint!!.color != 0) canvas?.drawPath(path, paint!!)
 
         super.draw(canvas)
@@ -64,9 +65,7 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
     private fun update() {
         path.reset()
 
-        if(!chipMode && !cornedTL && !cornedTR && !cornedBL && !cornedBR){
-            path.addRect(0f, 0f, width.toFloat(), height.toFloat(), Path.Direction.CCW)
-        }else {
+        if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode)) {
             var r = Math.min(Math.min(cornedSize, width.toFloat() / 2), height.toFloat() / 2)
 
             if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
@@ -86,6 +85,8 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
             path.addRect(r, 0f, width - r, r, Path.Direction.CCW)
             path.addRect(r, height.toFloat(), width - r, height - r, Path.Direction.CW)
             path.addRect(0f, r, width.toFloat(), height - r, Path.Direction.CCW)
+        } else {
+            path.addRect(0f, 0f, width.toFloat(), height.toFloat(), Path.Direction.CCW)
         }
 
         invalidate()
@@ -150,5 +151,7 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
             super.setBackground(background)
         }
     }
+
+    fun getCornedSize() = cornedSize
 
 }
