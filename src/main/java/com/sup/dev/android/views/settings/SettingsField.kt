@@ -23,10 +23,6 @@ class SettingsField constructor(
     val vField: ViewEditTextMedia = findViewById(R.id.vDevSupField)
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
-    /*
-
-     */
-
     private var isError: Boolean = false
     private var checker: ((String) -> Boolean)? = null
 
