@@ -74,6 +74,13 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         updatePadding()
     }
 
+    fun setTextPaddings(start:Float, end:Float){
+        textStartPaddingLocal = start
+        textEndPaddingLocal = end
+        textStartPadding = start
+        textEndPadding = end
+    }
+
     private fun updatePadding() {
         if (textEndPaddingLocal == 0f) textEndPaddingLocal = textEndPadding
         if (textStartPaddingLocal == 0f) textStartPaddingLocal = textStartPadding
