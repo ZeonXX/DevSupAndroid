@@ -2,6 +2,7 @@ package com.sup.dev.android.tools
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -28,36 +29,42 @@ object ToolsCash {
         ToolsCash.overClearSize = overClearSize
     }
 
-    fun put(data: ByteArray, name: String):File {
-        if (maxCashSize == 0L) init()
+    fun put(data: ByteArray, name: String): File? {
 
-        clearIfNeed()
-
-        val cacheDir = SupAndroid.appContext!!.cacheDir
-
-        val file = File(cacheDir, name)
-
-        var os: FileOutputStream? = null
         try {
-            os = FileOutputStream(file)
-            os.write(data)
-            os.flush()
-        } catch (ex: IOException) {
-            err(ex)
-        } finally {
-            if (os != null)
-                try {
-                    os.close()
-                } catch (e: IOException) {
-                    err(e)
-                }
+            if (maxCashSize == 0L) init()
 
+            clearIfNeed()
+
+            val cacheDir = SupAndroid.appContext!!.cacheDir
+
+            val file = File(cacheDir, name)
+
+            var os: FileOutputStream? = null
+            try {
+                os = FileOutputStream(file)
+                os.write(data)
+                os.flush()
+            } catch (ex: IOException) {
+                err(ex)
+            } finally {
+                if (os != null)
+                    try {
+                        os.close()
+                    } catch (e: IOException) {
+                        err(e)
+                    }
+
+            }
+
+            return file
+        } catch (e: Exception) {
+            log(e)
         }
-
-        return file
+        return null
     }
 
-    fun clearIfNeed(){
+    fun clearIfNeed() {
         try {
             if (maxCashSize == 0L) init()
             val cacheDir = SupAndroid.appContext!!.cacheDir
@@ -79,7 +86,7 @@ object ToolsCash {
                 }
 
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             err(e)
         }
     }
