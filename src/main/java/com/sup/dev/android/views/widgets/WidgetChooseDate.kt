@@ -19,7 +19,6 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
 
     init {
 
-        isUseMoreScreenSpace = true
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }

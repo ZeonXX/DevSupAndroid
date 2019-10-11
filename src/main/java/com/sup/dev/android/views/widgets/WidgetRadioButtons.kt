@@ -33,7 +33,6 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     init {
 
-        isUseMoreScreenSpace = true
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }

@@ -14,8 +14,8 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
+import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
@@ -117,7 +117,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         if (viewWrapper is DialogWidget)
             (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(2).toInt(), ToolsView.dpToPx(8).toInt(), 0)
-        else if (viewWrapper is DialogSheetWidget)
+        else if (viewWrapper is Sheet)
             vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()
     }
 

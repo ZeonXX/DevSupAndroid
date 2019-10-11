@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.sheets
 
+import android.view.View
 import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -17,7 +18,7 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
     private var showed = true
 
     init {
-        vSheetViewContainer.addView(widget.view)
+        vSheetViewContainer.addView(ToolsView.removeFromParent(widget.view))
 
         vSheetRoot.setOnClickListener {
             if(cancelable && widget.isEnabled && widget.onTryCancelOnTouchOutside()) hideWidget<Sheet>()
@@ -25,6 +26,9 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
 
         vSheetViewContainer.isEnabled = widget.isEnabled
         cancelable = widget.isCancelable
+
+        vSheetRoot.visibility = View.INVISIBLE
+        ToolsView.fromAlpha(vSheetRoot, 200)
 
         setOnBack()
     }

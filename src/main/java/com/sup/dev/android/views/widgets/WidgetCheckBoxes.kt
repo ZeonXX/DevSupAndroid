@@ -31,7 +31,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     private var skipGroup = false
 
     init {
-        isUseMoreScreenSpace = true
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }

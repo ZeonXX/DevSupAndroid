@@ -10,7 +10,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardWidget
-import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
@@ -28,10 +27,8 @@ abstract class Widget(layoutRes: Int) {
     private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
-    var isUseMoreScreenSpace = false
     protected var viewWrapper: WidgetViewWrapper? = null
     private var hideCalled = false
-    private var autoShowKeyboard = true
 
     //
     //  Getters
@@ -97,23 +94,11 @@ abstract class Widget(layoutRes: Int) {
             }
         }
 
-        if (viewWrapper is DialogSheetWidget) {
-            if(isUseMoreScreenSpace) {
-                val layoutMaxSizes: LayoutMaxSizes = ToolsView.findViewOnParents(view, R.id.vLayoutMaxSize)!!
-                layoutMaxSizes.setMaxHeightParentPercent(90f)
-            }
-            if(!autoShowKeyboard) ToolsView.dontAutoShowKeyboard((viewWrapper as DialogSheetWidget).window!!)
-        }
-
     }
 
     @CallSuper
     open fun onHide() {
         onHide.invoke(this)
-    }
-
-    fun dontAutoShowKeyboard(){
-        autoShowKeyboard = false
     }
 
     //
@@ -165,25 +150,13 @@ abstract class Widget(layoutRes: Int) {
     //  Support
     //
 
-    fun asSheetX(): Sheet {
+    fun asSheet(): Sheet {
         val sheet = Sheet(this)
         this.viewWrapper = sheet
         return sheet
     }
 
-    open fun asSheetShowX(): Sheet {
-        val sheet = asSheetX()
-        sheet.show()
-        return sheet
-    }
-
-    fun asSheet(): DialogSheetWidget {
-        val sheet = DialogSheetWidget(this)
-        this.viewWrapper = sheet
-        return sheet
-    }
-
-    open fun asSheetShow(): DialogSheetWidget {
+    open fun asSheetShow(): Sheet {
         val sheet = asSheet()
         sheet.show()
         return sheet

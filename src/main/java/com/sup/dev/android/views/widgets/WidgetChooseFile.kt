@@ -11,8 +11,8 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.settings.Settings
+import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.views.ViewIcon
 import java.io.File
 
@@ -45,7 +45,7 @@ class WidgetChooseFile : WidgetRecycler() {
 
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        if (viewWrapper is DialogSheetWidget)
+        if (viewWrapper is Sheet)
             vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()
     }
 
