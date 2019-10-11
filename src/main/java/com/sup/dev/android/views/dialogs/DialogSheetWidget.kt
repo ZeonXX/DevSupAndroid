@@ -11,6 +11,9 @@ class DialogSheetWidget(private val widget: Widget) : DialogSheet(widget.view), 
     }
 
     override fun onTryCancelOnTouchOutside(): Boolean {
+
+
+
         return widget.onTryCancelOnTouchOutside()
     }
 

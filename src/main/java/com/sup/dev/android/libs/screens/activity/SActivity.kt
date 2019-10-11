@@ -19,6 +19,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 import com.sup.dev.java.libs.debug.err
 
@@ -38,6 +39,7 @@ abstract class SActivity : AppCompatActivity() {
     var vActivityRoot: View? = null
     var vActivityDrawAnimations: ViewDrawAnimations? = null
     var vActivityContainer: ViewGroup? = null
+    var vSheetContainer: ViewGroup? = null
     var vActivityTouchLock: View? = null
     var parseNotifications = true
     var type = getDefaultType()
@@ -53,6 +55,7 @@ abstract class SActivity : AppCompatActivity() {
         vActivityDrawAnimations = findViewById(R.id.vActivityDrawAnimations)
         vActivityContainer = findViewById(R.id.vScreenActivityView)
         vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
+        vSheetContainer = findViewById(R.id.vSheetContainer)
 
         vActivityTouchLock!!.visibility = View.GONE
 
@@ -153,6 +156,18 @@ abstract class SActivity : AppCompatActivity() {
 
     protected open fun onLastBackPressed(): Boolean {
         return false
+    }
+
+    //
+    //  Sheet
+    //
+
+    fun addSheet(sheet: Sheet){
+        vSheetContainer!!.addView(sheet.getView())
+    }
+
+    fun removeSheet(sheet:Sheet){
+        vSheetContainer!!.removeView(sheet.getView())
     }
 
     //

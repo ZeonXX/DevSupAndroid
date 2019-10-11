@@ -15,6 +15,7 @@ import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
+import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 
 import com.sup.dev.java.tools.ToolsThreads
@@ -163,6 +164,18 @@ abstract class Widget(layoutRes: Int) {
     //
     //  Support
     //
+
+    fun asSheetX(): Sheet {
+        val sheet = Sheet(this)
+        this.viewWrapper = sheet
+        return sheet
+    }
+
+    open fun asSheetShowX(): Sheet {
+        val sheet = asSheetX()
+        sheet.show()
+        return sheet
+    }
 
     fun asSheet(): DialogSheetWidget {
         val sheet = DialogSheetWidget(this)

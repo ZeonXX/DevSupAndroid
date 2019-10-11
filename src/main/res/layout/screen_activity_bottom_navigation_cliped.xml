@@ -42,4 +42,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <FrameLayout
+        android:id="@+id/vSheetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback>
