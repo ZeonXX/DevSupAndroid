@@ -9,6 +9,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
+import com.sup.dev.java.tools.ToolsThreads
 
 class Sheet(private val widget: Widget) : WidgetViewWrapper {
 
@@ -59,6 +60,7 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
 
     @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
+        ToolsView.hideKeyboard(vSheetRoot)
         SupAndroid.activity?.removeSheet(this)
         showed = false
         widget.onHide()
