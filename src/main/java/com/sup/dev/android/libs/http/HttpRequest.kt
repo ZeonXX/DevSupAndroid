@@ -2,6 +2,8 @@ package com.sup.dev.android.libs.http
 
 import android.content.ContentValues
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.info
+import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.net.HttpURLConnection
@@ -27,80 +29,26 @@ class HttpRequest(private val url: String) {
     private val params = ContentValues()
     private val headers = ContentValues()
     private var body: String? = null
-    private var format: Format? = null
-    private var method: Method? = null
+    private var format = Format.json
+    private var method = Method.GET
     private var followUnsafeRedirects = false
 
     enum class Format {
         x_www_form_urlencoded, json
     }
 
-    private enum class Method {
+    enum class Method {
         POST, GET, PUT, DELETE
     }
 
-
-    @JvmOverloads
-    fun makeGet(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
-        method = Method.GET
-        return make(onResult, onError)
-    }
-
-    @JvmOverloads
-    fun makePost(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
-        method = Method.POST
-        return make(onResult, onError)
-    }
-
-    fun makePut(onResult: (String)->Unit): HttpRequest {
-        method = Method.PUT
-        return makePut(onResult, null)
-    }
-
-    fun makePut(onResult: (String)->Unit, onError: ((Exception) -> Unit)?): HttpRequest {
-        method = Method.PUT
-        return make(onResult, onError)
-    }
-
-    fun makeDelete(onResult: (String)->Unit): HttpRequest {
-        return make(onResult, null)
-    }
-
-    fun makeDelete(onResult: (String)->Unit, onError: ((Exception) -> Unit)? = null): HttpRequest {
-        method = Method.DELETE
-        return makeDelete(onResult, onError)
-    }
-
-    @Throws(Exception::class)
-    fun makeGet(): String {
-        method = Method.GET
-        return make()
-    }
-
-    @Throws(Exception::class)
-    fun makePost(): String {
-        method = Method.POST
-        return make()
-    }
-
-    @Throws(Exception::class)
-    fun makePut(): String {
-        method = Method.PUT
-        return make()
-    }
-
-    @Throws(Exception::class)
-    fun makeDelete(): String {
-        method = Method.DELETE
-        return make()
-    }
-
-
-    private fun make(onResult: (String)->Unit?, onError: ((Exception) -> Unit)?): HttpRequest {
+    fun make(onResult: (String) -> Unit?, onError: ((Exception) -> Unit)?): HttpRequest {
         ToolsThreads.thread {
             try {
-                onResult.invoke(make())
+                val result = makeNow(url)
+                ToolsThreads.main { onResult.invoke(result) }
             } catch (e: Exception) {
+                info("XRequest", "<- ERROR [$e]")
+                err(e)
                 if (onError != null)
                     onError.invoke(e)
                 else
@@ -111,19 +59,15 @@ class HttpRequest(private val url: String) {
     }
 
     @Throws(Exception::class)
-    private fun make(): String {
-        return makeNow(url)
-    }
-
-    @Throws(Exception::class)
     private fun makeNow(urlStr: String): String {
 
         if (format == Format.x_www_form_urlencoded)
             headers.put("Content-Type", "application/x-www-form-urlencoded")
         else if (format == Format.json) headers.put("Content-Type", "application/json")
 
-
-        val connection = createConnection(urlStr + makeQueryString(params, true), method!!.name)
+        val request = urlStr + makeQueryString(params, true)
+        info("XRequest", "-> [$request] [$body]")
+        val connection = createConnection(request, method.name)
 
         for (header in headers.keySet()) connection.setRequestProperty(header, headers.getAsString(header))
 
@@ -143,14 +87,23 @@ class HttpRequest(private val url: String) {
             }
         }
 
-        return readInputStream(connection.inputStream)
+        val code = connection.responseCode
+        var result = ""
+        try {
+            result = readInputStream(connection.inputStream)
+        } catch (e: Exception) {
+
+        }
+        info("XRequest", "<- [$request] [$code] [$result]")
+
+        return result
     }
 
     @Throws(IOException::class)
     private fun readInputStream(inputStream: InputStream): String {
         val sb = StringBuilder()
         val reader = BufferedReader(InputStreamReader(inputStream), 8)
-        var line: String
+        var line: String?
         while (true) {
             line = reader.readLine()
             if (line == null) break
@@ -166,6 +119,10 @@ class HttpRequest(private val url: String) {
     //  Setters
     //
 
+    fun setMethods(method: Method): HttpRequest {
+        this.method = method
+        return this
+    }
 
     fun setFollowUnsafeRedirects(followUnsafeRedirects: Boolean): HttpRequest {
         this.followUnsafeRedirects = followUnsafeRedirects
@@ -197,8 +154,13 @@ class HttpRequest(private val url: String) {
         return this
     }
 
-    fun body(body: String): HttpRequest {
+    fun setBody(body: String): HttpRequest {
         this.body = body
+        return this
+    }
+
+    fun setJson(json: Json): HttpRequest {
+        this.body = json.toString()
         return this
     }
 
