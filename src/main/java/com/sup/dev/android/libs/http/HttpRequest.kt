@@ -32,6 +32,8 @@ class HttpRequest(private val url: String) {
     private var format = Format.json
     private var method = Method.GET
     private var followUnsafeRedirects = false
+    private var authorizationType: String? = null
+    private var authorization: String? = null
 
     enum class Format {
         x_www_form_urlencoded, json
@@ -61,8 +63,8 @@ class HttpRequest(private val url: String) {
     @Throws(Exception::class)
     private fun makeNow(urlStr: String): String {
 
-        if (format == Format.x_www_form_urlencoded)
-            headers.put("Content-Type", "application/x-www-form-urlencoded")
+        if (format == Format.x_www_form_urlencoded) headers.put("Content-Type", "application/x-www-form-urlencoded")
+        if (authorization != null)  headers.put("Authorization", "$authorizationType $authorization")
         else if (format == Format.json) headers.put("Content-Type", "application/json")
 
         val request = urlStr + makeQueryString(params, true)
@@ -95,6 +97,8 @@ class HttpRequest(private val url: String) {
 
         }
         info("XRequest", "<- [$request] [$code] [$result]")
+
+        if (code != 200) throw IllegalArgumentException("Code[$code] is not 200.")
 
         return result
     }
@@ -161,6 +165,12 @@ class HttpRequest(private val url: String) {
 
     fun setJson(json: Json): HttpRequest {
         this.body = json.toString()
+        return this
+    }
+
+    fun setAuthorization(authorizationType: String, authorization: String): HttpRequest{
+        this.authorizationType = authorizationType
+        this.authorization = authorization
         return this
     }
 
