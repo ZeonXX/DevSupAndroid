@@ -1,5 +1,6 @@
 package com.sup.dev.android.libs.screens.activity
 
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
@@ -101,7 +102,7 @@ open class SActivityTypeBottomNavigation(
                 extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
             }
             val menuItem = widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-            if(useIconsFilters) menuItem.iconFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
+           // if(useIconsFilters) menuItem.iconFilter(Color.RED)
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item
