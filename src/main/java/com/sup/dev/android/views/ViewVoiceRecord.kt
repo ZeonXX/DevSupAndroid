@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsPermission
+import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.utils.UtilsVoiceRecorder
 import com.sup.dev.android.views.views.ViewIcon
@@ -79,7 +81,7 @@ class ViewVoiceRecord @JvmOverloads constructor(context: Context, attrs: Attribu
             ToolsPermission.requestMicrophonePermission({
 
             }, {
-
+                ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_MIC)
             })
         }
     }
