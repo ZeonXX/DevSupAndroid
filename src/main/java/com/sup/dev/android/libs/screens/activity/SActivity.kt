@@ -154,7 +154,7 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
-    protected open fun onLastBackPressed(): Boolean {
+    open fun onLastBackPressed(): Boolean {
         return false
     }
 

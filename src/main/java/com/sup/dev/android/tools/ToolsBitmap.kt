@@ -24,8 +24,20 @@ import java.net.HttpURLConnection
 import java.net.URL
 import android.graphics.BitmapFactory
 import java.lang.RuntimeException
+import android.util.DisplayMetrics
+import android.graphics.Bitmap
+
+
 
 object ToolsBitmap {
+
+    fun mirror(src: Bitmap): Bitmap {
+        val m = Matrix()
+        m.preScale(-1f, 1f)
+        val dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false)
+        dst.density = DisplayMetrics.DENSITY_DEFAULT
+        return dst
+    }
 
     fun cropCenterSquare(srcBmp: Bitmap): Bitmap {
         if (srcBmp.width == srcBmp.height) return srcBmp
