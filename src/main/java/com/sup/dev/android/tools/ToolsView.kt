@@ -12,7 +12,10 @@ import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.text.Html
+import android.text.Spannable
+import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.*
@@ -45,6 +48,20 @@ object ToolsView {
 
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
+
+    fun setLink(vText:ViewTextLinkable, link:String, onClick:()->Unit){
+        val text = vText.text.toString()
+
+        val span = Spannable.Factory.getInstance().newSpannable(text)
+        span.setSpan(object : ClickableSpan() {
+            override fun onClick(v: View) {
+                onClick.invoke()
+            }
+        }, text.indexOf(link), text.indexOf(link) + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        vText.text = span
+        makeLinksClickable(vText)
+    }
 
 
     @Suppress("DEPRECATION")
