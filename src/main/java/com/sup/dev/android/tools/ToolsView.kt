@@ -49,10 +49,10 @@ object ToolsView {
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
 
-    fun setLink(vText:ViewTextLinkable, link:String, onClick:()->Unit){
+    fun addLink(vText: ViewTextLinkable, link: String, onClick: () -> Unit) {
         val text = vText.text.toString()
 
-        val span = Spannable.Factory.getInstance().newSpannable(text)
+        val span = if (vText.text is Spannable) vText.text as Spannable else Spannable.Factory.getInstance().newSpannable(text)
         span.setSpan(object : ClickableSpan() {
             override fun onClick(v: View) {
                 onClick.invoke()
@@ -65,17 +65,17 @@ object ToolsView {
 
 
     @Suppress("DEPRECATION")
-    fun makeTextHtml(vText:TextView){
+    fun makeTextHtml(vText: TextView) {
         vText.text = Html.fromHtml(vText.text.toString())
     }
 
-    fun setRecyclerAnimation(vRecycler:RecyclerView){
+    fun setRecyclerAnimation(vRecycler: RecyclerView) {
         vRecycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(vRecycler.context, R.anim.layout_animation_slide_from_bottom)
     }
 
-    fun onFieldEnterKey(vFiled:EditText, callback:()->Unit){
+    fun onFieldEnterKey(vFiled: EditText, callback: () -> Unit) {
         vFiled.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode==KeyEvent.KEYCODE_ENTER)) {
+            if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)) {
                 callback.invoke()
                 return@OnKeyListener true
             }
@@ -83,7 +83,7 @@ object ToolsView {
         })
     }
 
-    fun setNavigationBarColor(window: Window, color:Int){
+    fun setNavigationBarColor(window: Window, color: Int) {
         window.navigationBarColor = color
     }
 
@@ -144,14 +144,14 @@ object ToolsView {
         })
     }
 
-    fun <K:View>removeFromParent(view: K): K {
+    fun <K : View> removeFromParent(view: K): K {
         if (view.parent != null) (view.parent as ViewGroup).removeView(view)
         return view
     }
 
     fun showProgressDialog(): WidgetProgressTransparent {
         val widget = WidgetProgressTransparent().setCancelable(false)
-        ToolsThreads.main {  widget.asDialogShow() }
+        ToolsThreads.main { widget.asDialogShow() }
         return widget
     }
 
@@ -161,7 +161,7 @@ object ToolsView {
 
     fun showProgressDialog(title: String?): WidgetProgressWithTitle {
         val widget: WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
-        ToolsThreads.main {  widget.asSheetShow() }
+        ToolsThreads.main { widget.asSheetShow() }
         return widget
     }
 
@@ -221,7 +221,7 @@ object ToolsView {
             false
         }
 
-        v.setOnClickListener {onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
+        v.setOnClickListener { onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
     }
 
     fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
