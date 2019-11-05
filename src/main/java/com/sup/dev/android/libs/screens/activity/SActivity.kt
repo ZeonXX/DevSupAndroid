@@ -163,10 +163,12 @@ abstract class SActivity : AppCompatActivity() {
     //
 
     fun addSheet(sheet: Sheet){
+        ToolsView.hideKeyboard()
         vSheetContainer!!.addView(sheet.getView())
     }
 
     fun removeSheet(sheet:Sheet){
+        ToolsView.hideKeyboard()
         vSheetContainer!!.removeView(sheet.getView())
     }
 

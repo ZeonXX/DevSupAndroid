@@ -18,7 +18,7 @@ class SAlert(
         action: String?,
         image: Int = 0,
         imageFul: Int = 0,
-        onAction: (() -> Unit)?
+        var onAction: (() -> Unit)?
 ) : Screen(R.layout.screen_alert) {
 
     companion object {

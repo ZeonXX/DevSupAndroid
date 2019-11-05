@@ -29,6 +29,10 @@ class ViewImagesSwipe constructor(
         attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
+    /*
+
+     */
+
     private val vRecycler = RecyclerView(context)
     private val vNext: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     private val vBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
