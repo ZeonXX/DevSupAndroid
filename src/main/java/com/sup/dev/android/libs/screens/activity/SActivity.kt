@@ -162,12 +162,13 @@ abstract class SActivity : AppCompatActivity() {
     //  Sheet
     //
 
-    fun addSheet(sheet: Sheet){
+    fun addSheet(sheet: Sheet) {
         ToolsView.hideKeyboard()
+        sheet.getView().tag = sheet
         vSheetContainer!!.addView(sheet.getView())
     }
 
-    fun removeSheet(sheet:Sheet){
+    fun removeSheet(sheet: Sheet) {
         ToolsView.hideKeyboard()
         vSheetContainer!!.removeView(sheet.getView())
     }
@@ -185,6 +186,8 @@ abstract class SActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        if (vSheetContainer != null) for (i in vSheetContainer!!.childCount-1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             screenStatusBarColor = screen.statusBarColor

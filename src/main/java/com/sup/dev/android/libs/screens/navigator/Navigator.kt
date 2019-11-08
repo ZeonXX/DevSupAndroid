@@ -222,7 +222,7 @@ object Navigator {
         return if (currentStack.stack.isEmpty()) null else currentStack.stack[currentStack.stack.size - 1]
     }
 
-    fun getCurrentLast(screenClass: KClass<out Screen>): Screen? {
+    fun getLast(screenClass: KClass<out Screen>): Screen? {
         for (i in currentStack.stack.indices.reversed()) if (currentStack.stack[i]::class == screenClass) return currentStack.stack[i]
         return null
     }
