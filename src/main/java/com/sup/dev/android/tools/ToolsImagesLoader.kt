@@ -5,6 +5,7 @@ import android.widget.ImageView
 import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.libs.image_loader.ImageLoaderFile
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.image_loader.ImageLoaderTag
 import com.sup.dev.java.tools.ToolsMath
 import java.io.File
 
@@ -25,7 +26,7 @@ object ToolsImagesLoader {
     }
 
     fun load(tag: String): ImageLoaderA {
-        return ImageLoaderId(id)
+        return ImageLoaderTag(tag)
     }
 
     fun loadGif(
