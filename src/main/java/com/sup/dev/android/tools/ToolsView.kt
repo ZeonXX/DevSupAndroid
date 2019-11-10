@@ -40,6 +40,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
@@ -51,13 +52,16 @@ object ToolsView {
 
     fun addLink(vText: ViewTextLinkable, link: String, onClick: () -> Unit) {
         val text = vText.text.toString()
+        val index = text.indexOf(link)
+
+        if(index ==-1) return
 
         val span = if (vText.text is Spannable) vText.text as Spannable else Spannable.Factory.getInstance().newSpannable(text)
         span.setSpan(object : ClickableSpan() {
             override fun onClick(v: View) {
                 onClick.invoke()
             }
-        }, text.indexOf(link), text.indexOf(link) + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }, index, index + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         vText.text = span
         makeLinksClickable(vText)
