@@ -24,6 +24,10 @@ object ToolsImagesLoader {
         return ImageLoaderId(id)
     }
 
+    fun load(tag: String): ImageLoaderA {
+        return ImageLoaderId(id)
+    }
+
     fun loadGif(
             imageId: Long,
             gifId: Long,
