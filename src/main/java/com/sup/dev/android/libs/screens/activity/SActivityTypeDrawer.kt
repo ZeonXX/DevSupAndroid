@@ -13,8 +13,8 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 class SActivityTypeDrawer(
-        activity:SActivity
-) : SActivityType(activity),DrawerLayout.DrawerListener {
+        activity: SActivity
+) : SActivityType(activity), DrawerLayout.DrawerListener {
 
     companion object {
         private var navigationLock: Boolean = false
@@ -119,25 +119,26 @@ class SActivityTypeDrawer(
     //  Navigation Item
     //
 
-    override fun addNavigationView(view:View){
+    override fun addNavigationView(view: View) {
         vNavigationRowsContainer?.addView(view)
     }
 
-    override fun addNavigationDivider(){
+    override fun addNavigationDivider() {
         vNavigationRowsContainer?.addView(ToolsView.inflate(R.layout.z_divider))
     }
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
         val item = NavigationItem()
 
-        item.view = ToolsView.inflate(activity,  R.layout.screen_activity_navigation_driver_row)
+        item.view = ToolsView.inflate(activity, R.layout.screen_activity_navigation_driver_row)
         item.vIcon = item.view?.findViewById(R.id.vNavigationItemIcon)
         item.vChip = item.view?.findViewById(R.id.vNavigationItemChip)
         item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
         item.vIcon?.setImageResource(icon)
-        if(useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+        if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
         item.view?.setOnClickListener(onClick)
+        if (onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
         item.vChip?.visibility = View.GONE
         item.vText?.text = text
 
@@ -149,7 +150,7 @@ class SActivityTypeDrawer(
     inner class NavigationItem : SActivityType.NavigationItem() {
 
         override fun setVisible(visible: Boolean) {
-            view?.visibility = if(visible) View.VISIBLE else View.GONE
+            view?.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
     }

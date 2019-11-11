@@ -7,7 +7,7 @@ class SActivityTypeSimple(
         activity:SActivity
 ) : SActivityType(activity) {
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit): NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): NavigationItem {
         return NavigationItem()
     }
 

@@ -71,11 +71,16 @@ abstract class SActivityType(
 
     }
 
-    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem {
-        return addNavigationItem(icon, ToolsResources.s(text), hided, useIconsFilters, onClick)
+    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): NavigationItem {
+        return addNavigationItem(icon, ToolsResources.s(text), hided, useIconsFilters, onClick, onLongClick)
     }
 
-    abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem
+    fun addNavigationItem(icon: Int, text: Int, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem {
+        return addNavigationItem(icon, ToolsResources.s(text), hided, useIconsFilters, onClick, null)
+    }
+    fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit)  =addNavigationItem(icon, text, hided, useIconsFilters, onClick, null)
+
+    abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): NavigationItem
 
     abstract class NavigationItem {
 

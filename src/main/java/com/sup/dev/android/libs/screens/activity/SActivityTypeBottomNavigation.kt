@@ -94,7 +94,7 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit): SActivityType.NavigationItem {
+    override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
         if(hided){
             val item = NavigationItem()
             if(widgetMenu == null) {
@@ -102,6 +102,7 @@ open class SActivityTypeBottomNavigation(
                 extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
             }
             val menuItem = widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
+            if(onLongClick != null) menuItem.onLongClick{ _, c -> onLongClick.invoke(c.getView()!!) }
            // if(useIconsFilters) menuItem.iconFilter(Color.RED)
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
@@ -118,6 +119,7 @@ open class SActivityTypeBottomNavigation(
             item.vIcon?.setImageResource(icon)
             if(useIconsFilters)item.vIcon?.setFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
             item.view?.setOnClickListener(onClick)
+            if(onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
             item.vChip?.visibility = View.GONE
             item.vText?.text = text
 

@@ -92,6 +92,13 @@ open class WidgetMenu : WidgetRecycler() {
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
         }
+        if(item.onLongClick != null) {
+            item.card?.setOnLongClick { _ ->
+                item.onLongClick!!.invoke(this, item.card!!)
+                onGlobalSelected.invoke(this, item.text)
+                if (autoHide) hide()
+            }
+        }
 
 
         if (item.preferred) {
@@ -213,6 +220,10 @@ open class WidgetMenu : WidgetRecycler() {
         buildItem!!.onClick = onClick
         return this
     }
+    fun onLongClick(onLongClick: (WidgetMenu, CardMenu) -> Unit): WidgetMenu {
+        buildItem!!.onLongClick = onLongClick
+        return this
+    }
 
     fun condition(b: Boolean): WidgetMenu {
         skipThisItem = !b
@@ -245,6 +256,7 @@ open class WidgetMenu : WidgetRecycler() {
 
         var card: CardMenu? = null
         var onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }
+        var onLongClick: ((WidgetMenu, CardMenu) -> Unit)? = null
         var text = ""
         var icon = 0
         var iconFilter:Int? = null

@@ -17,6 +17,7 @@ open class CardMenu(
 ) : Card(if (layout > 0) layout else R.layout.card_menu) {
 
     var onClick: ((View, Int, Int) -> Unit)? = null
+    var onLongClick: ((View) -> Unit)? = null
     var dividerVisible = false
     var enabled = true
     var background = 0
@@ -44,6 +45,7 @@ open class CardMenu(
             vTouch.isClickable = onClick != null && enabled
             vTouch.isEnabled = onClick != null && enabled
             ToolsView.setOnClickCoordinates(vTouch) { v, x, y -> onClick(v,x,y) }
+            if(onLongClick != null) vTouch.setOnLongClickListener { onLongClick!!.invoke(it); return@setOnLongClickListener true }
         }
 
         if(vIcon != null) {
@@ -88,6 +90,12 @@ open class CardMenu(
 
     fun setOnClick(onClick: (View, Int, Int) -> Unit): CardMenu {
         this.onClick = onClick
+        update()
+        return this
+    }
+
+    fun setOnLongClick(onLongClick: (View) -> Unit): CardMenu {
+        this.onLongClick = onLongClick
         update()
         return this
     }
