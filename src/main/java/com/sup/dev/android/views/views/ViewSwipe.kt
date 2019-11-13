@@ -3,6 +3,7 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
@@ -75,6 +76,11 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
         (vContainer.layoutParams as LayoutParams).height = LayoutParams.WRAP_CONTENT
 
         inited = true
+    }
+
+    fun setDefaultColor(color:Int){
+        colorDefault = color
+        clear()
     }
 
     override fun requestLayout() {

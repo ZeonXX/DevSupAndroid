@@ -166,11 +166,13 @@ abstract class SActivity : AppCompatActivity() {
         ToolsView.hideKeyboard()
         sheet.getView().tag = sheet
         vSheetContainer!!.addView(sheet.getView())
+        window.navigationBarColor = ToolsResources.getColorAttr(R.attr.widget_background)
     }
 
     fun removeSheet(sheet: Sheet) {
         ToolsView.hideKeyboard()
         vSheetContainer!!.removeView(sheet.getView())
+        if(vSheetContainer!!.childCount == 0 && Navigator.getCurrent() != null)window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
     }
 
     //

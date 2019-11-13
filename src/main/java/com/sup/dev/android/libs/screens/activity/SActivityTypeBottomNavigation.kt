@@ -1,13 +1,11 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -20,7 +18,7 @@ open class SActivityTypeBottomNavigation(
     companion object {
 
         fun setShadow(view: View) {
-            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x30000000, 0x00000000))
+            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x90000000.toInt(), 0x00000000))
         }
 
     }
@@ -60,6 +58,7 @@ open class SActivityTypeBottomNavigation(
     }
 
     override fun updateNavigationVisible() {
+        vContainer!!.setBackgroundColor(screenBottomNavigationColor)
         if (screenNavigationAllowed && screenNavigationVisible) {
             if (screenHideBottomNavigationWhenKeyboard && isKeyboardShown()) {
                 vContainer!!.visibility = View.GONE
@@ -117,7 +116,7 @@ open class SActivityTypeBottomNavigation(
             item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
             item.vIcon?.setImageResource(icon)
-            if(useIconsFilters)item.vIcon?.setFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+            if(useIconsFilters)item.vIcon?.setFilter(getIconColor())
             item.view?.setOnClickListener(onClick)
             if(onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
             item.vChip?.visibility = View.GONE

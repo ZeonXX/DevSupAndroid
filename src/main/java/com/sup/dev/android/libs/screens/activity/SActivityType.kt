@@ -21,6 +21,9 @@ abstract class SActivityType(
     var screenNavigationAnimation = true
     var screenNavigationShadowAvailable = true
     var screenHideBottomNavigationWhenKeyboard = true
+    var screenBottomNavigationColor = 0
+
+    var iconsColor:Int? = null
 
     abstract fun onCreate()
 
@@ -32,6 +35,7 @@ abstract class SActivityType(
             screenNavigationAnimation = screen.isNavigationAnimation
             screenNavigationShadowAvailable = screen.isNavigationShadowAvailable
             screenHideBottomNavigationWhenKeyboard = screen.isHideBottomNavigationWhenKeyboard
+            screenBottomNavigationColor = screen.navigationBarColor
             updateNavigationVisible()
         }
     }
@@ -58,6 +62,11 @@ abstract class SActivityType(
     //
     //  Navigation Item
     //
+
+    fun getIconColor():Int{
+        if(iconsColor != null) return iconsColor!!
+        else return ToolsResources.getColorAttr(R.attr.toolbar_content_color)
+    }
 
     open fun getExtraNavigationItem(): NavigationItem? {
         return null

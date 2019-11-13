@@ -11,7 +11,7 @@
         android:id="@+id/vSheetViewContainer"
         android:layout_marginTop="96dp"
         android:orientation="vertical"
-        android:background="?colorPrimary"
+        android:background="?widget_background"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

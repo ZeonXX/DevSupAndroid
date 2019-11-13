@@ -3,6 +3,7 @@
     <attr name="widget_background" format="color"/>
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
+    <attr name="content_background_screen" format="color"/>
     <attr name="toolbar_content_color" format="color"/>
     <attr name="toolbar_content_color_secondary" format="color"/>
     <attr name="color_stroke" format="color"/>
@@ -35,10 +36,11 @@
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="window_background">@color/black</item>
         <item name="android:windowBackground">?window_background</item>
-        <item name="content_background">@color/grey_900</item>
-        <item name="widget_background">@color/grey_875</item>
-        <item name="colorPrimaryDark">@color/grey_875</item>
-        <item name="colorPrimary">@color/grey_875</item>
+        <item name="content_background">@color/grey_950</item>
+        <item name="content_background_screen">@color/black</item>
+        <item name="widget_background">@color/grey_925</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@color/black</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="them_status_bar_is_light">false</item>
@@ -78,6 +80,7 @@
         <item name="android:windowBackground">?window_background</item>
         <item name="widget_background">@color/grey_200</item>
         <item name="content_background">@color/white</item>
+        <item name="content_background_screen">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>
         <item name="toolbar_content_color">@color/grey_950</item>
         <item name="toolbar_content_color_secondary">@color/grey_700</item>
@@ -226,7 +229,7 @@
     </style>
 
     <style name="Root.Content">
-        <item name="android:background">?content_background</item>
+        <item name="android:background">?content_background_screen</item>
     </style>
 
     <style name="Toolbar">
