@@ -37,7 +37,7 @@
         <item name="window_background">@color/black</item>
         <item name="android:windowBackground">?window_background</item>
         <item name="content_background">@color/grey_900</item>
-        <item name="content_background_screen">@color/black</item>
+        <item name="content_background_screen">@color/grey_900</item>
         <item name="widget_background">@color/grey_875</item>
         <item name="colorPrimaryDark">@color/grey_875</item>
         <item name="colorPrimary">@color/grey_875</item>

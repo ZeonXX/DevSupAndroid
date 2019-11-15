@@ -18,7 +18,7 @@ open class SActivityTypeBottomNavigation(
     companion object {
 
         fun setShadow(view: View) {
-            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x90000000.toInt(), 0x00000000))
+            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x40000000, 0x00000000))
         }
 
     }
