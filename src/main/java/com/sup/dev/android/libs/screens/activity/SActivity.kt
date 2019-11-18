@@ -6,22 +6,22 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.tools.ToolsThreads
-import java.util.*
-import com.sup.dev.android.R
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
+import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.tools.ToolsThreads
+import java.util.*
+import com.sup.dev.android.R
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -166,13 +166,18 @@ abstract class SActivity : AppCompatActivity() {
         ToolsView.hideKeyboard()
         sheet.getView().tag = sheet
         vSheetContainer!!.addView(sheet.getView())
-        window.navigationBarColor = ToolsResources.getColorAttr(R.attr.widget_background)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = ToolsResources.getColorAttr(R.attr.widget_background)
+        }
     }
 
     fun removeSheet(sheet: Sheet) {
         ToolsView.hideKeyboard()
         vSheetContainer!!.removeView(sheet.getView())
-        if(vSheetContainer!!.childCount == 0 && Navigator.getCurrent() != null)window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (vSheetContainer!!.childCount == 0 && Navigator.getCurrent() != null)
+                window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+        }
     }
 
     //
@@ -189,7 +194,7 @@ abstract class SActivity : AppCompatActivity() {
             return
         }
 
-        if (vSheetContainer != null) for (i in vSheetContainer!!.childCount-1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
+        if (vSheetContainer != null) for (i in vSheetContainer!!.childCount - 1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             screenStatusBarColor = screen.statusBarColor
@@ -203,7 +208,13 @@ abstract class SActivity : AppCompatActivity() {
             }
         }
 
-        window.navigationBarColor = screen.navigationBarColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = screen.navigationBarColor
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (screen.navigationBarIsLight) screen.systemUiVisibility = screen.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            else screen.systemUiVisibility = screen.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+        }
 
         ToolsView.hideKeyboard()
 

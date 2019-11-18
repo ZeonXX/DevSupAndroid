@@ -4,6 +4,8 @@
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
     <attr name="content_background_screen" format="color"/>
+    <attr name="navigation_bar_color" format="color"/>
+    <attr name="navigation_bar_is_light" format="boolean"/>
     <attr name="toolbar_content_color" format="color"/>
     <attr name="toolbar_content_color_secondary" format="color"/>
     <attr name="color_stroke" format="color"/>
@@ -41,6 +43,8 @@
         <item name="widget_background">@color/grey_875</item>
         <item name="colorPrimaryDark">@color/grey_875</item>
         <item name="colorPrimary">@color/grey_875</item>
+        <item name="navigation_bar_color">?colorPrimary</item>
+        <item name="navigation_bar_is_light">false</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="them_status_bar_is_light">false</item>
@@ -90,6 +94,8 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/grey_100</item>
         <item name="colorPrimary">@color/grey_100</item>
+        <item name="navigation_bar_color">?colorPrimary</item>
+        <item name="navigation_bar_is_light">true</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="them_status_bar_is_light">true</item>
@@ -124,6 +130,8 @@
         <item name="colorPrimaryDark">@color/blue_700</item>
         <item name="colorAccent">@color/blue_a_400</item>
         <item name="colorPrimary">@color/blue_700</item>
+        <item name="navigation_bar_color">?colorPrimary</item>
+        <item name="navigation_bar_is_light">false</item>
         <item name="revers_color">@color/white</item>
         <item name="revers_color_lighted">@color/grey_200</item>
     </style>
