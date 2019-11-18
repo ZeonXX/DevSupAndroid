@@ -119,7 +119,7 @@ class SActivityTypeDrawer(
     //  Navigation Item
     //
 
-    override fun addNavigationView(view: View) {
+    override fun addNavigationView(view: View, useIconsFilters: Boolean) {
         vNavigationRowsContainer?.addView(view)
     }
 

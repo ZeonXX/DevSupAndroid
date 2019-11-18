@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.widgets
 
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -10,6 +11,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.cards.CardDivider
 import com.sup.dev.android.views.cards.CardDividerTitleMini
 import com.sup.dev.android.views.cards.CardMenu
+import com.sup.dev.android.views.cards.CardView
 import com.sup.dev.java.libs.debug.Debug
 
 open class WidgetMenu : WidgetRecycler() {
@@ -54,6 +56,10 @@ open class WidgetMenu : WidgetRecycler() {
     override fun setTitleBackgroundColorRes(color: Int): WidgetMenu {
         super.setTitleBackgroundColorRes(color)
         return this
+    }
+
+    fun addTitleView(view: View){
+        myAdapter.add(0, CardView(view))
     }
 
     //

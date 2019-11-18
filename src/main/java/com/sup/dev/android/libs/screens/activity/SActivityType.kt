@@ -72,7 +72,7 @@ abstract class SActivityType(
         return null
     }
 
-    open fun addNavigationView(view: View) {
+    open fun addNavigationView(view: View, useIconsFilters: Boolean) {
 
     }
 

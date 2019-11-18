@@ -93,13 +93,22 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
+    private fun createMenuIfNeed(useIconsFilters: Boolean){
+        if(widgetMenu == null) {
+            widgetMenu = WidgetMenu()
+            extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
+        }
+    }
+
+    override fun addNavigationView(view: View, useIconsFilters: Boolean) {
+        createMenuIfNeed(useIconsFilters)
+        widgetMenu!!.addTitleView(view)
+    }
+
     override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
         if(hided){
             val item = NavigationItem()
-            if(widgetMenu == null) {
-                widgetMenu = WidgetMenu()
-                extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
-            }
+            createMenuIfNeed(useIconsFilters)
             val menuItem = widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
             if(onLongClick != null) menuItem.onLongClick{ _, c -> onLongClick.invoke(c.getView()!!) }
            // if(useIconsFilters) menuItem.iconFilter(Color.RED)
@@ -122,7 +131,8 @@ open class SActivityTypeBottomNavigation(
             item.vChip?.visibility = View.GONE
             item.vText?.text = text
 
-            vContainer?.addView(item.view)
+            if(extraNavigationItem == null)vContainer?.addView(item.view)
+            else vContainer?.addView(item.view, vContainer!!.childCount-1)
             (item.view?.layoutParams as LinearLayout.LayoutParams).weight = 1f
             (item.view?.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
 
