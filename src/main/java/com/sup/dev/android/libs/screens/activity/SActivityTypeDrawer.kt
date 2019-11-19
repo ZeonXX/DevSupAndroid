@@ -103,16 +103,15 @@ class SActivityTypeDrawer(
     }
 
     override fun onDrawerOpened(drawerView: View) {
-
+        ToolsView.hideKeyboard()
     }
 
     override fun onDrawerClosed(drawerView: View) {
-
+        ToolsView.hideKeyboard()
     }
 
     override fun onDrawerStateChanged(newState: Int) {
-        if (newState == DrawerLayout.STATE_DRAGGING)
-            ToolsView.hideKeyboard()
+        if (newState == DrawerLayout.STATE_DRAGGING) ToolsView.hideKeyboard()
     }
 
     //
@@ -137,7 +136,10 @@ class SActivityTypeDrawer(
 
         item.vIcon?.setImageResource(icon)
         if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
-        item.view?.setOnClickListener(onClick)
+        item.view?.setOnClickListener{
+            hideDrawer()
+            onClick(it)
+        }
         if (onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
         item.vChip?.visibility = View.GONE
         item.vText?.text = text

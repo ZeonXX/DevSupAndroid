@@ -70,6 +70,10 @@ open class WidgetMenu : WidgetRecycler() {
     private var skipThisItem = false
     private var skipGroup = false
 
+    fun getMenuItem(index: Int):CardMenu{
+        return myAdapter.get(index) as CardMenu
+    }
+
     fun setItemVisible(index: Int, visible: Boolean) {
         if (myAdapter.size() > index) {
             (myAdapter.get(index) as CardMenu).setVisible(visible)
@@ -88,6 +92,7 @@ open class WidgetMenu : WidgetRecycler() {
 
         item.card = CardMenu()
         item.card?.text = item.text
+        item.card?.chipText = item.chipText
         item.card?.setIcon(item.icon)
         item.card?.setIcon(item.iconDrawable)
         item.card?.setIconFilter(item.iconFilter)
@@ -167,6 +172,15 @@ open class WidgetMenu : WidgetRecycler() {
 
     fun text(text: String): WidgetMenu {
         buildItem!!.text = text
+        return this
+    }
+
+    fun chipText(@StringRes chipText: Int): WidgetMenu {
+        return chipText(ToolsResources.s(chipText))
+    }
+
+    fun chipText(chipText: String): WidgetMenu {
+        buildItem!!.chipText = chipText
         return this
     }
 
@@ -264,6 +278,7 @@ open class WidgetMenu : WidgetRecycler() {
         var onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }
         var onLongClick: ((WidgetMenu, CardMenu) -> Unit)? = null
         var text = ""
+        var chipText = ""
         var icon = 0
         var iconFilter:Int? = null
         var iconDrawable: Drawable? = null

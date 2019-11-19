@@ -373,6 +373,12 @@
         <item name="iconEndPadding">0dp</item>
     </style>
 
+    <style name="Chip.Mini">
+        <item name="android:layout_height">22dp</item>
+        <item name="textStartPadding">8dp</item>
+        <item name="textEndPadding">8dp</item>
+    </style>
+
     <style name="Chip.Outline">
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipBackgroundColor">?selector_chip_outline</item>

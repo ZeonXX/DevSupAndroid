@@ -43,6 +43,8 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
         setSubtitle(list[index])
     }
 
+    fun getTitles() = list
+
     fun onSelected(onSelected: (Int) -> Unit) {
         this.onSelected = onSelected
     }

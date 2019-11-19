@@ -166,20 +166,20 @@ object Navigator {
     //
 
     private fun setCurrentViewNew(animation: Animation) {
-        setCurrentView(animation)
+        setCurrentView(animation, true)
 
         val array = Array(onScreenChangedCallbacks.size) { onScreenChangedCallbacks[it] }
         for (i in array) if (i.invoke()) onScreenChangedCallbacks.remove(i)
     }
 
     fun resetCurrentView() {
-        setCurrentView(Animation.NONE)
+        setCurrentView(Animation.NONE, false)
     }
 
-    private fun setCurrentView(animation: Animation) {
+    private fun setCurrentView(animation: Animation, hideDialogs:Boolean) {
         val screen = getCurrent() ?: return
 
-        SupAndroid.activity!!.setScreen(screen, animation)
+        SupAndroid.activity!!.setScreen(screen, animation, hideDialogs)
 
         if (getCurrent() != null) screen.onResume()
     }

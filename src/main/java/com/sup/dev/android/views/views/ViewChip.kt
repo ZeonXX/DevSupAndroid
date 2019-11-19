@@ -23,6 +23,13 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             return v
         }
 
+        fun instanceMini(vParent: ViewGroup, name: String? = null, tag: Any? = null): ViewChip {
+            val v: ViewChip = ToolsView.inflate(vParent, R.layout.z_chip_mini)
+            v.text = name
+            v.tag = tag
+            return v
+        }
+
         fun instanceOutline(context: Context, name: String? = null, tag: Any? = null): ViewChip {
             val v: ViewChip = ToolsView.inflate(context, R.layout.z_chip_outline)
             v.text = name

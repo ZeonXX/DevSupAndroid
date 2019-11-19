@@ -22,6 +22,7 @@ import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
+import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -186,7 +187,7 @@ abstract class SActivity : AppCompatActivity() {
 
     private var subscriptionTouchLock: Subscription? = null
 
-    open fun setScreen(screen: Screen?, animation: Navigator.Animation) {
+    open fun setScreen(screen: Screen?, animation: Navigator.Animation, hideDialogs:Boolean) {
         type.onSetScreen(screen)
 
         if (screen == null) {
@@ -194,7 +195,7 @@ abstract class SActivity : AppCompatActivity() {
             return
         }
 
-        if (vSheetContainer != null) for (i in vSheetContainer!!.childCount - 1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
+        if (hideDialogs && vSheetContainer != null) for (i in vSheetContainer!!.childCount - 1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             screenStatusBarColor = screen.statusBarColor

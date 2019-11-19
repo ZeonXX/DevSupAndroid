@@ -100,5 +100,9 @@ abstract class SActivityType(
 
         abstract fun setVisible(visible: Boolean)
 
+        open fun setChipText(text: String) {
+            vChip?.setText(text)
+        }
+
     }
 }

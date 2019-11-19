@@ -151,5 +151,10 @@ open class SActivityTypeBottomNavigation(
             if(menuIndex != null && widgetMenu != null) widgetMenu!!.setItemVisible(menuIndex!!, visible)
         }
 
+        override fun setChipText(text: String) {
+            super.setChipText(text)
+            if(menuIndex != null && widgetMenu != null) widgetMenu!!.getMenuItem(menuIndex!!).setChipText(text)
+        }
+
     }
 }

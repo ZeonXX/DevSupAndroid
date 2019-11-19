@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.debug.Debug
 
@@ -24,6 +25,7 @@ open class CardMenu(
     var visible = true
 
     var text = ""
+    var chipText = ""
     var description = ""
     var customColor = false
     var textColor = 0
@@ -34,6 +36,7 @@ open class CardMenu(
     override fun bindView(view: View) {
         super.bindView(view)
         val vTouch:View? = view.findViewById(R.id.vTouch)
+        val vChip:ViewChip? = view.findViewById(R.id.vChip)
         val vDivider:View? = view.findViewById(R.id.vDivider)
         val vText:TextView? = view.findViewById(R.id.vText)
         val vDescription:TextView? = view.findViewById(R.id.vDesc)
@@ -46,6 +49,10 @@ open class CardMenu(
             vTouch.isEnabled = onClick != null && enabled
             ToolsView.setOnClickCoordinates(vTouch) { v, x, y -> onClick(v,x,y) }
             if(onLongClick != null) vTouch.setOnLongClickListener { onLongClick!!.invoke(it); return@setOnLongClickListener true }
+        }
+
+        if(vChip != null){
+            vChip.text = chipText
         }
 
         if(vIcon != null) {
@@ -146,6 +153,16 @@ open class CardMenu(
 
     fun setText(text: String?): CardMenu {
         this.text = text ?: ""
+        update()
+        return this
+    }
+
+    fun setChipText(@StringRes chipText: Int): CardMenu {
+        return setChipText(ToolsResources.s(chipText))
+    }
+
+    fun setChipText(chipText: String?): CardMenu {
+        this.chipText = chipText ?: ""
         update()
         return this
     }
