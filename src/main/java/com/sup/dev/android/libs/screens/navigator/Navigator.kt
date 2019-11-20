@@ -2,7 +2,9 @@ package com.sup.dev.android.libs.screens.navigator
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.callbacks.CallbacksList2
+import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import kotlin.reflect.KClass
 
@@ -181,7 +183,7 @@ object Navigator {
 
         SupAndroid.activity!!.setScreen(screen, animation, hideDialogs)
 
-        if (getCurrent() != null) screen.onResume()
+        if (getCurrent() != null) ToolsThreads.main(true){screen.onResume()}   //  В следующем проходе, чтоб все успело инициализироваться
     }
 
     fun onActivityStop() {

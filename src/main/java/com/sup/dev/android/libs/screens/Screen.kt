@@ -29,7 +29,7 @@ open class Screen(
     var hasToolbarBackIcon = true
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
-    var navigationBarColor = ToolsResources.getPrimaryColor(context)
+    var navigationBarColor = ToolsResources.getColorAttr(android.R.attr.navigationBarColor)
     var navigationBarIsLight = false
     var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)
     var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.them_use_navigation_icons_filters)
@@ -56,15 +56,10 @@ open class Screen(
 
     protected fun removeAppbarNavigation() {
         hasToolbarBackIcon = false
-        onResume()
+        updateToolbar()
     }
 
-    //
-    //  LifeCircle
-    //
-
-    @CallSuper
-    open fun onResume() {
+    private fun updateToolbar(){
         val toolbar: Toolbar? = findViewById(R.id.vToolbar)
         if (toolbar != null) {
             toolbar.setTitleTextColor(toolbarContentColor)
@@ -85,6 +80,15 @@ open class Screen(
 
         val appBarLayout: AppBarLayout? = findViewById(R.id.vAppBar)
         appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
+    }
+
+    //
+    //  LifeCircle
+    //
+
+    @CallSuper
+    open fun onResume() {
+        updateToolbar()
     }
 
     @CallSuper

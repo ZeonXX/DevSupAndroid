@@ -9,7 +9,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsThreads
 
 class Sheet(private val widget: Widget) : WidgetViewWrapper {
@@ -17,7 +16,6 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
     private val vSheetRoot: FrameLayout = ToolsView.inflate(R.layout.sheet)
     private val vSheetViewContainer: LayoutCorned = vSheetRoot.findViewById(R.id.vSheetViewContainer)
     private var cancelable = true
-    private var showed = true
 
     init {
         vSheetViewContainer.addView(ToolsView.removeFromParent(widget.view))
@@ -37,7 +35,7 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
 
     private fun setOnBack(){
         Navigator.addOnBack {
-            if(showed){
+            if(SupAndroid.activity?.isSheetShowed(this) == true){
                 if(cancelable && widget.isEnabled){
                     hideWidget<Sheet>()
                 }else{
@@ -54,16 +52,13 @@ class Sheet(private val widget: Widget) : WidgetViewWrapper {
 
     fun show():Sheet{
         SupAndroid.activity?.addSheet(this)
-        showed = true
-        widget.onShow()
+        ToolsThreads.main(true) { widget.onShow() } //  Чтоб все успело инициализиоваться
         return this
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <K : WidgetViewWrapper> hideWidget(): K {
-        ToolsView.hideKeyboard(vSheetRoot)
         SupAndroid.activity?.removeSheet(this)
-        showed = false
         widget.onHide()
         return this as K
     }

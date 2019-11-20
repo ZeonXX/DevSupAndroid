@@ -116,14 +116,13 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeEnabled(widget: Widget?, request: Request<K>, onComplete: (K) -> Unit): Request<K> {
         widget?.setEnabled(false)
-        widget?.hideCancel()
         return execute(request) { r ->
             onComplete.invoke(r)
-            widget?.hideForce()
+            widget?.hide()
         }.onFinish {
             widget?.setEnabled(true)
-            if (widget is WidgetProgressTransparent) widget.hideForce()
-            if (widget is WidgetProgressWithTitle) widget.hideForce()
+            if (widget is WidgetProgressTransparent) widget.hide()
+            if (widget is WidgetProgressWithTitle) widget.hide()
         }
     }
 

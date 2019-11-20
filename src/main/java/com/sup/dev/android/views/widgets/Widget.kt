@@ -28,7 +28,6 @@ abstract class Widget(layoutRes: Int) {
     var isEnabled = true
     var isCancelable = true
     protected var viewWrapper: WidgetViewWrapper? = null
-    private var hideCalled = false
 
     //
     //  Getters
@@ -51,20 +50,7 @@ abstract class Widget(layoutRes: Int) {
         return null
     }
 
-    fun hideCancel() {
-        hideCalled = false
-    }
-
     fun hide() {
-        hideCalled = true
-        ToolsThreads.main(true) {
-            if (!hideCalled) return@main
-            hideForce()
-        }
-    }
-
-    fun hideForce(){
-        hideCalled = true
         if (viewWrapper != null) viewWrapper!!.hideWidget<WidgetViewWrapper>()
     }
 

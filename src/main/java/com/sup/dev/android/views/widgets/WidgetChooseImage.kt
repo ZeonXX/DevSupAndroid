@@ -165,7 +165,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private fun loadLink(link: String) {
         val progress = ToolsView.showProgressDialog()
         ToolsNetwork.getBytesFromURL(link, onResult = {
-            progress.hideForce()
+            progress.hide()
             if (it == null || !ToolsBytes.isImage(it)) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
             else {
                 if (callbackInWorkerThread) ToolsThreads.thread { onSelected.invoke(this, it, 0) }

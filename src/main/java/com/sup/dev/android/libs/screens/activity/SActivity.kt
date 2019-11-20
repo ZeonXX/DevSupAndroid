@@ -181,6 +181,8 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
+    fun isSheetShowed(sheet: Sheet) = vSheetContainer!!.indexOfChild(sheet.getView()) > -1
+
     //
     //  Screens
     //
