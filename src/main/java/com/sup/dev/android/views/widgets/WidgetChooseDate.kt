@@ -18,7 +18,6 @@ class WidgetChooseDate : Widget(R.layout.widget_choose_date) {
     private var autoHideOnEnter = true
 
     init {
-
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }
