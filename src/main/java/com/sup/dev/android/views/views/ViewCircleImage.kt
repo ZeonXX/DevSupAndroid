@@ -23,8 +23,6 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
     private var useGlobalStyle = true
     private var backgroundColorCircle = 0x00000000
     private val path = Path()
-   //private var ww = -1
-   //private var hh = -1
 
     private val eventBus = EventBus.subscribe(EventStyleChanged::class){
         if(useGlobalStyle) {
@@ -73,8 +71,6 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
 
     fun setSquareMode(squareMode: Boolean) {
         this.squareMode = squareMode
-     //  this.ww = -1
-     //  this.hh = -1
         invalidate()
     }
 
