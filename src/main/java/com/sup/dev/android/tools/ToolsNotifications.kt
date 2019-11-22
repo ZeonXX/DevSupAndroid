@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.collections.HashList
+import com.sup.dev.java.tools.ToolsMath
 
 object ToolsNotifications {
 
@@ -36,7 +37,7 @@ object ToolsNotifications {
 
     var notificationsListener: (Intent, IntentType, tag: String) -> Unit = { _, _, _ -> }
     private var chanels = ArrayList<Chanel>()
-    private var notificationIdCounter = 1
+    private var notificationIdCounter = ToolsMath.randomInt(0, 5000000) //  Чтоб id были псевдоуникальными между запусками
     private var notificationManager: NotificationManager = SupAndroid.appContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     init {
@@ -65,7 +66,8 @@ object ToolsNotifications {
         val notificationTag = intent.getStringExtra("ToolsNotification.notificationTag") ?: "null${SPLITER}null"
         val actionTag = intent.getStringExtra("ToolsNotification.actionTag")
 
-        if (notificationId != -1) {
+        if (notificationId != -1 && ToolsStorage.getInt("ToolsNotification.notificationId", -1) != notificationId) {
+            ToolsStorage.put("ToolsNotification.notificationId", notificationId)
 
             val intentType = when (intentTypeIndex) {
                 IntentType.ACTION.index -> IntentType.ACTION

@@ -22,7 +22,6 @@ import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
-import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class SActivity : AppCompatActivity() {

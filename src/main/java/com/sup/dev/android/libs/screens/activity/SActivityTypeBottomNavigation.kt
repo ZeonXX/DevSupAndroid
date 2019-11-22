@@ -65,18 +65,27 @@ open class SActivityTypeBottomNavigation(
                 vLine!!.visibility = View.GONE
                 skipNextNavigationAnimation  = true
             } else {
-                ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0)
+                if(vContainer!!.tag != "from_alpha") {
+                    vContainer!!.tag = "from_alpha"
+                    ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0){
+                        vContainer!!.tag = null
+                    }
+                }
                 if (screenNavigationShadowAvailable) {
                     ToolsView.fromAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0)
                 } else {
                     ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                         vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
+                        vContainer!!.tag = null
                     }
                 }
             }
         } else {
-            ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
-                vContainer!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
+            if(vContainer!!.tag != "to_alpha") {
+                vContainer!!.tag = "to_alpha"
+                ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
+                    vContainer!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
+                }
             }
             ToolsView.toAlpha(vLine!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                 vLine!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
