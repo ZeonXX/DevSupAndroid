@@ -62,7 +62,8 @@ object SupAndroid {
         init(view.context, "", SActivity::class.java)
     }
 
-    fun init(appContext: Context, appId:String, activityClass:Class<out SActivity>) {
+
+    fun init(appContext: Context?, appId:String, activityClass:Class<out SActivity>) {
         this.appId = appId
         this.activityClass = activityClass
         this.appContext = appContext
@@ -76,34 +77,36 @@ object SupAndroid {
         Debug.printerInfo = { s -> Log.i("Debug", s) }
         Debug.exceptionPrinter = { th -> Log.e("Debug", "", th) }
 
-        TEXT_APP_NAME = loadText("app_name")
-        TEXT_APP_CANCEL = loadText("app_cancel")
-        TEXT_APP_WHOOPS = loadText("app_whoops")
-        TEXT_APP_RETRY = loadText("app_retry")
-        TEXT_APP_BACK = loadText("app_back")
-        TEXT_APP_DOWNLOADING = loadText("app_downloading")
-        TEXT_APP_SHARE = loadText("app_share")
-        TEXT_APP_MESSAGE = loadText("app_message")
-        TEXT_APP_DOWNLOADED = loadText("app_downloaded")
-        TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again")
-        TEXT_APP_LINK = loadText("app_link")
-        TEXT_APP_CHOOSE = loadText("app_choose")
-        TEXT_APP_LOADING = loadText("app_loading")
-        TEXT_ERROR_NETWORK = loadText("error_network")
-        TEXT_ERROR_ACCOUNT_BANED = loadText("error_account_baned")
-        TEXT_ERROR_GONE = loadText("error_gone")
-        TEXT_ERROR_CANT_LOAD_IMAGE = loadText("error_cant_load_image")
-        TEXT_ERROR_PERMISSION_FILES = loadText("error_permission_files")
-        TEXT_ERROR_PERMISSION_MIC = loadText("error_permission_mic")
-        TEXT_ERROR_APP_NOT_FOUND = loadText("error_app_not_found")
-        TEXT_ERROR_CANT_FIND_IMAGES = loadText("error_cant_find_images")
-        TEXT_ERROR_MAX_ITEMS_COUNT = loadText("error_max_items_count")
+        if(appContext != null) {
+            TEXT_APP_NAME = loadText("app_name")
+            TEXT_APP_CANCEL = loadText("app_cancel")
+            TEXT_APP_WHOOPS = loadText("app_whoops")
+            TEXT_APP_RETRY = loadText("app_retry")
+            TEXT_APP_BACK = loadText("app_back")
+            TEXT_APP_DOWNLOADING = loadText("app_downloading")
+            TEXT_APP_SHARE = loadText("app_share")
+            TEXT_APP_MESSAGE = loadText("app_message")
+            TEXT_APP_DOWNLOADED = loadText("app_downloaded")
+            TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again")
+            TEXT_APP_LINK = loadText("app_link")
+            TEXT_APP_CHOOSE = loadText("app_choose")
+            TEXT_APP_LOADING = loadText("app_loading")
+            TEXT_ERROR_NETWORK = loadText("error_network")
+            TEXT_ERROR_ACCOUNT_BANED = loadText("error_account_baned")
+            TEXT_ERROR_GONE = loadText("error_gone")
+            TEXT_ERROR_CANT_LOAD_IMAGE = loadText("error_cant_load_image")
+            TEXT_ERROR_PERMISSION_FILES = loadText("error_permission_files")
+            TEXT_ERROR_PERMISSION_MIC = loadText("error_permission_mic")
+            TEXT_ERROR_APP_NOT_FOUND = loadText("error_app_not_found")
+            TEXT_ERROR_CANT_FIND_IMAGES = loadText("error_cant_find_images")
+            TEXT_ERROR_MAX_ITEMS_COUNT = loadText("error_max_items_count")
 
-        IMG_ERROR_NETWORK = loadImage("error_network")?:0
-        IMG_ERROR_GONE = loadImage("error_gone")?:0
+            IMG_ERROR_NETWORK = loadImage("error_network") ?: 0
+            IMG_ERROR_GONE = loadImage("error_gone") ?: 0
 
 
-        EventBusMultiProcess.init()
+            EventBusMultiProcess.init()
+        }
     }
 
     private fun loadText(id: String): String? {

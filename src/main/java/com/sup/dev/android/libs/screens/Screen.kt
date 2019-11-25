@@ -30,7 +30,7 @@ open class Screen(
     var isSingleInstanceInBackStack = false
     var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
     var navigationBarColor = ToolsResources.getColorAttr(android.R.attr.navigationBarColor)
-    var navigationBarIsLight = false
+    var navigationBarIsLight = ToolsResources.getBooleanAttr(R.attr.navigation_bar_is_light)
     var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)
     var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.them_use_navigation_icons_filters)
     //  All activity navigation types
