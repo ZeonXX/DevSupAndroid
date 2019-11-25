@@ -18,18 +18,18 @@ class SAlert(
         action: String?,
         image: Int = 0,
         imageFul: Int = 0,
-        var onAction: (() -> Unit)?
+        var onAction: ((SAlert) -> Unit)?
 ) : Screen(R.layout.screen_alert) {
 
     companion object {
 
         var GLOBAL_SHOW_WHOOPS = true
 
-        fun showNetwork(action: NavigationAction, onRetry: () -> Unit) {
+        fun showNetwork(action: NavigationAction, onRetry: (SAlert) -> Unit) {
             Navigator.action(action, instanceNetwork(onRetry))
         }
 
-        fun instanceNetwork(onRetry: () -> Unit): SAlert {
+        fun instanceNetwork(onRetry: (SAlert) -> Unit): SAlert {
             return SAlert(
                     if (GLOBAL_SHOW_WHOOPS) SupAndroid.TEXT_APP_WHOOPS else null,
                     SupAndroid.TEXT_ERROR_NETWORK,
@@ -52,9 +52,9 @@ class SAlert(
         }
     }
 
-    constructor(title: String?, text: String?, action: String?, onAction: (() -> Unit)?) : this(title, text, action, 0, onAction) {}
+    constructor(title: String?, text: String?, action: String?, onAction: ((SAlert) -> Unit)?) : this(title, text, action, 0, onAction) {}
 
-    constructor(title: String?, text: String?, action: String?, image: Int, onAction: (() -> Unit)?) : this(title, text, action, image, 0, onAction) {}
+    constructor(title: String?, text: String?, action: String?, image: Int, onAction: ((SAlert) -> Unit)?) : this(title, text, action, image, 0, onAction) {}
 
     private val vTitle: TextView = findViewById(R.id.vTitle)
     private val vText: TextView = findViewById(R.id.vText)
@@ -88,7 +88,7 @@ class SAlert(
 
         }
 
-        vAction.setOnClickListener { onAction?.invoke() }
+        vAction.setOnClickListener { onAction?.invoke(this) }
 
     }
 

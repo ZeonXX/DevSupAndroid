@@ -135,6 +135,7 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun setBackground(background: Drawable?) {
 
+
         if (paint == null) {
             paint = Paint()
             paint!!.isAntiAlias = true

@@ -10,8 +10,8 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.dialogs.DialogWidget
-import com.sup.dev.android.views.sheets.Sheet
+import com.sup.dev.android.views.splash.Dialog
+import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 
 open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
@@ -45,7 +45,7 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
         (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(0, 0, 0, 0)
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        if (viewWrapper is DialogWidget)
+        if (viewWrapper is Dialog)
             (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(2).toInt(), ToolsView.dpToPx(8).toInt(), 0)
         else if (viewWrapper is Sheet)
             vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()

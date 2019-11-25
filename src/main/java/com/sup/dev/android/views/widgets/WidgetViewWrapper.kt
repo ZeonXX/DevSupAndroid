@@ -1,12 +1,12 @@
 package com.sup.dev.android.views.widgets
 
 
-interface WidgetViewWrapper {
+interface WidgetViewWrapper<K> {
 
-    fun <K : WidgetViewWrapper> hideWidget(): K
+    fun hide(): K
 
-    fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K
+    fun setWidgetCancelable(cancelable: Boolean): K
 
-    fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K
+    fun setWidgetEnabled(enabled: Boolean): K
 
 }

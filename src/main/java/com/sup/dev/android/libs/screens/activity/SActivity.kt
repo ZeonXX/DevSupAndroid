@@ -15,13 +15,13 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
-import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
+import com.sup.dev.android.views.splash.SplashView
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -39,7 +39,7 @@ abstract class SActivity : AppCompatActivity() {
     var vActivityRoot: View? = null
     var vActivityDrawAnimations: ViewDrawAnimations? = null
     var vActivityContainer: ViewGroup? = null
-    var vSheetContainer: ViewGroup? = null
+    var vSplashContainer: ViewGroup? = null
     var vActivityTouchLock: View? = null
     var parseNotifications = true
     var type = getDefaultType()
@@ -55,7 +55,7 @@ abstract class SActivity : AppCompatActivity() {
         vActivityDrawAnimations = findViewById(R.id.vActivityDrawAnimations)
         vActivityContainer = findViewById(R.id.vScreenActivityView)
         vActivityTouchLock = findViewById(R.id.vScreenActivityTouchLock)
-        vSheetContainer = findViewById(R.id.vSheetContainer)
+        vSplashContainer = findViewById(R.id.vSplashContainer)
 
         vActivityTouchLock!!.visibility = View.GONE
 
@@ -162,25 +162,29 @@ abstract class SActivity : AppCompatActivity() {
     //  Sheet
     //
 
-    fun addSheet(sheet: Sheet) {
-        ToolsView.hideKeyboard()
-        sheet.getView().tag = sheet
-        vSheetContainer!!.addView(sheet.getView())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = ToolsResources.getColorAttr(R.attr.widget_background)
+    fun addSplash(splash: SplashView<out Any>) {
+        splash.getView().tag = splash
+        ToolsThreads.main {
+            ToolsView.hideKeyboard()
+            splash.getView().visibility = View.INVISIBLE
+            vSplashContainer!!.addView(splash.getView())
+            ToolsView.fromAlpha(splash.getView(), 200) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = splash.getNavigationBarColor()
+            }
         }
     }
 
-    fun removeSheet(sheet: Sheet) {
-        ToolsView.hideKeyboard()
-        vSheetContainer!!.removeView(sheet.getView())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (vSheetContainer!!.childCount == 0 && Navigator.getCurrent() != null)
-                window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+    fun removeSplash(splash: SplashView<out Any>) {
+        ToolsThreads.main{
+            ToolsView.hideKeyboard()
+            ToolsView.toAlpha(splash.getView(), 200) {
+                vSplashContainer!!.removeView(splash.getView())
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 0 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+            }
         }
     }
 
-    fun isSheetShowed(sheet: Sheet) = vSheetContainer!!.indexOfChild(sheet.getView()) > -1
+    fun isSplashShowed(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) > -1
 
     //
     //  Screens
@@ -188,7 +192,8 @@ abstract class SActivity : AppCompatActivity() {
 
     private var subscriptionTouchLock: Subscription? = null
 
-    open fun setScreen(screen: Screen?, animation: Navigator.Animation, hideDialogs:Boolean) {
+    open fun setScreen(screen: Screen?, a: Navigator.Animation, hideDialogs: Boolean) {
+        var animation = a
         type.onSetScreen(screen)
 
         if (screen == null) {
@@ -196,7 +201,12 @@ abstract class SActivity : AppCompatActivity() {
             return
         }
 
-        if (hideDialogs && vSheetContainer != null) for (i in vSheetContainer!!.childCount - 1 downTo 0) removeSheet(vSheetContainer!!.getChildAt(i).tag as Sheet)
+        if (hideDialogs && vSplashContainer != null)
+            for (i in vSplashContainer!!.childCount - 1 downTo 0) {
+                val splash = vSplashContainer!!.getChildAt(i).tag as SplashView<out Any>
+                removeSplash(splash)
+                if(splash.isDestroyScreenAnimation()) animation = Navigator.Animation.NONE
+            }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             screenStatusBarColor = screen.statusBarColor

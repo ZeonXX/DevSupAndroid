@@ -12,7 +12,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.settings.Settings
-import com.sup.dev.android.views.sheets.Sheet
+import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.views.ViewIcon
 import java.io.File
 

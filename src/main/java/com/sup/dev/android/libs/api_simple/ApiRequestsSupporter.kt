@@ -1,7 +1,6 @@
 package com.sup.dev.android.libs.api_simple
 
 import androidx.annotation.StringRes
-import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -10,7 +9,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SAlert
-import com.sup.dev.android.views.screens.SInterstitialProgress
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.api_simple.client.Request
@@ -40,27 +38,25 @@ object ApiRequestsSupporter {
         return request
     }
 
-    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> = executeInterstitial(action, null, request,onComplete)
-
-    fun <K : Request.Response> executeInterstitial(action: NavigationAction, tag:Any?, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
-        val sInterstitialProgress = SInterstitialProgress()
-        sInterstitialProgress.tag = tag
-        Navigator.action(action, sInterstitialProgress)
+    fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
+        val vProgress = WidgetProgressTransparent()
+        vProgress.setCancelable(false)
+        vProgress.asSplashShow()
 
         return execute(request) { r ->
-            if (Navigator.getCurrent() === sInterstitialProgress) {
-                Navigator.replace(onComplete.invoke(r))
-            }
+            Navigator.action(action, onComplete.invoke(r))
         }
                 .onApiError(ApiClient.ERROR_GONE) {
-                    if (Navigator.getCurrent() === sInterstitialProgress) SAlert.showGone(Navigator.REPLACE)
+                    SAlert.showGone(action)
                 }
                 .onError {
-                    if (Navigator.getCurrent() === sInterstitialProgress)
-                        SAlert.showNetwork(Navigator.REPLACE) {
-                            Navigator.replace(sInterstitialProgress)
-                            request.send(api!!)
-                        }
+                    SAlert.showNetwork(action) {
+                        Navigator.remove(it)
+                        executeInterstitial(action, request, onComplete)
+                    }
+                }
+                .onFinish {
+                    vProgress.hide()
                 }
     }
 

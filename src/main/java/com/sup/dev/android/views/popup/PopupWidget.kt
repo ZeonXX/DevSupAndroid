@@ -5,12 +5,11 @@ import com.sup.dev.android.R
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
-
-class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWrapper {
+class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWrapper<PopupWidget> {
 
     init {
-        setCancelable<Popup>(widget.isCancelable)
-        setEnabled<Popup>(widget.isEnabled)
+        setPopupCancelable<Popup>(widget.isCancelable)
+        setPopupEnabled<Popup>(widget.isEnabled)
         val divider: View? = widget.view.findViewById(R.id.vDivider)
         if(divider != null) divider.visibility = View.GONE
     }
@@ -26,7 +25,7 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : Popup> hide(): K {
+    override fun <K : Popup> hidePopup(): K {
         dismiss()
         return this as K
     }
@@ -36,30 +35,30 @@ class PopupWidget(private val widget: Widget) : Popup(widget.view), WidgetViewWr
     //
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : Popup> setCancelable(cancelable: Boolean): K {
-        super.setCancelable<Popup>(cancelable)
+    override fun <K : Popup> setPopupCancelable(cancelable: Boolean): K {
+        super.setPopupCancelable<Popup>(cancelable)
         return this as K
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : Popup> setEnabled(enabled: Boolean): K {
-        super.setEnabled<Popup>(enabled)
+    override fun <K : Popup> setPopupEnabled(enabled: Boolean): K {
+        super.setPopupEnabled<Popup>(enabled)
         return this as K
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> hideWidget(): K {
-        return hide<Popup>() as K
+    override fun hide(): PopupWidget {
+        return hidePopup()
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
-        return setCancelable<Popup>(cancelable) as K
+    override fun  setWidgetCancelable(cancelable: Boolean): PopupWidget {
+        return setPopupCancelable(cancelable)
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
-        return setEnabled<Popup>(enabled) as K
+    override fun setWidgetEnabled(enabled: Boolean): PopupWidget {
+        return setPopupEnabled(enabled)
     }
 
 

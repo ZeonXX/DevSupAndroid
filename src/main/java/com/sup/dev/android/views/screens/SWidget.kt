@@ -12,7 +12,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
-class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), WidgetViewWrapper {
+class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), WidgetViewWrapper<SWidget> {
 
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
     private val vToolbarContainer: ViewGroup = findViewById(R.id.vToolbarContainer)
@@ -45,16 +45,16 @@ class SWidget(private val widget: Widget) : Screen(R.layout.screen_widget), Widg
         widget.onHide()
     }
 
-    override fun <K : WidgetViewWrapper> hideWidget(): K {
+    override fun hide(): SWidget {
         Navigator.remove(this)
-        return this as K
+        return this
     }
 
-    override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
-        return this as K
+    override fun setWidgetCancelable(cancelable: Boolean): SWidget {
+        return this
     }
 
-    override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
-        return this as K
+    override fun setWidgetEnabled(enabled: Boolean): SWidget {
+        return this
     }
 }

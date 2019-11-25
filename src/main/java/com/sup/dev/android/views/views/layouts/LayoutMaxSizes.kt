@@ -12,9 +12,12 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
+
+    var onmeasureCall: () -> Unit = {}
 
     private var maxWidth = 0
     private var maxHeight = 0
@@ -70,6 +73,7 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        onmeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
 
@@ -96,6 +100,10 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
             maxChildH = Math.max(getChildAt(i).measuredHeight, maxChildH)
         }
 
+        log("maxChildH[$maxChildH] h[$h] reserveHeight[$reserveHeight]")
+
+        if (maxChildW > w && maxChildW < w + reserveWidth) w += reserveWidth
+        if (maxChildH > h && maxChildH < h + reserveHeight) h += reserveHeight
 
         isCroppedW = maxChildW > w
         isCroppedH = maxChildH > h

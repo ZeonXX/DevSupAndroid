@@ -10,14 +10,12 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardWidget
-import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.popup.Popup
 import com.sup.dev.android.views.popup.PopupWidget
 import com.sup.dev.android.views.screens.SWidget
-import com.sup.dev.android.views.sheets.Sheet
-import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
-
-import com.sup.dev.java.tools.ToolsThreads
+import com.sup.dev.android.views.splash.Dialog
+import com.sup.dev.android.views.splash.Sheet
+import com.sup.dev.android.views.splash.Splash
 
 abstract class Widget(layoutRes: Int) {
 
@@ -27,7 +25,7 @@ abstract class Widget(layoutRes: Int) {
     private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
-    protected var viewWrapper: WidgetViewWrapper? = null
+    protected var viewWrapper: WidgetViewWrapper<out Any>? = null
 
     //
     //  Getters
@@ -51,7 +49,7 @@ abstract class Widget(layoutRes: Int) {
     }
 
     fun hide() {
-        if (viewWrapper != null) viewWrapper!!.hideWidget<WidgetViewWrapper>()
+        if (viewWrapper != null) viewWrapper!!.hide()
     }
 
     protected fun <K : View> findViewById(@IdRes id: Int): K {
@@ -122,13 +120,13 @@ abstract class Widget(layoutRes: Int) {
     open fun setEnabled(enabled: Boolean): Widget {
         this.isEnabled = enabled
         if (vTitle != null) vTitle.isEnabled = enabled
-        if (viewWrapper != null) viewWrapper!!.setWidgetEnabled<WidgetViewWrapper>(enabled)
+        if (viewWrapper != null) viewWrapper!!.setWidgetEnabled(enabled)
         return this
     }
 
     open fun setCancelable(cancelable: Boolean): Widget {
         this.isCancelable = cancelable
-        if (viewWrapper != null) viewWrapper!!.setWidgetCancelable<WidgetViewWrapper>(cancelable)
+        if (viewWrapper != null) viewWrapper!!.setWidgetCancelable(cancelable)
         return this
     }
 
@@ -148,13 +146,25 @@ abstract class Widget(layoutRes: Int) {
         return sheet
     }
 
-    fun asDialog(): DialogWidget {
-        val dialog = DialogWidget(this)
+    fun asSplash(): Splash {
+        val splash = Splash(this)
+        this.viewWrapper = splash
+        return splash
+    }
+
+    open fun asSplashShow(): Splash {
+        val splash = asSplash()
+        splash.show()
+        return splash
+    }
+
+    fun asDialog(): Dialog {
+        val dialog = Dialog(this)
         this.viewWrapper = dialog
         return dialog
     }
 
-    fun asDialogShow(): DialogWidget {
+    fun asDialogShow(): Dialog {
         val dialog = asDialog()
         dialog.show()
         return dialog

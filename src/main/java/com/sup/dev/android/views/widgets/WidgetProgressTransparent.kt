@@ -1,15 +1,12 @@
 package com.sup.dev.android.views.widgets
 
-import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.dialogs.Dialog
-import com.sup.dev.android.views.dialogs.DialogWidget
-
+import com.sup.dev.android.views.splash.Dialog
 
 class WidgetProgressTransparent : Widget(0) {
 
@@ -32,7 +29,8 @@ class WidgetProgressTransparent : Widget(0) {
 
         if (viewWrapper is Dialog) {
             val dialog = viewWrapper as Dialog
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(0x00000000))
+            dialog.vSplashViewContainer.setBackgroundColor(0x00000000)
+            dialog.vSplashViewContainer.invalidate()
         }
 
     }

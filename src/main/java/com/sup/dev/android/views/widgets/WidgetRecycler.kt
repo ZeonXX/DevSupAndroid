@@ -7,7 +7,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.popup.PopupWidget
-import com.sup.dev.android.views.sheets.Sheet
+import com.sup.dev.android.views.splash.Sheet
 
 open class WidgetRecycler(
         r:Int = R.layout.widget_recycler

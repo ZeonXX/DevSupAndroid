@@ -44,7 +44,7 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
 
     }
 
-    open fun <K : Popup> hide(): K {
+    open fun <K : Popup> hidePopup(): K {
         dismiss()
         return this as K
     }
@@ -89,12 +89,12 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     //  Setters
     //
 
-    open fun <K : Popup> setCancelable(cancelable: Boolean): K {
+    open fun <K : Popup> setPopupCancelable(cancelable: Boolean): K {
         isOutsideTouchable = !cancelable
         return this as K
     }
 
-    open fun <K : Popup> setEnabled(enabled: Boolean): K {
+    open fun <K : Popup> setPopupEnabled(enabled: Boolean): K {
         this.isEnabled = enabled
         return this as K
     }

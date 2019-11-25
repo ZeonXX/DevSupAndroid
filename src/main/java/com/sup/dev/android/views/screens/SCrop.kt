@@ -9,9 +9,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.dialogs.DialogWidget
-import com.sup.dev.android.views.settings.Settings
-import com.sup.dev.android.views.settings.SettingsSeek
+import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.cropper.ViewCropImage
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
@@ -39,7 +37,7 @@ class SCrop(
     private var autoBackOnCrop = true
     private var locked: Boolean = false
 
-    private var dialogProgress: DialogWidget? = null
+    private var dialogProgress: Dialog? = null
 
     constructor(bitmap: Bitmap, onCrop: ((SCrop, Bitmap, Int, Int, Int, Int) -> Unit)) : this(bitmap, 0, 0, onCrop) {}
 

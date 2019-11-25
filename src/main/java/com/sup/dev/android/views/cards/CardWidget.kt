@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
 
-class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper {
+class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper<CardWidget> {
 
     override fun instanceView(vParent: ViewGroup): View {
         return widget.view
@@ -16,19 +16,16 @@ class CardWidget(private val widget: Widget) : Card(0), WidgetViewWrapper {
         widget.onShow()
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> hideWidget(): K {
+    override fun hide(): CardWidget {
         adapter!!.remove(this)
-        return this as K
+        return this
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> setWidgetCancelable(cancelable: Boolean): K {
-        return this as K
+    override fun setWidgetCancelable(cancelable: Boolean): CardWidget {
+        return this
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <K : WidgetViewWrapper> setWidgetEnabled(enabled: Boolean): K {
-        return this as K
+    override fun setWidgetEnabled(enabled: Boolean): CardWidget {
+        return this
     }
 }
