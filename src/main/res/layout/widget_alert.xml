@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -47,8 +46,7 @@
                 android:paddingLeft="24dp"
                 android:paddingTop="24dp"
                 android:paddingRight="24dp"
-                android:textSize="20sp"
-                android:text="Title"/>
+                android:textSize="20sp"/>
 
             <com.sup.dev.android.views.views.ViewTextLinkable
                 android:id="@+id/vText"
@@ -58,8 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginRight="24dp"
-                android:text="Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time. Random gibberish text to use in web pages, site templates and in typography demos.Get rid of Lorem Ipsum forever. A tool for web designers who want to save time."/>
+                android:layout_marginRight="24dp"/>
 
             <CheckBox
                 android:id="@+id/vCheckBox"
@@ -67,8 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
-                android:text="not show"/>
+                android:layout_marginRight="24dp"/>
 
         </LinearLayout>
 
@@ -84,13 +80,11 @@
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vCancel"
             style="@style/Button.Text"
-            android:text="Cancel"
             android:layout_marginRight="8dp"/>
 
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vEnter"
-            style="@style/Button.Text"
-            android:text="Action"/>
+            style="@style/Button.Text"/>
 
     </LinearLayout>
 

@@ -17,10 +17,10 @@ class WidgetChooseTimeRange : Widget(R.layout.widget_choose_time_range) {
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
 
-    private var h1: Int = 0
-    private var m1: Int = 0
-    private var h2: Int = 0
-    private var m2: Int = 0
+    private var h1 = 0
+    private var m1 = 0
+    private var h2 = 0
+    private var m2 = 0
 
     private var autoHideOnEnter = true
 

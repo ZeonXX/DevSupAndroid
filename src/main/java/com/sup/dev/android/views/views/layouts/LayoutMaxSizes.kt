@@ -3,7 +3,6 @@ package com.sup.dev.android.views.views.layouts
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.View
 import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
 import com.sup.dev.android.R
@@ -12,7 +11,6 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
 
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
@@ -99,8 +97,6 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
             maxChildW = Math.max(getChildAt(i).measuredWidth, maxChildW)
             maxChildH = Math.max(getChildAt(i).measuredHeight, maxChildH)
         }
-
-        log("maxChildH[$maxChildH] h[$h] reserveHeight[$reserveHeight]")
 
         if (maxChildW > w && maxChildW < w + reserveWidth) w += reserveWidth
         if (maxChildH > h && maxChildH < h + reserveHeight) h += reserveHeight
