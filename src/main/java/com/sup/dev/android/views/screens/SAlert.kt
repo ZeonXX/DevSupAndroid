@@ -29,26 +29,36 @@ class SAlert(
             Navigator.action(action, instanceNetwork(onRetry))
         }
 
-        fun instanceNetwork(onRetry: (SAlert) -> Unit): SAlert {
-            return SAlert(
-                    if (GLOBAL_SHOW_WHOOPS) SupAndroid.TEXT_APP_WHOOPS else null,
-                    SupAndroid.TEXT_ERROR_NETWORK,
-                    SupAndroid.TEXT_APP_RETRY,
-                    SupAndroid.IMG_ERROR_NETWORK,
-                    onRetry)
-        }
+        fun instanceNetwork(onRetry: (SAlert) -> Unit) = instanceMessage(SupAndroid.TEXT_ERROR_NETWORK, SupAndroid.TEXT_APP_RETRY, SupAndroid.IMG_ERROR_NETWORK, true, onRetry)
 
         fun showGone(action: NavigationAction) {
             Navigator.action(action, instanceGone())
         }
 
-        fun instanceGone(): SAlert {
-            return SAlert(
-                    if (GLOBAL_SHOW_WHOOPS) SupAndroid.TEXT_APP_WHOOPS else null,
-                    SupAndroid.TEXT_ERROR_GONE,
-                    SupAndroid.TEXT_APP_BACK,
-                    SupAndroid.IMG_ERROR_GONE
+        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.IMG_ERROR_GONE, true, null)
+
+        fun showMessage(text:Int, action:Int, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = null) {
+            Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
+        }
+
+        fun showMessage(text:String?, action:String?, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = null) {
+            Navigator.action(actionNavigation, instanceMessage(text, action, img, true, onAction))
+        }
+
+        fun instanceMessage(text:String?, action:String?, img:Int, tryToShowWhoops:Boolean, onAction:((SAlert) -> Unit)?):SAlert{
+            val screen =  SAlert(
+                    if (tryToShowWhoops && GLOBAL_SHOW_WHOOPS) SupAndroid.TEXT_APP_WHOOPS else null,
+                    text,
+                    action,
+                    img
             ) { Navigator.back() }
+            screen.onAction = onAction
+            screen.isNavigationVisible = false
+            screen.isNavigationAllowed = false
+            screen.isNavigationAnimation = false
+            screen.navigationBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
+            screen.statusBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
+            return screen
         }
     }
 

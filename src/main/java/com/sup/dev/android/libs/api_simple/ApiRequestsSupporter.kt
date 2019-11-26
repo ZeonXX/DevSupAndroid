@@ -49,7 +49,7 @@ object ApiRequestsSupporter {
                 .onApiError(ApiClient.ERROR_GONE) {
                     SAlert.showGone(action)
                 }
-                .onError {
+                .onNetworkError {
                     SAlert.showNetwork(action) {
                         Navigator.remove(it)
                         executeInterstitial(action, request, onComplete)
