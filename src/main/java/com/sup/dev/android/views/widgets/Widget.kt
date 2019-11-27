@@ -68,6 +68,10 @@ abstract class Widget(layoutRes: Int) {
         return true
     }
 
+    open fun onBackPressed(): Boolean {
+        return true
+    }
+
     @CallSuper
     open fun onShow() {
         if (vTitle != null) {

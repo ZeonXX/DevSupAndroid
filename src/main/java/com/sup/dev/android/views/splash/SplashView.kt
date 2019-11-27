@@ -38,7 +38,7 @@ abstract class SplashView<K : Any>(
     private fun setOnBack(){
         Navigator.addOnBack {
             if(SupAndroid.activity?.isSplashShowed(this) == true){
-                if(cancelable && widget.isEnabled){
+                if(cancelable && widget.isEnabled && widget.onBackPressed()){
                     hide()
                 }else{
                     setOnBack()

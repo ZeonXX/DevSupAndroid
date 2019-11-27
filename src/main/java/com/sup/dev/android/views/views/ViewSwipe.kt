@@ -69,6 +69,8 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
         vIconForAlphaAnimation.alpha = 0f
         (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
+        (vIconForAlphaAnimation.layoutParams as LayoutParams).marginEnd = ToolsView.dpToPx(12).toInt()
+        (vIconForAlphaAnimation.layoutParams as LayoutParams).marginStart = ToolsView.dpToPx(12).toInt()
 
         vContainer.setOnTouchListener(this)
         vContainer.setBackgroundColor(colorDefault)
