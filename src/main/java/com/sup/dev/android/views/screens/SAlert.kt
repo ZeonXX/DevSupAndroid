@@ -35,7 +35,7 @@ class SAlert(
             Navigator.action(action, instanceGone())
         }
 
-        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.IMG_ERROR_GONE, true, null)
+        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.IMG_ERROR_GONE, true) {Navigator.remove(it)}
 
         fun showMessage(text:Int, action:Int, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = null) {
             Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
@@ -92,10 +92,6 @@ class SAlert(
         } else {
             vImageFull.setImageBitmap(null)
             vImageFull.visibility = View.GONE
-        }
-
-        if (!GLOBAL_SHOW_WHOOPS) {
-
         }
 
         vAction.setOnClickListener { onAction?.invoke(this) }

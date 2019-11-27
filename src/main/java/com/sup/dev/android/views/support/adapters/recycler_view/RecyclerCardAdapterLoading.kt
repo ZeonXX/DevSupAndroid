@@ -51,6 +51,9 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var onStartLoadingAndEmpty = CallbacksList()
     private var onLoadingAndNotEmpty = CallbacksList()
     private var onLoadedNotEmpty = CallbacksList()
+    private var onLoadedEmpty = CallbacksList()
+    private var onLoadedPack = CallbacksList()
+    private var onLoadedEmptyPack = CallbacksList()
 
     override fun onBindViewHolder(holder: Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
@@ -78,11 +81,11 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         val loadingTagLocal = loadingTag
 
         remove(cardLoading)
-        cardLoading.setOnRetry {load(bottom) }
+        cardLoading.setOnRetry { load(bottom) }
         cardLoading.setState(CardLoading.State.LOADING)
 
         val cards = get(cardClass)
-        ToolsCollections.removeIf(cards){!cardsHash.get(it.hashCode(), false) }
+        ToolsCollections.removeIf(cards) { !cardsHash.get(it.hashCode(), false) }
 
         if (!contains(cardClass)) {
             onStartLoadingAndEmpty.invoke()
@@ -177,12 +180,15 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                 else add(findTopAddPosition() + i, card)
             }
 
+            onLoadedPack.invoke()
             if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
+            else onLoadedEmpty.invoke()
+            if (result.isEmpty()) onLoadedEmptyPack.invoke()
         }
     }
 
 
-    fun addWithHash(card:K){
+    fun addWithHash(card: K) {
         cardsHash.put(card.hashCode(), true)
         add(findBottomAdposition(), card)
     }
@@ -290,6 +296,21 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     fun addOnLoadedNotEmpty(onLoadedNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
         this.onLoadedNotEmpty.add(onLoadedNotEmpty)
+        return this
+    }
+
+    fun addOnLoadedEmpty(onLoadedEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedEmpty.add(onLoadedEmpty)
+        return this
+    }
+
+    fun addOnLoadedPack(onLoadedPack: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedPack.add(onLoadedPack)
+        return this
+    }
+
+    fun addOnLoadedEmptyPack(onLoadedEmptyPack: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedEmptyPack.add(onLoadedEmptyPack)
         return this
     }
 
