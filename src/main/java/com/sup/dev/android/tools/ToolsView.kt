@@ -88,8 +88,11 @@ object ToolsView {
     }
 
     fun setNavigationBarColor(window: Window, color: Int) {
-        window.navigationBarColor = color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = color
+        }
     }
+
 
     fun makeNotFullscreen(activity: Activity) {
         activity.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

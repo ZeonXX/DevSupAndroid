@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -55,6 +56,10 @@ object SupAndroid {
     var activityClass: Class<out SActivity>? = null
     var activityIsVisible = false
     var appId = ""
+
+    fun onLowMemory(){
+        ImageLoader.clearCash()
+    }
 
     fun initEditMode(view: View) {
         if (!view.isInEditMode) return

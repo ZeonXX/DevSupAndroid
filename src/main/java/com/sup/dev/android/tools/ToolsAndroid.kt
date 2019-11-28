@@ -59,10 +59,12 @@ object ToolsAndroid {
 
     @Suppress("DEPRECATION")
     fun setLanguage(context:Context, lang: String) {
-        val res = context.resources
-        val conf = res.configuration
-        conf.setLocale(Locale(lang.toLowerCase()))
-        res.updateConfiguration(conf, res.displayMetrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            val res = context.resources
+            val conf = res.configuration
+            conf.setLocale(Locale(lang.toLowerCase()))
+            res.updateConfiguration(conf, res.displayMetrics)
+        }
     }
 
     @Suppress("DEPRECATION")

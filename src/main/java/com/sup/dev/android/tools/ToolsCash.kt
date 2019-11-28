@@ -105,12 +105,12 @@ object ToolsCash {
             inputStream = FileInputStream(file)
             inputStream.read(data)
             file.setLastModified(System.currentTimeMillis())
-        } catch (ex: IOException) {
+        } catch (ex: Exception) {
             err(ex)
         } finally {
             try {
                 inputStream!!.close()
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 err(e)
             }
 

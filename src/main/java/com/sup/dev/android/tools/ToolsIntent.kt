@@ -62,7 +62,7 @@ object ToolsIntent {
         if(extras != null){
             val keySet = extras.keySet()
             for(k in keySet){
-                onNext.invoke(k, extras.get(k))
+                onNext.invoke(k, extras.get(k)!!)
             }
         }
     }

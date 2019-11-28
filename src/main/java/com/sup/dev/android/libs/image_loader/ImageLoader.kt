@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
@@ -21,8 +22,8 @@ import java.util.concurrent.TimeUnit
 
 object ImageLoader {
 
-    internal val maxCashItemSize = 1024 * 1024 * 4
-    internal val maxCashSize = 1024 * 1024 * 100
+    internal val maxCashItemSize = 1024 * 1024 * 2
+    internal val maxCashSize = 1024 * 1024 * 50
     internal val cash = ArrayList<Item3<String, Bitmap, ByteArray>>()
     internal var cashSize = 0
     internal val turn = ArrayList<ImageLoaderA>()
@@ -97,9 +98,16 @@ object ImageLoader {
                     } else if (loader.holder is Bitmap) {
                         loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
                     } else if (loader.w != 0 && loader.h != 0) {
-                        val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
-                        bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
-                        loader.vImage!!.setImageBitmap(bitmap)
+                        try {
+                            val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
+                            bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
+                            loader.vImage!!.setImageBitmap(bitmap)
+                        }catch (e:OutOfMemoryError){
+                            SupAndroid.onLowMemory()
+                            val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
+                            bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
+                            loader.vImage!!.setImageBitmap(bitmap)
+                        }
                     } else {
                         loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
                     }

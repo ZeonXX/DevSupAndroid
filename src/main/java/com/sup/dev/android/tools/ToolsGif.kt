@@ -8,6 +8,8 @@ import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsThreads
 import com.waynejo.androidndkgif.GifDecoder
 import com.waynejo.androidndkgif.GifEncoder
+import com.waynejo.androidndkgif.GifImage
+import com.waynejo.androidndkgif.GifImageIterator
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -83,7 +85,7 @@ object ToolsGif {
                     break
                 }
                 while (!stop && iterator.hasNext()) {
-                    val next = iterator.next()
+                    val next = next(iterator)
                     var bm = next.bitmap
                     val ms = next.delayMs.toLong()
                     if (sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width * sizeArg).toInt(), (bm.height * sizeArg).toInt())
@@ -104,6 +106,15 @@ object ToolsGif {
                 iterator.close()
             }
             f.delete()
+        }
+    }
+
+    private fun next(iterator: GifImageIterator): GifImage {
+        try {
+            return iterator.next()
+        } catch (e: OutOfMemoryError) {
+            SupAndroid.onLowMemory()
+            return iterator.next()
         }
     }
 

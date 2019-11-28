@@ -28,7 +28,6 @@ import android.util.DisplayMetrics
 import android.graphics.Bitmap
 
 
-
 object ToolsBitmap {
 
     fun mirror(src: Bitmap): Bitmap {
@@ -216,6 +215,15 @@ object ToolsBitmap {
     }
 
     fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
+        try {
+            return decodePrivate(bytes, w, h, options, maxW, maxH)
+        }catch (e:OutOfMemoryError){
+            SupAndroid.onLowMemory()
+            return decodePrivate(bytes, w, h, options, maxW, maxH)
+        }
+    }
+
+    private fun decodePrivate(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int, maxH: Int): Bitmap? {
         var optionsV = options
 
         if (bytes == null) return null
@@ -237,7 +245,7 @@ object ToolsBitmap {
         if (bitmap != null && w != 0 && h != 0) {
             val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
 
-            if (bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h)
+            if ((bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h) && inscribe.w > 0 && inscribe.h > 0)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
         }
 
@@ -437,6 +445,9 @@ object ToolsBitmap {
         return bm
     }
 
+    fun keepSides(bitmap: Bitmap, sides: Int): Bitmap {
+        return keepMinSides(keepMaxSides(bitmap, sides), sides)
+    }
 
     fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
         if (maxSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMaxSides sides=$maxSideSize")
@@ -458,18 +469,23 @@ object ToolsBitmap {
         return Bitmap.createScaledBitmap(bitmap, (w * arg).toInt(), (h * arg).toInt(), true)
     }
 
-    fun keepSides(bitmap: Bitmap, sides: Int): Bitmap {
-        return keepMinSides(keepMaxSides(bitmap, sides), sides)
+    fun resize(bitmap: Bitmap, w: Int): Bitmap {
+        return resize(bitmap, w, w)
     }
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
         if (w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
-        return Bitmap.createScaledBitmap(bitmap, w, h, true)
+        try{
+            return Bitmap.createScaledBitmap(bitmap, w, h, true)
+        }catch (e:OutOfMemoryError){
+            SupAndroid.onLowMemory()
+            return Bitmap.createScaledBitmap(bitmap, w, h, true)
+        }
     }
 
-    fun resize(bitmap: Bitmap, w: Int): Bitmap {
-        if (w > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w")
-        return Bitmap.createScaledBitmap(bitmap, w, w, true)
+    private fun resizePrivate(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        if (w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
+        return Bitmap.createScaledBitmap(bitmap, w, h, true)
     }
 
 

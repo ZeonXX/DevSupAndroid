@@ -95,8 +95,8 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     //
 
 
-    override operator fun get(position: Int): Card {
-        return items[realPosition(position)]
+    override operator fun get(i: Int): Card {
+        return items[realPosition(i)]
     }
 
     fun add(card: Card) {
@@ -118,8 +118,8 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         notifyDataSetChanged()
     }
 
-    override fun remove(item: Card) {
-        if (items.remove(item))
+    override fun remove(card: Card) {
+        if (items.remove(card))
             notifyDataSetChanged()
     }
 
@@ -132,8 +132,8 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         items.clear()
     }
 
-    override fun indexOf(item: Card): Int {
-        return items.indexOf(item)
+    override fun indexOf(card: Card): Int {
+        return items.indexOf(card)
     }
 
     override operator fun contains(card: Card): Boolean {
@@ -153,6 +153,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         return null
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <K : PagerCardAdapter> setNotifyCount(notifyCount: Int): K {
         this.notifyCount = notifyCount
         return this as K

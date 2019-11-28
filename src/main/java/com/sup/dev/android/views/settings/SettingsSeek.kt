@@ -62,8 +62,8 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         return bundle
     }
 
-    public override fun onRestoreInstanceState(state: Parcelable?) {
-        var state = state
+    public override fun onRestoreInstanceState(s: Parcelable?) {
+        var state = s
         if (state is Bundle) {
             val bundle = state as Bundle?
             progress = bundle!!.getInt("progress")

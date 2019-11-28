@@ -67,13 +67,13 @@ class SCrop(
                     setLock(false)
 
                 val cropPoints = vCropImageView.cropPoints
-                onCrop.invoke(this, vCropImageView.croppedImage!!, cropPoints[0].toInt(), cropPoints[1].toInt(), (cropPoints[2] - cropPoints[0]).toInt(), (cropPoints[5] - cropPoints[1]).toInt())
+                val croppedImage = vCropImageView.croppedImage
+                if (croppedImage != null)
+                    onCrop.invoke(this, croppedImage, cropPoints[0].toInt(), cropPoints[1].toInt(), (cropPoints[2] - cropPoints[0]).toInt(), (cropPoints[5] - cropPoints[1]).toInt())
             }
         }
 
-        //  Background panel
-
-        vBackground.visibility = View.GONE // !!!!!!!!!!!!!!
+        vBackground.visibility = View.GONE
 
         vBackgroundPanelSeek.max = 100
         vBackgroundPanel.visibility = View.GONE
