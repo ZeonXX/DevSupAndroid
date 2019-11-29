@@ -36,7 +36,7 @@ class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: Attribute
         val h = (height - r * 2f) / 2f
 
         paint.style = Paint.Style.FILL
-        for (i in 0 until soundMask.size) {
+        for (i in soundMask.indices) {
 
             if (i >= progress) paint.color = color
             else paint.color = colorProgress
@@ -55,11 +55,11 @@ class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: Attribute
         this.soundMask = soundMask
 
         var minValue = Integer.MAX_VALUE
-        for (i in 0 until soundMask.size) {
+        for (i in soundMask.indices) {
             if (soundMask[i] < minValue) minValue = soundMask[i]
             if (soundMask[i] > maxValue) maxValue = soundMask[i]
         }
-        for (i in 0 until soundMask.size) soundMask[i] -= minValue
+        for (i in soundMask.indices) soundMask[i] -= minValue
 
         invalidate()
     }
