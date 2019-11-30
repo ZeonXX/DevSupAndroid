@@ -40,7 +40,6 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
@@ -50,11 +49,25 @@ object ToolsView {
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
 
+    fun scrollRecyclerSmooth(vRecycler: RecyclerView, position: Int) {
+        if (vRecycler.adapter == null || vRecycler.adapter!!.itemCount == 0) return
+        if (position >= vRecycler.adapter!!.itemCount) vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
+        else if (position < 0) vRecycler.smoothScrollToPosition(0)
+        else vRecycler.smoothScrollToPosition(position)
+    }
+
+    fun scrollRecycler(vRecycler: RecyclerView, position: Int) {
+        if (vRecycler.adapter == null || vRecycler.adapter!!.itemCount == 0) return
+        if (position >= vRecycler.adapter!!.itemCount) vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
+        else if (position < 0) vRecycler.scrollToPosition(0)
+        else vRecycler.scrollToPosition(position)
+    }
+
     fun addLink(vText: ViewTextLinkable, link: String, onClick: () -> Unit) {
         val text = vText.text.toString()
         val index = text.indexOf(link)
 
-        if(index ==-1) return
+        if (index == -1) return
 
         val span = if (vText.text is Spannable) vText.text as Spannable else Spannable.Factory.getInstance().newSpannable(text)
         span.setSpan(object : ClickableSpan() {
@@ -350,7 +363,7 @@ object ToolsView {
     }
 
     fun showKeyboard(view: View) {
-        ToolsThreads.main{
+        ToolsThreads.main {
             view.requestFocus()
             val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)

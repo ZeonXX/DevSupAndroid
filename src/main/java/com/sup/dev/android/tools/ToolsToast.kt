@@ -47,14 +47,16 @@ object ToolsToast {
 
     private fun showNow(text: String?, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null) {
         if (text == null || text.isEmpty()) return
-        val toast = Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT)
-        if (backColor != null) toast.view.background.setColorFilter(backColor, PorterDuff.Mode.SRC_IN)
-        if (textColor != null) {
-            val v: TextView = toast.view.findViewById(android.R.id.message)
-            v.setTextColor(textColor)
+        ToolsThreads.main {
+            val toast = Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT)
+            if (backColor != null) toast.view.background.setColorFilter(backColor, PorterDuff.Mode.SRC_IN)
+            if (textColor != null) {
+                val v: TextView = toast.view.findViewById(android.R.id.message)
+                v.setTextColor(textColor)
+            }
+            if (ToolsView.pxToDp(ToolsAndroid.getScreenW()) <= 320) toast.view.scaleX = 0.95f
+            toast.show()
         }
-        if (ToolsView.pxToDp(ToolsAndroid.getScreenW()) <= 320) toast.view.scaleX = 0.95f
-        toast.show()
     }
 
     fun showSnack(@StringRes textRes: Int) {
