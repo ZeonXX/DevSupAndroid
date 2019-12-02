@@ -11,11 +11,13 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.tools.ToolsThreads
 
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
-    var onmeasureCall: () -> Unit = {}
+    var onMeasureCall: () -> Unit = {}
+    var onMeasureFinish: () -> Unit = {}
 
     private var maxWidth = 0
     private var maxHeight = 0
@@ -71,7 +73,7 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        onmeasureCall.invoke()
+        onMeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
 
@@ -106,6 +108,7 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
 
         setMeasuredDimension(if (alwaysMaxW) maxWidth else if (w == 0) maxChildW else Math.min(w, maxChildW), if (alwaysMaxH) maxHeight else if (h == 0) maxChildH else Math.min(h, maxChildH))
 
+        onMeasureFinish.invoke()
     }
 
     override fun onDrawForeground(canvas: Canvas) {

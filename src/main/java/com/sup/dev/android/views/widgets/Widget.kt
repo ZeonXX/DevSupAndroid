@@ -16,6 +16,7 @@ import com.sup.dev.android.views.screens.SWidget
 import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.splash.Splash
+import com.sup.dev.java.tools.ToolsThreads
 
 abstract class Widget(layoutRes: Int) {
 
@@ -123,14 +124,18 @@ abstract class Widget(layoutRes: Int) {
 
     open fun setEnabled(enabled: Boolean): Widget {
         this.isEnabled = enabled
-        if (vTitle != null) vTitle.isEnabled = enabled
-        if (viewWrapper != null) viewWrapper!!.setWidgetEnabled(enabled)
+        ToolsThreads.main {
+            if (vTitle != null) vTitle.isEnabled = enabled
+            if (viewWrapper != null) viewWrapper!!.setWidgetEnabled(enabled)
+        }
         return this
     }
 
     open fun setCancelable(cancelable: Boolean): Widget {
         this.isCancelable = cancelable
-        if (viewWrapper != null) viewWrapper!!.setWidgetCancelable(cancelable)
+        ToolsThreads.main {
+            if (viewWrapper != null) viewWrapper!!.setWidgetCancelable(cancelable)
+        }
         return this
     }
 

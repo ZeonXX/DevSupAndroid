@@ -7,14 +7,14 @@ import android.view.View
 
 class ViewDraw @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
-    private var onDraw: ((Canvas)->Unit)? = null
+    private var onDraw: ((Canvas) -> Unit)? = null
     private var autoInvalidate = true
 
     init {
         setWillNotDraw(false)
     }
 
-    fun setOnDraw(onDraw:(Canvas)->Unit) {
+    fun setOnDraw(onDraw: (Canvas) -> Unit) {
         this.onDraw = onDraw
         invalidate()
     }

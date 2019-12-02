@@ -37,11 +37,11 @@ class SAlert(
 
         fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.IMG_ERROR_GONE, true) {Navigator.remove(it)}
 
-        fun showMessage(text:Int, action:Int, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = null) {
+        fun showMessage(text:Int, action:Int, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = {Navigator.remove(it)}) {
             Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
         }
 
-        fun showMessage(text:String?, action:String?, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = null) {
+        fun showMessage(text:String?, action:String?, img:Int, actionNavigation: NavigationAction, onAction:((SAlert) -> Unit)? = {Navigator.remove(it)}) {
             Navigator.action(actionNavigation, instanceMessage(text, action, img, true, onAction))
         }
 
