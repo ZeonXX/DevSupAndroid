@@ -33,10 +33,10 @@ open class CardAvatar(
     override fun bindView(view: View) {
         super.bindView(view)
         val vTouch: View = view.findViewById(R.id.vTouch)
-        val vDivider: View = view.findViewById(R.id.vDivider)
+        val vDivider: View? = view.findViewById(R.id.vDivider)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
 
-        vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
+        if(vDivider != null) vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
         vTouch.isFocusable = true && enabled
         vTouch.isClickable = true && enabled
         vTouch.isEnabled = true && enabled
