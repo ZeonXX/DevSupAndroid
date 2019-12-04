@@ -14,7 +14,7 @@ class EventBusMultiProcess : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
-            val event = intent.getSerializableExtra(EventBusMultiProcess.MULTI_PROCESS_INTENT_EXTRA)
+            val event = intent.getSerializableExtra(MULTI_PROCESS_INTENT_EXTRA)
             EventBus.post(event)
         } catch (ex: Exception) {
             err(ex)
@@ -31,7 +31,7 @@ class EventBusMultiProcess : BroadcastReceiver() {
 
             EventBus.setPostMultiProcessCallback { post(it) }
 
-            if (!isRegisteredInManifest(SupAndroid.appContext!!)) {
+            if (!isRegisteredInManifest()) {
                 val filter = IntentFilter(MULTI_PROCESS_INTENT_ACTION)
                 filter.addCategory(Intent.CATEGORY_DEFAULT)
                 SupAndroid.appContext!!.registerReceiver(EventBusMultiProcess(), filter)
@@ -52,10 +52,10 @@ class EventBusMultiProcess : BroadcastReceiver() {
             SupAndroid.appContext!!.sendBroadcast(broadcastIntent)
         }
 
-        private fun isRegisteredInManifest(context: Context?): Boolean {
+        private fun isRegisteredInManifest(): Boolean {
             val intent = baseIntent
             val process = ToolsAndroid.getProcessName()
-            return ToolsAndroid.hasBroadcastReceiver(process!!, intent, context!!)
+            return process != null && ToolsAndroid.hasBroadcastReceiver(process, intent, SupAndroid.appContext!!)
         }
     }
 

@@ -9,6 +9,7 @@ import android.util.TypedValue
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
+import java.lang.IllegalArgumentException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -66,6 +67,7 @@ object ToolsResources {
     }
 
     fun s(@StringRes r: Int): String {
+        if(r == 0) throw IllegalArgumentException("Bad string resource id[$r]")
         return SupAndroid.appContext!!.resources.getString(r)
     }
 

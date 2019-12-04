@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.core.view.TintableBackgroundView
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +43,7 @@ import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
+import java.util.*
 import java.util.regex.Pattern
 
 object ToolsView {
@@ -469,6 +471,45 @@ object ToolsView {
         v.animate()
                 .alpha(alpha)
                 .setDuration(time).interpolator = LinearOutSlowInInterpolator()
+    }
+
+    //
+    //  State color
+    //
+
+    fun setStateColorForText(view: TintableBackgroundView, states: Array<IntArray>, colors: IntArray) {
+        setStateColor(view, states, false, true, colors)
+    }
+
+    fun setStateColorForBackground(view: TintableBackgroundView, states: Array<IntArray>, colors: IntArray) {
+        setStateColor(view, states, true, false, colors)
+    }
+
+    fun setStateColor(view: TintableBackgroundView, states: Array<IntArray>, forBack: Boolean, forText: Boolean, colors: IntArray) {
+        var colorsArr: IntArray = colors
+        if (states.size > colors.size && colors.size == 1) {
+            colorsArr = IntArray(states.size)
+            Arrays.fill(colorsArr, colors[0])
+        }
+        val colorStateList = ColorStateList(states, colorsArr)
+        if (forBack) view.supportBackgroundTintList = colorStateList
+        if (forText && view is TextView) (view as TextView).setTextColor(colorStateList)
+    }
+
+    fun setStateColors(view: TintableBackgroundView, states: Array<IntArray>, colorsBack: IntArray, colorsText: IntArray) {
+        setStateColorForBackground(view, states, colorsBack)
+        setStateColorForText(view, states, colorsText)
+    }
+
+    fun getTextColorForState(view: TintableBackgroundView, state: Int) : Int {
+        if (view !is TextView) throw IllegalArgumentException("View must be instance of TextView")
+        val colorStateList = (view as TextView).textColors
+        return colorStateList.getColorForState(intArrayOf(state), colorStateList.defaultColor)
+    }
+
+    fun getColorForState(view: TintableBackgroundView, state: Int) : Int {
+        val colorStateList: ColorStateList? = view.supportBackgroundTintList
+        return colorStateList?.getColorForState(intArrayOf(state), colorStateList.defaultColor) ?: 0
     }
 
 }

@@ -117,6 +117,23 @@ object ToolsIntent {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
 
+    fun startMail(link: String, subject: String, text: String, onActivityNotFound: () -> Unit) {
+        startMail(link, subject, text, null, onActivityNotFound)
+    }
+
+    fun startMail(link: String, subject: String, text: String, attachmentPath: Uri?, onActivityNotFound: () -> Unit) {
+        val intent: Intent = Intent(Intent.ACTION_SENDTO)
+                .setData(Uri.parse("mailto:"))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra(Intent.EXTRA_EMAIL, arrayOf(link))
+                .putExtra(Intent.EXTRA_SUBJECT, subject)
+                .putExtra(Intent.EXTRA_TEXT, text)
+
+        if (attachmentPath != null) intent.putExtra(Intent.EXTRA_STREAM, attachmentPath)
+
+        startIntent(intent, onActivityNotFound)
+    }
+    
     fun startPhone(phone: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
