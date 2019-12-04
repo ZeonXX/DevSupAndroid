@@ -11,16 +11,16 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.java.classes.callbacks.CallbacksList1
 import java.util.ArrayList
 
 
 open class CardSpoiler : Card(R.layout.card_spoiler) {
 
-    //
-    //  Getters
-    //
-
     val cards = ArrayList<Card>()
+
+    private val onExpandChanged = CallbacksList1<Boolean>()
+
     private var titleGravity = Gravity.LEFT
     private var title: String? = null
     private var titleExpanded: String? = null
@@ -31,6 +31,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var textColor = 0
     private var originalSeted = false
     private var dividerVisible = true
+    private var dividerTopVisible = false
     private var titleColorOriginal = 0
     private var rightTextColorOriginal = 0
     private var textColorOriginal = 0
@@ -50,6 +51,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         val vRightText:TextView = view.findViewById(R.id.vRightText)
         val vTouch:View = view.findViewById(R.id.vTouch)
         val vDivider:View = view.findViewById(R.id.vDivider)
+        val vDividerTop:View = view.findViewById(R.id.vDividerTop)
 
         val iconDown = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_down_24dp)
         val iconUp = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_up_24dp)
@@ -87,6 +89,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         (vTitle.layoutParams as LinearLayout.LayoutParams).gravity = titleGravity
 
         vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
+        vDividerTop.visibility = if (dividerTopVisible) View.VISIBLE else View.GONE
         vText.setTextColor(if (textColor != 0) textColor else textColorOriginal)
         vRightText.setTextColor(if (rightTextColor != 0) rightTextColor else rightTextColorOriginal)
         vTitle.setTextColor(if (titleColor != 0) titleColor else titleColorOriginal)
@@ -181,6 +184,8 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
                 for (c in cards) adapter!!.remove(c)
         }
 
+        onExpandChanged.invoke(expanded)
+
         return this
     }
 
@@ -229,6 +234,17 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     fun setDividerVisible(dividerVisible: Boolean): CardSpoiler {
         this.dividerVisible = dividerVisible
         update()
+        return this
+    }
+
+    fun setDividerTopVisible(dividerTopVisible: Boolean): CardSpoiler {
+        this.dividerTopVisible = dividerTopVisible
+        update()
+        return this
+    }
+
+    fun addOnExpandChanged(onExpandChanged: (Boolean)->Unit): CardSpoiler {
+        this.onExpandChanged.add(onExpandChanged)
         return this
     }
 

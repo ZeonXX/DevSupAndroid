@@ -55,6 +55,10 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/vDividerTop"
+        style="@style/Divider"
+        android:layout_gravity="top"/>
+    <View
         style="@style/Divider"/>
 
 </FrameLayout>

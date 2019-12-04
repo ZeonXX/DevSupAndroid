@@ -26,6 +26,7 @@ open class Settings @JvmOverloads constructor(
 
 
     val view: View
+    private var isSubSettingsEnabled = true
     private val line: View
     private val vIcon: ViewCircleImage?
     private val vTitle: TextView?
@@ -132,6 +133,10 @@ open class Settings @JvmOverloads constructor(
         line.visibility = if (b) View.VISIBLE else View.GONE
     }
 
+    fun setSubSettingsEnabled(isSubSettingsEnabled:Boolean){
+        this.isSubSettingsEnabled = isSubSettingsEnabled
+    }
+
     @CallSuper
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
@@ -152,7 +157,8 @@ open class Settings @JvmOverloads constructor(
     //  Getters
     //
 
-    var isSubSettingsEnabled = true
-        private set
+    fun getTitle() = vTitle?.text?:""
+
+    fun isSubSettingsEnabled() = isSubSettingsEnabled
 
 }
