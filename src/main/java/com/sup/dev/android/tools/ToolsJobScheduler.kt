@@ -30,7 +30,8 @@ object ToolsJobScheduler{
     private val eventBus = EventBus.subscribe(EventJonScheduler::class){onJob.invoke(it.params)}
 
     @SuppressLint("MissingPermission")
-    fun scheduleJob(id:Int, latency:Long) {
+    fun scheduleJob(id:Int, latency:Long, onJob:(JobParameters) -> Unit = {}) {
+        this.onJob = onJob
         val scheduler = SupAndroid.appContext!!.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
 
         val job = JobInfo.Builder(id, ComponentName(SupAndroid.appContext!!, ToolsJobSchedulerService::class.java))
