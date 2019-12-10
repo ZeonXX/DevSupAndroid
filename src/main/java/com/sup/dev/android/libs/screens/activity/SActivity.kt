@@ -186,6 +186,8 @@ abstract class SActivity : AppCompatActivity() {
 
     fun isSplashShowed(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) > -1
 
+    fun isTopSplash(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) == vSplashContainer!!.childCount-1
+
     //
     //  Screens
     //

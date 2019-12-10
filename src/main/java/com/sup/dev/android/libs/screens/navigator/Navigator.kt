@@ -2,7 +2,6 @@ package com.sup.dev.android.libs.screens.navigator
 
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.callbacks.CallbacksList2
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
