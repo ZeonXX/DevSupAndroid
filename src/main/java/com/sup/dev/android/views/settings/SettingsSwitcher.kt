@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.widget.Switch
 import com.sup.dev.android.R
 
-class SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
+class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
     private val vSwitcher: Switch = Switch(context)
 
