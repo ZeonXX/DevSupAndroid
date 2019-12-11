@@ -40,16 +40,18 @@ object ApiRequestsSupporter {
 
     fun <K : Request.Response> executeInterstitial(action: NavigationAction, request: Request<K>, onComplete: (K) -> Screen): Request<K> {
         val vProgress = WidgetProgressTransparent()
-        vProgress.setCancelable(false)
         vProgress.asSplashShow()
 
         return execute(request) { r ->
+            if(vProgress.isHided) return@execute
             Navigator.action(action, onComplete.invoke(r))
         }
                 .onApiError(ApiClient.ERROR_GONE) {
+                    if(vProgress.isHided) return@onApiError
                     SAlert.showGone(action)
                 }
                 .onNetworkError {
+                    if(vProgress.isHided) return@onNetworkError
                     SAlert.showNetwork(action) {
                         Navigator.remove(it)
                         executeInterstitial(action, request, onComplete)

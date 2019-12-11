@@ -22,7 +22,6 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
 
     private var onSelected: (WidgetGreed, Int) -> Unit = { _, _ -> }
     private var spanCount = 0
-    private var hided = false
 
     init {
         vEmptyText.visibility = View.GONE
@@ -32,11 +31,6 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
         ToolsView.setRecyclerAnimation(vRecycler)
 
         setAdapter<WidgetRecycler>(myAdapter)
-    }
-
-    override fun onHide() {
-        super.onHide()
-        hided = true
     }
 
     override fun onShow() {

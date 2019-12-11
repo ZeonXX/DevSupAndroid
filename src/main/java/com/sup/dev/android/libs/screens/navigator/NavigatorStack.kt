@@ -13,4 +13,8 @@ class NavigatorStack {
 
     fun size() = stack.size
 
+    fun clear(){
+        stack.clear()
+    }
+
 }

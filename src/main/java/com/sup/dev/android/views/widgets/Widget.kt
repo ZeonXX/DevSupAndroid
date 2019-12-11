@@ -26,6 +26,7 @@ abstract class Widget(layoutRes: Int) {
     private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
+    var isHided = true
     protected var viewWrapper: WidgetViewWrapper<out Any>? = null
 
     //
@@ -50,6 +51,7 @@ abstract class Widget(layoutRes: Int) {
     }
 
     fun hide() {
+        isHided = true
         if (viewWrapper != null) viewWrapper!!.hide()
     }
 
@@ -75,6 +77,7 @@ abstract class Widget(layoutRes: Int) {
 
     @CallSuper
     open fun onShow() {
+        isHided = false
         if (vTitle != null) {
             ToolsView.setTextOrGone(vTitle, vTitle.text)
             if (viewWrapper is SWidget) {
@@ -87,6 +90,7 @@ abstract class Widget(layoutRes: Int) {
 
     @CallSuper
     open fun onHide() {
+        isHided = true
         onHide.invoke(this)
     }
 

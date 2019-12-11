@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory
 import java.lang.RuntimeException
 import android.util.DisplayMetrics
 import android.graphics.Bitmap
+import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {
@@ -450,7 +451,6 @@ object ToolsBitmap {
     }
 
     fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
-        if (maxSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMaxSides sides=$maxSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w <= maxSideSize && h <= maxSideSize) return bitmap
@@ -460,7 +460,6 @@ object ToolsBitmap {
     }
 
     fun keepMinSides(bitmap: Bitmap, minSideSize: Int): Bitmap {
-        if (minSideSize > 1000000) throw RuntimeException("Are ypu sure about that!? keepMinSides sides=$minSideSize")
         val w = bitmap.width
         val h = bitmap.height
         if (w >= minSideSize && h >= minSideSize) return bitmap
@@ -474,7 +473,11 @@ object ToolsBitmap {
     }
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        if (w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
+        log("RESIZE bw[${bitmap.width}] bh [${bitmap.height}] w[$w] h[$h]")
+        if(bitmap.width == w && bitmap.height == h){
+            log("RETURN RESIZE")
+            return bitmap
+        }
         try{
             return Bitmap.createScaledBitmap(bitmap, w, h, true)
         }catch (e:OutOfMemoryError){
@@ -482,11 +485,5 @@ object ToolsBitmap {
             return Bitmap.createScaledBitmap(bitmap, w, h, true)
         }
     }
-
-    private fun resizePrivate(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        if (w > 1000000 || h > 1000000) throw RuntimeException("Are ypu sure about that!? resize w=$w h=$h")
-        return Bitmap.createScaledBitmap(bitmap, w, h, true)
-    }
-
 
 }

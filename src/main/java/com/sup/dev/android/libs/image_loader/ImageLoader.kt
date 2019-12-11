@@ -12,6 +12,7 @@ import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.ref.WeakReference
@@ -28,6 +29,12 @@ object ImageLoader {
     internal var cashSize = 0
     internal val turn = ArrayList<ImageLoaderA>()
     internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
+
+    init {
+        SupAndroid.addOnLowMemory {
+            clearCash()
+        }
+    }
 
     //
     //  Public
@@ -57,12 +64,18 @@ object ImageLoader {
         var bytes: ByteArray? = null
         if (!loader.noLoadFromCash) bytes = loader.getFromCash()
 
-
-        putHolder(loader)
-
         if (bytes != null) {
-            ToolsThreads.thread { putImage(loader, parseImage(loader, bytes), true, bytes) }
+            putImage(loader, parseImage(loader, bytes), false, bytes)
+            log("RETURN")
             return
+        }
+
+
+        try {
+            putHolder(loader)
+        }catch (e:OutOfMemoryError){
+            SupAndroid.onLowMemory()
+            putHolder(loader)
         }
 
         turn.add(loader)

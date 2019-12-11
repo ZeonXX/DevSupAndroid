@@ -175,7 +175,7 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     fun removeSplash(splash: SplashView<out Any>) {
-        ToolsThreads.main{
+        ToolsThreads.main {
             ToolsView.hideKeyboard()
             ToolsView.toAlpha(splash.getView(), 200) {
                 vSplashContainer!!.removeView(splash.getView())
@@ -186,7 +186,7 @@ abstract class SActivity : AppCompatActivity() {
 
     fun isSplashShowed(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) > -1
 
-    fun isTopSplash(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) == vSplashContainer!!.childCount-1
+    fun isTopSplash(splash: SplashView<out Any>) = vSplashContainer!!.childCount > 0 && vSplashContainer!!.indexOfChild(splash.getView()) == (vSplashContainer!!.childCount - 1)
 
     //
     //  Screens
@@ -207,7 +207,7 @@ abstract class SActivity : AppCompatActivity() {
             for (i in vSplashContainer!!.childCount - 1 downTo 0) {
                 val splash = vSplashContainer!!.getChildAt(i).tag as SplashView<out Any>
                 removeSplash(splash)
-                if(splash.isDestroyScreenAnimation()) animation = Navigator.Animation.NONE
+                if (splash.isDestroyScreenAnimation()) animation = Navigator.Animation.NONE
             }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

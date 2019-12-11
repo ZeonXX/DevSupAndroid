@@ -13,6 +13,7 @@ import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
+import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
@@ -20,6 +21,8 @@ import com.sup.dev.java.tools.ToolsThreads
 
 @SuppressLint("StaticFieldLeak")
 object SupAndroid {
+
+    val onLowMemotyCallbacks = CallbacksList()
 
     var SERVICE_FOREGROUND = 4000
     var SERVICE_NETWORK_CHECK = 4001
@@ -58,7 +61,11 @@ object SupAndroid {
     var appId = ""
 
     fun onLowMemory(){
-        ImageLoader.clearCash()
+        onLowMemotyCallbacks.invoke()
+    }
+
+    fun addOnLowMemory(onLowMemory:()->Unit){
+        onLowMemotyCallbacks.add(onLowMemory)
     }
 
     fun initEditMode(view: View) {

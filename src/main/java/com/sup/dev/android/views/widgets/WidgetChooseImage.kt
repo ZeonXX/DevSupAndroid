@@ -44,7 +44,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private var maxSelectCount = 1
     private var selectedList = ArrayList<File>()
     private var callbackInWorkerThread = false
-    private var hided = false
     private val addedHash = SparseArray<Boolean>()
 
     init {
@@ -67,7 +66,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         ToolsThreads.timerMain(4000) {
             if (!imagesLoaded) return@timerMain
-            if (hided) it.unsubscribe()
+            if (isHided) it.unsubscribe()
             else loadImagesNow()
         }
 
@@ -75,11 +74,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         fabs.add(vFabLinkContainer)
 
         updateFabs()
-    }
-
-    override fun onHide() {
-        super.onHide()
-        hided = true
     }
 
     fun updateFabs() {
@@ -124,6 +118,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private fun loadImages() {
         if (imagesLoaded) return
 
+        ToolsThreads.main(true) { vRecycler.requestLayout() }   //  Костыль. Иначе улетают кнопки вверх
+
         ToolsPermission.requestReadPermission({
             imagesLoaded = true
             loadImagesNow()
@@ -144,7 +140,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
                 projection, null, null,
                 MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC")
 
-        while (cursor!!.moveToNext()) {
+        while (cursor != null && cursor.moveToNext()) {
             val file = File(cursor.getString(0))
             val hash = file.hashCode()
 

@@ -86,6 +86,7 @@ object ToolsGif {
                 }
                 while (!stop && iterator.hasNext()) {
                     val next = next(iterator)
+                    if(next == null) continue
                     var bm = next.bitmap
                     val ms = next.delayMs.toLong()
                     if (sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width * sizeArg).toInt(), (bm.height * sizeArg).toInt())
@@ -109,7 +110,7 @@ object ToolsGif {
         }
     }
 
-    private fun next(iterator: GifImageIterator): GifImage {
+    private fun next(iterator: GifImageIterator): GifImage? {
         try {
             return iterator.next()
         } catch (e: OutOfMemoryError) {
