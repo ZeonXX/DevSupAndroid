@@ -26,7 +26,6 @@ import android.graphics.BitmapFactory
 import java.lang.RuntimeException
 import android.util.DisplayMetrics
 import android.graphics.Bitmap
-import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {
@@ -473,9 +472,7 @@ object ToolsBitmap {
     }
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        log("RESIZE bw[${bitmap.width}] bh [${bitmap.height}] w[$w] h[$h]")
         if(bitmap.width == w && bitmap.height == h){
-            log("RETURN RESIZE")
             return bitmap
         }
         try{

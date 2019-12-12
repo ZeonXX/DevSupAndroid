@@ -12,7 +12,6 @@ import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.ref.WeakReference
@@ -66,7 +65,6 @@ object ImageLoader {
 
         if (bytes != null) {
             putImage(loader, parseImage(loader, bytes), false, bytes)
-            log("RETURN")
             return
         }
 

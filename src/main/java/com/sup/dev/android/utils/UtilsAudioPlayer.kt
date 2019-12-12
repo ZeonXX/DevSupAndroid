@@ -8,8 +8,9 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.tools.ToolsCollections
+import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
-
 
 class UtilsAudioPlayer {
 
@@ -44,14 +45,13 @@ class UtilsAudioPlayer {
 
     fun play(bytes: ByteArray, onStop: () -> Unit = {}) {
         stop()
-        val flag = Item(false)
+        val flag = Item(0)
         subPlayer = SubPlayer({
-            if (flag.a) {
-                null
-            } else {
-                flag.a = true
-                bytes
-            }
+            if(flag.a == bytes.size) return@SubPlayer null
+            val l = ToolsMath.min(200, bytes.size - flag.a)
+            val arr = ToolsCollections.subarray(bytes, flag.a, l)
+            flag.a += l
+            return@SubPlayer arr
         }, onStop)
     }
 
