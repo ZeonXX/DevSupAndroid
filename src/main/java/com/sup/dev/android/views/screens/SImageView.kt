@@ -18,6 +18,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -108,12 +109,13 @@ class SImageView private constructor()
             }
 
             override fun onPageSelected(p0: Int) {
-                for (i in 0 until adapterIn.size()) (adapterIn[i] as Page).update()
+                for (i in p0-1 until Math.min(adapterIn.size(), p0+1)) (adapterIn[i] as Page).resetZoom()
             }
 
         })
 
         updateTitle()
+        ToolsThreads.main(true) { updateTitle() }   //  Костыль. Иногда счетчик не обновляется сразу
     }
 
     private fun toggleInterface() {
@@ -149,7 +151,6 @@ class SImageView private constructor()
             val vImage: ImageView = view.findViewById(R.id.vImage)
             val vZoom: LayoutZoom = view.findViewById(R.id.vZoom)
 
-            vZoom.reset()
             vImage.isClickable = false
             vZoom.setOnClickListener {
                 toggleInterface()
@@ -166,6 +167,12 @@ class SImageView private constructor()
                         else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
                     }
                 }
+        }
+
+        fun resetZoom(){
+            if(getView() == null) return
+            val vZoom: LayoutZoom = getView()!!.findViewById(R.id.vZoom)
+            vZoom.reset()
         }
 
         fun download() {

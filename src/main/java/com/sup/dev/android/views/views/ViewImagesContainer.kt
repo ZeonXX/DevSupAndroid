@@ -14,6 +14,8 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.classes.items.Item2
+import com.sup.dev.java.libs.debug.Debug
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
@@ -60,7 +62,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         rebuild()
     }
 
-    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Long) -> Unit)? = null, onLongClick: ((Long) -> Unit)? = null) {
+    fun add(id: Long, fullId: Long = id, w: Int = 0, h: Int = 0, onClick: ((Item2<Long, Long>) -> Unit)? = null, onLongClick: ((Item2<Long, Long>) -> Unit)? = null) {
         items.add(ItemId(id, fullId, w, h, onClick, onLongClick))
         rebuild()
     }
@@ -241,22 +243,31 @@ class ViewImagesContainer @JvmOverloads constructor(
             val fullId: Long,
             val w: Int,
             val h: Int,
-            onClick: ((Long) -> Unit)?,
-            onLongClick: ((Long) -> Unit)? = null
-    ) : Item<Long>(onClick, onLongClick) {
+            onClick: ((Item2<Long, Long>) -> Unit)?,
+            onLongClick: ((Item2<Long, Long>) -> Unit)? = null
+    ) : Item<Item2<Long, Long>>(onClick, onLongClick) {
 
         init {
             ToolsImagesLoader.load(id).size(w, h).into(vImage)
         }
 
         override fun toImageView() {
-            val array = getIdsArray()
-            var index = 0
-            for (i in 0 until array.size) if (array[i] == fullId) index = i
-            Navigator.to(SImageView(index, array))
+            toImageView(fullId)
         }
 
-        override fun getSource() = id
+        override fun getSource() = Item2(id, fullId)
 
     }
+
+    //
+    //  To Image View
+    //
+
+    fun toImageView(fullId: Long) {
+        val array = getIdsArray()
+        var index = 0
+        for (i in 0 until array.size) if (array[i] == fullId) index = i
+        Navigator.to(SImageView(index, array))
+    }
+
 }

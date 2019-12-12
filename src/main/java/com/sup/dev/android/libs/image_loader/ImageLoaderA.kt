@@ -31,6 +31,7 @@ abstract class ImageLoaderA {
     internal var noLoadFromCash = false
     internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
+    internal var intoCash = false
 
     var tryCount = 2
 
@@ -52,6 +53,7 @@ abstract class ImageLoaderA {
     }
 
     fun intoCash() {
+        intoCash = true
         ImageLoader.load(this)
     }
 

@@ -11,6 +11,7 @@ import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
@@ -56,7 +57,8 @@ object ImageLoader {
 
         val cashItem = getFromCash(loader.getKey())
         if (cashItem != null) {
-            putImage(loader, cashItem.a2, false, cashItem.a3)
+            if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
+            if (!loader.intoCash) Debug.printTime("ret 1")
             return
         }
 
@@ -64,14 +66,14 @@ object ImageLoader {
         if (!loader.noLoadFromCash) bytes = loader.getFromCash()
 
         if (bytes != null) {
-            putImage(loader, parseImage(loader, bytes), false, bytes)
+            if (!loader.intoCash) putImage(loader, parseImage(loader, bytes), false, bytes)
             return
         }
 
 
         try {
             putHolder(loader)
-        }catch (e:OutOfMemoryError){
+        } catch (e: OutOfMemoryError) {
             SupAndroid.onLowMemory()
             putHolder(loader)
         }
@@ -113,7 +115,7 @@ object ImageLoader {
                             val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                             loader.vImage!!.setImageBitmap(bitmap)
-                        }catch (e:OutOfMemoryError){
+                        } catch (e: OutOfMemoryError) {
                             SupAndroid.onLowMemory()
                             val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
@@ -168,7 +170,7 @@ object ImageLoader {
 
     }
 
-    fun clearCash(){
+    fun clearCash() {
         cash.clear()
         cashSize = 0
     }
