@@ -11,7 +11,6 @@ import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
@@ -58,7 +57,6 @@ object ImageLoader {
         val cashItem = getFromCash(loader.getKey())
         if (cashItem != null) {
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
-            if (!loader.intoCash) Debug.printTime("ret 1")
             return
         }
 
