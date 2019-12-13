@@ -109,7 +109,9 @@ class SImageView private constructor()
             }
 
             override fun onPageSelected(p0: Int) {
-                for (i in p0-1 until Math.min(adapterIn.size(), p0+1)) (adapterIn[i] as Page).resetZoom()
+                for (i in Math.max(0, p0 - 1) until Math.min(adapterIn.size(), p0 + 1)) {
+                    (adapterIn[i] as Page).resetZoom()
+                }
             }
 
         })
@@ -169,8 +171,8 @@ class SImageView private constructor()
                 }
         }
 
-        fun resetZoom(){
-            if(getView() == null) return
+        fun resetZoom() {
+            if (getView() == null) return
             val vZoom: LayoutZoom = getView()!!.findViewById(R.id.vZoom)
             vZoom.reset()
         }

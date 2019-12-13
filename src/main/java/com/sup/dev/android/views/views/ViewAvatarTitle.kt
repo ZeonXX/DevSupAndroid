@@ -11,6 +11,7 @@ import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -69,11 +70,9 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
         if (params != null && params.height > -1) {
+            log(">>> $params.height")
             vAvatar.layoutParams?.height = params.height
             vAvatar.layoutParams?.width = params.height
-        }else{
-            vAvatar.layoutParams?.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            vAvatar.layoutParams?.width = ViewGroup.LayoutParams.WRAP_CONTENT
         }
         super.setLayoutParams(params)
     }
