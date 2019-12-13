@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventStyleChanged
@@ -64,6 +65,17 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         setTitle(mText)
         setSubtitle(mSubtitle)
         updateCorned()
+    }
+
+    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
+        if (params != null && params.height > -1) {
+            vAvatar.layoutParams?.height = params.height
+            vAvatar.layoutParams?.width = params.height
+        }else{
+            vAvatar.layoutParams?.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            vAvatar.layoutParams?.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+        super.setLayoutParams(params)
     }
 
     fun updateCorned() {
