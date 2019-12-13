@@ -114,14 +114,12 @@ object SupAndroid {
 
         IMG_ERROR_NETWORK = loadImage("error_network") ?: 0
         IMG_ERROR_GONE = loadImage("error_gone") ?: 0
-
-        EventBusMultiProcess.init()
     }
 
     private fun loadText(id: String): String? {
         try {
             return ToolsResources.s(id)
-        } catch (e: Resources.NotFoundException) {
+        } catch (e: IllegalArgumentException) {
             err("Init warning: can't find vText with id [$id]")
             return null
         }
@@ -130,7 +128,7 @@ object SupAndroid {
     private fun loadImage(id: String): Int? {
         try {
             return ToolsResources.getDrawableId(id)
-        } catch (e: Resources.NotFoundException) {
+        } catch (e: IllegalArgumentException) {
             err("Init warning: can't find image with id [$id]")
             return null
         }

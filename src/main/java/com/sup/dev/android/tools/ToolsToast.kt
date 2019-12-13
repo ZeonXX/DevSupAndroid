@@ -25,10 +25,6 @@ object ToolsToast {
         show(SupAndroid.appContext!!.getString(textRes), null, textColor)
     }
 
-    fun show(@StringRes textRes: Int, @ColorInt textColor: Int?, vararg args: Any) {
-        show(ToolsResources.s(textRes, *args), null, textColor)
-    }
-
     fun show(text: String?, @ColorInt textColor: Int?) {
         ToolsThreads.main { showNow(text, null, textColor) }
     }

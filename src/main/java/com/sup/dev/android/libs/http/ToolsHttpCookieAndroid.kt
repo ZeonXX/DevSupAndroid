@@ -14,7 +14,7 @@ object ToolsHttpCookieAndroid {
     private val VALUE = "VALUE"
     private val VERSION = "VERSION"
     private val MAX_AGE = "MAX_AGE"
-    private val URI_KEY = "URI"
+    private val URI = "URI"
 
     private val httpClientCookieStore = HttpClientCookieStore()
 
@@ -22,25 +22,22 @@ object ToolsHttpCookieAndroid {
         CookieHandler.setDefault(CookieManager(httpClientCookieStore, CookiePolicy.ACCEPT_ALL))
     }
 
-    fun getStore() = httpClientCookieStore
-
-    fun clear() {
+    fun clear(){
         httpClientCookieStore.removeAll()
     }
 
-    class HttpClientCookieStore : CookieStore {
+    internal class HttpClientCookieStore : CookieStore {
 
         override fun add(uri: URI?, cookie: HttpCookie?) {
             if (cookie == null || uri == null) return
             try {
-                remove(uri, cookie)
-                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
+                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
                 array.put(Json()
                         .put(NAME, cookie.name)
                         .put(VALUE, cookie.value)
                         .put(VERSION, cookie.version)
                         .put(MAX_AGE, cookie.maxAge)
-                        .put(URI_KEY, uri.toString())
+                        .put(URI, uri.toString())
                 )
                 ToolsStorage.put(COOKIES, array)
             } catch (e: JSONException) {
@@ -66,10 +63,10 @@ object ToolsHttpCookieAndroid {
             try {
 
                 val list = ArrayList<HttpCookie>()
-                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
+                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
 
-                for (j in array.getJsons()) {
-                    if (j == null) continue
+                for(j in array.getJsons()){
+                    if(j == null) continue
                     val cookie = HttpCookie(j.get(NAME, ""), j.get(VALUE, ""))
                     cookie.version = j.getInt(VERSION, 0)
                     cookie.maxAge = j.getLong(MAX_AGE, 0)
@@ -77,7 +74,7 @@ object ToolsHttpCookieAndroid {
                 }
 
                 return list
-            } catch (e: Exception) {
+            }catch (e:Exception){
                 err(e)
                 return ArrayList()
             }
@@ -86,15 +83,15 @@ object ToolsHttpCookieAndroid {
         override fun getURIs(): MutableList<URI> {
             try {
                 val list = ArrayList<URI>()
-                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
+                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
 
-                for (j in array.getJsons()) {
-                    if (j == null) continue
-                    list.add(URI(j.getString(URI_KEY, "")))
+                for(j in array.getJsons()){
+                    if(j == null) continue
+                    list.add(URI(j.getString(URI, "")))
                 }
 
                 return list
-            } catch (e: Exception) {
+            }catch (e:Exception){
                 err(e)
                 return ArrayList()
             }
@@ -102,23 +99,19 @@ object ToolsHttpCookieAndroid {
 
         override fun remove(uri: URI?, cookie: HttpCookie?): Boolean {
             try {
-                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
+                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
                 val arrayNew = JsonArray()
 
-                for (j in array.getJsons()) {
-                    if (j == null) continue
-                    if (URI(j.getString(URI_KEY, "")).host == uri?.host.toString()) {
-                        val oldCookies = HttpCookie(j.get(NAME, ""), j.get(VALUE, ""))
-                        if (cookie == null || cookie.name == oldCookies.name)
-                            continue
-                    }
+                for(j in array.getJsons()){
+                    if(j == null) continue
+                    if(j.getString(URI, "") == uri.toString()) continue
                     arrayNew.put(j)
                 }
 
                 ToolsStorage.put(COOKIES, arrayNew)
 
                 return true
-            } catch (e: Exception) {
+            }catch (e:Exception){
                 err(e)
                 return false
             }
@@ -128,11 +121,11 @@ object ToolsHttpCookieAndroid {
             try {
 
                 val list = ArrayList<HttpCookie>()
-                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
+                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
 
-                for (j in array.getJsons()) {
-                    if (j == null) continue
-                    if (URI(j.getString(URI_KEY, "")).host != uri?.host ?: "null") continue
+                for(j in array.getJsons()){
+                    if(j == null) continue
+                    if(j.getString(URI, "") != uri.toString()) continue
                     val cookie = HttpCookie(j.get(NAME, ""), j.get(VALUE, ""))
                     cookie.version = j.getInt(VERSION, 0)
                     cookie.maxAge = j.getLong(MAX_AGE, 0)
@@ -140,7 +133,7 @@ object ToolsHttpCookieAndroid {
                 }
 
                 return list
-            } catch (e: Exception) {
+            }catch (e:Exception){
                 err(e)
                 return ArrayList()
             }
