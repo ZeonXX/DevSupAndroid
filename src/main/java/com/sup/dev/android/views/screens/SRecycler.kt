@@ -11,7 +11,6 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewIcon
 
-
 abstract class SRecycler(res: Int = R.layout.screen_recycler) : Screen(res) {
 
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
