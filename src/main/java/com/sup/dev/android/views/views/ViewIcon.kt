@@ -13,6 +13,7 @@ import com.sup.dev.android.views.support.AnimationFocus
 import com.sup.dev.java.classes.animation.AnimationSpringColor
 import com.sup.dev.java.tools.ToolsColor
 
+
 class ViewIcon @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
@@ -34,6 +35,8 @@ class ViewIcon @JvmOverloads constructor(
     private var circleSize = 0f
     private var transparentOnDisabled = true
     private var startPadding = -1
+    private var focusAnimationEnabled = true
+
 
     //
     //  Getters
@@ -68,6 +71,7 @@ class ViewIcon @JvmOverloads constructor(
         circleColor = a.getColor(R.styleable.ViewIcon_ViewIcon_circleColor, circleColor)
         circleSize = a.getDimension(R.styleable.ViewIcon_ViewIcon_circleSize, circleSize)
         transparentOnDisabled = a.getBoolean(R.styleable.ViewIcon_ViewIcon_transparent_on_disabled, transparentOnDisabled)
+        focusAnimationEnabled = a.getBoolean(R.styleable.ViewIcon_ViewIcon_focus_animation_enabled, focusAnimationEnabled);
         a.recycle()
 
         animationFocus = AnimationFocus(this, focusColor)
@@ -120,8 +124,10 @@ class ViewIcon @JvmOverloads constructor(
 
         super.onDraw(canvas)
 
-        paint.color = animationFocus.update()
-        canvas.drawCircle(x, y, r, paint)
+        if (focusAnimationEnabled) {
+            paint.color = animationFocus.update()
+            canvas.drawCircle(x, y, r, paint)
+        }
 
         if (animationSelectedBackground.isNeedUpdate())
             invalidate()
@@ -145,6 +151,10 @@ class ViewIcon @JvmOverloads constructor(
     //
     //  Setters
     //
+
+    fun setOnTouched(onTouched: (Boolean)->Unit) {
+        animationFocus.setOnTouched(onTouched)
+    }
 
     fun setTransparentOnDisabled(transparentOnDisabled: Boolean) {
         this.transparentOnDisabled = transparentOnDisabled

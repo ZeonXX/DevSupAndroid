@@ -23,7 +23,6 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import android.graphics.BitmapFactory
-import java.lang.RuntimeException
 import android.util.DisplayMetrics
 import android.graphics.Bitmap
 

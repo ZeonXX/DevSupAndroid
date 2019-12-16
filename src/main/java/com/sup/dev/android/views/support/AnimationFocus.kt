@@ -14,6 +14,7 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
     private val focusColor: Int = Color.argb((Color.alpha(focusColorClick) / 1.5f).toInt(), Color.red(focusColorClick), Color.green(focusColorClick), Color.blue(focusColorClick))
     private val focusColorAlpha: Int = Color.argb(0, Color.red(focusColorClick), Color.green(focusColorClick), Color.blue(focusColorClick))
 
+    private var onTouched: (Boolean)->Unit = {}
     private var touched: Boolean = false
 
     init {
@@ -66,6 +67,7 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
     fun updateFocusColor() {
         animationFocus.to(if (view.isFocused || touched) focusColor else focusColorAlpha)
         view.invalidate()
+        onTouched.invoke(touched)
     }
 
     fun update(): Int {
@@ -88,4 +90,7 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
             animationClick[0x00000000] = 0x00000000
     }
 
+    fun setOnTouched(onTouched: (Boolean)->Unit) {
+        this.onTouched = onTouched
+    }
 }

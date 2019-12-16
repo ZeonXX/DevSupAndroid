@@ -54,6 +54,8 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         if (lockUntilAccept) vEnter.isEnabled = vCheck.isChecked
     }
 
+    fun getCheckboxCondition() = vCheck.isChecked
+
     //
     //  Setters
     //

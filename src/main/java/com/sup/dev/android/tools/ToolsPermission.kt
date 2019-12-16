@@ -139,6 +139,9 @@ object ToolsPermission {
         requestPermission(BLUETOOTH_ADMIN, onGranted, onPermissionRestriction)
     }
 
+    fun requestCameraPermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
+        requestPermission(CAMERA, onGranted, onPermissionRestriction)
+    }
     //
     //  Checks
     //

@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import com.sup.dev.android.R
 
 
-class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+open class LayoutAspectRatio constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var rw = 0f
     private var rh = 0f

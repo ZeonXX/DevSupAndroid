@@ -55,6 +55,14 @@ object ToolsToast {
         }
     }
 
+    fun showSnackIfLocked(v: View?, @StringRes textRes: Int) {
+        showSnackIfLocked(v, ToolsResources.s(textRes))
+    }
+
+    fun showSnackIfLocked(v: View?, text: String?) {
+        ToolsThreads.main { if (ToolsAndroid.isScreenKeyLocked()) showSnackNow(v!!, text) else showNow(text) }
+    }
+
     fun showSnack(@StringRes textRes: Int) {
         showSnack(SupAndroid.appContext!!.getString(textRes))
     }

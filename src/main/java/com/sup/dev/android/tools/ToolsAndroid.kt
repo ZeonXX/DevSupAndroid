@@ -11,8 +11,6 @@ import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
-import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.audiofx.AcousticEchoCanceler
 import android.net.ConnectivityManager
@@ -23,13 +21,11 @@ import com.sup.dev.android.BuildConfig
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.Miui
 import com.sup.dev.android.magic_box.ServiceNetworkCheck
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.util.*
-import android.util.DisplayMetrics
 
 object ToolsAndroid {
 

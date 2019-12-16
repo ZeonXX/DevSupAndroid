@@ -32,6 +32,7 @@
         <attr name="ViewIcon_circleColor" format="color"/>
         <attr name="ViewIcon_circleSize" format="dimension"/>
         <attr name="ViewIcon_transparent_on_disabled" format="boolean"/>
+        <attr name="ViewIcon_focus_animation_enabled" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ViewSwipe">

@@ -86,7 +86,7 @@ class AnimationViewHideVertical(private val view: View) {
         isShoved = false
     }
 
-    private fun updateAutoHide() {
+    fun updateAutoHide() {
 
         if (subscriptionAutoHide != null) subscriptionAutoHide!!.unsubscribe()
 

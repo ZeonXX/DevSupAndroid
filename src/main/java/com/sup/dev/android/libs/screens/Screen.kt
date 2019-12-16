@@ -28,7 +28,7 @@ open class Screen(
     var isBackStackAllowed = true
     var hasToolbarBackIcon = true
     var isSingleInstanceInBackStack = false
-    var statusBarColor = ToolsResources.getPrimaryDarkColor(context)
+    var statusBarColor = ToolsResources.getColorAttr(android.R.attr.statusBarColor)
     var navigationBarColor = ToolsResources.getColorAttr(android.R.attr.navigationBarColor)
     var navigationBarIsLight = ToolsResources.getBooleanAttr(R.attr.navigation_bar_is_light)
     var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)

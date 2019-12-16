@@ -2,17 +2,13 @@ package com.sup.dev.android.app
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
-import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
