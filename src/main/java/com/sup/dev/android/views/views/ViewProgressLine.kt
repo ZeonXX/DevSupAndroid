@@ -68,7 +68,7 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
         if (progressPercent > 0) {
             paint.color = colorProgress
 
-            val end = (width - r) / 100f * progressPercent
+            val end = (width - r) / 100f * (if (progressPercent > 100) 100f else progressPercent)
 
             canvas.drawCircle(r.toFloat(), r.toFloat(), r.toFloat(), paint)
             if (end > r) {
