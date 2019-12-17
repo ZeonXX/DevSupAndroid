@@ -142,6 +142,11 @@ object ToolsPermission {
     fun requestCameraPermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
         requestPermission(CAMERA, onGranted, onPermissionRestriction)
     }
+
+    fun requestReadContactsPermission(onGranted: (String) -> Unit, onPermissionRestriction: (String) -> Unit) {
+        requestPermission(READ_CONTACTS, onGranted, onPermissionRestriction)
+    }
+
     //
     //  Checks
     //

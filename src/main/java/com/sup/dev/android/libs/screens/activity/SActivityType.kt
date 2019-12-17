@@ -18,7 +18,7 @@ abstract class SActivityType(
 
     var screenNavigationVisible = true
     var screenNavigationAllowed = true
-    var screenNavigationAnimation = true
+    var screenNavigationAnimation = false
     var screenNavigationShadowAvailable = true
     var screenHideBottomNavigationWhenKeyboard = true
     var screenBottomNavigationColor = 0

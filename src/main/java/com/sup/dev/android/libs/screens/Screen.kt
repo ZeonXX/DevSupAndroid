@@ -37,7 +37,7 @@ open class Screen(
     var activityRootBackground = ToolsResources.getColorAttr(R.attr.window_background)
     var isNavigationAllowed = true
     var isNavigationVisible = true
-    var isNavigationAnimation = true
+    var isNavigationAnimation = false
     var isNavigationShadowAvailable = true
     //  Bottom navigation
     var isHideBottomNavigationWhenKeyboard = true
@@ -80,6 +80,12 @@ open class Screen(
 
         val appBarLayout: AppBarLayout? = findViewById(R.id.vAppBar)
         appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
+    }
+
+    fun disableNavigation(){
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
     }
 
     //
