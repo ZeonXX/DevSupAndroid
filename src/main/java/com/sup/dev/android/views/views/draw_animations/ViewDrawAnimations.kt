@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.java.classes.animation.Delta
+import kotlin.reflect.KClass
 
 class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -51,6 +52,13 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
         addList.add(animation)
         animations.add(animation)
         invalidate()
+    }
+
+    fun getAnimations() = animations
+
+    fun contains(animationClass:KClass<*>):Boolean{
+        for(i in animations) if(i::class == animationClass) return true
+        return false
     }
 
     val delta = Delta()

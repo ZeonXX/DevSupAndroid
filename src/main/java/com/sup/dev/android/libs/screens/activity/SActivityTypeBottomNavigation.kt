@@ -135,7 +135,7 @@ open class SActivityTypeBottomNavigation(
 
             item.vIcon?.setImageResource(icon)
             if(useIconsFilters)item.vIcon?.setFilter(getIconColor())
-            item.view?.setOnClickListener(onClick)
+            item.vIcon?.setOnClickListener(onClick)
             if(onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
             item.vChip?.visibility = View.GONE
             item.vText?.text = text

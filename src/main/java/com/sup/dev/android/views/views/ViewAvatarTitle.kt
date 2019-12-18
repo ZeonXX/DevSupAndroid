@@ -1,17 +1,16 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import androidx.annotation.StringRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -51,6 +50,8 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val chipSize = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipSize, ToolsView.dpToPx(18))
         val roundBackgroundColor = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarBackground, 0x00000000)
         val avatarPadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarPadding, 0f).toInt()
+        val subtitleSingleLine = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleSingleLine, false)
+        val ellipsizeEnd = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleEllipsizeEnd, false)
         chipModeAvatar = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipMode, chipModeAvatar)
         a.recycle()
 
@@ -63,6 +64,9 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         vAvatar.setChipIcon(srcIcon)
         vAvatar.setChipBackground(chipBackground)
 
+        vSubtitle.setSingleLine(subtitleSingleLine)
+        if(ellipsizeEnd) vSubtitle.ellipsize = android.text.TextUtils.TruncateAt.END
+
         setTitle(mText)
         setSubtitle(mSubtitle)
         updateCorned()
@@ -70,7 +74,6 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
         if (params != null && params.height > -1) {
-            log(">>> $params.height")
             vAvatar.layoutParams?.height = params.height
             vAvatar.layoutParams?.width = params.height
         }

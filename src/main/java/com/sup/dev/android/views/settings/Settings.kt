@@ -152,6 +152,11 @@ open class Settings @JvmOverloads constructor(
         view.isFocusable = l != null
     }
 
+    override fun setOnLongClickListener(l: OnLongClickListener?) {
+        view.setOnLongClickListener(l)
+        view.isFocusable = l != null
+    }
+
 
     //
     //  Getters

@@ -9,7 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.java.libs.api_simple.client.Request
+import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.libs.api.ApiRequest
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardScreenLoadingRecycler<C : Card, V>(res: Int = R.layout.card_loading_recycler) : CardScreenLoading(res) {
@@ -20,7 +21,7 @@ abstract class CardScreenLoadingRecycler<C : Card, V>(res: Int = R.layout.card_l
     protected val vRefresh: SwipeRefreshLayout? = vRoot.findViewById(R.id.vRefreshCard)
 
     protected var adapterSub: RecyclerCardAdapterLoading<C, V>? = null
-    protected var subscription: Request<*>? = null
+    protected var subscription: Subscription? = null
 
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK

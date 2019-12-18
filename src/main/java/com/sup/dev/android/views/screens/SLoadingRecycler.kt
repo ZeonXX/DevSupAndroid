@@ -16,7 +16,8 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.api_simple.client.Request
+import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.libs.api.ApiRequest
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
@@ -30,7 +31,7 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected val vScreenRoot: ViewGroup? = findViewById(R.id.vScreenRoot)
 
     protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
-    protected var subscription: Request<*>? = null
+    protected var subscription: Subscription? = null
 
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
