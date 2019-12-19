@@ -31,10 +31,8 @@ class ViewChipMini @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         vText.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         vText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        vText.textSize = 9f
-        (vText.layoutParams as LayoutParams).marginStart = ToolsView.dpToPx(4).toInt()
-        (vText.layoutParams as LayoutParams).marginEnd = ToolsView.dpToPx(4).toInt()
         (vText.layoutParams as LayoutParams).gravity = Gravity.CENTER
+        setSizeNormal()
     }
 
     //
@@ -45,6 +43,20 @@ class ViewChipMini @JvmOverloads constructor(context: Context, attrs: AttributeS
         vText.text = text
         visibility = if (text == null || text.isEmpty()) View.GONE else View.VISIBLE
      }
+
+    fun setSizeNormal(){
+        vText.textSize = 9f
+        (vText.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(4).toInt()
+        (vText.layoutParams as LayoutParams).rightMargin = ToolsView.dpToPx(4).toInt()
+        if(layoutParams != null && layoutParams.height>0) layoutParams.height = ToolsView.dpToPx(18).toInt()
+    }
+
+    fun setSizeMini(){
+        vText.textSize = 4f
+        (vText.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(1).toInt()
+        (vText.layoutParams as LayoutParams).rightMargin = ToolsView.dpToPx(1).toInt()
+        if(layoutParams != null && layoutParams.height>0) layoutParams.height = ToolsView.dpToPx(9).toInt()
+    }
 
     //
     //  Getters
