@@ -11,6 +11,8 @@ import android.widget.*
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
@@ -37,7 +39,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
-    protected var image: Int? = null
+    protected var image: ImageLoaderA? = null
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
@@ -118,7 +120,15 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     fun setBackgroundImage(@DrawableRes res: Int) {
-        this.image = res
+        this.image = ImageLoader.load(res)
+    }
+
+    fun setBackgroundImage(image: Any) {
+        setBackgroundImage(ImageLoader.load(image))
+    }
+
+    fun setBackgroundImage(image: ImageLoaderA?) {
+        this.image = image
     }
 
     override fun setTitle(@StringRes title: Int) {
@@ -149,12 +159,12 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
             ToolsView.toAlpha(vProgressLine)
         }
 
-        if (image == null || state != State.EMPTY) {
+        if (image==null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
         } else {
-            vEmptyImage.setImageResource(image!!)
-            ToolsView.alpha(vEmptyImage, false)
+            image?.noHolder()?.into(vEmptyImage)
+            vEmptyImage.visibility = View.VISIBLE
         }
 
         if (state == State.ERROR) {

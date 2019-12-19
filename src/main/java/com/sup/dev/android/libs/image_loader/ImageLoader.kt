@@ -5,15 +5,19 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
+import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
+import java.io.File
 import java.lang.ref.WeakReference
 import java.util.ArrayList
 import java.util.concurrent.LinkedBlockingQueue
@@ -36,6 +40,62 @@ object ImageLoader {
     }
 
     //
+    //  Tools
+    //
+
+    fun load(any:Any):ImageLoaderA?{
+        if(any is File) return ImageLoaderFile(any)
+        if(any is Int) return ImageLoaderResource(any)
+        if(any is Long) return ImageLoaderId(any)
+        if(any is String) return ImageLoaderTag(any)
+        return null
+    }
+
+    fun load(file: File): ImageLoaderA {
+        return ImageLoaderFile(file)
+    }
+
+    fun load(@DrawableRes res: Int): ImageLoaderA {
+        return ImageLoaderResource(res)
+    }
+
+    fun load(id: Long): ImageLoaderA {
+        return ImageLoaderId(id)
+    }
+
+    fun load(tag: String): ImageLoaderA {
+        return ImageLoaderTag(tag)
+    }
+
+    fun loadGif(
+            imageId: Long,
+            gifId: Long,
+            w: Int = 0,
+            h: Int = 0,
+            vImage: ImageView,
+            vGifProgressBar: View? = null,
+            sizeArd: Float = 1f,
+            minGifSize: Float = ToolsView.dpToPx(184),
+            onError: (() -> Unit)? = null
+    ) {
+        var sizeArdV = sizeArd
+
+        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize/ ToolsMath.max(w, h)
+
+        if (imageId > 0) {
+            load(imageId).sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
+                if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            }
+        } else {
+            if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+        }
+    }
+
+    fun clear(imageId: Long) {
+        load(imageId).clear()
+    }
+
+    //
     //  Public
     //
 
@@ -51,6 +111,8 @@ object ImageLoader {
     }
 
     fun load(loader: ImageLoaderA) {
+
+        if(loader.fastLoad(loader.vImage)) return
 
         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
 

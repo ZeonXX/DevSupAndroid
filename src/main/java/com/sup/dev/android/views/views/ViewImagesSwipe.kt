@@ -14,7 +14,7 @@ import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
@@ -240,7 +240,7 @@ class ViewImagesSwipe constructor(
     ) : CardSwipe<Long>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            ToolsImagesLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoaded { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
+            ImageLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoaded { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
         }
 
         override fun toImageView() {

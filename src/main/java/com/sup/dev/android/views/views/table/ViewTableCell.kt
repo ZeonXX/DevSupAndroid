@@ -1,7 +1,6 @@
 package com.sup.dev.android.views.views.table
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -69,7 +68,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
         resetView(vImage)
         (vImage.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
         (vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
-        ToolsImagesLoader.loadGif(0, imageId, 0, 0, vImage, null, 1f)
+        ImageLoader.loadGif(0, imageId, 0, 0, vImage, null, 1f)
     }
 
     //

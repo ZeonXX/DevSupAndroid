@@ -7,17 +7,13 @@ import java.io.IOException
 
 class ImageLoaderResource(
         val res: Int
-) : ImageLink() {
+) : ImageLoaderA() {
 
     init {
         noCash()
     }
 
-    override fun equalsTo(imageLoader: ImageLink): Boolean {
-      return res == (imageLoader as ImageLoaderResource).res
-    }
-
-    override fun getKeyOfImage() = "res_${res}"
+    override fun getKey() = "res_${res}_${w}_${h}"
 
     override fun fastLoad(vImage: ImageView?): Boolean {
         if(vImage != null) {
@@ -38,5 +34,4 @@ class ImageLoaderResource(
 
     }
 
-    override fun copyLocal() = ImageLoaderResource(res)
 }

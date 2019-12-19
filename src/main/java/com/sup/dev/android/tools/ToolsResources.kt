@@ -1,15 +1,16 @@
 package com.sup.dev.android.tools
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import androidx.annotation.*
 import android.util.TypedValue
+import androidx.annotation.*
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
-import java.lang.IllegalArgumentException
+import java.io.InputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -67,7 +68,7 @@ object ToolsResources {
     }
 
     fun s(@StringRes r: Int): String {
-        if(r == 0) throw IllegalArgumentException("Bad string resource id[$r]")
+        if (r == 0) throw IllegalArgumentException("Bad string resource id[$r]")
         return SupAndroid.appContext!!.resources.getString(r)
     }
 
@@ -98,6 +99,11 @@ object ToolsResources {
     @Suppress("DEPRECATION")
     fun getDrawable(@DrawableRes r: Int): Drawable {
         return SupAndroid.appContext!!.resources.getDrawable(r)
+    }
+
+    @SuppressLint("ResourceType")
+    fun getDrawableAsBytes(@DrawableRes r: Int): ByteArray {
+        return SupAndroid.appContext!!.resources.openRawResource(r).readBytes()
     }
 
     fun getDrawableAttr(@AttrRes r: Int): Drawable? {

@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
@@ -279,7 +280,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
                 vNumContainerTouch.setOnClickListener { onLongClick() }
             }
 
-            ToolsImagesLoader.load(file).size(420, 420).cropSquare().into(vImage)
+            ImageLoader.load(file).size(420, 420).cropSquare().into(vImage)
             val index = adapter!!.indexOf(this)
             val arg = index % spanCount
             view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount - 1) 0 else DP, DP)

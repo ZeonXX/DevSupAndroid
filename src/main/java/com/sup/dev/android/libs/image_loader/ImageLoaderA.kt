@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
+import com.sup.dev.android.views.views.ViewAvatar
+import com.sup.dev.android.views.views.ViewAvatarTitle
 
 
 abstract class ImageLoaderA {
@@ -35,11 +37,18 @@ abstract class ImageLoaderA {
 
     var tryCount = 2
 
-
     fun into(vImage: ImageView?) {
         this.vImage = vImage
         if (vImage != null) vImage.tag = getKey()
         ImageLoader.load(this)
+    }
+
+    fun into(vImage: ViewAvatarTitle?) {
+        into(vImage?.vAvatar)
+    }
+
+    fun into(vImage: ViewAvatar?) {
+        into(vImage?.vImageView)
     }
 
     fun into(onLoaded: (ByteArray?) -> Unit) {
@@ -174,6 +183,10 @@ abstract class ImageLoaderA {
     fun getFromCash() = ToolsCash.get("" + getKey().replace("/", "_").hashCode())
 
     abstract fun load(): ByteArray?
+
+    open fun fastLoad(vImage:ImageView?):Boolean{
+        return false
+    }
 
     //
     //  Getters

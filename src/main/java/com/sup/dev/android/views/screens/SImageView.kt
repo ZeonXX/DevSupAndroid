@@ -2,13 +2,13 @@ package com.sup.dev.android.views.screens
 
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
-import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
@@ -18,7 +18,6 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
 import com.sup.dev.android.views.widgets.WidgetField
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -163,7 +162,7 @@ class SImageView private constructor()
             else if (bytes != null) {
                 vImage.setImageBitmap(ToolsBitmap.decode(bytes))
             } else if (id > 0)
-                ToolsImagesLoader.load(id).into { bytes ->
+                ImageLoader.load(id).into { bytes ->
                     if (bytes != null) {
                         if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }
                         else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
@@ -183,7 +182,7 @@ class SImageView private constructor()
                 if (bitmap != null)
                     ToolsStorage.saveImageInDownloadFolder(bitmap)
                 else if (id > 0) {
-                    ToolsImagesLoader.load(id).into { bytes ->
+                    ImageLoader.load(id).into { bytes ->
                         if (!ToolsBytes.isGif(bytes))
                             ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { }
                         else
@@ -208,7 +207,7 @@ class SImageView private constructor()
                                 ToolsIntent.shareImage(bitmap, text)
                             } else if (id > 0) {
                                 val dialog = ToolsView.showProgressDialog()
-                                ToolsImagesLoader.load(id).into { bytes ->
+                                ImageLoader.load(id).into { bytes ->
                                     ToolsThreads.thread {
                                         val bm = ToolsBitmap.decode(bytes)
                                         ToolsThreads.main {

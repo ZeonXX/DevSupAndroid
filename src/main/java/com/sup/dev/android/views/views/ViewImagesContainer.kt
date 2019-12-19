@@ -10,12 +10,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.classes.items.Item2
-import com.sup.dev.java.libs.debug.Debug
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
@@ -248,7 +247,7 @@ class ViewImagesContainer @JvmOverloads constructor(
     ) : Item<Item2<Long, Long>>(onClick, onLongClick) {
 
         init {
-            ToolsImagesLoader.load(id).size(w, h).into(vImage)
+            ImageLoader.load(id).size(w, h).into(vImage)
         }
 
         override fun toImageView() {

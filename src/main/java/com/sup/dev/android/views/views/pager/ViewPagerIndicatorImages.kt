@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import java.lang.RuntimeException
 import kotlin.math.abs
@@ -28,7 +28,7 @@ class ViewPagerIndicatorImages @JvmOverloads constructor(context: Context, attrs
     }
 
     fun setImageId(v: ImageView, imageId:Long){
-        ToolsImagesLoader.load(imageId).size(ToolsView.dpToPx(64).toInt(), ToolsView.dpToPx(64).toInt()).into(v)
+        ImageLoader.load(imageId).size(ToolsView.dpToPx(64).toInt(), ToolsView.dpToPx(64).toInt()).into(v)
     }
 
     override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {

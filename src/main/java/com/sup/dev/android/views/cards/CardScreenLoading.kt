@@ -12,6 +12,8 @@ import androidx.annotation.StringRes
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
@@ -22,7 +24,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         NONE, EMPTY, PROGRESS, ERROR
     }
 
-    protected val vRoot:View = ToolsView.inflate(R.layout.screen_loading)
+    protected val vRoot: View = ToolsView.inflate(R.layout.screen_loading)
     protected var vFab: FloatingActionButton = vRoot.findViewById(R.id.vFab)
     private val vAction: Button = vRoot.findViewById(R.id.vAction)
     private var vEmptySubContainer: ViewGroup? = null
@@ -38,7 +40,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
-    protected var image: Int? = null
+    protected var image: ImageLoaderA? = null
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
@@ -66,7 +68,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         vContainer.addView(ToolsView.inflate(vRoot.context, res), 0)
         vEmptySubContainer = vContainer.findViewById(R.id.vEmptySubContainer)
 
-        if(vEmptySubContainer != null) {
+        if (vEmptySubContainer != null) {
             (vEmptyContainer.parent as ViewGroup).removeView(vEmptyContainer)
             vEmptySubContainer!!.addView(vEmptyContainer)
         }
@@ -119,8 +121,12 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         this.onAction = onAction
     }
 
-    fun setBackgroundImage(@DrawableRes res: Int) {
-        this.image = res
+    fun setBackgroundImage(image: Any) {
+        setBackgroundImage(ImageLoader.load(image))
+    }
+
+    fun setBackgroundImage(image: ImageLoaderA?) {
+        this.image = image
     }
 
     fun setState(state: State) {
@@ -143,8 +149,8 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
         } else {
-            vEmptyImage.setImageResource(image!!)
-            ToolsView.alpha(vEmptyImage, false)
+            image?.noHolder()?.into(vEmptyImage)
+            vEmptyImage.visibility = View.VISIBLE
         }
 
         if (state == State.ERROR) {

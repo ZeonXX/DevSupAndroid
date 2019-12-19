@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -46,8 +48,8 @@ object SupAndroid {
     var TEXT_ERROR_CANT_FIND_IMAGES: String? = null
     var TEXT_ERROR_MAX_ITEMS_COUNT: String? = null
 
-    var IMG_ERROR_NETWORK = 0
-    var IMG_ERROR_GONE = 0
+    var IMG_ERROR_NETWORK: ImageLoaderA? = null
+    var IMG_ERROR_GONE: ImageLoaderA? = null
 
     var editMode = false
     var appContext: Context? = null
@@ -56,11 +58,11 @@ object SupAndroid {
     var activityIsVisible = false
     var appId = ""
 
-    fun onLowMemory(){
+    fun onLowMemory() {
         onLowMemotyCallbacks.invoke()
     }
 
-    fun addOnLowMemory(onLowMemory:()->Unit){
+    fun addOnLowMemory(onLowMemory: () -> Unit) {
         onLowMemotyCallbacks.add(onLowMemory)
     }
 
@@ -71,7 +73,7 @@ object SupAndroid {
     }
 
 
-    fun init(appContext: Context, appId:String, activityClass:Class<out SActivity>) {
+    fun init(appContext: Context, appId: String, activityClass: Class<out SActivity>) {
         this.appId = appId
         this.activityClass = activityClass
         this.appContext = appContext
@@ -108,8 +110,8 @@ object SupAndroid {
         TEXT_ERROR_CANT_FIND_IMAGES = loadText("error_cant_find_images")
         TEXT_ERROR_MAX_ITEMS_COUNT = loadText("error_max_items_count")
 
-        IMG_ERROR_NETWORK = loadImage("error_network") ?: 0
-        IMG_ERROR_GONE = loadImage("error_gone") ?: 0
+        val rNetwork = loadImage("error_network") ?: 0; if (rNetwork > 0) IMG_ERROR_NETWORK = ImageLoader.load(rNetwork)
+        val rGone = loadImage("error_gone") ?: 0; if (rGone > 0) IMG_ERROR_GONE = ImageLoader.load(rGone)
     }
 
     private fun loadText(id: String): String? {
