@@ -22,6 +22,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
 import com.sup.dev.android.views.splash.SplashView
+import com.sup.dev.java.libs.debug.log
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -148,7 +149,9 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!Navigator.onBackPressed() && !onLastBackPressed()) {
+        val b1 = Navigator.onBackPressed()
+        val b2 = b1 || onLastBackPressed()
+        if (!b2) {
             started = false
             finish()
         }
