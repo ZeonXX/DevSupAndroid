@@ -271,10 +271,10 @@ object ToolsIntent {
     }
 
     fun startActivity(viewContext: Context, activityClass: Class<out Activity>, vararg extras: Any) {
-        startActivity(viewContext, activityClass, null, *extras)
+        startActivityFlag(viewContext, activityClass, null, *extras)
     }
 
-    fun startActivity(viewContext: Context, activityClass: Class<out Activity>, flags: Int?, vararg extras: Any) {
+    fun startActivityFlag(viewContext: Context, activityClass: Class<out Activity>, flags: Int?, vararg extras: Any) {
         val intent = Intent(viewContext, activityClass)
 
         addExtras(intent, *extras)
