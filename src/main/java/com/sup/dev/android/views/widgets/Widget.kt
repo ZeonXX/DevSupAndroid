@@ -16,6 +16,7 @@ import com.sup.dev.android.views.screens.SWidget
 import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.splash.Splash
+import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class Widget(layoutRes: Int) {
@@ -146,6 +147,13 @@ abstract class Widget(layoutRes: Int) {
     //
     //  Support
     //
+
+    fun fixForAndroid9(){   //  В Android 9 есть баг, свзяанный с clipPath у LayoutCorned. Из-за него может пропадать часть View внутри диалогов.
+        ToolsThreads.main(true) {
+            val vX: LayoutCorned? = ToolsView.findViewOnParents(view, R.id.vSplashViewContainer)
+            vX?.makeSoftware()
+        }
+    }
 
     fun asSheet(): Sheet {
         val sheet = Sheet(this)

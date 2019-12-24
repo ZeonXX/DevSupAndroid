@@ -7,6 +7,7 @@ import android.graphics.Path
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
@@ -37,6 +38,10 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
         cornedSize = a.getDimension(R.styleable.LayoutCorned_LayoutCorned_cornedSize, cornedSize)
         a.recycle()
 
+    }
+
+    fun makeSoftware(){
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun draw(canvas: Canvas?) {

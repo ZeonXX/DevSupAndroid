@@ -1,6 +1,10 @@
 package com.sup.dev.android.views.support.adapters.pager
 
-abstract class PagerCardInfinityAdapter : PagerCardAdapter() {
+class PagerCardInfinityAdapter : PagerCardAdapter() {
+
+    companion object {
+        var LOOPS_COUNT = 100000
+    }
 
     val realCount: Int
         get() = super.getCount()
@@ -14,9 +18,5 @@ abstract class PagerCardInfinityAdapter : PagerCardAdapter() {
         return if (realCount == 1) 1 else realCount * LOOPS_COUNT
     }
 
-    companion object {
-
-        var LOOPS_COUNT = 100000
-    }
-
 }
+
