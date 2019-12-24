@@ -241,6 +241,16 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return items.indexOf(o)
     }
 
+    override fun indexOf(checker: (Card) -> Boolean): Int {
+        for(c in items) if(checker.invoke(c)) return indexOf(c)
+        return -1
+    }
+
+    override fun <K : Card> find(checker: (Card) -> Boolean): K? {
+        for(c in items) if(checker.invoke(c)) return c as K
+        return null
+    }
+
     override operator fun contains(o: Card): Boolean {
         return items.contains(o)
     }
