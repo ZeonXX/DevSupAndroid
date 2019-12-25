@@ -1,7 +1,6 @@
 package com.sup.dev.android.views.cards
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,7 +14,6 @@ abstract class CardRecycler(res: Int = R.layout.card_recycler) : Card(0) {
     protected val vRecycler: RecyclerView = vRoot.findViewById(R.id.vRecyclerCard)
     protected val vRefresh: SwipeRefreshLayout = vRoot.findViewById(R.id.vRefreshCard)
     protected val vFab: FloatingActionButton = vRoot.findViewById(R.id.vFab)
-    protected val vMessage: TextView = vRoot.findViewById(R.id.vMessage)
 
     init {
         vRecycler.layoutManager = LinearLayoutManager(vRoot.context)

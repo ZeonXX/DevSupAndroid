@@ -15,14 +15,6 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/vMessage"
-        android:layout_gravity="center"
-        android:layout_width="240dp"
-        android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_height="wrap_content"/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/Fab"
         app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorCollapseFull" />
