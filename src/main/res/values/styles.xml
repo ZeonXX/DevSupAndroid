@@ -224,7 +224,7 @@
     <style name="Icon.12">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:padding">6dp</item>
     </style>
 
     <style name="Root">

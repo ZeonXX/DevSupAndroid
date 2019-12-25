@@ -57,8 +57,8 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
 
     open fun setPagerView(pager: ViewPager?) {
         this.pager = pager
-        pager!!.addOnPageChangeListener(this)
-        pager.addOnAdapterChangeListener(this)
+        pager?.addOnPageChangeListener(this)
+        pager?.addOnAdapterChangeListener(this)
         onChanged()
     }
 

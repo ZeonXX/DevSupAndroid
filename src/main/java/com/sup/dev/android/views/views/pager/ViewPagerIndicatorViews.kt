@@ -42,7 +42,7 @@ open class ViewPagerIndicatorViews @JvmOverloads constructor(context: Context, a
 
     fun reset(){
         removeAllViews()
-        if (pager!!.adapter == null) return
+        if (pager?.adapter == null) return
 
         views = Array(pager!!.adapter!!.count){
             val v = instanceView(it)

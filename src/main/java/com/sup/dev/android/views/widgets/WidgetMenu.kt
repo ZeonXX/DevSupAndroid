@@ -99,6 +99,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick { _, _, _ ->
+            if(isHided) return@setOnClick
             item.onClick.invoke(this, item.card!!)
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
