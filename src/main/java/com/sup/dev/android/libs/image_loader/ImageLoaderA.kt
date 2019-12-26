@@ -8,6 +8,7 @@ import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class ImageLoaderA {

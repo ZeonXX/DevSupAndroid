@@ -58,8 +58,9 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun addTitleView(view: View){
+    fun addTitleView(view: View):WidgetMenu{
         myAdapter.add(0, CardView(view))
+        return this
     }
 
     //

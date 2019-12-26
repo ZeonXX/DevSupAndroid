@@ -13,6 +13,7 @@ import com.sup.dev.android.tools.ToolsGif
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.items.Item3
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsMath
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 object ImageLoader {
 
-    internal val maxCashItemSize = 1024 * 1024 * 2
+    internal val maxCashItemSize = 1024 * 1024 * 5
     internal val maxCashSize = 1024 * 1024 * 50
     internal val cash = ArrayList<Item3<String, Bitmap, ByteArray>>()
     internal var cashSize = 0
@@ -43,11 +44,11 @@ object ImageLoader {
     //  Tools
     //
 
-    fun load(any:Any):ImageLoaderA?{
-        if(any is File) return ImageLoaderFile(any)
-        if(any is Int) return ImageLoaderResource(any)
-        if(any is Long) return ImageLoaderId(any)
-        if(any is String) return ImageLoaderTag(any)
+    fun load(any: Any): ImageLoaderA? {
+        if (any is File) return ImageLoaderFile(any)
+        if (any is Int) return ImageLoaderResource(any)
+        if (any is Long) return ImageLoaderId(any)
+        if (any is String) return ImageLoaderTag(any)
         return null
     }
 
@@ -80,7 +81,7 @@ object ImageLoader {
     ) {
         var sizeArdV = sizeArd
 
-        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize/ ToolsMath.max(w, h)
+        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize / ToolsMath.max(w, h)
 
         if (imageId > 0) {
             load(imageId).sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
@@ -112,7 +113,7 @@ object ImageLoader {
 
     fun load(loader: ImageLoaderA) {
 
-        if(loader.fastLoad(loader.vImage)) return
+        if (loader.fastLoad(loader.vImage)) return
 
         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
 
@@ -126,7 +127,9 @@ object ImageLoader {
         if (!loader.noLoadFromCash) bytes = loader.getFromCash()
 
         if (bytes != null) {
-            if (!loader.intoCash) putImage(loader, parseImage(loader, bytes), false, bytes)
+            if (!loader.intoCash) ToolsThreads.thread {
+                putImage(loader, parseImage(loader, bytes), false, bytes)
+            }
             return
         }
 
@@ -198,7 +201,7 @@ object ImageLoader {
 
     fun addToCash(key: String, bitmap: Bitmap, bytes: ByteArray) {
         removeFromCash(key)
-        val size = bitmap.width * bitmap.height * 4 + bytes.size
+        val size = bitmap.byteCount + bytes.size
         if (size > maxCashItemSize) return
 
         cashSize += size
@@ -285,7 +288,10 @@ object ImageLoader {
 
     private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray) {
         ToolsThreads.main {
-            if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
+            Debug.saveTime()
+            if (!loader.noCash && bm != null) {
+                addToCash(loader.getKey(), bm, bytes)
+            }
             if (loader.vImage != null && loader.isKey(loader.vImage!!.tag)) {
                 if (loader.allowGif && ToolsBytes.isGif(bytes)) {
                     ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd) {
@@ -298,6 +304,7 @@ object ImageLoader {
                 }
             }
             loader.onLoaded.invoke(bytes)
+            Debug.printTime()
         }
     }
 

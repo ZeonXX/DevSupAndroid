@@ -36,11 +36,17 @@ class ViewCircleImage constructor(context: Context, attrs: AttributeSet? = null)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.ViewCircleImage, 0, 0)
         val circleMode = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_circleMod, false)
+        val squareMode = a.getBoolean(R.styleable.ViewCircleImage_ViewCircleImage_squareMod, false)
+        squareCorned = a.getDimension(R.styleable.ViewCircleImage_ViewCircleImage_corned, squareCorned)
         a.recycle()
 
         if(circleMode){
             useGlobalStyle = false
-            squareMode = false
+            this.squareMode = false
+        }
+        if(squareMode){
+            useGlobalStyle = false
+            this.squareMode = true
         }
 
     }

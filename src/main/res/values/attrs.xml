@@ -198,6 +198,8 @@
 
     <declare-styleable name="ViewCircleImage">
         <attr name="ViewCircleImage_circleMod" format="boolean"/>
+        <attr name="ViewCircleImage_squareMod" format="boolean"/>
+        <attr name="ViewCircleImage_corned" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="LayoutZoom">

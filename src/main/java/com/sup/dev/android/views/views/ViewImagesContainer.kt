@@ -6,15 +6,14 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.sup.dev.android.R
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
-import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.classes.items.Item2
+import com.sup.dev.java.libs.debug.Debug
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
@@ -23,21 +22,19 @@ class ViewImagesContainer @JvmOverloads constructor(
 
     companion object {
 
-        private val cash = ArrayList<LayoutCorned>()
+        private val cash = ArrayList<ViewCircleImage>()
 
-        private fun putToCash(v: LayoutCorned) {
+        private fun putToCash(v: ViewCircleImage) {
             cash.add(v)
         }
 
-        private fun getViewFromCash(): LayoutCorned? {
+        private fun getViewFromCash(): ViewCircleImage? {
             if (cash.isEmpty()) return null
             else return ToolsView.removeFromParent(cash.removeAt(0))
         }
 
     }
 
-    private val rowH = ToolsView.dpToPx(108).toInt()
-    private val itemW = ToolsView.dpToPx(108).toInt()
     private val items = ArrayList<Item<out Any>>()
     private var itemIndex = 0
     private var onClickGlobal: (Item<Any>) -> Boolean = { false }
@@ -69,7 +66,7 @@ class ViewImagesContainer @JvmOverloads constructor(
     fun clear() {
         for (i in items) {
             i.vImage.setImageDrawable(null)
-            putToCash(i.vContainer)
+            putToCash(i.vImage)
         }
         items.clear()
         rebuild()
@@ -80,7 +77,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         removeAllViews()
 
         when {
-            items.size == 1 -> addView(items[0].vContainer)
+            items.size == 1 -> addView(items[0].vImage)
             items.size == 2 -> addItems(2)
             items.size == 3 -> addItems(3)
             items.size == 4 -> {;addItems(2);addItems(2); }
@@ -91,9 +88,46 @@ class ViewImagesContainer @JvmOverloads constructor(
             items.size == 9 -> {;addItems(2);addItems(3);addItems(4); }
             items.size == 10 -> {;addItems(3);addItems(4);addItems(3); }
         }
-
-        if (layoutParams != null) layoutParams.height = childCount * rowH
     }
+
+    private fun addItems(count: Int) {
+
+        val vLinear = LinearLayout(context)
+        vLinear.orientation = HORIZONTAL
+        addView(vLinear)
+        (vLinear.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
+        (vLinear.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
+        (vLinear.layoutParams as LayoutParams).weight = 1f
+        (vLinear.layoutParams as LayoutParams).topMargin = if (childCount > 1) ToolsView.dpToPx(2).toInt() else 0
+
+        for (i in 0 until count) {
+            val vLinearV = getChildAt(childCount - 1) as LinearLayout
+            val item = items[itemIndex++]
+            ToolsView.removeFromParent(item.vImage)
+            vLinearV.addView(item.vImage)
+            (item.vImage.layoutParams as LayoutParams).weight = 1f
+            (item.vImage.layoutParams as LayoutParams).leftMargin = if (vLinearV.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
+            (item.vImage.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
+            (item.vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
+        }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val w = MeasureSpec.getSize(widthMeasureSpec)
+        val h = MeasureSpec.getSize(heightMeasureSpec)
+        val arg = if(childCount == 1) 2.5f else if(childCount == 2) 1.5f else 1f
+        if(h == 0 || h > w/arg){
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((w/arg).toInt(), MeasureSpec.getMode(widthMeasureSpec)))
+        }else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        }
+    }
+
+    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
+        super.setLayoutParams(params)
+        rebuild()
+    }
+
 
     private fun getBitmapsArray(): Array<Bitmap> {
         val list = ArrayList<Bitmap>()
@@ -119,30 +153,10 @@ class ViewImagesContainer @JvmOverloads constructor(
         return list.toTypedArray()
     }
 
-    private fun addItems(count: Int) {
 
-        val vLinear = LinearLayout(context)
-        vLinear.orientation = HORIZONTAL
-        addView(vLinear)
-        (vLinear.layoutParams as LayoutParams).weight = 1f
-        (vLinear.layoutParams as LayoutParams).topMargin = if (childCount > 1) ToolsView.dpToPx(2).toInt() else 0
-
-        for (i in 0 until count) {
-            val vLinearV = getChildAt(childCount - 1) as LinearLayout
-            val item = items[itemIndex++]
-            ToolsView.removeFromParent(item.vContainer)
-            vLinearV.addView(item.vContainer)
-            (item.vContainer.layoutParams as LayoutParams).weight = 1f
-            (item.vContainer.layoutParams as LayoutParams).leftMargin = if (vLinearV.childCount > 1) ToolsView.dpToPx(2).toInt() else 0
-            (item.vContainer.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
-            (item.vContainer.layoutParams as LayoutParams).height = rowH
-        }
-    }
-
-    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
-        super.setLayoutParams(params)
-        rebuild()
-    }
+    //
+    //  Item
+    //
 
     @Suppress("UNCHECKED_CAST")
     private abstract inner class Item<K>(
@@ -150,8 +164,7 @@ class ViewImagesContainer @JvmOverloads constructor(
             val onLongClick: ((K) -> Unit)?
     ) {
 
-        val vContainer: LayoutCorned = getViewFromCash() ?: ToolsView.inflate(R.layout.view_images_container_item)
-        val vImage: ImageView = vContainer.findViewById(R.id.vSupportImageView)
+        val vImage: ViewCircleImage = getViewFromCash() ?: ToolsView.inflate(R.layout.view_images_container_item)
 
         init {
             vImage.setOnClickListener {

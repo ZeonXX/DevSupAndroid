@@ -95,7 +95,7 @@ object ToolsGif {
                         onStart.invoke()
                     }
                     lastBitmap = bm
-                    v.setImageDrawable(BitmapDrawable(lastBitmap))
+                    v.setImageBitmap(lastBitmap)
                 }
                 index++
                 if(index >= decoder.frameNum()) index = 0

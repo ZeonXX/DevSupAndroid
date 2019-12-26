@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.java.libs.debug.Debug
 
 abstract class Card(
-    private val layout:Int
+        private val layout: Int
 ) {
 
     var adapter: CardAdapter? = null
-    private var view:View? = null
+    private var view: View? = null
     var isBinding = false
 
     var tag: Any? = null
@@ -21,7 +22,7 @@ abstract class Card(
     //
 
     fun update() {
-        if(isBinding) return
+        if (isBinding) return
         val view = getView()
         if (view != null) bindCardView(view)
     }
@@ -34,12 +35,12 @@ abstract class Card(
         isBinding = false
     }
 
-    fun detachView(){
+    fun detachView() {
         onDetachView()
         this.view = null
     }
 
-    open fun onDetachView(){
+    open fun onDetachView() {
 
     }
 
@@ -51,26 +52,26 @@ abstract class Card(
     }
 
     fun getView(): View? {
-        val view = if(adapter == null)  null else adapter!!.getView(this)
-        if(view != null){
+        val view = if (adapter == null) null else adapter!!.getView(this)
+        if (view != null) {
             this.view = view
             view.tag = this
         }
 
-        if(this.view != null && this.view!!.tag != this) this.view = null
+        if (this.view != null && this.view!!.tag != this) this.view = null
 
         return this.view
     }
 
-    fun remove(){
-        if(adapter != null) adapter!!.remove(this)
+    fun remove() {
+        if (adapter != null) adapter!!.remove(this)
     }
 
     //
     //  Adapter
     //
 
-    open fun instanceView(vParent:ViewGroup): View {
+    open fun instanceView(vParent: ViewGroup): View {
         return if (layout > 0) ToolsView.inflate(vParent, layout) else instanceView()
     }
 
