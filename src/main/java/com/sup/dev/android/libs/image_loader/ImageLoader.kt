@@ -118,6 +118,13 @@ object ImageLoader {
             return
         }
 
+        try {
+            putHolder(loader)
+        } catch (e: OutOfMemoryError) {
+            SupAndroid.onLowMemory()
+            putHolder(loader)
+        }
+
         ToolsThreads.thread {
 
             var bytes: ByteArray? = null
@@ -130,12 +137,6 @@ object ImageLoader {
 
             ToolsThreads.main {
 
-                try {
-                    putHolder(loader)
-                } catch (e: OutOfMemoryError) {
-                    SupAndroid.onLowMemory()
-                    putHolder(loader)
-                }
 
                 turn.add(loader)
 
