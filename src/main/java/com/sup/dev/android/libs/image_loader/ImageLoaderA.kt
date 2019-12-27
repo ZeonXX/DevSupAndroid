@@ -8,7 +8,6 @@ import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.java.libs.debug.Debug
 
 
 abstract class ImageLoaderA {
@@ -16,6 +15,7 @@ abstract class ImageLoaderA {
     internal var vImage: ImageView? = null
     internal var vGifProgressBar: View? = null
     internal var onLoaded: (ByteArray?) -> Unit = {}
+    internal var onLoadedBitmap: (Bitmap?) -> Unit = {}
     internal var onError: (() -> Unit)? = null
     internal var onSetHolder: () -> Unit = {}
     internal var customSetHolder: (() -> Unit)? = null
@@ -25,7 +25,6 @@ abstract class ImageLoaderA {
     internal var h = 0
     internal var allowGif = true
     internal var showGifLoadingProgress = false
-    internal var sizeArd = 1f
     internal var holder: Any? = null
     internal var noHolder = false
     internal var fade = true
@@ -35,6 +34,7 @@ abstract class ImageLoaderA {
     internal var autoCash = true
     internal var autoCashMaxSize: Int = 1024 * 1024 * 2
     internal var intoCash = false
+    internal var noBitmap = false
 
     var tryCount = 2
 
@@ -52,13 +52,19 @@ abstract class ImageLoaderA {
         into(vImage?.vImageView)
     }
 
-    fun into(onLoaded: (ByteArray?) -> Unit) {
-        setOnLoaded(onLoaded)
+    fun intoBytes(onLoadedBytes: (ByteArray?) -> Unit) {
+        noBitmap = true
+        setOnLoadedBytes(onLoadedBytes)
         ImageLoader.load(this)
     }
 
+   fun intoBitmap(onLoadedBitmap: (Bitmap?) -> Unit) {
+       setOnLoadedBitmap(onLoadedBitmap)
+       ImageLoader.load(this)
+   }
+
     fun into(vImage: ImageView?, onLoaded: (ByteArray?) -> Unit) {
-        setOnLoaded(onLoaded)
+        setOnLoadedBytes(onLoaded)
         into(vImage)
     }
 
@@ -85,12 +91,6 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun sizeArd(sizeArd: Float): ImageLoaderA {
-        this.sizeArd = sizeArd
-        return this
-    }
-
-
     fun size(w: Int, h: Int): ImageLoaderA {
         this.w = w
         this.h = h
@@ -104,8 +104,13 @@ abstract class ImageLoaderA {
         return this
     }
 
-    fun setOnLoaded(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
+    fun setOnLoadedBytes(onLoaded: (ByteArray?) -> Unit): ImageLoaderA {
         this.onLoaded = onLoaded
+        return this
+    }
+
+    fun setOnLoadedBitmap(onLoadedBitmap: (Bitmap?) -> Unit): ImageLoaderA {
+        this.onLoadedBitmap = onLoadedBitmap
         return this
     }
 

@@ -162,7 +162,7 @@ class SImageView private constructor()
             else if (bytes != null) {
                 vImage.setImageBitmap(ToolsBitmap.decode(bytes))
             } else if (id > 0)
-                ImageLoader.load(id).into { bytes ->
+                ImageLoader.load(id).intoBytes { bytes ->
                     if (bytes != null) {
                         if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }
                         else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
@@ -182,7 +182,7 @@ class SImageView private constructor()
                 if (bitmap != null)
                     ToolsStorage.saveImageInDownloadFolder(bitmap)
                 else if (id > 0) {
-                    ImageLoader.load(id).into { bytes ->
+                    ImageLoader.load(id).intoBytes { bytes ->
                         if (!ToolsBytes.isGif(bytes))
                             ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { }
                         else
@@ -207,18 +207,13 @@ class SImageView private constructor()
                                 ToolsIntent.shareImage(bitmap, text)
                             } else if (id > 0) {
                                 val dialog = ToolsView.showProgressDialog()
-                                ImageLoader.load(id).into { bytes ->
-                                    ToolsThreads.thread {
-                                        val bm = ToolsBitmap.decode(bytes)
-                                        ToolsThreads.main {
-                                            dialog.hide()
-                                            if (bm == null) {
-                                                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
-                                                return@main
-                                            }
-                                            ToolsIntent.shareImage(bm, text)
-                                        }
+                                ImageLoader.load(id).intoBitmap { bm ->
+                                    dialog.hide()
+                                    if (bm == null) {
+                                        ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                                        return@intoBitmap
                                     }
+                                    ToolsIntent.shareImage(bm, text)
                                 }
                             }
                         }

@@ -29,7 +29,7 @@ object ImageLoader {
 
     internal val maxCashItemSize = 1024 * 1024 * 5
     internal val maxCashSize = 1024 * 1024 * 50
-    internal val cash = ArrayList<Item3<String, Bitmap, ByteArray>>()
+    internal val cash = ArrayList<Item3<String, Bitmap?, ByteArray?>>()
     internal var cashSize = 0
     internal val turn = ArrayList<ImageLoaderA>()
     internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
@@ -75,20 +75,15 @@ object ImageLoader {
             h: Int = 0,
             vImage: ImageView,
             vGifProgressBar: View? = null,
-            sizeArd: Float = 1f,
-            minGifSize: Float = ToolsView.dpToPx(184),
             onError: (() -> Unit)? = null
     ) {
-        var sizeArdV = sizeArd
-
-        if (w > 0 && h > 0 && gifId > 0 && (w < minGifSize || h < minGifSize)) sizeArdV = minGifSize / ToolsMath.max(w, h)
 
         if (imageId > 0) {
-            load(imageId).sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
-                if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            load(imageId).size(w, h).gifProgressBar(vGifProgressBar).setOnError(onError).into(vImage) {
+                if (gifId > 0) load(gifId).size(w, h).showGifLoadingProgress().gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
             }
         } else {
-            if (gifId > 0) load(gifId).showGifLoadingProgress().sizeArd(sizeArdV).size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            if (gifId > 0) load(gifId).showGifLoadingProgress().size(w, h).gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
         }
     }
 
@@ -123,29 +118,34 @@ object ImageLoader {
             return
         }
 
-        var bytes: ByteArray? = null
-        if (!loader.noLoadFromCash) bytes = loader.getFromCash()
+        ToolsThreads.thread {
 
-        if (bytes != null) {
-            if (!loader.intoCash) ToolsThreads.thread {
-                putImage(loader, parseImage(loader, bytes), false, bytes)
+            var bytes: ByteArray? = null
+            if (!loader.noLoadFromCash) bytes = loader.getFromCash()
+
+            if (bytes != null) {
+                if (!loader.intoCash) ToolsThreads.thread { putImage(loader, parseImage(loader, bytes), false, bytes) }
+                return@thread
             }
-            return
+
+            ToolsThreads.main {
+
+                try {
+                    putHolder(loader)
+                } catch (e: OutOfMemoryError) {
+                    SupAndroid.onLowMemory()
+                    putHolder(loader)
+                }
+
+                turn.add(loader)
+
+                for (l in turn) if (l.isKey(loader.getKey()) && l !== loader) return@main
+
+                loadStart(loader)
+
+            }
+
         }
-
-
-        try {
-            putHolder(loader)
-        } catch (e: OutOfMemoryError) {
-            SupAndroid.onLowMemory()
-            putHolder(loader)
-        }
-
-        turn.add(loader)
-
-        for (l in turn) if (l.isKey(loader.getKey()) && l !== loader) return
-
-        loadStart(loader)
     }
 
     private fun loadStart(loader: ImageLoaderA) {
@@ -175,12 +175,12 @@ object ImageLoader {
                         loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
                     } else if (loader.w != 0 && loader.h != 0) {
                         try {
-                            val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
+                            val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                             loader.vImage!!.setImageBitmap(bitmap)
                         } catch (e: OutOfMemoryError) {
                             SupAndroid.onLowMemory()
-                            val bitmap = Bitmap.createBitmap((loader.w * loader.sizeArd).toInt(), (loader.h * loader.sizeArd).toInt(), Bitmap.Config.ARGB_4444)
+                            val bitmap = Bitmap.createBitmap(loader.w, loader.h, Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
                             loader.vImage!!.setImageBitmap(bitmap)
                         }
@@ -199,9 +199,10 @@ object ImageLoader {
     //  Cash
     //
 
-    fun addToCash(key: String, bitmap: Bitmap, bytes: ByteArray) {
+    fun addToCash(key: String, bitmap: Bitmap?, bytes: ByteArray?) {
         removeFromCash(key)
-        val size = bitmap.byteCount + bytes.size
+        if (bitmap == null && bytes == null) return
+        val size = bitmap?.byteCount ?: bytes!!.size
         if (size > maxCashItemSize) return
 
         cashSize += size
@@ -210,8 +211,8 @@ object ImageLoader {
         while (cashSize > maxCashSize && cash.isNotEmpty()) removeFromCash(cash[0].a1)
     }
 
-    fun getFromCash(key: String): Item3<String, Bitmap, ByteArray>? {
-        var item: Item3<String, Bitmap, ByteArray>? = null
+    fun getFromCash(key: String): Item3<String, Bitmap?, ByteArray?>? {
+        var item: Item3<String, Bitmap?, ByteArray?>? = null
         for (i in cash) if (i.a1 == key) {
             item = i
             break
@@ -220,10 +221,9 @@ object ImageLoader {
     }
 
     fun removeFromCash(key: String) {
-        val item = getFromCash(key)
-        if (item == null) return
+        val item = getFromCash(key) ?: return
 
-        cashSize -= item.a2.width * item.a2.height * 4 + item.a3.size
+        cashSize -= item.a2?.byteCount ?: item.a3!!.size
 
         var i = 0
         while (i in 0 until cash.size) {
@@ -281,30 +281,26 @@ object ImageLoader {
     }
 
     private fun parseImage(loader: ImageLoaderA, bytes: ByteArray): Bitmap? {
-        var bm = ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options)
+        var bm = if (loader.noBitmap) null else ToolsBitmap.decode(bytes, loader.w, loader.h, loader.options)
         if (loader.cropSquareCenter && bm != null) bm = ToolsBitmap.cropCenterSquare(bm)
         return bm
     }
 
-    private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray) {
+    private fun putImage(loader: ImageLoaderA, bm: Bitmap?, animate: Boolean, bytes: ByteArray?) {
         ToolsThreads.main {
-            Debug.saveTime()
-            if (!loader.noCash && bm != null) {
-                addToCash(loader.getKey(), bm, bytes)
-            }
+            if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
+
             if (loader.vImage != null && loader.isKey(loader.vImage!!.tag)) {
-                if (loader.allowGif && ToolsBytes.isGif(bytes)) {
-                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.sizeArd) {
+                if (loader.allowGif && bytes != null && ToolsBytes.isGif(bytes)) {
+                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.w, loader.h) {
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
-                    var bitmap = bm
-                    if (bitmap != null && loader.sizeArd != 1f) bitmap = ToolsBitmap.resize(bitmap, (bitmap.width * loader.sizeArd).toInt(), (bitmap.height * loader.sizeArd).toInt())
-                    if (loader.vImage != null && bitmap != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bitmap, animate && loader.fade))
+                    if (loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
                 }
             }
             loader.onLoaded.invoke(bytes)
-            Debug.printTime()
+            loader.onLoadedBitmap.invoke(bm)
         }
     }
 

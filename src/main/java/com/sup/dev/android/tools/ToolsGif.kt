@@ -61,7 +61,7 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, sizeArg: Float, onStart: () -> Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int=0, h:Int=0, onStart: () -> Unit = {}) {
 
         val key = Any()
         val vv = vImage.get()
@@ -84,7 +84,7 @@ object ToolsGif {
                 var bm = next(decoder, index)
                 val ms = decoder.delay(index).toLong()
                 if(bm == null) continue
-                if (sizeArg != 1f) bm = ToolsBitmap.resize(bm, (bm.width * sizeArg).toInt(), (bm.height * sizeArg).toInt())
+                if (w != 0 && h != 0) bm = ToolsBitmap.inscribePin(bm, w, h)
                 ToolsThreads.main {
                     val v = vImage.get()
                     if (v == null || v.tag !== key || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {

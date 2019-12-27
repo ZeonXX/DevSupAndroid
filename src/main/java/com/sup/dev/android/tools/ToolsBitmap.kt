@@ -25,6 +25,8 @@ import java.net.URL
 import android.graphics.BitmapFactory
 import android.util.DisplayMetrics
 import android.graphics.Bitmap
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 
 object ToolsBitmap {
@@ -84,6 +86,7 @@ object ToolsBitmap {
         return output
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun filterBlur(bitmap: Bitmap, arg: Float): Bitmap {
         val rs = RenderScript.create(SupAndroid.appContext!!)
         val input = Allocation.createFromBitmap(rs, bitmap)
@@ -412,6 +415,7 @@ object ToolsBitmap {
         return stream.toByteArray()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun drawableToBytes(@DrawableRes resId: Int): ByteArray {
         val d = SupAndroid.activity!!.resources.getDrawable(resId, SupAndroid.activity!!.theme)
         val bitmap = (d as BitmapDrawable).bitmap
@@ -424,13 +428,24 @@ object ToolsBitmap {
     //  Sizes
     //
 
-    fun inscribe(bitmap: Bitmap, w: Int, h: Int): Dimensions {
-        val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
-
-        if (bitmap.width.toFloat() > inscribe.w || bitmap.height.toFloat() > inscribe.h)
-            return inscribe
-
+    fun inscribeInBounds(bitmap: Bitmap, w: Int, h: Int): Dimensions {
+        val inscribe = inscribePinBounds(bitmap, w, h)
+        if (bitmap.width.toFloat() > inscribe.w || bitmap.height.toFloat() > inscribe.h) return inscribe
         return Dimensions(bitmap.width.toFloat(), bitmap.height.toFloat())
+    }
+
+    fun inscribeIn(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        val bounds = inscribeInBounds(bitmap, w, h)
+        return resize(bitmap, bounds.w.toInt(), bounds.h.toInt())
+    }
+
+    fun inscribePinBounds(bitmap: Bitmap, w: Int, h: Int): Dimensions {
+        return ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+    }
+
+    fun inscribePin(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        val bounds = inscribePinBounds(bitmap, w, h)
+        return resize(bitmap, bounds.w.toInt(), bounds.h.toInt())
     }
 
     fun keepMaxSizes(bitmap: Bitmap, w: Int, h: Int): Bitmap {

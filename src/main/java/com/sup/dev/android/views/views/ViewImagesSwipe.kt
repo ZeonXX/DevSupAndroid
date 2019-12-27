@@ -240,7 +240,7 @@ class ViewImagesSwipe constructor(
     ) : CardSwipe<Long>(onClick, onLongClick) {
 
         override fun set(view: View, vImage: ImageView) {
-            ImageLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoaded { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
+            ImageLoader.load(id).size(w, h).setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoadedBytes { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
         }
 
         override fun toImageView() {
