@@ -6,10 +6,8 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 import java.lang.RuntimeException
 
@@ -111,6 +109,8 @@ abstract class ImageLink {
     fun crop(w:Int, h:Int):ImageLink{
         cropW = w
         cropH = h
+        if(cropH > 1 && cropW < 1) throw RuntimeException("cropW[$cropW] can't be < 1")
+        if(cropW > 1 && cropH < 1) throw RuntimeException("cropH[$cropH] can't be < 1")
         return this
     }
 
@@ -144,6 +144,8 @@ abstract class ImageLink {
     fun size(w: Int, h: Int): ImageLink {
         this.w = w
         this.h = h
+        if(h > 1 && w < 1) throw RuntimeException("w[$w] can't be < 1")
+        if(w > 1 && h < 1) throw RuntimeException("h[$h] can't be < 1")
         return this
     }
 
@@ -152,6 +154,8 @@ abstract class ImageLink {
     fun minSize(w: Int, h: Int): ImageLink {
         this.minW = w
         this.minH = h
+        if(minH > 1 && minW < 1) throw RuntimeException("minW[$minW] can't be < 1")
+        if(minW > 1 && minH < 1) throw RuntimeException("minH[$minH] can't be < 1")
         return this
     }
 
@@ -160,10 +164,15 @@ abstract class ImageLink {
     fun maxSize(w: Int, h: Int): ImageLink {
         this.maxW = w
         this.maxH = h
+        if(maxH > 1 && maxW < 1) throw RuntimeException("maxW[$maxW] can't be < 1")
+        if(maxW > 1 && maxH < 1) throw RuntimeException("maxH[$maxH] can't be < 1")
         return this
     }
 
-    fun getKey() = getKeyOfImage() + ":" + getParamsSum().hashCode()
+    fun getKey():String{
+        generateSizesIfNeed()
+        return getKeyOfImage() + ":" + getParamsSum().hashCode()
+    }
 
     protected abstract fun getKeyOfImage(): String
 
@@ -277,43 +286,53 @@ abstract class ImageLink {
 
     fun generateSizesIfNeed(){
         if(generated) return
-        generated = true
 
-        log("---------------------------------")
+        if(cropW > 0 && cropH > 0){
+            this.generatedW = cropW
+            this.generatedH = cropH
+            generated = true
+            return
+        }
 
         var generatedW = (if(w == 0) cropW else w).toFloat()
         var generatedH = (if(h == 0) cropH else h).toFloat()
-        log(generatedW)
 
         if(maxW > 0 && maxH > 0) {
             val inscribeMax = ToolsMath.inscribeInBounds(generatedW, generatedH, maxW.toFloat(), maxH.toFloat())
             generatedW = inscribeMax.w
             generatedH = inscribeMax.h
         }
-        log(generatedW)
 
         if(minW > 0 && minH > 0) {
             val inscribeMin = ToolsMath.inscribeOutBounds(generatedW, generatedH, minW.toFloat(), minH.toFloat())
             generatedW = inscribeMin.w
             generatedH = inscribeMin.h
         }
-        log(generatedW)
 
         if(minW > 0 && minH > 0 && maxW > 0 && maxH > 0) {
            if(minW > maxW) throw RuntimeException("minW[$minW] > maxW[$maxW]")
            if(minH > maxH) throw RuntimeException("minW[$minH] > maxW[$maxH]")
         }
 
-        if(generatedW > generatedW.toInt()) generatedW += ToolsView.dpToPx(1)
-        if(generatedH > generatedH.toInt()) generatedH += ToolsView.dpToPx(1)
+        //if(generatedW > generatedW.toInt()) generatedW += ToolsView.dpToPx(2)
+        //if(generatedH > generatedH.toInt()) generatedH += ToolsView.dpToPx(2)
 
-        if(autocropIfLostBounds && (generatedW < minW || generatedH < minH)){
-            crop(minW, minH)
+        if(autocropIfLostBounds){
+            if(generatedW < minW){
+                crop(minW, maxH)
+                generateSizesIfNeed()
+                return
+            }
+            if(generatedH < minH){
+                crop(maxW, minH)
+                generateSizesIfNeed()
+                return
+            }
         }
 
         this.generatedW = generatedW.toInt()
         this.generatedH = generatedH.toInt()
-
+        generated = true
     }
 
     fun getW():Int{
@@ -324,6 +343,16 @@ abstract class ImageLink {
     fun getH():Int{
         generateSizesIfNeed()
         return generatedH
+    }
+
+    fun getCropW():Int{
+        generateSizesIfNeed()
+        return cropW
+    }
+
+    fun getCropH():Int{
+        generateSizesIfNeed()
+        return cropH
     }
 
     fun getFullImageLoader() = fullImageLoader

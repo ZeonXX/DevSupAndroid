@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsThreads
 import com.waynejo.androidndkgif.GifDecoder

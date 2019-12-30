@@ -27,7 +27,6 @@ import android.util.DisplayMetrics
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {
@@ -44,16 +43,12 @@ object ToolsBitmap {
         if (srcBmp.width == w && srcBmp.height == h) return srcBmp
 
         var result = keepSides(srcBmp, w, h)
-        log("cropCenter  srcBmp[${srcBmp.width}][${srcBmp.height}]   result[${result.width}][${result.height}]   w[$w]h[$h]")
-
 
         if (result.width > w) {
             result = Bitmap.createBitmap(result, result.width / 2 - w / 2, 0, w, h)
         } else if (result.height > h) {
             result = Bitmap.createBitmap(result, 0, result.height / 2 - h / 2, w, h)
         }
-
-        log(">>>>>   result[${result.width}][${result.height}]")
 
         return result
     }
@@ -480,39 +475,28 @@ object ToolsBitmap {
         return bm
     }
 
-    fun keepSides(bitmap: Bitmap, sides: Int): Bitmap {
-        return keepMinSides(keepMaxSides(bitmap, sides), sides)
-    }
+    fun keepSides(bitmap: Bitmap, sides: Int) = keepMinSides(keepMaxSides(bitmap, sides), sides)
 
-    fun keepSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        return keepMinSides(keepMaxSides(bitmap, w, h), w, h)
-    }
+    fun keepSides(bitmap: Bitmap, w: Int, h: Int) = keepMinSides(keepMaxSides(bitmap, w, h), w, h)
 
-    fun keepMinSides(bitmap: Bitmap, minSideSize: Int): Bitmap {
-        if (bitmap.width >= minSideSize && bitmap.height >= minSideSize) return bitmap
-
-        val arg = minSideSize.toFloat() / ToolsMath.max(bitmap.width, bitmap.height)
-        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * arg).toInt(), (bitmap.height * arg).toInt(), true)
-    }
+    fun keepMinSides(bitmap: Bitmap, size: Int) = keepMinSides(bitmap, size, size)
 
     fun keepMinSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
         if (bitmap.width >= w && bitmap.height >= h) return bitmap
         val argW = w.toFloat() / bitmap.width
         val argH = h.toFloat() / bitmap.height
-        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * argW).toInt(), (bitmap.height * argH).toInt(), true)
+        val arg = ToolsMath.max(argW, argH)
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * arg).toInt(), (bitmap.height * arg).toInt(), true)
     }
 
-    fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
-        if (bitmap.width <= maxSideSize && bitmap.height <= maxSideSize) return bitmap
-        val arg = ToolsMath.max(bitmap.width, bitmap.height) / maxSideSize.toFloat()
-        return Bitmap.createScaledBitmap(bitmap, (bitmap.width / arg).toInt(), (bitmap.height / arg).toInt(), true)
-    }
+    fun keepMaxSides(bitmap: Bitmap, size: Int) = keepMaxSides(bitmap, size, size)
 
     fun keepMaxSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
         if (bitmap.width <= w && bitmap.height <= h) return bitmap
         val argW = bitmap.width / w.toFloat()
         val argH = bitmap.height / h.toFloat()
-        return Bitmap.createScaledBitmap(bitmap, (bitmap.width / argW).toInt(), (bitmap.height / argH).toInt(), true)
+        val arg = ToolsMath.max(argW, argH)
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width / arg).toInt(), (bitmap.height / arg).toInt(), true)
     }
 
     fun resize(bitmap: Bitmap, w: Int) = resize(bitmap, w, w)

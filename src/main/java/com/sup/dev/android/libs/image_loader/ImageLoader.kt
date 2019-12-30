@@ -276,7 +276,7 @@ object ImageLoader {
         var bm = if (loader.noBitmap) null else ToolsBitmap.decode(bytes, loader.getW(), loader.getH(), loader.options, resizeByMinSide=loader.resizeByMinSide)
         if(bm != null) {
             if (loader.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm)
-            if (loader.cropW > 0 && loader.cropH > 0) bm = ToolsBitmap.cropCenter(bm, loader.cropW, loader.cropH)
+            if (loader.getCropW() > 0 && loader.getCropH() > 0) bm = ToolsBitmap.cropCenter(bm, loader.cropW, loader.cropH)
         }
         return bm
     }
@@ -291,7 +291,9 @@ object ImageLoader {
                         if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
                     }
                 } else {
-                    if (loader.vImage != null && bm != null) loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
+                    if (loader.vImage != null && bm != null) {
+                        loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
+                    }
                 }
             }
             loader.onLoaded.invoke(bytes)
