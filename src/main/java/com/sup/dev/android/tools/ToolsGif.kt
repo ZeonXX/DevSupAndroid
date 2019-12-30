@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsThreads
 import com.waynejo.androidndkgif.GifDecoder
@@ -61,7 +62,7 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int=0, h:Int=0, onStart: () -> Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int=0, h:Int=0, resizeByMinSide:Boolean=false, onStart: () -> Unit = {}) {
 
         val key = Any()
         val vv = vImage.get()
@@ -84,7 +85,7 @@ object ToolsGif {
                 var bm = next(decoder, index)
                 val ms = decoder.delay(index).toLong()
                 if(bm == null) continue
-                if (w != 0 && h != 0) bm = ToolsBitmap.inscribePin(bm, w, h)
+                if (w != 0 && h != 0) bm = ToolsBitmap.inscribePin(bm, w, h, resizeByMinSide)
                 ToolsThreads.main {
                     val v = vImage.get()
                     if (v == null || v.tag !== key || (lastBitmap != null && (v.drawable !is BitmapDrawable || (v.drawable as BitmapDrawable).bitmap != lastBitmap))) {

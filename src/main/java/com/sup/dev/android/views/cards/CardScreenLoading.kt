@@ -6,14 +6,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.image_loader.ImageLoader
-import com.sup.dev.android.libs.image_loader.ImageLoaderA
+import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsThreads
@@ -40,7 +39,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
     protected var textRetry = SupAndroid.TEXT_APP_RETRY
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
-    protected var image: ImageLoaderA? = null
+    protected var image: ImageLink? = null
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
@@ -125,7 +124,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         setBackgroundImage(ImageLoader.load(image))
     }
 
-    fun setBackgroundImage(image: ImageLoaderA?) {
+    fun setBackgroundImage(image: ImageLink?) {
         this.image = image
     }
 

@@ -7,9 +7,13 @@ import java.io.IOException
 
 class ImageLoaderFile(
         val file: File
-) : ImageLoaderA() {
+) : ImageLink() {
 
-    override fun getKey() = "file_${file.absolutePath}_${w}_${h}"
+    override fun equalsTo(imageLoader: ImageLink): Boolean {
+       return file.absolutePath == (imageLoader as ImageLoaderFile).file.absolutePath
+    }
+
+    override fun getKeyOfImage() = "file_${file.absolutePath}"
 
     override fun load(): ByteArray? {
         try {

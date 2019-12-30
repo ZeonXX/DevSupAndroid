@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.image_loader.ImageLoaderA
+import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -27,23 +27,23 @@ class SAlert(
             Navigator.action(action, instanceNetwork(onRetry))
         }
 
-        fun instanceNetwork(onRetry: (SAlert) -> Unit) = instanceMessage(SupAndroid.TEXT_ERROR_NETWORK, SupAndroid.TEXT_APP_RETRY, SupAndroid.IMG_ERROR_NETWORK, true, onRetry)
+        fun instanceNetwork(onRetry: (SAlert) -> Unit) = instanceMessage(SupAndroid.TEXT_ERROR_NETWORK, SupAndroid.TEXT_APP_RETRY, SupAndroid.imgErrorNetwork, true, onRetry)
 
         fun showGone(action: NavigationAction) {
             Navigator.action(action, instanceGone())
         }
 
-        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.IMG_ERROR_GONE, true) { Navigator.remove(it) }
+        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.imgErrorGone, true) { Navigator.remove(it) }
 
-        fun showMessage(text: Int, action: Int, img: ImageLoaderA?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
+        fun showMessage(text: Int, action: Int, img: ImageLink?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
             Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
         }
 
-        fun showMessage(text: String?, action: String?, img: ImageLoaderA?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
+        fun showMessage(text: String?, action: String?, img: ImageLink?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
             Navigator.action(actionNavigation, instanceMessage(text, action, img, true, onAction))
         }
 
-        fun instanceMessage(text: String?, action: String?, img: ImageLoaderA?, tryToShowWhoops: Boolean, onAction: ((SAlert) -> Unit)?): SAlert {
+        fun instanceMessage(text: String?, action: String?, img: ImageLink?, tryToShowWhoops: Boolean, onAction: ((SAlert) -> Unit)?): SAlert {
             return instanceMessage(text, action, tryToShowWhoops, onAction).setImage(img)
         }
 
@@ -70,8 +70,8 @@ class SAlert(
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vImageFull: ImageView = findViewById(R.id.vImageFull)
 
-    var imageLoader: ImageLoaderA? = null
-    var imageLoaderFull: ImageLoaderA? = null
+    var imageLoader: ImageLink? = null
+    var imageLoaderFull: ImageLink? = null
 
     init {
 
@@ -99,7 +99,7 @@ class SAlert(
 
     }
 
-    fun setImage(imageLoader: ImageLoaderA?, imageLoaderFull: ImageLoaderA? = null): SAlert {
+    fun setImage(imageLoader: ImageLink?, imageLoaderFull: ImageLink? = null): SAlert {
         this.imageLoader = imageLoader
         this.imageLoaderFull = imageLoaderFull
         return this

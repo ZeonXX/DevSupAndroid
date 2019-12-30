@@ -7,9 +7,13 @@ import java.io.IOException
 
 class ImageLoaderUrl(
         private val url: String
-) : ImageLoaderA() {
+) : ImageLink() {
 
-    override fun getKey() = "url_${url}_${w}_${h}"
+    override fun equalsTo(imageLoader: ImageLink): Boolean {
+        return url == (imageLoader as ImageLoaderUrl).url
+    }
+
+    override fun getKeyOfImage() = "url_${url}"
 
     override fun load(): ByteArray? {
         try {

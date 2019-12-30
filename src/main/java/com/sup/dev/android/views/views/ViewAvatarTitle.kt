@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val src = a.getResourceId(R.styleable.ViewAvatarTitle_android_src, 0)
         val srcIcon = a.getResourceId(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIcon, 0)
         val chipText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipText)
-        val chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, ToolsResources.getAccentColor(context))
+        val chipBackground = a.getColor(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipBackground, Color.TRANSPARENT)
         val mText = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_title)
         val mSubtitle = a.getString(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitle)
         val iconSizePadding = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipIconPadding, 0f)

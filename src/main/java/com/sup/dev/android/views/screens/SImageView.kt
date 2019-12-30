@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.screens
 
-import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import androidx.viewpager.widget.ViewPager
 import android.view.View
@@ -8,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
@@ -35,47 +34,18 @@ class SImageView private constructor()
     private val vIndicator: ViewPagerIndicatorImages = findViewById(R.id.vIndicator)
     private val adapterIn: PagerCardAdapter = PagerCardAdapter()
 
-    constructor(scrollTo: Int, bitmaps: Array<Bitmap>) : this() {
-        for (b in bitmaps) adapterIn.add(Page(null, b, 0L))
+
+    constructor(scrollTo: Int, imageLoaders: Array<ImageLink>) : this() {
+        for (loader in imageLoaders) adapterIn.add(Page(loader.getFullImageLoader()?:loader))
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, bitmaps[index]) }
+        vIndicator.imageProvider = { index, v -> vIndicator.setImage(v, imageLoaders[index].getPreviewImageLoader()?:imageLoaders[index]) }
         vIndicator.setPagerView(vPager)
     }
 
-    constructor(scrollTo: Int, ids: Array<Long>) : this() {
-        for (id in ids) adapterIn.add(Page(null, null, id))
-        vPager.setCurrentItem(scrollTo, false)
-        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v -> vIndicator.setImageId(v, ids[index]) }
-        vIndicator.setPagerView(vPager)
-    }
-
-    constructor(scrollTo: Int, bytes: Array<ByteArray>) : this() {
-        for (b in bytes) adapterIn.add(Page(b, null, 0L))
-        vPager.setCurrentItem(scrollTo, false)
-        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v -> vIndicator.setImageBitmap(v, ToolsBitmap.decode(bytes[index])!!) }
-        vIndicator.setPagerView(vPager)
-    }
-
-    constructor(bitmap: Bitmap) : this() {
-        adapterIn.add(Page(null, bitmap, 0L))
-        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.visibility = View.GONE
-    }
-
-    constructor(id: Long) : this() {
-        adapterIn.add(Page(null, null, id))
-        vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.visibility = View.GONE
-    }
-
-    constructor(bytes: ByteArray) : this() {
-        adapterIn.add(Page(bytes, null, 0L))
+    constructor(imageLoader: ImageLink) : this() {
+        adapterIn.add(Page(imageLoader))
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.visibility = View.GONE
     }
@@ -142,9 +112,7 @@ class SImageView private constructor()
     }
 
     private inner class Page constructor(
-            private val bytes: ByteArray?,
-            private val bitmap: Bitmap?,
-            private val id: Long
+            private val imageLoader: ImageLink
     ) : Card(R.layout.screen_image_view_page) {
 
         override fun bindView(view: View) {
@@ -157,17 +125,12 @@ class SImageView private constructor()
                 toggleInterface()
             }
 
-            if (bitmap != null)
-                vImage.setImageBitmap(bitmap)
-            else if (bytes != null) {
-                vImage.setImageBitmap(ToolsBitmap.decode(bytes))
-            } else if (id > 0)
-                ImageLoader.load(id).intoBytes { bytes ->
-                    if (bytes != null) {
-                        if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }
-                        else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
-                    }
+            imageLoader.intoBytes { bytes ->
+                if (bytes != null) {
+                    if (ToolsBytes.isGif(bytes)) DrawableGif(bytes, vImage) { vImage.setImageDrawable(it) }
+                    else vImage.setImageBitmap(ToolsBitmap.decode(bytes))
                 }
+            }
         }
 
         fun resetZoom() {
@@ -179,16 +142,12 @@ class SImageView private constructor()
         fun download() {
             val dialog = ToolsView.showProgressDialog(SupAndroid.TEXT_APP_DOWNLOADING)
             ToolsThreads.thread {
-                if (bitmap != null)
-                    ToolsStorage.saveImageInDownloadFolder(bitmap)
-                else if (id > 0) {
-                    ImageLoader.load(id).intoBytes { bytes ->
-                        if (!ToolsBytes.isGif(bytes))
-                            ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { }
-                        else
-                            ToolsStorage.saveFileInDownloadFolder(bytes!!, "gif", { }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES) })
+                imageLoader.intoBytes { bytes ->
+                    if (!ToolsBytes.isGif(bytes))
+                        ToolsStorage.saveImageInDownloadFolder(ToolsBitmap.decode(bytes)!!) { }
+                    else
+                        ToolsStorage.saveFileInDownloadFolder(bytes!!, "gif", { }, { ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES) })
 
-                    }
                 }
                 dialog.hide()
                 ToolsToast.show(SupAndroid.TEXT_APP_DOWNLOADED)
@@ -203,18 +162,14 @@ class SImageView private constructor()
                     .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                     .setOnEnter(SupAndroid.TEXT_APP_SHARE) { _, text ->
                         ToolsThreads.thread {
-                            if (bitmap != null) {
-                                ToolsIntent.shareImage(bitmap, text)
-                            } else if (id > 0) {
-                                val dialog = ToolsView.showProgressDialog()
-                                ImageLoader.load(id).intoBitmap { bm ->
-                                    dialog.hide()
-                                    if (bm == null) {
-                                        ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
-                                        return@intoBitmap
-                                    }
-                                    ToolsIntent.shareImage(bm, text)
+                            val dialog = ToolsView.showProgressDialog()
+                            imageLoader.intoBitmap { bm ->
+                                dialog.hide()
+                                if (bm == null) {
+                                    ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                                    return@intoBitmap
                                 }
+                                ToolsIntent.shareImage(bm, text)
                             }
                         }
                     }

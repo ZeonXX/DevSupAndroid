@@ -24,8 +24,7 @@
         <com.sup.dev.android.views.views.ViewCircleImage
             android:id="@+id/vDevSupChipIcon"
             android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:background="?colorAccent"/>
+            android:layout_height="18dp"/>
 
     </FrameLayout>
 

@@ -68,7 +68,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
         resetView(vImage)
         (vImage.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
         (vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
-        ImageLoader.loadGif(0, imageId, 0, 0, vImage, null)
+        ImageLoader.load(imageId).into(vImage)
     }
 
     //

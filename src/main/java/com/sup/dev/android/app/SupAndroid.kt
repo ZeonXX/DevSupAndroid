@@ -7,7 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import com.sup.dev.android.libs.image_loader.ImageLoader
-import com.sup.dev.android.libs.image_loader.ImageLoaderA
+import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -48,8 +48,8 @@ object SupAndroid {
     var TEXT_ERROR_CANT_FIND_IMAGES: String? = null
     var TEXT_ERROR_MAX_ITEMS_COUNT: String? = null
 
-    var IMG_ERROR_NETWORK: ImageLoaderA? = null
-    var IMG_ERROR_GONE: ImageLoaderA? = null
+    var imgErrorNetwork: ImageLink? = null
+    var imgErrorGone: ImageLink? = null
 
     var editMode = false
     var appContext: Context? = null
@@ -110,8 +110,8 @@ object SupAndroid {
         TEXT_ERROR_CANT_FIND_IMAGES = loadText("error_cant_find_images")
         TEXT_ERROR_MAX_ITEMS_COUNT = loadText("error_max_items_count")
 
-        val rNetwork = loadImage("error_network") ?: 0; if (rNetwork > 0) IMG_ERROR_NETWORK = ImageLoader.load(rNetwork)
-        val rGone = loadImage("error_gone") ?: 0; if (rGone > 0) IMG_ERROR_GONE = ImageLoader.load(rGone)
+        val rNetwork = loadImage("error_network") ?: 0; if (rNetwork > 0) imgErrorNetwork = ImageLoader.load(rNetwork)
+        val rGone = loadImage("error_gone") ?: 0; if (rGone > 0) imgErrorGone = ImageLoader.load(rGone)
     }
 
     private fun loadText(id: String): String? {

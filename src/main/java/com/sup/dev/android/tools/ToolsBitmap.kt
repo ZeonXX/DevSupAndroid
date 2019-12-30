@@ -27,6 +27,7 @@ import android.util.DisplayMetrics
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {
@@ -34,9 +35,27 @@ object ToolsBitmap {
     fun mirror(src: Bitmap): Bitmap {
         val m = Matrix()
         m.preScale(-1f, 1f)
-        val dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false)
+        val dst = Bitmap.createBitmap(src, 0, 0, src.width, src.height, m, false)
         dst.density = DisplayMetrics.DENSITY_DEFAULT
         return dst
+    }
+
+    fun cropCenter(srcBmp: Bitmap, w: Int, h: Int): Bitmap {
+        if (srcBmp.width == w && srcBmp.height == h) return srcBmp
+
+        var result = keepSides(srcBmp, w, h)
+        log("cropCenter  srcBmp[${srcBmp.width}][${srcBmp.height}]   result[${result.width}][${result.height}]   w[$w]h[$h]")
+
+
+        if (result.width > w) {
+            result = Bitmap.createBitmap(result, result.width / 2 - w / 2, 0, w, h)
+        } else if (result.height > h) {
+            result = Bitmap.createBitmap(result, 0, result.height / 2 - h / 2, w, h)
+        }
+
+        log(">>>>>   result[${result.width}][${result.height}]")
+
+        return result
     }
 
     fun cropCenterSquare(srcBmp: Bitmap): Bitmap {
@@ -216,16 +235,16 @@ object ToolsBitmap {
         return if (bytes == null) null else decode(bytes, 0, 0, opts)
     }
 
-    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080): Bitmap? {
+    fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080, resizeByMinSide: Boolean = false): Bitmap? {
         try {
-            return decodePrivate(bytes, w, h, options, maxW, maxH)
-        }catch (e:OutOfMemoryError){
+            return decodePrivate(bytes, w, h, options, maxW, maxH, resizeByMinSide)
+        } catch (e: OutOfMemoryError) {
             SupAndroid.onLowMemory()
-            return decodePrivate(bytes, w, h, options, maxW, maxH)
+            return decodePrivate(bytes, w, h, options, maxW, maxH, resizeByMinSide)
         }
     }
 
-    private fun decodePrivate(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int, maxH: Int): Bitmap? {
+    private fun decodePrivate(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int, maxH: Int, resizeByMinSide: Boolean = false): Bitmap? {
         var optionsV = options
 
         if (bytes == null) return null
@@ -245,7 +264,8 @@ object ToolsBitmap {
         optionsV.inJustDecodeBounds = false
         var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, optionsV)
         if (bitmap != null && w != 0 && h != 0) {
-            val inscribe = ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+            val inscribe = if (resizeByMinSide) ToolsMath.inscribeByMinSide(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+            else ToolsMath.inscribePinBounds(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
 
             if ((bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h) && inscribe.w > 0 && inscribe.h > 0)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
@@ -439,19 +459,20 @@ object ToolsBitmap {
         return resize(bitmap, bounds.w.toInt(), bounds.h.toInt())
     }
 
-    fun inscribePinBounds(bitmap: Bitmap, w: Int, h: Int): Dimensions {
-        return ToolsMath.inscribe(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+    fun inscribePinBounds(bitmap: Bitmap, w: Int, h: Int, byMinSide: Boolean = false): Dimensions {
+        return if (byMinSide) ToolsMath.inscribeByMinSide(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
+        else ToolsMath.inscribePinBounds(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
     }
 
-    fun inscribePin(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        val bounds = inscribePinBounds(bitmap, w, h)
+    fun inscribePin(bitmap: Bitmap, w: Int, h: Int, byMinSide: Boolean = false): Bitmap {
+        val bounds = inscribePinBounds(bitmap, w, h, byMinSide)
         return resize(bitmap, bounds.w.toInt(), bounds.h.toInt())
     }
 
     fun keepMaxSizes(bitmap: Bitmap, w: Int, h: Int): Bitmap {
 
         var bm = bitmap
-        val inscribe = ToolsMath.inscribe(bm.width.toFloat(), bm.height.toFloat(), w.toFloat(), h.toFloat())
+        val inscribe = ToolsMath.inscribePinBounds(bm.width.toFloat(), bm.height.toFloat(), w.toFloat(), h.toFloat())
 
         if (bm.width.toFloat() > inscribe.w || bm.height.toFloat() > inscribe.h)
             bm = Bitmap.createScaledBitmap(bm, inscribe.w.toInt(), inscribe.h.toInt(), true)
@@ -463,35 +484,46 @@ object ToolsBitmap {
         return keepMinSides(keepMaxSides(bitmap, sides), sides)
     }
 
-    fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
-        val w = bitmap.width
-        val h = bitmap.height
-        if (w <= maxSideSize && h <= maxSideSize) return bitmap
-
-        val arg = ToolsMath.max(w, h) / maxSideSize.toFloat()
-        return Bitmap.createScaledBitmap(bitmap, (w / arg).toInt(), (h / arg).toInt(), true)
+    fun keepSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        return keepMinSides(keepMaxSides(bitmap, w, h), w, h)
     }
 
     fun keepMinSides(bitmap: Bitmap, minSideSize: Int): Bitmap {
-        val w = bitmap.width
-        val h = bitmap.height
-        if (w >= minSideSize && h >= minSideSize) return bitmap
+        if (bitmap.width >= minSideSize && bitmap.height >= minSideSize) return bitmap
 
-        val arg = minSideSize.toFloat() / ToolsMath.max(w, h)
-        return Bitmap.createScaledBitmap(bitmap, (w * arg).toInt(), (h * arg).toInt(), true)
+        val arg = minSideSize.toFloat() / ToolsMath.max(bitmap.width, bitmap.height)
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * arg).toInt(), (bitmap.height * arg).toInt(), true)
     }
 
-    fun resize(bitmap: Bitmap, w: Int): Bitmap {
-        return resize(bitmap, w, w)
+    fun keepMinSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        if (bitmap.width >= w && bitmap.height >= h) return bitmap
+        val argW = w.toFloat() / bitmap.width
+        val argH = h.toFloat() / bitmap.height
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * argW).toInt(), (bitmap.height * argH).toInt(), true)
     }
+
+    fun keepMaxSides(bitmap: Bitmap, maxSideSize: Int): Bitmap {
+        if (bitmap.width <= maxSideSize && bitmap.height <= maxSideSize) return bitmap
+        val arg = ToolsMath.max(bitmap.width, bitmap.height) / maxSideSize.toFloat()
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width / arg).toInt(), (bitmap.height / arg).toInt(), true)
+    }
+
+    fun keepMaxSides(bitmap: Bitmap, w: Int, h: Int): Bitmap {
+        if (bitmap.width <= w && bitmap.height <= h) return bitmap
+        val argW = bitmap.width / w.toFloat()
+        val argH = bitmap.height / h.toFloat()
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width / argW).toInt(), (bitmap.height / argH).toInt(), true)
+    }
+
+    fun resize(bitmap: Bitmap, w: Int) = resize(bitmap, w, w)
 
     fun resize(bitmap: Bitmap, w: Int, h: Int): Bitmap {
-        if(bitmap.width == w && bitmap.height == h){
+        if (bitmap.width == w && bitmap.height == h) {
             return bitmap
         }
-        try{
+        try {
             return Bitmap.createScaledBitmap(bitmap, w, h, true)
-        }catch (e:OutOfMemoryError){
+        } catch (e: OutOfMemoryError) {
             SupAndroid.onLowMemory()
             return Bitmap.createScaledBitmap(bitmap, w, h, true)
         }

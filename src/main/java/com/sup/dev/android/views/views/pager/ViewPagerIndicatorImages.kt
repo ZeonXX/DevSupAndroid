@@ -1,13 +1,11 @@
 package com.sup.dev.android.views.views.pager
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.tools.ToolsView
 import java.lang.RuntimeException
 import kotlin.math.abs
@@ -23,12 +21,8 @@ class ViewPagerIndicatorImages @JvmOverloads constructor(context: Context, attrs
         return v
     }
 
-    fun setImageBitmap(v: ImageView, bitmap: Bitmap) {
-        v.setImageBitmap(ToolsBitmap.cropCenterSquare(ToolsBitmap.resize(bitmap, ToolsView.dpToPx(64).toInt())))
-    }
-
-    fun setImageId(v: ImageView, imageId:Long){
-        ImageLoader.load(imageId).size(ToolsView.dpToPx(64).toInt(), ToolsView.dpToPx(64).toInt()).into(v)
+    fun setImage(v: ImageView, imageLoader:ImageLink){
+        imageLoader.size(ToolsView.dpToPx(64).toInt(), ToolsView.dpToPx(64).toInt()).into(v)
     }
 
     override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {
