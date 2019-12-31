@@ -13,4 +13,6 @@ class ImageLoaderBytes(
     override fun load(): ByteArray {
         return bytes
     }
+
+    override fun copyLocal() = ImageLoaderBytes(bytes)
 }

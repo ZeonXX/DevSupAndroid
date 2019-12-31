@@ -17,5 +17,6 @@ class ImageLoaderId(val imageId: Long) : ImageLink() {
         return loader.invoke(imageId)
     }
 
+    override fun copyLocal() = ImageLoaderId(imageId)
 
 }

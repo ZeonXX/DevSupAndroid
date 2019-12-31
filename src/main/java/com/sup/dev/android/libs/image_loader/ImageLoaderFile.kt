@@ -24,5 +24,6 @@ class ImageLoaderFile(
         }
 
     }
+    override fun copyLocal() = ImageLoaderFile(file)
 
 }

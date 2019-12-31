@@ -27,6 +27,7 @@ import android.util.DisplayMetrics
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {
@@ -486,7 +487,9 @@ object ToolsBitmap {
         val argW = w.toFloat() / bitmap.width
         val argH = h.toFloat() / bitmap.height
         val arg = ToolsMath.max(argW, argH)
-        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * arg).toInt(), (bitmap.height * arg).toInt(), true)
+        val bm = Bitmap.createScaledBitmap(bitmap, (bitmap.width * arg).toInt(), (bitmap.height * arg).toInt(), true)
+
+        return bm
     }
 
     fun keepMaxSides(bitmap: Bitmap, size: Int) = keepMaxSides(bitmap, size, size)

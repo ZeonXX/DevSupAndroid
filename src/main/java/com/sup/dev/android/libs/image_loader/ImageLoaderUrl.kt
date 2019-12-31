@@ -24,4 +24,6 @@ class ImageLoaderUrl(
         }
 
     }
+
+    override fun copyLocal() = ImageLoaderUrl(url)
 }

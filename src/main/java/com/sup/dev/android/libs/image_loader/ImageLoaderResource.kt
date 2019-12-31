@@ -38,4 +38,5 @@ class ImageLoaderResource(
 
     }
 
+    override fun copyLocal() = ImageLoaderResource(res)
 }

@@ -24,8 +24,9 @@ abstract class ImageLink {
     internal var onError: (() -> Unit)? = null
     internal var onSetHolder: () -> Unit = {}
     internal var customSetHolder: (() -> Unit)? = null
-    internal var cropSquareCenter = false
     internal var options: BitmapFactory.Options? = null
+
+    internal var cropSquareCenter = false
     internal var w = 0
     internal var h = 0
     internal var minW = 0
@@ -42,7 +43,7 @@ abstract class ImageLink {
     internal var noCash = false
     internal var noLoadFromCash = false
     internal var autoCash = true
-    internal var autoCashMaxSize = 1024 * 1024 * 2
+    internal var autoDiskCashMaxSize = 1024 * 1024 * 2
     internal var intoCash = false
     internal var noBitmap = false
     internal var resizeByMinSide = false
@@ -51,13 +52,40 @@ abstract class ImageLink {
     var tryCount = 2
 
     fun getParamsSum(): String {
-        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$allowGif$noHolder$fade$cashScaledBytes$noCash$noLoadFromCash$autoCash$autoCashMaxSize$intoCash$noBitmap$resizeByMinSide"
+        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$allowGif$noHolder$fade$cashScaledBytes$noCash$noLoadFromCash$autoCash$autoDiskCashMaxSize$intoCash$noBitmap$resizeByMinSide"
+    }
+
+    fun copy(): ImageLink {
+        val link = copyLocal()
+        link.cropSquareCenter = this.cropSquareCenter
+        link.w = this.w
+        link.h = this.h
+        link.minW = this.minW
+        link.minH = this.minH
+        link.cropW = this.cropW
+        link.cropH = this.cropH
+        link.allowGif = this.allowGif
+        link.holder = this.holder
+        link.noHolder = this.noHolder
+        link.fade = this.fade
+        link.cashScaledBytes = this.cashScaledBytes
+        link.noCash = this.noCash
+        link.noLoadFromCash = this.noLoadFromCash
+        link.autoCash = this.autoCash
+        link.autoDiskCashMaxSize = this.autoDiskCashMaxSize
+        link.intoCash = this.intoCash
+        link.noBitmap = this.noBitmap
+        link.resizeByMinSide = this.resizeByMinSide
+        link.autocropIfLostBounds = this.autocropIfLostBounds
+        return link
     }
 
     override fun equals(other: Any?): Boolean {
         if (javaClass == other?.javaClass && getParamsSum() == (other as ImageLink).getParamsSum()) return equalsTo(other)
         return false
     }
+
+    abstract fun copyLocal(): ImageLink
 
     abstract fun equalsTo(imageLoader: ImageLink): Boolean
 
@@ -104,13 +132,13 @@ abstract class ImageLink {
     //  SetUp
     //
 
-    fun crop(sides:Int) = crop(sides, sides)
+    fun crop(sides: Int) = crop(sides, sides)
 
-    fun crop(w:Int, h:Int):ImageLink{
+    fun crop(w: Int, h: Int): ImageLink {
         cropW = w
         cropH = h
-        if(cropH > 1 && cropW < 1) throw RuntimeException("cropW[$cropW] can't be < 1")
-        if(cropW > 1 && cropH < 1) throw RuntimeException("cropH[$cropH] can't be < 1")
+        if (cropH > 1 && cropW < 1) throw RuntimeException("cropW[$cropW] can't be < 1")
+        if (cropW > 1 && cropH < 1) throw RuntimeException("cropH[$cropH] can't be < 1")
         return this
     }
 
@@ -144,8 +172,8 @@ abstract class ImageLink {
     fun size(w: Int, h: Int): ImageLink {
         this.w = w
         this.h = h
-        if(h > 1 && w < 1) throw RuntimeException("w[$w] can't be < 1")
-        if(w > 1 && h < 1) throw RuntimeException("h[$h] can't be < 1")
+        if (h > 1 && w < 1) throw RuntimeException("w[$w] can't be < 1")
+        if (w > 1 && h < 1) throw RuntimeException("h[$h] can't be < 1")
         return this
     }
 
@@ -154,8 +182,8 @@ abstract class ImageLink {
     fun minSize(w: Int, h: Int): ImageLink {
         this.minW = w
         this.minH = h
-        if(minH > 1 && minW < 1) throw RuntimeException("minW[$minW] can't be < 1")
-        if(minW > 1 && minH < 1) throw RuntimeException("minH[$minH] can't be < 1")
+        if (minH > 1 && minW < 1) throw RuntimeException("minW[$minW] can't be < 1")
+        if (minW > 1 && minH < 1) throw RuntimeException("minH[$minH] can't be < 1")
         return this
     }
 
@@ -164,12 +192,12 @@ abstract class ImageLink {
     fun maxSize(w: Int, h: Int): ImageLink {
         this.maxW = w
         this.maxH = h
-        if(maxH > 1 && maxW < 1) throw RuntimeException("maxW[$maxW] can't be < 1")
-        if(maxW > 1 && maxH < 1) throw RuntimeException("maxH[$maxH] can't be < 1")
+        if (maxH > 1 && maxW < 1) throw RuntimeException("maxW[$maxW] can't be < 1")
+        if (maxW > 1 && maxH < 1) throw RuntimeException("maxH[$maxH] can't be < 1")
         return this
     }
 
-    fun getKey():String{
+    fun getKey(): String {
         generateSizesIfNeed()
         return getKeyOfImage() + ":" + getParamsSum().hashCode()
     }
@@ -264,7 +292,7 @@ abstract class ImageLink {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && autoCash && data.size <= autoCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
+        if (data != null && autoCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
         return data
     }
 
@@ -284,46 +312,46 @@ abstract class ImageLink {
     protected var generatedH = 0
     protected var generated = false
 
-    fun generateSizesIfNeed(){
-        if(generated) return
+    fun generateSizesIfNeed() {
+        if (generated) return
 
-        if(cropW > 0 && cropH > 0){
+        if (cropW > 0 && cropH > 0) {
             this.generatedW = cropW
             this.generatedH = cropH
             generated = true
             return
         }
 
-        var generatedW = (if(w == 0) cropW else w).toFloat()
-        var generatedH = (if(h == 0) cropH else h).toFloat()
+        var generatedW = (if (w == 0) cropW else w).toFloat()
+        var generatedH = (if (h == 0) cropH else h).toFloat()
 
-        if(maxW > 0 && maxH > 0) {
+        if (maxW > 0 && maxH > 0) {
             val inscribeMax = ToolsMath.inscribeInBounds(generatedW, generatedH, maxW.toFloat(), maxH.toFloat())
             generatedW = inscribeMax.w
             generatedH = inscribeMax.h
         }
 
-        if(minW > 0 && minH > 0) {
+        if (minW > 0 && minH > 0) {
             val inscribeMin = ToolsMath.inscribeOutBounds(generatedW, generatedH, minW.toFloat(), minH.toFloat())
             generatedW = inscribeMin.w
             generatedH = inscribeMin.h
         }
 
-        if(minW > 0 && minH > 0 && maxW > 0 && maxH > 0) {
-           if(minW > maxW) throw RuntimeException("minW[$minW] > maxW[$maxW]")
-           if(minH > maxH) throw RuntimeException("minW[$minH] > maxW[$maxH]")
+        if (minW > 0 && minH > 0 && maxW > 0 && maxH > 0) {
+            if (minW > maxW) throw RuntimeException("minW[$minW] > maxW[$maxW]")
+            if (minH > maxH) throw RuntimeException("minW[$minH] > maxW[$maxH]")
         }
 
         //if(generatedW > generatedW.toInt()) generatedW += ToolsView.dpToPx(2)
         //if(generatedH > generatedH.toInt()) generatedH += ToolsView.dpToPx(2)
 
-        if(autocropIfLostBounds){
-            if(generatedW < minW){
+        if (autocropIfLostBounds) {
+            if (generatedW < minW) {
                 crop(minW, maxH)
                 generateSizesIfNeed()
                 return
             }
-            if(generatedH < minH){
+            if (generatedH < minH) {
                 crop(maxW, minH)
                 generateSizesIfNeed()
                 return
@@ -335,22 +363,22 @@ abstract class ImageLink {
         generated = true
     }
 
-    fun getW():Int{
+    fun getW(): Int {
         generateSizesIfNeed()
         return generatedW
     }
 
-    fun getH():Int{
+    fun getH(): Int {
         generateSizesIfNeed()
         return generatedH
     }
 
-    fun getCropW():Int{
+    fun getCropW(): Int {
         generateSizesIfNeed()
         return cropW
     }
 
-    fun getCropH():Int{
+    fun getCropH(): Int {
         generateSizesIfNeed()
         return cropH
     }

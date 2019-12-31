@@ -40,7 +40,7 @@ class SImageView private constructor()
         vPager.setCurrentItem(scrollTo, false)
         vCounterContainer.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
         vIndicator.visibility = if (adapterIn.size() > 1) View.VISIBLE else View.GONE
-        vIndicator.imageProvider = { index, v -> vIndicator.setImage(v, imageLoaders[index].getPreviewImageLoader()?:imageLoaders[index]) }
+        vIndicator.imageProvider = { index, v -> vIndicator.setImage(v, imageLoaders[index].getPreviewImageLoader()?.copy()?:imageLoaders[index].copy()) }
         vIndicator.setPagerView(vPager)
     }
 
