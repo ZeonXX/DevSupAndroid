@@ -79,7 +79,7 @@ object ToolsGif {
             val decoder = GifDecoder()
             if(!decoder.load(f.absolutePath)) return@thread
 
-            var index = decoder.frameNum()
+            var index = 0
             while (!stop) {
                 var bm = next(decoder, index)
                 val ms = decoder.delay(index).toLong()
