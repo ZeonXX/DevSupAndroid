@@ -27,7 +27,6 @@ import android.util.DisplayMetrics
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.sup.dev.java.libs.debug.log
 
 
 object ToolsBitmap {

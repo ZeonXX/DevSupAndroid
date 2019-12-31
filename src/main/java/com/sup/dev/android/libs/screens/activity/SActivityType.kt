@@ -8,7 +8,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
 
@@ -51,7 +50,7 @@ abstract class SActivityType(
     }
 
     open fun getNavigationDrawable(screen: Screen): Drawable? {
-        if (Navigator.hasBackStack()) {
+        if (Navigator.hasBackStack() || screen.forceBackIcon) {
             val drawableAttr = ToolsResources.getDrawableAttr(screen.toolbarNavigationIcon)
             if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(screen.toolbarNavigationIcon)
         } else {
