@@ -5,28 +5,29 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
+import android.util.DisplayMetrics
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.java.classes.geometry.Dimensions
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.tools.*
+import com.sup.dev.java.tools.ToolsColor
+import com.sup.dev.java.tools.ToolsFiles
+import com.sup.dev.java.tools.ToolsMath
+import com.sup.dev.java.tools.ToolsThreads
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-import android.graphics.BitmapFactory
-import android.util.DisplayMetrics
-import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 
 
 object ToolsBitmap {
@@ -44,14 +45,16 @@ object ToolsBitmap {
 
         var result = keepSides(srcBmp, w, h)
 
+        //  ToolsMath.min - костыль, если будут искажения картинки, нужно искать другое решение.
         if (result.width > w) {
-            result = Bitmap.createBitmap(result, result.width / 2 - w / 2, 0, w, h)
+            result = Bitmap.createBitmap(result, result.width / 2 - w / 2, 0, w, ToolsMath.min(result.height, h))
         } else if (result.height > h) {
-            result = Bitmap.createBitmap(result, 0, result.height / 2 - h / 2, w, h)
+            result = Bitmap.createBitmap(result, 0, result.height / 2 - h / 2, ToolsMath.min(result.width, w), h)
         }
 
         return result
     }
+
 
     fun cropCenterSquare(srcBmp: Bitmap): Bitmap {
         if (srcBmp.width == srcBmp.height) return srcBmp
@@ -261,11 +264,9 @@ object ToolsBitmap {
         if (bitmap != null && w != 0 && h != 0) {
             val inscribe = if (resizeByMinSide) ToolsMath.inscribeByMinSide(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
             else ToolsMath.inscribePinBounds(bitmap.width.toFloat(), bitmap.height.toFloat(), w.toFloat(), h.toFloat())
-
             if ((bitmap.width.toFloat() != inscribe.w || bitmap.height.toFloat() != inscribe.h) && inscribe.w > 0 && inscribe.h > 0)
                 bitmap = Bitmap.createScaledBitmap(bitmap, inscribe.w.toInt(), inscribe.h.toInt(), true)
         }
-
 
         return bitmap
     }

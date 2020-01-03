@@ -120,11 +120,11 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     fun setBackgroundImage(@DrawableRes res: Int) {
-        this.image = ImageLoader.load(res)
+        this.image = ImageLoader.load(res).noHolder()
     }
 
     fun setBackgroundImage(image: Any) {
-        setBackgroundImage(ImageLoader.load(image))
+        setBackgroundImage(ImageLoader.loadByAny(image)?.noHolder())
     }
 
     fun setBackgroundImage(image: ImageLink?) {
@@ -163,7 +163,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
         } else {
-            image?.noHolder()?.into(vEmptyImage)
+            image?.into(vEmptyImage)
             vEmptyImage.visibility = View.VISIBLE
         }
 

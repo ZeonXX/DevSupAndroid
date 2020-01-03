@@ -61,7 +61,7 @@ object ToolsGif {
         iterator.close()
     }
 
-    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int=0, h:Int=0, resizeByMinSide:Boolean=false, onStart: () -> Unit = {}) {
+    fun iterator(bytes: ByteArray, vImage: WeakReference<ImageView>, w: Int = 0, h: Int = 0, resizeByMinSide: Boolean = false, onStart: () -> Unit = {}) {
 
         val key = Any()
         val vv = vImage.get()
@@ -77,13 +77,16 @@ object ToolsGif {
             var lastBitmap: Bitmap? = null
             var stop = false
             val decoder = GifDecoder()
-            if(!decoder.load(f.absolutePath)) return@thread
+            if (!decoder.load(f.absolutePath)) return@thread
 
             var index = 0
             while (!stop) {
                 var bm = next(decoder, index)
                 val ms = decoder.delay(index).toLong()
-                if(bm == null) continue
+                if (bm == null) {
+                    ToolsThreads.sleep(300)
+                    continue
+                }
                 if (w != 0 && h != 0) bm = ToolsBitmap.inscribePin(bm, w, h, resizeByMinSide)
                 ToolsThreads.main {
                     val v = vImage.get()
@@ -98,7 +101,7 @@ object ToolsGif {
                     v.setImageBitmap(lastBitmap)
                 }
                 index++
-                if(index >= decoder.frameNum()) index = 0
+                if (index >= decoder.frameNum()) index = 0
                 ToolsThreads.sleep(Math.max(ms, 30))
             }
 
@@ -106,12 +109,16 @@ object ToolsGif {
         }
     }
 
-    private fun next(decoder: GifDecoder, index:Int): Bitmap? {
+    private fun next(decoder: GifDecoder, index: Int): Bitmap? {
         try {
             return decoder.frame(index)
         } catch (e: OutOfMemoryError) {
             SupAndroid.onLowMemory()
-            return decoder.frame(index)
+            try {
+                return decoder.frame(index)
+            } catch (e: OutOfMemoryError) {
+                return null
+            }
         }
     }
 

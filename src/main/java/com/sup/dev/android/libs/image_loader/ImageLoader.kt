@@ -17,7 +17,7 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.lang.ref.WeakReference
-import java.util.ArrayList
+import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
@@ -26,10 +26,11 @@ object ImageLoader {
 
     internal val maxCashItemSize = 1024 * 1024 * 5
     internal val maxCashSize = 1024 * 1024 * 50
-    internal val cash = ArrayList<Item3<String, Bitmap?, ByteArray?>>()
-    internal var cashSize = 0
-    internal val turn = ArrayList<ImageLink>()
-    internal var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
+
+    private val cash = ArrayList<Item3<String, Bitmap?, ByteArray?>>()
+    private var cashSize = 0
+    private var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
+    private val turn = ArrayList<Loader>()
 
     init {
         SupAndroid.addOnLowMemory {
@@ -41,7 +42,7 @@ object ImageLoader {
     //  Tools
     //
 
-    fun load(any: Any): ImageLink? {
+    fun loadByAny(any: Any): ImageLink? {
         if (any is File) return load(any)
         if (any is Int) return load(any)
         if (any is Long) return load(any)
@@ -56,9 +57,9 @@ object ImageLoader {
     fun load(tag: String) = ImageLoaderTag(tag)
     fun load(bytes: ByteArray) = ImageLoaderBytes(bytes)
 
-    fun loadGif(imageId: Long, gifId: Long, vImage: ImageView, vGifProgressBar: View?=null, onInit:(ImageLink)->Unit={}) {
+    fun loadGif(imageId: Long, gifId: Long, vImage: ImageView, vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) {
 
-        if(gifId == 0L){
+        if (gifId == 0L) {
             ToolsThreads.main { vGifProgressBar?.visibility = View.INVISIBLE }
             val load = load(imageId)
             onInit.invoke(load)
@@ -69,12 +70,12 @@ object ImageLoader {
             load.into(vImage) {
                 val loadGif = load(gifId)
                 onInit.invoke(loadGif)
-                loadGif.gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+                loadGif.holder(vImage.drawable).into(vImage, vGifProgressBar)
             }
         } else {
             val load = load(gifId)
             onInit.invoke(load)
-            load.gifProgressBar(vGifProgressBar).holder(vImage.drawable).into(vImage)
+            load.holder(vImage.drawable).into(vImage, vGifProgressBar)
         }
     }
 
@@ -97,13 +98,25 @@ object ImageLoader {
 
     }
 
-    fun load(loader: ImageLink) {
+    fun load(link: ImageLink,
+             vImage: ImageView? = null,
+             vProgressBar: View? = null,
+             onLoadedBytes: ((ByteArray?) -> Unit)? = null,
+             onLoadedBitmap: ((Bitmap?) -> Unit)? = null,
+             noBitmap: Boolean = false,
+             intoCash: Boolean = false) {
+        val loader = Loader(link, vImage, vProgressBar, onLoadedBytes, onLoadedBitmap, noBitmap, intoCash)
+        vImage?.tag = loader
+        load(loader)
+    }
 
-        if (loader.fastLoad(loader.vImage)) return
+    private fun load(loader: Loader) {
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
+        if (loader.link.fastLoad(loader.vImage)) return
 
-        val cashItem = getFromCash(loader.getKey())
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
+
+        val cashItem = getFromCash(loader.link.getKey())
         if (cashItem != null) {
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
             return
@@ -119,7 +132,7 @@ object ImageLoader {
         ToolsThreads.thread {
 
             var bytes: ByteArray? = null
-            if (!loader.noLoadFromCash) bytes = loader.getFromCash()
+            if (!loader.link.noLoadFromCash) bytes = loader.link.getFromCash()
 
             if (bytes != null) {
                 if (!loader.intoCash) ToolsThreads.thread { putImage(loader, parseImage(loader, bytes), false, bytes) }
@@ -131,7 +144,7 @@ object ImageLoader {
 
                 turn.add(loader)
 
-                for (l in turn) if (l.isKey(loader.getKey()) && l !== loader) return@main
+                for (l in turn) if (l.link.isKey(loader.link.getKey()) && l !== loader) return@main
 
                 loadStart(loader)
 
@@ -140,7 +153,7 @@ object ImageLoader {
         }
     }
 
-    private fun loadStart(loader: ImageLink) {
+    private fun loadStart(loader: Loader) {
         threadPool.execute {
             try {
                 loadNow(loader)
@@ -150,41 +163,41 @@ object ImageLoader {
         }
     }
 
-    private fun putHolder(loader: ImageLink) {
+    private fun putHolder(loader: Loader) {
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = if (loader.allowGif) View.VISIBLE else View.INVISIBLE
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = if (loader.link.allowGif) View.VISIBLE else View.INVISIBLE
 
-        if (loader.customSetHolder != null) {
-            loader.customSetHolder!!.invoke()
+        if (loader.link.customSetHolder != null) {
+            loader.link.customSetHolder!!.invoke()
         } else {
             if (loader.vImage != null) {
-                if (!loader.noHolder) {
-                    if (loader.holder is Int) {
-                        loader.vImage!!.setImageResource(loader.holder as Int)
-                    } else if (loader.holder is Drawable) {
-                        loader.vImage!!.setImageDrawable(loader.holder as Drawable)
-                    } else if (loader.holder is Bitmap) {
-                        loader.vImage!!.setImageBitmap(loader.holder as Bitmap)
-                    } else if (loader.getW() != 0 && loader.getH() != 0) {
+                if (!loader.link.noHolder) {
+                    if (loader.link.holder is Int) {
+                        loader.vImage.setImageResource(loader.link.holder as Int)
+                    } else if (loader.link.holder is Drawable) {
+                        loader.vImage.setImageDrawable(loader.link.holder as Drawable)
+                    } else if (loader.link.holder is Bitmap) {
+                        loader.vImage.setImageBitmap(loader.link.holder as Bitmap)
+                    } else if (loader.link.getW() != 0 && loader.link.getH() != 0) {
                         try {
-                            val bitmap = Bitmap.createBitmap(loader.getW(), loader.getH(), Bitmap.Config.ARGB_4444)
+                            val bitmap = Bitmap.createBitmap(loader.link.getW(), loader.link.getH(), Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
-                            loader.vImage!!.setImageBitmap(bitmap)
+                            loader.vImage.setImageBitmap(bitmap)
                         } catch (e: OutOfMemoryError) {
                             SupAndroid.onLowMemory()
-                            val bitmap = Bitmap.createBitmap(loader.getW(), loader.getH(), Bitmap.Config.ARGB_4444)
+                            val bitmap = Bitmap.createBitmap(loader.link.getW(), loader.link.getH(), Bitmap.Config.ARGB_4444)
                             bitmap.eraseColor(ToolsResources.getColor(R.color.focus))
-                            loader.vImage!!.setImageBitmap(bitmap)
+                            loader.vImage.setImageBitmap(bitmap)
                         }
                     } else {
-                        loader.vImage!!.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
+                        loader.vImage.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
                     }
                 }
-                unsubscribe(loader.vImage!!)
+                unsubscribe(loader.vImage)
             }
         }
 
-        loader.onSetHolder.invoke()
+        loader.link.onSetHolder.invoke()
     }
 
     //
@@ -234,12 +247,12 @@ object ImageLoader {
     //  Methods
     //
 
-    private fun loadNow(loader: ImageLink) {
+    private fun loadNow(loader: Loader) {
         if (!turn.contains(loader)) return
 
-        val loadedBytes = loader.startLoad()
+        val loadedBytes = loader.link.startLoad()
         if (loadedBytes == null) {
-            if (loader.onError != null) ToolsThreads.main { loader.onError?.invoke() }
+            if (loader.link.onError != null) ToolsThreads.main { loader.link.onError?.invoke() }
             else if (loader.tryCount > 0) ToolsThreads.main(5000) {
                 loader.tryCount--
                 loadStart(loader)
@@ -249,9 +262,9 @@ object ImageLoader {
         var bytes = loadedBytes
         var bitmap: Bitmap? = null
 
-        if (loader.allowGif && !ToolsBytes.isGif(loadedBytes)) {
+        if (loader.link.allowGif && !ToolsBytes.isGif(loadedBytes)) {
             bitmap = parseImage(loader, loadedBytes)
-            if (loader.cashScaledBytes && bitmap != null) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
+            if (loader.link.cashScaledBytes && bitmap != null) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
         }
 
         ToolsThreads.main {
@@ -259,7 +272,7 @@ object ImageLoader {
             var i = 0
             while (i < turn.size) {
                 val l = turn[i]
-                if (l.isKey(loader.getKey())) {
+                if (l.link.isKey(loader.link.getKey())) {
                     turn.removeAt(i--)
                     putImage(l, bitmap, true, bytes)
                 }
@@ -272,33 +285,53 @@ object ImageLoader {
 
     }
 
-    private fun parseImage(loader: ImageLink, bytes: ByteArray): Bitmap? {
-        var bm = if (loader.noBitmap) null else ToolsBitmap.decode(bytes, loader.getW(), loader.getH(), loader.options, resizeByMinSide=loader.resizeByMinSide)
-        if(bm != null) {
-            if (loader.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm)
-            if (loader.getCropW() > 0 && loader.getCropH() > 0) bm = ToolsBitmap.cropCenter(bm, loader.cropW, loader.cropH)
+    private fun parseImage(loader: Loader, bytes: ByteArray): Bitmap? {
+        var bm = if (loader.noBitmap) null else ToolsBitmap.decode(bytes, loader.link.getW(), loader.link.getH(), null, resizeByMinSide = loader.link.resizeByMinSide)
+
+
+        if (bm != null) {
+            if (loader.link.cropSquareCenter) bm = ToolsBitmap.cropCenterSquare(bm)
+            if (loader.link.getCropW() > 0 && loader.link.getCropH() > 0) bm = ToolsBitmap.cropCenter(bm, loader.link.cropW, loader.link.cropH)
         }
         return bm
     }
 
-    private fun putImage(loader: ImageLink, bm: Bitmap?, animate: Boolean, bytes: ByteArray?) {
+    private fun putImage(loader: Loader, bm: Bitmap?, animate: Boolean, bytes: ByteArray?) {
         ToolsThreads.main {
-            if (!loader.noCash && bm != null) addToCash(loader.getKey(), bm, bytes)
+            if (!loader.link.noCash && bm != null) addToCash(loader.link.getKey(), bm, bytes)
 
-            if (loader.vImage != null && loader.isKey(loader.vImage!!.tag)) {
-                if (loader.allowGif && bytes != null && ToolsBytes.isGif(bytes)) {
-                    ToolsGif.iterator(bytes, WeakReference(loader.vImage!!), loader.getW(), loader.getH(), loader.resizeByMinSide) {
-                        if (loader.vGifProgressBar != null) loader.vGifProgressBar!!.visibility = View.INVISIBLE
+            if (loader.vImage != null && loader == loader.vImage.tag) {
+                if (loader.link.allowGif && bytes != null && ToolsBytes.isGif(bytes)) {
+                    ToolsGif.iterator(bytes, WeakReference(loader.vImage), loader.link.getW(), loader.link.getH(), loader.link.resizeByMinSide) {
+                        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
                     }
                 } else {
-                    if (loader.vImage != null && bm != null) {
-                        loader.vImage!!.setImageDrawable(DrawableImageLoader(loader.vImage!!.context, bm, animate && loader.fade))
+                    if (bm != null) {
+                        loader.vImage.setImageDrawable(DrawableImageLoader(loader.vImage.context, bm, animate && loader.link.fade))
                     }
                 }
             }
-            loader.onLoaded.invoke(bytes)
-            loader.onLoadedBitmap.invoke(bm)
+            loader.link.onLoadedBytes.invoke(bytes)
+            loader.link.onLoadedBitmap.invoke(bm)
+            loader.onLoadedBytes?.invoke(bytes)
+            loader.onLoadedBitmap?.invoke(bm)
         }
     }
 
+    //
+    //  Support
+    //
+
+    private class Loader(
+            val link: ImageLink,
+            val vImage: ImageView?,
+            val vGifProgressBar: View?,
+            val onLoadedBytes: ((ByteArray?) -> Unit)?,
+            val onLoadedBitmap: ((Bitmap?) -> Unit)?,
+            val noBitmap: Boolean,
+            val intoCash: Boolean
+    ) {
+
+        var tryCount = 2
+    }
 }

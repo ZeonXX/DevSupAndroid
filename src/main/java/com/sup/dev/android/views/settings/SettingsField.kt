@@ -24,7 +24,7 @@ class SettingsField constructor(
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
     private var isError: Boolean = false
-    private var checker: ((String) -> Boolean)? = null
+    private var checker: ((String) -> String?)? = null
 
     init {
 
@@ -79,7 +79,7 @@ class SettingsField constructor(
     }
 
     private fun checkError() {
-        if (checker != null) setError((!checker!!.invoke(getText())))
+        if (checker != null) setError((checker!!.invoke(getText())))
     }
 
     //
@@ -109,7 +109,7 @@ class SettingsField constructor(
         setError(false)
     }
 
-    fun setErrorChecker(checker: (String) -> Boolean) {
+    fun setErrorChecker(checker: (String) -> String?) {
         this.checker = checker
         checkError()
     }

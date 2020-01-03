@@ -121,7 +121,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
     }
 
     fun setBackgroundImage(image: Any) {
-        setBackgroundImage(ImageLoader.load(image))
+        setBackgroundImage(ImageLoader.loadByAny(image))
     }
 
     fun setBackgroundImage(image: ImageLink?) {

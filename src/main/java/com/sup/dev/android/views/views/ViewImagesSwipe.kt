@@ -159,7 +159,7 @@ class ViewImagesSwipe constructor(
         }
 
         fun set(view: View, vImage: ImageView) {
-            imageLoader.setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.setOnLoadedBytes { ToolsThreads.main(10) { updateVisibility() } }.into(vImage)
+            imageLoader.setOnSetHolder { ToolsThreads.main(10) { updateVisibility() } }.into(vImage){ ToolsThreads.main(10) { updateVisibility() } }
         }
 
         fun toImageView() {
