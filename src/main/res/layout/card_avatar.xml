@@ -20,7 +20,4 @@
         android:paddingRight="16dp"
         android:paddingTop="8dp"/>
 
-    <View style="@style/Divider"/>
-
-
 </LinearLayout>
