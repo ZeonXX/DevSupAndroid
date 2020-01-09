@@ -1,13 +1,14 @@
 package com.sup.dev.android.views.widgets
 
 
+import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.sup.dev.android.R
 
-import com.sup.dev.android.tools.ToolsResources;
+import com.sup.dev.android.tools.ToolsResources
 
 class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeekBarChangeListener {
 
@@ -29,6 +30,7 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
         vMin.setText(null)
         vCurrent.setText(null)
 
+        vCancel.visibility = View.GONE
         vSeekBar.setOnSeekBarChangeListener(this)
         updateText()
     }
@@ -55,7 +57,7 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
         return this
     }
 
-    fun setProgress(progress:Int):WidgetSeekDiscrete {
+    fun setProgress(progress: Int): WidgetSeekDiscrete {
         vSeekBar.setProgress(progress)
         updateText()
         return this
@@ -77,7 +79,6 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
     }
 
 
-
     fun getProgress() = vSeekBar.progress
 
 
@@ -85,28 +86,29 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
     //  Setters
     //
 
-    override fun setTitle(@StringRes title:Int):WidgetSeekDiscrete {
+    override fun setTitle(@StringRes title: Int): WidgetSeekDiscrete {
         return super.setTitle(title) as WidgetSeekDiscrete
     }
 
-    override fun setTitle(title:String?):WidgetSeekDiscrete {
+    override fun setTitle(title: String?): WidgetSeekDiscrete {
         return super.setTitle(title) as WidgetSeekDiscrete;
     }
 
-    fun setOnCancel(s:String):WidgetSeekDiscrete {
-        return setOnCancel(s){}
+    fun setOnCancel(s: String): WidgetSeekDiscrete {
+        return setOnCancel(s) {}
     }
 
-    fun setOnCancel(@StringRes s:Int):WidgetSeekDiscrete {
-        return setOnCancel(s){}
+    fun setOnCancel(@StringRes s: Int): WidgetSeekDiscrete {
+        return setOnCancel(s) {}
     }
 
-    fun setOnCancel(@StringRes s:Int , onCancel:(WidgetSeekDiscrete)->Unit):WidgetSeekDiscrete {
+    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetSeekDiscrete) -> Unit): WidgetSeekDiscrete {
         return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
-    fun setOnCancel(s:String, onCancel:(WidgetSeekDiscrete)->Unit):WidgetSeekDiscrete {
+    fun setOnCancel(s: String, onCancel: (WidgetSeekDiscrete) -> Unit): WidgetSeekDiscrete {
         vCancel.text = s
+        vCancel.visibility = if (s.isEmpty()) View.GONE else View.VISIBLE
         vCancel.setOnClickListener {
             hide()
             onCancel.invoke(this)
@@ -114,19 +116,19 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
         return this
     }
 
-    fun setOnEnter(@StringRes s:Int):WidgetSeekDiscrete{
-        return setOnEnter(s){w,i->}
+    fun setOnEnter(@StringRes s: Int): WidgetSeekDiscrete {
+        return setOnEnter(s) { w, i -> }
     }
 
-    fun setOnEnter(s:String):WidgetSeekDiscrete {
-        return setOnEnter(s){w,i->}
+    fun setOnEnter(s: String): WidgetSeekDiscrete {
+        return setOnEnter(s) { w, i -> }
     }
 
-    fun setOnEnter(@StringRes s:Int, onEnter:(WidgetSeekDiscrete, Int)->Unit):WidgetSeekDiscrete {
+    fun setOnEnter(@StringRes s: Int, onEnter: (WidgetSeekDiscrete, Int) -> Unit): WidgetSeekDiscrete {
         return setOnEnter(ToolsResources.s(s), onEnter)
     }
 
-    fun setOnEnter(s:String, onEnter:(WidgetSeekDiscrete, Int)->Unit):WidgetSeekDiscrete {
+    fun setOnEnter(s: String, onEnter: (WidgetSeekDiscrete, Int) -> Unit): WidgetSeekDiscrete {
         vEnter.text = s
         vEnter.setOnClickListener {
             hide()
@@ -135,7 +137,7 @@ class WidgetSeekDiscrete : Widget(R.layout.widget_seek_district), SeekBar.OnSeek
         return this
     }
 
-    override fun setEnabled(enabled:Boolean):WidgetSeekDiscrete {
+    override fun setEnabled(enabled: Boolean): WidgetSeekDiscrete {
         vEnter.isEnabled = enabled
         vCancel.isEnabled = enabled
         vSeekBar.isEnabled = enabled

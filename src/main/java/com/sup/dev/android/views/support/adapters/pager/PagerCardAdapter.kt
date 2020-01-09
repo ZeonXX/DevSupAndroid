@@ -38,7 +38,9 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     //  Adapter
     //
 
-    override fun instantiateItem(parent: ViewGroup, position: Int): Any {
+    override fun instantiateItem(parent: ViewGroup, p: Int): Any {
+        val position = realPosition(p)
+
         val holder = getFreeHolder(parent)
         parent.addView(holder.itemView)
 

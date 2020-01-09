@@ -113,11 +113,6 @@ open class Screen(
         onHide.invoke()
     }
 
-    @CallSuper
-    fun onConfigChanged() {
-
-    }
-
     open fun onBackPressed(): Boolean {
         return onBackPressed.invoke()
     }

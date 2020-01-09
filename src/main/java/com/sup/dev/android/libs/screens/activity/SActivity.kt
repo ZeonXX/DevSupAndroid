@@ -21,7 +21,9 @@ import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 import com.sup.dev.android.R
+import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.views.splash.SplashView
+import com.sup.dev.java.libs.eventBus.EventBus
 
 
 abstract class SActivity : AppCompatActivity() {
@@ -92,7 +94,7 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Navigator.onActivityConfigChanged()
+        EventBus.post(EventConfigurationChanged())
     }
 
     protected open fun applyTheme() {

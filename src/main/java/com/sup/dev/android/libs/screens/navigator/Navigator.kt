@@ -186,11 +186,7 @@ object Navigator {
     }
 
     fun onActivityStop() {
-        if (getCurrent() != null) getCurrent()!!.onPause()
-    }
-
-    fun onActivityConfigChanged() {
-        if (getCurrent() != null) getCurrent()!!.onConfigChanged()
+        getCurrent()?.onPause()
     }
 
     fun onBackPressed(): Boolean {

@@ -4,18 +4,22 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.classes.collections.HashList
+import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsClass
 import java.util.ArrayList
 import kotlin.reflect.KClass
 
 
 open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder>(), CardAdapter {
+
+    private val eventBus = EventBus.subscribe(EventConfigurationChanged::class) { updateAll() }
 
     private val viewCash = HashList<KClass<out Card>, View>()
     private val items = ArrayList<Card>()
@@ -43,7 +47,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
                 (items[i] as NotifyItem).notifyItem()
             i++
         }
-        if(holder.item != null) holder.item?.onDetachView()
+        if (holder.item != null) holder.item?.onDetachView()
         removeItemFromHolders(items[position])
         holder.item = items[position]
 
@@ -147,11 +151,14 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         }
     }
 
-    fun containsSame(card:Card):Boolean{
-        for (i in items) if(i == card) return true
+    fun containsSame(card: Card): Boolean {
+        for (i in items) if (i == card) return true
         return false
     }
 
+    fun updateAll() {
+        for (i in getAll()) i.update()
+    }
 
     //
     //  Listeners
@@ -182,20 +189,18 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return this
     }
 
-    fun setCardW(cardW:Int){
+    fun setCardW(cardW: Int) {
         this.cardW = cardW
     }
 
-    fun setCardH(cardH:Int){
+    fun setCardH(cardH: Int) {
         this.cardH = cardH
     }
-
 
 
     //
     //  Getters
     //
-
 
     override fun isVisible(card: Card): Boolean {
         return getView(card) != null
@@ -232,7 +237,6 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return itemCount
     }
 
-
     override operator fun get(index: Int): Card {
         return items[index]
     }
@@ -242,12 +246,12 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
     }
 
     override fun indexOf(checker: (Card) -> Boolean): Int {
-        for(c in items) if(checker.invoke(c)) return indexOf(c)
+        for (c in items) if (checker.invoke(c)) return indexOf(c)
         return -1
     }
 
     override fun <K : Card> find(checker: (Card) -> Boolean): K? {
-        for(c in items) if(checker.invoke(c)) return c as K
+        for (c in items) if (checker.invoke(c)) return c as K
         return null
     }
 
@@ -270,6 +274,8 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
                 list.add(get(i) as K)
         return list
     }
+
+    fun getAll() = Array(itemCount) { get(it) }
 
     override fun getView(item: Card): View? {
         var view: View? = null

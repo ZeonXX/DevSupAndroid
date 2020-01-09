@@ -6,7 +6,6 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationSpring
 import com.sup.dev.java.tools.ToolsThreads
 
-
 class AnimationViewHideVertical(private val view: View) {
 
     private val spring: AnimationSpring
@@ -98,11 +97,11 @@ class AnimationViewHideVertical(private val view: View) {
     //  Setters
     //
 
-    fun setOnVisibleStartChange(onVisibleStartChange: (Boolean)->Unit) {
+    fun setOnVisibleStartChange(onVisibleStartChange: ((Boolean)->Unit)?) {
         this.onVisibleStartChange = onVisibleStartChange
     }
 
-    fun setOnVisibleChange(onVisibleChange: (Boolean)->Unit) {
+    fun setOnVisibleChange(onVisibleChange: ((Boolean)->Unit)?) {
         this.onVisibleChange = onVisibleChange
     }
 
