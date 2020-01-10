@@ -111,7 +111,6 @@ open class SActivityTypeBottomNavigation(
         if (widgetMenu == null) {
             widgetMenu = WidgetMenu()
             extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
-            extraNavigationItem?.makeDefaultAccentItem()
         }
     }
 
@@ -161,6 +160,7 @@ open class SActivityTypeBottomNavigation(
     override fun updateIcons() {
         val currentScreen = Navigator.getCurrent()
         var found = false
+        getExtraNavigationItem()?.vIcon?.setFilter(getIconsColor())
         for (i in iconsList) {
             if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
                 i.vIcon?.setFilter(getIconsColorAccent())

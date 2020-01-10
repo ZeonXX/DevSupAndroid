@@ -65,17 +65,17 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return this
     }
 
-    fun onChange(onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit): WidgetCheckBoxes {
+    fun onChange(onChange: (ChangeEvent) -> Unit): WidgetCheckBoxes {
         buildItem!!.onChange = onChange
         return this
     }
 
-    fun onSelected(onSelected: (WidgetCheckBoxes, Item) -> Unit): WidgetCheckBoxes {
+    fun onSelected(onSelected: (SelectedEvent) -> Unit): WidgetCheckBoxes {
         buildItem!!.onSelected = onSelected
         return this
     }
 
-    fun onNotSelected(onNotSelected: (WidgetCheckBoxes, Item) -> Unit): WidgetCheckBoxes {
+    fun onNotSelected(onNotSelected: (NotSelectedEvent) -> Unit): WidgetCheckBoxes {
         buildItem!!.onNotSelected = onNotSelected
         return this
     }
@@ -152,8 +152,8 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
                 if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
                 val v = vOptionsContainer.getChildAt(i) as CheckBox
                 val item = v.tag as Item
-                if (v.isChecked) item.onSelected.invoke(this, item)
-                if (!v.isChecked) item.onNotSelected.invoke(this, item)
+                if (v.isChecked) item.onSelected.invoke(SelectedEvent(this, item))
+                if (!v.isChecked) item.onNotSelected.invoke(NotSelectedEvent(this, item))
             }
             if (autoHideOnEnter)
                 hide()
@@ -197,14 +197,14 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         var callbackLock = false
         val v: CheckBox = CheckBox(SupAndroid.activity!!)
 
-        var onChange: (WidgetCheckBoxes, Item, Boolean) -> Unit = { _, _, _ -> run { } }
-        var onSelected: (WidgetCheckBoxes, Item) -> Unit = { _, _ -> }
-        var onNotSelected: (WidgetCheckBoxes, Item) -> Unit = { _, _ -> }
+        var onChange: (ChangeEvent) -> Unit = {run { } }
+        var onSelected: (SelectedEvent) -> Unit = { }
+        var onNotSelected: (NotSelectedEvent) -> Unit = { }
 
         init {
             v.tag = this
             v.setOnCheckedChangeListener { _, _ ->
-                if(!callbackLock) onChange.invoke(this@WidgetCheckBoxes, this, v.isChecked)
+                if(!callbackLock) onChange.invoke(ChangeEvent(this@WidgetCheckBoxes, this, v.isChecked))
             }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)
@@ -213,6 +213,26 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         }
 
     }
+
+    //
+    //  ClickEvent
+    //
+
+    public class ChangeEvent(
+            val widget:WidgetCheckBoxes,
+            val item:Item,
+            val isChecked:Boolean
+    )
+
+    public class SelectedEvent(
+            val widget:WidgetCheckBoxes,
+            val item:Item
+    )
+
+    public class NotSelectedEvent(
+            val widget:WidgetCheckBoxes,
+            val item:Item
+    )
 
 
 }

@@ -155,6 +155,7 @@ class SActivityTypeDrawer(
     override fun updateIcons() {
         val currentScreen = Navigator.getCurrent()
         var found = false
+        getExtraNavigationItem()?.vIcon?.setFilter(getIconsColor())
         for (i in iconsList) {
             if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
                 i.vIcon?.setFilter(getIconsColorAccent())
