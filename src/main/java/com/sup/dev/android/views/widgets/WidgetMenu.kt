@@ -1,18 +1,24 @@
 package com.sup.dev.android.views.widgets
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.cards.*
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
-import com.sup.dev.android.views.cards.CardDivider
-import com.sup.dev.android.views.cards.CardDividerTitleMini
-import com.sup.dev.android.views.cards.CardMenu
-import com.sup.dev.android.views.cards.CardView
-import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.log
 
 open class WidgetMenu : WidgetRecycler() {
 
@@ -31,6 +37,7 @@ open class WidgetMenu : WidgetRecycler() {
         vRecycler.isVerticalScrollBarEnabled = true
         super.onShow()
         finishItemBuilding()
+        iconBuilder?.finishItemBuilding()
     }
 
     fun setAutoHide(b: Boolean): WidgetMenu {
@@ -242,6 +249,7 @@ open class WidgetMenu : WidgetRecycler() {
         buildItem!!.onClick = onClick
         return this
     }
+
     fun onLongClick(onLongClick: (ClickEvent) -> Unit): WidgetMenu {
         buildItem!!.onLongClick = onLongClick
         return this
@@ -270,10 +278,6 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    //
-    //  Item
-    //
-
     private inner class Item {
 
         var card: CardMenu? = null
@@ -290,13 +294,112 @@ open class WidgetMenu : WidgetRecycler() {
 
     }
 
-    //
-    //  ClickEvent
-    //
-
     public class ClickEvent(
             val widget:WidgetMenu,
             val card:CardMenu
     ){}
+
+    //
+    //  Icon
+    //
+
+    private var iconBuilder:IconBuilder? = null
+
+    fun iconBuilder():IconBuilder{
+        if(iconBuilder == null) iconBuilder = IconBuilder()
+        return iconBuilder!!
+    }
+
+    inner class IconBuilder{
+
+        val cardContainer = CardIconsContainer()
+        private var buildItem: Icon? = null
+        private var skipThisItem = false
+        private var skipGroup = false
+
+        init {
+            myAdapter.add(0, cardContainer)
+        }
+
+        fun finishItemBuilding() {
+            log("finishItemBuilding [$buildItem]")
+            if (buildItem != null) {
+                val i = buildItem
+                buildItem = null
+                if (!skipThisItem && !skipGroup) add(i!!)
+                skipThisItem = false
+            }
+        }
+
+        fun add(drawable:Drawable, onClick:(ClickEventIocn)->Unit):IconBuilder{
+            finishItemBuilding()
+            buildItem = Icon()
+            buildItem!!.iconDrawable = drawable
+            buildItem!!.onClick = onClick
+            return this
+        }
+
+        fun condition(b: Boolean): IconBuilder {
+            skipThisItem = !b
+            return this
+        }
+
+        private fun add(item: Icon) {
+            log("add [$item]")
+
+            item.vIcon = ToolsView.inflate(R.layout.z_icon)
+            item.vIcon?.setImageDrawable(item.iconDrawable)
+            if(item.iconFilter != null)item.vIcon?.setFilter(item.iconFilter!!)
+            item.vIcon?.setOnClickListener {
+                if(isHided) return@setOnClickListener
+                item.onClick.invoke(ClickEventIocn(this@WidgetMenu, item))
+                if (autoHide) hide()
+            }
+            if(item.onLongClick != null) {
+                item.vIcon?.setOnLongClickListener{
+                    item.onLongClick!!.invoke(ClickEventIocn(this@WidgetMenu, item))
+                    if (autoHide) hide()
+                    return@setOnLongClickListener true
+                }
+            }
+
+            cardContainer.vLinear.addView(item.vIcon)
+
+        }
+
+
+    }
+
+    inner class Icon{
+
+        var vIcon:ViewIcon? = null
+        var onClick: (ClickEventIocn) -> Unit = {  }
+        var onLongClick: ((ClickEventIocn) -> Unit)? = null
+        var iconDrawable: Drawable? = null
+        var iconFilter:Int? = null
+
+    }
+
+    public class ClickEventIocn(
+            val widget:WidgetMenu,
+            val icon:Icon
+    ){}
+
+    class CardIconsContainer : Card(0){
+
+        val vFrame = FrameLayout(SupAndroid.activity!!)
+        val vLinear = LinearLayout(SupAndroid.activity!!)
+
+        override fun instanceView(): View {
+
+            vFrame.addView(vLinear, 0)
+            vLinear.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            vLinear.layoutParams.height =  ViewGroup.LayoutParams.WRAP_CONTENT
+            (vLinear.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT
+
+            return vFrame
+        }
+
+    }
 
 }
