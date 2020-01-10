@@ -122,9 +122,11 @@ object ToolsResources {
         return id
     }
 
-    fun getColorAttr(@AttrRes r: Int, def: Int = 0x00000000): Int {
+    fun getColorAttr(@AttrRes r: Int, def: Int = 0x00000000) = getColorAttr(SupAndroid.activity!!, r, def)
+
+    fun getColorAttr(context: Context, @AttrRes r: Int, def: Int = 0x00000000): Int {
         val attrs = intArrayOf(r)
-        val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
+        val ta = context.obtainStyledAttributes(attrs)
         val color = ta.getColor(0, def)
         ta.recycle()
         return color

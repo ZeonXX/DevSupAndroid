@@ -11,19 +11,14 @@ import java.util.*
 
 object ToolsCash {
 
-    private var maxCashSize = 0L
-    private var overClearSize = 0L
-
-    fun init() {
-        init((1024 * 1024 * 20).toLong())
-    }
+    private var maxCashSize = 1024L * 1024 * 20
+    private var overClearSize = 1024L * 1024 * 20
 
     fun init(cashSize: Long) {
         init(cashSize, cashSize)
     }
 
     fun init(cashSize: Long, overClearSize: Long) {
-        if (maxCashSize != 0L) throw RuntimeException("Already init")
         maxCashSize = cashSize
         ToolsCash.overClearSize = overClearSize
     }
@@ -31,8 +26,6 @@ object ToolsCash {
     fun put(data: ByteArray, name: String): File? {
 
         try {
-            if (maxCashSize == 0L) init()
-
             clearIfNeed()
 
             val cacheDir = SupAndroid.appContext!!.cacheDir
@@ -65,7 +58,6 @@ object ToolsCash {
 
     fun clearIfNeed() {
         try {
-            if (maxCashSize == 0L) init()
             val cacheDir = SupAndroid.appContext!!.cacheDir
             var cashSize = getDirSize(cacheDir)
             if (cashSize > overClearSize + maxCashSize) {
@@ -92,8 +84,6 @@ object ToolsCash {
 
 
     fun get(name: String): ByteArray? {
-        if (maxCashSize == 0L) init()
-
         val cacheDir = SupAndroid.appContext!!.cacheDir
         val file = File(cacheDir, name)
 
@@ -123,8 +113,6 @@ object ToolsCash {
     }
 
     private fun getDirSize(dir: File): Long {
-        if (maxCashSize == 0L) init()
-
         var size: Long = 0
         val files = dir.listFiles()
 

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -20,11 +21,9 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
-import com.sup.dev.android.R
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.views.splash.SplashView
 import com.sup.dev.java.libs.eventBus.EventBus
-
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -44,7 +43,7 @@ abstract class SActivity : AppCompatActivity() {
     var vSplashContainer: ViewGroup? = null
     var vActivityTouchLock: View? = null
     var parseNotifications = true
-    var type = getDefaultType()
+    var type = getNavigationType()
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -68,7 +67,7 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
-    protected open fun getDefaultType(): SActivityType = SActivityTypeSimple(this)
+    protected open fun getNavigationType(): SActivityType = SActivityTypeSimple(this)
 
     override fun onStart() {
         super.onStart()
@@ -268,6 +267,7 @@ abstract class SActivity : AppCompatActivity() {
 
         vActivityRoot?.setBackgroundColor(screen.activityRootBackground)
 
+        type.updateIcons()
     }
 
     private fun animateNone(oldViews: ArrayList<View>) {

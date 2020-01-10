@@ -99,15 +99,15 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setIconFilter(item.iconFilter)
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
-        item.card?.setOnClick { _, _, _ ->
+        item.card?.setOnClick {
             if(isHided) return@setOnClick
-            item.onClick.invoke(this, item.card!!)
+            item.onClick.invoke(ClickEvent(this, item.card!!))
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
         }
         if(item.onLongClick != null) {
             item.card?.setOnLongClick { _ ->
-                item.onLongClick!!.invoke(this, item.card!!)
+                item.onLongClick!!.invoke(ClickEvent(this, item.card!!))
                 onGlobalSelected.invoke(this, item.text)
                 if (autoHide) hide()
             }
@@ -156,11 +156,11 @@ open class WidgetMenu : WidgetRecycler() {
         return add(ToolsResources.s(text))
     }
 
-    fun add(@StringRes text: Int, onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }): WidgetMenu {
+    fun add(@StringRes text: Int, onClick: (ClickEvent) -> Unit = { }): WidgetMenu {
         return add(ToolsResources.s(text), onClick)
     }
 
-    fun add(text: String, onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }): WidgetMenu {
+    fun add(text: String, onClick: (ClickEvent) -> Unit = { }): WidgetMenu {
         finishItemBuilding()
         buildItem = Item()
         buildItem!!.text = text
@@ -238,11 +238,11 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun onClick(onClick: (WidgetMenu, CardMenu) -> Unit): WidgetMenu {
+    fun onClick(onClick: (ClickEvent) -> Unit): WidgetMenu {
         buildItem!!.onClick = onClick
         return this
     }
-    fun onLongClick(onLongClick: (WidgetMenu, CardMenu) -> Unit): WidgetMenu {
+    fun onLongClick(onLongClick: (ClickEvent) -> Unit): WidgetMenu {
         buildItem!!.onLongClick = onLongClick
         return this
     }
@@ -277,8 +277,8 @@ open class WidgetMenu : WidgetRecycler() {
     private inner class Item {
 
         var card: CardMenu? = null
-        var onClick: (WidgetMenu, CardMenu) -> Unit = { _, _ -> }
-        var onLongClick: ((WidgetMenu, CardMenu) -> Unit)? = null
+        var onClick: (ClickEvent) -> Unit = {  }
+        var onLongClick: ((ClickEvent) -> Unit)? = null
         var text = ""
         var chipText = ""
         var icon = 0
@@ -290,5 +290,13 @@ open class WidgetMenu : WidgetRecycler() {
 
     }
 
+    //
+    //  ClickEvent
+    //
+
+    public class ClickEvent(
+            val widget:WidgetMenu,
+            val card:CardMenu
+    ){}
 
 }

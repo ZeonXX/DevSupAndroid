@@ -28,7 +28,7 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
 
     fun add(v: String, onItemSelected: (Int) -> Unit = {}) {
         list.add(v)
-        menu.add(v) { _, _ ->
+        menu.add(v) {
             currentIndex = list.indexOf(v)
             setSubtitle(v)
             onItemSelected.invoke(currentIndex)

@@ -157,7 +157,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     }
 
     override fun setCardAdapter(adapter: CardAdapter?) {
-        super.adapter = adapter
+        super.setCardAdapter(adapter)
         setExpanded(expanded)
     }
 

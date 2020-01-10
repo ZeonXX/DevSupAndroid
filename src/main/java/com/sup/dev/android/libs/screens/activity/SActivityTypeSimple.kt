@@ -25,4 +25,8 @@ class SActivityTypeSimple(
 
     }
 
+    override fun updateIcons() {
+
+    }
+
 }

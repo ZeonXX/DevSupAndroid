@@ -20,6 +20,7 @@ class SActivityTypeDrawer(
         private var navigationLock: Boolean = false
     }
 
+    private val iconsList = ArrayList<NavigationItem>()
     private var drawerLayout: DrawerLayout? = null
     private var drawerContainer: ViewGroup? = null
     private var vNavigationRowsContainer: ViewGroup? = null
@@ -146,7 +147,21 @@ class SActivityTypeDrawer(
 
         vNavigationRowsContainer?.addView(item.view)
 
+        iconsList.add(item)
+
         return item
+    }
+
+    override fun updateIcons() {
+        val currentScreen = Navigator.getCurrent()
+        var found = false
+        for (i in iconsList) {
+            if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
+                i.vIcon?.setFilter(getIconsColorAccent())
+                found = true
+            } else i.vIcon?.setFilter(getIconsColor())
+        }
+        if (!found) for (i in iconsList) if(i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
     }
 
     inner class NavigationItem : SActivityType.NavigationItem() {

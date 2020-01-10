@@ -10,6 +10,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewIcon
+import kotlin.reflect.KClass
 
 abstract class SActivityType(
         val activity: SActivity
@@ -22,7 +23,8 @@ abstract class SActivityType(
     var screenHideBottomNavigationWhenKeyboard = true
     var screenBottomNavigationColor = 0
 
-    var iconsColor:Int? = null
+    private var iconsColorAccent:Int? = null
+    private var iconsColor:Int? = null
 
     abstract fun onCreate()
 
@@ -58,14 +60,22 @@ abstract class SActivityType(
         }
     }
 
+    fun getIconsColorAccent():Int{
+        if(iconsColorAccent == null) iconsColorAccent = ToolsResources.getColorAttr(activity, R.attr.colorAccent)
+        return iconsColorAccent!!
+    }
+
+    fun getIconsColor():Int{
+        if(iconsColor == null) iconsColor = ToolsResources.getColorAttr(activity, R.attr.toolbar_content_color)
+        return iconsColor!!
+    }
+
+    fun setIconsColorAccent(color:Int){ iconsColorAccent = color }
+    fun setIconsColor(color:Int){ iconsColor = color }
+
     //
     //  Navigation Item
     //
-
-    fun getIconColor():Int{
-        if(iconsColor != null) return iconsColor!!
-        else return ToolsResources.getColorAttr(R.attr.toolbar_content_color)
-    }
 
     open fun getExtraNavigationItem(): NavigationItem? {
         return null
@@ -86,12 +96,17 @@ abstract class SActivityType(
     fun addNavigationItem(icon: Int, text: Int, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit): NavigationItem {
         return addNavigationItem(icon, ToolsResources.s(text), hided, useIconsFilters, onClick, null)
     }
-    fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit)  =addNavigationItem(icon, text, hided, useIconsFilters, onClick, null)
+
+    fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit) = addNavigationItem(icon, text, hided, useIconsFilters, onClick, null)
 
     abstract fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean = false, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): NavigationItem
 
+    abstract fun updateIcons()
+
     abstract class NavigationItem {
 
+        val accentScreens = ArrayList<KClass<out Screen>>()
+        var isDefoultAccentItem = false
         var view: View? = null
         var vIcon: ViewIcon? = null
         var vChip: ViewChipMini? = null
@@ -101,6 +116,16 @@ abstract class SActivityType(
 
         open fun setChipText(text: String) {
             vChip?.setText(text)
+        }
+
+        fun setAccentScreen(vararg screenClass: KClass<out Screen>): NavigationItem {
+            accentScreens.addAll(screenClass)
+            return this
+        }
+
+        fun makeDefaultAccentItem(): NavigationItem {
+            isDefoultAccentItem = true
+            return this
         }
 
     }

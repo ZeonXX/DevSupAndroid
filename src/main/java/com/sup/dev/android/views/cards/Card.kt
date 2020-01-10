@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
+import com.sup.dev.android.views.support.adapters.CardAdapterStub
 import com.sup.dev.java.libs.debug.Debug
 
 abstract class Card(
         private val layout: Int
 ) {
 
-    var adapter: CardAdapter? = null
+    var adapter: CardAdapter = CardAdapterStub.INSTANCE
     private var view: View? = null
     var isBinding = false
 
@@ -52,7 +53,7 @@ abstract class Card(
     }
 
     fun getView(): View? {
-        val view = if (adapter == null) null else adapter!!.getView(this)
+        val view = adapter.getView(this)
         if (view != null) {
             this.view = view
             view.tag = this
@@ -64,7 +65,7 @@ abstract class Card(
     }
 
     fun remove() {
-        if (adapter != null) adapter!!.remove(this)
+        adapter.remove(this)
     }
 
     //
@@ -76,7 +77,7 @@ abstract class Card(
     }
 
     open fun setCardAdapter(adapter: CardAdapter?) {
-        this.adapter = adapter
+        this.adapter = adapter?:CardAdapterStub.INSTANCE
     }
 
 

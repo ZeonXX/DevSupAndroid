@@ -70,22 +70,26 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         card.bindCardView(cardView)
         if (frame.width == 0) frame.requestLayout()
 
-        return holder
+        return card
     }
 
     override fun isViewFromObject(view: View, obj: Any): Boolean {
-        return obj is Holder && obj.itemView === view
+        val holderForItem = getHolderForItem(obj)
+        return holderForItem != null && holderForItem.itemView === view
     }
 
     override fun destroyItem(parent: ViewGroup, position: Int, ob: Any) {
-        ob as Holder
-        parent.removeView((ob.itemView))
-        ob.item?.detachView()
+        val holderForItem = getHolderForItem(ob)
+        if (holderForItem != null) {
+            parent.removeView((holderForItem.itemView))
+            holderForItem.item?.detachView()
+        }
     }
 
     override fun getItemPosition(ob: Any): Int {
-        if ((ob as Holder).item == null) return POSITION_NONE
-        return indexOf(ob.item!!)
+        val position = indexOf(ob as Card)
+        val positionX = if (position < 0) POSITION_NONE else position
+        return positionX
     }
 
     override fun getCount(): Int {
@@ -121,8 +125,7 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     override fun remove(card: Card) {
-        if (items.remove(card))
-            notifyDataSetChanged()
+        if (items.remove(card)) notifyDataSetChanged()
     }
 
     fun remove(position: Int) {
@@ -139,12 +142,12 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     }
 
     override fun indexOf(checker: (Card) -> Boolean): Int {
-        for(c in items) if(checker.invoke(c)) return indexOf(c)
+        for (c in items) if (checker.invoke(c)) return indexOf(c)
         return -1
     }
 
     override fun <K : Card> find(checker: (Card) -> Boolean): K? {
-        for(c in items) if(checker.invoke(c)) return c as K
+        for (c in items) if (checker.invoke(c)) return c as K
         return null
     }
 
@@ -185,6 +188,11 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     //
     //  Holder
     //
+
+    private fun getHolderForItem(item: Any): Holder? {
+        for (holder in holders) if (holder.item == item) return holder
+        return null
+    }
 
     private fun getFreeHolder(parent: ViewGroup): Holder {
         for (holder in holders) if (holder.itemView.parent == null) return holder

@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 @Suppress("DIFFERENT_NAMES_FOR_THE_SAME_PARAMETER_IN_SUPERTYPES")
 open class RecyclerCardAdapterLoading<K : Card, V>(
         private val cardClass: KClass<K>,
-        private var mapper: ((V) -> K)?
+        private var mapper: ((V) -> K)
 ) : RecyclerCardAdapter(), CardAdapter, RecyclerCardAdapterLoadingInterface {
 
     private var bottomLoader: (((Array<V>?) -> Unit, ArrayList<K>) -> Unit)? = null
@@ -162,7 +162,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             }
 
             for (i in result.indices) {
-                val card = mapper!!.invoke(result[i]!!)
+                val card = mapper.invoke(result[i]!!)
                 if (removeSame) {
                     val cards = get(cardClass)
                     var b = false

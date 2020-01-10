@@ -1,24 +1,25 @@
 package com.sup.dev.android.views.screens
 
 import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.cards.Card
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.api.ApiRequest
 import com.sup.dev.java.tools.ToolsThreads
+import kotlin.reflect.KClass
+
 
 abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
@@ -30,18 +31,17 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
     protected val vRefresh: SwipeRefreshLayout? = findViewById(R.id.vRefresh)
     protected val vScreenRoot: ViewGroup? = findViewById(R.id.vScreenRoot)
 
-    protected var adapter: RecyclerCardAdapterLoading<C, V>? = null
+    protected var adapter = RecyclerCardAdapterLoading<C,V>(classOfCard()) {map(it)}
     protected var subscription: Subscription? = null
 
     init {
         textErrorNetwork = SupAndroid.TEXT_ERROR_NETWORK
 
         vRecycler.layoutManager = LinearLayoutManager(context)
-        if (vRefresh != null)
-            vRefresh.setOnRefreshListener {
-                vRefresh.isRefreshing = false
-                onReloadClicked()
-            }
+        vRefresh?.setOnRefreshListener {
+            vRefresh.isRefreshing = false
+            onReloadClicked()
+        }
 
         val vFabX: FloatingActionButton? = findViewById(R.id.vFabX)
         if (vFabX != null) {
@@ -51,25 +51,31 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
             vFab = vFabX
         }
 
+        adapter
+                .addOnEmpty { setState(State.EMPTY) }
+                .addOnErrorAndEmpty { setState(State.ERROR) }
+                .addOnStartLoadingAndEmpty { setState(State.PROGRESS) }
+                .addOnLoadingAndNotEmpty { setState(State.NONE) }
+                .addOnLoadedNotEmpty { setState(State.NONE) }
+                .setRetryMessage(textErrorNetwork, textErrorRetry)
+                .setShowLoadingCardIfEmpty(false)
+                .setShowErrorCardIfEmpty(false)
+                .setNotifyCount(5)
+
+        vRecycler.adapter = adapter
+
         ToolsThreads.main(true) {
-            adapter = instanceAdapter()
-                    .addOnEmpty { setState(State.EMPTY) }
-                    .addOnErrorAndEmpty { setState(State.ERROR) }
-                    .addOnStartLoadingAndEmpty { setState(State.PROGRESS) }
-                    .addOnLoadingAndNotEmpty { setState(State.NONE) }
-                    .addOnLoadedNotEmpty { setState(State.NONE) }
-                    .setRetryMessage(textErrorNetwork, textErrorRetry)
-                    .setShowLoadingCardIfEmpty(false)
-                    .setShowErrorCardIfEmpty(false)
-                    .setNotifyCount(5)
-
-            vRecycler.adapter = adapter
-
-            ToolsThreads.main(true) {
-                reload()
-            }
+            reload()
         }
     }
+
+    abstract fun classOfCard():KClass<C>
+
+    abstract fun map(item:V):C
+
+    //
+    //  Functions
+    //
 
     override fun onReloadClicked() {
         reload()
@@ -77,12 +83,14 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
 
     open fun reload() {
         if (subscription != null) subscription!!.unsubscribe()
-        adapter!!.reloadBottom()
+        adapter.reloadBottom()
     }
 
-    protected abstract fun instanceAdapter(): RecyclerCardAdapterLoading<C, V>
+    //
+    //  Toolbar
+    //
 
-    protected fun addToolbarIcon(@DrawableRes res: Int,onClick: (View) -> Unit) = addToolbarIcon(res, true, onClick)
+    protected fun addToolbarIcon(@DrawableRes res: Int, onClick: (View) -> Unit) = addToolbarIcon(res, true, onClick)
 
     protected fun addToolbarIcon(drawable: Drawable, onClick: (View) -> Unit) = addToolbarIcon(drawable, true, onClick)
 

@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.cards
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -11,14 +10,13 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.Debug
 
 open class CardMenu(
         layout: Int = 0
 ) : Card(if (layout > 0) layout else R.layout.card_menu) {
 
-    var onClick: ((View, Int, Int) -> Unit)? = null
-    var onLongClick: ((View) -> Unit)? = null
+    var onClick: ((ClickEvent) -> Unit)? = null
+    var onLongClick: ((ClickEvent) -> Unit)? = null
     var dividerVisible = false
     var enabled = true
     var background = 0
@@ -48,7 +46,7 @@ open class CardMenu(
             vTouch.isClickable = onClick != null && enabled
             vTouch.isEnabled = onClick != null && enabled
             ToolsView.setOnClickCoordinates(vTouch) { v, x, y -> onClick(v,x,y) }
-            if(onLongClick != null) vTouch.setOnLongClickListener { onLongClick!!.invoke(it); return@setOnLongClickListener true }
+            if(onLongClick != null) vTouch.setOnLongClickListener { onLongClick!!.invoke(ClickEvent(it, 0, 0)); return@setOnLongClickListener true }
         }
 
         if(vChip != null){
@@ -83,7 +81,7 @@ open class CardMenu(
     }
 
     fun onClick(v:View, x:Int, y:Int){
-        if (enabled && onClick != null) onClick!!.invoke(v, x, y)
+        if (enabled && onClick != null) onClick!!.invoke(ClickEvent(v, x, y))
     }
 
     //
@@ -96,13 +94,13 @@ open class CardMenu(
         return this
     }
 
-    fun setOnClick(onClick: (View, Int, Int) -> Unit): CardMenu {
+    fun setOnClick(onClick: (ClickEvent) -> Unit): CardMenu {
         this.onClick = onClick
         update()
         return this
     }
 
-    fun setOnLongClick(onLongClick: (View) -> Unit): CardMenu {
+    fun setOnLongClick(onLongClick: (ClickEvent) -> Unit): CardMenu {
         this.onLongClick = onLongClick
         update()
         return this
@@ -184,5 +182,15 @@ open class CardMenu(
         update()
         return this
     }
+
+    //
+    //  ClickEvent
+    //
+
+    public class ClickEvent(
+            val view:View,
+            val x:Int,
+            val y:Int
+    ){}
 
 }

@@ -1,10 +1,12 @@
 package com.sup.dev.android.libs.screens.activity
 
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.sup.dev.android.R
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
@@ -12,17 +14,20 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.tools.ToolsThreads
 
 open class SActivityTypeBottomNavigation(
-        activity:SActivity
+        activity: SActivity
 ) : SActivityType(activity) {
 
     companion object {
 
         fun setShadow(view: View) {
-            view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x40000000, 0x00000000))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                view.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0x40000000, 0x00000000))
+            }
         }
 
     }
 
+    private val iconsList = ArrayList<NavigationItem>()
     private var widgetMenu: WidgetMenu? = null
 
     private var lastH_P = 0
@@ -33,7 +38,7 @@ open class SActivityTypeBottomNavigation(
 
     private var vContainer: LinearLayout? = null
     private var vLine: View? = null
-    private var extraNavigationItem:SActivityType.NavigationItem? = null
+    private var extraNavigationItem: SActivityType.NavigationItem? = null
 
     override fun getLayout() = R.layout.screen_activity_bottom_navigation
 
@@ -46,12 +51,12 @@ open class SActivityTypeBottomNavigation(
         setShadow(vLine!!)
 
         (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h ->
-            if(ToolsAndroid.isScreenPortrait()){
+            if (ToolsAndroid.isScreenPortrait()) {
                 lastH_P = View.MeasureSpec.getSize(h)
-                if(maxH_P < lastH_P) maxH_P = lastH_P
-            }else{
+                if (maxH_P < lastH_P) maxH_P = lastH_P
+            } else {
                 lastH_L = View.MeasureSpec.getSize(h)
-                if(maxH_L < lastH_L) maxH_L = lastH_L
+                if (maxH_L < lastH_L) maxH_L = lastH_L
             }
             ToolsThreads.main(true) { updateNavigationVisible() }
         }
@@ -63,11 +68,11 @@ open class SActivityTypeBottomNavigation(
             if (screenHideBottomNavigationWhenKeyboard && isKeyboardShown()) {
                 vContainer!!.visibility = View.GONE
                 vLine!!.visibility = View.GONE
-                skipNextNavigationAnimation  = true
+                skipNextNavigationAnimation = true
             } else {
-                if(vContainer!!.tag != "from_alpha") {
+                if (vContainer!!.tag != "from_alpha") {
                     vContainer!!.tag = "from_alpha"
-                    ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0){
+                    ToolsView.fromAlpha(vContainer!!, if (screenNavigationAnimation && !skipNextNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                         vContainer!!.tag = null
                     }
                 }
@@ -81,7 +86,7 @@ open class SActivityTypeBottomNavigation(
                 }
             }
         } else {
-            if(vContainer!!.tag != "to_alpha") {
+            if (vContainer!!.tag != "to_alpha") {
                 vContainer!!.tag = "to_alpha"
                 ToolsView.toAlpha(vContainer!!, if (screenNavigationAnimation) ToolsView.ANIMATION_TIME_FASE else 0) {
                     vContainer!!.visibility = if (screenNavigationAllowed) View.INVISIBLE else View.GONE
@@ -93,8 +98,8 @@ open class SActivityTypeBottomNavigation(
         }
     }
 
-    fun isKeyboardShown():Boolean{
-        return if(ToolsAndroid.isScreenPortrait()) lastH_P < (maxH_P - ToolsView.dpToPx(50))
+    fun isKeyboardShown(): Boolean {
+        return if (ToolsAndroid.isScreenPortrait()) lastH_P < (maxH_P - ToolsView.dpToPx(50))
         else lastH_L < (maxH_L - ToolsView.dpToPx(50))
     }
 
@@ -102,10 +107,11 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    private fun createMenuIfNeed(useIconsFilters: Boolean){
-        if(widgetMenu == null) {
+    private fun createMenuIfNeed(useIconsFilters: Boolean) {
+        if (widgetMenu == null) {
             widgetMenu = WidgetMenu()
             extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
+            extraNavigationItem?.makeDefaultAccentItem()
         }
     }
 
@@ -115,12 +121,12 @@ open class SActivityTypeBottomNavigation(
     }
 
     override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
-        if(hided){
+        if (hided) {
             val item = NavigationItem()
             createMenuIfNeed(useIconsFilters)
-            val menuItem = widgetMenu!!.add(text) { _, c -> onClick.invoke(c.getView()!!) }.icon(icon)
-            if(onLongClick != null) menuItem.onLongClick{ _, c -> onLongClick.invoke(c.getView()!!) }
-           // if(useIconsFilters) menuItem.iconFilter(Color.RED)
+            val menuItem = widgetMenu!!.add(text) { onClick.invoke(it.card.getView()!!) }.icon(icon)
+            if (onLongClick != null) menuItem.onLongClick { onLongClick.invoke(it.card.getView()!!) }
+            // if(useIconsFilters) menuItem.iconFilter(Color.RED)
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item
@@ -134,35 +140,50 @@ open class SActivityTypeBottomNavigation(
             item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
             item.vIcon?.setImageResource(icon)
-            if(useIconsFilters)item.vIcon?.setFilter(getIconColor())
+            if (useIconsFilters) item.vIcon?.setFilter(getIconsColor())
             item.vIcon?.setOnClickListener(onClick)
-            if(onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
+            if (onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
             item.vChip?.visibility = View.GONE
             item.vText?.text = text
 
-            if(extraNavigationItem == null)vContainer?.addView(item.view)
-            else vContainer?.addView(item.view, vContainer!!.childCount-1)
+            if (extraNavigationItem == null) vContainer?.addView(item.view)
+            else vContainer?.addView(item.view, vContainer!!.childCount - 1)
             (item.view?.layoutParams as LinearLayout.LayoutParams).weight = 1f
             (item.view?.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
 
+            iconsList.add(item)
+
             return item
         }
+    }
+
+
+    override fun updateIcons() {
+        val currentScreen = Navigator.getCurrent()
+        var found = false
+        for (i in iconsList) {
+            if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
+                i.vIcon?.setFilter(getIconsColorAccent())
+                found = true
+            } else i.vIcon?.setFilter(getIconsColor())
+        }
+        if (!found) for (i in iconsList) if(i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
     }
 
     override fun getExtraNavigationItem() = extraNavigationItem
 
     inner class NavigationItem : SActivityType.NavigationItem() {
 
-        var menuIndex:Int? = null
+        var menuIndex: Int? = null
 
         override fun setVisible(visible: Boolean) {
-            view?.visibility = if(visible) View.VISIBLE else View.GONE
-            if(menuIndex != null && widgetMenu != null) widgetMenu!!.setItemVisible(menuIndex!!, visible)
+            view?.visibility = if (visible) View.VISIBLE else View.GONE
+            if (menuIndex != null && widgetMenu != null) widgetMenu!!.setItemVisible(menuIndex!!, visible)
         }
 
         override fun setChipText(text: String) {
             super.setChipText(text)
-            if(menuIndex != null && widgetMenu != null) widgetMenu!!.getMenuItem(menuIndex!!).setChipText(text)
+            if (menuIndex != null && widgetMenu != null) widgetMenu!!.getMenuItem(menuIndex!!).setChipText(text)
         }
 
     }
