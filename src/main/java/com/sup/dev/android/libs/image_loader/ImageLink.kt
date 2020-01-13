@@ -36,7 +36,6 @@ abstract class ImageLink {
     internal var cashScaledBytes = false
     internal var noCash = false
     internal var noLoadFromCash = false
-    internal var autoCash = true
     internal var autoDiskCashMaxSize = 1024 * 1024 * 2
     internal var resizeByMinSide = false
     internal var autocropIfLostBounds = true
@@ -84,7 +83,7 @@ abstract class ImageLink {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && autoCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
+        if (data != null && !noCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
         return data
     }
 
@@ -101,7 +100,7 @@ abstract class ImageLink {
     //
 
     fun getParamsSum(): String {
-        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$allowGif$noHolder$fade$cashScaledBytes$noCash$noLoadFromCash$autoCash$autoDiskCashMaxSize$resizeByMinSide"
+        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$allowGif$noHolder$fade$cashScaledBytes$noCash$noLoadFromCash$autoDiskCashMaxSize$resizeByMinSide"
     }
 
     fun copy(): ImageLink {
@@ -122,7 +121,6 @@ abstract class ImageLink {
         link.cashScaledBytes = this.cashScaledBytes
         link.noCash = this.noCash
         link.noLoadFromCash = this.noLoadFromCash
-        link.autoCash = this.autoCash
         link.autoDiskCashMaxSize = this.autoDiskCashMaxSize
         link.resizeByMinSide = this.resizeByMinSide
         link.autocropIfLostBounds = this.autocropIfLostBounds
@@ -299,7 +297,7 @@ abstract class ImageLink {
 
     fun noCash(): ImageLink {
         checkCreated()
-        this.noCash = false
+        this.noCash = true
         return this
     }
 

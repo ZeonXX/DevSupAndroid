@@ -35,4 +35,8 @@ class CardAdapterStub : CardAdapter {
     }
 
     override fun isVisible(card: Card) = false
+
+    override fun notifyUpdate() {
+
+    }
 }

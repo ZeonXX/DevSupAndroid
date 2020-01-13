@@ -100,7 +100,7 @@ class ViewImagesSwipe constructor(
     }
 
     fun remove(index: Int) {
-        adapter.remove(adapter[CardSwipe::class][index])
+        adapter.remove(adapter.get(CardSwipe::class)[index])
         ToolsThreads.main(true) { updateVisibility() }
     }
 
@@ -163,7 +163,7 @@ class ViewImagesSwipe constructor(
         }
 
         fun toImageView() {
-            val cards = this@ViewImagesSwipe.adapter[CardSwipe::class]
+            val cards = this@ViewImagesSwipe.adapter.get(CardSwipe::class)
             val array = Array(cards.size) { cards[it].imageLoader }
             var index = 0
             for (i in array.indices) if (array[i] == imageLoader) index = i

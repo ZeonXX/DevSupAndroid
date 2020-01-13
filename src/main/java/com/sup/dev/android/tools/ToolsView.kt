@@ -17,6 +17,7 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.util.Linkify
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
@@ -32,6 +33,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.TintableBackgroundView
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
@@ -41,6 +43,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
@@ -50,6 +53,21 @@ object ToolsView {
 
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
+
+    fun jumpToWithAnimation(vRecycler: RecyclerView, position: Int, animationArg:Float=5f) {
+        val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(vRecycler.context) {
+
+            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
+                return super.calculateSpeedPerPixel(displayMetrics)*animationArg
+            }
+
+            override fun getVerticalSnapPreference(): Int {
+                return SNAP_TO_START
+            }
+        }
+        smoothScroller.targetPosition = position
+        vRecycler.layoutManager?.startSmoothScroll(smoothScroller)
+    }
 
     fun scrollRecyclerSmooth(vRecycler: RecyclerView, position: Int) {
         if (vRecycler.adapter == null || vRecycler.adapter!!.itemCount == 0) return
@@ -508,13 +526,13 @@ object ToolsView {
         setStateColorForText(view, states, colorsText)
     }
 
-    fun getTextColorForState(view: TintableBackgroundView, state: Int) : Int {
+    fun getTextColorForState(view: TintableBackgroundView, state: Int): Int {
         if (view !is TextView) throw IllegalArgumentException("View must be instance of TextView")
         val colorStateList = (view as TextView).textColors
         return colorStateList.getColorForState(intArrayOf(state), colorStateList.defaultColor)
     }
 
-    fun getColorForState(view: TintableBackgroundView, state: Int) : Int {
+    fun getColorForState(view: TintableBackgroundView, state: Int): Int {
         val colorStateList: ColorStateList? = view.supportBackgroundTintList
         return colorStateList?.getColorForState(intArrayOf(state), colorStateList.defaultColor) ?: 0
     }

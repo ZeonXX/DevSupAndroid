@@ -14,7 +14,6 @@
         android:paddingTop="24dp"
         android:paddingRight="24dp"
         android:paddingBottom="16dp"
-        android:text="Title"
         android:textSize="20sp" />
 
     <FrameLayout

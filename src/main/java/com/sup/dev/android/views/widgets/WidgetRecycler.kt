@@ -7,7 +7,9 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.popup.PopupWidget
+import com.sup.dev.android.views.popup.PopupX
 import com.sup.dev.android.views.splash.Sheet
+import com.sup.dev.java.libs.debug.log
 
 open class WidgetRecycler(
         r:Int = R.layout.widget_recycler
@@ -21,19 +23,18 @@ open class WidgetRecycler(
 
     init {
         vRecycler.isVerticalScrollBarEnabled = false
+        updateLayoutsSettings()
     }
 
     override fun onShow() {
         super.onShow()
+        updateLayoutsSettings()
+    }
 
+    private fun updateLayoutsSettings(){
         vRecycler.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         vRecycler.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-
-        if (viewWrapper is Sheet) {
-            vRecycler.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        } else if (viewWrapper is PopupWidget) {
-            vRecycler.layoutParams.width = ToolsView.dpToPx(200).toInt()
-        }
+        if (viewWrapper is Sheet || viewWrapper is PopupX) vRecycler.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
     fun addView(view: View) {

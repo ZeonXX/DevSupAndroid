@@ -10,8 +10,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardWidget
-import com.sup.dev.android.views.popup.Popup
-import com.sup.dev.android.views.popup.PopupWidget
+import com.sup.dev.android.views.popup.PopupX
 import com.sup.dev.android.views.screens.SWidget
 import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
@@ -191,35 +190,35 @@ abstract class Widget(layoutRes: Int) {
         return dialog
     }
 
-    fun asPopup(): PopupWidget {
-        val popup = PopupWidget(this)
+    fun asPopup(): PopupX {
+        val popup = PopupX(this)
         this.viewWrapper = popup
         return popup
     }
 
-    fun asPopupShow(view: View): PopupWidget {
+    fun asPopupShow(view: View): PopupX {
         val popup = asPopup()
-        popup.show<Popup>(view)
+        popup.setAnchor(view)
+        popup.show()
         return popup
     }
 
-    fun asPopupShow(view: View, x: Int, y: Int): PopupWidget {
+    fun asPopupShow(view: View, x: Int, y: Int): PopupX {
         val popup = asPopup()
-        popup.show<Popup>(view, x, y)
+        popup.setAnchor(view, x, y)
         return popup
     }
 
     fun showPopupWhenClick(view: View, willShow: (() -> Boolean)? = null): Widget {
         ToolsView.setOnClickCoordinates(view) { view1, x, y ->
-            if (willShow == null || willShow.invoke()) asPopup().show<Popup>(view1, x, y)
-            Unit
+            if (willShow == null || willShow.invoke()) asPopup().setAnchor(view1, x, y).show()
         }
         return this
     }
 
     fun showPopupWhenLongClick(view: View): Widget {
         ToolsView.setOnLongClickCoordinates(view) { view1, x, y ->
-            asPopup().show<Popup>(view1, x, y)
+            asPopup().setAnchor(view1, x, y).show()
             Unit
         }
         return this
@@ -232,9 +231,9 @@ abstract class Widget(layoutRes: Int) {
     fun showPopupWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
         ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
             if (isClick) {
-                if (willShowClick == null || willShowClick.invoke()) asPopup().show<Popup>(view1, x, y)
+                if (willShowClick == null || willShowClick.invoke()) asPopup().setAnchor(view1, x, y).show()
             } else {
-                if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().show<Popup>(view1, x, y)
+                if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().setAnchor(view1, x, y).show()
             }
             Unit
         }

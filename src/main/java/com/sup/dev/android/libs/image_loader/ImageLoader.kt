@@ -116,7 +116,7 @@ object ImageLoader {
 
         if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
 
-        val cashItem = getFromCash(loader.link.getKey())
+        val cashItem = if(loader.link.noLoadFromCash) null else getFromCash(loader.link.getKey())
         if (cashItem != null) {
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
             return

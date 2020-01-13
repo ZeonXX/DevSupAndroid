@@ -20,7 +20,7 @@ abstract class SplashView<K : Any>(
 
     abstract fun isDestroyScreenAnimation():Boolean
 
-    abstract fun getNavigationBarColor():Int
+    open fun getNavigationBarColor():Int? = null
 
     init {
         vSplashViewContainer.addView(ToolsView.removeFromParent(widget.view))
@@ -77,6 +77,8 @@ abstract class SplashView<K : Any>(
         vSplashViewContainer.isEnabled = enabled
         return this as K
     }
+
+    fun isShowed() = SupAndroid.activity?.isSplashShowed(this) == true
 
 
 }

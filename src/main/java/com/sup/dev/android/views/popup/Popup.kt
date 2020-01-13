@@ -10,17 +10,21 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
+import com.sup.dev.java.libs.debug.log
 
 
 @Suppress("UNCHECKED_CAST")
 abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!) {
 
     private var isEnabled: Boolean = true
+    private var anchor:View?= null
+    private var targetX = 0
+    private var targetY = 0
+    private var isUpdating = false
 
     constructor(layoutRes: Int) : this(ToolsView.inflate<View>(layoutRes)) {}
 
     init {
-
         val vCorned = LayoutCorned(view.context)
         vCorned.setBackgroundColor(ToolsResources.getColorAttr(R.attr.popup_background))
         ToolsView.removeFromParent(view)
@@ -31,6 +35,13 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
 
         contentView = vCorned
         isFocusable = true
+
+
+        view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (!isShowing) return@addOnLayoutChangeListener
+            updateWidow()
+        }
+
 
     }
 
@@ -55,18 +66,31 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
     }
 
     fun <K : Popup> show(anchor: View, x: Int, y: Int): K {
-        var xV = x
-        var yV = y
-
+        this.targetX = x
+        this.targetY = y
+        this.anchor = anchor
         onShow()
+        updateWidow()
+        return this as K
+    }
+
+    private fun updateWidow() {
+        val anchor = this.anchor ?: return
+        if(isUpdating) return
+        isUpdating = true
+
+        var xV = targetX
+        var yV = targetY
 
         view.measure(View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenW(), View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(ToolsAndroid.getScreenH(), View.MeasureSpec.AT_MOST))
         width = view.measuredWidth
-        if (view.measuredHeight < ToolsView.dpToPx(340/*Запас, чтоб не обрезать 2 пикселя*/))
+        if (view.measuredHeight < ToolsView.dpToPx(540/*Запас, чтоб не обрезать 2 пикселя*/))
             height = view.measuredHeight
         else
-            height = Math.min(view.measuredHeight, ToolsView.dpToPx(300).toInt())
+            height = ToolsView.dpToPx(500).toInt()
+
+        dismiss()
 
         if (xV > -1 && yV > -1) {
             xV -= width / 2
@@ -81,8 +105,8 @@ abstract class Popup(private val view: View) : PopupWindow(SupAndroid.activity!!
         } else {
             showAsDropDown(anchor)
         }
+        isUpdating = false
 
-        return this as K
     }
 
     //

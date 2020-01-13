@@ -38,6 +38,10 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     //  Adapter
     //
 
+    override fun notifyUpdate() {
+        notifyDataSetChanged()
+    }
+
     override fun instantiateItem(parent: ViewGroup, p: Int): Any {
         val position = realPosition(p)
 

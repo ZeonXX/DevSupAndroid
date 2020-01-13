@@ -1,18 +1,20 @@
 package com.sup.dev.android.views.cards
 
 import android.graphics.PorterDuff
-import androidx.annotation.StringRes
 import android.text.Html
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.java.classes.callbacks.CallbacksList1
-import java.util.ArrayList
+import java.util.*
 
 
 open class CardSpoiler : Card(R.layout.card_spoiler) {
@@ -25,10 +27,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var title: String? = null
     private var titleExpanded: String? = null
     private var text: String? = null
+    private var textSize: Float? = null
     private var rightText: String? = null
     private var titleColor = 0
     private var rightTextColor = 0
     private var textColor = 0
+    private var backgroundColor: Int? = null
     private var originalSeted = false
     private var dividerVisible = true
     private var dividerTopVisible = false
@@ -38,6 +42,8 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var iconColor = 0
     private var useExpandedArrow = true
     private var useExpandedTitleArrow = false
+    private var animation = false
+    private var vRecycler: RecyclerView? = null
 
     internal var expanded = false
     internal var enabled = true
@@ -45,13 +51,14 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     @Suppress("DEPRECATION")
     override fun bindView(view: View) {
         super.bindView(view)
-        val vIcon:ImageView = view.findViewById(R.id.vIcon)
-        val vTitle:TextView = view.findViewById(R.id.vTitle)
-        val vText:TextView = view.findViewById(R.id.vText)
-        val vRightText:TextView = view.findViewById(R.id.vRightText)
-        val vTouch:View = view.findViewById(R.id.vTouch)
-        val vDivider:View = view.findViewById(R.id.vDivider)
-        val vDividerTop:View = view.findViewById(R.id.vDividerTop)
+        val vIcon: ImageView = view.findViewById(R.id.vIcon)
+        val vTitle: TextView = view.findViewById(R.id.vTitle)
+        val vText: TextView = view.findViewById(R.id.vText)
+        val vRightText: TextView = view.findViewById(R.id.vRightText)
+        val vTouch: View = view.findViewById(R.id.vTouch)
+        val vDivider: View = view.findViewById(R.id.vDivider)
+        val vDividerTop: View = view.findViewById(R.id.vDividerTop)
+        val vRoot: View = view.findViewById(R.id.vRoot)
 
         val iconDown = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_down_24dp)
         val iconUp = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_up_24dp)
@@ -64,6 +71,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         }
 
         vText.text = if (text == null) null else Html.fromHtml(text)
+        if (textSize != null) vText.setTextSize(textSize!!)
         vRightText.text = if (rightText == null) null else Html.fromHtml(rightText)
 
         if (expanded && titleExpanded != null)
@@ -76,11 +84,8 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         vTitle.visibility = if (title == null) View.GONE else View.VISIBLE
         vIcon.visibility = if (useExpandedArrow) View.VISIBLE else View.GONE
 
-
-
-       if(useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
-       else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-
+        if (useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
+        else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
         vText.isEnabled = enabled
         vRightText.isEnabled = enabled
@@ -99,6 +104,9 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         if (iconColor != 0) vIcon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
         if (enabled) vTouch.setOnClickListener { setExpanded(!expanded) }
         else vTouch.setOnClickListener(null)
+
+        if (backgroundColor != null) vRoot.setBackgroundColor(backgroundColor!!)
+
         vTouch.isClickable = enabled
     }
 
@@ -106,13 +114,13 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     //  Setters
     //
 
-    fun setUseExpandedArrow(useExpandedArrow:Boolean): CardSpoiler {
+    fun setUseExpandedArrow(useExpandedArrow: Boolean): CardSpoiler {
         this.useExpandedArrow = useExpandedArrow
         update()
         return this
     }
 
-    fun setUseExpandedTitleArrow(useExpandedArrow:Boolean): CardSpoiler {
+    fun setUseExpandedTitleArrow(useExpandedArrow: Boolean): CardSpoiler {
         this.useExpandedTitleArrow = useExpandedArrow
         update()
         return this
@@ -126,7 +134,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     fun remove(card: Card): CardSpoiler {
         cards.remove(card)
-        adapter?.remove(card)
+        adapter.remove(card)
         return this
     }
 
@@ -161,7 +169,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         setExpanded(expanded)
     }
 
-    open fun onExpandedClicked(expanded: Boolean){
+    open fun onExpandedClicked(expanded: Boolean) {
 
     }
 
@@ -170,18 +178,20 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         onExpandedClicked(expanded)
         update()
 
-        if (adapter != null) {
-            if (expanded) {
-
-                var myIndex = adapter!!.indexOf(this)
-                for (c in cards)
-                    if (myIndex != -1) {
-                        ++myIndex
-                        if (!adapter!!.contains(c)) adapter!!.add(myIndex, c)
-                    }
-
-            } else
-                for (c in cards) adapter!!.remove(c)
+        if (expanded) {
+            var myIndex = adapter.indexOf(this)
+            for (c in cards)
+                if (myIndex != -1) {
+                    ++myIndex
+                    if (!adapter.contains(c)) adapter.add(myIndex, c)
+                }
+            if (cards.isNotEmpty()) {
+             //   if (!animation) adapter.notifyUpdate()
+                if (vRecycler != null) ToolsView.jumpToWithAnimation(vRecycler!!, adapter.indexOf(this))
+            }
+        } else {
+            for (c in cards) adapter.remove(c)
+           // if (!animation) adapter.notifyUpdate()
         }
 
         onExpandChanged.invoke(expanded)
@@ -197,6 +207,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     fun setText(text: String): CardSpoiler {
         this.text = text
+        update()
+        return this
+    }
+
+    fun setTextSize(textSize: Float): CardSpoiler {
+        this.textSize = textSize
         update()
         return this
     }
@@ -219,9 +235,20 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
+    fun setBackgroundColor(backgroundColor: Int): CardSpoiler {
+        this.backgroundColor = backgroundColor
+        update()
+        return this
+    }
+
     fun setTitleColor(titleColor: Int): CardSpoiler {
         this.titleColor = titleColor
         update()
+        return this
+    }
+
+    fun setAnimation(animation: Boolean): CardSpoiler {
+        this.animation = animation
         return this
     }
 
@@ -237,13 +264,18 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
+    fun setRecyclerView(vRecycler: RecyclerView?): CardSpoiler {
+        this.vRecycler = vRecycler
+        return this
+    }
+
     fun setDividerTopVisible(dividerTopVisible: Boolean): CardSpoiler {
         this.dividerTopVisible = dividerTopVisible
         update()
         return this
     }
 
-    fun addOnExpandChanged(onExpandChanged: (Boolean)->Unit): CardSpoiler {
+    fun addOnExpandChanged(onExpandChanged: (Boolean) -> Unit): CardSpoiler {
         this.onExpandChanged.add(onExpandChanged)
         return this
     }

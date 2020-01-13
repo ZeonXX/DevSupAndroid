@@ -53,7 +53,7 @@
         <item name="toolbar_content_color_secondary">@color/white</item>
         <item name="color_divider">@color/focus</item>
         <item name="color_interface_text">@color/white</item>
-        <item name="popup_background">@color/grey_700</item>
+        <item name="popup_background">@color/grey_800</item>
         <item name="colorAccent">@color/orange_a_700</item>
         <item name="selector_chip">@drawable/selector_style_dark_chip</item>
         <item name="selector_chip_outline">@drawable/selector_style_dark_chip_outline</item>

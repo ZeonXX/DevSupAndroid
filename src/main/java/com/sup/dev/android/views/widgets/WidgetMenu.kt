@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.widgets
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -31,6 +30,8 @@ open class WidgetMenu : WidgetRecycler() {
     init {
         vRecycler.layoutManager = LinearLayoutManager(view.context)
         setAdapter<WidgetRecycler>(myAdapter)
+        vRoot.minimumWidth = ToolsView.dpToPx(256).toInt()
+        vRecycler.itemAnimator = null
     }
 
     override fun onShow() {
@@ -38,6 +39,8 @@ open class WidgetMenu : WidgetRecycler() {
         super.onShow()
         finishItemBuilding()
         iconBuilder?.finishItemBuilding()
+
+        for (c in myAdapter.get(CardSpoiler::class)) if (c.cards.isEmpty()) myAdapter.remove(c)
     }
 
     fun setAutoHide(b: Boolean): WidgetMenu {
@@ -77,6 +80,7 @@ open class WidgetMenu : WidgetRecycler() {
     private var buildItem: Item? = null
     private var skipThisItem = false
     private var skipGroup = false
+    private var spoiler:CardSpoiler? = null
 
     fun getMenuItem(index: Int):CardMenu{
         return myAdapter.get(index) as CardMenu
@@ -120,14 +124,18 @@ open class WidgetMenu : WidgetRecycler() {
             }
         }
 
-
-        if (item.preferred) {
-            if (prefCount == 0) myAdapter.add(0, CardDivider())
-            myAdapter.add(prefCount, item.card!!)
-            prefCount++
-        } else {
-            myAdapter.add(item.card!!)
+        if(spoiler != null){
+            spoiler!!.add(item.card!!)
+        }else{
+            if (item.preferred) {
+                if (prefCount == 0) myAdapter.add(0, CardDivider())
+                myAdapter.add(prefCount, item.card!!)
+                prefCount++
+            } else {
+                myAdapter.add(item.card!!)
+            }
         }
+
 
     }
 
@@ -278,6 +286,24 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
+    fun spoiler(name:String, backgroundColor:Int?=null, textColor:Int?=null): WidgetMenu{
+        finishItemBuilding()
+        val card = CardSpoiler()
+        this.spoiler = card
+        card.setRecyclerView(vRecycler)
+        card.setTitle(name)
+        card.setDividerTopVisible(false)
+        card.setDividerVisible(false)
+        if(backgroundColor != null) card.setBackgroundColor(backgroundColor)
+        if(textColor != null) card.setTextColor(textColor)
+        myAdapter.add(card)
+        return this
+    }
+
+    fun stopSpoiler(){
+        spoiler = null
+    }
+
     private inner class Item {
 
         var card: CardMenu? = null
@@ -390,13 +416,14 @@ open class WidgetMenu : WidgetRecycler() {
         val vFrame = FrameLayout(SupAndroid.activity!!)
         val vLinear = LinearLayout(SupAndroid.activity!!)
 
-        override fun instanceView(): View {
-
+        init {
             vFrame.addView(vLinear, 0)
             vLinear.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             vLinear.layoutParams.height =  ViewGroup.LayoutParams.WRAP_CONTENT
             (vLinear.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT
+        }
 
+        override fun instanceView(): View {
             return vFrame
         }
 

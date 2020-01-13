@@ -206,6 +206,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return getView(card) != null
     }
 
+    override fun notifyUpdate() {
+      super.notifyDataSetChanged()
+    }
+
     fun isScrolledToLastItems(count: Int): Boolean {
         if (size() < count) return true
         for (i in 0 until count)
@@ -214,7 +218,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return false
     }
 
-    operator fun contains(c: KClass<out Card>): Boolean {
+    fun contains(c: KClass<out Card>): Boolean {
         for (i in 0 until itemCount)
             if (ToolsClass.instanceOf(get(i)::class, c))
                 return true
@@ -267,7 +271,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return list
     }
 
-    operator fun <K : Card> get(c: KClass<K>): ArrayList<K> {
+    fun <K : Card> get(c: KClass<K>): ArrayList<K> {
         val list = ArrayList<K>()
         for (i in 0 until itemCount)
             if (ToolsClass.instanceOf(get(i)::class, c))

@@ -172,7 +172,8 @@ abstract class SActivity : AppCompatActivity() {
             splash.getView().visibility = View.INVISIBLE
             vSplashContainer!!.addView(splash.getView())
             ToolsView.fromAlpha(splash.getView(), 200) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = splash.getNavigationBarColor()
+                val navigationBarColor = splash.getNavigationBarColor()
+                if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor
             }
         }
     }

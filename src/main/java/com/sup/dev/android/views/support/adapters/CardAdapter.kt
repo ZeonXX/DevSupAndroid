@@ -24,5 +24,7 @@ interface CardAdapter {
     fun add(i: Int, card: Card)
 
     fun isVisible(card: Card): Boolean
+
+    fun notifyUpdate()
 }
 
