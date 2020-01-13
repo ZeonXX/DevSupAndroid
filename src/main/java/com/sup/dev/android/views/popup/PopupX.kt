@@ -11,6 +11,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.splash.SplashView
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.tools.ToolsMath
 import com.sup.dev.java.tools.ToolsThreads
 
 class PopupX(
@@ -67,9 +68,11 @@ class PopupX(
         log("measure wh[$mW][$mH]")
 
 
+        val maxH = ToolsMath.min(ToolsView.dpToPx(400), screenH - ToolsView.dpToPx(64))
+        val reservH = ToolsView.dpToPx(40)
         var width = mW
         var height = mH
-        if (height > ToolsView.dpToPx(440/*Запас, чтоб не обрезать 2 пикселя*/)) height = ToolsView.dpToPx(400).toInt()
+        if (height > maxH + reservH) height = ToolsView.dpToPx(maxH).toInt()
         log("sizes wh[$width][$height]")
 
 
