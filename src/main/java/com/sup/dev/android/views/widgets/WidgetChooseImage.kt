@@ -67,7 +67,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         ToolsThreads.timerMain(4000) {
             if (!imagesLoaded) return@timerMain
-            if (isHided) it.unsubscribe()
+            if (isHided()) it.unsubscribe()
             else loadImagesNow()
         }
 
@@ -297,7 +297,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             val selectIndex = selectedList.indexOf(file)
             vNum.text = if (selectIndex == -1) "   " else " ${selectIndex + 1} "
             vNumContainer.visibility = if (maxSelectCount > 1) View.VISIBLE else View.GONE
-            vNumContainer.setBackgroundColor(if (selectIndex == -1) ToolsResources.getColor(R.color.focus_dark) else ToolsResources.getAccentColor(context))
+            vNumContainer.setBackgroundColor(if (selectIndex == -1) ToolsResources.getColor(R.color.focus_dark) else ToolsResources.getAccentColor(view.context))
         }
 
         fun onClick() {

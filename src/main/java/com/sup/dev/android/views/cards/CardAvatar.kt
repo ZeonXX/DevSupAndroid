@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import android.view.View
+import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -13,7 +14,7 @@ open class CardAvatar(
 ) : Card(if (layout > 0) layout else R.layout.card_avatar) {
 
     private var onClick: () -> Unit = {}
-    private var onLongClick: (CardAvatar, View, Int, Int) -> Unit = { _, _, _, _ -> }
+    private var onLongClick: (CardAvatar, View, Float, Float) -> Unit = { _, _, _, _ -> }
     private var dividerVisible = false
     private var enabled = true
     private var background = 0
@@ -22,6 +23,7 @@ open class CardAvatar(
     private var chipText: String? = null
     private var image: Bitmap? = null
     private var imageRes: Int? = null
+    private var avatarSize:Int? = null
     @DrawableRes
     private var chipIcon = 0
     private var chipIconPadding = 0
@@ -57,6 +59,11 @@ open class CardAvatar(
         vAvatar.vAvatar.setChipIconPadding(chipIconPadding)
         vAvatar.vAvatar.setChipText(chipText)
         vAvatar.vAvatar.setChipBackground(chipBackground)
+
+        if(avatarSize != null) {
+            vAvatar.vAvatar.layoutParams.width = avatarSize!!
+            vAvatar.vAvatar.layoutParams.height = avatarSize!!
+        }
 
         onBind(vAvatar)
     }
@@ -101,6 +108,12 @@ open class CardAvatar(
         return this
     }
 
+    fun setAvatarSize(avatarSize: Int): CardAvatar {
+        this.avatarSize = avatarSize
+        update()
+        return this
+    }
+
     fun setChipIcon(@DrawableRes icon: Int): CardAvatar {
         this.chipIcon = icon
         update()
@@ -137,7 +150,7 @@ open class CardAvatar(
         return this
     }
 
-    fun setOnLongClick(onLongClick: (CardAvatar, View, Int, Int) -> Unit): CardAvatar {
+    fun setOnLongClick(onLongClick: (CardAvatar, View, Float, Float) -> Unit): CardAvatar {
         this.onLongClick = onLongClick
         update()
         return this

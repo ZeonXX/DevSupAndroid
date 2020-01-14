@@ -1,9 +1,11 @@
 package com.sup.dev.android.views.splash
 
+import android.graphics.Color
 import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetViewWrapper
@@ -31,6 +33,15 @@ abstract class SplashView<K : Any>(
 
         vSplashViewContainer.isEnabled = widget.isEnabled
         cancelable = widget.isCancelable
+
+        if(widget.isCompanion){
+            vSplashRoot.isClickable = false
+            vSplashRoot.isFocusable = false
+            vSplashRoot.setBackgroundColor(Color.TRANSPARENT)
+        }
+
+        vSplashViewContainer.setBackgroundColor(ToolsResources.getColorAttr(if(widget.isCompanion) R.attr.widget_companion_background else R.attr.widget_background))
+
 
         setOnBack()
     }

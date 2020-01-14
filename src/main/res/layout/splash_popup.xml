@@ -9,7 +9,6 @@
     <com.sup.dev.android.views.views.layouts.LayoutCorned
         android:id="@+id/vSplashViewContainer"
         android:orientation="vertical"
-        android:background="?widget_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 

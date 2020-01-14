@@ -9,11 +9,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.text.Html
-import android.text.Spannable
-import android.text.Spanned
+import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.util.Linkify
@@ -43,9 +42,9 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.ref.WeakReference
 import java.util.*
 import java.util.regex.Pattern
 
@@ -54,11 +53,63 @@ object ToolsView {
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
 
-    fun jumpToWithAnimation(vRecycler: RecyclerView, position: Int, animationArg:Float=5f) {
+    fun getSelectionPosition(vFiled: EditText): Point {
+        val pos = vFiled.selectionStart
+        val layout = vFiled.layout
+        val line = layout.getLineForOffset(pos)
+        val baseline = layout.getLineBaseline(line)
+        val ascent = layout.getLineAscent(line)
+
+        val point = Point()
+        point.x = layout.getPrimaryHorizontal(pos).toInt() - vFiled.scrollX
+        point.y = baseline + ascent - vFiled.scrollY
+
+        return point
+    }
+
+    fun onSelectionChanged(vFiled: EditText,onChanged: () -> Unit) {
+        onSelectionChanged(WeakReference(vFiled), onChanged)
+    }
+
+    private fun onSelectionChanged(vFiled: WeakReference<EditText>, onChanged: () -> Unit) {
+
+        val item = Item(vFiled.get()?.selectionEnd?:0)
+        vFiled.get()?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val get = vFiled.get()?:return
+                if(item.a != get.selectionEnd){
+                    item.a = get.selectionEnd
+                    onChanged.invoke()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
+        ToolsThreads.timerMain(200){
+            val get = vFiled.get()
+            if(get == null){
+                it.unsubscribe()
+                return@timerMain
+            }
+            if(item.a != get.selectionEnd){
+                item.a = get.selectionEnd
+                onChanged.invoke()
+            }
+        }
+
+    }
+
+    fun jumpToWithAnimation(vRecycler: RecyclerView, position: Int, animationArg: Float = 5f) {
         val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(vRecycler.context) {
 
             override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
-                return super.calculateSpeedPerPixel(displayMetrics)*animationArg
+                return super.calculateSpeedPerPixel(displayMetrics) * animationArg
             }
 
             override fun getVerticalSnapPreference(): Int {
@@ -271,14 +322,14 @@ object ToolsView {
         v.setOnClickListener { onClick.invoke(v, clickScreenX.a, clickScreenY.a) }
     }
 
-    fun setOnLongClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
+    fun setOnLongClickCoordinates(v: View, onClick: (View, Float, Float) -> Unit) {
 
-        val clickScreenX = Item(0)
-        val clickScreenY = Item(0)
+        val clickScreenX = Item(0f)
+        val clickScreenY = Item(0f)
 
         v.setOnTouchListener { _, event ->
-            clickScreenX.a = event.x.toInt()
-            clickScreenY.a = event.y.toInt()
+            clickScreenX.a = event.x
+            clickScreenY.a = event.y
             false
         }
 
@@ -288,11 +339,11 @@ object ToolsView {
         }
     }
 
-    fun viewPointAsScreenPoint(view: View, x: Int, y: Int): Array<Int> {
+    fun viewPointAsScreenPoint(view: View, x: Float, y: Float): Array<Int> {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        location[0] = location[0] + x
-        location[1] = location[1] + y
+        location[0] = location[0] + x.toInt()
+        location[1] = location[1] + y.toInt()
         return location.toTypedArray()
     }
 

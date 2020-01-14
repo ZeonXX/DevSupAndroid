@@ -12,8 +12,11 @@ import android.widget.FrameLayout
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.classes.geometry.Dimensions
 
 open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+
+    var onMeasure : ((Int,  Int, Int, Int)-> Dimensions)? = null
 
     private val path = Path()
     private var paint: Paint? = null
@@ -59,10 +62,22 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var nW = widthMeasureSpec
+        var nH = heightMeasureSpec
+        super.onMeasure(nW, nH)
+
+        if(onMeasure != null) {
+            val dimensions = onMeasure!!.invoke(measuredWidth, measuredHeight, MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec))
+
+            if (dimensions.w.toInt() != measuredWidth || dimensions.h.toInt() != measuredHeight) {
+                nW = MeasureSpec.makeMeasureSpec(dimensions.w.toInt(), MeasureSpec.EXACTLY)
+                nH = MeasureSpec.makeMeasureSpec(dimensions.h.toInt(), MeasureSpec.EXACTLY)
+                super.onMeasure(nW, nH)
+            }
+        }
 
         if (circleMode && measuredWidth < measuredHeight)
-            super.onMeasure(heightMeasureSpec, heightMeasureSpec)
+            super.onMeasure(nH, nH)
     }
 
     private fun update() {

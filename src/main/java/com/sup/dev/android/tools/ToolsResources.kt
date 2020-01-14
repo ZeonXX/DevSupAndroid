@@ -106,7 +106,9 @@ object ToolsResources {
         return SupAndroid.appContext!!.resources.openRawResource(r).readBytes()
     }
 
-    fun getDrawableAttr(@AttrRes r: Int): Drawable? {
+    fun getDrawableAttr(@AttrRes r: Int) = getDrawableAttrNullable(r)!!
+
+    fun getDrawableAttrNullable(@AttrRes r: Int): Drawable? {
         val attrs = intArrayOf(r)
         val ta = SupAndroid.activity!!.obtainStyledAttributes(attrs)
         val drawable = ta.getDrawable(0)

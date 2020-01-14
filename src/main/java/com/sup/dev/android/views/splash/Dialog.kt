@@ -12,8 +12,6 @@ class Dialog(widget: Widget) : SplashView<Dialog>(widget, R.layout.splash_dialog
 
     override fun isDestroyScreenAnimation() = false
 
-    override fun getNavigationBarColor() = ToolsResources.getColorAttr(R.attr.widget_background)
-
     init {
         vLayoutMaxSizes.onMeasureCall = {
             vLayoutMaxSizes.setMaxWidthParentPercent((if (ToolsAndroid.isScreenPortrait()) 90 else 70).toFloat())

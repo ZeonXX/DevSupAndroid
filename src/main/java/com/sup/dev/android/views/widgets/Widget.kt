@@ -10,7 +10,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardWidget
-import com.sup.dev.android.views.popup.PopupX
+import com.sup.dev.android.views.splash.Popup
 import com.sup.dev.android.views.screens.SWidget
 import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
@@ -26,15 +26,9 @@ abstract class Widget(layoutRes: Int) {
     private var onHide: (Widget) -> Unit = {}
     var isEnabled = true
     var isCancelable = true
-    var isHided = true
+    private var isHided = true
+    var isCompanion = false
     protected var viewWrapper: WidgetViewWrapper<out Any>? = null
-
-    //
-    //  Getters
-    //
-
-    protected val context: Context
-        get() = view.context
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
@@ -62,6 +56,14 @@ abstract class Widget(layoutRes: Int) {
     protected fun <K : View> findViewByIdNullable(@IdRes id: Int): K? {
         return view.findViewById(id)
     }
+
+    //
+    //  Getters
+    //
+
+    fun isHided() = isHided
+
+    fun isShoved() = !isHided
 
     //
     //  Callbacks
@@ -97,6 +99,11 @@ abstract class Widget(layoutRes: Int) {
     //
     //  Setters
     //
+
+    open fun makeCompanion(): Widget {
+        this.isCompanion = true
+        return this
+    }
 
     open fun setTitle(@StringRes title: Int): Widget {
         return setTitle(ToolsResources.s(title))
@@ -147,7 +154,7 @@ abstract class Widget(layoutRes: Int) {
     //  Support
     //
 
-    fun fixForAndroid9(){   //  В Android 9 есть баг, свзяанный с clipPath у LayoutCorned. Из-за него может пропадать часть View внутри диалогов.
+    fun fixForAndroid9() {   //  В Android 9 есть баг, свзяанный с clipPath у LayoutCorned. Из-за него может пропадать часть View внутри диалогов.
         ToolsThreads.main(true) {
             val vX: LayoutCorned? = ToolsView.findViewOnParents(view, R.id.vSplashViewContainer)
             vX?.makeSoftware()
@@ -190,22 +197,20 @@ abstract class Widget(layoutRes: Int) {
         return dialog
     }
 
-    fun asPopup(): PopupX {
-        val popup = PopupX(this)
+    fun asPopup(): Popup {
+        val popup = Popup(this)
         this.viewWrapper = popup
         return popup
     }
 
-    fun asPopupShow(view: View): PopupX {
-        val popup = asPopup()
-        popup.setAnchor(view)
-        popup.show()
-        return popup
-    }
+    fun asPopupShow(view: View) = asPopupShow(view, 0, 0)
 
-    fun asPopupShow(view: View, x: Int, y: Int): PopupX {
+    fun asPopupShow(view: View, x: Float, y: Float) = asPopupShow(view, x.toInt(), y.toInt())
+
+    fun asPopupShow(view: View, x: Int, y: Int): Popup {
         val popup = asPopup()
         popup.setAnchor(view, x, y)
+        popup.show()
         return popup
     }
 
@@ -249,7 +254,7 @@ abstract class Widget(layoutRes: Int) {
             if (isClick) {
                 if (willShowClick == null || willShowClick.invoke()) asSheetShow()
             } else {
-                if (willShowLongClick == null || willShowLongClick.invoke())  asSheetShow()
+                if (willShowLongClick == null || willShowLongClick.invoke()) asSheetShow()
             }
             Unit
         }

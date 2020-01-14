@@ -30,10 +30,10 @@ object ToolsApi {
         vProgress.asSplashShow()
 
         send(request.onComplete {
-            if (vProgress.isHided) return@onComplete
+            if (vProgress.isHided()) return@onComplete
             Navigator.action(action, onComplete.invoke(it))
         }.onError {
-            if(vProgress.isHided) return@onError
+            if(vProgress.isHided()) return@onError
             SAlert.showNetwork(action) {
                 Navigator.remove(it)
                 sendSplash(action, request, onComplete)

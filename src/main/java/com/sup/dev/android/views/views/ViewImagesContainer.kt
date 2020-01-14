@@ -2,6 +2,7 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.sup.dev.android.R
@@ -38,7 +39,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         orientation = VERTICAL
     }
 
-    fun add(imageLoader: ImageLink, onClick: ((ImageLink) -> Unit)? = null, onLongClick: ((ImageLink) -> Unit)? = null) {
+    fun add(imageLoader: ImageLink, onClick: ((ClickEvent) -> Unit)? = null, onLongClick: ((ClickEvent) -> Unit)? = null) {
         items.add(Item(imageLoader, onClick, onLongClick))
         rebuild()
     }
@@ -123,8 +124,8 @@ class ViewImagesContainer @JvmOverloads constructor(
     @Suppress("UNCHECKED_CAST")
     private inner class Item(
             val imageLoader: ImageLink,
-            val onClick: ((ImageLink) -> Unit)?,
-            val onLongClick: ((ImageLink) -> Unit)?
+            val onClick: ((ClickEvent) -> Unit)?,
+            val onLongClick: ((ClickEvent) -> Unit)?
     ) {
 
         val vImage: ViewCircleImage = getViewFromCash() ?: ToolsView.inflate(R.layout.view_images_container_item)
@@ -136,17 +137,26 @@ class ViewImagesContainer @JvmOverloads constructor(
                 when {
                     onClickGlobal(this) -> return@setOnClickListener
                     onClick == null -> toImageView(imageLoader)
-                    else -> onClick.invoke(imageLoader)
+                    else -> onClick.invoke(ClickEvent(vImage, imageLoader, it.x, it.y))
                 }
             }
             if (onLongClick != null)
                 vImage.setOnLongClickListener {
-                    onLongClick.invoke(imageLoader)
+                    onLongClick.invoke(ClickEvent(vImage, imageLoader, it.x, it.y))
                     true
                 }
         }
 
     }
+
+
+
+    class ClickEvent(
+            val view: View,
+            val imageLink:ImageLink,
+            val x:Float,
+            val y:Float
+    )
 
 
 }

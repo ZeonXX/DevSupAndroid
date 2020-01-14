@@ -17,7 +17,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.*
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.log
 
 open class WidgetMenu : WidgetRecycler() {
 
@@ -111,7 +110,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick {
-            if(isHided) return@setOnClick
+            if(isHided()) return@setOnClick
             item.onClick.invoke(ClickEvent(this, item.card!!))
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
@@ -348,7 +347,6 @@ open class WidgetMenu : WidgetRecycler() {
         }
 
         fun finishItemBuilding() {
-            log("finishItemBuilding [$buildItem]")
             if (buildItem != null) {
                 val i = buildItem
                 buildItem = null
@@ -371,13 +369,11 @@ open class WidgetMenu : WidgetRecycler() {
         }
 
         private fun add(item: Icon) {
-            log("add [$item]")
-
             item.vIcon = ToolsView.inflate(R.layout.z_icon)
             item.vIcon?.setImageDrawable(item.iconDrawable)
             if(item.iconFilter != null)item.vIcon?.setFilter(item.iconFilter!!)
             item.vIcon?.setOnClickListener {
-                if(isHided) return@setOnClickListener
+                if(isHided()) return@setOnClickListener
                 item.onClick.invoke(ClickEventIocn(this@WidgetMenu, item))
                 if (autoHide) hide()
             }

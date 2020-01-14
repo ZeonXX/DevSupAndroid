@@ -3,7 +3,6 @@ package com.sup.dev.android.views.views
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
@@ -11,7 +10,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.sup.dev.android.R
-import com.sup.dev.android.tools.ToolsBackgroundWork
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.classes.Subscription
@@ -21,8 +19,8 @@ import com.sup.dev.java.tools.ToolsThreads
 
 open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), View.OnTouchListener {
 
-    var onClick: (Float, Float) -> Unit = { _, _ -> performClick() }
-    var onLongClick: (Float, Float) -> Unit = { _, _ -> performLongClick() }
+    var onClick: (ClickEvent) -> Unit = { performClick() }
+    var onLongClick: (ClickEvent) -> Unit = { performLongClick() }
     var onSwipe: () -> Unit = { }
 
     private val vContainer = FrameLayout(context)
@@ -69,8 +67,8 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
 
         vIconForAlphaAnimation.alpha = 0f
         (vIconForAlphaAnimation.layoutParams as LayoutParams).gravity = Gravity.CENTER or Gravity.RIGHT
-        (vIconForAlphaAnimation.layoutParams as LayoutParams).marginEnd = ToolsView.dpToPx(12).toInt()
-        (vIconForAlphaAnimation.layoutParams as LayoutParams).marginStart = ToolsView.dpToPx(12).toInt()
+        (vIconForAlphaAnimation.layoutParams as LayoutParams).rightMargin = ToolsView.dpToPx(12).toInt()
+        (vIconForAlphaAnimation.layoutParams as LayoutParams).leftMargin = ToolsView.dpToPx(12).toInt()
 
         vContainer.setOnTouchListener(this)
         vContainer.setBackgroundColor(colorDefault)
@@ -126,7 +124,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             subscriptionLongClick = ToolsThreads.main(longClickTime) {
                 if(subscriptionLongClick != null && subscriptionLongClick!!.isSubscribed()) {
                     clear()
-                    onLongClick.invoke(e.x, e.y)
+                    onLongClick.invoke(ClickEvent(this, e.x, e.y))
                 }
             }
             return true
@@ -137,7 +135,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             if (!swipeStarted && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y - ToolsView.dpToPx(12) && firstY < e.y + ToolsView.dpToPx(12)) {
                 if (firstClickTime < System.currentTimeMillis() - longClickTime) {
                     clear()
-                    onLongClick.invoke(e.x, e.y)
+                    onLongClick.invoke(ClickEvent(this, e.x, e.y))
                     return true
                 }
                 lastX = e.x
@@ -166,7 +164,7 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             return true
         }
         if (e.action == MotionEvent.ACTION_UP && firstX > e.x - ToolsView.dpToPx(12) && firstX < e.x + ToolsView.dpToPx(12) && firstY > e.y - ToolsView.dpToPx(12) && firstY < e.y + ToolsView.dpToPx(12)) {
-            onClick.invoke(e.x, e.y)
+            onClick.invoke(ClickEvent(this, e.x, e.y))
             clear()
             return true
         }
@@ -225,5 +223,26 @@ open class ViewSwipe constructor(context: Context, attrs: AttributeSet? = null) 
             vContainer.setBackgroundColor(colorDefault)
         })
     }
+
+    class ClickEvent{
+
+        val x:Float
+        val y:Float
+
+        constructor(view:View, x:Float, y:Float)  {
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
+            if(location[0] < x && location[1] < y) {
+                this.x = x - location[0]
+                this.y = y - location[1]
+            } else {
+                this.x = x
+                this.y = y
+            }
+        }
+
+    }
+
+
 
 }

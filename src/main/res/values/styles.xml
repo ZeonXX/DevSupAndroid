@@ -1,6 +1,7 @@
 <resources>
 
     <attr name="widget_background" format="color"/>
+    <attr name="widget_companion_background" format="color"/>
     <attr name="window_background" format="color"/>
     <attr name="content_background" format="color"/>
     <attr name="content_background_screen" format="color"/>
@@ -40,6 +41,7 @@
         <item name="content_background">@color/grey_900</item>
         <item name="content_background_screen">@color/grey_900</item>
         <item name="widget_background">@color/grey_875</item>
+        <item name="widget_companion_background">@color/grey_825</item>
         <item name="colorPrimaryDark">@color/grey_875</item>
         <item name="colorPrimary">@color/grey_875</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
@@ -82,6 +84,7 @@
         <item name="window_background">@color/grey_100</item>
         <item name="android:windowBackground">?window_background</item>
         <item name="widget_background">@color/grey_200</item>
+        <item name="widget_companion_background">@color/grey_300</item>
         <item name="content_background">@color/white</item>
         <item name="content_background_screen">@color/white</item>
         <item name="color_stroke">@color/grey_600</item>

@@ -168,22 +168,24 @@ abstract class SActivity : AppCompatActivity() {
     fun addSplash(splash: SplashView<out Any>) {
         splash.getView().tag = splash
         ToolsThreads.main {
-            ToolsView.hideKeyboard()
+            if (!splash.widget.isCompanion) ToolsView.hideKeyboard()
             splash.getView().visibility = View.INVISIBLE
             vSplashContainer!!.addView(splash.getView())
             ToolsView.fromAlpha(splash.getView(), 200) {
-                val navigationBarColor = splash.getNavigationBarColor()
-                if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor
+                if (!splash.widget.isCompanion) {
+                    val navigationBarColor = splash.getNavigationBarColor()
+                    if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor
+                }
             }
         }
     }
 
     fun removeSplash(splash: SplashView<out Any>) {
         ToolsThreads.main {
-            ToolsView.hideKeyboard()
+            if (!splash.widget.isCompanion) ToolsView.hideKeyboard()
             ToolsView.toAlpha(splash.getView(), 200) {
                 vSplashContainer!!.removeView(splash.getView())
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 0 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
+                if (!splash.widget.isCompanion) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 0 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
             }
         }
     }
