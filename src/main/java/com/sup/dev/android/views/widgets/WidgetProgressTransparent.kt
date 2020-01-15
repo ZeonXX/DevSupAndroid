@@ -13,6 +13,10 @@ class WidgetProgressTransparent : Widget(0) {
     private var frameLayout: FrameLayout? = null
     private var progressBar: ProgressBar? = null
 
+    init {
+        noBackground = true
+    }
+
     public override fun instanceView(): View? {
         frameLayout = FrameLayout(SupAndroid.activity!!)
         progressBar = ProgressBar(SupAndroid.activity!!)

@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.widgets
 
-import android.content.Context
 import androidx.annotation.*
 import android.view.View
 import android.widget.TextView
@@ -28,6 +27,11 @@ abstract class Widget(layoutRes: Int) {
     var isCancelable = true
     private var isHided = true
     var isCompanion = false
+    var noBackground = false
+    private var maxW: Int? = null
+    private var maxH: Int? = null
+    private var minW: Int? = null
+    private var minH: Int? = null
     protected var viewWrapper: WidgetViewWrapper<out Any>? = null
 
     init {
@@ -64,6 +68,11 @@ abstract class Widget(layoutRes: Int) {
     fun isHided() = isHided
 
     fun isShoved() = !isHided
+
+    fun getMaxW() = maxW
+    fun getMaxH() = maxH
+    fun getMinW() = minW
+    fun getMinH() = minH
 
     //
     //  Callbacks
@@ -151,6 +160,54 @@ abstract class Widget(layoutRes: Int) {
     }
 
     //
+    //  Sizes
+    //
+
+    open fun setMaxSizes(maxW: Int?, maxH: Int?): Widget {
+        this.maxW = maxW
+        this.maxH = maxH
+        return this
+    }
+
+    open fun setMinSizes(minW: Int?, minH: Int?): Widget {
+        this.minW = minW
+        this.minH = minH
+        return this
+    }
+
+    open fun setSizes(w: Int?, h: Int?): Widget {
+        this.maxW = w
+        this.maxH = h
+        this.minW = w
+        this.minH = h
+        return this
+    }
+
+    open fun setMaxW(maxW: Int?): Widget {
+        this.maxW = maxW; return this
+    }
+
+    open fun setMaxH(maxH: Int?): Widget {
+        this.maxH = maxH; return this
+    }
+
+    open fun setMinW(minW: Int?): Widget {
+        this.minW = minW; return this
+    }
+
+    open fun setMinH(minH: Int?): Widget {
+        this.minH = minH; return this
+    }
+
+    open fun setSizeW(w: Int?): Widget {
+        this.maxW = w;this.minW = w; return this
+    }
+
+    open fun setSizeH(h: Int?): Widget {
+        this.maxH = h;this.minH = h; return this
+    }
+
+    //
     //  Support
     //
 
@@ -234,14 +291,9 @@ abstract class Widget(layoutRes: Int) {
     }
 
     fun showPopupWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
-        ToolsView.setOnClickAndLongClickCoordinates(view) { view1, x, y, isClick ->
-            if (isClick) {
-                if (willShowClick == null || willShowClick.invoke()) asPopup().setAnchor(view1, x, y).show()
-            } else {
-                if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().setAnchor(view1, x, y).show()
-            }
-            Unit
-        }
+        ToolsView.setOnClickAndLongClickCoordinates(view,
+                { if (willShowClick == null || willShowClick.invoke()) asPopup().setAnchor(it.view, it.x, it.y).show() },
+                { if (willShowLongClick == null || willShowLongClick.invoke()) asPopup().setAnchor(it.view, it.x, it.y).show() })
         return this
     }
 
@@ -250,14 +302,9 @@ abstract class Widget(layoutRes: Int) {
     }
 
     fun showSheetWhenClickAndLongClick(view: View, willShowClick: (() -> Boolean)?, willShowLongClick: (() -> Boolean)?): Widget {
-        ToolsView.setOnClickAndLongClickCoordinates(view) { _, _, _, isClick ->
-            if (isClick) {
-                if (willShowClick == null || willShowClick.invoke()) asSheetShow()
-            } else {
-                if (willShowLongClick == null || willShowLongClick.invoke()) asSheetShow()
-            }
-            Unit
-        }
+        ToolsView.setOnClickAndLongClickCoordinates(view,
+                {if (willShowClick == null || willShowClick.invoke()) asSheetShow()},
+                {if (willShowLongClick == null || willShowLongClick.invoke()) asSheetShow()})
         return this
     }
 

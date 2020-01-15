@@ -40,7 +40,7 @@ abstract class SplashView<K : Any>(
             vSplashRoot.setBackgroundColor(Color.TRANSPARENT)
         }
 
-        vSplashViewContainer.setBackgroundColor(ToolsResources.getColorAttr(if(widget.isCompanion) R.attr.widget_companion_background else R.attr.widget_background))
+        if(!widget.noBackground)vSplashViewContainer.setBackgroundColor(ToolsResources.getColorAttr(if(widget.isCompanion) R.attr.widget_companion_background else R.attr.widget_background))
 
 
         setOnBack()

@@ -286,26 +286,27 @@ object ToolsView {
         vText.visibility = if (ToolsText.empty(text)) GONE else VISIBLE
     }
 
-    fun setOnClickAndLongClickCoordinates(v: View, onClick: (View, Int, Int, Boolean) -> Unit) {
+    fun setOnClickAndLongClickCoordinates(v: View, onClick: (ClickEvent) -> Unit, onLongClick: (ClickEvent) -> Unit) {
 
-        val clickScreenX = Item(0)
-        val clickScreenY = Item(0)
+        val clickScreenX = Item(0f)
+        val clickScreenY = Item(0f)
 
 
         v.setOnTouchListener { _, event ->
-            clickScreenX.a = event.x.toInt()
-            clickScreenY.a = event.y.toInt()
+            clickScreenX.a = event.x
+            clickScreenY.a = event.y
             false
         }
 
-        v.setOnClickListener { onClick.invoke(v, clickScreenX.a, clickScreenY.a, true) }
+        v.setOnClickListener { onClick.invoke(ClickEvent(v, clickScreenX.a, clickScreenY.a)) }
         v.setOnLongClickListener {
-            onClick.invoke(v, clickScreenX.a, clickScreenY.a, false)
+            onLongClick.invoke(ClickEvent(v, clickScreenX.a, clickScreenY.a))
             true
         }
 
-
     }
+
+    class ClickEvent(val view:View, val x:Float, val y:Float)
 
     fun setOnClickCoordinates(v: View, onClick: (View, Int, Int) -> Unit) {
 

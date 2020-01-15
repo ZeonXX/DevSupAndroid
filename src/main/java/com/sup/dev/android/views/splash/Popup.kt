@@ -6,6 +6,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.classes.geometry.Dimensions
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 
 class Popup(
@@ -36,24 +37,30 @@ class Popup(
         return this
     }
 
-    private fun updateWidow(mW: Int, mH: Int, maxWBase: Int, maxHBase: Int): Dimensions {
-        val dimensions = Dimensions(mW, mH)
+    private fun updateWidow(needWBase: Int, needHBase: Int, maxWBase: Int, maxHBase: Int): Dimensions {
+
+        var needWMapped = if (widget.getMinW() == null) needWBase else ToolsMath.max(needWBase, widget.getMinW()!!)
+        var needHMapped = if (widget.getMinH() == null) needHBase else ToolsMath.max(needHBase, widget.getMinH()!!)
+        if (widget.getMaxW() != null && needWMapped > widget.getMaxW()!!) needWMapped = widget.getMaxW()!!
+        if (widget.getMaxH() != null && needHMapped > widget.getMaxH()!!) needHMapped = widget.getMaxH()!!
+
+        val dimensions = Dimensions(needWMapped, needHMapped)
         val anchor = this.anchor ?: return dimensions
 
         val maxH = ToolsMath.min(constMaxH, maxHBase - (constOffset * 2)).toInt()
-        val width = ToolsMath.min(mW, maxWBase - (constOffset * 2).toInt())
-        var height = mH
+        val width = ToolsMath.min(needWMapped, maxWBase - (constOffset * 2).toInt())
+        var height = needHMapped
         if (height > maxH + constReserveH) height = maxH
 
         val location = IntArray(2)
         anchor.getLocationOnScreen(location)
 
-        var xV = ToolsMath.max(constOffset, location[0] + targetX)
+        var xV = ToolsMath.max(constOffset, location[0] + targetX) - width/2
         var yV = ToolsMath.max(constOffset, location[1] + targetY)
-        if (width + xV > maxWBase) xV -= (width + xV) - maxWBase + constOffset
-        if (height + yV > maxHBase - constOffset) yV -= (height + yV) - maxHBase + constOffset
-
-
+        if (xV + width > maxWBase - constOffset) xV = xV - ((xV + width) - maxWBase) - constOffset
+        if (xV < constOffset) xV = constOffset
+        if (yV + height > maxHBase - constOffset) yV = yV - ((height + yV) - maxHBase) - constOffset
+        if (yV < constOffset) yV = constOffset
 
         vSplashViewContainer.x = xV
         vSplashViewContainer.y = yV
