@@ -14,7 +14,7 @@ object ToolsHttpCookieAndroid {
     private val VALUE = "VALUE"
     private val VERSION = "VERSION"
     private val MAX_AGE = "MAX_AGE"
-    private val URI = "URI"
+    private val URI_KEY = "URI"
 
     private val httpClientCookieStore = HttpClientCookieStore()
 
@@ -22,11 +22,13 @@ object ToolsHttpCookieAndroid {
         CookieHandler.setDefault(CookieManager(httpClientCookieStore, CookiePolicy.ACCEPT_ALL))
     }
 
+    fun getStore() = httpClientCookieStore
+
     fun clear(){
         httpClientCookieStore.removeAll()
     }
 
-    internal class HttpClientCookieStore : CookieStore {
+    class HttpClientCookieStore : CookieStore {
 
         override fun add(uri: URI?, cookie: HttpCookie?) {
             if (cookie == null || uri == null) return
@@ -37,7 +39,7 @@ object ToolsHttpCookieAndroid {
                         .put(VALUE, cookie.value)
                         .put(VERSION, cookie.version)
                         .put(MAX_AGE, cookie.maxAge)
-                        .put(URI, uri.toString())
+                        .put(URI_KEY, uri.toString())
                 )
                 ToolsStorage.put(COOKIES, array)
             } catch (e: JSONException) {
@@ -87,7 +89,7 @@ object ToolsHttpCookieAndroid {
 
                 for(j in array.getJsons()){
                     if(j == null) continue
-                    list.add(URI(j.getString(URI, "")))
+                    list.add(URI(j.getString(URI_KEY, "")))
                 }
 
                 return list
@@ -104,7 +106,7 @@ object ToolsHttpCookieAndroid {
 
                 for(j in array.getJsons()){
                     if(j == null) continue
-                    if(j.getString(URI, "") == uri.toString()) continue
+                    if(j.getString(URI_KEY, "") == uri.toString()) continue
                     arrayNew.put(j)
                 }
 
@@ -125,7 +127,7 @@ object ToolsHttpCookieAndroid {
 
                 for(j in array.getJsons()){
                     if(j == null) continue
-                    if(j.getString(URI, "") != uri.toString()) continue
+                    if(URI.create(j.getString(URI_KEY, "")).host != uri?.host?:"null") continue
                     val cookie = HttpCookie(j.get(NAME, ""), j.get(VALUE, ""))
                     cookie.version = j.getInt(VERSION, 0)
                     cookie.maxAge = j.getLong(MAX_AGE, 0)
