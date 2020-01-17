@@ -81,6 +81,10 @@ abstract class SActivityType(
         return null
     }
 
+    open fun createExtraNavigationItem(useIconsFilters: Boolean, onClick:(()->Unit)?=null): NavigationItem? {
+        return null
+    }
+
     open fun addNavigationView(view: View, useIconsFilters: Boolean) {
 
     }

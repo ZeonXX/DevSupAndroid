@@ -27,8 +27,12 @@ open class SActivityTypeBottomNavigation(
 
     }
 
+    var onExtraNavigationItemClicked:()->Unit = {
+        widgetMenu!!.asPopupShow(getExtraNavigationItem()!!.vIcon!!)
+    }
+
     private val iconsList = ArrayList<NavigationItem>()
-    private var widgetMenu: WidgetMenu? = null
+    var widgetMenu: WidgetMenu? = null
 
     private var lastH_P = 0
     private var maxH_P = 0
@@ -107,22 +111,24 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    private fun createMenuIfNeed(useIconsFilters: Boolean) {
+    override fun createExtraNavigationItem(useIconsFilters: Boolean, onClick:(()->Unit)?): SActivityType.NavigationItem? {
         if (widgetMenu == null) {
             widgetMenu = WidgetMenu()
-            extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { widgetMenu!!.asSheetShow() }
+            extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { onExtraNavigationItemClicked.invoke()}
         }
+        if(onClick != null) this.onExtraNavigationItemClicked = onClick
+        return extraNavigationItem
     }
 
     override fun addNavigationView(view: View, useIconsFilters: Boolean) {
-        createMenuIfNeed(useIconsFilters)
+        createExtraNavigationItem(useIconsFilters)
         widgetMenu!!.addTitleView(view)
     }
 
     override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
         if (hided) {
             val item = NavigationItem()
-            createMenuIfNeed(useIconsFilters)
+            createExtraNavigationItem(useIconsFilters)
             val menuItem = widgetMenu!!.add(text) { onClick.invoke(it.card.getView()!!) }.icon(icon)
             if (onLongClick != null) menuItem.onLongClick { onLongClick.invoke(it.card.getView()!!) }
             // if(useIconsFilters) menuItem.iconFilter(Color.RED)
