@@ -28,7 +28,7 @@ open class SActivityTypeBottomNavigation(
     }
 
     var onExtraNavigationItemClicked:()->Unit = {
-        widgetMenu!!.asPopupShow(getExtraNavigationItem()!!.vIcon!!)
+        widgetMenu!!.asSheetShow()
     }
 
     private val iconsList = ArrayList<NavigationItem>()
