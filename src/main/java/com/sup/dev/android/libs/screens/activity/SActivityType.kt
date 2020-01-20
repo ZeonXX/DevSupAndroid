@@ -53,8 +53,7 @@ abstract class SActivityType(
 
     open fun getNavigationDrawable(screen: Screen): Drawable? {
         if (Navigator.hasBackStack() || screen.forceBackIcon) {
-            val drawableAttr = ToolsResources.getDrawableAttr(screen.toolbarNavigationIcon)
-            if (drawableAttr != null) return drawableAttr else return ToolsResources.getDrawable(screen.toolbarNavigationIcon)
+            return ToolsResources.getDrawableAttr(screen.toolbarNavigationIcon)
         } else {
             return null
         }

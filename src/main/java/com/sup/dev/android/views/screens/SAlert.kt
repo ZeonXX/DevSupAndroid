@@ -79,6 +79,13 @@ class SAlert(
         vText.text = text
         vAction.text = action
 
+        vAction.setOnClickListener { onAction?.invoke(this) }
+
+        updateImage()
+
+    }
+
+    fun updateImage(){
         if (imageLoader != null) {
             imageLoader?.into(vImage)
             vImage.visibility = View.VISIBLE
@@ -95,13 +102,12 @@ class SAlert(
             vImageFull.visibility = View.GONE
         }
 
-        vAction.setOnClickListener { onAction?.invoke(this) }
-
     }
 
     fun setImage(imageLoader: ImageLink?, imageLoaderFull: ImageLink? = null): SAlert {
         this.imageLoader = imageLoader
         this.imageLoaderFull = imageLoaderFull
+        updateImage()
         return this
     }
 

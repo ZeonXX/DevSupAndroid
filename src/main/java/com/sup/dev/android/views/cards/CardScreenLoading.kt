@@ -40,6 +40,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
     protected var image: ImageLink? = null
+    protected var imageError: ImageLink? = SupAndroid.imgErrorNetwork
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
@@ -133,30 +134,33 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
 
         if (state == State.PROGRESS) {
             ToolsThreads.main(600) {
-                ToolsView.alpha(vProgress, this.stateS != State.PROGRESS || textProgressS != null)
-                ToolsView.alpha(vProgressLine, this.stateS != State.PROGRESS || textProgressS == null)
+                vProgress.visibility = if (this.stateS != State.PROGRESS || textProgressS != null) View.GONE else View.VISIBLE
+                vProgressLine.visibility = if (this.stateS != State.PROGRESS || textProgressS == null) View.GONE else View.VISIBLE
                 if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) {
-                    ToolsView.fromAlpha(vMessage)
+                    vMessage.visibility = View.VISIBLE
                 }
             }
         } else {
-            ToolsView.toAlpha(vProgress)
-            ToolsView.toAlpha(vProgressLine)
+            vProgress.visibility = View.GONE
+            vProgressLine.visibility = View.GONE
         }
 
-        if (image == null || state != State.EMPTY) {
+        if (state == State.EMPTY && image != null) {
+            image?.into(vEmptyImage)
+            vEmptyImage.visibility = View.VISIBLE
+        } else if (state == State.ERROR && imageError != null) {
+            imageError?.into(vEmptyImage)
+            vEmptyImage.visibility = View.VISIBLE
+        } else {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
-        } else {
-            image?.noHolder()?.into(vEmptyImage)
-            vEmptyImage.visibility = View.VISIBLE
         }
 
         if (state == State.ERROR) {
             vMessage.text = textErrorNetwork
             vAction.text = textRetry
-            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
-            ToolsView.alpha(vAction, vAction.text.isEmpty())
+            vEmptyImage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
+            vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
 
             vAction.setOnClickListener { onReloadClicked() }
         }
@@ -164,24 +168,24 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         if (state == State.EMPTY) {
             vMessage.text = textEmptyS
             vAction.text = textAction
-            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
-            ToolsView.alpha(vAction, vAction.text.isEmpty())
+            vMessage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
+            vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
 
             vAction.setOnClickListener { if (onAction != null) onAction!!.invoke() }
         }
 
         if (state == State.PROGRESS) {
-            vMessage.visibility = View.INVISIBLE
+            vMessage.visibility = View.GONE
             vMessage.text = textProgressS
             vAction.text = textProgressAction
             vAction.setOnClickListener { if (onProgressAction != null) onProgressAction!!.invoke() }
         }
 
         if (state == State.NONE) {
-
-            ToolsView.toAlpha(vMessage)
-            ToolsView.toAlpha(vAction)
+            vMessage.visibility = View.GONE
+            vAction.visibility = View.GONE
         }
+
 
     }
 

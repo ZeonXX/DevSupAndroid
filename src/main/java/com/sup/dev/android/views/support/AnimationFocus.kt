@@ -85,9 +85,9 @@ class AnimationFocus(private val view: View, private val focusColorClick: Int) :
 
     fun setClickAnimationEnabled(b: Boolean) {
         if (b)
-            animationClick[focusColorAlpha] = focusColorClick
+            animationClick.set(focusColorAlpha, focusColorClick)
         else
-            animationClick[0x00000000] = 0x00000000
+            animationClick.set(0x00000000, 0x00000000)
     }
 
     fun setOnTouched(onTouched: (Boolean)->Unit) {
