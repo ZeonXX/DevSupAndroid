@@ -146,7 +146,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         }
 
         if (state == State.EMPTY && image != null) {
-            image?.into(vEmptyImage)
+            image?.into(vEmptyImage) {}
             vEmptyImage.visibility = View.VISIBLE
         } else if (state == State.ERROR && imageError != null) {
             imageError?.into(vEmptyImage)
@@ -159,7 +159,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         if (state == State.ERROR) {
             vMessage.text = textErrorNetwork
             vAction.text = textRetry
-            vEmptyImage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
+            vMessage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
             vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
 
             vAction.setOnClickListener { onReloadClicked() }
@@ -185,8 +185,6 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
             vMessage.visibility = View.GONE
             vAction.visibility = View.GONE
         }
-
-
     }
 
 }

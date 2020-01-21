@@ -23,12 +23,12 @@ object ToolsCash {
         ToolsCash.overClearSize = overClearSize
     }
 
-    fun put(data: ByteArray, name: String): File? {
+    fun put(data: ByteArray, name: String, immortal: Boolean=false): File? {
 
         try {
             clearIfNeed()
 
-            val cacheDir = SupAndroid.appContext!!.cacheDir
+            val cacheDir = if (immortal) SupAndroid.appContext!!.filesDir else SupAndroid.appContext!!.cacheDir
 
             val file = File(cacheDir, name)
 
@@ -83,8 +83,9 @@ object ToolsCash {
     }
 
 
-    fun get(name: String): ByteArray? {
-        val cacheDir = SupAndroid.appContext!!.cacheDir
+    fun get(name: String) = get(name, SupAndroid.appContext!!.cacheDir)?: get(name, SupAndroid.appContext!!.filesDir)
+
+    private fun get(name: String, cacheDir:File): ByteArray? {
         val file = File(cacheDir, name)
 
         if (!file.exists()) return null

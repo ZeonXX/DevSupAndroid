@@ -1,38 +1,38 @@
 <resources>
 
-    <attr name="widget_background" format="color"/>
-    <attr name="widget_companion_background" format="color"/>
-    <attr name="window_background" format="color"/>
-    <attr name="content_background" format="color"/>
-    <attr name="content_background_screen" format="color"/>
-    <attr name="navigation_bar_is_light" format="boolean"/>
-    <attr name="toolbar_content_color" format="color"/>
-    <attr name="toolbar_content_color_secondary" format="color"/>
-    <attr name="color_stroke" format="color"/>
-    <attr name="color_interface_text" format="color"/>
-    <attr name="color_divider" format="color"/>
-    <attr name="popup_background" format="color"/>
-    <attr name="revers_color" format="color"/>
-    <attr name="revers_color_lighted" format="color"/>
-    <attr name="selector_chip" format="reference"/>
-    <attr name="selector_chip_outline" format="reference"/>
-    <attr name="ic_arrow_back_24dp" format="reference"/>
-    <attr name="ic_menu_24dp" format="reference"/>
-    <attr name="ic_keyboard_arrow_right_24dp" format="reference"/>
-    <attr name="ic_keyboard_arrow_left_24dp" format="reference"/>
-    <attr name="ic_file_download_24dp" format="reference"/>
-    <attr name="ic_share_24dp" format="reference"/>
-    <attr name="ic_keyboard_arrow_up_24dp" format="reference"/>
-    <attr name="ic_keyboard_arrow_down_24dp" format="reference"/>
-    <attr name="ic_content_copy_24dp" format="reference"/>
-    <attr name="ic_folder_24dp" format="reference"/>
-    <attr name="ic_insert_drive_file_24dp" format="reference"/>
-    <attr name="ic_mic_24dp" format="reference"/>
-    <attr name="ic_clear_24dp" format="reference"/>
-    <attr name="ic_panorama_fish_eye_24dp" format="reference"/>
-    <attr name="ic_lock_24dp" format="reference"/>
-    <attr name="them_use_navigation_icons_filters" format="boolean"/>
-    <attr name="them_status_bar_is_light" format="boolean"/>
+    <attr name="widget_background" format="color" />
+    <attr name="widget_companion_background" format="color" />
+    <attr name="window_background" format="color" />
+    <attr name="content_background" format="color" />
+    <attr name="content_background_screen" format="color" />
+    <attr name="navigation_bar_is_light" format="boolean" />
+    <attr name="toolbar_content_color" format="color" />
+    <attr name="toolbar_content_color_secondary" format="color" />
+    <attr name="color_stroke" format="color" />
+    <attr name="color_interface_text" format="color" />
+    <attr name="color_divider" format="color" />
+    <attr name="popup_background" format="color" />
+    <attr name="revers_color" format="color" />
+    <attr name="revers_color_lighted" format="color" />
+    <attr name="selector_chip" format="reference" />
+    <attr name="selector_chip_outline" format="reference" />
+    <attr name="ic_arrow_back_24dp" format="reference" />
+    <attr name="ic_menu_24dp" format="reference" />
+    <attr name="ic_keyboard_arrow_right_24dp" format="reference" />
+    <attr name="ic_keyboard_arrow_left_24dp" format="reference" />
+    <attr name="ic_file_download_24dp" format="reference" />
+    <attr name="ic_share_24dp" format="reference" />
+    <attr name="ic_keyboard_arrow_up_24dp" format="reference" />
+    <attr name="ic_keyboard_arrow_down_24dp" format="reference" />
+    <attr name="ic_content_copy_24dp" format="reference" />
+    <attr name="ic_folder_24dp" format="reference" />
+    <attr name="ic_insert_drive_file_24dp" format="reference" />
+    <attr name="ic_mic_24dp" format="reference" />
+    <attr name="ic_clear_24dp" format="reference" />
+    <attr name="ic_panorama_fish_eye_24dp" format="reference" />
+    <attr name="ic_lock_24dp" format="reference" />
+    <attr name="them_use_navigation_icons_filters" format="boolean" />
+    <attr name="them_status_bar_is_light" format="boolean" />
 
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -267,6 +267,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="AppBar.Transparent">
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@null</item>
+        <item name="elevation">0dp</item>
+    </style>
+
     <style name="CollapsingToolbar">
         <item name="android:id">@id/vCollapsingToolbar</item>
         <item name="android:layout_width">match_parent</item>
@@ -292,7 +298,7 @@
         <item name="fabSize">mini</item>
     </style>
 
-    <style name="Widget.GifView" parent="@android:style/Widget"/>
+    <style name="Widget.GifView" parent="@android:style/Widget" />
 
     <style name="Divider">
         <item name="android:id">@id/vDivider</item>
@@ -433,7 +439,7 @@
         <item name="strokeColor">?color_stroke</item>
     </style>
 
-    <style name="TextInputLayout" >
+    <style name="TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

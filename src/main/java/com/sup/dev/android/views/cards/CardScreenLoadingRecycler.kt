@@ -10,7 +10,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.api.ApiRequest
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardScreenLoadingRecycler<C : Card, V>(res: Int = R.layout.card_loading_recycler) : CardScreenLoading(res) {

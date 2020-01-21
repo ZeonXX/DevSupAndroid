@@ -9,12 +9,10 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.sup.dev.java.libs.debug.err
 
-
 class ViewEditTextMedia constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : androidx.appcompat.widget.AppCompatEditText(context, attrs) {
-
 
     private var callback: ((String) -> Unit)? = null
 

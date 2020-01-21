@@ -15,6 +15,7 @@ import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.IllegalStateException
 
 
 @SuppressLint("StaticFieldLeak")
@@ -80,7 +81,9 @@ object SupAndroid {
 
         ToolsThreads.onMain = { onNextTime, runnable ->
             if ((!onNextTime) && ToolsAndroid.isMainThread()) runnable.invoke()
-            else Handler(Looper.getMainLooper()).post { runnable.invoke() }
+            else Handler(Looper.getMainLooper()).post {
+                runnable.invoke()
+            }
         }
 
         Debug.printer = { s -> Log.e("Debug", s) }

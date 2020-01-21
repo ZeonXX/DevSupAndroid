@@ -82,9 +82,9 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
                 hide()
             }
             if(res > 0) vImage.setImageResource(res)
-            else  vImage.setImageDrawable(ToolsResources.getDrawableAttr(attr))
+            else vImage.setImageDrawable(ToolsResources.getDrawableAttrNullable(attr))
 
-            val index = adapter!!.indexOf(this)
+            val index = adapter.indexOf(this)
             val arg = index % spanCount
             view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount - 1) 0 else DP, DP)
 

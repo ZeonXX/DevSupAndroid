@@ -39,6 +39,7 @@ abstract class ImageLink {
     internal var autoDiskCashMaxSize = 1024 * 1024 * 2
     internal var resizeByMinSide = false
     internal var autocropIfLostBounds = true
+    internal var immortalCash = false
 
     internal var created = false
 
@@ -83,7 +84,7 @@ abstract class ImageLink {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
         val data = load()
-        if (data != null && !noCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode())
+        if (data != null && !noCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode(), immortalCash)
         return data
     }
 
@@ -100,7 +101,7 @@ abstract class ImageLink {
     //
 
     fun getParamsSum(): String {
-        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$allowGif$noHolder$fade$cashScaledBytes$noCash$noLoadFromCash$autoDiskCashMaxSize$resizeByMinSide"
+        return "$cropSquareCenter$w$h$minW$minH$maxW$maxH$cropW$cropH$resizeByMinSide"
     }
 
     fun copy(): ImageLink {
@@ -124,6 +125,7 @@ abstract class ImageLink {
         link.autoDiskCashMaxSize = this.autoDiskCashMaxSize
         link.resizeByMinSide = this.resizeByMinSide
         link.autocropIfLostBounds = this.autocropIfLostBounds
+        link.immortalCash = this.immortalCash
         return link
     }
 
@@ -157,6 +159,11 @@ abstract class ImageLink {
         cropH = h
         if (cropH > 1 && cropW < 1) throw RuntimeException("cropW[$cropW] can't be < 1")
         if (cropW > 1 && cropH < 1) throw RuntimeException("cropH[$cropH] can't be < 1")
+        return this
+    }
+
+    fun immortalCash(): ImageLink{
+        immortalCash = true
         return this
     }
 

@@ -174,7 +174,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         if (state == State.ERROR) {
             vMessage.text = textErrorNetwork
             vAction.text = textRetry
-            vEmptyImage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
+            vMessage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
             vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
 
             vAction.setOnClickListener { onReloadClicked() }
