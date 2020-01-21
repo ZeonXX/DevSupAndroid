@@ -2,16 +2,20 @@ package com.sup.dev.android.views.splash
 
 import android.view.View
 import com.sup.dev.android.R
+import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.classes.geometry.Dimensions
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsMath
 
 class Popup(
         widget: Widget
 ) : SplashView<Popup>(widget, R.layout.splash_popup) {
 
+    private val eveentBus = EventBus.subscribe(EventConfigurationChanged::class){vSplashViewContainer.requestLayout()}
     private val constMaxH = ToolsView.dpToPx(600)
     private val constReserveH = ToolsView.dpToPx(40)
     private val constOffset = ToolsView.dpToPx(16)
@@ -58,7 +62,10 @@ class Popup(
         var yV = ToolsMath.max(constOffset, location[1] + targetY)
         if (xV + width > maxWBase - constOffset) xV = xV - ((xV + width) - maxWBase) - constOffset
         if (xV < constOffset) xV = constOffset
-        if (yV + height > maxHBase - constOffset) yV = yV - ((height + yV) - maxHBase) - constOffset
+        if (yV + height > maxHBase - constOffset){
+            if(widget.allowPopupMirrorHeight) yV = yV - height - widget.popupYMirrorOffset
+            else yV = yV - ((height + yV) - maxHBase) - constOffset
+        }
         if (yV < constOffset) yV = constOffset
 
         vSplashViewContainer.x = xV
