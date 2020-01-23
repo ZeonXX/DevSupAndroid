@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.sup.dev.java.libs.debug.log
 
 
 class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :  AppBarLayout.Behavior(context, attrs){

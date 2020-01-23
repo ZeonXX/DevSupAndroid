@@ -117,6 +117,7 @@
         <attr name="ViewAvatarTitle_chipMode" format="boolean"/>
         <attr name="ViewAvatarTitle_subtitleSingleLine" format="boolean"/>
         <attr name="ViewAvatarTitle_subtitleEllipsizeEnd" format="boolean"/>
+        <attr name="ViewAvatarTitle_avatarHeight" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ViewChipMini">

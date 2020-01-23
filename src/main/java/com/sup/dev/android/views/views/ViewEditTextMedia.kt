@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 
 
 class ViewEditTextMedia constructor(

@@ -25,6 +25,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     val vSubtitle: ViewTextLinkable
 
     private var chipModeAvatar = true
+    private var avatarHeight = -1f
 
     init {
 
@@ -54,6 +55,7 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
         val subtitleSingleLine = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleSingleLine, false)
         val ellipsizeEnd = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_subtitleEllipsizeEnd, false)
         chipModeAvatar = a.getBoolean(R.styleable.ViewAvatarTitle_ViewAvatarTitle_chipMode, chipModeAvatar)
+        avatarHeight = a.getDimension(R.styleable.ViewAvatarTitle_ViewAvatarTitle_avatarHeight, -1f)
         a.recycle()
 
         vAvatar.setImage(src)
@@ -74,7 +76,10 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     }
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
-        if (params != null && params.height > -1) {
+        if(avatarHeight != -1f){
+            vAvatar.layoutParams?.height = avatarHeight.toInt()
+            vAvatar.layoutParams?.width = avatarHeight.toInt()
+        } else if (params != null && params.height > -1) {
             vAvatar.layoutParams?.height = params.height
             vAvatar.layoutParams?.width = params.height
         }
@@ -132,6 +137,11 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
 
     fun setSubtitleColor(color: Int) {
         vSubtitle.setTextColor(color)
+    }
+
+    fun setAvatarHeight(pixels:Float){
+        avatarHeight = pixels
+        setLayoutParams(layoutParams)
     }
 
     //

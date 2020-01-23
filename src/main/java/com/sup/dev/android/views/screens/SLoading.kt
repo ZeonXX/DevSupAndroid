@@ -15,6 +15,7 @@ import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_loading) {
@@ -46,6 +47,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
+    private var lastStateRequestKey = 0L
 
     init {
 
@@ -141,6 +143,19 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     fun setState(state: State) {
+        if(state == State.EMPTY){
+            //  Защита от мерцаний при частых вызовах
+            val key = System.nanoTime()
+            lastStateRequestKey = key
+            ToolsThreads.main(200){
+                if(key == lastStateRequestKey) setStateNow(state)
+            }
+        }else{
+            setStateNow(state)
+        }
+    }
+
+    private fun setStateNow(state: State) {
         this.stateS = state
 
         if (vAppBar != null && vEmptySubContainer == null) {
