@@ -1,13 +1,17 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.os.BuildCompat
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
+
 
 class ViewEditTextMedia constructor(
         context: Context,
@@ -15,6 +19,8 @@ class ViewEditTextMedia constructor(
 ) : androidx.appcompat.widget.AppCompatEditText(context, attrs) {
 
     private var callback: ((String) -> Unit)? = null
+    private var lastError: CharSequence? = null
+
 
     @Suppress("DEPRECATION")
     override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection? {
@@ -29,7 +35,7 @@ class ViewEditTextMedia constructor(
                 if (BuildCompat.isAtLeastNMR1() && (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
                     try {
                         inputContentInfo.requestPermission()
-                    } catch (e:Exception) {
+                    } catch (e: Exception) {
                         err(e)
                         return@createWrapper false
                     }
@@ -38,7 +44,7 @@ class ViewEditTextMedia constructor(
                 try {
                     if (callback != null) callback!!.invoke(inputContentInfo.linkUri.toString())
                     return@createWrapper true
-                } catch (e:Exception) {
+                } catch (e: Exception) {
                     err(e)
                 }
 
@@ -52,6 +58,12 @@ class ViewEditTextMedia constructor(
 
     fun setCallback(callback: ((String) -> Unit)?) {
         this.callback = callback
+    }
+
+    override fun setError(error: CharSequence?, icon: Drawable?) {
+        if (error != lastError) super.setError(if(error == "") null else error, null)
+        this.lastError = error
+        setCompoundDrawables(null, null, if (error == null) null else icon, null)
     }
 
 }

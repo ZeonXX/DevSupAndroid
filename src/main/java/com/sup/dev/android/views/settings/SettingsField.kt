@@ -102,7 +102,7 @@ class SettingsField constructor(
 
     fun setError(error: String?) {
         isError = error != null
-        if (vField.error != error) vField.error = error //  Скроллит к полю при вызове метода
+        vField.error = error
     }
 
     fun clearError() {

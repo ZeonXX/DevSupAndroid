@@ -249,7 +249,7 @@
         <item name="android:textColorPrimary">?attr/toolbar_content_color</item>
         <item name="android:textColorSecondary">?attr/toolbar_content_color</item>
         <item name="actionMenuTextColor">?attr/toolbar_content_color</item>
-        <item name="layout_scrollFlags">scroll|enterAlways</item>
+        <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
     <style name="Toolbar.Collapse">
@@ -265,6 +265,7 @@
         <item name="android:id">@id/vAppBar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="layout_behavior">com.sup.dev.android.views.support.AppBarLayoutBehavior</item>
     </style>
 
     <style name="AppBar.Transparent">
