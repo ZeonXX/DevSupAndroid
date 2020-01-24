@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 
 
 class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :  AppBarLayout.Behavior(context, attrs){
@@ -22,7 +23,7 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
     }
 
     override fun onStartNestedScroll(parent: CoordinatorLayout, child: AppBarLayout, directTargetChild: View, target: View, nestedScrollAxes: Int, type: Int): Boolean {
-        updatedScrollable(directTargetChild)
+        updatedScrollable(directTargetChild, child)
         return scrollableRecyclerView && super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
     }
 
@@ -30,7 +31,7 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
         return scrollableRecyclerView && super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed)
     }
 
-    private fun updatedScrollable(directTargetChild: View) {
+    private fun updatedScrollable(directTargetChild: View, appBar: AppBarLayout) {
         val recyclerView = findRecyclerView(directTargetChild)
         if (recyclerView == null) {
             scrollableRecyclerView = true
@@ -38,20 +39,31 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
         }
         val adapter = recyclerView.adapter
         val layoutManager = recyclerView.layoutManager
-        if (adapter == null || layoutManager == null) {
+        if (adapter == null || layoutManager == null || appbarContainsColapse(appBar)) {
             scrollableRecyclerView = true
             return
         }
 
-        var lastVisibleItem = 0
+        var lastVisibleItem = -1
         if (layoutManager is LinearLayoutManager) {
-            lastVisibleItem = Math.abs(layoutManager.findLastCompletelyVisibleItemPosition())
+            lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition()
         } else if (layoutManager is StaggeredGridLayoutManager) {
             val lastItems = layoutManager.findLastCompletelyVisibleItemPositions(IntArray(layoutManager.spanCount))
             lastVisibleItem = Math.abs(lastItems[lastItems.size - 1])
         }
+
+        if(lastVisibleItem < 0){
+            scrollableRecyclerView = true
+            return
+        }
         scrollableRecyclerView = lastVisibleItem <  adapter.itemCount - 1
     }
+
+    private fun appbarContainsColapse(appBar: AppBarLayout):Boolean{
+        for(i in 0 until appBar.childCount) if(appBar.getChildAt(i) is CollapsingToolbarLayout) return true
+        return false
+    }
+
 
     private fun findRecyclerView(view: View):RecyclerView? {
         if (view is RecyclerView) return view
