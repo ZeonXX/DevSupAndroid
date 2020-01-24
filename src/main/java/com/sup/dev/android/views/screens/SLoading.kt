@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_loading) {
