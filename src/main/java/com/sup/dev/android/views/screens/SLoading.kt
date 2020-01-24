@@ -143,16 +143,13 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     }
 
     fun setState(state: State) {
-        if(state == State.EMPTY){
-            //  Защита от мерцаний при частых вызовах
-            val key = System.nanoTime()
-            lastStateRequestKey = key
-            ToolsThreads.main(200){
-                if(key == lastStateRequestKey) setStateNow(state)
-            }
-        }else{
+        val key = System.nanoTime()
+        lastStateRequestKey = key
+        if (state == State.EMPTY)
+            ToolsThreads.main(200) { if (key == lastStateRequestKey) setStateNow(state) }//  Защита от мерцаний при частых вызовах
+        else
             setStateNow(state)
-        }
+
     }
 
     private fun setStateNow(state: State) {

@@ -17,10 +17,10 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.lang.ref.WeakReference
-import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 object ImageLoader {
 
@@ -30,7 +30,7 @@ object ImageLoader {
     private val cash = ArrayList<Item3<String, Bitmap?, ByteArray?>>()
     private var cashSize = 0
     private var threadPool: ThreadPoolExecutor = ThreadPoolExecutor(4, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue())
-    private val turn = ArrayList<Loader>()
+    private val processing = ArrayList<Loader>()
 
     init {
         SupAndroid.addOnLowMemory {
@@ -87,16 +87,6 @@ object ImageLoader {
     //  Public
     //
 
-    fun unsubscribe(vImage: ImageView) {
-        var i = 0
-        while (i < turn.size) {
-            if (turn[i].vImage === vImage) {
-                turn.removeAt(i--)
-            }
-            i++
-        }
-
-    }
 
     fun load(link: ImageLink,
              vImage: ImageView? = null,
@@ -111,9 +101,12 @@ object ImageLoader {
     }
 
     private fun load(loader: Loader) {
+
         if (loader.link.fastLoad(loader.vImage)) return
+
         if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
-        val cashItem = if(loader.link.noLoadFromCash) null else getFromCash(loader.link.getKey())
+
+        val cashItem = if (loader.link.noLoadFromCash) null else getFromCash(loader.link.getKey())
         if (cashItem != null) {
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
             return
@@ -137,14 +130,7 @@ object ImageLoader {
             }
 
             ToolsThreads.main {
-
-
-                turn.add(loader)
-
-                for (l in turn) if (l.link.isKey(loader.link.getKey()) && l !== loader) return@main
-
                 loadStart(loader)
-
             }
 
         }
@@ -152,11 +138,22 @@ object ImageLoader {
 
     private fun loadStart(loader: Loader) {
         threadPool.execute {
+            synchronized(processing) {
+                if(loader.loopCount > 0) {
+                    for (i in processing) if (i.link.isKey(loader.link.getKey())) {
+                        loader.loopCount--
+                        ToolsThreads.main(100) { load(loader) }
+                        return@execute
+                    }
+                }
+                processing.add(loader)
+            }
             try {
                 loadNow(loader)
             } catch (ex: Throwable) {
                 err(ex)
             }
+            synchronized(processing) { processing.remove(loader) }
         }
     }
 
@@ -190,7 +187,6 @@ object ImageLoader {
                         loader.vImage.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
                     }
                 }
-                unsubscribe(loader.vImage)
             }
         }
 
@@ -245,8 +241,6 @@ object ImageLoader {
     //
 
     private fun loadNow(loader: Loader) {
-        if (!turn.contains(loader)) return
-
         val loadedBytes = loader.link.startLoad()
         if (loadedBytes == null) {
             if (loader.link.onError != null) ToolsThreads.main { loader.link.onError?.invoke() }
@@ -264,21 +258,7 @@ object ImageLoader {
             if (loader.link.cashScaledBytes && bitmap != null) bytes = ToolsBitmap.toJPGBytes(bitmap, 100)
         }
 
-        ToolsThreads.main {
-
-            var i = 0
-            while (i < turn.size) {
-                val l = turn[i]
-                if (l.link.isKey(loader.link.getKey())) {
-                    turn.removeAt(i--)
-                    putImage(l, bitmap, true, bytes)
-                }
-                i++
-            }
-
-            Unit
-
-        }
+        ToolsThreads.main { putImage(loader, bitmap, true, bytes) }
 
     }
 
@@ -330,5 +310,6 @@ object ImageLoader {
     ) {
 
         var tryCount = 2
+        var loopCount = 20
     }
 }
