@@ -55,14 +55,16 @@ open class SActivityTypeBottomNavigation(
         setShadow(vLine!!)
 
         (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h ->
-            if (ToolsAndroid.isScreenPortrait()) {
-                lastH_P = View.MeasureSpec.getSize(h)
-                if (maxH_P < lastH_P) maxH_P = lastH_P
-            } else {
-                lastH_L = View.MeasureSpec.getSize(h)
-                if (maxH_L < lastH_L) maxH_L = lastH_L
+            ToolsThreads.main(200) {    //  Задержка для того, чтобы система успела пересчитать размеры
+                if (ToolsAndroid.isScreenPortrait()) {
+                    lastH_P = activity.vActivityRoot?.height?:0
+                    if (maxH_P < lastH_P) maxH_P = lastH_P
+                } else {
+                    lastH_L  = activity.vActivityRoot?.height?:0
+                    if (maxH_L < lastH_L) maxH_L = lastH_L
+                }
+                updateNavigationVisible()
             }
-            ToolsThreads.main(true) { updateNavigationVisible() }
         }
     }
 
@@ -103,8 +105,8 @@ open class SActivityTypeBottomNavigation(
     }
 
     fun isKeyboardShown(): Boolean {
-        return if (ToolsAndroid.isScreenPortrait()) lastH_P < (maxH_P - ToolsView.dpToPx(50))
-        else lastH_L < (maxH_L - ToolsView.dpToPx(50))
+        return if (ToolsAndroid.isScreenPortrait()) lastH_P < (maxH_P - ToolsView.dpToPx(100))
+        else lastH_L < (maxH_L - ToolsView.dpToPx(100))
     }
 
     //

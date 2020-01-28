@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.sup.dev.android.tools.ToolsCash
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 
 abstract class ImageLink {
@@ -354,12 +356,13 @@ abstract class ImageLink {
             if (minH > maxH) throw RuntimeException("minW[$minH] > maxW[$maxH]")
 
             if (autocropIfLostBounds) {
-                if (generatedW < minW || generatedH > maxH) {
+                //  ToolsView.dpToPx(1) защита от хвостов при маштабировании
+                if (generatedW+ToolsView.dpToPx(1) < minW || generatedH-ToolsView.dpToPx(1) > maxH) {
                     crop(minW, maxH)
                     generateSizesIfNeed()
                     return
                 }
-                if (generatedH < minH || generatedW > maxW) {
+                if (generatedH+ToolsView.dpToPx(1) < minH || generatedW-ToolsView.dpToPx(1) > maxW) {
                     crop(maxW, minH)
                     generateSizesIfNeed()
                     return

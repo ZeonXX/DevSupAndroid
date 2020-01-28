@@ -40,13 +40,12 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var textEmptyS: String? = null
     protected var textProgressS: String? = null
     protected var image: ImageLink? = null
-    protected var imageError: ImageLink? = SupAndroid.imgErrorNetwork
     protected var textProgressAction: String? = null
     protected var onProgressAction: (() -> Unit)? = null
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
-    private var lastStateRequestKey = 0L
+    private var progressViewDisabled = false
 
     init {
 
@@ -68,7 +67,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         vAppBar = vContainer.findViewById(R.id.vAppBar)
         vEmptySubContainer = vContainer.findViewById(R.id.vEmptySubContainer)
 
-        if (vEmptySubContainer != null) {
+        if(vEmptySubContainer != null) {
             (vEmptyContainer.parent as ViewGroup).removeView(vEmptyContainer)
             vEmptySubContainer!!.addView(vEmptyContainer)
         }
@@ -141,17 +140,18 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
     }
 
-    fun setState(state: State) {
-        val key = System.nanoTime()
-        lastStateRequestKey = key
-        if (state == State.EMPTY)
-            ToolsThreads.main(200) { if (key == lastStateRequestKey) setStateNow(state) }//  Защита от мерцаний при частых вызовах
-        else
-            setStateNow(state)
-
+    fun setProgressViewDisabled(progressViewDisabled:Boolean){
+        this.progressViewDisabled = progressViewDisabled
+        if(progressViewDisabled) {
+            ToolsView.clearAnimation(vProgress)
+            vProgress.visibility = View.GONE
+            vProgressLine.visibility = View.GONE
+        }else{
+            setState(stateS)
+        }
     }
 
-    private fun setStateNow(state: State) {
+    fun setState(state: State) {
         this.stateS = state
 
         if (vAppBar != null && vEmptySubContainer == null) {
@@ -160,33 +160,30 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
 
         if (state == State.PROGRESS) {
             ToolsThreads.main(600) {
-                vProgress.visibility = if (this.stateS != State.PROGRESS || textProgressS != null) View.GONE else View.VISIBLE
-                vProgressLine.visibility = if (this.stateS != State.PROGRESS || textProgressS == null) View.GONE else View.VISIBLE
+                ToolsView.alpha(vProgress, this.stateS != State.PROGRESS || textProgressS != null || progressViewDisabled)
+                ToolsView.alpha(vProgressLine, this.stateS != State.PROGRESS || textProgressS == null || progressViewDisabled)
                 if (this.stateS == State.PROGRESS && vMessage.text.isNotEmpty()) {
-                    vMessage.visibility = View.VISIBLE
+                    ToolsView.fromAlpha(vMessage)
                 }
             }
         } else {
-            vProgress.visibility = View.GONE
-            vProgressLine.visibility = View.GONE
+            ToolsView.toAlpha(vProgress)
+            ToolsView.toAlpha(vProgressLine)
         }
 
-        if (state == State.EMPTY && image != null) {
-            image?.into(vEmptyImage)
-            vEmptyImage.visibility = View.VISIBLE
-        } else if (state == State.ERROR && imageError != null) {
-            imageError?.into(vEmptyImage)
-            vEmptyImage.visibility = View.VISIBLE
-        } else {
+        if (image==null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
+        } else {
+            image?.into(vEmptyImage)
+            vEmptyImage.visibility = View.VISIBLE
         }
 
         if (state == State.ERROR) {
             vMessage.text = textErrorNetwork
             vAction.text = textRetry
-            vMessage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
-            vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
+            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
+            ToolsView.alpha(vAction, vAction.text.isEmpty())
 
             vAction.setOnClickListener { onReloadClicked() }
         }
@@ -194,22 +191,23 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         if (state == State.EMPTY) {
             vMessage.text = textEmptyS
             vAction.text = textAction
-            vMessage.visibility = if (vMessage.text.isEmpty()) View.GONE else View.VISIBLE
-            vAction.visibility = if (vAction.text.isEmpty()) View.GONE else View.VISIBLE
+            ToolsView.alpha(vMessage, vMessage.text.isEmpty())
+            ToolsView.alpha(vAction, vAction.text.isEmpty())
 
             vAction.setOnClickListener { if (onAction != null) onAction!!.invoke() }
         }
 
         if (state == State.PROGRESS) {
-            vMessage.visibility = View.GONE
+            vMessage.visibility = View.INVISIBLE
             vMessage.text = textProgressS
             vAction.text = textProgressAction
             vAction.setOnClickListener { if (onProgressAction != null) onProgressAction!!.invoke() }
         }
 
         if (state == State.NONE) {
-            vMessage.visibility = View.GONE
-            vAction.visibility = View.GONE
+
+            ToolsView.toAlpha(vMessage)
+            ToolsView.toAlpha(vAction)
         }
 
     }
