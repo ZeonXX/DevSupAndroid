@@ -97,6 +97,9 @@ open class Settings @JvmOverloads constructor(
         vSubtitle?.text = subtitle
         vSubtitle?.visibility = if (subtitle != null && subtitle.isNotEmpty()) View.VISIBLE else View.GONE
     }
+    fun setSubtitleColor(color: Int) {
+        vSubtitle?.setTextColor(color)
+    }
 
     fun setIcon(@DrawableRes icon: Int) {
         if (icon == 0)

@@ -8,7 +8,6 @@ import com.sup.dev.android.tools.ToolsCash
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsMath
 
 abstract class ImageLink {
