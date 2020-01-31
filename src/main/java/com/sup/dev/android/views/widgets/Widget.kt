@@ -2,6 +2,9 @@ package com.sup.dev.android.views.widgets
 
 import androidx.annotation.*
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.NavigationAction

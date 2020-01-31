@@ -9,12 +9,11 @@
     <TextView
         android:id="@+id/vTitle"
         style="@style/Base.TextAppearance.AppCompat.Subhead"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:text="Please input text"
         android:textSize="20sp"/>
 
     <com.sup.dev.android.views.settings.SettingsField
@@ -46,13 +45,11 @@
             <com.sup.dev.android.views.views.ViewButton
                 android:id="@+id/vCancel"
                 style="@style/Button.Text"
-                android:layout_marginRight="8dp"
-                android:text="Cancel"/>
+                android:layout_marginRight="8dp"/>
 
             <com.sup.dev.android.views.views.ViewButton
                 android:id="@+id/vEnter"
-                style="@style/Button.Text"
-                android:text="Action"/>
+                style="@style/Button.Text"/>
 
         </LinearLayout>
 

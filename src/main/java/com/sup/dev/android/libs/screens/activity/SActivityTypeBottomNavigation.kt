@@ -27,7 +27,7 @@ open class SActivityTypeBottomNavigation(
 
     }
 
-    var onExtraNavigationItemClicked:()->Unit = {
+    var onExtraNavigationItemClicked: () -> Unit = {
         widgetMenu!!.asSheetShow()
     }
 
@@ -39,6 +39,7 @@ open class SActivityTypeBottomNavigation(
     private var lastH_L = 0
     private var maxH_L = 0
     private var skipNextNavigationAnimation = false
+    private var lastScreenOrientationPortrait = ToolsAndroid.isScreenPortrait()
 
     private var vContainer: LinearLayout? = null
     private var vLine: View? = null
@@ -55,12 +56,14 @@ open class SActivityTypeBottomNavigation(
         setShadow(vLine!!)
 
         (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h ->
-            ToolsThreads.main(200) {    //  Задержка для того, чтобы система успела пересчитать размеры
+            //  Задержка для того, чтобы система успела пересчитать размеры
+            ToolsThreads.main(if (lastScreenOrientationPortrait && ToolsAndroid.isScreenPortrait()) 20L else 200L) {
+                lastScreenOrientationPortrait = ToolsAndroid.isScreenPortrait()
                 if (ToolsAndroid.isScreenPortrait()) {
-                    lastH_P = activity.vActivityRoot?.height?:0
+                    lastH_P = activity.vActivityRoot?.height ?: 0
                     if (maxH_P < lastH_P) maxH_P = lastH_P
                 } else {
-                    lastH_L  = activity.vActivityRoot?.height?:0
+                    lastH_L = activity.vActivityRoot?.height ?: 0
                     if (maxH_L < lastH_L) maxH_L = lastH_L
                 }
                 updateNavigationVisible()
@@ -113,12 +116,12 @@ open class SActivityTypeBottomNavigation(
     //  Navigation Item
     //
 
-    override fun createExtraNavigationItem(useIconsFilters: Boolean, onClick:(()->Unit)?): SActivityType.NavigationItem? {
+    override fun createExtraNavigationItem(useIconsFilters: Boolean, onClick: (() -> Unit)?): SActivityType.NavigationItem? {
         if (widgetMenu == null) {
             widgetMenu = WidgetMenu()
-            extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { onExtraNavigationItemClicked.invoke()}
+            extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { onExtraNavigationItemClicked.invoke() }
         }
-        if(onClick != null) this.onExtraNavigationItemClicked = onClick
+        if (onClick != null) this.onExtraNavigationItemClicked = onClick
         return extraNavigationItem
     }
 
@@ -149,7 +152,7 @@ open class SActivityTypeBottomNavigation(
             item.vIcon?.setImageResource(icon)
             if (useIconsFilters) item.vIcon?.setFilter(getIconsColor())
             item.vIcon?.setOnClickListener(onClick)
-            if (onLongClick != null) item.view?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
+            if (onLongClick != null) item.vIcon?.setOnLongClickListener { onLongClick.invoke(it); return@setOnLongClickListener true }
             item.vChip?.visibility = View.GONE
             item.vText?.text = text
 
@@ -175,7 +178,7 @@ open class SActivityTypeBottomNavigation(
                 found = true
             } else i.vIcon?.setFilter(getIconsColor())
         }
-        if (!found) for (i in iconsList) if(i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
+        if (!found) for (i in iconsList) if (i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
     }
 
     override fun getExtraNavigationItem() = extraNavigationItem

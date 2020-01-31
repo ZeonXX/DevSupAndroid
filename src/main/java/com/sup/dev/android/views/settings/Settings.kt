@@ -21,12 +21,13 @@ import java.util.ArrayList
 open class Settings @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        @LayoutRes layoutRes: Int   = R.layout.settings_action
+        @LayoutRes layoutRes: Int = R.layout.settings_action
 ) : FrameLayout(context, attrs) {
 
 
     val view: View
     private var isSubSettingsEnabled = true
+    private var reversSubSettingsEnabled = false
     private val line: View
     private val vIcon: ViewCircleImage?
     private val vTitle: TextView?
@@ -97,6 +98,7 @@ open class Settings @JvmOverloads constructor(
         vSubtitle?.text = subtitle
         vSubtitle?.visibility = if (subtitle != null && subtitle.isNotEmpty()) View.VISIBLE else View.GONE
     }
+
     fun setSubtitleColor(color: Int) {
         vSubtitle?.setTextColor(color)
     }
@@ -127,16 +129,21 @@ open class Settings @JvmOverloads constructor(
         settings.isEnabled = isSubSettingsEnabled && isEnabled
     }
 
+    fun setReversSubSettingsEnabled(reversSubSettingsEnabled: Boolean) {
+        this.reversSubSettingsEnabled = reversSubSettingsEnabled
+        setEnabledSubSettings(isEnabled)
+    }
+
     fun setEnabledSubSettings(enabled: Boolean) {
         isSubSettingsEnabled = enabled
-        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = isSubSettingsEnabled && isEnabled
+        if (subSettings != null) for (settings in subSettings!!) settings.isEnabled = if (reversSubSettingsEnabled) !(isSubSettingsEnabled && isEnabled) else (isSubSettingsEnabled && isEnabled)
     }
 
     fun setLineVisible(b: Boolean) {
         line.visibility = if (b) View.VISIBLE else View.GONE
     }
 
-    fun setSubSettingsEnabled(isSubSettingsEnabled:Boolean){
+    fun setSubSettingsEnabled(isSubSettingsEnabled: Boolean) {
         this.isSubSettingsEnabled = isSubSettingsEnabled
     }
 
@@ -165,7 +172,7 @@ open class Settings @JvmOverloads constructor(
     //  Getters
     //
 
-    fun getTitle() = vTitle?.text?:""
+    fun getTitle() = vTitle?.text ?: ""
 
     fun isSubSettingsEnabled() = isSubSettingsEnabled
 
