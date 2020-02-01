@@ -256,7 +256,6 @@ abstract class ImageLink {
     }
 
     fun setOnSetHolder(onSetHolder: () -> Unit): ImageLink {
-        checkCreated()
         this.onSetHolder = onSetHolder
         return this
     }

@@ -70,8 +70,8 @@ class SAlert(
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vImageFull: ImageView = findViewById(R.id.vImageFull)
 
-    var imageLoader: ImageLink? = null
-    var imageLoaderFull: ImageLink? = null
+    private var imageLoader: ImageLink? = null
+    private var imageLoaderFull: ImageLink? = null
 
     init {
 
