@@ -81,11 +81,11 @@ open class Settings @JvmOverloads constructor(
             vSubViewContainer?.addView(view)
     }
 
-    fun setTitle(@StringRes titleRes: Int) {
+    open fun setTitle(@StringRes titleRes: Int) {
         setTitle(ToolsResources.s(titleRes))
     }
 
-    fun setTitle(title: String?) {
+    open fun setTitle(title: String?) {
         vTitle?.text = title
         vTitle?.visibility = if (title != null && title.isNotEmpty()) View.VISIBLE else View.GONE
     }

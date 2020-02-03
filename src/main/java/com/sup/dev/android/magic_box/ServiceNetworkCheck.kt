@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.RequiresPermission
 import androidx.annotation.WorkerThread
+import androidx.core.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.eventbus_multi_process.EventBusMultiProcess
 import com.sup.dev.android.tools.ToolsIntent
+import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
@@ -58,9 +60,7 @@ class ServiceNetworkCheck : Service() {
     }
 
     private fun instanceNotification(): Notification {
-        throw RuntimeException("Fix me")
-        /*
-        return NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.getSalientChanelId())
+        return NotificationCompat.Builder(SupAndroid.appContext!!, NOTIFICATION_SALIENT_CHANEL_ID)
                 .setSmallIcon(NOTIFICATION_ICON)
                 .setAutoCancel(false)
                 .setTicker(NOTIFICATION_TITLE)
@@ -70,7 +70,6 @@ class ServiceNetworkCheck : Service() {
                 .setVibrate(longArrayOf(0L))
                 .setOngoing(true)
                 .build()
-        */
     }
 
     //
@@ -81,13 +80,13 @@ class ServiceNetworkCheck : Service() {
 
     companion object {
 
-
         private val P_KEY = "P_KEY"
         private var globalKey: Long = 0
         val SERVICE_NETWORK_CHECK_LAST_RESULT = "SERVICE_NETWORK_CHECK_LAST_RESULT"
         var NOTIFICATION_ICON: Int = 0
         var NOTIFICATION_TITLE: String? = null
         var NOTIFICATION_TEXT: String? = null
+        var NOTIFICATION_SALIENT_CHANEL_ID = ""
 
         //
         //  Static

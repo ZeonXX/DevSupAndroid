@@ -12,7 +12,7 @@ import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 
 
-class ViewEditTextMedia constructor(
+open class ViewEditTextMedia constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : androidx.appcompat.widget.AppCompatEditText(context, attrs) {

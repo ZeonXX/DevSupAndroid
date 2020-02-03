@@ -305,7 +305,7 @@ object ToolsAndroid {
     }
 
     @Suppress("DEPRECATION")
-    fun screenOn() {
+    fun screenOn(time:Long=5000) {
         if ((SupAndroid.appContext!!.getSystemService(Context.POWER_SERVICE) as PowerManager).isScreenOn)
             return
 
@@ -314,7 +314,7 @@ object ToolsAndroid {
 
         screenLock.acquire()
         Thread {
-            ToolsThreads.sleep(5000)
+            ToolsThreads.sleep(time)
             if (screenLock.isHeld)
                 screenLock.release()
         }.start()

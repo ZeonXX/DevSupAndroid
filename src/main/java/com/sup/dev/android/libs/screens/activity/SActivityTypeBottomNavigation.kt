@@ -55,20 +55,23 @@ open class SActivityTypeBottomNavigation(
         updateNavigationVisible()
         setShadow(vLine!!)
 
-        (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h ->
-            //  Задержка для того, чтобы система успела пересчитать размеры
-            ToolsThreads.main(if (lastScreenOrientationPortrait && ToolsAndroid.isScreenPortrait()) 20L else 200L) {
-                lastScreenOrientationPortrait = ToolsAndroid.isScreenPortrait()
-                if (ToolsAndroid.isScreenPortrait()) {
-                    lastH_P = activity.vActivityRoot?.height ?: 0
-                    if (maxH_P < lastH_P) maxH_P = lastH_P
-                } else {
-                    lastH_L = activity.vActivityRoot?.height ?: 0
-                    if (maxH_L < lastH_L) maxH_L = lastH_L
-                }
-                updateNavigationVisible()
-            }
+        (activity.vActivityRoot as LayoutFrameMeasureCallback).onMeasure = { _, h -> ToolsThreads.main(true) { recalculateBounds() } }
+    }
+
+    private fun recalculateBounds(tryCount: Int = 10) {
+        if (ToolsAndroid.getScreenH() < activity.vActivityRoot?.height ?: 0) {
+            ToolsThreads.main(100) { recalculateBounds(tryCount - 1) }
+            return
         }
+        lastScreenOrientationPortrait = ToolsAndroid.isScreenPortrait()
+        if (ToolsAndroid.isScreenPortrait()) {
+            lastH_P = activity.vActivityRoot?.height ?: 0
+            if (maxH_P < lastH_P) maxH_P = lastH_P
+        } else {
+            lastH_L = activity.vActivityRoot?.height ?: 0
+            if (maxH_L < lastH_L) maxH_L = lastH_L
+        }
+        updateNavigationVisible()
     }
 
     override fun updateNavigationVisible() {

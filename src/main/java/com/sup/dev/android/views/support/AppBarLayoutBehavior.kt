@@ -11,11 +11,24 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
-
+import com.sup.dev.android.models.EventConfigurationChanged
+import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.eventBus.EventBus
 
 class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :  AppBarLayout.Behavior(context, attrs){
 
-    var scrollableRecyclerView = false
+    private var scrollableRecyclerView = false
+    private var appBarLayout:AppBarLayout? = null
+    private var lastScreenOrientation = ToolsAndroid.getScreenOrientation()
+    private var eventBus = EventBus.subscribe(EventConfigurationChanged::class){
+        val p = ToolsAndroid.getScreenOrientation()
+        if(lastScreenOrientation != p){
+            lastScreenOrientation = p
+            appBarLayout?.setExpanded(true)
+        }
+    }
 
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: AppBarLayout, ev: MotionEvent): Boolean {
@@ -23,7 +36,7 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
     }
 
     override fun onStartNestedScroll(parent: CoordinatorLayout, child: AppBarLayout, directTargetChild: View, target: View, nestedScrollAxes: Int, type: Int): Boolean {
-        updatedScrollable(directTargetChild, child)
+        updatedScrollable(parent, directTargetChild, child)
         return scrollableRecyclerView && super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
     }
 
@@ -31,7 +44,16 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
         return scrollableRecyclerView && super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed)
     }
 
-    private fun updatedScrollable(directTargetChild: View, appBar: AppBarLayout) {
+    private fun updatedScrollable(parent: CoordinatorLayout, directTargetChild: View, appBar: AppBarLayout) {
+        this.appBarLayout = appBar
+
+        log("zzz appbar[${appBar.top}]")
+
+        if(appBar.top < 0){
+            scrollableRecyclerView = true
+            return
+        }
+
         val recyclerView = findRecyclerView(directTargetChild)
         if (recyclerView == null) {
             scrollableRecyclerView = true
@@ -39,7 +61,7 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
         }
         val adapter = recyclerView.adapter
         val layoutManager = recyclerView.layoutManager
-        if (adapter == null || layoutManager == null || appbarContainsColapse(appBar)) {
+        if (adapter == null || layoutManager == null || appbarContainsCollapse(appBar)) {
             scrollableRecyclerView = true
             return
         }
@@ -53,17 +75,30 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
         }
 
         if(lastVisibleItem < 0){
+            appBarLayout?.setExpanded(true)
+            scrollableRecyclerView = false
+            return
+        }
+
+        val v = layoutManager.findViewByPosition(lastVisibleItem)
+
+        if(v == null){
             scrollableRecyclerView = true
             return
         }
+
         scrollableRecyclerView = lastVisibleItem <  adapter.itemCount - 1
+                || (ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1] + v.height) > (ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1] + parent.height)
+        log("zzz scrollableRecyclerView[$scrollableRecyclerView] lastVisibleItem[$lastVisibleItem] itemCount[${adapter.itemCount - 1}]")
+
+        log("zzz VIEW y[${ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1]}] h[${v.height}] yh[${ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1] + v.height}]")
+        log("zzz COORDINATOR y[${ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1]}] h[${parent.height}]  yh[${ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1] + parent.height}]")
     }
 
-    private fun appbarContainsColapse(appBar: AppBarLayout):Boolean{
+    private fun appbarContainsCollapse(appBar: AppBarLayout):Boolean{
         for(i in 0 until appBar.childCount) if(appBar.getChildAt(i) is CollapsingToolbarLayout) return true
         return false
     }
-
 
     private fun findRecyclerView(view: View):RecyclerView? {
         if (view is RecyclerView) return view

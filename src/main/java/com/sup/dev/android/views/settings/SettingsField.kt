@@ -78,7 +78,7 @@ class SettingsField constructor(
         super.onRestoreInstanceState(stateV)
     }
 
-    private fun checkError() {
+    fun checkError() {
         if (checker != null) setError((checker!!.invoke(getText())))
     }
 
