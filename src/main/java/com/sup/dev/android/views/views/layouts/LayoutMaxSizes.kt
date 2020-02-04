@@ -11,8 +11,6 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.tools.ToolsThreads
-
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
@@ -76,20 +74,21 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         onMeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
+        var maxWidthX = 0
+        var maxHeightX = 0
 
         if (maxWidthPercent != 0f) {
             val arg = (w / 100f * maxWidthPercent).toInt()
-            maxWidth = if (maxWidth == 0 || maxWidth > arg) arg else maxWidth
+            maxWidthX = if (maxWidth == 0 || maxWidth > arg) arg else maxWidth
         }
 
         if (maxHeightPercent != 0f) {
             val arg = (h / 100f * maxHeightPercent).toInt()
-            maxHeight = if (maxHeight == 0 || maxHeight > arg) arg else maxHeight
+            maxHeightX = if (maxHeight == 0 || maxHeight > arg) arg else maxHeight
         }
 
-        if (maxWidth > 0) w = maxWidth
-        if (maxHeight > 0) h = maxHeight
-
+        if (maxWidthX > 0) w = maxWidthX
+        if (maxHeightX > 0) h = maxHeightX
         var maxChildW = 0
         var maxChildH = 0
         for (i in 0 until childCount) {
@@ -106,7 +105,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         isCroppedW = maxChildW > w
         isCroppedH = maxChildH > h
 
-        setMeasuredDimension(if (alwaysMaxW) maxWidth else if (w == 0) maxChildW else Math.min(w, maxChildW), if (alwaysMaxH) maxHeight else if (h == 0) maxChildH else Math.min(h, maxChildH))
+
+        setMeasuredDimension(if (alwaysMaxW) maxWidthX else if (w == 0) maxChildW else Math.min(w, maxChildW), if (alwaysMaxH) maxHeightX else if (h == 0) maxChildH else Math.min(h, maxChildH))
 
         onMeasureFinish.invoke()
     }
