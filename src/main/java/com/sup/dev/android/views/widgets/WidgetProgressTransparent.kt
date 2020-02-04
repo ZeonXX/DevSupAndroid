@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.splash.Dialog
+import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetProgressTransparent : Widget(0) {
 
@@ -24,12 +25,14 @@ class WidgetProgressTransparent : Widget(0) {
         frameLayout!!.addView(progressBar)
 
         (progressBar!!.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(24).toInt(), ToolsView.dpToPx(23).toInt())
-
+        progressBar!!.visibility = View.INVISIBLE
         return frameLayout
     }
 
     override fun onShow() {
         super.onShow()
+
+        ToolsThreads.main(100) { ToolsView.fromAlpha(progressBar!!) }
 
         if (viewWrapper is Dialog) {
             val dialog = viewWrapper as Dialog

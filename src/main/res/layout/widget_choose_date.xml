@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView style="@style/Scroll">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        style="@style/Scroll.Widget">
 
         <DatePicker
             android:id="@+id/vDatePicker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_height="wrap_content"/>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -25,13 +27,11 @@
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vCancel"
             style="@style/Button.Text"
-            android:text="Cancel"
             android:layout_marginRight="8dp"/>
 
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vEnter"
-            style="@style/Button.Text"
-            android:text="Action"/>
+            style="@style/Button.Text"/>
 
     </LinearLayout>
 

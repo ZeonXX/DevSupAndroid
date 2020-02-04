@@ -15,6 +15,7 @@ import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.screens.SLoading
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
@@ -46,6 +47,7 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
     protected var textAction: String? = null
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
+    private var setStateKey = 0L
 
     init {
 
@@ -129,7 +131,18 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         this.image = image
     }
 
-    fun setState(state: State) {
+    fun setState(state: CardScreenLoading.State) {
+        //  Защита от мерцаний
+        val key = System.currentTimeMillis()
+        setStateKey = key
+        if (state == SLoading.State.EMPTY) {
+            ToolsThreads.main(50) { if (setStateKey == key) setStateNow(state) }
+        } else {
+            setStateNow(state)
+        }
+    }
+
+    private fun setStateNow(state: CardScreenLoading.State) {
         this.stateS = state
 
         if (state == State.PROGRESS) {
@@ -147,10 +160,10 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
 
         if (state == State.EMPTY && image != null) {
             image?.into(vEmptyImage) {}
-            vEmptyImage.visibility = View.VISIBLE
+            ToolsView.fromAlpha(vEmptyImage)
         } else if (state == State.ERROR && imageError != null) {
             imageError?.into(vEmptyImage)
-            vEmptyImage.visibility = View.VISIBLE
+            ToolsView.fromAlpha(vEmptyImage)
         } else {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE

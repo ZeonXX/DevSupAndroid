@@ -187,10 +187,14 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         }
     }
 
-
-    fun addWithHash(card: K) {
+    fun addWithHashBottom(card: K) {
         cardsHash.put(card.hashCode(), true)
         add(findBottomAdposition(), card)
+    }
+
+    fun addWithHashTop(card: K) {
+        cardsHash.put(card.hashCode(), true)
+        add(findTopAddPosition(), card)
     }
 
     fun findTopAddPosition(): Int {

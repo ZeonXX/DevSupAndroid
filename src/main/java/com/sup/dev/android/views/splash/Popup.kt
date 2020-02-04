@@ -17,7 +17,7 @@ class Popup(
     private val eveentBus = EventBus.subscribe(EventConfigurationChanged::class){vSplashViewContainer.requestLayout()}
     private val constMaxH = ToolsView.dpToPx(600)
     private val constReserveH = ToolsView.dpToPx(40)
-    private val constOffset = ToolsView.dpToPx(16)
+    private val constOffset = ToolsView.dpToPx(24)
     private var anchor: View? = null
     private var targetX = 0f
     private var targetY = 0f

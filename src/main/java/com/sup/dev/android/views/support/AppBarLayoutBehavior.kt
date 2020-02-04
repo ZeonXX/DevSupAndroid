@@ -14,7 +14,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :  AppBarLayout.Behavior(context, attrs){
@@ -46,8 +45,6 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
 
     private fun updatedScrollable(parent: CoordinatorLayout, directTargetChild: View, appBar: AppBarLayout) {
         this.appBarLayout = appBar
-
-        log("zzz appbar[${appBar.top}]")
 
         if(appBar.top < 0){
             scrollableRecyclerView = true
@@ -87,12 +84,7 @@ class AppBarLayoutBehavior @JvmOverloads constructor(context: Context, attrs: At
             return
         }
 
-        scrollableRecyclerView = lastVisibleItem <  adapter.itemCount - 1
-                || (ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1] + v.height) > (ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1] + parent.height)
-        log("zzz scrollableRecyclerView[$scrollableRecyclerView] lastVisibleItem[$lastVisibleItem] itemCount[${adapter.itemCount - 1}]")
-
-        log("zzz VIEW y[${ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1]}] h[${v.height}] yh[${ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1] + v.height}]")
-        log("zzz COORDINATOR y[${ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1]}] h[${parent.height}]  yh[${ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1] + parent.height}]")
+        scrollableRecyclerView = lastVisibleItem <  adapter.itemCount - 1 || (ToolsView.viewPointAsScreenPoint(v, 0f, 0f)[1] + v.height) > (ToolsView.viewPointAsScreenPoint(parent, 0f, 0f)[1] + parent.height)
     }
 
     private fun appbarContainsCollapse(appBar: AppBarLayout):Boolean{

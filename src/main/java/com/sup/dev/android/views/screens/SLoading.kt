@@ -46,6 +46,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
     protected var onAction: (() -> Unit)? = null
     protected var stateS: State = State.NONE
     private var progressViewDisabled = false
+    private var setStateKey = 0L
 
     init {
 
@@ -67,7 +68,7 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         vAppBar = vContainer.findViewById(R.id.vAppBar)
         vEmptySubContainer = vContainer.findViewById(R.id.vEmptySubContainer)
 
-        if(vEmptySubContainer != null) {
+        if (vEmptySubContainer != null) {
             (vEmptyContainer.parent as ViewGroup).removeView(vEmptyContainer)
             vEmptySubContainer!!.addView(vEmptyContainer)
         }
@@ -140,18 +141,29 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
         (findViewById<View>(R.id.vToolbar) as Toolbar).title = title
     }
 
-    fun setProgressViewDisabled(progressViewDisabled:Boolean){
+    fun setProgressViewDisabled(progressViewDisabled: Boolean) {
         this.progressViewDisabled = progressViewDisabled
-        if(progressViewDisabled) {
+        if (progressViewDisabled) {
             ToolsView.clearAnimation(vProgress)
             vProgress.visibility = View.GONE
             vProgressLine.visibility = View.GONE
-        }else{
+        } else {
             setState(stateS)
         }
     }
 
     fun setState(state: State) {
+        //  Защита от мерцаний
+        val key = System.currentTimeMillis()
+        setStateKey = key
+        if (state == State.EMPTY) {
+            ToolsThreads.main(50) { if (setStateKey == key) setStateNow(state) }
+        } else {
+            setStateNow(state)
+        }
+    }
+
+    private fun setStateNow(state: State) {
         this.stateS = state
 
         if (vAppBar != null && vEmptySubContainer == null) {
@@ -171,12 +183,12 @@ abstract class SLoading(@LayoutRes layoutRes: Int) : Screen(R.layout.screen_load
             ToolsView.toAlpha(vProgressLine)
         }
 
-        if (image==null || state != State.EMPTY) {
+        if (image == null || state != State.EMPTY) {
             vEmptyImage.setImageBitmap(null)
             vEmptyImage.visibility = View.GONE
         } else {
             image?.into(vEmptyImage)
-            vEmptyImage.visibility = View.VISIBLE
+            ToolsView.fromAlpha(vEmptyImage)
         }
 
         if (state == State.ERROR) {
