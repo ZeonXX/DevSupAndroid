@@ -11,6 +11,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.libs.debug.log
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
@@ -74,8 +75,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         onMeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
-        var maxWidthX = 0
-        var maxHeightX = 0
+        var maxWidthX = maxWidth
+        var maxHeightX = maxHeight
 
         if (maxWidthPercent != 0f) {
             val arg = (w / 100f * maxWidthPercent).toInt()
@@ -105,8 +106,10 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         isCroppedW = maxChildW > w
         isCroppedH = maxChildH > h
 
+        val resultW = if (alwaysMaxW) maxWidthX else if (w == 0) maxChildW else Math.min(w, maxChildW)
+        val resultH = if (alwaysMaxH) maxHeightX else if (h == 0) maxChildH else Math.min(h, maxChildH)
 
-        setMeasuredDimension(if (alwaysMaxW) maxWidthX else if (w == 0) maxChildW else Math.min(w, maxChildW), if (alwaysMaxH) maxHeightX else if (h == 0) maxChildH else Math.min(h, maxChildH))
+        setMeasuredDimension(resultW, resultH)
 
         onMeasureFinish.invoke()
     }

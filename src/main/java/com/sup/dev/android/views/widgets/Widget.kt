@@ -42,6 +42,7 @@ abstract class Widget(layoutRes: Int) {
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
+        view.isClickable = true //  Чтоб не закрывался при косании
         vTitle = findViewByIdNullable(R.id.vTitle)
 
         if (vTitle != null) {

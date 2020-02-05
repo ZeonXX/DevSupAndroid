@@ -35,6 +35,7 @@ object Navigator {
     //
 
     fun removeScreen(screen: Screen) {
+        screen.onPause()
         screen.onDestroy()
         currentStack.stack.remove(screen)
     }
