@@ -2,6 +2,7 @@ package com.sup.dev.android.libs.visual_engine
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.visual_engine.graphics.VeGraphics
 import com.sup.dev.java.libs.visual_engine.root.VeGui
 
@@ -31,6 +32,13 @@ class VeGraphicsAndroid(
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.FILL
+        canvas.drawRect(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w,getOffsetY() + y + h, paint)
+    }
+
+    override fun drawRect(x: Float, y: Float, w: Float, h: Float) {
+        paint.color = getColor()
+        paint.strokeWidth = getStrokeSize()
+        paint.style = Paint.Style.STROKE
         canvas.drawRect(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w,getOffsetY() + y + h, paint)
     }
 
