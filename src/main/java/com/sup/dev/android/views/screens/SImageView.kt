@@ -51,9 +51,8 @@ class SImageView private constructor()
     }
 
     init {
-        isNavigationVisible = false
-        isNavigationAllowed = false
-        isNavigationAnimation = false
+
+disableNavigation()
         statusBarColor = 0xFF000000.toInt()
         navigationBarColor = 0xFF000000.toInt()
         statusBarIsLight = statusBarColor > 0xFF70FFFF.toInt()

@@ -43,9 +43,8 @@ class SCrop(
 
     init {
 
-        isNavigationVisible = false
-        isNavigationAllowed = false
-        isNavigationAnimation = false
+
+disableNavigation()
         statusBarColor = ToolsResources.getColor(R.color.black)
         navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
 
