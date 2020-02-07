@@ -172,7 +172,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                     }
                     if (b) {
                         sameRemovedCount++
-                        break
+                        continue
                     }
                 }
                 cardsHash.put(card.hashCode(), true)
