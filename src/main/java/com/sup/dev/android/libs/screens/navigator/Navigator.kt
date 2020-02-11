@@ -197,7 +197,13 @@ object Navigator {
 
         SupAndroid.activity!!.setScreen(screen, animation, hideDialogs)
 
-        if (getCurrent() != null) ToolsThreads.main(true){screen.onResume()}   //  В следующем проходе, чтоб все успело инициализироваться
+        if (getCurrent() != null) ToolsThreads.main(true){
+            if(!screen.wasShowed) {
+                screen.onFirstShow()
+                screen.wasShowed = true
+            }
+            screen.onResume()
+        }   //  В следующем проходе, чтоб все успело инициализироваться
     }
 
     fun onActivityStop() {

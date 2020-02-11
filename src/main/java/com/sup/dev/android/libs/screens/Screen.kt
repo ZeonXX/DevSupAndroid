@@ -25,6 +25,7 @@ open class Screen(
     private var onHide: () -> Unit = {}
 
     //  Params
+    var wasShowed = false
     var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
     var toolbarContentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
     var isBackStackAllowed = true
@@ -94,6 +95,11 @@ open class Screen(
     //
     //  LifeCircle
     //
+
+    @CallSuper
+    open fun onFirstShow() {
+
+    }
 
     @CallSuper
     open fun onResume() {
