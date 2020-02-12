@@ -34,7 +34,7 @@ object ToolsHttpCookieAndroid {
             if (cookie == null || uri == null) return
             try {
                 remove(uri, cookie)
-                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
+                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
                 array.put(Json()
                         .put(NAME, cookie.name)
                         .put(VALUE, cookie.value)
@@ -66,7 +66,7 @@ object ToolsHttpCookieAndroid {
             try {
 
                 val list = ArrayList<HttpCookie>()
-                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
+                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
 
                 for (j in array.getJsons()) {
                     if (j == null) continue
@@ -86,7 +86,7 @@ object ToolsHttpCookieAndroid {
         override fun getURIs(): MutableList<URI> {
             try {
                 val list = ArrayList<URI>()
-                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
+                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
 
                 for (j in array.getJsons()) {
                     if (j == null) continue
@@ -102,7 +102,7 @@ object ToolsHttpCookieAndroid {
 
         override fun remove(uri: URI?, cookie: HttpCookie?): Boolean {
             try {
-                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
+                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
                 val arrayNew = JsonArray()
 
                 for (j in array.getJsons()) {
@@ -128,7 +128,7 @@ object ToolsHttpCookieAndroid {
             try {
 
                 val list = ArrayList<HttpCookie>()
-                val array = ToolsStorage.getJsonArray(COOKIES, JsonArray())
+                val array = ToolsStorage.getJsonArray(COOKIES)?:JsonArray()
 
                 for (j in array.getJsons()) {
                     if (j == null) continue

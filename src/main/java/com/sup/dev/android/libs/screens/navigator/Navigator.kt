@@ -3,7 +3,6 @@ package com.sup.dev.android.libs.screens.navigator
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.java.classes.callbacks.CallbacksList2
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 import kotlin.reflect.KClass
@@ -32,36 +31,44 @@ object Navigator {
     }
 
     //
-    //  Views
+    //  Stack Actions
     //
 
-    fun removeScreen(screen: Screen) {
-        log("Navigator[$currentStack] removeScreen [$screen]")
+    private fun removeScreen(screen: Screen) {
         screen.onPause()
         screen.onDestroy()
         currentStack.stack.remove(screen)
     }
+
+    private fun removeAllScreens(screenClass: KClass<out Screen>) {
+        var i = 0
+        while (i < currentStack.stack.size) {
+            if (currentStack.stack[i]::class == screenClass) {
+                removeScreen(currentStack.stack[i--])
+            }
+            i++
+        }
+    }
+
 
     //
     //  Navigation
     //
 
     fun action(action: NavigationAction, screen: Screen) {
-        log("Navigator[$currentStack] action [$action] screen [$screen]")
         action.doAction(screen)
     }
 
     @JvmOverloads
     fun to(screen: Screen, animation: Animation = Animation.IN) {
-        log("Navigator[$currentStack] TO [$screen]")
-        if (!currentStack.stack.isEmpty()) {
+        if (currentStack.stack.isNotEmpty()) {
             if (!getCurrent()!!.isBackStackAllowed) {
                 removeScreen(getCurrent()!!)
             } else {
                 getCurrent()!!.onPause()
             }
             if (screen.isSingleInstanceInBackStack) {
-                removeAll(screen::class)
+                removeAllScreens(screen::class)
             }
         }
         currentStack.stack.add(screen)
@@ -69,7 +76,6 @@ object Navigator {
     }
 
     fun replace(screen: Screen, newScreen: Screen) {
-        log("Navigator[$currentStack] REPLACE [$screen]")
         if (currentStack.stack.isEmpty()) return
         if (getCurrent() == screen) {
             replace(newScreen)
@@ -79,31 +85,29 @@ object Navigator {
     }
 
     fun replace(screen: Screen) {
-        log("Navigator[$currentStack] replace [$screen]")
-        if (!currentStack.stack.isEmpty()) removeScreen(getCurrent()!!)
-        to(screen, Animation.ALPHA)
+        if (currentStack.stack.isNotEmpty()) removeScreen(getCurrent()!!)
+
+        if (screen.isSingleInstanceInBackStack) removeAllScreens(screen::class)
+
+        currentStack.stack.add(screen)
+        setCurrentViewNew(Animation.ALPHA)
     }
 
     fun set(screen: Screen, animation: Animation = Animation.ALPHA) {
-        log("Navigator[$currentStack] SET [$screen]")
         while (currentStack.stack.size != 0) removeScreen(currentStack.stack[0])
         to(screen, animation)
     }
 
     fun reorder(screen: Screen) {
-        log("Navigator[$currentStack] reorder [$screen]")
         currentStack.stack.remove(screen)
         to(screen)
     }
 
     fun toBackStackOrNew(screen: Screen) {
-        log("Navigator[$currentStack] toBackStackOrNew [$screen]")
         reorderOrCreate(screen::class) { screen }
     }
 
     fun reorderOrCreate(viewClass: KClass<out Screen>, provider: () -> Screen) {
-        log("Navigator[$currentStack] reorderOrCreate [$viewClass]")
-
         if (getCurrent() != null && getCurrent()!!::class == viewClass)
             return
 
@@ -129,7 +133,6 @@ object Navigator {
     }
 
     fun removeAll(screenClass: KClass<out Screen>) {
-        log("Navigator[$currentStack] removeAll [$screenClass]")
         val current = getCurrent()
         val needUpdate = current != null && current::class == screenClass
 
@@ -146,7 +149,6 @@ object Navigator {
 
 
     fun back(): Boolean {
-        log("Navigator[$currentStack] BACK")
         if (!hasBackStack()) return false
 
         val current = getCurrent()
@@ -159,7 +161,6 @@ object Navigator {
     }
 
     fun remove(screen: Screen) {
-        log("Navigator[$currentStack] REMOVE [$screen]")
         if (hasBackStack() && getCurrent() == screen) {
             back()
         } else {
@@ -169,7 +170,6 @@ object Navigator {
     }
 
     fun setStack(stack: NavigatorStack) {
-        log("Navigator[$currentStack] SET_STACK [$stack]")
         if (currentStack == stack) return
         val oldStack = currentStack
         currentStack = stack
@@ -237,7 +237,6 @@ object Navigator {
     }
 
     fun getCurrent(): Screen? {
-        log("Navigator[$currentStack] getCurrent [${currentStack.stack.size}]")
         return if (currentStack.stack.isEmpty()) null else currentStack.stack[currentStack.stack.size - 1]
     }
 

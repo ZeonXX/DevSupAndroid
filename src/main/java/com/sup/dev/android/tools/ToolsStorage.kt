@@ -12,7 +12,15 @@ import java.io.File
 import java.io.FileOutputStream
 import android.content.Intent
 import android.net.Uri
+import com.sup.dev.java.libs.debug.Debug.err
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.libs.json.JsonParsable
+import com.sup.dev.java.libs.json.JsonPolimorf
+import com.sup.dev.java.tools.ToolsClass
+import kotlin.reflect.KClass
 
+
+@Suppress("UNCHECKED_CAST")
 object ToolsStorage {
 
     var externalFileNamePrefix = "f"
@@ -60,10 +68,19 @@ object ToolsStorage {
         return Json(s)
     }
 
-    fun getJsonArray(key: String, def: JsonArray): JsonArray {
+    fun getJsonArray(key: String): JsonArray? {
         val string = getString(key, null)
-        return if (string == null || string.isEmpty()) def else JsonArray(string)
+        return if (string == null || string.isEmpty()) null else JsonArray(string)
+    }
 
+    fun <K : JsonParsable> getJsonParsable(key: String, cc: KClass<K>): K? {
+        val json = getJson(key)?: return null
+        return Json().put("x", json).getJsonParsable("x", cc, null)
+    }
+
+    fun <K : JsonParsable> getJsonParsables(key: String, cc: KClass<K>): Array<K>? {
+        val json = getJsonArray(key) ?: return null
+        return Json().put("x", json).getJsonParsables("x", cc)
     }
 
     //
@@ -71,7 +88,7 @@ object ToolsStorage {
     //
 
     fun put(key: String, v: Boolean?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -79,7 +96,7 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: Int?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -87,7 +104,7 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: Long?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -95,7 +112,7 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: Float?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -103,7 +120,7 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: String?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -111,7 +128,7 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: ByteArray?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
@@ -119,19 +136,33 @@ object ToolsStorage {
     }
 
     fun put(key: String, v: Json?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
         put(key, v.toString())
     }
 
+    fun put(key: String, v: JsonParsable?) {
+        put(key, v?.json(false, Json()))
+    }
+
     fun put(key: String, v: JsonArray?) {
-        if(v == null){
+        if (v == null) {
             clear(key)
             return
         }
         preferences.edit().putString(key, v.toString()).apply()
+    }
+
+    fun put(key: String, x: Array<out JsonParsable>?) {
+        if (x == null) {
+            clear(key)
+            return
+        }
+        val jsonArray = JsonArray()
+        for (i in x) jsonArray.put(i.json(true, Json()))
+        put(key, jsonArray)
     }
 
     //
@@ -161,7 +192,7 @@ object ToolsStorage {
             }
 
             //  Without this, the picture will be hidden until open gallery.
-            if(SupAndroid.activity != null) {
+            if (SupAndroid.activity != null) {
                 val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                 mediaScanIntent.data = Uri.fromFile(f)
                 SupAndroid.activity!!.sendBroadcast(mediaScanIntent)
@@ -170,15 +201,14 @@ object ToolsStorage {
         }
 
 
-
     }
 
-    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
+    fun saveFileInDownloadFolder(bytes: ByteArray, ex: String, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String) -> Unit = {}) {
         saveFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + "." + ex).absolutePath,
                 bytes, onComplete, onPermissionPermissionRestriction)
     }
 
-    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String)->Unit = {}) {
+    fun saveFile(patch: String, bytes: ByteArray, onComplete: (File) -> Unit, onPermissionPermissionRestriction: (String) -> Unit = {}) {
         ToolsPermission.requestWritePermission({
             val f = File(patch)
             f.delete()

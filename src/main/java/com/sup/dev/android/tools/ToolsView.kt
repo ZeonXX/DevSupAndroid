@@ -4,6 +4,7 @@ package com.sup.dev.android.tools
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
@@ -25,6 +26,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -52,6 +54,21 @@ object ToolsView {
 
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
+
+    fun disableScrollViewJump(vScroll:ScrollView){//    Убирает автоскролл к выделенному полю в ScrollView при клике на другие виджеты.
+        if(vScroll.childCount > 0) {
+            val view = vScroll.getChildAt(0)
+            if(view is ViewGroup) {
+                view.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                view.isFocusable = true
+                view.isFocusableInTouchMode = true
+                view.setOnTouchListener { v, event ->
+                    v.requestFocusFromTouch()
+                    false
+                }
+            }
+        }
+    }
 
     fun getSelectionPosition(vFiled: EditText): Point {
         val pos = vFiled.selectionStart

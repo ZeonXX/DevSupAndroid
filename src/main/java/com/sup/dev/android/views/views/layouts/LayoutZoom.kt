@@ -1,6 +1,5 @@
 package com.sup.dev.android.views.views.layouts
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
@@ -17,9 +16,7 @@ import com.sup.dev.java.classes.geometry.Point
 import com.sup.dev.java.classes.items.RangeF
 import com.sup.dev.java.tools.ToolsThreads
 
-
-class LayoutZoom @SuppressLint("ClickableViewAccessibility")
-constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class LayoutZoom constructor(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private val range = RangeF(1f, 4f)
 
