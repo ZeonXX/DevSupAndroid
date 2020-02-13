@@ -2,9 +2,6 @@ package com.sup.dev.android.views.widgets
 
 import androidx.annotation.*
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -36,13 +33,9 @@ abstract class Widget(layoutRes: Int) {
     private var minW: Int? = null
     private var minH: Int? = null
     protected var viewWrapper: WidgetViewWrapper<out Any>? = null
-    //  Popup
-    var popupYMirrorOffset = 0
-    var allowPopupMirrorHeight = false
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
-        view.isClickable = true //  Чтоб не закрывался при косании
         vTitle = findViewByIdNullable(R.id.vTitle)
 
         if (vTitle != null) {
@@ -166,6 +159,11 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
+    open fun setTitleSize(sp: Float): Widget {
+        vTitle?.textSize = sp
+        return this
+    }
+
     //
     //  Sizes
     //
@@ -212,14 +210,6 @@ abstract class Widget(layoutRes: Int) {
 
     open fun setSizeH(h: Int?): Widget {
         this.maxH = h;this.minH = h; return this
-    }
-
-    open fun allowPopupMirrorHeight(): Widget {
-        this.allowPopupMirrorHeight = true; return this
-    }
-
-    open fun setPopupYMirrorOffset(offset:Int):Widget{
-        this.popupYMirrorOffset = offset;return this
     }
 
     //

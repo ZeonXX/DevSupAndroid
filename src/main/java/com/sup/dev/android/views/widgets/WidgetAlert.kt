@@ -23,6 +23,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private val vCheck: CheckBox = findViewById(R.id.vCheckBox)
     private val vEnter: Button = findViewById(R.id.vEnter)
     private val vCancel: Button = findViewById(R.id.vCancel)
+    private val vInfo: Button = findViewById(R.id.vInfo)
     private val vText: ViewTextLinkable = findViewById(R.id.vText)
     private val vTopContainer: ViewGroup = findViewById(R.id.vTopContainer)
     private val vTopImage: ViewCircleImage = findViewById(R.id.vTopImage)
@@ -31,6 +32,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private var key: String? = null
     private var lockUntilAccept: Boolean = false
     private var autoHideOnEnter = true
+    private var autoHideOnInfo = true
     private var onChecker:(Boolean)->Unit = {}
 
     init {
@@ -205,8 +207,30 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return this
     }
 
+    fun setOnInfo(@StringRes s: Int, onInfo: (WidgetAlert) -> Unit = {}): WidgetAlert {
+        return setOnInfo(ToolsResources.s(s), onInfo)
+    }
+
+    @JvmOverloads
+    fun setOnInfo(s: String?, onInfo: (WidgetAlert) -> Unit = {}): WidgetAlert {
+        ToolsView.setTextOrGone(vInfo, s)
+        vInfo.setOnClickListener {
+            if (autoHideOnEnter)
+                hide()
+            else
+                setEnabled(false)
+            onInfo.invoke(this)
+        }
+        return this
+    }
+
     fun setAutoHideOnEnter(autoHideOnEnter: Boolean): WidgetAlert {
         this.autoHideOnEnter = autoHideOnEnter
+        return this
+    }
+
+    fun setAutoHideOnInfo(autoHideOnInfo: Boolean): WidgetAlert {
+        this.autoHideOnInfo = autoHideOnInfo
         return this
     }
 
@@ -218,7 +242,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
         return setOnCancel(null, onCancel)
     }
 
-    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetAlert) -> Unit): WidgetAlert {
+    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetAlert) -> Unit = {}): WidgetAlert {
         return setOnCancel(ToolsResources.s(s), onCancel)
     }
 

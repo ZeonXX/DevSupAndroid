@@ -12,7 +12,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import java.util.ArrayList
 
-
 class WidgetRadioButtons : Widget(R.layout.widget_container) {
 
     private val items = ArrayList<Item?>()
@@ -32,7 +31,6 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     private var skipGroup = false
 
     init {
-
         vCancel.visibility = View.GONE
         vEnter.visibility = View.GONE
     }
@@ -119,23 +117,28 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
     //  Setters
     //
 
-    fun setOnEnter(@StringRes s: Int): WidgetRadioButtons {
+    fun setOnEnter(@StringRes s: Int, onEnter: (Array<Int>) -> Unit = {}): WidgetRadioButtons {
         return setOnEnter(ToolsResources.s(s))
     }
 
-    fun setOnEnter(s: String?): WidgetRadioButtons {
+    fun setOnEnter(s: String?, onEnter: (Array<Int>) -> Unit = {}): WidgetRadioButtons {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener {
             if (autoHideOnEnter)
                 hide()
             else
                 setEnabled(false)
+            val list = ArrayList<Int>()
             for (i in 0 until vOptionsContainer.childCount) {
                 val v = vOptionsContainer.getChildAt(i) as RadioButton
                 val item = v.tag as Item
                 if (item.onChange != null) item.onChange!!.invoke(this, v.isChecked)
-                if (v.isChecked && item.onSelected != null) item.onSelected!!.invoke(this)
+                if (v.isChecked && item.onSelected != null) {
+                    item.onSelected!!.invoke(this)
+                    list.add(i)
+                }
                 if (!v.isChecked && item.onNotSelected != null) item.onNotSelected!!.invoke(this)
+                onEnter.invoke(list.toTypedArray())
             }
         }
         return this
@@ -154,13 +157,13 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
         return setOnCancel(null, onCancel)
     }
 
-    fun setOnCancel(@StringRes s: Int, onCancel:  (WidgetRadioButtons)->Unit = {}): WidgetRadioButtons {
+    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetRadioButtons) -> Unit = {}): WidgetRadioButtons {
         return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
     @JvmOverloads
-    fun setOnCancel(s: String?, onCancel: (WidgetRadioButtons)->Unit = {}): WidgetRadioButtons {
-        super.setOnHide{ onCancel.invoke(this) }
+    fun setOnCancel(s: String?, onCancel: (WidgetRadioButtons) -> Unit = {}): WidgetRadioButtons {
+        super.setOnHide { onCancel.invoke(this) }
         ToolsView.setTextOrGone(vCancel, s)
         vCancel.setOnClickListener {
             hide()
@@ -179,7 +182,7 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
         var v: RadioButton = RadioButton(SupAndroid.activity!!)
 
         var onChange: ((WidgetRadioButtons, Boolean) -> Unit)? = null
-        var onSelected: ((WidgetRadioButtons)->Unit)? = null
+        var onSelected: ((WidgetRadioButtons) -> Unit)? = null
         var onNotSelected: ((WidgetRadioButtons) -> Unit)? = null
 
         init {

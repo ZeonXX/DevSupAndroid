@@ -13,14 +13,81 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardDividerTitleMini
 import java.util.ArrayList
 
-
 class WidgetCheckBoxes : Widget(R.layout.widget_container) {
 
     private val vOptionsContainer: LinearLayout = view.findViewById(R.id.vContentContainer)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
     private val vEnter: Button = view.findViewById(R.id.vEnter)
 
+    private var minimumSelectedCount = 0
     private var autoHideOnEnter = true
+
+    fun setOnEnter(@StringRes s: Int, onEnter: (Array<Int>)->Unit = {}): WidgetCheckBoxes {
+        return setOnEnter(ToolsResources.s(s),onEnter)
+    }
+
+    fun setOnEnter(s: String?, onEnter: (Array<Int>)->Unit = {}): WidgetCheckBoxes {
+        ToolsView.setTextOrGone(vEnter, s)
+        vEnter.setOnClickListener {
+            val list = ArrayList<Int>()
+            for (i in 0 until vOptionsContainer.childCount) {
+                if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
+                val v = vOptionsContainer.getChildAt(i) as CheckBox
+                val item = v.tag as Item
+                if (v.isChecked) {
+                    item.onSelected.invoke(SelectedEvent(this, item))
+                    list.add(i)
+                }
+                if (!v.isChecked) item.onNotSelected.invoke(NotSelectedEvent(this, item))
+            }
+            onEnter.invoke(list.toTypedArray())
+            if (autoHideOnEnter)
+                hide()
+            else
+                setEnabled(false)
+        }
+        return this
+    }
+
+    fun setAutoHideOnEnter(autoHideOnEnter: Boolean): WidgetCheckBoxes {
+        this.autoHideOnEnter = autoHideOnEnter
+        return this
+    }
+
+    fun setOnCancel(onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
+        return setOnCancel(null, onCancel)
+    }
+
+    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetCheckBoxes) -> Unit): WidgetCheckBoxes {
+        return setOnCancel(ToolsResources.s(s), onCancel)
+    }
+
+    @JvmOverloads
+    fun setOnCancel(s: String?, onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
+        super.setOnHide { onCancel.invoke(this) }
+        ToolsView.setTextOrGone(vCancel, s)
+        vCancel.setOnClickListener {
+            hide()
+            onCancel.invoke(this)
+        }
+
+        return this
+    }
+
+    fun setMinimumSelectedCount(minimumSelectedCount:Int): WidgetCheckBoxes {
+        this.minimumSelectedCount = minimumSelectedCount
+        return this
+    }
+
+    fun getSelectedCount():Int{
+        var count = 0
+        for (i in 0 until vOptionsContainer.childCount) {
+            if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
+            val v = vOptionsContainer.getChildAt(i) as CheckBox
+            if (v.isChecked) count++
+        }
+        return count
+    }
 
     //
     //  Item
@@ -137,61 +204,6 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return this
     }
 
-    //
-    //  Setters
-    //
-
-    fun setOnEnter(@StringRes s: Int): WidgetCheckBoxes {
-        return setOnEnter(ToolsResources.s(s))
-    }
-
-    fun setOnEnter(s: String?): WidgetCheckBoxes {
-        ToolsView.setTextOrGone(vEnter, s)
-        vEnter.setOnClickListener {
-            for (i in 0 until vOptionsContainer.childCount) {
-                if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
-                val v = vOptionsContainer.getChildAt(i) as CheckBox
-                val item = v.tag as Item
-                if (v.isChecked) item.onSelected.invoke(SelectedEvent(this, item))
-                if (!v.isChecked) item.onNotSelected.invoke(NotSelectedEvent(this, item))
-            }
-            if (autoHideOnEnter)
-                hide()
-            else
-                setEnabled(false)
-        }
-        return this
-    }
-
-    fun setAutoHideOnEnter(autoHideOnEnter: Boolean): WidgetCheckBoxes {
-        this.autoHideOnEnter = autoHideOnEnter
-        return this
-    }
-
-    fun setOnCancel(onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
-        return setOnCancel(null, onCancel)
-    }
-
-    fun setOnCancel(@StringRes s: Int, onCancel: (WidgetCheckBoxes) -> Unit): WidgetCheckBoxes {
-        return setOnCancel(ToolsResources.s(s), onCancel)
-    }
-
-    @JvmOverloads
-    fun setOnCancel(s: String?, onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
-        super.setOnHide { onCancel.invoke(this) }
-        ToolsView.setTextOrGone(vCancel, s)
-        vCancel.setOnClickListener {
-            hide()
-            onCancel.invoke(this)
-        }
-
-        return this
-    }
-
-    //
-    //  Item
-    //
-
     public inner class Item(val key: Any) {
 
         var callbackLock = false
@@ -204,7 +216,11 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         init {
             v.tag = this
             v.setOnCheckedChangeListener { _, _ ->
-                if(!callbackLock) onChange.invoke(ChangeEvent(this@WidgetCheckBoxes, this, v.isChecked))
+                if(! v.isChecked && getSelectedCount() < minimumSelectedCount){
+                    v.isChecked = true
+                } else {
+                    if (!callbackLock) onChange.invoke(ChangeEvent(this@WidgetCheckBoxes, this, v.isChecked))
+                }
             }
             vOptionsContainer.addView(v)
             if (vOptionsContainer.childCount > 1)

@@ -59,11 +59,11 @@ object ToolsView {
         if(vScroll.childCount > 0) {
             val view = vScroll.getChildAt(0)
             if(view is ViewGroup) {
-                view.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                view.isFocusable = true
-                view.isFocusableInTouchMode = true
-                view.setOnTouchListener { v, event ->
-                    v.requestFocusFromTouch()
+                vScroll.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                vScroll.isFocusable = true
+                vScroll.isFocusableInTouchMode = true
+                vScroll.setOnTouchListener { v, event ->
+                    view.requestFocusFromTouch()
                     false
                 }
             }
