@@ -54,12 +54,11 @@ object ToolsView {
     val ANIMATION_TIME = 300
     val ANIMATION_TIME_FASE = 200
 
-    fun disableScrollViewJump(vScroll:ScrollView){//    Убирает автоскролл к выделенному полю в ScrollView при клике на другие виджеты.
+    fun disableScrollViewJump(vScroll:ViewGroup){//    Убирает автоскролл к выделенному полю в ScrollView при клике на другие виджеты.
         vScroll.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
         vScroll.isFocusable = true
         vScroll.isFocusableInTouchMode = true
         vScroll.setOnTouchListener { v, event ->
-            v.requestFocusFromTouch()
             v.requestFocus(View.FOCUS_DOWN)
             false
         }

@@ -3,7 +3,6 @@ package com.sup.dev.android.libs.visual_engine
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.visual_engine.graphics.VeGraphics
 import com.sup.dev.java.libs.visual_engine.root.VeGui
 

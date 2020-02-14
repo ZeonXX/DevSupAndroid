@@ -1,22 +1,18 @@
 package com.sup.dev.android.tools
 
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
+import com.sup.dev.java.libs.json.JsonParsable
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.File
 import java.io.FileOutputStream
-import android.content.Intent
-import android.net.Uri
-import com.sup.dev.java.libs.debug.Debug.err
-import com.sup.dev.java.libs.debug.log
-import com.sup.dev.java.libs.json.JsonParsable
-import com.sup.dev.java.libs.json.JsonPolimorf
-import com.sup.dev.java.tools.ToolsClass
 import kotlin.reflect.KClass
 
 
