@@ -26,7 +26,8 @@ open class Screen(
 
     //  Params
     var wasShowed = false
-    var toolbarNavigationIcon = R.attr.ic_arrow_back_24dp
+    var toolbarNavigationIconAttr = R.attr.ic_arrow_back_24dp
+    var toolbarNavigationIcon = 0
     var toolbarContentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
     var isBackStackAllowed = true
     var hasToolbarBackIcon = true

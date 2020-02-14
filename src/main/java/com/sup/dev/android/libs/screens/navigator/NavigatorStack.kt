@@ -17,4 +17,6 @@ class NavigatorStack {
         stack.clear()
     }
 
+    fun stackCopy() = ArrayList(stack)
+
 }

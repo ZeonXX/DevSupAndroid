@@ -33,9 +33,13 @@ abstract class Widget(layoutRes: Int) {
     private var minW: Int? = null
     private var minH: Int? = null
     protected var viewWrapper: WidgetViewWrapper<out Any>? = null
+    //  Popup
+    var popupYMirrorOffset = 0
+    var allowPopupMirrorHeight = false
 
     init {
         view = if (layoutRes > 0) ToolsView.inflate(layoutRes) else instanceView()!!
+        view.isClickable = true //  Чтоб не закрывался при косании
         vTitle = findViewByIdNullable(R.id.vTitle)
 
         if (vTitle != null) {
@@ -164,6 +168,14 @@ abstract class Widget(layoutRes: Int) {
         return this
     }
 
+    open fun allowPopupMirrorHeight(): Widget {
+        this.allowPopupMirrorHeight = true; return this
+    }
+
+    open fun setPopupYMirrorOffset(offset:Int):Widget{
+        this.popupYMirrorOffset = offset;return this
+    }
+
     //
     //  Sizes
     //
@@ -216,11 +228,12 @@ abstract class Widget(layoutRes: Int) {
     //  Support
     //
 
-    fun fixForAndroid9() {   //  В Android 9 есть баг, свзяанный с clipPath у LayoutCorned. Из-за него может пропадать часть View внутри диалогов.
+    fun fixForAndroid9():Widget {   //  В Android 9 есть баг, свзяанный с clipPath у LayoutCorned. Из-за него может пропадать часть View внутри диалогов.
         ToolsThreads.main(true) {
             val vX: LayoutCorned? = ToolsView.findViewOnParents(view, R.id.vSplashViewContainer)
             vX?.makeSoftware()
         }
+        return this
     }
 
     fun asSheet(): Sheet {

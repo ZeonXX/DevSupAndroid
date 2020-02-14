@@ -1,5 +1,6 @@
 package com.sup.dev.android.libs.screens.activity
 
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.Gravity
@@ -9,6 +10,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.tools.ToolsThreads
@@ -139,7 +141,7 @@ open class SActivityTypeBottomNavigation(
             createExtraNavigationItem(useIconsFilters)
             val menuItem = widgetMenu!!.add(text) { onClick.invoke(it.card.getView()!!) }.icon(icon)
             if (onLongClick != null) menuItem.onLongClick { onLongClick.invoke(it.card.getView()!!) }
-            // if(useIconsFilters) menuItem.iconFilter(Color.RED)
+            //if(useIconsFilters) menuItem.iconFilter(Color.RED)
             widgetMenu!!.finishItemBuilding()
             item.menuIndex = widgetMenu!!.getItemsCount() - 1
             return item

@@ -4,7 +4,6 @@ package com.sup.dev.android.tools
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
@@ -56,17 +55,13 @@ object ToolsView {
     val ANIMATION_TIME_FASE = 200
 
     fun disableScrollViewJump(vScroll:ScrollView){//    Убирает автоскролл к выделенному полю в ScrollView при клике на другие виджеты.
-        if(vScroll.childCount > 0) {
-            val view = vScroll.getChildAt(0)
-            if(view is ViewGroup) {
-                vScroll.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                vScroll.isFocusable = true
-                vScroll.isFocusableInTouchMode = true
-                vScroll.setOnTouchListener { v, event ->
-                    view.requestFocusFromTouch()
-                    false
-                }
-            }
+        vScroll.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+        vScroll.isFocusable = true
+        vScroll.isFocusableInTouchMode = true
+        vScroll.setOnTouchListener { v, event ->
+            v.requestFocusFromTouch()
+            v.requestFocus(View.FOCUS_DOWN)
+            false
         }
     }
 
