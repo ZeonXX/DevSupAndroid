@@ -27,7 +27,7 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="?content_background"/>
+            android:background="?widget_background"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

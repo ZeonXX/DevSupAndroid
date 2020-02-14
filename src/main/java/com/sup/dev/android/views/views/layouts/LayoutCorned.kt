@@ -16,7 +16,7 @@ import com.sup.dev.java.classes.geometry.Dimensions
 
 open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
-    var onMeasure : ((Int,  Int, Int, Int)-> Dimensions)? = null
+    var onMeasure: ((Int, Int, Int, Int) -> Dimensions)? = null
 
     private val path = Path()
     private var paint: Paint? = null
@@ -43,7 +43,7 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
 
     }
 
-    fun makeSoftware(){
+    fun makeSoftware() {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
@@ -66,7 +66,7 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
         var nH = heightMeasureSpec
         super.onMeasure(nW, nH)
 
-        if(onMeasure != null) {
+        if (onMeasure != null) {
             val dimensions = onMeasure!!.invoke(measuredWidth, measuredHeight, MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec))
 
             if (dimensions.w.toInt() != measuredWidth || dimensions.h.toInt() != measuredHeight) {
@@ -84,7 +84,11 @@ open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: Attri
         path.reset()
 
         if (cornedSize > 0 && (cornedTL || cornedTR || cornedBL || cornedBR || chipMode || circleMode)) {
-            var r = Math.min(Math.min(cornedSize, width.toFloat() / 2), height.toFloat() / 2)
+
+            val isHalf = (cornedSize > width.toFloat() / 2 && ((cornedTL && cornedTR) || (cornedBL && cornedBR))) ||
+                    (cornedSize > height.toFloat() / 2 && ((cornedTL && cornedBL) || (cornedTR && cornedBR)))
+
+            var r = Math.min(Math.min(cornedSize, width.toFloat() / if (isHalf) 2 else 1), height.toFloat() / if (isHalf) 2 else 1)
 
             if (chipMode) r = Math.min(width.toFloat(), height.toFloat()) / 2
 
