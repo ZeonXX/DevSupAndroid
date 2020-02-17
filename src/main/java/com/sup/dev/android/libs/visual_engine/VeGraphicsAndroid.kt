@@ -30,30 +30,30 @@ class VeGraphicsAndroid(
 
     override fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float) {
         paint.color = getColor()
-        paint.typeface = VeGuiAndroid.getTypeface(getFont())
-        paint.textSize = getFont().size
+        paint.strokeWidth = getStrokeSize()
+        paint.style = Paint.Style.FILL
         canvas.drawLine(getOffsetX() + x1, getOffsetY() + y1, getOffsetX() + x2, getOffsetY() + y2, paint)
     }
 
-    override fun fillRect(x: Float, y: Float, w: Float, h: Float) {
+    override fun fillRect(x1: Float, y1: Float, x2: Float, y2: Float) {
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.FILL
-        canvas.drawRect(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w, getOffsetY() + y + h, paint)
+        canvas.drawRect(getOffsetX() + x1, getOffsetY() + y1, getOffsetX() + x2, getOffsetY() + y2, paint)
     }
 
-    override fun drawRect(x: Float, y: Float, w: Float, h: Float) {
+    override fun drawRect(x1: Float, y1: Float, x2: Float, y2: Float) {
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.STROKE
-        canvas.drawRect(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w, getOffsetY() + y + h, paint)
+        canvas.drawRect(getOffsetX() + x1, getOffsetY() + y1, getOffsetX() + x2, getOffsetY() + y2, paint)
     }
 
-    override fun fillCircle(x: Float, y: Float, w: Float, h: Float) {
+    override fun fillCircle(x1: Float, y1: Float, x2: Float, y2: Float) {
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.FILL
-        canvas.drawArc(RectF(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w, getOffsetY() + y + h), 0f, 360f, true, paint)
+        canvas.drawArc(RectF(getOffsetX() + x1, getOffsetY() + y2, getOffsetX() + x2, getOffsetY() + y2), 0f, 360f, true, paint)
     }
 
     override fun fillCircle(cx: Float, cy: Float, r: Float) {
@@ -63,11 +63,11 @@ class VeGraphicsAndroid(
         canvas.drawCircle(getOffsetX() + cx, getOffsetY() + cy, r, paint)
     }
 
-    override fun drawCircle(x: Float, y: Float, w: Float, h: Float) {
+    override fun drawCircle(x1: Float, y1: Float, x2: Float, y2: Float) {
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.STROKE
-        canvas.drawArc(RectF(getOffsetX() + x, getOffsetY() + y, getOffsetX() + x + w, getOffsetY() + y + h), 0f, 360f, true, paint)
+        canvas.drawArc(RectF(getOffsetX() + x1, getOffsetY() + y1, getOffsetX() + x2, getOffsetY() + y2), 0f, 360f, true, paint)
     }
 
     override fun drawCircle(cx: Float, cy: Float, r: Float) {

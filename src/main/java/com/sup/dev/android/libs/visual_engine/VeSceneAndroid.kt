@@ -2,10 +2,13 @@ package com.sup.dev.android.libs.visual_engine
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.visual_engine.platform.VeSceneInterface
+import com.sup.dev.java.libs.visual_engine.root.VeActions
 import com.sup.dev.java.libs.visual_engine.root.VeScene
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.Exception
@@ -50,6 +53,38 @@ open class VeSceneAndroid constructor(
                 }
             }
         }
+    }
+
+    //
+    //  Touch
+    //
+
+    private var longPressSubscription:Subscription? = null
+
+    override fun onTouchEvent(e: MotionEvent?): Boolean {
+        if(e == null) return false
+
+        longPressSubscription?.unsubscribe()
+
+        when(e.action){
+            MotionEvent.ACTION_DOWN->{
+                VeActions.onDown(e.x, e.y)
+                longPressSubscription = ToolsThreads.main(300){
+                    VeActions.onLongPress(e.x, e.y)
+                }
+            }
+            MotionEvent.ACTION_UP->{
+                VeActions.onUp(e.x, e.y)
+            }
+            MotionEvent.ACTION_MOVE->{
+                VeActions.onMove(e.x, e.y)
+            }
+            MotionEvent.ACTION_CANCEL->{
+                VeActions.onCancel(e.x, e.y)
+            }
+        }
+
+        return true
     }
 
 }
