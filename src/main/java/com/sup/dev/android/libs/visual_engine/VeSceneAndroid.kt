@@ -7,6 +7,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.visual_engine.platform.VeSceneInterface
 import com.sup.dev.java.libs.visual_engine.root.VeActions
 import com.sup.dev.java.libs.visual_engine.root.VeScene

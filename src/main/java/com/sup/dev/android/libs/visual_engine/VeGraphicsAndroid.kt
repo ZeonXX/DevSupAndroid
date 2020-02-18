@@ -18,7 +18,6 @@ class VeGraphicsAndroid(
 
     fun setCanvas(canvas: Canvas) {
         this.canvas = canvas
-        clearOffset()
     }
 
     override fun drawString(string: String, x: Float, y: Float) {
@@ -53,7 +52,7 @@ class VeGraphicsAndroid(
         paint.color = getColor()
         paint.strokeWidth = getStrokeSize()
         paint.style = Paint.Style.FILL
-        canvas.drawArc(RectF(getOffsetX() + x1, getOffsetY() + y2, getOffsetX() + x2, getOffsetY() + y2), 0f, 360f, true, paint)
+        canvas.drawArc(RectF(getOffsetX() + x1, getOffsetY() + y1, getOffsetX() + x2, getOffsetY() + y2), 0f, 360f, true, paint)
     }
 
     override fun fillCircle(cx: Float, cy: Float, r: Float) {
