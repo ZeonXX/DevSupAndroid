@@ -147,6 +147,8 @@
         <attr name="LayoutMaxSizes_fadeColor" format="color"/>
         <attr name="LayoutMaxSizes_allowChildMaxW" format="boolean"/>
         <attr name="LayoutMaxSizes_allowChildMaxH" format="boolean"/>
+        <attr name="LayoutMaxSizes_ignoreParentW" format="boolean"/>
+        <attr name="LayoutMaxSizes_ignoreParentH" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="LayoutExpandable">

@@ -11,6 +11,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsPaint
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.tools.ToolsMath
 
 open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
@@ -34,6 +35,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
     private var fadeWSize = 0
     private var fadeHSize = 0
     private var fadeColor = 0
+    private var ignoreParentW = false
+    private var ignoreParentH = false
 
     private var isCroppedW = false
     private var isCroppedH = false
@@ -62,6 +65,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         fadeColor = a.getColor(R.styleable.LayoutMaxSizes_LayoutMaxSizes_fadeColor, fadeColor)
         allowChildMaxW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_allowChildMaxW, allowChildMaxW)
         allowChildMaxH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_allowChildMaxH, allowChildMaxH)
+        ignoreParentW = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_ignoreParentW, ignoreParentW)
+        ignoreParentH = a.getBoolean(R.styleable.LayoutMaxSizes_LayoutMaxSizes_ignoreParentH, ignoreParentH)
         a.recycle()
     }
 
@@ -74,8 +79,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         onMeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
-        var maxWidthX = maxWidth
-        var maxHeightX = maxHeight
+        var maxWidthX = if (ignoreParentW) maxWidth else ToolsMath.min(w, maxWidth)
+        var maxHeightX = if (ignoreParentH) maxHeight else ToolsMath.min(h, maxHeight)
 
         if (maxWidthPercent != 0f) {
             val arg = (w / 100f * maxWidthPercent).toInt()
@@ -93,8 +98,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         var maxChildH = 0
         for (i in 0 until childCount) {
             getChildAt(i).measure(
-                    makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else AT_MOST),
-                    makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else AT_MOST))
+                    makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else getMode(widthMeasureSpec)),
+                    makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else getMode(heightMeasureSpec)))
             maxChildW = Math.max(getChildAt(i).measuredWidth, maxChildW)
             maxChildH = Math.max(getChildAt(i).measuredHeight, maxChildH)
         }
@@ -105,13 +110,14 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         isCroppedW = maxChildW > w
         isCroppedH = maxChildH > h
 
-        val resultW = if (alwaysMaxW) maxWidthX else if (w == 0) maxChildW else Math.min(w, maxChildW)
-        val resultH = if (alwaysMaxH) maxHeightX else if (h == 0) maxChildH else Math.min(h, maxChildH)
+        val resultW = if (alwaysMaxW) maxWidthX else if (w == 0 || maxWidthX == 0) maxChildW else Math.min(w, maxChildW)
+        val resultH = if (alwaysMaxH) maxHeightX else if (h == 0 || maxHeightX == 0) maxChildH else Math.min(h, maxChildH)
 
         setMeasuredDimension(resultW, resultH)
 
         onMeasureFinish.invoke()
     }
+
 
     override fun onDrawForeground(canvas: Canvas) {
         super.onDrawForeground(canvas)
