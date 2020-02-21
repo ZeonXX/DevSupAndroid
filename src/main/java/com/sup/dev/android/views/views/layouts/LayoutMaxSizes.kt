@@ -79,8 +79,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         onMeasureCall.invoke()
         var w = if (useScreenWidthAsParent) ToolsAndroid.getScreenW() else getSize(widthMeasureSpec)
         var h = if (useScreenHeightAsParent) ToolsAndroid.getScreenH() else getSize(heightMeasureSpec)
-        var maxWidthX = if (ignoreParentW) maxWidth else ToolsMath.min(w, maxWidth)
-        var maxHeightX = if (ignoreParentH) maxHeight else ToolsMath.min(h, maxHeight)
+        var maxWidthX = if (ignoreParentW || w == 0) maxWidth else ToolsMath.min(w, maxWidth)
+        var maxHeightX = if (ignoreParentH || h == 0) maxHeight else ToolsMath.min(h, maxHeight)
 
         if (maxWidthPercent != 0f) {
             val arg = (w / 100f * maxWidthPercent).toInt()
@@ -107,11 +107,11 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         if (maxChildW > w && maxChildW < w + reserveWidth) w += reserveWidth
         if (maxChildH > h && maxChildH < h + reserveHeight) h += reserveHeight
 
-        isCroppedW = maxChildW > w
-        isCroppedH = maxChildH > h
-
         val resultW = if (alwaysMaxW) maxWidthX else if (w == 0 || maxWidthX == 0) maxChildW else Math.min(w, maxChildW)
         val resultH = if (alwaysMaxH) maxHeightX else if (h == 0 || maxHeightX == 0) maxChildH else Math.min(h, maxChildH)
+
+        isCroppedW = maxChildW > resultW
+        isCroppedH = maxChildH > resultH
 
         setMeasuredDimension(resultW, resultH)
 

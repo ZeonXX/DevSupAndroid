@@ -39,7 +39,7 @@ open class WidgetMenu : WidgetRecycler() {
         finishItemBuilding()
         iconBuilder?.finishItemBuilding()
 
-        for (c in myAdapter.get(CardSpoiler::class)) if (c.cards.isEmpty()) myAdapter.remove(c)
+        for (c in myAdapter.get(CardSpoiler::class)) if (c.cards.isEmpty() && !c.isHasOnExpandChangedCallback()) myAdapter.remove(c)
     }
 
     fun setAutoHide(b: Boolean): WidgetMenu {
@@ -67,7 +67,7 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun addTitleView(view: View):WidgetMenu{
+    fun addTitleView(view: View): WidgetMenu {
         myAdapter.add(0, CardView(view))
         return this
     }
@@ -79,9 +79,9 @@ open class WidgetMenu : WidgetRecycler() {
     private var buildItem: Item? = null
     private var skipThisItem = false
     private var skipGroup = false
-    private var spoiler:CardSpoiler? = null
+    private var spoiler: CardSpoiler? = null
 
-    fun getMenuItem(index: Int):CardMenu{
+    fun getMenuItem(index: Int): CardMenu {
         return myAdapter.get(index) as CardMenu
     }
 
@@ -110,12 +110,12 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
         item.card?.setOnClick {
-            if(isHided()) return@setOnClick
+            if (isHided()) return@setOnClick
             item.onClick.invoke(ClickEvent(this, item.card!!))
             onGlobalSelected.invoke(this, item.text)
             if (autoHide) hide()
         }
-        if(item.onLongClick != null) {
+        if (item.onLongClick != null) {
             item.card?.setOnLongClick { _ ->
                 item.onLongClick!!.invoke(ClickEvent(this, item.card!!))
                 onGlobalSelected.invoke(this, item.text)
@@ -123,9 +123,11 @@ open class WidgetMenu : WidgetRecycler() {
             }
         }
 
-        if(spoiler != null){
+        if (item.cardSpoiler != null) {
+            item.cardSpoiler!!.add(item.card!!)
+        } else if (spoiler != null) {
             spoiler!!.add(item.card!!)
-        }else{
+        } else {
             if (item.preferred) {
                 if (prefCount == 0) myAdapter.add(0, CardDivider())
                 myAdapter.add(prefCount, item.card!!)
@@ -231,6 +233,11 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
+    fun toSpoiler(cardSpoiler: CardSpoiler): WidgetMenu {
+        buildItem!!.cardSpoiler = cardSpoiler
+        return this
+    }
+
     fun textColorRes(@ColorRes color: Int): WidgetMenu {
         return textColor(ToolsResources.getColor(color))
     }
@@ -285,7 +292,7 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun spoiler(name:String, backgroundColor:Int?=null, textColor:Int?=null): WidgetMenu{
+    fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
         finishItemBuilding()
         val card = CardSpoiler()
         this.spoiler = card
@@ -293,25 +300,34 @@ open class WidgetMenu : WidgetRecycler() {
         card.setTitle(name)
         card.setDividerTopVisible(false)
         card.setDividerVisible(false)
-        if(backgroundColor != null) card.setBackgroundColor(backgroundColor)
-        if(textColor != null) card.setTextColor(textColor)
+        if (backgroundColor != null) card.setBackgroundColor(backgroundColor)
+        if (textColor != null) card.setTextColor(textColor)
+        card.addOnExpandChanged {
+            if (card.isExpanded() && card.cards.isEmpty()) filler?.invoke(this, card)
+        }
         myAdapter.add(card)
         return this
     }
 
-    fun stopSpoiler(){
+    fun spoiler(cardSpoiler: CardSpoiler): WidgetMenu {
+        this.spoiler = cardSpoiler
+        return this
+    }
+
+    fun stopSpoiler() {
         spoiler = null
     }
 
     private inner class Item {
 
         var card: CardMenu? = null
-        var onClick: (ClickEvent) -> Unit = {  }
+        var cardSpoiler: CardSpoiler? = null
+        var onClick: (ClickEvent) -> Unit = { }
         var onLongClick: ((ClickEvent) -> Unit)? = null
         var text = ""
         var chipText = ""
         var icon = 0
-        var iconFilter:Int? = null
+        var iconFilter: Int? = null
         var iconDrawable: Drawable? = null
         var bg = 0
         var textColor: Int? = null
@@ -320,22 +336,22 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     public class ClickEvent(
-            val widget:WidgetMenu,
-            val card:CardMenu
-    ){}
+            val widget: WidgetMenu,
+            val card: CardMenu
+    ) {}
 
     //
     //  Icon
     //
 
-    private var iconBuilder:IconBuilder? = null
+    private var iconBuilder: IconBuilder? = null
 
-    fun iconBuilder():IconBuilder{
-        if(iconBuilder == null) iconBuilder = IconBuilder()
+    fun iconBuilder(): IconBuilder {
+        if (iconBuilder == null) iconBuilder = IconBuilder()
         return iconBuilder!!
     }
 
-    inner class IconBuilder{
+    inner class IconBuilder {
 
         val cardContainer = CardIconsContainer()
         private var buildItem: Icon? = null
@@ -355,7 +371,7 @@ open class WidgetMenu : WidgetRecycler() {
             }
         }
 
-        fun add(drawable:Drawable, onClick:(ClickEventIocn)->Unit):IconBuilder{
+        fun add(drawable: Drawable, onClick: (ClickEventIocn) -> Unit): IconBuilder {
             finishItemBuilding()
             buildItem = Icon()
             buildItem!!.iconDrawable = drawable
@@ -371,14 +387,14 @@ open class WidgetMenu : WidgetRecycler() {
         private fun add(item: Icon) {
             item.vIcon = ToolsView.inflate(R.layout.z_icon)
             item.vIcon?.setImageDrawable(item.iconDrawable)
-            if(item.iconFilter != null)item.vIcon?.setFilter(item.iconFilter!!)
+            if (item.iconFilter != null) item.vIcon?.setFilter(item.iconFilter!!)
             item.vIcon?.setOnClickListener {
-                if(isHided()) return@setOnClickListener
+                if (isHided()) return@setOnClickListener
                 item.onClick.invoke(ClickEventIocn(this@WidgetMenu, item))
                 if (autoHide) hide()
             }
-            if(item.onLongClick != null) {
-                item.vIcon?.setOnLongClickListener{
+            if (item.onLongClick != null) {
+                item.vIcon?.setOnLongClickListener {
                     item.onLongClick!!.invoke(ClickEventIocn(this@WidgetMenu, item))
                     if (autoHide) hide()
                     return@setOnLongClickListener true
@@ -392,22 +408,22 @@ open class WidgetMenu : WidgetRecycler() {
 
     }
 
-    inner class Icon{
+    inner class Icon {
 
-        var vIcon:ViewIcon? = null
-        var onClick: (ClickEventIocn) -> Unit = {  }
+        var vIcon: ViewIcon? = null
+        var onClick: (ClickEventIocn) -> Unit = { }
         var onLongClick: ((ClickEventIocn) -> Unit)? = null
         var iconDrawable: Drawable? = null
-        var iconFilter:Int? = null
+        var iconFilter: Int? = null
 
     }
 
     public class ClickEventIocn(
-            val widget:WidgetMenu,
-            val icon:Icon
-    ){}
+            val widget: WidgetMenu,
+            val icon: Icon
+    ) {}
 
-    class CardIconsContainer : Card(0){
+    class CardIconsContainer : Card(0) {
 
         val vFrame = FrameLayout(SupAndroid.activity!!)
         val vLinear = LinearLayout(SupAndroid.activity!!)
@@ -415,7 +431,7 @@ open class WidgetMenu : WidgetRecycler() {
         init {
             vFrame.addView(vLinear, 0)
             vLinear.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-            vLinear.layoutParams.height =  ViewGroup.LayoutParams.WRAP_CONTENT
+            vLinear.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             (vLinear.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT
         }
 

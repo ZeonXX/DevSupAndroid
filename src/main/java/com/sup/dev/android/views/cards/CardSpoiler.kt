@@ -186,12 +186,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
                     if (!adapter.contains(c)) adapter.add(myIndex, c)
                 }
             if (cards.isNotEmpty()) {
-             //   if (!animation) adapter.notifyUpdate()
+                //   if (!animation) adapter.notifyUpdate()
                 if (vRecycler != null) ToolsView.jumpToWithAnimation(vRecycler!!, adapter.indexOf(this))
             }
         } else {
             for (c in cards) adapter.remove(c)
-           // if (!animation) adapter.notifyUpdate()
+            // if (!animation) adapter.notifyUpdate()
         }
 
         onExpandChanged.invoke(expanded)
@@ -279,6 +279,8 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         this.onExpandChanged.add(onExpandChanged)
         return this
     }
+
+    fun isHasOnExpandChangedCallback() = onExpandChanged.isNotEmpty()
 
     fun isExpanded() = expanded
 }
