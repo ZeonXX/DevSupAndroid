@@ -198,6 +198,11 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
         return null
     }
 
+    fun isItemPosition(item: Any, position: Int): Boolean {
+        for (h in getHoldersForItem(item)) if (h.position == position) return true
+        return false
+    }
+
     fun getHoldersForItem(item: Any): ArrayList<Holder> {
         val list = ArrayList<Holder>()
         for (holder in holders) if (holder.item == item) list.add(holder)

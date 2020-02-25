@@ -233,6 +233,7 @@ object ToolsBitmap {
         return if (bytes == null) null else decode(bytes, 0, 0, opts)
     }
 
+    @JvmOverloads
     fun decode(bytes: ByteArray?, w: Int, h: Int, options: BitmapFactory.Options?, maxW: Int = 1920, maxH: Int = 1080, resizeByMinSide: Boolean = false): Bitmap? {
         try {
             return decodePrivate(bytes, w, h, options, maxW, maxH, resizeByMinSide)

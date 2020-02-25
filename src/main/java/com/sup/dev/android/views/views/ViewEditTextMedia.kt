@@ -65,4 +65,8 @@ open class ViewEditTextMedia constructor(
         setCompoundDrawables(null, null, if (error == null) null else icon, null)
     }
 
+    fun setError(b: Boolean) {
+        setError(if (b) "" else null)
+    }
+
 }
