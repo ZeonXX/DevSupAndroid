@@ -67,6 +67,10 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        //  Не потдерживает востановление состояния.
+    }
+
     protected open fun getNavigationType(): SActivityType = SActivityTypeSimple(this)
 
     override fun onStart() {
