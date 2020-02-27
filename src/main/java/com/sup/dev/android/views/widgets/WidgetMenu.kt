@@ -302,8 +302,10 @@ open class WidgetMenu : WidgetRecycler() {
         card.setDividerVisible(false)
         if (backgroundColor != null) card.setBackgroundColor(backgroundColor)
         if (textColor != null) card.setTextColor(textColor)
-        card.addOnExpandChanged {
-            if (card.isExpanded() && card.cards.isEmpty()) filler?.invoke(this, card)
+        if(filler != null) {
+            card.addOnExpandChanged {
+                if (card.isExpanded() && card.cards.isEmpty()) filler.invoke(this, card)
+            }
         }
         myAdapter.add(card)
         return this

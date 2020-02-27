@@ -12,9 +12,14 @@ open class WidgetRecycler(
         r:Int = R.layout.widget_recycler
 ) : Widget(r) {
 
-    protected val vRoot: ViewGroup = findViewById(R.id.vRoot)
-    protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
-    protected val vContainer: ViewGroup = findViewById(R.id.vContainer)
+    /*
+
+
+     */
+
+    val vRoot: ViewGroup = findViewById(R.id.vRoot)
+    val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     protected var adapter: RecyclerCardAdapter? = null
 

@@ -19,6 +19,7 @@ abstract class SplashView<K : Any>(
     val vSplashRoot: ViewGroup = ToolsView.inflate(res)
     val vSplashViewContainer: ViewGroup = vSplashRoot.findViewById(R.id.vSplashViewContainer)
     var cancelable = true
+    var animationMs = 200L
 
     abstract fun isDestroyScreenAnimation():Boolean
 
@@ -90,6 +91,10 @@ abstract class SplashView<K : Any>(
     }
 
     fun isShowed() = SupAndroid.activity?.isSplashShowed(this) == true
+
+    fun removeSplashBackground(){
+        vSplashRoot.setBackgroundDrawable(null)
+    }
 
 
 }

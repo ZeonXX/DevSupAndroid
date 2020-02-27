@@ -178,9 +178,9 @@ abstract class SActivity : AppCompatActivity() {
             vSplashContainer!!.addView(splash.getView())
             if (!splash.widget.isCompanion) {
                 val navigationBarColor = splash.getNavigationBarColor()
-                ToolsThreads.main(100) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
+                ToolsThreads.main(splash.animationMs/2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
             }
-            ToolsView.fromAlpha(splash.getView(), 200)
+            ToolsView.fromAlpha(splash.getView(), splash.animationMs.toInt())
         }
     }
 
@@ -188,11 +188,11 @@ abstract class SActivity : AppCompatActivity() {
         ToolsThreads.main {
             if (!splash.widget.isCompanion) {
                 ToolsView.hideKeyboard()
-                ToolsThreads.main(100) {
+                ToolsThreads.main(splash.animationMs/2) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 1 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
                 }
             }
-            ToolsView.toAlpha(splash.getView(), 200) {
+            ToolsView.toAlpha(splash.getView(), splash.animationMs.toInt()) {
                 vSplashContainer!!.removeView(splash.getView())
             }
         }

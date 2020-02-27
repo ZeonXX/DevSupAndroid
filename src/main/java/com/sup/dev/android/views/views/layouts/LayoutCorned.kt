@@ -17,11 +17,15 @@ import com.sup.dev.java.classes.geometry.Dimensions
 
 open class LayoutCorned @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
+    companion object{
+        var GLOBAL_CORNED_SIZE = ToolsView.dpToPx(16)
+    }
+
     var onMeasure: ((Int, Int, Int, Int) -> Dimensions)? = null
 
     private val path = Path()
     private var paint: Paint? = null
-    private var cornedSize = ToolsView.dpToPx(16)
+    private var cornedSize = GLOBAL_CORNED_SIZE
     private var cornedTL = true
     private var cornedTR = true
     private var cornedBL = true

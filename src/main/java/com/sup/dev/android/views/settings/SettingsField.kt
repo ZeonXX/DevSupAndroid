@@ -137,7 +137,6 @@ class SettingsField constructor(
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         vField.isEnabled = enabled
-        vFieldLayout.isEnabled = enabled
     }
 
     //
