@@ -100,7 +100,6 @@ open class WidgetMenu : WidgetRecycler() {
     }
 
     private fun add(item: Item) {
-
         item.card = CardMenu()
         item.card?.text = item.text
         item.card?.chipText = item.chipText
@@ -294,6 +293,7 @@ open class WidgetMenu : WidgetRecycler() {
 
     fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
         finishItemBuilding()
+        condition(true)
         val card = CardSpoiler()
         this.spoiler = card
         card.setRecyclerView(vRecycler)
@@ -304,6 +304,7 @@ open class WidgetMenu : WidgetRecycler() {
         if (textColor != null) card.setTextColor(textColor)
         if(filler != null) {
             card.addOnExpandChanged {
+                clearGroupCondition()
                 if (card.isExpanded() && card.cards.isEmpty()) filler.invoke(this, card)
             }
         }

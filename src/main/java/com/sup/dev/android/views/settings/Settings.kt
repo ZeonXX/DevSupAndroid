@@ -29,10 +29,10 @@ open class Settings @JvmOverloads constructor(
     private var isSubSettingsEnabled = true
     private var reversSubSettingsEnabled = false
     private val line: View
-    private val vIcon: ViewCircleImage?
-    private val vTitle: TextView?
-    private val vSubtitle: TextView?
-    private val vSubViewContainer: ViewGroup?
+    val vIcon: ViewCircleImage?
+    val vTitle: TextView?
+    val vSubtitle: TextView?
+    val vSubViewContainer: ViewGroup?
 
     private var subSettings: ArrayList<Settings>? = null
 

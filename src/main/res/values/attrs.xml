@@ -37,7 +37,7 @@
 
     <declare-styleable name="ViewSwipe">
         <attr name="android:src"/>
-        <attr name="ViewSwipe_background"/>
+        <attr name="ViewSwipe_background" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ViewCropImage">
