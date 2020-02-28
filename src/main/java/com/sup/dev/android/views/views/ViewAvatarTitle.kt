@@ -21,8 +21,8 @@ open class ViewAvatarTitle constructor(context: Context, attrs: AttributeSet? = 
     private val eventBus = EventBus.subscribe(EventStyleChanged::class) { ToolsThreads.main(true) { updateCorned() } }
 
     val vAvatar: ViewAvatar
-    val vTitle: ViewTextLinkable
-    val vSubtitle: ViewTextLinkable
+    val vTitle: ViewText
+    val vSubtitle: ViewText
 
     private var chipModeAvatar = true
     private var avatarHeight = -1f

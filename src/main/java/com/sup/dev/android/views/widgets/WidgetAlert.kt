@@ -15,7 +15,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewCircleImage
-import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.views.ViewText
 import com.sup.dev.java.tools.ToolsText
 
 class WidgetAlert : Widget(R.layout.widget_alert) {
@@ -24,7 +24,7 @@ class WidgetAlert : Widget(R.layout.widget_alert) {
     private val vEnter: Button = findViewById(R.id.vEnter)
     private val vCancel: Button = findViewById(R.id.vCancel)
     private val vInfo: Button = findViewById(R.id.vInfo)
-    private val vText: ViewTextLinkable = findViewById(R.id.vText)
+    private val vText: ViewText = findViewById(R.id.vText)
     private val vTopContainer: ViewGroup = findViewById(R.id.vTopContainer)
     private val vTopImage: ViewCircleImage = findViewById(R.id.vTopImage)
     private val vTopTitle: TextView = findViewById(R.id.vTopTitle)

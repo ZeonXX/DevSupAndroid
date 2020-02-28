@@ -11,7 +11,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.views.ViewText
 import com.sup.dev.java.tools.ToolsThreads
 
 class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTableRow.context) {
@@ -48,7 +48,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
     //
 
     fun setContentText(text: String) {
-        val vText: ViewTextLinkable = ToolsView.inflate(R.layout.z_text_body)
+        val vText: ViewText = ToolsView.inflate(R.layout.z_text_body)
         vText.text = text
         resetView(vText)
         vTableRow.vTable.textProcessor.invoke(this, text, vText)

@@ -25,7 +25,6 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -39,7 +38,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
-import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.views.ViewText
 import com.sup.dev.android.views.widgets.WidgetProgressTransparent
 import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
 import com.sup.dev.java.classes.items.Item
@@ -145,7 +144,7 @@ object ToolsView {
         else vRecycler.scrollToPosition(position)
     }
 
-    fun addLink(vText: ViewTextLinkable, link: String, onClick: () -> Unit) {
+    fun addLink(vText: ViewText, link: String, onClick: () -> Unit) {
         val text = vText.text.toString()
         val index = text.indexOf(link)
 
@@ -231,10 +230,9 @@ object ToolsView {
         vFab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
-    fun makeLinksClickable(vText: ViewTextLinkable) {
+    fun makeLinksClickable(vText: ViewText) {
         vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
-        val httpPattern = Pattern.compile("[a-z]+:\\/\\/[^ \\n]*")
-        Linkify.addLinks(vText, httpPattern, "")
+        Linkify.addLinks(vText, Pattern.compile("[a-z]+:\\/\\/[^ \\n]*"), "")
 
         val m = vText.movementMethod
         if (m == null || m !is LinkMovementMethod) if (vText.linksClickable) vText.movementMethod = LinkMovementMethod.getInstance()

@@ -291,7 +291,8 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
+    fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, condition:Boolean = true, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
+        if(!condition)return this
         finishItemBuilding()
         condition(true)
         val card = CardSpoiler()

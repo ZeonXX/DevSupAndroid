@@ -4,15 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.views.ViewText
 
 class ViewTable @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
-    var textProcessor: (ViewTableCell, String, ViewTextLinkable) -> Unit = { _, _, _ -> }
+    var textProcessor: (ViewTableCell, String, ViewText) -> Unit = { _, _, _ -> }
     private var columnsCount = 0
     private var minCellW = ToolsView.dpToPx(56)
     private var minCellH = ToolsView.dpToPx(56)
