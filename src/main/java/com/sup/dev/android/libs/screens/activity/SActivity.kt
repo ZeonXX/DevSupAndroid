@@ -96,6 +96,11 @@ abstract class SActivity : AppCompatActivity() {
         Navigator.onActivityStop()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (vActivityContainer?.childCount == 0) Navigator.resetCurrentView()
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         EventBus.post(EventConfigurationChanged())
