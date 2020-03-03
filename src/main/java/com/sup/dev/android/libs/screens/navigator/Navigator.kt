@@ -149,10 +149,9 @@ object Navigator {
 
 
     fun back(): Boolean {
-        if (!hasBackStack()) return false
-
         val current = getCurrent()
         removeScreen(current!!)
+        if (currentStack.stack.size == 0) return false
         setCurrentViewNew(Animation.OUT)
 
         onBack.invoke(current, current)
