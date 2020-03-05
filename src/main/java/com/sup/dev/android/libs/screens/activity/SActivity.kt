@@ -89,6 +89,11 @@ abstract class SActivity : AppCompatActivity() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        Navigator.onActivityPaused()
+    }
+
     override fun onStop() {
         super.onStop()
         removeViews(getOldViews(Navigator.getCurrent()))

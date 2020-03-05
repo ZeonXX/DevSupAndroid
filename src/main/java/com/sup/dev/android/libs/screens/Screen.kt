@@ -113,6 +113,11 @@ open class Screen(
     }
 
     @CallSuper
+    open fun onStop() {
+
+    }
+
+    @CallSuper
     open fun onStackChanged() {
 
     }

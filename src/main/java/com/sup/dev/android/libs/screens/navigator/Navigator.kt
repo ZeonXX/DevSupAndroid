@@ -35,7 +35,7 @@ object Navigator {
     //
 
     private fun removeScreen(screen: Screen) {
-        screen.onPause()
+        screen.onStop()
         screen.onDestroy()
         currentStack.stack.remove(screen)
     }
@@ -65,7 +65,7 @@ object Navigator {
             if (!getCurrent()!!.isBackStackAllowed) {
                 removeScreen(getCurrent()!!)
             } else {
-                getCurrent()!!.onPause()
+                getCurrent()!!.onStop()
             }
             if (screen.isSingleInstanceInBackStack) {
                 removeAllScreens(screen::class)
@@ -206,6 +206,10 @@ object Navigator {
     }
 
     fun onActivityStop() {
+        getCurrent()?.onStop()
+    }
+
+    fun onActivityPaused() {
         getCurrent()?.onPause()
     }
 
