@@ -2,15 +2,13 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.core.view.inputmethod.EditorInfoCompat
-import androidx.core.view.inputmethod.InputConnectionCompat
-import androidx.core.os.BuildCompat
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
-import com.sup.dev.java.libs.debug.Debug
+import androidx.core.os.BuildCompat
+import androidx.core.view.inputmethod.EditorInfoCompat
+import androidx.core.view.inputmethod.InputConnectionCompat
 import com.sup.dev.java.libs.debug.err
-
 
 open class ViewEditTextMedia constructor(
         context: Context,
@@ -60,9 +58,14 @@ open class ViewEditTextMedia constructor(
     }
 
     override fun setError(error: CharSequence?, icon: Drawable?) {
-        if (error != lastError) super.setError(if(error == "") null else error, null)
+        super.setError(if (error?.isEmpty() == true) null else error, icon)
+       /*
+        if (error != lastError) {
+            super.setError(if (error == "") null else error, null)
+        }
+
         this.lastError = error
-        setCompoundDrawables(null, null, if (error == null) null else icon, null)
+        setCompoundDrawables(null, null, if (error == null) null else icon, null)*/
     }
 
     fun setError(b: Boolean) {

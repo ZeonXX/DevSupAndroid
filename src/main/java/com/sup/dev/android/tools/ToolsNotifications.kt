@@ -60,6 +60,10 @@ object ToolsNotifications {
         return chanel
     }
 
+    fun cancelAll(){
+        notificationManager.cancelAll()
+    }
+
     fun parseNotification(intent: Intent): Boolean {
         val notificationId = intent.getIntExtra("ToolsNotification.notificationId", -1)
         val intentTypeIndex = intent.getIntExtra("ToolsNotification.intentType", -1)

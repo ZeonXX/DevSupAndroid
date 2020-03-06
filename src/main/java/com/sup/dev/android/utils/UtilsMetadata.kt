@@ -65,7 +65,7 @@ class UtilsMetadata(var retriever: MediaMetadataRetriever? = null) {
     }
 
     fun getDurationMs(): Int {
-        return Integer.parseInt(retriever!!.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
+        return Integer.parseInt(retriever!!.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?:"0")
     }
 
     fun getTrackCount(): Int {
