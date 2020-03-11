@@ -27,6 +27,7 @@ open class CardMenu(
     var description = ""
     var customColor = false
     var textColor = 0
+    var textSize:Float? = null
     var icon = 0
     var iconDrawable: Drawable? = null
     var iconFilter: Int? = null
@@ -75,6 +76,7 @@ open class CardMenu(
             vText.text = text
             vText.isEnabled = enabled
             if (customColor) vText.setTextColor(textColor)
+            if (textSize != null) vText.textSize = textSize!!
         }
 
         view.setBackgroundColor(background)
@@ -179,6 +181,12 @@ open class CardMenu(
     fun setTextColor(color: Int): CardMenu {
         customColor = true
         textColor = color
+        update()
+        return this
+    }
+
+    fun setTextSize(textSize: Float): CardMenu {
+        this.textSize = textSize
         update()
         return this
     }

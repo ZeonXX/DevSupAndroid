@@ -108,6 +108,7 @@ open class WidgetMenu : WidgetRecycler() {
         item.card?.setIconFilter(item.iconFilter)
         item.card?.setBackground(item.bg)
         if (item.textColor != null) item.card?.setTextColor(item.textColor!!)
+        if (item.textSize != null) item.card?.setTextSize(item.textSize!!)
         item.card?.setOnClick {
             if (isHided()) return@setOnClick
             item.onClick.invoke(ClickEvent(this, item.card!!))
@@ -253,6 +254,11 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
+    fun textSize(textSize: Float): WidgetMenu {
+        buildItem!!.textSize = textSize
+        return this
+    }
+
     fun preferred(b: Boolean): WidgetMenu {
         buildItem!!.preferred = b
         return this
@@ -329,6 +335,7 @@ open class WidgetMenu : WidgetRecycler() {
         var onClick: (ClickEvent) -> Unit = { }
         var onLongClick: ((ClickEvent) -> Unit)? = null
         var text = ""
+        var textSize:Float? = null
         var chipText = ""
         var icon = 0
         var iconFilter: Int? = null
