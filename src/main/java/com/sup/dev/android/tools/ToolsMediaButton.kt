@@ -1,6 +1,5 @@
 package com.sup.dev.android.tools
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -26,9 +25,9 @@ object ToolsMediaButton {
     private var lockHeadsetMicEvent = false
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    fun start(context: Activity?) {
+    fun start(context: Context) {
         stop()
-        mediaSession = MediaSessionCompat(context!!, "MyPlayerService")
+        mediaSession = MediaSessionCompat(context, "MyPlayerService")
         mediaSession!!.setCallback(mediaSessionCallback)
         mediaSession!!.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON, null, context, MediaButtonReceiver::class.java)
@@ -37,11 +36,12 @@ object ToolsMediaButton {
     }
 
     fun stop() {
-        if (mediaSession != null) {
-            mediaSession!!.isActive = false
-            mediaSession!!.release()
-        }
+        mediaSession?.isActive = false
+        mediaSession?.release()
+        mediaSession = null
     }
+
+    fun isStarted() = mediaSession != null
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private val mediaSessionCallback: MediaSessionCompat.Callback = object : MediaSessionCompat.Callback() {
