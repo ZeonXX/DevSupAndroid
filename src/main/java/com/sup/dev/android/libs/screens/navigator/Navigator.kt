@@ -166,7 +166,7 @@ object Navigator {
             back()
         } else {
             removeScreen(screen)
-            if(currentStack.isEmpty()) SupAndroid.activity?.onLastBackPressed()
+            if(currentStack.isEmpty()) SupAndroid.activity?.onLastBackPressed(screen)
         }
     }
 

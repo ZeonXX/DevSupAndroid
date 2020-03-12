@@ -164,15 +164,16 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        val screen = Navigator.getCurrent()
         val b1 = Navigator.onBackPressed()
-        val b2 = b1 || onLastBackPressed()
+        val b2 = b1 || onLastBackPressed(screen)
         if (!b2) {
             started = false
             finish()
         }
     }
 
-    open fun onLastBackPressed(): Boolean {
+    open fun onLastBackPressed(screen: Screen?): Boolean {
         return false
     }
 
