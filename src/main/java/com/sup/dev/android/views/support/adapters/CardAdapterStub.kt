@@ -39,4 +39,8 @@ class CardAdapterStub : CardAdapter {
     override fun notifyUpdate() {
 
     }
+
+    override fun updateAll() {
+
+    }
 }

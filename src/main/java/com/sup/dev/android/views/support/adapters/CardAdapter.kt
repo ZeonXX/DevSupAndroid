@@ -25,6 +25,8 @@ interface CardAdapter {
 
     fun isVisible(card: Card): Boolean
 
+    fun updateAll()
+
     fun notifyUpdate()
 }
 

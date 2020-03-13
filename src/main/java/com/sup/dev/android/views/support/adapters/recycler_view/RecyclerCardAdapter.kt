@@ -156,7 +156,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return false
     }
 
-    fun updateAll() {
+    override fun updateAll() {
         for (i in getAll()) i.update()
     }
 
