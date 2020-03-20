@@ -32,6 +32,7 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
     private fun clearNow() {
         clear = false
         key = null
+        for (a in removeList) a.needRemove = true
         animations.clear()
         addList.clear()
         removeList.clear()
@@ -66,7 +67,8 @@ class ViewDrawAnimations @JvmOverloads constructor(context: Context, attrs: Attr
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         inProgress = true
-        val deltaSec = delta.deltaSec()
+        var deltaSec = delta.deltaSec()
+        if(deltaSec > 0.1) deltaSec = 0.1f
         for (a in animations) {
             a.update(deltaSec)
             a.draw(canvas)
