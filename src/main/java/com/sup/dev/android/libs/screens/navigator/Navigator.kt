@@ -152,7 +152,7 @@ object Navigator {
 
     fun back(): Boolean {
         val current = getCurrent()
-        removeScreen(current!!)
+        if (current != null) removeScreen(current)
         if (currentStack.stack.size == 0) return false
         setCurrentViewNew(Animation.OUT)
 
@@ -166,7 +166,7 @@ object Navigator {
             back()
         } else {
             removeScreen(screen)
-            if(currentStack.isEmpty()) SupAndroid.activity?.onLastBackPressed(screen)
+            if (currentStack.isEmpty()) SupAndroid.activity?.onLastBackPressed(screen)
         }
     }
 
@@ -193,13 +193,13 @@ object Navigator {
         setCurrentView(Animation.NONE, false)
     }
 
-    private fun setCurrentView(animation: Animation, hideDialogs:Boolean) {
+    private fun setCurrentView(animation: Animation, hideDialogs: Boolean) {
         val screen = getCurrent() ?: return
 
         SupAndroid.activity!!.setScreen(screen, animation, hideDialogs)
 
-        if (getCurrent() != null) ToolsThreads.main(true){
-            if(!screen.wasShowed) {
+        if (getCurrent() != null) ToolsThreads.main(true) {
+            if (!screen.wasShowed) {
                 screen.onFirstShow()
                 screen.wasShowed = true
             }
