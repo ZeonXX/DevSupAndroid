@@ -8,7 +8,7 @@ open class DrawAnimation{
     val paint = Paint()
     var needRemove = false
 
-    fun remove(){
+    open fun remove(){
         needRemove = true
     }
 
