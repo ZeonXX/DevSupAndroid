@@ -2,6 +2,8 @@ package com.sup.dev.android.views.support.adapters
 
 import com.sup.dev.android.views.cards.Card
 import java.lang.IndexOutOfBoundsException
+import java.util.ArrayList
+import kotlin.reflect.KClass
 
 class CardAdapterStub : CardAdapter {
 
@@ -24,6 +26,9 @@ class CardAdapterStub : CardAdapter {
     override fun <K : Card> find(checker: (Card) -> Boolean)  = null
 
     override fun size() = 0
+    override fun <K : Card> get(c: KClass<K>): ArrayList<K> {
+        return ArrayList()
+    }
 
     override fun get(i: Int): Card {
        throw IndexOutOfBoundsException()

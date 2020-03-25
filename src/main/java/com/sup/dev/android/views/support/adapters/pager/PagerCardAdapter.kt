@@ -10,7 +10,9 @@ import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.collections.HashList
+import com.sup.dev.java.tools.ToolsClass
 import java.util.ArrayList
+import kotlin.reflect.KClass
 
 open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
@@ -101,6 +103,14 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
 
     override operator fun get(i: Int): Card {
         return items[realPosition(i)]
+    }
+
+    override fun <K : Card> get(c: KClass<K>): ArrayList<K> {
+        val list = ArrayList<K>()
+        for (i in 0 until size())
+            if (ToolsClass.instanceOf(get(i)::class, c))
+                list.add(get(i) as K)
+        return list
     }
 
     fun add(card: Card) {

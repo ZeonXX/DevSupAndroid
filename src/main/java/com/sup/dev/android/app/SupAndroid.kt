@@ -15,7 +15,6 @@ import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
-import java.lang.IllegalStateException
 
 
 @SuppressLint("StaticFieldLeak")
@@ -33,7 +32,7 @@ object SupAndroid {
     var TEXT_APP_BACK: String? = null
     var TEXT_APP_DOWNLOADING: String? = null
     var TEXT_APP_SHARE: String? = null
-    var TEXT_APP_MESSAGE: String? = null
+    var TEXT_APP_SHARE_MESSAGE_HINT: String? = null
     var TEXT_APP_DOWNLOADED: String? = null
     var TEXT_APP_DONT_SHOW_AGAIN: String? = null
     var TEXT_APP_LINK: String? = null
@@ -97,7 +96,7 @@ object SupAndroid {
         TEXT_APP_BACK = loadText("app_back")
         TEXT_APP_DOWNLOADING = loadText("app_downloading")
         TEXT_APP_SHARE = loadText("app_share")
-        TEXT_APP_MESSAGE = loadText("app_message")
+        TEXT_APP_SHARE_MESSAGE_HINT = loadText("app_share_message_hint")
         TEXT_APP_DOWNLOADED = loadText("app_downloaded")
         TEXT_APP_DONT_SHOW_AGAIN = loadText("app_dont_show_again")
         TEXT_APP_LINK = loadText("app_link")

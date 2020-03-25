@@ -10,6 +10,7 @@ import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
+import com.sup.dev.java.libs.debug.log
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
@@ -97,7 +98,7 @@ class ViewImagesContainer @JvmOverloads constructor(
         val w = MeasureSpec.getSize(widthMeasureSpec)
         val h = MeasureSpec.getSize(heightMeasureSpec)
         val arg = if(childCount == 1) 2.5f else if(childCount == 2) 1.5f else 1f
-        if(h == 0){
+        if(h == 0 || MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED){
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((w/arg).toInt(), MeasureSpec.getMode(widthMeasureSpec)))
         }else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec)

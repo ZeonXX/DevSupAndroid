@@ -119,6 +119,7 @@ disableNavigation()
             val vImage: ImageView = view.findViewById(R.id.vImage)
             val vZoom: LayoutZoom = view.findViewById(R.id.vZoom)
 
+            vImage.setImageBitmap(null)
             vImage.isClickable = false
             vZoom.setOnClickListener {
                 toggleInterface()
@@ -157,7 +158,7 @@ disableNavigation()
         fun share() {
 
             WidgetField()
-                    .setHint(SupAndroid.TEXT_APP_MESSAGE)
+                    .setHint(SupAndroid.TEXT_APP_SHARE_MESSAGE_HINT)
                     .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                     .setOnEnter(SupAndroid.TEXT_APP_SHARE) { _, text ->
                         ToolsThreads.thread {

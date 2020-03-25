@@ -186,6 +186,8 @@ object ImageLoader {
                     } else {
                         loader.vImage.setImageDrawable(ColorDrawable(ToolsResources.getColor(R.color.focus)))
                     }
+                } else{
+                    loader.vImage.setImageDrawable(null)
                 }
             }
         }

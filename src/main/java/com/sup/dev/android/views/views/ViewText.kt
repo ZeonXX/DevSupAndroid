@@ -16,13 +16,13 @@ class ViewText constructor(context: Context, attrs: AttributeSet) : androidx.app
 
 
     //
-    //  Виджет перехватывает толкьо события реального лика по ссылке. (Иначе не будет сролится тапом по тексту)
+    //  Виджет перехватывает толкьо события реального клика по ссылке. (Иначе не будет скролится тапом по тексту)
     //
 
     override fun onTouchEvent(e: MotionEvent?): Boolean {
         if (e == null) return false
 
-        if (e.action == MotionEvent.ACTION_DOWN && selectionStart != selectionEnd) {
+        if (isTextSelectable && e.action == MotionEvent.ACTION_DOWN && selectionStart != selectionEnd) {
             (parent as View).onTouchEvent(e)
             return false
         }

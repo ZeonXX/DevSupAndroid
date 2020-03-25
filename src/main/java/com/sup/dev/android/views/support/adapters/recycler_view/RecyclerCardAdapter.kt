@@ -271,7 +271,7 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         return list
     }
 
-    fun <K : Card> get(c: KClass<K>): ArrayList<K> {
+    override fun <K : Card> get(c: KClass<K>): ArrayList<K> {
         val list = ArrayList<K>()
         for (i in 0 until itemCount)
             if (ToolsClass.instanceOf(get(i)::class, c))
