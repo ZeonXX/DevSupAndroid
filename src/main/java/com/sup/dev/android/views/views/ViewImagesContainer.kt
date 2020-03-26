@@ -10,7 +10,6 @@ import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
-import com.sup.dev.java.libs.debug.log
 
 class ViewImagesContainer @JvmOverloads constructor(
         context: Context,
