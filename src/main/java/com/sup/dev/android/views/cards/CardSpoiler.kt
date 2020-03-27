@@ -43,6 +43,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var useExpandedArrow = true
     private var useExpandedTitleArrow = false
     private var animation = false
+    private var isProgress = false
     private var vRecycler: RecyclerView? = null
 
     internal var expanded = false
@@ -59,6 +60,7 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         val vDivider: View = view.findViewById(R.id.vDivider)
         val vDividerTop: View = view.findViewById(R.id.vDividerTop)
         val vRoot: View = view.findViewById(R.id.vRoot)
+        val vProgress: View = view.findViewById(R.id.vProgress)
 
         val iconDown = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_down_24dp)
         val iconUp = ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_up_24dp)
@@ -69,6 +71,9 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
             textColorOriginal = vText.currentTextColor
             rightTextColorOriginal = vRightText.currentTextColor
         }
+
+        vProgress.visibility = if (isProgress) View.VISIBLE else View.GONE
+        vIcon.visibility = if (!isProgress && useExpandedArrow) View.VISIBLE else View.GONE
 
         vText.text = if (text == null) null else Html.fromHtml(text)
         if (textSize != null) vText.setTextSize(textSize!!)
@@ -82,7 +87,6 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         vText.visibility = if (text == null) View.GONE else View.VISIBLE
         vRightText.visibility = if (rightText == null) View.GONE else View.VISIBLE
         vTitle.visibility = if (title == null) View.GONE else View.VISIBLE
-        vIcon.visibility = if (useExpandedArrow) View.VISIBLE else View.GONE
 
         if (useExpandedTitleArrow) vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expanded) iconUp else iconDown, 0)
         else vTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -113,6 +117,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     //
     //  Setters
     //
+
+    fun setProgress(isProgress: Boolean): CardSpoiler {
+        this.isProgress = isProgress
+        update()
+        return this
+    }
 
     fun setUseExpandedArrow(useExpandedArrow: Boolean): CardSpoiler {
         this.useExpandedArrow = useExpandedArrow

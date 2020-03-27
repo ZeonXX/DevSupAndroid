@@ -297,8 +297,8 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, condition:Boolean = true, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
-        if(!condition)return this
+    fun spoiler(name: String, backgroundColor: Int? = null, textColor: Int? = null, condition: Boolean = true, filler: ((WidgetMenu, CardSpoiler) -> Unit)? = null): WidgetMenu {
+        if (!condition) return this
         finishItemBuilding()
         condition(true)
         val card = CardSpoiler()
@@ -309,7 +309,7 @@ open class WidgetMenu : WidgetRecycler() {
         card.setDividerVisible(false)
         if (backgroundColor != null) card.setBackgroundColor(backgroundColor)
         if (textColor != null) card.setTextColor(textColor)
-        if(filler != null) {
+        if (filler != null) {
             card.addOnExpandChanged {
                 clearGroupCondition()
                 if (card.isExpanded() && card.cards.isEmpty()) filler.invoke(this, card)
@@ -324,8 +324,9 @@ open class WidgetMenu : WidgetRecycler() {
         return this
     }
 
-    fun stopSpoiler() {
+    fun stopSpoiler(): WidgetMenu {
         spoiler = null
+        return this
     }
 
     private inner class Item {
@@ -335,7 +336,7 @@ open class WidgetMenu : WidgetRecycler() {
         var onClick: (ClickEvent) -> Unit = { }
         var onLongClick: ((ClickEvent) -> Unit)? = null
         var text = ""
-        var textSize:Float? = null
+        var textSize: Float? = null
         var chipText = ""
         var icon = 0
         var iconFilter: Int? = null
