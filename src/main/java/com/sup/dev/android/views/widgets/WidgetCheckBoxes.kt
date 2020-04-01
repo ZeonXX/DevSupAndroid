@@ -4,8 +4,8 @@ import androidx.annotation.StringRes
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatCheckBox
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -31,8 +31,8 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         vEnter.setOnClickListener {
             val list = ArrayList<Int>()
             for (i in 0 until vOptionsContainer.childCount) {
-                if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
-                val v = vOptionsContainer.getChildAt(i) as CheckBox
+                if (vOptionsContainer.getChildAt(i) !is AppCompatCheckBox) continue
+                val v = vOptionsContainer.getChildAt(i) as AppCompatCheckBox
                 val item = v.tag as Item
                 if (v.isChecked) {
                     item.onSelected.invoke(SelectedEvent(this, item))
@@ -82,8 +82,8 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     fun getSelectedCount():Int{
         var count = 0
         for (i in 0 until vOptionsContainer.childCount) {
-            if (vOptionsContainer.getChildAt(i) !is CheckBox) continue
-            val v = vOptionsContainer.getChildAt(i) as CheckBox
+            if (vOptionsContainer.getChildAt(i) !is AppCompatCheckBox) continue
+            val v = vOptionsContainer.getChildAt(i) as AppCompatCheckBox
             if (v.isChecked) count++
         }
         return count
@@ -207,7 +207,7 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
     public inner class Item(val key: Any) {
 
         var callbackLock = false
-        val v: CheckBox = CheckBox(SupAndroid.activity!!)
+        val v: AppCompatCheckBox = AppCompatCheckBox(SupAndroid.activity!!)
 
         var onChange: (ChangeEvent) -> Unit = {run { } }
         var onSelected: (SelectedEvent) -> Unit = { }
