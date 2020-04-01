@@ -19,6 +19,9 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     private val holders = ArrayList<Holder>()
     val items: ArrayList<Card> = ArrayList()
     private val viewCash = HashList<Any, View>()
+    private var cardW = ViewGroup.LayoutParams.MATCH_PARENT
+    private var cardH = ViewGroup.LayoutParams.MATCH_PARENT
+
 
     private var notifyCount = 0
 
@@ -46,6 +49,12 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
     override fun instantiateItem(parent: ViewGroup, p: Int): Any {
         val holder = getFreeHolder(parent)
         parent.addView(holder.itemView)
+        /*parent.layoutParams.width = cardW
+        parent.layoutParams.height = cardH
+        holder.itemView.layoutParams.width = cardW
+        holder.itemView.layoutParams.height = cardH
+        holder.itemView.setBackgroundColor(Color.GREEN)
+        ToolsThreads.main(true) { parent.requestLayout() }*/
 
         var i = p
         while (i < p + notifyCount && i < items.size) {
@@ -205,6 +214,14 @@ open class PagerCardAdapter : PagerAdapter(), CardAdapter {
             if (h.item === items[position])
                 return h.itemView
         return null
+    }
+
+    fun setCardW(cardW: Int) {
+        this.cardW = cardW
+    }
+
+    fun setCardH(cardH: Int) {
+        this.cardH = cardH
     }
 
     //
