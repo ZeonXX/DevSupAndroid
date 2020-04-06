@@ -15,15 +15,14 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.splash.SplashView
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.tools.ToolsThreads
-import com.sup.dev.android.models.EventConfigurationChanged
-import com.sup.dev.android.views.splash.SplashView
 import com.sup.dev.java.libs.eventBus.EventBus
-import kotlin.collections.ArrayList
+import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SActivity : AppCompatActivity() {
 
@@ -104,6 +103,7 @@ abstract class SActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (vActivityContainer?.childCount == 0) Navigator.resetCurrentView()
+        else Navigator.getCurrent()?.onResume()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -189,7 +189,7 @@ abstract class SActivity : AppCompatActivity() {
             vSplashContainer!!.addView(splash.getView())
             if (!splash.widget.isCompanion) {
                 val navigationBarColor = splash.getNavigationBarColor()
-                ToolsThreads.main(splash.animationMs/2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
+                ToolsThreads.main(splash.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
             }
             ToolsView.fromAlpha(splash.getView(), splash.animationMs.toInt())
         }
@@ -199,7 +199,7 @@ abstract class SActivity : AppCompatActivity() {
         ToolsThreads.main {
             if (!splash.widget.isCompanion) {
                 ToolsView.hideKeyboard()
-                ToolsThreads.main(splash.animationMs/2) {
+                ToolsThreads.main(splash.animationMs / 2) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 1 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
                 }
             }
@@ -219,13 +219,13 @@ abstract class SActivity : AppCompatActivity() {
 
     private var subscriptionTouchLock: Subscription? = null
 
-    private fun getOldViews(screen: Screen?):ArrayList<View>{
+    private fun getOldViews(screen: Screen?): ArrayList<View> {
         val oldViews = ArrayList<View>()
         for (i in 0 until vActivityContainer!!.childCount) if (vActivityContainer!!.getChildAt(i) != screen) oldViews.add(vActivityContainer!!.getChildAt(i))
         return oldViews
     }
 
-    private fun removeViews(views:ArrayList<View>){
+    private fun removeViews(views: ArrayList<View>) {
         for (v in views)
             try {
                 vActivityContainer!!.removeView(v)
@@ -303,11 +303,11 @@ abstract class SActivity : AppCompatActivity() {
         type.updateIcons()
     }
 
-    private fun animateNone(oldViews:ArrayList<View>) {
+    private fun animateNone(oldViews: ArrayList<View>) {
         removeViews(oldViews)
     }
 
-    private fun animateAlpha(screen: Screen, old: View, oldViews:ArrayList<View>) {
+    private fun animateAlpha(screen: Screen, old: View, oldViews: ArrayList<View>) {
         screen.visibility = View.INVISIBLE
         ToolsView.toAlpha(old) {
             removeViews(oldViews)
@@ -315,7 +315,7 @@ abstract class SActivity : AppCompatActivity() {
         ToolsView.fromAlpha(screen)
     }
 
-    private fun animateOut(screen: Screen, old: View, oldViews:ArrayList<View>) {
+    private fun animateOut(screen: Screen, old: View, oldViews: ArrayList<View>) {
         screen.visibility = View.VISIBLE
         old.animate()
                 .alpha(0f)
@@ -333,7 +333,7 @@ abstract class SActivity : AppCompatActivity() {
                 })
     }
 
-    private fun animateIn(screen: Screen, oldViews:ArrayList<View>) {
+    private fun animateIn(screen: Screen, oldViews: ArrayList<View>) {
         screen.alpha = 0f
         screen.translationX = (ToolsAndroid.getScreenW() / 3).toFloat()
         screen.animate()
