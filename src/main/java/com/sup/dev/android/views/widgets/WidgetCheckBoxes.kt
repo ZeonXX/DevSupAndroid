@@ -62,6 +62,10 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return setOnCancel(ToolsResources.s(s), onCancel)
     }
 
+    fun setOnCancel(@StringRes s: Int): WidgetCheckBoxes {
+        return setOnCancel(ToolsResources.s(s)) {}
+    }
+
     @JvmOverloads
     fun setOnCancel(s: String?, onCancel: (WidgetCheckBoxes) -> Unit = {}): WidgetCheckBoxes {
         super.setOnHide { onCancel.invoke(this) }
