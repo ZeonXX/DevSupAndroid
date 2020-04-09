@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -26,11 +27,12 @@ open class WidgetGreed : WidgetRecycler(R.layout.widget_greed) {
     init {
         vEmptyText.visibility = View.GONE
 
-        spanCount = if (ToolsAndroid.isScreenPortrait()) 6 else 12
-        vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
-        ToolsView.setRecyclerAnimation(vRecycler)
-
         setAdapter<WidgetRecycler>(myAdapter)
+    }
+
+    fun setSpanCount(spanCountP:Int, spanCountL:Int = spanCountP){
+        spanCount = if (ToolsAndroid.isScreenPortrait()) spanCountP else spanCountL
+        vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
     }
 
     override fun onShow() {
