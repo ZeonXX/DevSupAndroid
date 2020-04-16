@@ -46,14 +46,16 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
     private var showLoadingTop = true
     private var showLoadingBottom = true
 
-    private var onErrorAndEmpty = CallbacksList()
-    private var onEmpty = CallbacksList()
-    private var onStartLoadingAndEmpty = CallbacksList()
-    private var onLoadingAndNotEmpty = CallbacksList()
-    private var onLoadedNotEmpty = CallbacksList()
-    private var onLoadedEmpty = CallbacksList()
+
+
+    private var onStart_Empty = CallbacksList()
+    private var onStart_NotEmpty = CallbacksList()
     private var onLoadedPack = CallbacksList()
-    private var onLoadedEmptyPack = CallbacksList()
+    private var onLoadedPack_NotEmpty = CallbacksList()
+    private var onLoadedPack_Empty = CallbacksList()
+    private var onFinish_Empty = CallbacksList()
+    private var onFinish = CallbacksList()
+    private var onError_Empty = CallbacksList()
 
     override fun onBindViewHolder(holder: Holder, position: Int, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, payloads)
@@ -88,7 +90,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         ToolsCollections.removeIf(cards) { !cardsHash.get(it.hashCode(), false) }
 
         if (!contains(cardClass)) {
-            onStartLoadingAndEmpty.invoke()
+            onStart_Empty.invoke()
             if (!contains(cardLoading) && showLoadingCard && showLoadingCardIfEmpty) {
                 if (bottom) {
                     if (showLoadingBottom) add(findBottomAdposition(), cardLoading)
@@ -97,7 +99,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                 }
             }
         } else {
-            onLoadingAndNotEmpty.invoke()
+            onStart_NotEmpty.invoke()
             if (!contains(cardLoading) && showLoadingCard)
                 if (bottom) {
                     if (showLoadingBottom) add(findBottomAdposition(), cardLoading)
@@ -132,7 +134,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             } else remove(cardLoading)
 
             if (!contains(cardClass)) {
-                onErrorAndEmpty.invoke()
+                onError_Empty.invoke()
             }
         } else {
             if (!contains(cardClass) && result.isEmpty()) {
@@ -140,19 +142,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
                 else lockTop()
 
                 if (actionEnabled) {
-                    if (!contains(cardLoading)) {
-                        if (bottom) {
-                            add(findBottomAdposition(), cardLoading)
-                        } else {
-                            add(findTopAddPosition(), cardLoading)
-                        }
-                    }
+                    if (!contains(cardLoading))
+                        if (bottom) add(findBottomAdposition(), cardLoading) else add(findTopAddPosition(), cardLoading)
                     cardLoading.setState(CardLoading.State.ACTION)
-                    onEmpty.invoke()
                 } else {
                     remove(cardLoading)
-                    onEmpty.invoke()
                 }
+                onFinish_Empty.invoke()
             } else {
                 if (result.isEmpty()) {
                     if (bottom) lockBottom()
@@ -181,9 +177,9 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
             }
 
             onLoadedPack.invoke()
-            if (contains(cardClass) || result.isNotEmpty()) onLoadedNotEmpty.invoke()
-            else onLoadedEmpty.invoke()
-            if (result.isEmpty()) onLoadedEmptyPack.invoke()
+            if (contains(cardClass) || result.isNotEmpty()) onLoadedPack_NotEmpty.invoke()
+            else onLoadedPack_Empty.invoke()
+            if (result.isEmpty()) onFinish.invoke()
         }
     }
 
@@ -281,7 +277,7 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
 
     override fun remove(position: Int) {
         super.remove(position)
-        if (!contains(cardClass) && isLoadedAtListOneTime) onEmpty.invoke()
+        if (!contains(cardClass) && isLoadedAtListOneTime) onFinish_Empty.invoke()
     }
 
     //
@@ -298,13 +294,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun addOnLoadedNotEmpty(onLoadedNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadedNotEmpty.add(onLoadedNotEmpty)
+    fun addOnLoadedPack_NotEmpty(onLoadedPack_NotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedPack_NotEmpty.add(onLoadedPack_NotEmpty)
         return this
     }
 
-    fun addOnLoadedEmpty(onLoadedEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadedEmpty.add(onLoadedEmpty)
+    fun addOnLoadedPack_Empty(onLoadedPack_Empty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onLoadedPack_Empty.add(onLoadedPack_Empty)
         return this
     }
 
@@ -313,18 +309,18 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun addOnLoadedEmptyPack(onLoadedEmptyPack: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadedEmptyPack.add(onLoadedEmptyPack)
+    fun addOnFinish(onFinish: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onFinish.add(onFinish)
         return this
     }
 
-    fun addOnLoadingAndNotEmpty(onLoadingAndNotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onLoadingAndNotEmpty.add(onLoadingAndNotEmpty)
+    fun addOnStart_NotEmpty(onStart_NotEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onStart_NotEmpty.add(onStart_NotEmpty)
         return this
     }
 
-    fun addOnStartLoadingAndEmpty(onStartLoadingAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onStartLoadingAndEmpty.add(onStartLoadingAndEmpty)
+    fun addOnStart_Empty(onStart_Empty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onStart_Empty.add(onStart_Empty)
         return this
     }
 
@@ -333,13 +329,13 @@ open class RecyclerCardAdapterLoading<K : Card, V>(
         return this
     }
 
-    fun addOnEmpty(onEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onEmpty.add(onEmpty)
+    fun addOnFinish_Empty(onFinish_Empty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onFinish_Empty.add(onFinish_Empty)
         return this
     }
 
-    fun addOnErrorAndEmpty(onErrorAndEmpty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
-        this.onErrorAndEmpty.add(onErrorAndEmpty)
+    fun addOnError_Empty(onError_Empty: () -> Unit): RecyclerCardAdapterLoading<K, V> {
+        this.onError_Empty.add(onError_Empty)
         return this
     }
 

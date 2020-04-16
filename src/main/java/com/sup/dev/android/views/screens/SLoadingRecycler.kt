@@ -52,11 +52,11 @@ abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_
         }
 
         adapter
-                .addOnEmpty { setState(State.EMPTY) }
-                .addOnErrorAndEmpty { setState(State.ERROR) }
-                .addOnStartLoadingAndEmpty { setState(State.PROGRESS) }
-                .addOnLoadingAndNotEmpty { setState(State.NONE) }
-                .addOnLoadedNotEmpty { setState(State.NONE) }
+                .addOnFinish_Empty { setState(State.EMPTY) }
+                .addOnError_Empty { setState(State.ERROR) }
+                .addOnStart_Empty { setState(State.PROGRESS) }
+                .addOnStart_NotEmpty { setState(State.NONE) }
+                .addOnLoadedPack_NotEmpty { setState(State.NONE) }
                 .setRetryMessage(textErrorNetwork, textErrorRetry)
                 .setShowLoadingCardIfEmpty(false)
                 .setShowErrorCardIfEmpty(false)
