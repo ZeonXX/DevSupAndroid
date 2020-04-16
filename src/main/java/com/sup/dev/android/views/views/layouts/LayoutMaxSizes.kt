@@ -98,8 +98,8 @@ open class LayoutMaxSizes constructor(context: Context, attrs: AttributeSet? = n
         var maxChildH = 0
         for (i in 0 until childCount) {
             getChildAt(i).measure(
-                    makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else getMode(widthMeasureSpec)),
-                    makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else getMode(heightMeasureSpec)))
+                    makeMeasureSpec(w, if (childAlwaysMaxW) EXACTLY else if (allowChildMaxW) UNSPECIFIED else AT_MOST),
+                    makeMeasureSpec(h, if (childAlwaysMaxH) EXACTLY else if (allowChildMaxH) UNSPECIFIED else AT_MOST))
             maxChildW = Math.max(getChildAt(i).measuredWidth, maxChildW)
             maxChildH = Math.max(getChildAt(i).measuredHeight, maxChildH)
         }
