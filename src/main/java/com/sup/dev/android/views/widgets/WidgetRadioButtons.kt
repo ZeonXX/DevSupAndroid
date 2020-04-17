@@ -194,6 +194,8 @@ class WidgetRadioButtons : Widget(R.layout.widget_container) {
                             (vOptionsContainer.getChildAt(i) as RadioButton).isChecked = false
             }
             vOptionsContainer.addView(v)
+            (v.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(8f).toInt()
+            (v.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(8f).toInt()
             if (vOptionsContainer.childCount > 1)
                 (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(16f).toInt()
 

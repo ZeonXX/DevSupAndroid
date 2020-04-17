@@ -196,6 +196,13 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
         return group(ToolsResources.s(title), divider)
     }
 
+    fun addView(v:View): WidgetCheckBoxes{
+        vOptionsContainer.addView(v)
+        if (vOptionsContainer.childCount > 1)
+            (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()
+        return this
+    }
+
     @JvmOverloads
     fun group(title: String?, divider: Boolean = false): WidgetCheckBoxes {
         finishItemBuilding()
@@ -227,6 +234,8 @@ class WidgetCheckBoxes : Widget(R.layout.widget_container) {
                 }
             }
             vOptionsContainer.addView(v)
+            (v.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(8f).toInt()
+            (v.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(8f).toInt()
             if (vOptionsContainer.childCount > 1)
                 (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()
 
