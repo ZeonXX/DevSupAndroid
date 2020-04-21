@@ -86,21 +86,46 @@
 
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/vAll"
-            style="@style/Fab"
-            android:layout_marginRight="96dp"
-            android:src="@drawable/ic_fullscreen_white_24dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            style="@style/Fab"
-            android:src="@drawable/ic_check_white_24dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/vBackground"
-            style="@style/Fab"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="left|bottom"
-            android:src="@drawable/ic_all_out_white_24dp" />
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/vRotate"
+                style="@style/Fab"
+                android:layout_marginRight="0dp"
+                app:backgroundTint="@color/focus_dark"
+                android:src="@drawable/ic_rotate_right_white_24dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/vAll"
+                style="@style/Fab"
+                app:backgroundTint="@color/focus_dark"
+                android:src="@drawable/ic_fullscreen_white_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                style="@style/Fab"
+                app:backgroundTint="@color/green_700"
+                android:src="@drawable/ic_check_white_24dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/vBackground"
+                style="@style/Fab"
+                android:layout_gravity="left|bottom"
+                android:src="@drawable/ic_all_out_white_24dp" />
+
+
+        </LinearLayout>
 
         <com.sup.dev.android.views.views.ViewIcon style="@style/Icon.Shadow.Back" />
 

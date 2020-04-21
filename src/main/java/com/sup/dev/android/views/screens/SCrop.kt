@@ -25,6 +25,7 @@ class SCrop(
     private val vRoot: View = findViewById(R.id.vRoot)
     private val vCropImageView: ViewCropImage = findViewById(R.id.vCrop)
     private val vFinish: View = findViewById(R.id.vFab)
+    private val vRotate: View = findViewById(R.id.vRotate)
     private val vAll: View = findViewById(R.id.vAll)
     private val vBack: ViewIcon = findViewById(R.id.vBack)
     private val vBackground: View = findViewById(R.id.vBackground)
@@ -44,7 +45,7 @@ class SCrop(
     init {
 
 
-disableNavigation()
+        disableNavigation()
         statusBarColor = ToolsResources.getColor(R.color.black)
         navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
 
@@ -56,6 +57,7 @@ disableNavigation()
 
         vAll.setOnClickListener { vCropImageView.cropRect = Rect(0, 0, bitmap.width, bitmap.height) }
 
+        vRotate.setOnClickListener { vCropImageView.rotatedDegrees = (vCropImageView.rotatedDegrees + 90) % 360 }
 
 
         vFinish.setOnClickListener {
