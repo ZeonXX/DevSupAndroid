@@ -12,11 +12,6 @@ open class WidgetRecycler(
         r:Int = R.layout.widget_recycler
 ) : Widget(r) {
 
-    /*
-
-
-     */
-
     val vRoot: ViewGroup = findViewById(R.id.vRoot)
     val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     val vContainer: ViewGroup = findViewById(R.id.vContainer)

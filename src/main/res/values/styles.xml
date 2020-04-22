@@ -431,7 +431,7 @@
         <item name="chipSpacing">8dp</item>
     </style>
 
-    <style name="Button">
+    <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

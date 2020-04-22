@@ -19,6 +19,7 @@ class SettingsField constructor(
         attrs: AttributeSet? = null
 ) : Settings(context, attrs, R.layout.settings_field) {
 
+    val vIcon: ViewCircleImage = findViewById(R.id.vDevSupIcon)
     val vField: ViewEditTextMedia = findViewById(R.id.vDevSupField)
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
