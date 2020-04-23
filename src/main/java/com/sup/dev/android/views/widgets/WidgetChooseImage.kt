@@ -21,6 +21,7 @@ import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsNetwork
@@ -33,12 +34,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private val DP = ToolsView.dpToPx(1).toInt()
     private val myAdapter: RecyclerCardAdapter = RecyclerCardAdapter()
     private val vEmptyText: TextView = findViewById(R.id.vEmptyText)
-    private val vFabGalleryContainer: View = ToolsView.inflate(R.layout.z_fab)
-    private val vFabLinkContainer: View = ToolsView.inflate(R.layout.z_fab)
-    private val vFabDoneContainer: View = ToolsView.inflate(R.layout.z_fab)
-    private val vFabGallery: ImageView = vFabGalleryContainer.findViewById(R.id.vFab)
-    private val vFabLink: ImageView = vFabLinkContainer.findViewById(R.id.vFab)
-    private val vFabDone: FloatingActionButton = vFabDoneContainer.findViewById(R.id.vFab)
     private val fabs = ArrayList<View>()
 
     private var onSelected: (WidgetChooseImage, ByteArray, Int) -> Unit = { _, _, _ -> }
@@ -48,6 +43,8 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     private var selectedList = ArrayList<File>()
     private var callbackInWorkerThread = false
     private val addedHash = SparseArray<Boolean>()
+    private val vFabDoneContainer: View
+    private var inited = false
 
     init {
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
@@ -56,14 +53,6 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)
 
-        vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
-        vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)
-        vFabDone.setImageResource(R.drawable.ic_done_white_24dp)
-        vFabGallery.setOnClickListener { openGallery() }
-        vFabLink.setOnClickListener { showLink() }
-        vFabDone.setOnClickListener { sendAll() }
-
-        ToolsView.setFabColorR(vFabDone, R.color.green_700)
 
         setAdapter<WidgetRecycler>(myAdapter)
 
@@ -73,20 +62,28 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             else loadImagesNow()
         }
 
-        fabs.add(vFabGalleryContainer)
-        fabs.add(vFabLinkContainer)
+        addFab(R.drawable.ic_done_white_24dp) { sendAll() }
+        vFabDoneContainer = getLastAddedFabContainer()
+        ToolsView.setFabColorR(getLastAddedFab(), R.color.green_700)
+        addFab(R.drawable.ic_landscape_white_24dp) { openGallery() }
+        addFab(R.drawable.ic_insert_link_white_24dp) { showLink() }
+        addFab(R.drawable.ic_camera_alt_white_24dp) { openCamera() }
 
+        inited = true
         updateFabs()
     }
 
     fun updateFabs() {
+        if (!inited) return
         if (selectedList.isEmpty()) {
             vContainer.removeView(vFabDoneContainer)
             var offset = 0
             for (i in fabs) {
+                if(i == vFabDoneContainer) continue
                 if (vContainer.indexOfChild(i) == -1) vContainer.addView(i)
+                (i.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = 0
                 (i.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(offset).toInt()
-                offset += 72
+                offset += 48
             }
         } else {
             for (i in fabs) vContainer.removeView(i)
@@ -95,15 +92,19 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
     }
 
     fun addFab(icon: Int, onClick: () -> Unit): WidgetChooseImage {
-        val vFabContainer: View = ToolsView.inflate(R.layout.z_fab)
+        val vFabContainer: View = ToolsView.inflate(R.layout.z_fab_mini)
         val vFab: ImageView = vFabContainer.findViewById(R.id.vFab)
         fabs.add(vFabContainer)
 
         vFab.setImageResource(icon)
         vFab.setOnClickListener { onClick.invoke() }
         updateFabs()
+
         return this
     }
+
+    fun getLastAddedFab() = getLastAddedFabContainer().findViewById(R.id.vFab) as FloatingActionButton
+    fun getLastAddedFabContainer() = fabs[fabs.size - 1]
 
     override fun onShow() {
         super.onShow()
@@ -186,6 +187,22 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
                 .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                 .asSheetShow()
 
+    }
+
+    private fun openCamera() {
+        ToolsIntent.getCameraImage({
+            bytes ->
+            try {
+                onSelected.invoke(this, bytes, 0)
+                hide()
+            } catch (e: IOException) {
+                err(e)
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+            }
+        },{
+            err(it)
+            ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+        })
     }
 
     private fun openGallery() {

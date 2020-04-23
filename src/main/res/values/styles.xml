@@ -303,6 +303,10 @@
     </style>
 
     <style name="Fab.Mini">
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
         <item name="fabSize">mini</item>
     </style>
 

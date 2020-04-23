@@ -8,15 +8,22 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsText
-import java.io.*
+import com.sup.dev.java.tools.ToolsThreads
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.io.Serializable
 import java.net.URLConnection
 import java.util.*
+
 
 object ToolsIntent {
 
@@ -24,7 +31,7 @@ object ToolsIntent {
 
     private var codeCounter = 0
     private val progressIntents = ArrayList<Item2<Int, (Int, Intent?) -> Unit>?>()
-    private val onActivityNotFoundDef: () -> Unit = {ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND)}
+    private val onActivityNotFoundDef: () -> Unit = { ToolsToast.show(SupAndroid.TEXT_ERROR_APP_NOT_FOUND) }
 
     //
     //  Support
@@ -57,11 +64,11 @@ object ToolsIntent {
         SupAndroid.appContext!!.startActivity(intent)
     }
 
-    fun parseExtras(intent: Intent, onNext:(key:String,value:Any) -> Unit){
+    fun parseExtras(intent: Intent, onNext: (key: String, value: Any) -> Unit) {
         val extras = intent.extras
-        if(extras != null){
+        if (extras != null) {
             val keySet = extras.keySet()
-            for(k in keySet){
+            for (k in keySet) {
                 onNext.invoke(k, extras.get(k)!!)
             }
         }
@@ -71,7 +78,7 @@ object ToolsIntent {
     //  Intents
     //
 
-    fun startWeb(link: String, onActivityNotFound: ()->Unit) {
+    fun startWeb(link: String, onActivityNotFound: () -> Unit) {
         startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(ToolsText.castToWebLink(link)))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
     }
@@ -133,7 +140,7 @@ object ToolsIntent {
 
         startIntent(intent, onActivityNotFound)
     }
-    
+
     fun startPhone(phone: String, onActivityNotFound: () -> Unit = onActivityNotFoundDef) {
         startIntent(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), onActivityNotFound)
@@ -223,19 +230,46 @@ object ToolsIntent {
     //  Intents result
     //
 
-    fun getGalleryImage(onResult: (ByteArray)->Unit, onError: ()->Unit={}) {
+    fun getCameraImage(onResult: (ByteArray) -> Unit, onError: (Exception) -> Unit = {}) {
+        try {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (intent.resolveActivity(SupAndroid.appContext!!.packageManager) != null) {
+                startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
+                    if (resultCode != Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
+                    ToolsThreads.thread {
+                        try {
+                            val imageBitmap = resultIntent.extras["data"] as Bitmap
+                            val bytes = ToolsBitmap.toBytes(imageBitmap)!!
+                            ToolsThreads.main { onResult.invoke(bytes) }
+                        } catch (e: Exception) {
+                            ToolsThreads.main { onError.invoke(e) }
+                        }
+
+                    }
+
+                }
+            } else {
+                onError.invoke(IllegalAccessException("Cant find camera"))
+            }
+        } catch (e: Exception) {
+            onError.invoke(e)
+            return
+        }
+    }
+
+    fun getGalleryImage(onResult: (ByteArray) -> Unit, onError: () -> Unit = {}) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         try {
             startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-                try{
+                try {
                     if (resultCode != Activity.RESULT_OK || resultIntent == null || resultIntent.data == null) throw IllegalAccessException("Result is null or not OK")
                     val inp = SupAndroid.appContext!!.contentResolver.openInputStream(resultIntent.data!!)
                     val bytes = ByteArray(inp!!.available())
                     inp.read(bytes)
                     inp.close()
                     onResult.invoke(bytes)
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     err(e)
                     onError.invoke()
                 }
@@ -298,7 +332,6 @@ object ToolsIntent {
             i += 2
         }
     }
-
 
 
 }
