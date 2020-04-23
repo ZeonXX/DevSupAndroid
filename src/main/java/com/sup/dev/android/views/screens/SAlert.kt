@@ -29,11 +29,11 @@ class SAlert(
 
         fun instanceNetwork(onRetry: (SAlert) -> Unit) = instanceMessage(SupAndroid.TEXT_ERROR_NETWORK, SupAndroid.TEXT_APP_RETRY, SupAndroid.imgErrorNetwork, true, onRetry)
 
-        fun showGone(action: NavigationAction) {
-            Navigator.action(action, instanceGone())
+        fun showGone(action: NavigationAction, goneText:String) {
+            Navigator.action(action, instanceGone(goneText))
         }
 
-        fun instanceGone() = instanceMessage(SupAndroid.TEXT_ERROR_GONE, SupAndroid.TEXT_APP_BACK, SupAndroid.imgErrorGone, true) { Navigator.remove(it) }
+        fun instanceGone(goneText:String) = instanceMessage(goneText, SupAndroid.TEXT_APP_BACK, SupAndroid.imgErrorGone, true) { Navigator.remove(it) }
 
         fun showMessage(text: Int, action: Int, img: ImageLink?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
             Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
