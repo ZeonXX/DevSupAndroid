@@ -24,7 +24,7 @@
         android:id="@+id/vDevSupInputLayout"
         style="@style/TextInputLayout">
 
-        <com.sup.dev.android.views.views.ViewEditTextMedia
+        <com.sup.dev.android.views.views.ViewEditText
             android:id="@+id/vDevSupField"
             style="@style/Field"/>
 

@@ -58,7 +58,6 @@ object ImageLoader {
     fun load(bytes: ByteArray) = ImageLoaderBytes(bytes)
 
     fun loadGif(imageId: Long, gifId: Long, vImage: ImageView, vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) {
-
         if (gifId == 0L) {
             ToolsThreads.main { vGifProgressBar?.visibility = View.INVISIBLE }
             val load = load(imageId)
@@ -104,10 +103,10 @@ object ImageLoader {
 
         if (loader.link.fastLoad(loader.vImage)) return
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
 
         val cashItem = if (loader.link.noLoadFromCash) null else getFromCash(loader.link.getKey())
         if (cashItem != null) {
+            loader.vGifProgressBar?.visibility = View.INVISIBLE
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
             return
         }
@@ -159,7 +158,10 @@ object ImageLoader {
 
     private fun putHolder(loader: Loader) {
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = if (loader.link.allowGif) View.VISIBLE else View.INVISIBLE
+        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = if (loader.link.allowGif){
+            View.VISIBLE }else{
+            View.INVISIBLE
+        }
 
         if (loader.link.customSetHolder != null) {
             loader.link.customSetHolder!!.invoke()

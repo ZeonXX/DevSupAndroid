@@ -74,6 +74,10 @@ abstract class SplashView<K : Any>(
     @Suppress("UNCHECKED_CAST")
     override fun hide(): K {
         SupAndroid.activity?.removeSplash(this)
+        return this as K
+    }
+
+    fun onHide(): K {
         widget.onHide()
         return this as K
     }

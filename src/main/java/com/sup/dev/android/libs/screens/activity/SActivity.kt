@@ -206,6 +206,7 @@ abstract class SActivity : AppCompatActivity() {
             ToolsView.toAlpha(splash.getView(), splash.animationMs.toInt()) {
                 vSplashContainer!!.removeView(splash.getView())
             }
+            splash.onHide()
         }
     }
 

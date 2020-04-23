@@ -12,9 +12,11 @@ import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.cards.Card
+import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.java.classes.items.Item
@@ -57,7 +59,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         vFabGallery.setImageResource(R.drawable.ic_landscape_white_24dp)
         vFabLink.setImageResource(R.drawable.ic_insert_link_white_24dp)
         vFabDone.setImageResource(R.drawable.ic_done_white_24dp)
-        vFabGallery.setOnClickListener {openGallery() }
+        vFabGallery.setOnClickListener { openGallery() }
         vFabLink.setOnClickListener { showLink() }
         vFabDone.setOnClickListener { sendAll() }
 
@@ -92,7 +94,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         }
     }
 
-    fun addFab(icon: Int, onClick: () -> Unit):WidgetChooseImage {
+    fun addFab(icon: Int, onClick: () -> Unit): WidgetChooseImage {
         val vFabContainer: View = ToolsView.inflate(R.layout.z_fab)
         val vFab: ImageView = vFabContainer.findViewById(R.id.vFab)
         fabs.add(vFabContainer)
@@ -234,6 +236,54 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         }
     }
 
+    private fun sendWithCrop() {
+        val d = ToolsView.showProgressDialog()
+        ToolsThreads.thread {
+            val f = selectedList.get(0)
+            try {
+                val startBytes = ToolsFiles.readFile(f)
+                val startBitmap = ToolsBitmap.decode(startBytes)!!
+                ToolsThreads.main {
+                    Navigator.to(SCrop(startBitmap) { screen, bitmap, x, y, w, h ->
+                        ToolsThreads.thread {
+                            try {
+                                val bytes = ToolsBitmap.toBytes(bitmap)!!
+                                if (callbackInWorkerThread) {
+                                    onSelected.invoke(this, bytes, selectedList.indexOf(f))
+                                } else {
+                                    val sent = Item(false)
+                                    ToolsThreads.main {
+                                        try {
+                                            onSelected.invoke(this, bytes, selectedList.indexOf(f))
+                                        } catch (e: Exception) {
+                                            err(e)
+                                        }
+                                        sent.a = true
+                                    }
+                                    while (!sent.a) ToolsThreads.sleep(10)
+                                }
+                            } catch (e: Exception) {
+                                err(e)
+                                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                            }
+                            ToolsThreads.main {
+                                hide()
+                                d.hide()
+                            }
+                        }
+                    })
+                }
+            } catch (e: Exception) {
+                err(e)
+                ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
+                ToolsThreads.main {
+                    hide()
+                    d.hide()
+                }
+            }
+        }
+    }
+
     fun getSelectedCount() = selectedList.size
 
     //
@@ -272,16 +322,13 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
             val vNumContainerTouch: View = view.findViewById(R.id.vNumContainerTouch)
 
             vImage.setOnClickListener { onClick() }
+            vImage.setOnLongClickListener { if (selectedList.isEmpty()) onLongClick() else onClick();true }
             if (maxSelectCount > 1) {
-                vImage.setOnLongClickListener {
-                    onLongClick()
-                    true
-                }
-                vNumContainerTouch.setOnClickListener { onLongClick() }
+                vNumContainerTouch.setOnClickListener { select() }
             }
 
             ImageLoader.load(file).size(420, 420).cropSquare().into(vImage)
-            val index = adapter!!.indexOf(this)
+            val index = adapter.indexOf(this)
             val arg = index % spanCount
             view.setPadding(if (arg == 0) 0 else DP, if (index < spanCount) 0 else DP, if (arg == spanCount - 1) 0 else DP, DP)
 
@@ -302,7 +349,7 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
 
         fun onClick() {
             if (selectedList.isNotEmpty()) {
-                onLongClick()
+                select()
             } else {
                 selectedList.add(file)
                 sendAll()
@@ -310,6 +357,12 @@ open class WidgetChooseImage : WidgetRecycler(R.layout.widget_choose_image) {
         }
 
         fun onLongClick() {
+            selectedList.clear()
+            selectedList.add(file)
+            sendWithCrop()
+        }
+
+        fun select() {
             if (selectedList.contains(file)) {
                 selectedList.remove(file)
                 updateFabs()
