@@ -27,7 +27,6 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private var onPageChanged:()->Unit = {}
-    private var setOnDateClicked:(Long)->Unit = {}
     val vIconBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     val vIconForward: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     val vPager: ViewPager = ViewPager(context)
@@ -37,6 +36,18 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         adapter.setCardH(ViewGroup.LayoutParams.WRAP_CONTENT)
+        val date = GregorianCalendar.getInstance()
+        date.set(GregorianCalendar.DAY_OF_MONTH, 1)
+        while (date.get(GregorianCalendar.YEAR) > 2000) {
+            while (true) {
+                adapter.add(0, PagerCard(date.timeInMillis))
+
+                if (date.get(GregorianCalendar.MONTH) == 0) break
+                date.set(GregorianCalendar.MONTH, date.get(GregorianCalendar.MONTH) - 1)
+            }
+            date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) - 1)
+            date.set(GregorianCalendar.MONTH, 11)
+        }
 
         setPadding(ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt())
         addView(vPager)
@@ -56,6 +67,8 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         vIconForward.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp)
 
         vPager.adapter = adapter
+        vPager.currentItem = adapter.size() - 1
+        vIconForward.alpha = 0f
         vPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
 
             override fun onPageSelected(position: Int) {
@@ -70,55 +83,10 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         vIconBack.setOnClickListener {
             if (vPager.currentItem > 0) vPager.setCurrentItem(vPager.currentItem - 1, true)
         }
-
-        val date = GregorianCalendar.getInstance()
-        val myM = date.get(GregorianCalendar.MONTH)
-        val myY = date.get(GregorianCalendar.YEAR)
-        var targetCard:PagerCard? = null
-        date.set(GregorianCalendar.DAY_OF_MONTH, 1)
-        date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) + 50)
-        while (date.get(GregorianCalendar.YEAR) > 2000) {
-            while (true) {
-                val card = PagerCard(date.timeInMillis)
-                adapter.add(0, card)
-
-                if(date.get(GregorianCalendar.MONTH) == myM && date.get(GregorianCalendar.YEAR) == myY)targetCard = card
-
-                if (date.get(GregorianCalendar.MONTH) == 0) break
-                date.set(GregorianCalendar.MONTH, date.get(GregorianCalendar.MONTH) - 1)
-            }
-
-            date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) - 1)
-            date.set(GregorianCalendar.MONTH, 11)
-        }
-
-        if(targetCard != null){
-            vPager.currentItem = adapter.indexOf(targetCard)
-        }
-    }
-
-    fun setOnDateClicked(setOnDateClicked:(Long)->Unit){
-        this.setOnDateClicked = setOnDateClicked
     }
 
     fun setOnChanged(onPageChanged:()->Unit){
         this.onPageChanged = onPageChanged
-    }
-
-    fun clearDateMarks(){
-        marks.clear()
-        adapter.updateAll()
-    }
-
-    fun clearDateMark(dateTime: Long){
-        val date = GregorianCalendar.getInstance()
-        date.timeInMillis = dateTime
-        date.set(GregorianCalendar.HOUR_OF_DAY, 0)
-        date.set(GregorianCalendar.MINUTE, 0)
-        date.set(GregorianCalendar.SECOND, 0)
-        date.set(GregorianCalendar.MILLISECOND, 0)
-        marks.remove(date.timeInMillis)
-        adapter.updateAll()
     }
 
     fun setDateMark(dateTime: Long, color: Int?) {
@@ -182,7 +150,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
             date.set(GregorianCalendar.MINUTE, 0)
             date.set(GregorianCalendar.SECOND, 0)
             date.set(GregorianCalendar.MILLISECOND, 0)
-            vTitle.text = date.getDisplayName(GregorianCalendar.MONTH, Calendar.LONG, Locale.getDefault()).capitalize() + " " + date.get(GregorianCalendar.YEAR)
+            vTitle.text = date.getDisplayName(GregorianCalendar.MONTH, Calendar.LONG_STANDALONE, Locale.getDefault()).capitalize() + " " + date.get(GregorianCalendar.YEAR)
 
             var startDay = (date.get(GregorianCalendar.DAY_OF_WEEK) + 5) % 7
             var lastDay = 0
@@ -193,19 +161,16 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val vIcon: ViewIcon = vWeekLine.findViewWithTag(TAG_DATE_ICON_ + dayIndex)
 
                     val day = date.get(GregorianCalendar.DAY_OF_MONTH)
-                    val dateMs = date.timeInMillis
                     if (dayIndex < startDay || day < lastDay) {
                         vText.text = ""
-                        vIcon.isFocusable = false
                         vIcon.setOnClickListener(null)
-                        vIcon.setIconBackgroundColor(0)
                     } else {
                         lastDay = day
                         startDay = 0
                         vText.text = "$day"
-                        vIcon.isFocusable = true
-                        vIcon.setOnClickListener { setOnDateClicked.invoke(dateMs) }
-                        vIcon.setIconBackgroundColor(marks[dateMs] ?: 0)
+                        vIcon.setOnClickListener {
+                        }
+                        vIcon.setIconBackgroundColor(marks[date.timeInMillis] ?: 0)
                         date.set(GregorianCalendar.DAY_OF_MONTH, day + 1)
                     }
 
@@ -240,7 +205,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                 daysCalendar.set(GregorianCalendar.DAY_OF_WEEK, i % 7)
                 val vText: TextView = ToolsView.inflate(R.layout.z_text_caption)
                 val vFrame = FrameLayout(context)
-                vText.text = daysCalendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
+                vText.text = daysCalendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, Calendar.SHORT_STANDALONE, Locale.getDefault())
                 vFrame.addView(vText)
                 vDaysTitlesContainer.addView(vFrame)
                 (vText.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -279,7 +244,6 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                     (vFrame.layoutParams as LinearLayout.LayoutParams).width = ViewGroup.LayoutParams.WRAP_CONTENT
                     (vFrame.layoutParams as LinearLayout.LayoutParams).height = ViewGroup.LayoutParams.WRAP_CONTENT
                     (vFrame.layoutParams as LinearLayout.LayoutParams).weight = 1f
-
                 }
             }
 
