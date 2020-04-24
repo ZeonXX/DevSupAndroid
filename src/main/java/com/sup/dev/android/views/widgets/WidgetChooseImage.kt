@@ -21,7 +21,6 @@ import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsFiles
 import com.sup.dev.java.tools.ToolsNetwork

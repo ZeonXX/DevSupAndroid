@@ -15,7 +15,6 @@ import com.sup.dev.android.views.splash.Dialog
 import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.splash.Splash
 import com.sup.dev.android.views.views.layouts.LayoutCorned
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class Widget(layoutRes: Int) {
@@ -106,7 +105,6 @@ abstract class Widget(layoutRes: Int) {
 
     @CallSuper
     open fun onHide() {
-        log("On hide")
         isHided = true
         onHide.invoke(this)
     }

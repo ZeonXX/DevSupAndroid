@@ -141,7 +141,7 @@ class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
         chipBackgroundColor = ColorStateList.valueOf(color)
     }
 
-    fun setIocnPadings(p: Float) {
+    fun setIconPadding(p: Float) {
         iconStartPadding = p
         iconEndPadding = p
     }
