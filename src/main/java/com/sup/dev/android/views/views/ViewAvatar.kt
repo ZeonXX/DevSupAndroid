@@ -118,6 +118,11 @@ open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null)
         vTouch.isClickable = l != null
     }
 
+    override fun setOnLongClickListener(l: OnLongClickListener?) {
+        vTouch.setOnLongClickListener(l)
+        vTouch.isLongClickable = l != null
+    }
+
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         vImageView.isEnabled = enabled
