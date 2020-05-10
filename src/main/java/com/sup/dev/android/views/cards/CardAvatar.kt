@@ -13,8 +13,8 @@ open class CardAvatar(
     layout: Int = 0
 ) : Card(if (layout > 0) layout else R.layout.card_avatar) {
 
-    private var onClick: () -> Unit = {}
-    private var onLongClick: (CardAvatar, View, Float, Float) -> Unit = { _, _, _, _ -> }
+    protected var onClick: () -> Unit = {}
+    protected var onLongClick: (CardAvatar, View, Float, Float) -> Unit = { _, _, _, _ -> }
     private var dividerVisible = false
     private var enabled = true
     private var background = 0
