@@ -42,23 +42,14 @@ abstract class SplashView<K : Any>(
         }
 
         if(!widget.noBackground)vSplashViewContainer.setBackgroundColor(ToolsResources.getColorAttr(if(widget.isCompanion) R.attr.widget_companion_background else R.attr.widget_background))
-
-
-        setOnBack()
     }
 
-    private fun setOnBack(){
-        Navigator.addOnBack {
-            if(SupAndroid.activity!!.isTopSplash(this)){
-                if(cancelable && widget.isEnabled && widget.onBackPressed()){
-                    hide()
-                }else{
-                    setOnBack()
-                }
-                true
-            }else{
-                false
-            }
+    fun onBackPressed():Boolean{
+        return if(SupAndroid.activity!!.isTopSplash(this) && cancelable && widget.isEnabled && widget.onBackPressed()){
+            hide()
+            true
+        }else{
+            false
         }
     }
 

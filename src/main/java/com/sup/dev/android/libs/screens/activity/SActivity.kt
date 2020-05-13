@@ -20,6 +20,7 @@ import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.splash.SplashView
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
@@ -164,13 +165,8 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val screen = Navigator.getCurrent()
-        val b1 = Navigator.onBackPressed()
-        val b2 = b1 || onLastBackPressed(screen)
-        if (!b2) {
-            started = false
-            finish()
-        }
+        if(onBackPressedSplash()) return
+        onBackPressedScreen()
     }
 
     open fun onLastBackPressed(screen: Screen?): Boolean {
@@ -178,8 +174,16 @@ abstract class SActivity : AppCompatActivity() {
     }
 
     //
-    //  Sheet
+    //  Splash
     //
+
+    open fun onBackPressedSplash():Boolean{
+        if( vSplashContainer!!.childCount > 0){
+            val splash = vSplashContainer!!.getChildAt(vSplashContainer!!.childCount-1).tag as SplashView<out Any>
+            return splash.onBackPressed()
+        }
+        return false
+    }
 
     fun addSplash(splash: SplashView<out Any>) {
         splash.getView().tag = splash
@@ -219,6 +223,16 @@ abstract class SActivity : AppCompatActivity() {
     //
 
     private var subscriptionTouchLock: Subscription? = null
+
+    open fun onBackPressedScreen(){
+        val screen = Navigator.getCurrent()
+        val b1 = Navigator.onBackPressed()
+        val b2 = b1 || onLastBackPressed(screen)
+        if (!b2) {
+            started = false
+            finish()
+        }
+    }
 
     private fun getOldViews(screen: Screen?): ArrayList<View> {
         val oldViews = ArrayList<View>()
