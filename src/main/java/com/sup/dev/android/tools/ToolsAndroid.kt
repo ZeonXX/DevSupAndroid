@@ -111,6 +111,7 @@ object ToolsAndroid {
     }
 
     fun getVersion() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionName
+    fun getVersionCode() = SupAndroid.appContext!!.packageManager.getPackageInfo(SupAndroid.appContext!!.packageName, 0).versionCode
 
     @RequiresPermission(Manifest.permission.BLUETOOTH)
     fun getBluetoothMacAddress(): String {
