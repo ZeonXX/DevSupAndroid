@@ -14,7 +14,7 @@ class SettingsArrow @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
 
-        vArrow.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_keyboard_arrow_right_24dp))
+        vArrow.setImageDrawable(ToolsResources.getDrawable(R.drawable.ic_keyboard_arrow_right_white_24dp))
 
         setSubView(vArrow)
     }

@@ -10,7 +10,6 @@ import androidx.annotation.*
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.tools.ToolsColor
-import java.io.InputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -162,9 +161,9 @@ object ToolsResources {
         return Array(r.size) { SupAndroid.appContext!!.resources.getColor(r[it]) }
     }
 
-    fun getAccentColor(context: Context): Int {
+    fun getSecondaryColor(context: Context): Int {
         val value = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorAccent, value, true)
+        context.theme.resolveAttribute(R.attr.colorSecondary, value, true)
         return value.data
     }
 
@@ -176,12 +175,12 @@ object ToolsResources {
 
     fun getPrimaryDarkColor(context: Context): Int {
         val value = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorPrimaryDark, value, true)
+        context.theme.resolveAttribute(R.attr.colorPrimaryVariant, value, true)
         return value.data
     }
 
-    fun getAccentAlphaColor(context: Context): Int {
-        return ToolsColor.setAlpha(106, getAccentColor(context))
+    fun getSecondaryAlphaColor(context: Context): Int {
+        return ToolsColor.setAlpha(106, getSecondaryColor(context))
     }
 
     fun getBackgroundColor(context: Context): Int {

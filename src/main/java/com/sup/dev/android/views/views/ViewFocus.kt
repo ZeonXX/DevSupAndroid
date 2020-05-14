@@ -21,7 +21,7 @@ class ViewFocus @JvmOverloads constructor(
     private val path = Path()
     private val paint = Paint()
 
-    private val color = ToolsResources.getAccentColor(getContext())
+    private val color = ToolsResources.getSecondaryColor(getContext())
 
     private val radius = ToolsAndroid.getScreenW() / 1.6f
     private val radiusTrembling = radius / 10

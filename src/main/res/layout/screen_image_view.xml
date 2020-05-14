@@ -39,7 +39,7 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?toolbar_content_color"
+                android:textColor="?colorOnPrimary"
                 android:layout_gravity="top|left" />
 
         </com.sup.dev.android.views.views.layouts.LayoutCorned>

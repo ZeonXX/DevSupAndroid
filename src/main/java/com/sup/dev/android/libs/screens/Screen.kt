@@ -26,20 +26,20 @@ open class Screen(
 
     //  Params
     var wasShowed = false
-    var toolbarNavigationIconAttr = R.attr.ic_arrow_back_24dp
-    var toolbarNavigationIcon = 0
-    var toolbarContentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
+    var toolbarNavigationIcon = R.drawable.ic_arrow_back_white_24dp
+    var toolbarContentColor = ToolsResources.getColorAttr(R.attr.colorOnPrimary)
+    var isToolbarShadowAvailable = true
     var isBackStackAllowed = true
     var hasToolbarBackIcon = true
     var forceBackIcon = false
     var isSingleInstanceInBackStack = false
     var statusBarColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ToolsResources.getColorAttr(android.R.attr.statusBarColor) else Color.BLACK
     var navigationBarColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ToolsResources.getColorAttr(android.R.attr.navigationBarColor) else Color.BLACK
-    var navigationBarIsLight = ToolsResources.getBooleanAttr(R.attr.navigation_bar_is_light)
-    var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.them_status_bar_is_light)
-    var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.them_use_navigation_icons_filters)
+    var navigationBarIsLight = ToolsResources.getBooleanAttr(R.attr.themeNavigationBarIsLight)
+    var statusBarIsLight = ToolsResources.getBooleanAttr(R.attr.themStatusBarIsLight)
+    var useIconsFilter = ToolsResources.getBooleanAttr(R.attr.themNavigationUseIconsFilters)
     //  All activity navigation types
-    var activityRootBackground = ToolsResources.getColorAttr(R.attr.window_background)
+    var activityRootBackground = ToolsResources.getColorAttr(android.R.attr.windowBackground)
     var isNavigationAllowed = true
     var isNavigationVisible = true
     var isNavigationAnimation = false
@@ -85,12 +85,21 @@ open class Screen(
 
         val appBarLayout: AppBarLayout? = findViewById(R.id.vAppBar)
         appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset -> isAppbarExpanded = verticalOffset == 0 })
+        if(!isToolbarShadowAvailable){
+            appBarLayout?.elevation = 0f
+          //  appBarLayout?.background = null
+        }
     }
 
     fun disableNavigation(){
         isNavigationVisible = false
         isNavigationAllowed = false
         isNavigationAnimation = false
+    }
+
+    fun disableShadows(){
+        isNavigationShadowAvailable = false
+        isToolbarShadowAvailable = false
     }
 
     //
@@ -157,7 +166,7 @@ open class Screen(
     }
 
     fun setScreenColorBackground() {
-        setScreenColor(ToolsResources.getColorAttr(R.attr.window_background))
+        setScreenColor(ToolsResources.getColorAttr(android.R.attr.windowBackground))
     }
 
     //

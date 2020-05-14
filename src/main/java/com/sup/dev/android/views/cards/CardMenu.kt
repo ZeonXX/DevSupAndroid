@@ -51,7 +51,7 @@ open class CardMenu(
         }
 
         if(vChip != null){
-            vChip.setBackground(ToolsResources.getAccentColor(view.context))
+            vChip.setBackground(ToolsResources.getSecondaryColor(view.context))
             vChip.text = chipText
         }
 

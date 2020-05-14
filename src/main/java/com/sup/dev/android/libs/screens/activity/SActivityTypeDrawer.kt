@@ -53,7 +53,7 @@ class SActivityTypeDrawer(
     }
 
     override fun getNavigationDrawable(screen: Screen): Drawable? {
-        return if (Navigator.hasBackStack()) ToolsResources.getDrawableAttr(R.attr.ic_arrow_back_24dp) else ToolsResources.getDrawableAttr(R.attr.ic_menu_24dp)
+        return if (Navigator.hasBackStack()) ToolsResources.getDrawable(R.drawable.ic_arrow_back_white_24dp) else ToolsResources.getDrawable(R.drawable.ic_menu_white_24dp)
     }
 
     override fun updateNavigationVisible() {
@@ -136,7 +136,7 @@ class SActivityTypeDrawer(
         item.vText = item.view?.findViewById(R.id.vNavigationItemText)
 
         item.vIcon?.setImageResource(icon)
-        if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+        if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.colorOnPrimary))
         item.view?.setOnClickListener{
             hideDrawer()
             onClick(it)
@@ -157,12 +157,12 @@ class SActivityTypeDrawer(
         var found = false
         getExtraNavigationItem()?.vIcon?.setFilter(getIconsColor())
         for (i in iconsList) {
-            if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
-                i.vIcon?.setFilter(getIconsColorAccent())
+            if (currentScreen != null && i.targetScreens.contains(currentScreen::class)) {
+                i.vIcon?.setFilter(getIconsColorTarget())
                 found = true
             } else i.vIcon?.setFilter(getIconsColor())
         }
-        if (!found) for (i in iconsList) if(i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
+        if (!found) for (i in iconsList) if(i.isDefoultTargetItem) i.vIcon?.setFilter(getIconsColorTarget())
     }
 
     inner class NavigationItem : SActivityType.NavigationItem() {

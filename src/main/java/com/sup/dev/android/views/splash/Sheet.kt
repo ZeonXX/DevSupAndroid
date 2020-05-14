@@ -8,6 +8,6 @@ class Sheet(widget: Widget) : SplashView<Sheet>(widget, R.layout.splash_sheet) {
 
     override fun isDestroyScreenAnimation() = false
 
-    override fun getNavigationBarColor() = ToolsResources.getColorAttr(R.attr.widget_background)
+    override fun getNavigationBarColor() = ToolsResources.getColorAttr(R.attr.colorPrimarySurface)
 
 }

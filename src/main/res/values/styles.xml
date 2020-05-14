@@ -1,141 +1,92 @@
 <resources>
 
-    <attr name="widget_background" format="color" />
-    <attr name="widget_companion_background" format="color" />
-    <attr name="window_background" format="color" />
-    <attr name="content_background" format="color" />
-    <attr name="content_background_screen" format="color" />
-    <attr name="navigation_bar_is_light" format="boolean" />
-    <attr name="toolbar_content_color" format="color" />
-    <attr name="toolbar_content_color_secondary" format="color" />
-    <attr name="color_stroke" format="color" />
-    <attr name="color_interface_text" format="color" />
-    <attr name="color_divider" format="color" />
-    <attr name="popup_background" format="color" />
-    <attr name="revers_color" format="color" />
-    <attr name="revers_color_lighted" format="color" />
-    <attr name="selector_chip" format="reference" />
-    <attr name="selector_chip_outline" format="reference" />
-    <attr name="ic_arrow_back_24dp" format="reference" />
-    <attr name="ic_menu_24dp" format="reference" />
-    <attr name="ic_keyboard_arrow_right_24dp" format="reference" />
-    <attr name="ic_keyboard_arrow_left_24dp" format="reference" />
-    <attr name="ic_file_download_24dp" format="reference" />
-    <attr name="ic_share_24dp" format="reference" />
-    <attr name="ic_keyboard_arrow_up_24dp" format="reference" />
-    <attr name="ic_keyboard_arrow_down_24dp" format="reference" />
-    <attr name="ic_content_copy_24dp" format="reference" />
-    <attr name="ic_folder_24dp" format="reference" />
-    <attr name="ic_insert_drive_file_24dp" format="reference" />
-    <attr name="ic_mic_24dp" format="reference" />
-    <attr name="ic_clear_24dp" format="reference" />
-    <attr name="ic_panorama_fish_eye_24dp" format="reference" />
-    <attr name="ic_lock_24dp" format="reference" />
-    <attr name="them_use_navigation_icons_filters" format="boolean" />
-    <attr name="them_status_bar_is_light" format="boolean" />
+    <attr name="colorOnPrimaryVariant" format="color" />
+    <attr name="colorPrimarySurfaceVariant" format="color" />
+    <attr name="colorStroke" format="color" />
+    <attr name="colorDivider" format="color" />
+    <attr name="colorRevers" format="color" />
+    <attr name="colorReversVariant" format="color" />
 
+    <attr name="themeNavigationBarIsLight" format="boolean" />
+    <attr name="themNavigationUseIconsFilters" format="boolean" />
+    <attr name="themStatusBarIsLight" format="boolean" />
+
+    <attr name="selectorChip" format="reference" />
+    <attr name="selectorChipOutline" format="reference" />
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="window_background">@color/black</item>
-        <item name="android:windowBackground">?window_background</item>
-        <item name="content_background">@color/grey_900</item>
-        <item name="content_background_screen">@color/grey_900</item>
-        <item name="widget_background">@color/grey_875</item>
-        <item name="widget_companion_background">@color/grey_825</item>
-        <item name="colorPrimaryDark">@color/grey_875</item>
+
+        <item name="android:statusBarColor">?colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="colorOnBackground">@color/white</item>
         <item name="colorPrimary">@color/grey_875</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="navigation_bar_is_light">false</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/grey_875</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryVariant">@color/white</item>
+        <item name="colorSecondary">@color/orange_a_700</item>
+        <item name="colorSecondaryVariant">@color/orange_a_400</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/grey_900</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimarySurface">@color/grey_875</item>
+        <item name="colorPrimarySurfaceVariant">@color/grey_825</item>
+        <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorError">@color/red_700</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorStroke">@color/grey_400</item>
+        <item name="colorDivider">@color/focus</item>
+        <item name="colorRevers">@color/white</item>
+        <item name="colorReversVariant">@color/grey_200</item>
+
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="them_status_bar_is_light">false</item>
-        <item name="them_use_navigation_icons_filters">false</item>
-        <item name="color_stroke">@color/grey_400</item>
-        <item name="toolbar_content_color">@color/white</item>
-        <item name="toolbar_content_color_secondary">@color/white</item>
-        <item name="color_divider">@color/focus</item>
-        <item name="color_interface_text">@color/white</item>
-        <item name="popup_background">@color/grey_800</item>
-        <item name="colorAccent">@color/orange_a_700</item>
-        <item name="selector_chip">@drawable/selector_style_dark_chip</item>
-        <item name="selector_chip_outline">@drawable/selector_style_dark_chip_outline</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="revers_color">@color/white</item>
-        <item name="revers_color_lighted">@color/grey_200</item>
-        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
-        <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
-        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
-        <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
-        <item name="ic_share_24dp">@drawable/ic_share_white_24dp</item>
-        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_white_24dp</item>
-        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_white_24dp</item>
-        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_white_24dp</item>
-        <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
-        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
-        <item name="ic_mic_24dp">@drawable/ic_mic_white_24dp</item>
-        <item name="ic_clear_24dp">@drawable/ic_clear_white_24dp</item>
-        <item name="ic_panorama_fish_eye_24dp">@drawable/ic_panorama_fish_eye_white_24dp</item>
-        <item name="ic_lock_24dp">@drawable/ic_lock_white_24dp</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="themeNavigationBarIsLight">false</item>
+        <item name="themStatusBarIsLight">false</item>
+        <item name="themNavigationUseIconsFilters">false</item>
+
+        <item name="selectorChip">@drawable/selector_style_dark_chip</item>
+        <item name="selectorChipOutline">@drawable/selector_style_dark_chip_outline</item>
+
     </style>
 
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="window_background">@color/grey_100</item>
-        <item name="android:windowBackground">?window_background</item>
-        <item name="widget_background">@color/grey_200</item>
-        <item name="widget_companion_background">@color/grey_300</item>
-        <item name="content_background">@color/white</item>
-        <item name="content_background_screen">@color/white</item>
-        <item name="color_stroke">@color/grey_600</item>
-        <item name="toolbar_content_color">@color/grey_950</item>
-        <item name="toolbar_content_color_secondary">@color/grey_700</item>
-        <item name="color_divider">@color/focus</item>
-        <item name="popup_background">@color/white</item>
+        <item name="android:windowBackground">@color/grey_100</item>
+        <item name="colorPrimarySurface">@color/grey_200</item>
+        <item name="colorPrimarySurfaceVariant">@color/grey_300</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorStroke">@color/grey_600</item>
+        <item name="colorOnPrimary">@color/grey_950</item>
+        <item name="colorOnPrimaryVariant">@color/grey_700</item>
+        <item name="colorDivider">@color/focus</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">@color/grey_100</item>
+        <item name="colorPrimaryVariant">@color/grey_100</item>
         <item name="colorPrimary">@color/grey_100</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="navigation_bar_is_light">true</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="themeNavigationBarIsLight">true</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="them_status_bar_is_light">true</item>
-        <item name="them_use_navigation_icons_filters">false</item>
-        <item name="colorAccent">@color/orange_a_700</item>
-        <item name="color_interface_text">@color/black</item>
-        <item name="selector_chip">@drawable/selector_style_light_chip</item>
-        <item name="selector_chip_outline">@drawable/selector_style_light_chip_outline</item>
-        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_grey_700_24dp</item>
-        <item name="ic_menu_24dp">@drawable/ic_menu_grey_700_24dp</item>
-        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_grey_700_24dp</item>
-        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_grey_700_24dp</item>
-        <item name="ic_file_download_24dp">@drawable/ic_file_download_grey_700_24dp</item>
-        <item name="ic_share_24dp">@drawable/ic_share_grey_700_24dp</item>
-        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_grey_700_24dp</item>
-        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_grey_700_24dp</item>
-        <item name="ic_content_copy_24dp">@drawable/ic_content_copy_grey_700_24dp</item>
-        <item name="revers_color">@color/grey_700</item>
-        <item name="revers_color_lighted">@color/grey_800</item>
-        <item name="ic_folder_24dp">@drawable/ic_folder_grey_700_24dp</item>
-        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_grey_700_24dp</item>
-        <item name="ic_mic_24dp">@drawable/ic_mic_grey_700_24dp</item>
-        <item name="ic_clear_24dp">@drawable/ic_clear_grey_700_24dp</item>
-        <item name="ic_panorama_fish_eye_24dp">@drawable/ic_panorama_fish_eye_grey_700_24dp</item>
-        <item name="ic_lock_24dp">@drawable/ic_lock_grey_700_24dp</item>
+        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="themStatusBarIsLight">true</item>
+        <item name="themNavigationUseIconsFilters">false</item>
+        <item name="colorSecondary">@color/orange_a_700</item>
+        <item name="selectorChip">@drawable/selector_style_light_chip</item>
+        <item name="selectorChipOutline">@drawable/selector_style_light_chip_outline</item>
+        <item name="colorRevers">@color/grey_700</item>
+        <item name="colorReversVariant">@color/grey_800</item>
     </style>
 
     <style name="AppThemeLight.Colored">
-        <item name="toolbar_content_color">@color/white</item>
-        <item name="them_status_bar_is_light">false</item>
-        <item name="toolbar_content_color_secondary">@color/grey_700</item>
-        <item name="colorPrimaryDark">@color/blue_700</item>
-        <item name="colorAccent">@color/blue_a_400</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="themStatusBarIsLight">false</item>
+        <item name="colorOnPrimaryVariant">@color/grey_700</item>
+        <item name="colorPrimaryVariant">@color/blue_700</item>
+        <item name="colorSecondary">@color/blue_a_400</item>
         <item name="colorPrimary">@color/blue_700</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="navigation_bar_is_light">false</item>
-        <item name="revers_color">@color/white</item>
-        <item name="revers_color_lighted">@color/grey_200</item>
+        <item name="themeNavigationBarIsLight">false</item>
+        <item name="colorRevers">@color/white</item>
+        <item name="colorReversVariant">@color/grey_200</item>
     </style>
 
 
@@ -160,6 +111,10 @@
         <item name="android:padding">12dp</item>
     </style>
 
+    <style name="Icon.Filtered">
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
+    </style>
+
     <style name="Icon.Shadow">
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:layout_marginTop">16dp</item>
@@ -170,17 +125,17 @@
     </style>
 
     <style name="Icon.Shadow.Filtered">
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.Shadow.Back">
         <item name="android:id">@id/vBack</item>
-        <item name="android:src">?attr/ic_arrow_back_24dp</item>
+        <item name="android:src">@drawable/ic_arrow_back_white_24dp</item>
         <item name="android:layout_gravity">left|top</item>
     </style>
 
     <style name="Icon.Shadow.Back.Filtered">
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.Toolbar">
@@ -197,19 +152,19 @@
 
     <style name="Icon.Toolbar.Shadow.Back">
         <item name="android:id">@id/vBack</item>
-        <item name="android:src">?attr/ic_arrow_back_24dp</item>
+        <item name="android:src">@drawable/ic_arrow_back_white_24dp</item>
     </style>
 
     <style name="Icon.Toolbar.Shadow.Back.Filtered">
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.Toolbar.Shadow.Filtered">
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.Toolbar.Filtered">
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.48">
@@ -228,7 +183,7 @@
         <item name="android:layout_width">32dp</item>
         <item name="android:layout_height">32dp</item>
         <item name="android:padding">8dp</item>
-        <item name="ViewIcon_filter">?toolbar_content_color</item>
+        <item name="ViewIcon_filter">?colorOnPrimary</item>
     </style>
 
     <style name="Icon.12">
@@ -246,16 +201,15 @@
     </style>
 
     <style name="Root.Content">
-        <item name="android:background">?content_background_screen</item>
+        <item name="android:background">?colorPrimarySurface</item>
     </style>
 
     <style name="Toolbar">
         <item name="android:id">@id/vToolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorPrimary">?attr/toolbar_content_color</item>
-        <item name="android:textColorSecondary">?attr/toolbar_content_color</item>
-        <item name="actionMenuTextColor">?attr/toolbar_content_color</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:foreground">@color/transparent</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
@@ -316,7 +270,7 @@
         <item name="android:id">@id/vDivider</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?color_divider</item>
+        <item name="android:background">?attr/colorDivider</item>
         <item name="android:layout_gravity">bottom</item>
     </style>
 
@@ -375,16 +329,18 @@
     <style name="ChipMini">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">18dp</item>
-        <item name="android:background">?colorAccent</item>
+        <item name="android:background">?colorSecondary</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Chip">
+    <style name="Chip" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">32dp</item>
-        <item name="rippleColor">?colorAccent</item>
-        <item name="chipBackgroundColor">?selector_chip</item>
-        <item name="chipStrokeColor">?color_stroke</item>
+        <item name="chipMinHeight">32dp</item>
+        <item name="chipMinTouchTargetSize">32dp</item>
+        <item name="rippleColor">?colorSecondary</item>
+        <item name="chipBackgroundColor">?attr/selectorChip</item>
+        <item name="chipStrokeColor">?attr/colorStroke</item>
         <item name="chipStrokeWidth">0dp</item>
         <item name="chipStartPadding">0dp</item>
         <item name="chipEndPadding">0dp</item>
@@ -395,13 +351,15 @@
 
     <style name="Chip.Mini">
         <item name="android:layout_height">22dp</item>
+        <item name="chipMinHeight">22dp</item>
+        <item name="chipMinTouchTargetSize">22dp</item>
         <item name="textStartPadding">8dp</item>
         <item name="textEndPadding">8dp</item>
     </style>
 
     <style name="Chip.Outline">
         <item name="chipStrokeWidth">1dp</item>
-        <item name="chipBackgroundColor">?selector_chip_outline</item>
+        <item name="chipBackgroundColor">?attr/selectorChipOutline</item>
     </style>
 
     <style name="Chip.Choice">
@@ -414,7 +372,7 @@
 
     <style name="Chip.Choice.Outline">
         <item name="chipStrokeWidth">1dp</item>
-        <item name="chipBackgroundColor">?selector_chip_outline</item>
+        <item name="chipBackgroundColor">?attr/selectorChipOutline</item>
     </style>
 
     <style name="Chip.Filter">
@@ -425,7 +383,7 @@
 
     <style name="Chip.Filter.Outline">
         <item name="chipStrokeWidth">1dp</item>
-        <item name="chipBackgroundColor">?selector_chip_outline</item>
+        <item name="chipBackgroundColor">?attr/selectorChipOutline</item>
     </style>
 
     <style name="ChipGroup">
@@ -438,17 +396,21 @@
     <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">?colorSecondary</item>
+        <item name="android:textColor">?colorOnSecondary</item>
     </style>
 
     <style name="Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?colorSecondary</item>
     </style>
 
     <style name="Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="strokeColor">?color_stroke</item>
+        <item name="android:textColor">?colorSecondary</item>
+        <item name="strokeColor">?attr/colorStroke</item>
     </style>
 
     <style name="TextInputLayout">

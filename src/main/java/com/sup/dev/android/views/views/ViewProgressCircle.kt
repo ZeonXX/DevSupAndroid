@@ -21,7 +21,7 @@ class ViewProgressCircle @JvmOverloads constructor(context: Context, attrs: Attr
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = ToolsView.dpToPx(2)
-        paint.color = ToolsResources.getAccentColor(context)
+        paint.color = ToolsResources.getSecondaryColor(context)
     }
 
     override fun onDraw(canvas: Canvas?) {

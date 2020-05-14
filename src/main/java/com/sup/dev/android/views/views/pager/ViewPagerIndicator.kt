@@ -31,8 +31,8 @@ abstract class ViewPagerIndicator constructor(context: Context, attrs: Attribute
         SupAndroid.initEditMode(this)
 
         offset = ToolsView.dpToPx(16f)
-        color = ToolsResources.getAccentAlphaColor(context)
-        colorSelected = ToolsResources.getAccentColor(context)
+        color = ToolsResources.getSecondaryAlphaColor(context)
+        colorSelected = ToolsResources.getSecondaryColor(context)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator, 0, 0)
         color = a.getColor(R.styleable.ViewPagerIndicator_ViewPagerIndicator_color, color)

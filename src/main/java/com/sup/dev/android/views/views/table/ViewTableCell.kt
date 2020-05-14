@@ -18,7 +18,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
 
     init {
         resetMinSizes()
-        setBackgroundColor(ToolsResources.getColorAttr(R.attr.content_background))
+        setBackgroundColor(ToolsResources.getColorAttr(R.attr.colorSurface))
         setPadding(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt())
         ToolsView.setOnClickCoordinates(this) { _, x, y -> vTableRow.vTable.onCellClicked.invoke(this, x, y) }
     }

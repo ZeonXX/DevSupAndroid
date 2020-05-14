@@ -23,7 +23,7 @@ abstract class SActivityType(
     var screenHideBottomNavigationWhenKeyboard = true
     var screenBottomNavigationColor = 0
 
-    private var iconsColorAccent:Int? = null
+    private var iconsColorTarget:Int? = null
     private var iconsColor:Int? = null
 
     abstract fun onCreate()
@@ -53,24 +53,23 @@ abstract class SActivityType(
 
     open fun getNavigationDrawable(screen: Screen): Drawable? {
         if (Navigator.hasBackStack() || screen.forceBackIcon) {
-            if(screen.toolbarNavigationIcon > 1) return ToolsResources.getDrawable(screen.toolbarNavigationIcon)
-            return ToolsResources.getDrawableAttrNullable(screen.toolbarNavigationIconAttr)
+            return ToolsResources.getDrawable(screen.toolbarNavigationIcon)
         } else {
             return null
         }
     }
 
-    fun getIconsColorAccent():Int{
-        if(iconsColorAccent == null) iconsColorAccent = ToolsResources.getColorAttr(activity, R.attr.colorAccent)
-        return iconsColorAccent!!
+    fun getIconsColorTarget():Int{
+        if(iconsColorTarget == null) iconsColorTarget = ToolsResources.getColorAttr(activity, R.attr.colorSecondary)
+        return iconsColorTarget!!
     }
 
     fun getIconsColor():Int{
-        if(iconsColor == null) iconsColor = ToolsResources.getColorAttr(activity, R.attr.toolbar_content_color)
+        if(iconsColor == null) iconsColor = ToolsResources.getColorAttr(activity, R.attr.colorOnPrimary)
         return iconsColor!!
     }
 
-    fun setIconsColorAccent(color:Int){ iconsColorAccent = color }
+    fun setIconsColorTarget(color:Int){ iconsColorTarget = color }
     fun setIconsColor(color:Int){ iconsColor = color }
 
     //
@@ -109,8 +108,8 @@ abstract class SActivityType(
 
     abstract class NavigationItem {
 
-        val accentScreens = ArrayList<KClass<out Screen>>()
-        var isDefoultAccentItem = false
+        val targetScreens = ArrayList<KClass<out Screen>>()
+        var isDefoultTargetItem = false
         var view: View? = null
         var vIcon: ViewIcon? = null
         var vChip: ViewChipMini? = null
@@ -122,13 +121,13 @@ abstract class SActivityType(
             vChip?.setText(text)
         }
 
-        fun setAccentScreen(vararg screenClass: KClass<out Screen>): NavigationItem {
-            accentScreens.addAll(screenClass)
+        fun setTargetScreen(vararg screenClass: KClass<out Screen>): NavigationItem {
+            targetScreens.addAll(screenClass)
             return this
         }
 
-        fun makeDefaultAccentItem(): NavigationItem {
-            isDefoultAccentItem = true
+        fun makeDefaultTargetItem(): NavigationItem {
+            isDefoultTargetItem = true
             return this
         }
 

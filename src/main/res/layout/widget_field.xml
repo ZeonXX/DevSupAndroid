@@ -34,7 +34,7 @@
             android:id="@+id/vIcon"
             style="@style/Icon"
             android:layout_gravity="center|start"
-            android:src="?ic_content_copy_24dp"/>
+            android:src="@drawable/ic_content_copy_white_24dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

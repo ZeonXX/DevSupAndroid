@@ -57,8 +57,8 @@ class SAlert(
             screen.isNavigationVisible = false
             screen.isNavigationAllowed = false
             screen.isNavigationAnimation = false
-            screen.navigationBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
-            screen.statusBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
+            screen.navigationBarColor = ToolsResources.getColorAttr(R.attr.colorPrimarySurface)
+            screen.statusBarColor = ToolsResources.getColorAttr(R.attr.colorPrimarySurface)
             return screen
         }
 

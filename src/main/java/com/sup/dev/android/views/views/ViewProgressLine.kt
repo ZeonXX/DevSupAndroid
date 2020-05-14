@@ -10,7 +10,6 @@ import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsView
 
 class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -25,7 +24,7 @@ class ViewProgressLine @JvmOverloads constructor(context: Context, attrs: Attrib
 
         SupAndroid.initEditMode(this)
         colorBackground = ToolsResources.getColor(R.color.focus)
-        colorProgress = ToolsResources.getAccentColor(context)
+        colorProgress = ToolsResources.getSecondaryColor(context)
 
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewProgressLine, 0, 0)

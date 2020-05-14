@@ -7,13 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import kotlin.math.abs
-import kotlin.math.min
 
 class ViewSoundLine @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
-    private var color = ToolsResources.getColorAttr(R.attr.color_stroke)
-    private var colorProgress = ToolsResources.getAccentColor(context)
+    private var color = ToolsResources.getColorAttr(R.attr.colorStroke)
+    private var colorProgress = ToolsResources.getSecondaryColor(context)
     private val maxLines = 30
     private val paint = Paint()
     private var soundMask = Array(0) { 0 }

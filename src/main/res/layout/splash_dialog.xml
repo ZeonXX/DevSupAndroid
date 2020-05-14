@@ -16,7 +16,7 @@
         <com.sup.dev.android.views.views.layouts.LayoutCorned
             android:id="@+id/vSplashViewContainer"
             android:layout_width="wrap_content"
-            android:background="?content_background"
+            android:background="?colorSurface"
             android:layout_height="wrap_content">
 
         </com.sup.dev.android.views.views.layouts.LayoutCorned>

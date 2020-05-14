@@ -27,7 +27,7 @@
     <com.sup.dev.android.views.views.ViewChipMini
         android:id="@+id/vNavigationItemChip"
         style="@style/ChipMini"
-        app:chipBackgroundColor="?colorAccent"
+        app:chipBackgroundColor="?colorSecondary"
         android:layout_gravity="center" />
 
 

@@ -17,7 +17,7 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
 
     init {
         view.setOnClickListener { menu.asSheetShow() }
-        vArrow.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_keyboard_arrow_down_24dp))
+        vArrow.setImageDrawable(ToolsResources.getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp))
 
         setSubView(vArrow)
     }

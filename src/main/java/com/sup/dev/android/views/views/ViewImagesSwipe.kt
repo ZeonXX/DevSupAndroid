@@ -41,8 +41,8 @@ class ViewImagesSwipe constructor(
 
         vNext.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
         vBack.setIconBackgroundColor(ToolsResources.getColor(R.color.focus_dark))
-        vNext.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_right_24dp))
-        vBack.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_keyboard_arrow_left_24dp))
+        vNext.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp)
+        vBack.setImageResource(R.drawable.ic_keyboard_arrow_left_white_24dp)
 
         addView(vRecycler)
         addView(vNext)

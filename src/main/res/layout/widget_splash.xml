@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <View
-        android:background="?content_background_screen"
+        android:background="?colorPrimarySurface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

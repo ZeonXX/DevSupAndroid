@@ -47,7 +47,7 @@ class SCrop(
 
         disableNavigation()
         statusBarColor = ToolsResources.getColor(R.color.black)
-        navigationBarColor = ToolsResources.getColorAttr(R.attr.window_background)
+        navigationBarColor = ToolsResources.getColorAttr(android.R.attr.windowBackground)
 
         val color = ToolsColor.setAlpha(70, (vRoot.background as ColorDrawable).color)
         vBack.setIconBackgroundColor(color)

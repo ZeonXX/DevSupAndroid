@@ -28,7 +28,7 @@ class ViewIcon @JvmOverloads constructor(
     private var filter = 0
     private var srcSelect = 0
     private var filterSelect = 0
-    private var accentColor = 0
+    private var secondaryColor = 0
     private var paddingCircle = 0f
     private var background = 0
     private var useActiveBackground = true
@@ -55,7 +55,7 @@ class ViewIcon @JvmOverloads constructor(
 
         SupAndroid.initEditMode(this)
 
-        accentColor = ToolsResources.getAccentColor(context)
+        secondaryColor = ToolsResources.getSecondaryColor(context)
         var focusColor = ToolsResources.getColor(R.color.focus)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ViewIcon, 0, 0)
@@ -65,7 +65,7 @@ class ViewIcon @JvmOverloads constructor(
         srcSelect = a.getResourceId(R.styleable.ViewIcon_ViewIcon_srcSelect, srcSelect)
         filter = a.getColor(R.styleable.ViewIcon_ViewIcon_filter, filter)
         filterSelect = a.getColor(R.styleable.ViewIcon_ViewIcon_filterSelect, filterSelect)
-        accentColor = a.getColor(R.styleable.ViewIcon_ViewIcon_accentColor, accentColor)
+        secondaryColor = a.getColor(R.styleable.ViewIcon_ViewIcon_secondaryColor, secondaryColor)
         focusColor = a.getColor(R.styleable.ViewIcon_ViewIcon_focusColor, focusColor)
         paddingCircle = a.getDimension(R.styleable.ViewIcon_ViewIcon_padding, paddingCircle)
         background = a.getColor(R.styleable.ViewIcon_ViewIcon_background, background)
@@ -138,7 +138,7 @@ class ViewIcon @JvmOverloads constructor(
 
     private fun updateIcon() {
 
-        animationSelectedBackground.to(if (isIconSelected) if (isEnabled) accentColor else ToolsColor.setAlpha(106, accentColor) else 0x00000000)
+        animationSelectedBackground.to(if (isIconSelected) if (isEnabled) secondaryColor else ToolsColor.setAlpha(106, secondaryColor) else 0x00000000)
 
         if (src > 0)
             super.setImageResource(if (isIconSelected && srcSelect != 0) srcSelect else src)

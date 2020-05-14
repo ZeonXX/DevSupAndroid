@@ -24,7 +24,7 @@
         <attr name="ViewIcon_srcSelect" format="reference"/>
         <attr name="ViewIcon_filter" format="color"/>
         <attr name="ViewIcon_filterSelect" format="color"/>
-        <attr name="ViewIcon_accentColor" format="color"/>
+        <attr name="ViewIcon_secondaryColor" format="color"/>
         <attr name="ViewIcon_focusColor" format="color"/>
         <attr name="ViewIcon_padding" format="dimension"/>
         <attr name="ViewIcon_background" format="color"/>

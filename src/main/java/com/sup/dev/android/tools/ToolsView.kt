@@ -217,7 +217,7 @@ object ToolsView {
     }
 
     @JvmOverloads
-    fun setFabEnabled(vFab: FloatingActionButton, enabled: Boolean, @ColorInt colorEnabled: Int = ToolsResources.getAccentColor(vFab.context)) {
+    fun setFabEnabled(vFab: FloatingActionButton, enabled: Boolean, @ColorInt colorEnabled: Int = ToolsResources.getSecondaryColor(vFab.context)) {
         vFab.isEnabled = enabled
         setFabColor(vFab, if (enabled) colorEnabled else ToolsResources.getColor(R.color.grey_700))
     }
@@ -231,7 +231,7 @@ object ToolsView {
     }
 
     fun makeLinksClickable(vText: ViewText) {
-        vText.setLinkTextColor(ToolsResources.getAccentColor(vText.context))
+        vText.setLinkTextColor(ToolsResources.getSecondaryColor(vText.context))
         Linkify.addLinks(vText, Pattern.compile("[a-z]+:\\/\\/[^ \\n]*"), "")
 
         val m = vText.movementMethod

@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.Gravity
@@ -10,7 +9,6 @@ import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.tools.ToolsThreads
@@ -178,12 +176,12 @@ open class SActivityTypeBottomNavigation(
         var found = false
         getExtraNavigationItem()?.vIcon?.setFilter(getIconsColor())
         for (i in iconsList) {
-            if (currentScreen != null && i.accentScreens.contains(currentScreen::class)) {
-                i.vIcon?.setFilter(getIconsColorAccent())
+            if (currentScreen != null && i.targetScreens.contains(currentScreen::class)) {
+                i.vIcon?.setFilter(getIconsColorTarget())
                 found = true
             } else i.vIcon?.setFilter(getIconsColor())
         }
-        if (!found) for (i in iconsList) if (i.isDefoultAccentItem) i.vIcon?.setFilter(getIconsColorAccent())
+        if (!found) for (i in iconsList) if (i.isDefoultTargetItem) i.vIcon?.setFilter(getIconsColorTarget())
     }
 
     override fun getExtraNavigationItem() = extraNavigationItem

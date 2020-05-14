@@ -49,8 +49,8 @@
     <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/vIcon"
         style="@style/Icon"
-        app:ViewIcon_filter="?toolbar_content_color"
+        app:ViewIcon_filter="?colorOnPrimary"
         android:layout_gravity="bottom|right"
-        android:src="?ic_mic_24dp" />
+        android:src="@drawable/ic_mic_white_24dp" />
 
 </FrameLayout>
