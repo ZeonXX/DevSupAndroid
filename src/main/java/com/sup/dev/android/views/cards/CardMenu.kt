@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.cards
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -56,10 +57,13 @@ open class CardMenu(
         }
 
         if(vIcon != null) {
-            if (iconDrawable != null) vIcon.setImageDrawable(iconDrawable)
+            vIcon.visibility = View.VISIBLE
+            when {
+                iconDrawable != null -> vIcon.setImageDrawable(iconDrawable)
+                icon != 0 -> vIcon.setImageResource(icon)
+                else -> vIcon.visibility = View.GONE
+            }
             if (iconFilter != null) vIcon.setFilter(iconFilter!!)
-            else if (icon == 0) vIcon.visibility = View.GONE
-            else vIcon.setImageResource(icon)
         }
 
         if(vDivider != null) {

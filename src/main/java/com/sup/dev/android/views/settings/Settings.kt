@@ -60,6 +60,7 @@ open class Settings @JvmOverloads constructor(
         val subtitle = a.getString(R.styleable.Settings_Settings_subtitle)
         val icon = a.getResourceId(R.styleable.Settings_Settings_icon, 0)
         val iconBackground = a.getColor(R.styleable.Settings_Settings_icon_background, 0)
+        val iconFilter = a.getColor(R.styleable.Settings_Settings_icon_filter, 0)
         val iconPadding = a.getDimension(R.styleable.Settings_Settings_icon_padding, ToolsView.dpToPx(6))
         a.recycle()
 
@@ -69,6 +70,7 @@ open class Settings @JvmOverloads constructor(
         setIcon(icon)
         setIconBackground(iconBackground)
         setIconPaddingPx(iconPadding)
+        setIconFilter(iconFilter)
     }
 
     //
@@ -121,6 +123,10 @@ open class Settings @JvmOverloads constructor(
 
     fun setIconBackground(color: Int) {
         vIcon?.setBackgroundColor(color)
+    }
+
+    fun setIconFilter(color: Int) {
+        vIcon?.setColorFilter(color)
     }
 
     fun addSubSettings(settings: Settings) {

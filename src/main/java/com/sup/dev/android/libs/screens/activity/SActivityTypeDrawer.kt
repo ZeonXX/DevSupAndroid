@@ -40,6 +40,15 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer = activity.findViewById(R.id.vNavigationRowsContainer)
     }
 
+    override fun onBackPressed(): Boolean {
+        if (drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
+            hideDrawer()
+            return true
+        } else {
+            return super.onBackPressed()
+        }
+    }
+
     override fun onSetScreen(screen: Screen?) {
         super.onSetScreen(screen)
         hideDrawer()
@@ -123,10 +132,6 @@ class SActivityTypeDrawer(
         vNavigationRowsContainer?.addView(view)
     }
 
-    override fun addNavigationDivider() {
-        vNavigationRowsContainer?.addView(ToolsView.inflate(R.layout.z_divider))
-    }
-
     override fun addNavigationItem(icon: Int, text: String, hided: Boolean, useIconsFilters: Boolean, onClick: (View) -> Unit, onLongClick: ((View) -> Unit)?): SActivityType.NavigationItem {
         val item = NavigationItem()
 
@@ -137,7 +142,7 @@ class SActivityTypeDrawer(
 
         item.vIcon?.setImageResource(icon)
         if (useIconsFilters) item.vIcon?.setColorFilter(ToolsResources.getColorAttr(R.attr.colorOnPrimary))
-        item.view?.setOnClickListener{
+        item.view?.setOnClickListener {
             hideDrawer()
             onClick(it)
         }
@@ -162,7 +167,7 @@ class SActivityTypeDrawer(
                 found = true
             } else i.vIcon?.setFilter(getIconsColor())
         }
-        if (!found) for (i in iconsList) if(i.isDefoultTargetItem) i.vIcon?.setFilter(getIconsColorTarget())
+        if (!found) for (i in iconsList) if (i.isDefoultTargetItem) i.vIcon?.setFilter(getIconsColorTarget())
     }
 
     inner class NavigationItem : SActivityType.NavigationItem() {

@@ -1,11 +1,14 @@
 <resources>
 
     <attr name="colorOnPrimaryVariant" format="color" />
+    <attr name="colorOnPrimaryIcons" format="color" />
+    <attr name="colorOnPrimaryIconsVariant" format="color" />
     <attr name="colorPrimarySurfaceVariant" format="color" />
     <attr name="colorStroke" format="color" />
     <attr name="colorDivider" format="color" />
     <attr name="colorRevers" format="color" />
     <attr name="colorReversVariant" format="color" />
+    <attr name="colorContentScreen" format="color" />
 
     <attr name="themeNavigationBarIsLight" format="boolean" />
     <attr name="themNavigationUseIconsFilters" format="boolean" />
@@ -22,6 +25,8 @@
         <item name="colorOnBackground">@color/white</item>
         <item name="colorPrimary">@color/grey_875</item>
         <item name="colorPrimaryVariant">@color/grey_875</item>
+        <item name="colorOnPrimaryIcons">@color/white</item>
+        <item name="colorOnPrimaryIconsVariant">@color/grey_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnPrimaryVariant">@color/white</item>
         <item name="colorSecondary">@color/orange_a_700</item>
@@ -30,6 +35,7 @@
         <item name="colorSurface">@color/grey_900</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorPrimarySurface">@color/grey_875</item>
+        <item name="colorContentScreen">@color/grey_875</item>
         <item name="colorPrimarySurfaceVariant">@color/grey_825</item>
         <item name="colorOnPrimarySurface">@color/white</item>
         <item name="colorError">@color/red_700</item>
@@ -52,32 +58,47 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+        <item name="android:statusBarColor">?colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="android:windowBackground">@color/grey_100</item>
-        <item name="colorPrimarySurface">@color/grey_200</item>
-        <item name="colorPrimarySurfaceVariant">@color/grey_300</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorStroke">@color/grey_600</item>
+        <item name="colorOnBackground">@color/grey_950</item>
+        <item name="colorPrimary">@color/grey_100</item>
+        <item name="colorPrimaryVariant">@color/grey_100</item>
         <item name="colorOnPrimary">@color/grey_950</item>
         <item name="colorOnPrimaryVariant">@color/grey_700</item>
-        <item name="colorDivider">@color/focus</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryVariant">@color/grey_100</item>
-        <item name="colorPrimary">@color/grey_100</item>
-        <item name="themeNavigationBarIsLight">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="themStatusBarIsLight">true</item>
-        <item name="themNavigationUseIconsFilters">false</item>
+        <item name="colorOnPrimaryIcons">@color/grey_700</item>
+        <item name="colorOnPrimaryIconsVariant">@color/grey_500</item>
         <item name="colorSecondary">@color/orange_a_700</item>
-        <item name="selectorChip">@drawable/selector_style_light_chip</item>
-        <item name="selectorChipOutline">@drawable/selector_style_light_chip_outline</item>
+        <item name="colorSecondaryVariant">@color/orange_a_400</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimarySurface">@color/grey_875</item>
+        <item name="colorContentScreen">@color/grey_875</item>
+        <item name="colorPrimarySurfaceVariant">@color/grey_300</item>
+        <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorError">@color/red_700</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorStroke">@color/grey_600</item>
+        <item name="colorDivider">@color/focus</item>
         <item name="colorRevers">@color/grey_700</item>
         <item name="colorReversVariant">@color/grey_800</item>
+
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="themeNavigationBarIsLight">true</item>
+        <item name="themStatusBarIsLight">true</item>
+        <item name="themNavigationUseIconsFilters">false</item>
+
+        <item name="selectorChip">@drawable/selector_style_light_chip</item>
+        <item name="selectorChipOutline">@drawable/selector_style_light_chip_outline</item>
     </style>
 
     <style name="AppThemeLight.Colored">
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryIcons">@color/white</item>
         <item name="themStatusBarIsLight">false</item>
         <item name="colorOnPrimaryVariant">@color/grey_700</item>
         <item name="colorPrimaryVariant">@color/blue_700</item>
@@ -201,7 +222,7 @@
     </style>
 
     <style name="Root.Content">
-        <item name="android:background">?colorPrimarySurface</item>
+        <item name="android:background">?colorContentScreen</item>
     </style>
 
     <style name="Toolbar">
@@ -347,6 +368,7 @@
         <item name="textStartPadding">12dp</item>
         <item name="textEndPadding">12dp</item>
         <item name="iconEndPadding">0dp</item>
+        <item name="android:textColor">?colorOnPrimary</item>
     </style>
 
     <style name="Chip.Mini">

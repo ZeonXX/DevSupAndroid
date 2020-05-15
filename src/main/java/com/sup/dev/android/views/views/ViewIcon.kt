@@ -1,10 +1,7 @@
 package com.sup.dev.android.views.views
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.util.AttributeSet
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
@@ -145,6 +142,7 @@ class ViewIcon @JvmOverloads constructor(
 
         val myFilter = if (isIconSelected && filterSelect != 0) filterSelect else filter
         if (myFilter != 0) setColorFilter(myFilter, PorterDuff.Mode.SRC_ATOP)
+        else clearColorFilter()
 
         setAlpha(if (!isEnabled && transparentOnDisabled) 106 else 255)
     }

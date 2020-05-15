@@ -51,6 +51,10 @@ abstract class SActivityType(
         activity.onBackPressed()
     }
 
+    open fun onBackPressed():Boolean{
+        return false
+    }
+
     open fun getNavigationDrawable(screen: Screen): Drawable? {
         if (Navigator.hasBackStack() || screen.forceBackIcon) {
             return ToolsResources.getDrawable(screen.toolbarNavigationIcon)
