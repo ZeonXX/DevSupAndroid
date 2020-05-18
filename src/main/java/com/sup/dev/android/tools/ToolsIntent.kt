@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.classes.items.Item2
@@ -46,6 +47,14 @@ object ToolsIntent {
         val code = codeCounter++
         progressIntents.add(Item2(code, onResult))
         SupAndroid.activity!!.startActivityForResult(intent, code)
+    }
+
+    fun startIntentForResult(intentSender: IntentSender, onResult: (Int, Intent?) -> Unit) {
+        if (codeCounter == 65000)
+            codeCounter = 0
+        val code = codeCounter++
+        progressIntents.add(Item2(code, onResult))
+        ActivityCompat.startIntentSenderForResult(SupAndroid.activity!!, intentSender, code, null, 0, 0, 0, null)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, resultIntent: Intent?) {
