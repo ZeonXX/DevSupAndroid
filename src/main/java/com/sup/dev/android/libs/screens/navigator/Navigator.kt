@@ -215,8 +215,7 @@ object Navigator {
         getCurrent()?.onPause()
     }
 
-    fun onBackPressed(): Boolean {
-
+    fun parseOnBackPressedCallbacks():Boolean{
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
             val c = onBackCallbacks[i]
             if (c.invoke()) {
@@ -224,6 +223,10 @@ object Navigator {
                 return true
             }
         }
+        return false
+    }
+
+    fun onBackPressed(): Boolean {
 
         return getCurrent() != null && getCurrent()!!.onBackPressed() || back()
     }

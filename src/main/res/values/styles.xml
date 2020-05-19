@@ -74,8 +74,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
-        <item name="colorPrimarySurface">@color/grey_875</item>
-        <item name="colorContentScreen">@color/grey_875</item>
+        <item name="colorPrimarySurface">@color/grey_100</item>
+        <item name="colorContentScreen">@color/grey_100</item>
         <item name="colorPrimarySurfaceVariant">@color/grey_300</item>
         <item name="colorOnPrimarySurface">@color/white</item>
         <item name="colorError">@color/red_700</item>
@@ -438,12 +438,14 @@
     <style name="TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="hintTextColor">?colorAccent</item>
     </style>
 
     <style name="TextInputLayout.Outlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="boxBackgroundColor">@color/focus</item>
+        <item name="hintTextColor">?colorAccent</item>
     </style>
 
     <style name="Field">

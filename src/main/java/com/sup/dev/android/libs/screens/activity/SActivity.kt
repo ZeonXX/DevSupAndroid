@@ -167,6 +167,7 @@ abstract class SActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if(onBackPressedSplash()) return
         if(type.onBackPressed()) return
+        if(Navigator.parseOnBackPressedCallbacks()) return
         onBackPressedScreen()
     }
 
