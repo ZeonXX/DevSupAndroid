@@ -1,6 +1,5 @@
 package com.sup.dev.android.libs.screens.activity
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.Gravity
@@ -11,7 +10,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.layouts.LayoutFrameMeasureCallback
-import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.android.views.splash.SplashMenu
 import com.sup.dev.java.tools.ToolsThreads
 
 open class SActivityTypeBottomNavigation(
@@ -33,7 +32,7 @@ open class SActivityTypeBottomNavigation(
     }
 
     private val iconsList = ArrayList<NavigationItem>()
-    var widgetMenu: WidgetMenu? = null
+    var widgetMenu: SplashMenu? = null
 
     private var lastH_P = 0
     private var maxH_P = 0
@@ -122,7 +121,7 @@ open class SActivityTypeBottomNavigation(
 
     override fun createExtraNavigationItem(useIconsFilters: Boolean, onClick: (() -> Unit)?): SActivityType.NavigationItem? {
         if (widgetMenu == null) {
-            widgetMenu = WidgetMenu()
+            widgetMenu = SplashMenu()
             extraNavigationItem = addNavigationItem(R.drawable.ic_menu_white_24dp, "", false, useIconsFilters) { onExtraNavigationItemClicked.invoke() }
         }
         if (onClick != null) this.onExtraNavigationItemClicked = onClick

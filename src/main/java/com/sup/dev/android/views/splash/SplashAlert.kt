@@ -34,7 +34,6 @@ class SplashAlert : Splash(R.layout.splash_alert) {
     private var autoHideOnEnter = true
     private var autoHideOnInfo = true
     private var onChecker:(Boolean)->Unit = {}
-    private var isEnterClicked = false
 
     init {
 
@@ -47,7 +46,8 @@ class SplashAlert : Splash(R.layout.splash_alert) {
         vTopContainer.visibility = View.GONE
         vTopImage.visibility = View.GONE
         vTopTitle.visibility = View.GONE
-        vInfo.visibility = View.GONE
+
+        vText.setTextIsSelectable(true)
 
         vCheck.setOnCheckedChangeListener { _, _ -> updateLock(vEnter, vCheck) }
     }
@@ -57,8 +57,6 @@ class SplashAlert : Splash(R.layout.splash_alert) {
     }
 
     fun getCheckboxCondition() = vCheck.isChecked
-
-    fun isEnterClicked() = isEnterClicked
 
     //
     //  Setters
@@ -163,7 +161,6 @@ class SplashAlert : Splash(R.layout.splash_alert) {
         vText.text = vText.text.toString() + "\n" + text
         vText.visibility = View.VISIBLE
         ToolsView.makeLinksClickable(vText)
-        vText.isFocusable = false
         return this
     }
 
@@ -174,7 +171,6 @@ class SplashAlert : Splash(R.layout.splash_alert) {
     fun setText(text: CharSequence?): SplashAlert {
         ToolsView.setTextOrGone(vText, text)
         ToolsView.makeLinksClickable(vText)
-        vText.isFocusable = false
         return this
     }
 
@@ -200,7 +196,6 @@ class SplashAlert : Splash(R.layout.splash_alert) {
     fun setOnEnter(s: String?, onEnter: (SplashAlert) -> Unit = {}): SplashAlert {
         ToolsView.setTextOrGone(vEnter, s)
         vEnter.setOnClickListener {
-            isEnterClicked = true
             if (autoHideOnEnter)
                 hide()
             else

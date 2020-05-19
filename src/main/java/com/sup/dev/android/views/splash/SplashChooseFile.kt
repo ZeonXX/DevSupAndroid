@@ -23,7 +23,6 @@ class SplashChooseFile : SplashRecycler() {
     private var showFolders = true
     private var showFiles = true
     private var canGoInFolder = true
-    private var foldersIsSelectable = false
     private var fileTypes: Array<out String> = emptyArray()
     private var onFileSelected: (File) -> Unit = {}
     private var onFolderSelected: (File) -> Unit = {}
@@ -58,9 +57,13 @@ class SplashChooseFile : SplashRecycler() {
         if (showFiles) for (f in files!!) if (!f.isDirectory && checkType(f)) adapter!!.add(CardFile(f))
     }
 
+
     private fun checkType(f: File): Boolean {
-        for (type in fileTypes)
-            if (f.name.toLowerCase().endsWith(".$type")) return true
+        for (type in fileTypes) {
+            val name = f.name.toLowerCase()
+            val t = "$type."
+            if (name.length > -t.length && name.substring(name.length - t.length) == t) return true
+        }
         return false
     }
 
@@ -82,12 +85,6 @@ class SplashChooseFile : SplashRecycler() {
 
     fun setCanGoInFolder(canGoInFolder: Boolean): SplashChooseFile {
         this.canGoInFolder = canGoInFolder
-        resetCards(currentFolder!!)
-        return this
-    }
-
-    fun setFoldersIsSelectable(foldersIsSelectable: Boolean): SplashChooseFile {
-        this.foldersIsSelectable = foldersIsSelectable
         resetCards(currentFolder!!)
         return this
     }
@@ -151,7 +148,7 @@ class SplashChooseFile : SplashRecycler() {
         private fun getViewIcon(context: Context): ViewIcon {
             if (viewIcon == null) {
                 viewIcon = ToolsView.inflate(context, R.layout.z_icon)
-                viewIcon!!.setImageResource(R.drawable.ic_done_white_24dp)
+                viewIcon!!.setImageResource(R.drawable.ic_done_black_24dp)
                 viewIcon!!.setOnClickListener {
                     onFolderSelected.invoke(file)
                     hide()
@@ -163,15 +160,14 @@ class SplashChooseFile : SplashRecycler() {
         override fun bindView(view: View) {
             super.bindView(view)
             val v = view as Settings
-            v.view.setPadding(ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(8).toInt())
+            v.view.setPadding(ToolsView.dpToPx(16).toInt(), 0, ToolsView.dpToPx(16).toInt(), 0)
             v.setTitle(file.name)
             v.setIcon(if (file.isDirectory) R.drawable.ic_folder_white_24dp else R.drawable.ic_insert_drive_file_white_24dp)
-            v.setSubView(if (foldersIsSelectable && file.isDirectory && canGoInFolder) getViewIcon(view.getContext()) else null)
-            v.setLineVisible(false)
+            v.setSubView(if (file.isDirectory && canGoInFolder) getViewIcon(view.getContext()) else null)
 
             v.setOnClickListener {
                 if (file.isDirectory) {
-                    if (!canGoInFolder && foldersIsSelectable) {
+                    if (!canGoInFolder) {
                         onFolderSelected.invoke(file)
                         hide()
                     } else {

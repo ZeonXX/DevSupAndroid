@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.DrawableBitmapCircle
+import com.sup.dev.android.views.support.drawable.DrawableBitmapCircle
 
 class ViewChip(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : Chip(context, attributeSet, defStyleAttr) {
 

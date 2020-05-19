@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.android.views.splash.SplashMenu
 
 class SettingsSelection constructor(context: Context, attrs: AttributeSet? = null) : Settings(context, attrs) {
 
-    private val menu: WidgetMenu = WidgetMenu()
+    private val menu: SplashMenu = SplashMenu()
     private var currentIndex = 0
     private val list = ArrayList<String>()
     private var onSelected: (Int) -> Unit = {}

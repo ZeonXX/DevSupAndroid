@@ -213,8 +213,6 @@ open class SplashChooseImage : SplashRecycler(R.layout.splash_choose_image) {
                 err(e)
                 ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
             }
-        }, {
-            if(it !is IllegalAccessException) ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE)
         })
     }
 

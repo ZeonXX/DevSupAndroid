@@ -39,8 +39,8 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.magic_box.AndroidBug5497Workaround
 import com.sup.dev.android.views.views.ViewText
-import com.sup.dev.android.views.widgets.WidgetProgressTransparent
-import com.sup.dev.android.views.widgets.WidgetProgressWithTitle
+import com.sup.dev.android.views.splash.SplashProgressTransparent
+import com.sup.dev.android.views.splash.SplashProgressWithTitle
 import com.sup.dev.java.classes.items.Item
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
@@ -256,20 +256,20 @@ object ToolsView {
         return view
     }
 
-    fun showProgressDialog(): WidgetProgressTransparent {
-        val widget = WidgetProgressTransparent().setCancelable(false)
+    fun showProgressDialog(): SplashProgressTransparent {
+        val widget = SplashProgressTransparent().setCancelable(false)
         ToolsThreads.main { widget.asDialogShow() }
         return widget
     }
 
-    fun showProgressDialog(title: Int): WidgetProgressWithTitle {
+    fun showProgressDialog(title: Int): SplashProgressWithTitle {
         return showProgressDialog(ToolsResources.s(title))
     }
 
-    fun showProgressDialog(title: String?): WidgetProgressWithTitle {
-        val widget: WidgetProgressWithTitle = WidgetProgressWithTitle().setTitle(title).setCancelable(false) as WidgetProgressWithTitle
-        ToolsThreads.main { widget.asSheetShow() }
-        return widget
+    fun showProgressDialog(title: String?): SplashProgressWithTitle {
+        val splash: SplashProgressWithTitle = SplashProgressWithTitle().setTitle(title).setCancelable(false) as SplashProgressWithTitle
+        ToolsThreads.main { splash.asSheetShow() }
+        return splash
     }
 
     fun setImageOrGone(vImage: ImageView, bitmap: Bitmap?) {

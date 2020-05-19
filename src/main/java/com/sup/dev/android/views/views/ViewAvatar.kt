@@ -2,21 +2,17 @@ package com.sup.dev.android.views.views
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.support.AnimationFocus
-import java.io.File
+import com.sup.dev.android.views.support.animation.AnimationFocus
 
 open class ViewAvatar constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 

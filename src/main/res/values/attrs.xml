@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="Sheet">
+    <declare-styleable name="SplashViewSheet">
         <attr name="Sheet_dimId" format="reference"/>
     </declare-styleable>
 

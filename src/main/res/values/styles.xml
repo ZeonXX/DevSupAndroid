@@ -247,7 +247,7 @@
         <item name="android:id">@id/vAppBar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="layout_behavior">com.sup.dev.android.views.support.AppBarLayoutBehavior</item>
+        <item name="layout_behavior">com.sup.dev.android.views.support.behavior.BehaviorAppBarLayout</item>
     </style>
 
     <style name="AppBar.Transparent">
@@ -335,7 +335,7 @@
         <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
     </style>
 
-    <style name="Scroll.Widget">
+    <style name="Scroll.Splash">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
     </style>

@@ -17,10 +17,9 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.*
-import com.sup.dev.android.views.splash.SplashView
+import com.sup.dev.android.views.splash.view.SplashView
 import com.sup.dev.android.views.views.draw_animations.ViewDrawAnimations
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
@@ -187,38 +186,38 @@ abstract class SActivity : AppCompatActivity() {
         return false
     }
 
-    fun addSplash(splash: SplashView<out Any>) {
-        splash.getView().tag = splash
+    fun addSplash(splashView: SplashView<out Any>) {
+        splashView.getView().tag = splashView
         ToolsThreads.main {
-            if (!splash.widget.isCompanion) ToolsView.hideKeyboard()
-            splash.getView().visibility = View.INVISIBLE
-            vSplashContainer!!.addView(splash.getView())
-            if (!splash.widget.isCompanion) {
-                val navigationBarColor = splash.getNavigationBarColor()
-                ToolsThreads.main(splash.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
+            if (!splashView.splash.isCompanion) ToolsView.hideKeyboard()
+            splashView.getView().visibility = View.INVISIBLE
+            vSplashContainer!!.addView(splashView.getView())
+            if (!splashView.splash.isCompanion) {
+                val navigationBarColor = splashView.getNavigationBarColor()
+                ToolsThreads.main(splashView.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
             }
-            ToolsView.fromAlpha(splash.getView(), splash.animationMs.toInt())
+            ToolsView.fromAlpha(splashView.getView(), splashView.animationMs.toInt())
         }
     }
 
-    fun removeSplash(splash: SplashView<out Any>) {
+    fun removeSplash(splashView: SplashView<out Any>) {
         ToolsThreads.main {
-            if (!splash.widget.isCompanion) {
+            if (!splashView.splash.isCompanion) {
                 ToolsView.hideKeyboard()
-                ToolsThreads.main(splash.animationMs / 2) {
+                ToolsThreads.main(splashView.animationMs / 2) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && vSplashContainer!!.childCount == 1 && Navigator.getCurrent() != null) window.navigationBarColor = Navigator.getCurrent()!!.navigationBarColor
                 }
             }
-            ToolsView.toAlpha(splash.getView(), splash.animationMs.toInt()) {
-                vSplashContainer!!.removeView(splash.getView())
+            ToolsView.toAlpha(splashView.getView(), splashView.animationMs.toInt()) {
+                vSplashContainer!!.removeView(splashView.getView())
             }
-            splash.onHide()
+            splashView.onHide()
         }
     }
 
-    fun isSplashShowed(splash: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splash.getView()) > -1
+    fun isSplashShowed(splashView: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splashView.getView()) > -1
 
-    fun isTopSplash(splash: SplashView<out Any>) = vSplashContainer!!.childCount > 0 && vSplashContainer!!.indexOfChild(splash.getView()) == (vSplashContainer!!.childCount - 1)
+    fun isTopSplash(splashView: SplashView<out Any>) = vSplashContainer!!.childCount > 0 && vSplashContainer!!.indexOfChild(splashView.getView()) == (vSplashContainer!!.childCount - 1)
 
     //
     //  Screens

@@ -11,12 +11,12 @@ import com.sup.dev.android.libs.image_loader.ImageLink
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.support.DrawableGif
+import com.sup.dev.android.views.support.drawable.DrawableGif
 import com.sup.dev.android.views.support.adapters.pager.PagerCardAdapter
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.layouts.LayoutZoom
 import com.sup.dev.android.views.views.pager.ViewPagerIndicatorImages
-import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.android.views.splash.SplashField
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
@@ -157,7 +157,7 @@ disableNavigation()
 
         fun share() {
 
-            WidgetField()
+            SplashField()
                     .setHint(SupAndroid.TEXT_APP_SHARE_MESSAGE_HINT)
                     .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
                     .setOnEnter(SupAndroid.TEXT_APP_SHARE) { _, text ->
