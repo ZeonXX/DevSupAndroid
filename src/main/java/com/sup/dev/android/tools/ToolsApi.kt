@@ -7,25 +7,25 @@ import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.splash.Splash
 import com.sup.dev.android.views.splash.SplashProgressTransparent
 import com.sup.dev.java.libs.api.ApiRequest
-import com.sup.dev.java.libs.api.ApiResponse
+import com.sup.dev.java.libs.api.ApiResult
 
 object ToolsApi {
 
-    fun <K:ApiResponse> send(request: ApiRequest<K>){
+    fun send(request: ApiRequest){
         request.send()
     }
 
-    fun <K:ApiResponse> sendProgressDialog(request: ApiRequest<K>){
+    fun sendProgressDialog(request: ApiRequest){
         sendProgressDialog(ToolsView.showProgressDialog(), request)
     }
 
-    fun <K:ApiResponse> sendProgressDialog(dLoading: Splash, request: ApiRequest<K>){
+    fun sendProgressDialog(dLoading: Splash, request: ApiRequest){
         request
                 .onFinish { dLoading.hide() }
                 .send()
     }
 
-    fun <K:ApiResponse> sendSplash(action: NavigationAction, request: ApiRequest<K>, onComplete: (K) -> Screen){
+    fun sendSplash(action: NavigationAction, request: ApiRequest, onComplete: (ApiResult) -> Screen){
         val vProgress = SplashProgressTransparent()
         vProgress.asSplashShow()
 

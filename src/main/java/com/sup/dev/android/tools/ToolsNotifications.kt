@@ -143,6 +143,8 @@ object ToolsNotifications {
                     .setWhen(System.currentTimeMillis())
                     .setContentText(notification.text)
 
+            if(notification.bigText != null) builder.setStyle(NotificationCompat.BigTextStyle().bigText(notification.bigText))
+
             if (notification.title != null) builder.setContentTitle(notification.title)
             if (sound && vibration) {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)
@@ -302,6 +304,7 @@ object ToolsNotifications {
         var icon = 0
         var title: String? = null
         var text: String? = null
+        var bigText: String? = null
         var intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
         var intentCancel = Intent("NOTIF_CANCEL")
         var tag = "tag"
@@ -319,6 +322,11 @@ object ToolsNotifications {
 
         fun setText(text: String): NotificationX {
             this.text = text
+            return this
+        }
+
+        fun setBigText(bigText: String): NotificationX {
+            this.bigText = bigText
             return this
         }
 
