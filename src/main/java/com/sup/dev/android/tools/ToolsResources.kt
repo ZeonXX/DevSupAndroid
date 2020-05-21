@@ -42,13 +42,14 @@ object ToolsResources {
       string_key_1, string_key_2, string_key_3...
       stringKey - "string_key_" or "string_%s_key"
     */
-    fun getStringIndexedArrayId(stringKey: String): Array<Int> {
+    fun getStringIndexedArrayId(stringKey: String, minimumSize: Int = 0): Array<Int> {
         var index = 1
         val list = ArrayList<Int>()
         while (true) {
             val x = getStringId(if (stringKey.contains("%s")) String.format(stringKey, index) else stringKey + index)
             index++
             if (x > 0) list.add(x)
+            else if (index <= minimumSize+1) list.add(-1)
             else break
         }
         return list.toTypedArray()
