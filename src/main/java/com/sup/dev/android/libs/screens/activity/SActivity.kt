@@ -81,9 +81,9 @@ abstract class SActivity : AppCompatActivity() {
             started = true
             onFirstStart()
         } else {
-            Navigator.resetCurrentView()
+            if (vActivityContainer?.childCount == 0) Navigator.resetCurrentView()
+            else Navigator.getCurrent()?.onResume()
         }
-
         if (Navigator.getStackSize() == 0) toMainScreen()
 
     }
@@ -98,12 +98,6 @@ abstract class SActivity : AppCompatActivity() {
         removeViews(getOldViews(Navigator.getCurrent()))
         SupAndroid.activityIsVisible = false
         Navigator.onActivityStop()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (vActivityContainer?.childCount == 0) Navigator.resetCurrentView()
-        else Navigator.getCurrent()?.onResume()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

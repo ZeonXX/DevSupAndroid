@@ -1,5 +1,6 @@
 package com.sup.dev.android.views.splash
 
+import android.graphics.Color
 import androidx.annotation.StringRes
 import android.view.View
 import android.view.ViewGroup
@@ -236,8 +237,6 @@ class SplashCheckBoxes : Splash(R.layout.splash_container) {
             vOptionsContainer.addView(v)
             (v.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(8f).toInt()
             (v.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(8f).toInt()
-            if (vOptionsContainer.childCount > 1)
-                (v.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(8f).toInt()
 
         }
 
