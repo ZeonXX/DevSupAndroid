@@ -36,6 +36,7 @@ abstract class ImageLink {
     internal var fade = true
     internal var cashScaledBytes = false
     internal var noCash = false
+    internal var fromCash = false
     internal var noLoadFromCash = false
     internal var autoDiskCashMaxSize = 1024 * 1024 * 2
     internal var resizeByMinSide = false
@@ -84,6 +85,7 @@ abstract class ImageLink {
     fun startLoad(): ByteArray? {
         val bytes = if (!noLoadFromCash) getFromCash() else null
         if (bytes != null) return bytes
+        if(fromCash) return null
         val data = load()
         if (data != null && !noCash && data.size <= autoDiskCashMaxSize) ToolsCash.put(data, "" + getKey().replace("/", "_").hashCode(), immortalCash)
         return data
@@ -122,6 +124,7 @@ abstract class ImageLink {
         link.fade = this.fade
         link.cashScaledBytes = this.cashScaledBytes
         link.noCash = this.noCash
+        link.fromCash = this.fromCash
         link.noLoadFromCash = this.noLoadFromCash
         link.autoDiskCashMaxSize = this.autoDiskCashMaxSize
         link.resizeByMinSide = this.resizeByMinSide
@@ -305,6 +308,12 @@ abstract class ImageLink {
     fun noCash(): ImageLink {
         checkCreated()
         this.noCash = true
+        return this
+    }
+
+    fun fromCash(): ImageLink {
+        checkCreated()
+        this.fromCash = true
         return this
     }
 

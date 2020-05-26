@@ -58,6 +58,7 @@ object ImageLoader {
     fun load(bytes: ByteArray) = ImageLoaderBytes(bytes)
 
     fun loadGif(imageId: Long, gifId: Long, vImage: ImageView, vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) {
+
         if (gifId == 0L) {
             ToolsThreads.main { vGifProgressBar?.visibility = View.INVISIBLE }
             val load = load(imageId)
@@ -103,10 +104,10 @@ object ImageLoader {
 
         if (loader.link.fastLoad(loader.vImage)) return
 
+        if (loader.vProgressBar != null) loader.vProgressBar.visibility = View.INVISIBLE
 
         val cashItem = if (loader.link.noLoadFromCash) null else getFromCash(loader.link.getKey())
         if (cashItem != null) {
-            loader.vGifProgressBar?.visibility = View.INVISIBLE
             if (!loader.intoCash) putImage(loader, cashItem.a2, false, cashItem.a3)
             return
         }
@@ -158,10 +159,7 @@ object ImageLoader {
 
     private fun putHolder(loader: Loader) {
 
-        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = if (loader.link.allowGif){
-            View.VISIBLE }else{
-            View.INVISIBLE
-        }
+        if (loader.vProgressBar != null) loader.vProgressBar.visibility = if (loader.link.allowGif) View.VISIBLE else View.INVISIBLE
 
         if (loader.link.customSetHolder != null) {
             loader.link.customSetHolder!!.invoke()
@@ -284,10 +282,11 @@ object ImageLoader {
             if (loader.vImage != null && loader == loader.vImage.tag) {
                 if (loader.link.allowGif && bytes != null && ToolsBytes.isGif(bytes)) {
                     ToolsGif.iterator(bytes, WeakReference(loader.vImage), loader.link.getW(), loader.link.getH(), loader.link.resizeByMinSide) {
-                        if (loader.vGifProgressBar != null) loader.vGifProgressBar.visibility = View.INVISIBLE
+                        if (loader.vProgressBar != null) loader.vProgressBar.visibility = View.INVISIBLE
                     }
                 } else {
                     if (bm != null) {
+                        if (loader.vProgressBar != null) loader.vProgressBar.visibility = View.INVISIBLE
                         loader.vImage.setImageDrawable(DrawableImageLoader(loader.vImage.context, bm, animate && loader.link.fade))
                     }
                 }
@@ -306,7 +305,7 @@ object ImageLoader {
     private class Loader(
             val link: ImageLink,
             val vImage: ImageView?,
-            val vGifProgressBar: View?,
+            val vProgressBar: View?,
             val onLoadedBytes: ((ByteArray?) -> Unit)?,
             val onLoadedBitmap: ((Bitmap?) -> Unit)?,
             val noBitmap: Boolean,
