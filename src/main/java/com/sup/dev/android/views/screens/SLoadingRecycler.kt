@@ -20,7 +20,6 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.tools.ToolsThreads
 import kotlin.reflect.KClass
 
-
 abstract class SLoadingRecycler<C : Card, V>(res: Int = R.layout.screen_loading_recycler) : SLoading(res) {
 
     protected var textErrorRetry = SupAndroid.TEXT_APP_RETRY

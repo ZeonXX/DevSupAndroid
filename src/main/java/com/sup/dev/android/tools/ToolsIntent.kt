@@ -267,7 +267,7 @@ object ToolsIntent {
         }
     }
 
-    fun getGalleryImage(onResult: (ByteArray) -> Unit, onError: () -> Unit = {}) {
+    fun getGalleryImage(onResult: (ByteArray) -> Unit, onError: (Exception) -> Unit = {}) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         try {
@@ -281,13 +281,13 @@ object ToolsIntent {
                     onResult.invoke(bytes)
                 } catch (e: Exception) {
                     err(e)
-                    onError.invoke()
+                    onError.invoke(e)
                 }
 
             }
         } catch (ex: ActivityNotFoundException) {
             err(ex)
-            onError.invoke()
+            onError.invoke(ex)
         }
 
     }

@@ -1,4 +1,4 @@
-package com.sup.dev.android.libs.screens.activity
+﻿package com.sup.dev.android.libs.screens.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -46,6 +46,7 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
+        Navigator.currentStack.clear()
         SupAndroid.activity = this
 
         applyTheme()

@@ -288,7 +288,7 @@ object ToolsBitmap {
     }
 
     @JvmOverloads
-    fun getFromGallery(onLoad: (ByteArray) -> Unit, onError: () -> Unit = { ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE) }) {
+    fun getFromGallery(onLoad: (ByteArray) -> Unit, onError: (Exception) -> Unit = { ToolsToast.show(SupAndroid.TEXT_ERROR_CANT_LOAD_IMAGE) }) {
         ToolsIntent.getGalleryImage(onLoad, onError)
     }
 
