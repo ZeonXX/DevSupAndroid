@@ -84,7 +84,7 @@ abstract class Splash(layoutRes: Int) {
     }
 
     open fun onBackPressed(): Boolean {
-        return true
+        return false
     }
 
     @CallSuper

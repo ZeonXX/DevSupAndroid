@@ -43,9 +43,12 @@ abstract class SplashView<K : Any>(
     }
 
     fun onBackPressed():Boolean{
-        return if(SupAndroid.activity!!.isTopSplash(this) && cancelable && splash.isEnabled && splash.onBackPressed()){
-            hide()
-            true
+        return if(SupAndroid.activity!!.isTopSplash(this) && cancelable && splash.isEnabled){
+            if(splash.onBackPressed()) true
+            else {
+                hide()
+                true
+            }
         }else{
             false
         }
