@@ -197,10 +197,11 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
         this.cardH = cardH
     }
 
-
     //
     //  Getters
     //
+
+    fun directItems() = items
 
     override fun isVisible(card: Card): Boolean {
         return getView(card) != null

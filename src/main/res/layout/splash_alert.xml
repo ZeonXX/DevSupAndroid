@@ -77,6 +77,8 @@
 
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vInfo"
+            android:minWidth="40dp"
+            android:layout_marginLeft="8dp"
             style="@style/Button.Text"/>
 
         <LinearLayout
@@ -98,6 +100,5 @@
 
 
     </FrameLayout>
-
 
 </LinearLayout>
