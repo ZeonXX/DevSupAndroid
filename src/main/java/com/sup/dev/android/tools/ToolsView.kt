@@ -15,6 +15,7 @@ import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -144,7 +145,7 @@ object ToolsView {
         else vRecycler.scrollToPosition(position)
     }
 
-    fun addLink(vText: ViewText, link: String, onClick: () -> Unit) {
+    fun addLink(vText: ViewText, link: String, color:Int?=null, onClick: () -> Unit) {
         val text = vText.text.toString()
         val index = text.indexOf(link)
 
@@ -157,10 +158,12 @@ object ToolsView {
             }
         }, index, index + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
+        if(color != null) span.setSpan(ForegroundColorSpan(color), index, index + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+
         vText.text = span
         makeLinksClickable(vText)
     }
-
 
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
