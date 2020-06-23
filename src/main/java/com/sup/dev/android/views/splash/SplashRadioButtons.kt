@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import androidx.appcompat.widget.AppCompatRadioButton
 import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -179,7 +180,7 @@ class SplashRadioButtons : Splash(R.layout.splash_container) {
 
     private inner class Item {
 
-        var v: RadioButton = RadioButton(SupAndroid.activity!!)
+        var v: RadioButton = AppCompatRadioButton(SupAndroid.activity!!)
 
         var onChange: ((SplashRadioButtons, Boolean) -> Unit)? = null
         var onSelected: ((SplashRadioButtons) -> Unit)? = null
