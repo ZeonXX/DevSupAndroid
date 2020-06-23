@@ -215,6 +215,10 @@ object Navigator {
         getCurrent()?.onPause()
     }
 
+    fun onActivityResumed() {
+        getCurrent()?.onResume()
+    }
+
     fun parseOnBackPressedCallbacks():Boolean{
         for (i in onBackCallbacks.size - 1 downTo -1 + 1) {
             val c = onBackCallbacks[i]
