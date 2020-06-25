@@ -156,7 +156,7 @@ class CropImageOptions : Parcelable {
         maxCropResultHeight = inp.readInt()
         activityTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(inp)
         activityMenuIconColor = inp.readInt()
-        outputUri = inp.readParcelable(Uri::class.java.classLoader)
+        outputUri = inp.readParcelable(Uri::class.java.classLoader!!)
         outputCompressFormat = Bitmap.CompressFormat.valueOf(inp.readString())
         outputCompressQuality = inp.readInt()
         outputRequestWidth = inp.readInt()

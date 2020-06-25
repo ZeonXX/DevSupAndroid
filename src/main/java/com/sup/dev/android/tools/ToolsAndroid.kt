@@ -257,7 +257,7 @@ object ToolsAndroid {
     fun setToClipboard(text: String) {
         val clipboard = SupAndroid.appContext!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("", text)
-        clipboard.primaryClip = clip
+        clipboard.setPrimaryClip(clip)
     }
 
     fun getFromClipboard(): String? {
