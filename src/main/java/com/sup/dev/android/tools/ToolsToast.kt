@@ -13,35 +13,35 @@ import com.sup.dev.java.tools.ToolsThreads
 
 object ToolsToast {
 
-    fun show(@StringRes textRes: Int) {
-        showNow(SupAndroid.appContext!!.getString(textRes))
+    fun show(@StringRes textRes: Int, onShowed:(Toast)->Unit={}) {
+        showNow(SupAndroid.appContext!!.getString(textRes), onShowed = onShowed)
     }
 
-    fun show(text: String?) {
-        if(text != null) showNow(text)
+    fun show(text: String?, onShowed:(Toast)->Unit={}) {
+        if(text != null) showNow(text, onShowed = onShowed)
     }
 
-    fun show(@StringRes textRes: Int, @ColorInt textColor: Int?) {
-        show(SupAndroid.appContext!!.getString(textRes), null, textColor)
+    fun show(@StringRes textRes: Int, @ColorInt textColor: Int?, onShowed:(Toast)->Unit={}) {
+        show(SupAndroid.appContext!!.getString(textRes), null, textColor, onShowed)
     }
 
-    fun show(text: String?, @ColorInt textColor: Int?) {
-        ToolsThreads.main { showNow(text, null, textColor) }
+    fun show(text: String?, @ColorInt textColor: Int?, onShowed:(Toast)->Unit={}) {
+        ToolsThreads.main { showNow(text, null, textColor, onShowed) }
     }
 
-    fun show(@StringRes textRes: Int, @ColorInt backColor: Int?, @ColorInt textColor: Int?) {
-        show(SupAndroid.appContext!!.getString(textRes), backColor, textColor)
+    fun show(@StringRes textRes: Int, @ColorInt backColor: Int?, @ColorInt textColor: Int?, onShowed:(Toast)->Unit={}) {
+        show(SupAndroid.appContext!!.getString(textRes), backColor, textColor, onShowed)
     }
 
-    fun show(@StringRes textRes: Int, @ColorInt backColor: Int?, @ColorInt textColor: Int?, vararg args: Any) {
-        show(ToolsResources.s(textRes, *args), backColor, textColor)
+    fun show(@StringRes textRes: Int, @ColorInt backColor: Int?, @ColorInt textColor: Int?, vararg args: Any, onShowed:(Toast)->Unit={}) {
+        show(ToolsResources.s(textRes, *args), backColor, textColor, onShowed)
     }
 
-    fun show(text: String?, @ColorInt backColor: Int?, @ColorInt textColor: Int?) {
-        ToolsThreads.main { showNow(text, backColor, textColor) }
+    fun show(text: String?, @ColorInt backColor: Int?, @ColorInt textColor: Int?, onShowed:(Toast)->Unit={}) {
+        ToolsThreads.main { showNow(text, backColor, textColor, onShowed) }
     }
 
-    private fun showNow(text: String?, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null) {
+    private fun showNow(text: String?, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null, onShowed:(Toast)->Unit={}) {
         if (text == null || text.isEmpty()) return
         ToolsThreads.main {
             val toast = Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT)
@@ -52,6 +52,7 @@ object ToolsToast {
             }
             if (ToolsView.pxToDp(ToolsAndroid.getScreenW()) <= 320) toast.view.scaleX = 0.95f
             toast.show()
+            onShowed.invoke(toast)
         }
     }
 

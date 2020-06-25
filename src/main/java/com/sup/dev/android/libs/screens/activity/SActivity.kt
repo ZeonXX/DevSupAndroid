@@ -215,6 +215,13 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
+    fun getToSplash():SplashView<out Any>?{
+        if( vSplashContainer!!.childCount > 0){
+            return vSplashContainer!!.getChildAt(vSplashContainer!!.childCount - 1).tag as SplashView<out Any>
+        }
+        return null
+    }
+
     fun isSplashShowed(splashView: SplashView<out Any>) = vSplashContainer!!.indexOfChild(splashView.getView()) > -1
 
     fun isTopSplash(splashView: SplashView<out Any>) = vSplashContainer!!.childCount > 0 && vSplashContainer!!.indexOfChild(splashView.getView()) == (vSplashContainer!!.childCount - 1)

@@ -245,18 +245,20 @@ object ToolsIntent {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (intent.resolveActivity(SupAndroid.appContext!!.packageManager) != null) {
                 startIntentForResult(Intent.createChooser(intent, null)) { resultCode, resultIntent ->
-                    if (resultCode != Activity.RESULT_OK || resultIntent == null) throw IllegalAccessException("Result is null or not OK")
-                    ToolsThreads.thread {
-                        try {
-                            val imageBitmap = resultIntent.extras["data"] as Bitmap
-                            val bytes = ToolsBitmap.toBytes(imageBitmap)!!
-                            ToolsThreads.main { onResult.invoke(bytes) }
-                        } catch (e: Exception) {
-                            ToolsThreads.main { onError.invoke(e) }
+                    if (resultCode != Activity.RESULT_OK || resultIntent == null) {
+                        onError.invoke(IllegalAccessException("Result is null or not OK"))
+                    } else {
+                        ToolsThreads.thread {
+                            try {
+                                val imageBitmap = resultIntent.extras["data"] as Bitmap
+                                val bytes = ToolsBitmap.toBytes(imageBitmap)!!
+                                ToolsThreads.main { onResult.invoke(bytes) }
+                            } catch (e: Exception) {
+                                ToolsThreads.main { onError.invoke(e) }
+                            }
+
                         }
-
                     }
-
                 }
             } else {
                 onError.invoke(IllegalAccessException("Cant find camera"))
