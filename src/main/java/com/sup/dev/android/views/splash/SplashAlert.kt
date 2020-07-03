@@ -47,8 +47,7 @@ class SplashAlert : Splash(R.layout.splash_alert) {
         vTopContainer.visibility = View.GONE
         vTopImage.visibility = View.GONE
         vTopTitle.visibility = View.GONE
-
-        vText.setTextIsSelectable(true)
+        vInfo.visibility = View.GONE
 
         vCheck.setOnCheckedChangeListener { _, _ -> updateLock(vEnter, vCheck) }
     }
@@ -164,6 +163,7 @@ class SplashAlert : Splash(R.layout.splash_alert) {
         vText.text = vText.text.toString() + "\n" + text
         vText.visibility = View.VISIBLE
         ToolsView.makeLinksClickable(vText)
+        vText.isFocusable = false
         return this
     }
 
@@ -174,6 +174,7 @@ class SplashAlert : Splash(R.layout.splash_alert) {
     fun setText(text: CharSequence?): SplashAlert {
         ToolsView.setTextOrGone(vText, text)
         ToolsView.makeLinksClickable(vText)
+        vText.isFocusable = false
         return this
     }
 

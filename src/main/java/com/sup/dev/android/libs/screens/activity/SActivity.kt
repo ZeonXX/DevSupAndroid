@@ -191,12 +191,16 @@ abstract class SActivity : AppCompatActivity() {
         ToolsThreads.main {
             if (!splashView.splash.isCompanion) ToolsView.hideKeyboard()
             splashView.getView().visibility = View.INVISIBLE
+            vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+            getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
             vSplashContainer!!.addView(splashView.getView())
             if (!splashView.splash.isCompanion) {
                 val navigationBarColor = splashView.getNavigationBarColor()
                 ToolsThreads.main(splashView.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
             }
-            ToolsView.fromAlpha(splashView.getView(), splashView.animationMs.toInt())
+            ToolsView.fromAlpha(splashView.getView(), splashView.animationMs.toInt()){
+                splashView.getView().requestFocus()
+            }
         }
     }
 
@@ -210,6 +214,8 @@ abstract class SActivity : AppCompatActivity() {
             }
             ToolsView.toAlpha(splashView.getView(), splashView.animationMs.toInt()) {
                 vSplashContainer!!.removeView(splashView.getView())
+                if(vSplashContainer!!.childCount == 0) vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                else getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
             }
             splashView.onHide()
         }

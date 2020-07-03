@@ -232,6 +232,7 @@
         <item name="android:background">?colorPrimary</item>
         <item name="android:foreground">@color/transparent</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
+        <item name="android:touchscreenBlocksFocus">false</item>
     </style>
 
     <style name="Toolbar.Collapse">
@@ -248,6 +249,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_behavior">com.sup.dev.android.views.support.behavior.BehaviorAppBarLayout</item>
+        <item name="android:touchscreenBlocksFocus">false</item>
     </style>
 
     <style name="AppBar.Transparent">
