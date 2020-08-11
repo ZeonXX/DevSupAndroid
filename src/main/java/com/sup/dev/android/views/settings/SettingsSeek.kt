@@ -49,6 +49,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         setMaxProgress(maxProgress)
         vSeekBar.progress = progress
+        isFocusable = false
     }
 
     //

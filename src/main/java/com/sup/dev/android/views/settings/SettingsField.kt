@@ -49,6 +49,7 @@ class SettingsField constructor(
         setInputType(inputType)
         setMaxLength(maxLength)
         vField.clearFocus()
+        isFocusable = false
     }
 
     fun showKeyboard(){

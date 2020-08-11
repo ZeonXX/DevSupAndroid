@@ -1,11 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingLeft="6dp"
     android:paddingTop="8dp"
-    android:paddingRight="6dp">
+    android:paddingRight="6dp"
+    android:clickable="false"
+    android:focusable="false">
 
     <com.sup.dev.android.views.views.ViewCircleImage
         android:id="@+id/vDevSupIcon"
@@ -22,10 +24,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/vDevSupInputLayout"
+        android:focusable="false"
         style="@style/TextInputLayout">
 
         <com.sup.dev.android.views.views.ViewEditText
             android:id="@+id/vDevSupField"
+            android:focusable="true"
             style="@style/Field"/>
 
     </com.google.android.material.textfield.TextInputLayout>
