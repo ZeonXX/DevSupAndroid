@@ -22,6 +22,10 @@ object ToolsResources {
         return s(r, *args).capitalize()
     }
 
+    fun sCap(r: String, vararg args: Any): String {
+        return s(r, *args).capitalize()
+    }
+
     /*
       string_key_1, string_key_2, string_key_3...
       stringKey - "string_key_" or "string_%s_key"
@@ -56,6 +60,10 @@ object ToolsResources {
     }
 
     fun s(@StringRes r: Int, vararg args: Any): String {
+        return String.format(s(r), *args)
+    }
+
+    fun s(r: String, vararg args: Any): String {
         return String.format(s(r), *args)
     }
 

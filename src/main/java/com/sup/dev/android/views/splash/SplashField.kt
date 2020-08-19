@@ -14,6 +14,7 @@ import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.java.classes.items.Item2
+import com.sup.dev.java.tools.ToolsThreads
 import java.util.ArrayList
 
 open class SplashField(
@@ -65,7 +66,9 @@ open class SplashField(
 
     override fun onShow() {
         super.onShow()
-        ToolsView.showKeyboard(vFieldWidget.vField)
+        ToolsThreads.main(100) {
+            ToolsView.showKeyboard(vFieldWidget.vField)
+        }
     }
 
     override fun onHide() {

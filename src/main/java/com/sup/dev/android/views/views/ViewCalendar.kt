@@ -89,6 +89,23 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onPageChanged = onPageChanged
     }
 
+    fun clearDateMarks(){
+        marks.clear()
+        adapter.updateAll()
+    }
+
+    fun clearDateMark(dateTime: Long){
+        val date = GregorianCalendar.getInstance()
+        date.timeInMillis = dateTime
+        date.set(GregorianCalendar.HOUR_OF_DAY, 0)
+        date.set(GregorianCalendar.MINUTE, 0)
+        date.set(GregorianCalendar.SECOND, 0)
+        date.set(GregorianCalendar.MILLISECOND, 0)
+        marks.remove(date.timeInMillis)
+        adapter.updateAll()
+    }
+
+
     fun setDateMark(dateTime: Long, color: Int?) {
         val date = GregorianCalendar.getInstance()
         date.timeInMillis = dateTime

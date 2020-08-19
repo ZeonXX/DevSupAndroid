@@ -176,20 +176,13 @@ object ToolsView {
 
     fun onFieldEnterKey(vFiled: EditText, callback: () -> Unit) {
         vFiled.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == 6) {
+            if (actionId == 6 || actionId == 5) {
                 callback.invoke()
                 true
             } else {
                 false
             }
         }
-        /* vFiled.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-             if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)) {
-                 callback.invoke()
-                 return@OnKeyListener true
-             }
-             false
-         })*/
     }
 
     fun setNavigationBarColor(window: Window, color: Int) {
