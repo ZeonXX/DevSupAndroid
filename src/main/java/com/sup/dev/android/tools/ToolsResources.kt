@@ -64,7 +64,7 @@ object ToolsResources {
     }
 
     fun s(r: String, vararg args: Any): String {
-        return String.format(s(r), *args)
+        return String.format(r, *args)
     }
 
     fun getStringId(name: String): Int {
