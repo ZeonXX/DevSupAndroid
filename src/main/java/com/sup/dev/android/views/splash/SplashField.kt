@@ -66,8 +66,12 @@ open class SplashField(
 
     override fun onShow() {
         super.onShow()
+        ToolsView.showKeyboard(vFieldWidget.vField)
         ToolsThreads.main(100) {
-            ToolsView.showKeyboard(vFieldWidget.vField)
+            vEnter.requestFocus()
+            ToolsThreads.main(100) {
+                vFieldWidget.vField.requestFocus()
+            }
         }
     }
 
