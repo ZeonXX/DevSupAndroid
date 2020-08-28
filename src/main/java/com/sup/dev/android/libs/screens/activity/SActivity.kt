@@ -24,7 +24,7 @@ import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
-abstract class SActivity : AppCompatActivity() {
+abstract class  SActivity : AppCompatActivity() {
 
     companion object {
         var onUrlClicked: ((String) -> Unit)? = null
@@ -75,6 +75,7 @@ abstract class SActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        SupAndroid.activity = this
 
         SupAndroid.activityIsVisible = true
 
