@@ -131,18 +131,18 @@ abstract class CardScreenLoading(@LayoutRes layoutRes: Int) : Card(0) {
         this.image = image
     }
 
-    fun setState(state: CardScreenLoading.State) {
+    fun setState(state: State) {
         //  Защита от мерцаний
         val key = System.currentTimeMillis()
         setStateKey = key
-        if (state == SLoading.State.EMPTY) {
+        if (state == State.EMPTY) {
             ToolsThreads.main(50) { if (setStateKey == key) setStateNow(state) }
         } else {
             setStateNow(state)
         }
     }
 
-    private fun setStateNow(state: CardScreenLoading.State) {
+    private fun setStateNow(state: State) {
         this.stateS = state
 
         if (state == State.PROGRESS) {

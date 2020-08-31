@@ -250,7 +250,7 @@ object ToolsIntent {
                     } else {
                         ToolsThreads.thread {
                             try {
-                                val imageBitmap = resultIntent!!.extras["data"] as Bitmap
+                                val imageBitmap = resultIntent.extras!!.get("data") as Bitmap
                                 val bytes = ToolsBitmap.toBytes(imageBitmap)!!
                                 ToolsThreads.main { onResult.invoke(bytes) }
                             } catch (e: Exception) {
