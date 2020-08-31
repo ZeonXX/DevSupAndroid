@@ -27,6 +27,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private var onPageChanged:()->Unit = {}
+    private var setOnDateClicked:(Long)->Unit = {}
     val vIconBack: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     val vIconForward: ViewIcon = ToolsView.inflate(R.layout.z_icon)
     val vPager: ViewPager = ViewPager(context)
@@ -85,6 +86,10 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    fun setOnDateClicked(setOnDateClicked:(Long)->Unit){
+        this.setOnDateClicked = setOnDateClicked
+    }
+
     fun setOnChanged(onPageChanged:()->Unit){
         this.onPageChanged = onPageChanged
     }
@@ -104,7 +109,6 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         marks.remove(date.timeInMillis)
         adapter.updateAll()
     }
-
 
     fun setDateMark(dateTime: Long, color: Int?) {
         val date = GregorianCalendar.getInstance()
@@ -167,7 +171,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
             date.set(GregorianCalendar.MINUTE, 0)
             date.set(GregorianCalendar.SECOND, 0)
             date.set(GregorianCalendar.MILLISECOND, 0)
-            vTitle.text = date.getDisplayName(GregorianCalendar.MONTH, Calendar.LONG_STANDALONE, Locale.getDefault()).capitalize() + " " + date.get(GregorianCalendar.YEAR)
+            vTitle.text = date.getDisplayName(GregorianCalendar.MONTH, Calendar.LONG, Locale.getDefault()).capitalize() + " " + date.get(GregorianCalendar.YEAR)
 
             var startDay = (date.get(GregorianCalendar.DAY_OF_WEEK) + 5) % 7
             var lastDay = 0
@@ -178,16 +182,19 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val vIcon: ViewIcon = vWeekLine.findViewWithTag(TAG_DATE_ICON_ + dayIndex)
 
                     val day = date.get(GregorianCalendar.DAY_OF_MONTH)
+                    val dateMs = date.timeInMillis
                     if (dayIndex < startDay || day < lastDay) {
                         vText.text = ""
+                        vIcon.isFocusable = false
                         vIcon.setOnClickListener(null)
+                        vIcon.setIconBackgroundColor(0)
                     } else {
                         lastDay = day
                         startDay = 0
                         vText.text = "$day"
-                        vIcon.setOnClickListener {
-                        }
-                        vIcon.setIconBackgroundColor(marks[date.timeInMillis] ?: 0)
+                        vIcon.isFocusable = true
+                        vIcon.setOnClickListener { setOnDateClicked.invoke(dateMs) }
+                        vIcon.setIconBackgroundColor(marks[dateMs] ?: 0)
                         date.set(GregorianCalendar.DAY_OF_MONTH, day + 1)
                     }
 
@@ -222,7 +229,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                 daysCalendar.set(GregorianCalendar.DAY_OF_WEEK, i % 7)
                 val vText: TextView = ToolsView.inflate(R.layout.z_text_caption)
                 val vFrame = FrameLayout(context)
-                vText.text = daysCalendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, Calendar.SHORT_STANDALONE, Locale.getDefault())
+                vText.text = daysCalendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
                 vFrame.addView(vText)
                 vDaysTitlesContainer.addView(vFrame)
                 (vText.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -261,6 +268,7 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
                     (vFrame.layoutParams as LinearLayout.LayoutParams).width = ViewGroup.LayoutParams.WRAP_CONTENT
                     (vFrame.layoutParams as LinearLayout.LayoutParams).height = ViewGroup.LayoutParams.WRAP_CONTENT
                     (vFrame.layoutParams as LinearLayout.LayoutParams).weight = 1f
+
                 }
             }
 
