@@ -142,7 +142,7 @@ abstract class  SActivity : AppCompatActivity() {
         if (parseIntent(intent)) setIntent(Intent())
     }
 
-    private fun parseIntent(intent: Intent?): Boolean {
+    open fun parseIntent(intent: Intent?): Boolean {
         if (parseNotifications && intent != null) return ToolsNotifications.parseNotification(intent)
         return false
     }

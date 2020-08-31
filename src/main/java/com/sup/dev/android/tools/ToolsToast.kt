@@ -13,6 +13,10 @@ import com.sup.dev.java.tools.ToolsThreads
 
 object ToolsToast {
 
+    fun show(@StringRes textRes: Int) {
+        show(textRes, {})
+    }
+
     fun show(@StringRes textRes: Int, onShowed:(Toast)->Unit={}) {
         showNow(SupAndroid.appContext!!.getString(textRes), onShowed = onShowed)
     }
