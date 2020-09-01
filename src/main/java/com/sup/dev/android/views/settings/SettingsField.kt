@@ -18,6 +18,10 @@ class SettingsField constructor(
         attrs: AttributeSet? = null
 ) : Settings(context, attrs, R.layout.settings_field) {
 
+    companion object{
+        var GLOBAL_TRANSPARENT_BACKGROUND = false
+    }
+
     val vField: ViewEditText = findViewById(R.id.vDevSupField)
     val vFieldLayout: TextInputLayout = findViewById(R.id.vDevSupInputLayout)
 
@@ -42,6 +46,8 @@ class SettingsField constructor(
 
         if (singleLine) vField.setSingleLine()
         vField.addTextChangedListener(TextWatcherChanged { checkError() })
+        if(GLOBAL_TRANSPARENT_BACKGROUND)vField.setBackgroundColor(ToolsResources.getColor(R.color.transparent))
+        vFieldLayout.boxStrokeColor = ToolsResources.getColorAttr(R.attr.colorSecondary)
 
         setLineVisible(false)
         setText(text)
