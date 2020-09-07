@@ -107,6 +107,11 @@ abstract class  SActivity : AppCompatActivity() {
         Navigator.onActivityStop()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        SupAndroid.activity = null
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         EventBus.post(EventConfigurationChanged())

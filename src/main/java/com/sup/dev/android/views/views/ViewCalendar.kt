@@ -37,18 +37,6 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         adapter.setCardH(ViewGroup.LayoutParams.WRAP_CONTENT)
-        val date = GregorianCalendar.getInstance()
-        date.set(GregorianCalendar.DAY_OF_MONTH, 1)
-        while (date.get(GregorianCalendar.YEAR) > 2000) {
-            while (true) {
-                adapter.add(0, PagerCard(date.timeInMillis))
-
-                if (date.get(GregorianCalendar.MONTH) == 0) break
-                date.set(GregorianCalendar.MONTH, date.get(GregorianCalendar.MONTH) - 1)
-            }
-            date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) - 1)
-            date.set(GregorianCalendar.MONTH, 11)
-        }
 
         setPadding(ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(16).toInt())
         addView(vPager)
@@ -68,8 +56,6 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         vIconForward.setImageResource(R.drawable.ic_keyboard_arrow_right_white_24dp)
 
         vPager.adapter = adapter
-        vPager.currentItem = adapter.size() - 1
-        vIconForward.alpha = 0f
         vPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
 
             override fun onPageSelected(position: Int) {
@@ -83,6 +69,31 @@ class ViewCalendar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         vIconBack.setOnClickListener {
             if (vPager.currentItem > 0) vPager.setCurrentItem(vPager.currentItem - 1, true)
+        }
+
+        val date = GregorianCalendar.getInstance()
+        val myM = date.get(GregorianCalendar.MONTH)
+        val myY = date.get(GregorianCalendar.YEAR)
+        var targetCard:PagerCard? = null
+        date.set(GregorianCalendar.DAY_OF_MONTH, 1)
+        date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) + 50)
+        while (date.get(GregorianCalendar.YEAR) > 2000) {
+            while (true) {
+                val card = PagerCard(date.timeInMillis)
+                adapter.add(0, card)
+
+                if(date.get(GregorianCalendar.MONTH) == myM && date.get(GregorianCalendar.YEAR) == myY)targetCard = card
+
+                if (date.get(GregorianCalendar.MONTH) == 0) break
+                date.set(GregorianCalendar.MONTH, date.get(GregorianCalendar.MONTH) - 1)
+            }
+
+            date.set(GregorianCalendar.YEAR, date.get(GregorianCalendar.YEAR) - 1)
+            date.set(GregorianCalendar.MONTH, 11)
+        }
+
+        if(targetCard != null){
+            vPager.currentItem = adapter.indexOf(targetCard)
         }
     }
 
