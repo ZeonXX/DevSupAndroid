@@ -39,6 +39,10 @@ class SAlert(
             Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), ToolsResources.s(action), img, true, onAction))
         }
 
+        fun showMessage(text: Int, action: String, img: ImageLink?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
+            Navigator.action(actionNavigation, instanceMessage(ToolsResources.s(text), action, img, true, onAction))
+        }
+
         fun showMessage(text: String?, action: String?, img: ImageLink?, actionNavigation: NavigationAction, onAction: ((SAlert) -> Unit)? = { Navigator.remove(it) }) {
             Navigator.action(actionNavigation, instanceMessage(text, action, img, true, onAction))
         }
