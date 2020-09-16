@@ -18,6 +18,8 @@ object ToolsResources {
 
     fun sex(sex: Long, @StringRes m: Int, @StringRes w: Int) = if (sex == 0L) s(m) else s(w)
 
+    fun sex(sex: Long, @StringRes m: String, @StringRes w: String) = if (sex == 0L) m else w
+
     fun sCap(@StringRes r: Int, vararg args: Any): String {
         return s(r, *args).capitalize()
     }
