@@ -13,7 +13,7 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
     private var currentIndex = 0
     private val list = ArrayList<String>()
     private var onSelected: (Int) -> Unit = {}
-    private val vArrow: ImageView = ImageView(context)
+    val vArrow: ImageView = ImageView(context)
 
     init {
         view.setOnClickListener { menu.asSheetShow() }
