@@ -22,6 +22,15 @@ import androidx.core.app.NotificationCompat
 import com.sup.dev.android.app.SupAndroid
 import java.util.HashMap
 
+/*
+
+        <service
+            android:name="com.sup.dev.android.tools.ToolsBackgroundWork$ForegroundService"
+            android:foregroundServiceType="xxxx"/>
+
+
+ */
+
 object ToolsBackgroundWork {
 
     //
@@ -40,9 +49,9 @@ object ToolsBackgroundWork {
     //  !!!!!!!!!
     //  Add service to the manifest file
     //  !!!!!!!!!
-    fun startForegroundService(@DrawableRes icon: Int, title: String?, body: String) {
+    fun startForegroundService(@DrawableRes icon: Int, title: String?, body: String, chanelId: String) {
 
-        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, ToolsNotifications.defChanelId.toString())
+        val builder = NotificationCompat.Builder(SupAndroid.appContext!!, chanelId)
                 .setSmallIcon(icon)
                 .setContentText(body)
                 .setOngoing(true)
