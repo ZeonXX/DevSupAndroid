@@ -56,6 +56,7 @@ object SupAndroid {
     var activity: SActivity? = null
     var activityClass: Class<out SActivity>? = null
     var activityIsVisible = false
+    var activityIsDestroy = false
     var appId = ""
 
     fun onLowMemory() {

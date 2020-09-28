@@ -24,7 +24,7 @@ import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
-abstract class  SActivity : AppCompatActivity() {
+abstract class SActivity : AppCompatActivity() {
 
     companion object {
         var onUrlClicked: ((String) -> Unit)? = null
@@ -75,7 +75,6 @@ abstract class  SActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        SupAndroid.activity = this
 
         SupAndroid.activityIsVisible = true
 
@@ -109,7 +108,7 @@ abstract class  SActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        SupAndroid.activity = null
+        SupAndroid.activityIsDestroy = true
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -197,15 +196,17 @@ abstract class  SActivity : AppCompatActivity() {
         ToolsThreads.main {
             if (!splashView.splash.isCompanion) ToolsView.hideKeyboard()
             splashView.getView().visibility = View.INVISIBLE
-            vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-            getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+            if (!splashView.splash.isCompanion) {
+                vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+                getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+            }
             vSplashContainer!!.addView(splashView.getView())
             if (!splashView.splash.isCompanion) {
                 val navigationBarColor = splashView.getNavigationBarColor()
                 ToolsThreads.main(splashView.animationMs / 2) { if (navigationBarColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor = navigationBarColor }
             }
             ToolsView.fromAlpha(splashView.getView(), splashView.animationMs.toInt()){
-                splashView.getView().requestFocus()
+                if (!splashView.splash.isCompanion) {splashView.getView().requestFocus() }
             }
         }
     }
@@ -220,8 +221,10 @@ abstract class  SActivity : AppCompatActivity() {
             }
             ToolsView.toAlpha(splashView.getView(), splashView.animationMs.toInt()) {
                 vSplashContainer!!.removeView(splashView.getView())
-                if(vSplashContainer!!.childCount == 0) vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                else getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                if (!splashView.splash.isCompanion) {
+                    if (vSplashContainer!!.childCount == 0) vActivityContainer!!.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                    else getToSplash()?.getView()?.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+                }
             }
             splashView.onHide()
         }

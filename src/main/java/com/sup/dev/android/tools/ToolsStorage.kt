@@ -1,5 +1,6 @@
 package com.sup.dev.android.tools
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
@@ -175,9 +176,11 @@ object ToolsStorage {
     //
 
     fun saveImageInDownloadFolder(bitmap: Bitmap, onComplete: (File) -> Unit = {}) {
-        ToolsPermission.requestWritePermission {
+        ToolsPermission.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+        onGranted = {}, onPermissionRestriction = {ToolsToast.show(SupAndroid.TEXT_ERROR_PERMISSION_FILES)}, onAllPermissionsGranted = {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs()
             val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/" + externalFileNamePrefix + "_" + System.currentTimeMillis() + ".png")
+            f.createNewFile()
             try {
                 val out = FileOutputStream(f)
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
@@ -188,13 +191,12 @@ object ToolsStorage {
             }
 
             //  Without this, the picture will be hidden until open gallery.
-            if (SupAndroid.activity != null) {
+            if (SupAndroid.activity != null && !SupAndroid.activityIsDestroy) {
                 val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                 mediaScanIntent.data = Uri.fromFile(f)
                 SupAndroid.activity!!.sendBroadcast(mediaScanIntent)
             }
-
-        }
+        })
 
 
     }
