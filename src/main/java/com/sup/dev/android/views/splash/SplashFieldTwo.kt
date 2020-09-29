@@ -12,6 +12,7 @@ import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.classes.items.Item2
+import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
 open class SplashFieldTwo : Splash(R.layout.splash_field_two) {
@@ -44,6 +45,20 @@ open class SplashFieldTwo : Splash(R.layout.splash_field_two) {
 
         vFieldWidget_2.vField.addTextChangedListener(TextWatcherChanged { check() })
         vFieldWidget_2.vField.setCallback { vFieldWidget_2.setText(it) }
+    }
+
+
+    override fun onShow() {
+        super.onShow()
+        ToolsView.showKeyboard(vFieldWidget_1.vField)
+        ToolsThreads.main(100) {
+            vEnter.requestFocus()
+            ToolsThreads.main(100) {
+                vFieldWidget_1.vField.requestFocus()
+            }
+        }
+        vFieldWidget_1.vField.setSelection(getText_1().length)
+        check(false)
     }
 
     private fun check(setError:Boolean = true){
@@ -90,12 +105,6 @@ open class SplashFieldTwo : Splash(R.layout.splash_field_two) {
         }
     }
 
-    override fun onShow() {
-        super.onShow()
-        ToolsView.showKeyboard(vFieldWidget_1.vField)
-        vFieldWidget_1.vField.setSelection(getText_1().length)
-        check(false)
-    }
 
     override fun onHide() {
         super.onHide()
