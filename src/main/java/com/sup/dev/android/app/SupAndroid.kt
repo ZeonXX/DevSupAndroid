@@ -121,7 +121,7 @@ object SupAndroid {
         try {
             return ToolsResources.s(id)
         } catch (e: IllegalArgumentException) {
-            err("Init warning: can't find vText with id [$id]")
+            //err("Init warning: can't find vText with id [$id]")
             return null
         }
     }
@@ -130,7 +130,7 @@ object SupAndroid {
         try {
             return ToolsResources.getDrawableId(id)
         } catch (e: IllegalArgumentException) {
-            err("Init warning: can't find image with id [$id]")
+            //err("Init warning: can't find image with id [$id]")
             return null
         }
     }

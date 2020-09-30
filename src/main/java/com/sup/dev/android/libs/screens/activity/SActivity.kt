@@ -48,6 +48,7 @@ abstract class SActivity : AppCompatActivity() {
         super.onCreate(bundle)
         Navigator.currentStack.clear()
         SupAndroid.activity = this
+        SupAndroid.activityIsDestroy = false
 
         applyTheme()
 
