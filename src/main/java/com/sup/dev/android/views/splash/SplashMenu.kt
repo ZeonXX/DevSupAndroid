@@ -102,6 +102,7 @@ open class SplashMenu : SplashRecycler() {
     private fun add(item: Item) {
         item.card = CardMenu()
         item.card?.text = item.text
+        item.card?.description = item.description
         item.card?.chipText = item.chipText
         item.card?.setIcon(item.icon)
         item.card?.setIcon(item.iconDrawable)
@@ -190,6 +191,11 @@ open class SplashMenu : SplashRecycler() {
 
     fun text(text: String): SplashMenu {
         buildItem!!.text = text
+        return this
+    }
+
+    fun description(description: String): SplashMenu {
+        buildItem!!.description = description
         return this
     }
 
@@ -336,6 +342,7 @@ open class SplashMenu : SplashRecycler() {
         var onClick: (ClickEvent) -> Unit = { }
         var onLongClick: ((ClickEvent) -> Unit)? = null
         var text = ""
+        var description = ""
         var textSize: Float? = null
         var chipText = ""
         var icon = 0
