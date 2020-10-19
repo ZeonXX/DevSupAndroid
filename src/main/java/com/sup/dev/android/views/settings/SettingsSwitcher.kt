@@ -12,6 +12,7 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
     private val vSwitcher: Switch = Switch(context)
 
     private var onClickListener: OnClickListener? = null
+    private var setOnSwitchListener: (Boolean)->Unit = {  }
     private var salient: Boolean = false
 
     //
@@ -23,6 +24,7 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
         vSwitcher.isFocusable = false
         vSwitcher.setOnCheckedChangeListener { _, b ->
             setEnabledSubSettings(b)
+            if (!salient) setOnSwitchListener.invoke(b)
             if (!salient) onClick()
         }
 
@@ -52,6 +54,7 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
         vSwitcher.isChecked = checked
         salient = false
         setEnabledSubSettings(checked)
+        setOnSwitchListener.invoke(vSwitcher.isChecked)
     }
 
     public override fun onSaveInstanceState(): Parcelable? {
@@ -79,6 +82,14 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun setOnClickListener(l: OnClickListener?) {
         this.onClickListener = l
+    }
+
+    fun setOnRootClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
+    }
+
+    fun setOnSwitchListener(l: (Boolean)->Unit) {
+        this.setOnSwitchListener = l
     }
 
     override fun setEnabled(enabled: Boolean) {
