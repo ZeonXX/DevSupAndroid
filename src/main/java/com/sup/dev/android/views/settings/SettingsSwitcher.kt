@@ -54,7 +54,6 @@ class   SettingsSwitcher @JvmOverloads constructor(context: Context, attrs: Attr
         vSwitcher.isChecked = checked
         salient = false
         setEnabledSubSettings(checked)
-        setOnSwitchListener.invoke(vSwitcher.isChecked)
     }
 
     public override fun onSaveInstanceState(): Parcelable? {
