@@ -16,7 +16,6 @@ import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.java.classes.callbacks.CallbacksList1
 import java.util.*
 
-
 open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     val cards = ArrayList<Card>()
@@ -45,6 +44,9 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
     private var animation = false
     private var isProgress = false
     private var vRecycler: RecyclerView? = null
+    private var autoHideBottomDividerOnExpand = false
+    private var autoHideTopDividerOnExpand = false
+    private var autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider = true
 
     internal var expanded = false
     internal var enabled = true
@@ -97,8 +99,8 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
         (vTitle.layoutParams as LinearLayout.LayoutParams).gravity = titleGravity
 
-        vDivider.visibility = if (dividerVisible) View.VISIBLE else View.GONE
-        vDividerTop.visibility = if (dividerTopVisible) View.VISIBLE else View.GONE
+        vDivider.visibility = if (willShowBottomDivider()) View.VISIBLE else View.GONE
+        vDividerTop.visibility = if (willShowTopDivider()) View.VISIBLE else View.GONE
         vText.setTextColor(if (textColor != 0) textColor else textColorOriginal)
         vRightText.setTextColor(if (rightTextColor != 0) rightTextColor else rightTextColorOriginal)
         vTitle.setTextColor(if (titleColor != 0) titleColor else titleColorOriginal)
@@ -112,6 +114,38 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         if (backgroundColor != null) vRoot.setBackgroundColor(backgroundColor!!)
 
         vTouch.isClickable = enabled
+    }
+
+    private fun willShowBottomDivider():Boolean{
+        return dividerVisible && (!autoHideBottomDividerOnExpand || !expanded)
+    }
+
+    private fun willShowTopDivider():Boolean{
+        val b = !isHideDisableTopDividerByTopCard()
+        return dividerTopVisible && (!autoHideTopDividerOnExpand || !expanded) && !isHideDisableTopDividerByTopCard()
+    }
+
+    private fun isHideDisableTopDividerByTopCard():Boolean{
+        if(!autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider) return false
+        if(!dividerTopVisible) return false
+        val card = getTopSpoiler() ?: return false
+        return !card.expanded && card.willShowBottomDivider()
+    }
+
+    private fun getBottomSpoiler():CardSpoiler?{
+        for (i in adapter.indexOf(this) + 1 until adapter.size()){
+            val card = adapter[i]
+            if(card is CardSpoiler) return card
+        }
+        return null
+    }
+
+    private fun getTopSpoiler():CardSpoiler?{
+        for (i in adapter.indexOf(this) - 1 downTo 0){
+            val card = adapter[i]
+            if(card is CardSpoiler) return card
+        }
+        return null
     }
 
     //
@@ -136,6 +170,12 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         return this
     }
 
+    fun setAutoHideTopDividerIfTopCardIsSpoilerWithBottomDivider(autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider: Boolean): CardSpoiler {
+        this.autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider = autoHideTopDividerIfTopCardIsSpoilerWithBottomDivider
+        update()
+        return this
+    }
+
     fun add(card: Card): CardSpoiler {
         cards.add(card)
         setExpanded(expanded)
@@ -154,6 +194,17 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
 
     fun setTitle(title: String?): CardSpoiler {
         this.title = title
+        update()
+        return this
+    }
+
+    fun setAutoHideBottomDividerOnExpand(b: Boolean): CardSpoiler {
+        this.autoHideBottomDividerOnExpand = b
+        update()
+        return this
+    }
+    fun setAutoHideTopDividerOnExpand(b: Boolean): CardSpoiler {
+        this.autoHideTopDividerOnExpand = b
         update()
         return this
     }
@@ -205,6 +256,9 @@ open class CardSpoiler : Card(R.layout.card_spoiler) {
         }
 
         onExpandChanged.invoke(expanded)
+
+        getBottomSpoiler()?.update()
+        getTopSpoiler()?.update()
 
         return this
     }

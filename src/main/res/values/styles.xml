@@ -449,6 +449,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="boxBackgroundColor">@color/focus</item>
         <item name="hintTextColor">?colorAccent</item>
+        <item name="colorPrimary">?colorSecondary</item>
+        <item name="theme">@style/TextInputLayout.Outlined</item>
     </style>
 
     <style name="Field">
