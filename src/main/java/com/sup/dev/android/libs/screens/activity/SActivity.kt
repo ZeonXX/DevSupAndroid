@@ -15,6 +15,8 @@ import com.sup.dev.android.R
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.models.EventActivityPause
+import com.sup.dev.android.models.EventActivityResume
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.splash.view.SplashView
@@ -93,11 +95,13 @@ abstract class SActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Navigator.onActivityPaused()
+        EventBus.post(EventActivityPause())
     }
 
     override fun onResume() {
         super.onResume()
         Navigator.onActivityResumed()
+        EventBus.post(EventActivityResume())
     }
 
     override fun onStop() {
