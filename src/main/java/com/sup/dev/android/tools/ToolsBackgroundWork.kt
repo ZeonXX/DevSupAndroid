@@ -28,6 +28,12 @@ import java.util.HashMap
             android:name="com.sup.dev.android.tools.ToolsBackgroundWork$ForegroundService"
             android:foregroundServiceType="xxxx"/>
 
+        <service
+            android:name="com.sup.dev.android.tools.ToolsBackgroundWork$chedulerService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+
 
  */
 
