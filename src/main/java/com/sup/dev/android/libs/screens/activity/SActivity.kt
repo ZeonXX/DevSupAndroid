@@ -79,6 +79,7 @@ abstract class SActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        SupAndroid.activity = this  //  Активность может поменяться в случае запуска коппии активности по интенту (Например для виджетов)
         SupAndroid.activityIsVisible = true
 
         if (!started) {
