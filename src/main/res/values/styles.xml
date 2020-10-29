@@ -162,6 +162,7 @@
     <style name="Icon.Toolbar">
         <item name="android:layout_gravity">right</item>
         <item name="android:focusable">true</item>
+        <item name="android:layout_marginRight">4dp</item>
     </style>
 
     <style name="Icon.Toolbar.Shadow">
@@ -234,6 +235,7 @@
         <item name="android:foreground">@color/transparent</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
         <item name="android:touchscreenBlocksFocus">false</item>
+        <item name="contentInsetStartWithNavigation">32dp</item>
     </style>
 
     <style name="Toolbar.Collapse">
@@ -451,6 +453,12 @@
         <item name="hintTextColor">?colorAccent</item>
         <item name="colorPrimary">?colorSecondary</item>
         <item name="theme">@style/TextInputLayout.Outlined</item>
+    </style>
+
+    <style name="TextInputLayout.Old" parent="Widget.Design.TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="hintTextColor">?colorAccent</item>
     </style>
 
     <style name="Field">
