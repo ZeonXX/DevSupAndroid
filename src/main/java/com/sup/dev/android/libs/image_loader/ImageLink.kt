@@ -22,6 +22,8 @@ abstract class ImageLink {
     internal var customSetHolder: (() -> Unit)? = null
     internal var holder: Any? = null
 
+    internal var forsedKey:String? = null
+
     internal var cropSquareCenter = false
     internal var w = 0
     internal var h = 0
@@ -323,6 +325,11 @@ abstract class ImageLink {
         return this
     }
 
+    fun setKey(key:String): ImageLink{
+        this.forsedKey = key
+        return this
+    }
+
     //
     //  Getters
     //
@@ -408,6 +415,7 @@ abstract class ImageLink {
     fun getPreviewImageLoader() = previewImageLoader
 
     fun getKey(): String {
+        if(forsedKey != null) return forsedKey!!
         generateSizesIfNeed()
         return getKeyOfImage() + ":" + getParamsSum().hashCode()
     }
