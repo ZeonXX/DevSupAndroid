@@ -49,12 +49,12 @@ object ToolsToast {
         if (text == null || text.isEmpty()) return
         ToolsThreads.main {
             val toast = Toast.makeText(SupAndroid.appContext!!, text, Toast.LENGTH_SHORT)
-            if (backColor != null) toast.view.background.setColorFilter(backColor, PorterDuff.Mode.SRC_IN)
-            if (textColor != null) {
-                val v: TextView = toast.view.findViewById(android.R.id.message)
-                v.setTextColor(textColor)
-            }
-            if (ToolsView.pxToDp(ToolsAndroid.getScreenW()) <= 320) toast.view.scaleX = 0.95f
+           // if (backColor != null) toast.view!.background.setColorFilter(backColor, PorterDuff.Mode.SRC_IN)
+            //if (textColor != null) {
+            //    val v: TextView = toast.view!.findViewById(android.R.id.message) as TextView
+            //    v.setTextColor(textColor)
+            //}
+            //if (ToolsView.pxToDp(ToolsAndroid.getScreenW()) <= 320) toast.view.scaleX = 0.95f
             toast.show()
             onShowed.invoke(toast)
         }

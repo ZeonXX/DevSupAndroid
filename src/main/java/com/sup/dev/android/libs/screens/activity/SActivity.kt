@@ -70,7 +70,7 @@ abstract class SActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         //  Не потдерживает востановление состояния.
     }
 
@@ -233,6 +233,14 @@ abstract class SActivity : AppCompatActivity() {
                 }
             }
             splashView.onHide()
+        }
+    }
+
+    fun hideAllSplash(){
+        var splash:SplashView<out Any>? = getToSplash()
+        while (splash != null){
+            removeSplash(splash)
+            splash = getToSplash()
         }
     }
 

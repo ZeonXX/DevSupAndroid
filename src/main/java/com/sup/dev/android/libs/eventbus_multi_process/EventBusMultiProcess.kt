@@ -15,7 +15,7 @@ class EventBusMultiProcess : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         try {
             val event = intent.getSerializableExtra(MULTI_PROCESS_INTENT_EXTRA)
-            EventBus.post(event)
+            EventBus.post(event as Any)
         } catch (ex: Exception) {
             err(ex)
         }

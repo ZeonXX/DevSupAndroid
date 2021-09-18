@@ -26,15 +26,15 @@ open class VeSceneAndroid constructor(
         holder.addCallback(this)
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         VeScene.setScreenSize(width.toFloat(), height.toFloat())
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         runningKey = 0L
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {
+    override fun surfaceCreated(holder: SurfaceHolder) {
         ToolsThreads.thread { start(System.currentTimeMillis()) }
     }
 
