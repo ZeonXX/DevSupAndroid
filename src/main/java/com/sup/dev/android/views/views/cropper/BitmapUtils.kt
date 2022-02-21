@@ -536,7 +536,7 @@ internal object BitmapUtils {
                     rect.width(), rect.height(), reqWidth, reqHeight))
 
             stream = context.contentResolver.openInputStream(uri)
-            decoder = BitmapRegionDecoder.newInstance(stream, false)
+            decoder = BitmapRegionDecoder.newInstance(stream!!, false)
             do {
                 try {
                     return BitmapSampled(decoder!!.decodeRegion(rect, options), options.inSampleSize)
