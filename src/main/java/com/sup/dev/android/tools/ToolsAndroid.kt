@@ -319,6 +319,7 @@ object ToolsAndroid {
     }
 
     fun getScreenOrientation(): Int {
+        if (SupAndroid.appContext == null) return 0 // fixes android studio layout preview
         return (SupAndroid.appContext!!.getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
     }
 
