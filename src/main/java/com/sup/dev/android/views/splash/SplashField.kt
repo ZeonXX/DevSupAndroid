@@ -24,12 +24,12 @@ open class SplashField(
     val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
     val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
     private val vCancel: Button = view.findViewById(R.id.vCancel)
-    private val vEnter: Button = view.findViewById(R.id.vEnter)
+    protected val vEnter: Button = view.findViewById(R.id.vEnter)
 
     private val checkers = ArrayList<Item2<String, (String) -> Boolean>>()
     private var max: Int = 0
     private var min: Int = 0
-    private var autoHideOnEnter = true
+    protected var autoHideOnEnter = true
     private var autoHideOnCancel = true
     private var autoDisableOnCancel = true
 
