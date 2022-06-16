@@ -1,11 +1,12 @@
 package com.sup.dev.android.views.screens
 
-import androidx.annotation.DrawableRes
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsView
@@ -16,6 +17,7 @@ abstract class SRecycler(res: Int = R.layout.screen_recycler) : Screen(res) {
     protected val vToolbar: Toolbar = findViewById(R.id.vToolbar)
     protected val vToolbarIconsContainer: ViewGroup = findViewById(R.id.vToolbarIconsContainer)
     protected val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    protected val vFab: FloatingActionButton = findViewById(R.id.vFab)
 
     init {
         vRecycler.layoutManager = LinearLayoutManager(context)
