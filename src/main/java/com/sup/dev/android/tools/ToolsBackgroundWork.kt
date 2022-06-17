@@ -65,8 +65,8 @@ object ToolsBackgroundWork {
         val intent = Intent(SupAndroid.appContext!!, SupAndroid.activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        val pi = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            PendingIntent.FLAG_IMMUTABLE else 0))
+        val pi = PendingIntent.getActivity(SupAndroid.appContext!!, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            PendingIntent.FLAG_MUTABLE else 0))
         builder.setContentIntent(pi)
 
         notification = builder.build()
