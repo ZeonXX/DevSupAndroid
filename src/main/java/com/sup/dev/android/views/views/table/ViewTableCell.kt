@@ -62,9 +62,10 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
         (vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
     }
 
-    fun setContentImageId(imageId: Long) {
+    fun setContentImageId(imageId: Long, onClick: (() -> Unit)? = null) {
         val vImage = ImageView(context)
-        vImage.scaleType = ImageView.ScaleType.CENTER_CROP
+        vImage.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        if (onClick != null) vImage.setOnClickListener { onClick() }
         resetView(vImage)
         (vImage.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.MATCH_PARENT
         (vImage.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
