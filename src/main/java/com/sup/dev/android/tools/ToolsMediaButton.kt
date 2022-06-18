@@ -31,8 +31,8 @@ object ToolsMediaButton {
         mediaSession!!.setCallback(mediaSessionCallback)
         mediaSession!!.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON, null, context, MediaButtonReceiver::class.java)
-        mediaSession!!.setMediaButtonReceiver(PendingIntent.getBroadcast(context, 0, mediaButtonIntent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            PendingIntent.FLAG_IMMUTABLE else 0))
+        mediaSession!!.setMediaButtonReceiver(PendingIntent.getBroadcast(context, 0, mediaButtonIntent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            PendingIntent.FLAG_MUTABLE else 0))
         mediaSession!!.isActive = true
     }
 
