@@ -1,9 +1,10 @@
 package com.sup.dev.android.views.splash
 
-import androidx.annotation.*
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.*
 import com.sup.dev.android.R
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -11,6 +12,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardSplash
 import com.sup.dev.android.views.screens.SSplash
 import com.sup.dev.android.views.splash.view.*
+import com.sup.dev.android.views.splash.view.SplashViewPopup.Companion.hasSplashViewPopup
 import com.sup.dev.android.views.views.layouts.LayoutCorned
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -279,7 +281,8 @@ abstract class Splash(layoutRes: Int) {
 
     fun asPopupShow(view: View, x: Float, y: Float) = asPopupShow(view, x.toInt(), y.toInt())
 
-    fun asPopupShow(view: View, x: Int, y: Int): SplashViewPopup {
+    fun asPopupShow(view: View, x: Int, y: Int): SplashViewPopup? {
+        if (SupAndroid.activity?.hasSplashViewPopup() == true) return null
         val popup = asPopup()
         popup.setAnchor(view, x, y)
         popup.show()
