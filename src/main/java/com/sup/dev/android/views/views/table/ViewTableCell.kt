@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.sup.dev.android.R
 import com.sup.dev.android.libs.image_loader.ImageLoader
@@ -14,7 +14,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewText
 import com.sup.dev.java.tools.ToolsThreads
 
-class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTableRow.context) {
+class ViewTableCell constructor(val vTableRow: ViewTableRow) : LinearLayout(vTableRow.context) {
 
     init {
         resetMinSizes()
@@ -34,7 +34,7 @@ class ViewTableCell constructor(val vTableRow: ViewTableRow) : FrameLayout(vTabl
         addView(view)
         (view.layoutParams as LayoutParams).gravity = Gravity.CENTER
         (view.layoutParams as LayoutParams).width = ViewGroup.LayoutParams.WRAP_CONTENT
-        (view.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.WRAP_CONTENT
+        (view.layoutParams as LayoutParams).height = ViewGroup.LayoutParams.MATCH_PARENT
         ToolsThreads.main(true) { vTableRow.vTable.requestLayout() }
     }
 
