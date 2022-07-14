@@ -1,7 +1,5 @@
 package com.sup.dev.android.libs.image_loader
 
-import android.util.Log
-
 class ImageLoaderId(val imageId: Long, var pwd: String? = null) : ImageLink() {
 
     companion object {
@@ -16,7 +14,6 @@ class ImageLoaderId(val imageId: Long, var pwd: String? = null) : ImageLink() {
 
     override fun load(): ByteArray? {
         if (imageId < 1) return null
-        Log.d("ImageLoader", "load $imageId pwd: $pwd")
         return loader.invoke(imageId, pwd)
     }
 
