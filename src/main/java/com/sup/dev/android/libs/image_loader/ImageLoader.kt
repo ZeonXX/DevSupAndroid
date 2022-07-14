@@ -20,7 +20,6 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 object ImageLoader {
 
@@ -53,27 +52,32 @@ object ImageLoader {
 
     fun load(file: File) = ImageLoaderFile(file)
     fun load(@DrawableRes res: Int) = ImageLoaderResource(res)
-    fun load(id: Long) = ImageLoaderId(id)
+    @JvmOverloads
+    fun load(id: Long, pwd: String? = null) = ImageLoaderId(id, pwd)
     fun load(tag: String) = ImageLoaderTag(tag)
     fun load(bytes: ByteArray) = ImageLoaderBytes(bytes)
 
-    fun loadGif(imageId: Long, gifId: Long, vImage: ImageView, vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) {
+    fun loadGif(imageId: Long, gifId: Long, vImage: ImageView,
+                vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) =
+        loadGif(imageId, gifId, null, vImage, vGifProgressBar, onInit)
 
+    fun loadGif(imageId: Long, gifId: Long, pwd: String?, vImage: ImageView,
+                vGifProgressBar: View? = null, onInit: (ImageLink) -> Unit = {}) {
         if (gifId == 0L) {
             ToolsThreads.main { vGifProgressBar?.visibility = View.INVISIBLE }
-            val load = load(imageId)
+            val load = load(imageId, pwd)
             onInit.invoke(load)
             load.into(vImage)
         } else if (imageId > 0) {
-            val load = load(imageId)
+            val load = load(imageId, pwd)
             onInit.invoke(load)
             load.into(vImage) {
-                val loadGif = load(gifId)
+                val loadGif = load(gifId, pwd)
                 onInit.invoke(loadGif)
                 loadGif.holder(vImage.drawable).into(vImage, vGifProgressBar)
             }
         } else {
-            val load = load(gifId)
+            val load = load(gifId, pwd)
             onInit.invoke(load)
             load.holder(vImage.drawable).into(vImage, vGifProgressBar)
         }
