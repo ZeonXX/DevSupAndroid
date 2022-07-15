@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
@@ -25,7 +26,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //
 
     var progress: Int
-        get() = vSeekBar.progress
+        get() = vSeekBar.progress + compatMin
         set(progress) {
             vSeekBar.progress = progress
         }
@@ -41,12 +42,14 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         vSeekBar.id = View.NO_ID  //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSeek, 0, 0)
+        val minProgress = a.getInteger(R.styleable.SettingsSeek_Settings_minProgress, 0)
         val maxProgress = a.getInteger(R.styleable.SettingsSeek_Settings_maxProgress, 100)
         val progress = a.getInteger(R.styleable.SettingsSeek_Settings_progress, 70)
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)
 
+        setMinProgress(minProgress)
         setMaxProgress(maxProgress)
         vSeekBar.progress = progress
         isFocusable = false
@@ -77,8 +80,21 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //  Setters
     //
 
+    var compatMax = 0
+    var compatMin = 0
+
     fun setMaxProgress(max: Int) {
-        vSeekBar.max = max
+        vSeekBar.max = max - compatMin
+        compatMax = max
+    }
+
+    fun setMinProgress(min: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vSeekBar.min = min
+        } else {
+            compatMin = min
+            vSeekBar.max = compatMax - compatMin
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {

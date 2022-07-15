@@ -244,6 +244,7 @@
     </declare-styleable>
 
     <declare-styleable name="SettingsSeek">
+        <attr name="Settings_minProgress" format="integer"/>
         <attr name="Settings_maxProgress" format="integer"/>
         <attr name="Settings_progress" format="integer"/>
         <attr name="Settings_dpad_step" format="integer"/>
