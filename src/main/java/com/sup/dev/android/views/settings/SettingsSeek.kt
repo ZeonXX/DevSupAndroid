@@ -20,6 +20,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val vSeekBar: SeekBar = findViewById(R.id.vDevSupSeekBar)
 
     private var onProgressChanged: ((Int) -> Unit)? = null
+    private var onInstantProgressChanged: ((Int) -> Unit)? = null
 
     //
     //  Getters
@@ -80,8 +81,8 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //  Setters
     //
 
-    var compatMax = 0
-    var compatMin = 0
+    private var compatMax = 0
+    private var compatMin = 0
 
     fun setMaxProgress(max: Int) {
         vSeekBar.max = max - compatMin
@@ -106,12 +107,16 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onProgressChanged = onProgressChanged
     }
 
+    fun setOnInstantProgressChanged(onProgressChanged: (Int) -> Unit) {
+        this.onInstantProgressChanged = onProgressChanged
+    }
+
     //
     //  Events
     //
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
+        onInstantProgressChanged?.invoke(this.progress)
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -119,8 +124,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (onProgressChanged != null)
-            onProgressChanged!!.invoke(progress)
+        onProgressChanged?.invoke(progress)
     }
 
 }
