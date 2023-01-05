@@ -1,6 +1,7 @@
 package com.sup.dev.android.views.settings
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
@@ -19,13 +20,14 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val vSeekBar: SeekBar = findViewById(R.id.vDevSupSeekBar)
 
     private var onProgressChanged: ((Int) -> Unit)? = null
+    private var onInstantProgressChanged: ((Int) -> Unit)? = null
 
     //
     //  Getters
     //
 
     var progress: Int
-        get() = vSeekBar.progress
+        get() = vSeekBar.progress + compatMin
         set(progress) {
             vSeekBar.progress = progress
         }
@@ -41,12 +43,14 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         vSeekBar.id = View.NO_ID  //   Чтоб система не востонавливала состояние
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SettingsSeek, 0, 0)
+        val minProgress = a.getInteger(R.styleable.SettingsSeek_Settings_minProgress, 0)
         val maxProgress = a.getInteger(R.styleable.SettingsSeek_Settings_maxProgress, 100)
         val progress = a.getInteger(R.styleable.SettingsSeek_Settings_progress, 70)
         a.recycle()
 
         vSeekBar.setOnSeekBarChangeListener(this)
 
+        setMinProgress(minProgress)
         setMaxProgress(maxProgress)
         vSeekBar.progress = progress
         isFocusable = false
@@ -77,8 +81,21 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     //  Setters
     //
 
+    private var compatMax = 0
+    private var compatMin = 0
+
     fun setMaxProgress(max: Int) {
-        vSeekBar.max = max
+        vSeekBar.max = max - compatMin
+        compatMax = max
+    }
+
+    fun setMinProgress(min: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vSeekBar.min = min
+        } else {
+            compatMin = min
+            vSeekBar.max = compatMax - compatMin
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -90,12 +107,16 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onProgressChanged = onProgressChanged
     }
 
+    fun setOnInstantProgressChanged(onProgressChanged: (Int) -> Unit) {
+        this.onInstantProgressChanged = onProgressChanged
+    }
+
     //
     //  Events
     //
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
+        onInstantProgressChanged?.invoke(this.progress)
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -103,8 +124,7 @@ class SettingsSeek @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (onProgressChanged != null)
-            onProgressChanged!!.invoke(progress)
+        onProgressChanged?.invoke(progress)
     }
 
 }

@@ -1,19 +1,18 @@
 package com.sup.dev.android.views.support.adapters.recycler_view
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.adapters.CardAdapter
 import com.sup.dev.android.views.support.adapters.NotifyItem
-import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.classes.callbacks.CallbacksList
 import com.sup.dev.java.classes.collections.HashList
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsClass
-import java.util.ArrayList
 import kotlin.reflect.KClass
 
 
@@ -244,6 +243,10 @@ open class RecyclerCardAdapter : RecyclerView.Adapter<RecyclerCardAdapter.Holder
 
     override operator fun get(index: Int): Card {
         return items[index]
+    }
+
+    fun getOrNull(index: Int): Card? {
+        return items.getOrNull(index)
     }
 
     override fun indexOf(o: Card): Int {

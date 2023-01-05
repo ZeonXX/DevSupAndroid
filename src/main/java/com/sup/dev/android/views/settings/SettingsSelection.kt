@@ -45,6 +45,11 @@ class SettingsSelection constructor(context: Context, attrs: AttributeSet? = nul
 
     fun getTitles() = list
 
+    fun clear() {
+        menu.clear()
+        list.clear()
+    }
+
     fun onSelected(onSelected: (Int) -> Unit) {
         this.onSelected = onSelected
     }
