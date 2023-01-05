@@ -2,6 +2,7 @@ package com.sup.dev.android.views.splash.view
 
 import android.view.View
 import com.sup.dev.android.R
+import com.sup.dev.android.libs.screens.activity.SActivity
 import com.sup.dev.android.models.EventConfigurationChanged
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.splash.Splash
@@ -80,5 +81,14 @@ class SplashViewPopup(
         return this
     }
 
-
+    companion object {
+        fun SActivity.hasSplashViewPopup(): Boolean {
+            for (i in 0 until vSplashContainer!!.childCount) {
+                val view = vSplashContainer!!.getChildAt(i).tag
+                if (view !is SplashView<out Any>) return false
+                if (view is SplashViewPopup) return true
+            }
+            return false
+        }
+    }
 }

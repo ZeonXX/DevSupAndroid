@@ -1,21 +1,20 @@
 package com.sup.dev.android.views.splash
 
 import android.graphics.Bitmap
-import androidx.annotation.StringRes
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import androidx.annotation.StringRes
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.settings.SettingsField
-import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
+import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.tools.ToolsThreads
-import java.util.ArrayList
 
 open class SplashField(
         resId:Int = R.layout.splash_field
@@ -23,7 +22,7 @@ open class SplashField(
 
     val vIcon: ViewIcon = view.findViewById(R.id.vIcon)
     val vFieldWidget: SettingsField = view.findViewById(R.id.vField)
-    private val vCancel: Button = view.findViewById(R.id.vCancel)
+    protected val vCancel: Button = view.findViewById(R.id.vCancel)
     protected val vEnter: Button = view.findViewById(R.id.vEnter)
 
     private val checkers = ArrayList<Item2<String, (String) -> Boolean>>()
